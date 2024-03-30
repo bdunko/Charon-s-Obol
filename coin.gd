@@ -1,5 +1,7 @@
 class_name Coin
-extends Node2D
+extends Control
+
+signal clicked
 
 # if this coin is on the heads side
 var _heads := true:
@@ -25,3 +27,10 @@ func is_heads() -> bool:
 func flip() -> void:
 	# randomly flip the coin
 	_heads = Global.RNG.randi_range(0, 1) == 1
+
+func _on_clickable_area_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				print("clicked")
+				emit_signal("clicked")

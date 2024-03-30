@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://svl2gfhqrjtk"]
+
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://coin.tscn" id="1_av0wv"]
+[ext_resource type="Script" path="res://shop_item.gd" id="1_p34cn"]
+
+[node name="ShopItem" type="VBoxContainer"]
+mouse_filter = 2
+script = ExtResource("1_p34cn")
+
+[node name="Coin" parent="." instance=ExtResource("1_av0wv")]
+layout_mode = 2
+
+[node name="Cost" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+text = "Cost: 5"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+text = "This is a description for a coin"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="clicked" from="Coin" to="." method="_on_coin_clicked"]
