@@ -94,6 +94,10 @@ func spend_power_use() -> void:
 	assert(_power_uses_remaining > 0)
 	_power_uses_remaining -= 1
 
+func spend_all_power_uses() -> void:
+	assert(_power_uses_remaining > 0)
+	_power_uses_remaining = 0
+
 func recharge_power_uses_fully() -> void:
 	_power_uses_remaining = _coin.get_max_power_uses()
 
@@ -105,7 +109,16 @@ func flip() -> void:
 	if _locked: #don't flip if locked
 		return
 	
-	_heads = Global.RNG.randi_range(0, 1) == 1 # randomly flip the coin
+	match(_bless_curse_state):
+		BlessCurseState.NONE:
+			_heads = Global.RNG.randi_range(0, 1) == 1 #50% chance for heads
+		BlessCurseState.BLESSED:
+			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
+		BlessCurseState.CURSED:
+			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
+
+func change_face() -> void:
+	_heads = not _heads
 
 func lock() -> void:
 	_locked = true

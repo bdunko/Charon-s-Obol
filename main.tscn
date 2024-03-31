@@ -51,13 +51,14 @@ offset_bottom = 349.0
 text = "Fragments: 0"
 
 [node name="PowerLabel" type="Label" parent="UI"]
-visible = false
 texture_filter = 1
-offset_left = 7.0
-offset_top = 331.0
-offset_right = 116.0
-offset_bottom = 350.0
+offset_left = 58.0
+offset_top = 181.0
+offset_right = 502.0
+offset_bottom = 210.0
+theme_override_font_sizes/font_size = 32
 text = "Power: "
+horizontal_alignment = 1
 
 [node name="CoinValueLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -104,6 +105,14 @@ offset_right = 307.0
 offset_bottom = 131.0
 text = "Reset"
 
+[node name="ArrowsButton" type="Button" parent="UI"]
+texture_filter = 1
+offset_left = 411.0
+offset_top = 326.0
+offset_right = 476.0
+offset_bottom = 347.0
+text = "Arrows 0"
+
 [node name="Table" type="Node2D" parent="."]
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
@@ -139,4 +148,5 @@ layout_mode = 2
 [connection signal="pressed" from="UI/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="pressed" from="UI/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="UI/ArrowsButton" to="." method="_on_arrow_button_pressed"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]

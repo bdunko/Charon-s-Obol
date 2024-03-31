@@ -19,6 +19,7 @@ enum State {
 @onready var _END_ROUND_BUTTON = $UI/EndRoundButton
 @onready var _ACCEPT_BUTTON = $UI/AcceptButton
 @onready var _RESET_BUTTON = $UI/ResetButton
+@onready var _ARROWS_BUTTON = $UI/ArrowsButton
 
 var _state := State.BEFORE_FLIP:
 	set(val):
@@ -28,16 +29,20 @@ var _state := State.BEFORE_FLIP:
 			_END_ROUND_BUTTON.show()
 			_ACCEPT_BUTTON.hide()
 			_LIVES_LABEL.show()
+			_ARROWS_BUTTON.hide()
 			_SHOP.hide()
 		elif _state == State.AFTER_FLIP:
 			_FLIP_BUTTON.hide()
 			_END_ROUND_BUTTON.hide()
+			if _arrows > 0:
+				_ARROWS_BUTTON.show()
 			_ACCEPT_BUTTON.show()
 		elif _state == State.SHOP:
 			_FLIP_BUTTON.hide()
 			_END_ROUND_BUTTON.hide()
 			_ACCEPT_BUTTON.show()
 			_LIVES_LABEL.hide()
+			_ARROWS_BUTTON.hide()
 			_SHOP.show()
 		elif _state == State.GAME_OVER:
 			_on_game_end()
@@ -72,14 +77,25 @@ var _lives:
 			_state = State.GAME_OVER
 
 var _active_coin_power_coin: CoinEntity = null
-var _active_coin_power := Global.Power.NONE:
+var _active_coin_power:
 	set(val):
 		_active_coin_power = val
 		if _active_coin_power != Global.Power.NONE:
-			_POWER_LABEL.text = "Power: %s" % _active_coin_power_coin.get_power_string()
+			if _active_coin_power == Global.Power.ARROW_REFLIP: # special case - arrow power has no coin
+				_POWER_LABEL.text = "Power: Arrow Reflip"
+			else:
+				_POWER_LABEL.text = "Power: %s" % _active_coin_power_coin.get_power_string()
 			_POWER_LABEL.show()
 		else:
 			_POWER_LABEL.hide()
+
+var _arrows: int:
+	set(val):
+		_arrows = val
+		assert(_arrows >= 0)
+		_ARROWS_BUTTON.visible = _arrows != 0
+		_ARROWS_BUTTON.text = "Arrows: %d" % _arrows
+		
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -97,6 +113,7 @@ func _ready() -> void:
 	assert(_ACCEPT_BUTTON)
 	assert(_END_ROUND_BUTTON)
 	assert(_RESET_BUTTON)
+	assert(_ARROWS_BUTTON)
 	
 	_GOAL_LABEL.text = "Goal Coin Value: %d" % _GOAL_COIN_VALUE
 	
@@ -110,6 +127,7 @@ func _on_game_end() -> void:
 	_FLIP_BUTTON.hide()
 	_END_ROUND_BUTTON.hide()
 	_ACCEPT_BUTTON.hide()
+	_ARROWS_BUTTON.hide()
 	_SHOP.hide()
 	_ROUNDS_LABEL.hide()
 	_FRAGMENT_LABEL.hide()
@@ -117,7 +135,7 @@ func _on_game_end() -> void:
 	
 	_RESULT_LABEL.show()
 	_RESET_BUTTON.show()
-
+	
 func _on_reset_button_pressed() -> void:
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children():
@@ -133,13 +151,15 @@ func _on_reset_button_pressed() -> void:
 	var debug_coin: CoinEntity = load("res://coin.tscn").instantiate()
 	debug_coin.clicked.connect(_on_coin_clicked)
 	_COIN_ROW.add_child(debug_coin)
-	debug_coin.assign_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.DIOBOL))
+	debug_coin.assign_coin(Global.make_coin(Global.ARES_FAMILY, Global.Denomination.OBOL))
 	# todo - remove this
 	
 	_round = 1
 	_lives = _LIVES_PER_ROUND[1]
 	_coin_value = 1
 	_fragments = 0
+	_arrows = 0
+	_active_coin_power = Global.Power.NONE
 	
 	_ROUNDS_LABEL.show()
 	_FRAGMENT_LABEL.show()
@@ -214,11 +234,9 @@ func _on_coin_clicked(coin: CoinEntity):
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if _active_coin_power != Global.Power.NONE:
-		assert(_active_coin_power_coin, "What coin is using this power??")
-		
-		if coin == _active_coin_power_coin:
+		if coin == _active_coin_power_coin or (_active_coin_power == Global.Power.ARROW_REFLIP and coin.get_power() == Global.Power.GAIN_ARROW):
 			print("coin cannot activate on itself")
-			# todo - error msg
+			# todo - user facing error msg
 			return
 		
 		match(_active_coin_power):
@@ -226,7 +244,36 @@ func _on_coin_clicked(coin: CoinEntity):
 				coin.flip()
 			Global.Power.LOCK:
 				coin.lock()
-		
+			Global.Power.FLIP_AND_NEIGHBORS:
+				# find neighboring coins
+				var left_neighbor: CoinEntity = null
+				var right_neighbor: CoinEntity = null
+				for i in _COIN_ROW.get_child_count():
+					var curr_coin = _COIN_ROW.get_child(i)
+					if curr_coin == coin:
+						# if there is a right neighbor, grab it
+						if i+1 < _COIN_ROW.get_child_count():
+							right_neighbor = _COIN_ROW.get_child(i+1)
+						break #then we're done
+					left_neighbor = curr_coin
+				
+				# flip coin and neighbors
+				coin.flip()
+				if left_neighbor and left_neighbor != _active_coin_power_coin:
+					left_neighbor.flip()
+				if right_neighbor and right_neighbor != _active_coin_power_coin:
+					right_neighbor.flip()
+			Global.Power.CHANGE_AND_BLURSE:
+				coin.change_face()
+				coin.curse() if coin.is_heads() else coin.bless()
+			Global.Power.ARROW_REFLIP:
+				coin.flip()
+				_arrows -= 1
+				if _arrows == 0:
+					_active_coin_power = Global.Power.NONE
+				return #special case - this power is not from a coin, so just exit immediately
+			
+				
 		_active_coin_power_coin.spend_power_use()
 		if _active_coin_power_coin.get_power_uses_remaining() == 0:
 			_active_coin_power_coin = null
@@ -234,6 +281,23 @@ func _on_coin_clicked(coin: CoinEntity):
 	
 	# otherwise we're attempting to activate a coin
 	elif coin.get_power() != Global.Power.NONE and coin.get_power_uses_remaining() > 0:
-		# make this the active coin and coin power
-		_active_coin_power_coin = coin
-		_active_coin_power = coin.get_power()
+		# if this is a power which does not target, resolve it
+		match coin.get_power():
+			Global.Power.GAIN_LIFE:
+				_lives += coin.get_power_uses_remaining()
+				coin.spend_all_power_uses()
+			Global.Power.GAIN_ARROW:
+				_arrows += coin.get_power_uses_remaining()
+				coin.spend_all_power_uses()
+			Global.Power.REFLIP_ALL:
+				for c in _COIN_ROW.get_children():
+					c = c as CoinEntity
+					if c != coin:
+						c.flip()
+				coin.spend_power_use()
+			_: # otherwise, make this the active coin and coin power and await click on target
+				_active_coin_power_coin = coin
+				_active_coin_power = coin.get_power()
+		
+func _on_arrow_button_pressed():
+	_active_coin_power = Global.Power.ARROW_REFLIP
