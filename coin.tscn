@@ -20,13 +20,30 @@ position = Vector2(-77, -37)
 color = Color(0.427451, 0.709804, 0.0901961, 1)
 polygon = PackedVector2Array(97, 49, 126, 47, 140, 62, 142, 83, 128, 100, 96, 98, 86, 82, 85, 63)
 
-[node name="SideLabel" type="Label" parent="."]
+[node name="SideLabel" type="Label" parent="Sprite"]
+texture_filter = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 81.0
+offset_top = 65.0
+offset_right = 141.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "+1 Frag"
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 0
-offset_left = 22.0
-offset_top = 29.0
-offset_right = 62.0
-offset_bottom = 45.0
-text = "Heads"
+offset_left = -8.0
+offset_top = 70.0
+offset_right = 78.0
+offset_bottom = 105.0
+text = "Obol"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]

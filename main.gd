@@ -28,25 +28,24 @@ var _state := State.FLIPPING:
 		elif _state == State.SHOP:
 			_FLIP_BUTTON.disabled = true
 			_LIVES_LABEL.hide()
-			_SHOP.populate()
 			_SHOP.show()
 		elif _state == State.GAME_OVER:
 			_on_game_end()
 
 const _ROUNDS = 5
-var _rounds_remaining = _ROUNDS:
+var _round:
 	set(val):
-		_rounds_remaining = val
-		_ROUNDS_LABEL.text = "Rounds: %s" % _rounds_remaining
-		if _rounds_remaining == -1:
+		_round = val
+		_ROUNDS_LABEL.text = "Rounds Left: %s" % (_ROUNDS - _round)
+		if _round > _ROUNDS:
 			_on_game_end()
 
-var _fragments = 0:
+var _fragments:
 	set(val):
 		_fragments = val
 		_FRAGMENT_LABEL.text = "Fragments: %s" % _fragments
 
-const _GOAL_COIN_VALUE = 5
+const _GOAL_COIN_VALUE = 20
 var _coin_value:
 	set(val):
 		_coin_value = val
@@ -54,12 +53,12 @@ var _coin_value:
 		if _coin_value >= _GOAL_COIN_VALUE:
 			_on_game_end()
 
-const _LIVES_PER_ROUND = 5
-var _lives = _LIVES_PER_ROUND:
+const _LIVES_PER_ROUND = [-1, 3, 5, 8, 10, 15]
+var _lives:
 	set(val):
 		_lives = val
 		_LIVES_LABEL.text = "Lives: %s" % _lives
-		if _lives == -1:
+		if _lives < 0:
 			_on_game_end()
 
 func _ready() -> void:
@@ -90,10 +89,19 @@ func _on_game_end() -> void:
 	_RESET_BUTTON.show()
 
 func _on_reset_button_pressed() -> void:
-	_lives = _LIVES_PER_ROUND
+	# delete all existing coins
+	for coin in _COIN_ROW.get_children():
+		coin.queue_free()
+	
+	# make a single starting coin
+	var starting_coin: CoinEntity = load("res://coin.tscn").instantiate()
+	_COIN_ROW.add_child(starting_coin)
+	starting_coin.assign_coin(Global.make_coin(Global.CoinType.GENERIC, Global.Denomination.OBOL))
+	
+	_round = 1
+	_lives = _LIVES_PER_ROUND[1]
 	_coin_value = 1
 	_fragments = 0
-	_rounds_remaining = _ROUNDS
 	_FLIP_BUTTON.disabled = false
 	_CONTINUE_BUTTON.disabled = false
 	_RESULT_LABEL.hide()
@@ -103,25 +111,25 @@ func _on_reset_button_pressed() -> void:
 func _on_flip_button_pressed() -> void:
 	# flip all the coins
 	for coin in _COIN_ROW.get_children() :
-		coin = coin as Coin
+		coin = coin as CoinEntity
 		coin.flip()
 		
-		# for each coin on heads, gain a point
 		if coin.is_heads():
-			_fragments += 1
+			_fragments += coin.get_fragments()
 		else:
-			_lives -= 1
+			_lives -= coin.get_life_loss()
 
 func _on_continue_button_pressed():
 	assert(_state != State.GAME_OVER, "this shouldn't happen")
 	match(_state):
 		State.FLIPPING: # if we're currently flipping, change to shop
+			_SHOP.randomize_shop()
 			_state = State.SHOP
 		State.SHOP: # if we're currently shopping, change to flips
-			_rounds_remaining -= 1
-			if _rounds_remaining == -1: # if the game ended, just exit
+			_round += 1
+			if _round > _ROUNDS: # if the game ended, just exit
 				return
-			_lives = _LIVES_PER_ROUND
+			_lives = _LIVES_PER_ROUND[_round]
 			_state = State.FLIPPING
 
 func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
@@ -132,7 +140,9 @@ func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
 	
 	# we can afford it, so purchase this coin and remove it from the shop
 	_fragments -= price
-	_COIN_ROW.add_child(shop_item.take_coin())
-	_coin_value += 1
+	_gain_coin(shop_item.take_coin())
 	shop_item.queue_free()
-	
+
+func _gain_coin(coin: CoinEntity):
+	_COIN_ROW.add_child(coin)
+	_coin_value += coin.get_value()

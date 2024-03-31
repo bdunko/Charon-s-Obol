@@ -7,18 +7,18 @@ signal coin_purchased
 
 const _NUM_SHOP_ITEMS = 3
 
-func _ready():
-	populate()
-
-func populate():
+func randomize_shop():
 	for child in get_children():
 		child.queue_free()
 		
 	for _i in _NUM_SHOP_ITEMS:
 		var shop_item = _SHOP_ITEM.instantiate()
-		# todo - randomize coin type
-		# shop_item.assign_coin()
 		add_child(shop_item)
+		
+		# randomize the coin type
+		shop_item.assign_coin(Global.make_coin(Global.random_coin_type(), Global.random_denomination()))
+		
+		# todo - smarter coin shop randomization
 		shop_item.purchased.connect(_on_coin_purchased)
 
 func _on_coin_purchased(item: ShopItem, price: int):

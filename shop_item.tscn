@@ -4,11 +4,17 @@
 [ext_resource type="Script" path="res://shop_item.gd" id="1_p34cn"]
 
 [node name="ShopItem" type="VBoxContainer"]
+custom_minimum_size = Vector2(160, 220)
+offset_right = 160.0
+offset_bottom = 220.0
 mouse_filter = 2
 script = ExtResource("1_p34cn")
 
 [node name="Coin" parent="." instance=ExtResource("1_av0wv")]
+custom_minimum_size = Vector2(75, 100)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="Cost" type="Label" parent="."]
 texture_filter = 1
@@ -17,10 +23,18 @@ text = "Cost: 5"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="Subtitle" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+text = "A Cool Subtitle"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="Description" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 2
-text = "This is a description for a coin"
+text = "Heads: +5 Fragments
+Tails: -5 Life"
 horizontal_alignment = 1
 autowrap_mode = 2
 
