@@ -16,17 +16,17 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Cost" type="Label" parent="."]
-texture_filter = 1
-layout_mode = 2
-text = "Cost: 5"
-horizontal_alignment = 1
-autowrap_mode = 2
-
 [node name="Subtitle" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 2
 text = "A Cool Subtitle"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Cost" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+text = "Cost: 5"
 horizontal_alignment = 1
 autowrap_mode = 2
 

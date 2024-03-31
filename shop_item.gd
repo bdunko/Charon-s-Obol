@@ -21,5 +21,5 @@ func assign_coin(coin: Global.Coin) -> void:
 	_SUBTITLE.text = coin.get_store_subtitle()
 	_DESCRIPTION.text = coin.get_store_description()
 
-func _on_coin_clicked():
-	emit_signal("purchased", self, _COIN.get_store_price())
+func _on_coin_clicked(coin: CoinEntity):
+	emit_signal("purchased", self, coin.get_store_price())

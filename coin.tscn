@@ -46,4 +46,19 @@ text = "Obol"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="BlessedIcon" type="Polygon2D" parent="."]
+position = Vector2(-6, 4)
+color = Color(0.239216, 1, 0.560784, 1)
+polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+
+[node name="CursedIcon" type="Polygon2D" parent="."]
+position = Vector2(1, 4)
+color = Color(1, 1, 0.211765, 1)
+polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+
+[node name="LockedIcon" type="Polygon2D" parent="."]
+position = Vector2(1, 4)
+color = Color(0.631373, 0.505882, 0.8, 1)
+polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]

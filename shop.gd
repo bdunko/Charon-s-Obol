@@ -15,8 +15,11 @@ func randomize_shop():
 		var shop_item = _SHOP_ITEM.instantiate()
 		add_child(shop_item)
 		
-		# randomize the coin type
-		shop_item.assign_coin(Global.make_coin(Global.random_coin_type(), Global.random_denomination()))
+		# always do a generic coin for the first one and a god coin for the other two
+		if _i == 0:
+			shop_item.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination()))
+		else:
+			shop_item.assign_coin(Global.make_coin(Global.random_god_coin_type(), Global.random_shop_denomination()))
 		
 		# todo - smarter coin shop randomization
 		shop_item.purchased.connect(_on_coin_purchased)

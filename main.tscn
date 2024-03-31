@@ -11,19 +11,27 @@ script = ExtResource("1_68se7")
 
 [node name="FlipButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 230.0
-offset_top = 329.0
-offset_right = 294.0
-offset_bottom = 350.0
+offset_left = 538.0
+offset_top = 149.0
+offset_right = 604.0
+offset_bottom = 170.0
 text = "Flip"
 
-[node name="ContinueButton" type="Button" parent="UI"]
+[node name="AcceptButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 537.0
-offset_top = 180.0
-offset_right = 603.0
-offset_bottom = 201.0
-text = "Continue"
+offset_left = 534.0
+offset_top = 150.0
+offset_right = 609.0
+offset_bottom = 171.0
+text = "Accept"
+
+[node name="EndRoundButton" type="Button" parent="UI"]
+texture_filter = 1
+offset_left = 536.0
+offset_top = 174.0
+offset_right = 609.0
+offset_bottom = 195.0
+text = "End Round"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -41,6 +49,15 @@ offset_top = 330.0
 offset_right = 205.0
 offset_bottom = 349.0
 text = "Fragments: 0"
+
+[node name="PowerLabel" type="Label" parent="UI"]
+visible = false
+texture_filter = 1
+offset_left = 7.0
+offset_top = 331.0
+offset_right = 116.0
+offset_bottom = 350.0
+text = "Power: "
 
 [node name="CoinValueLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -61,10 +78,10 @@ horizontal_alignment = 1
 
 [node name="RoundsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 533.0
-offset_top = 158.0
-offset_right = 609.0
-offset_bottom = 177.0
+offset_left = 532.0
+offset_top = 129.0
+offset_right = 608.0
+offset_bottom = 148.0
 text = "Rounds Left: 5"
 
 [node name="ResultLabel" type="Label" parent="UI"]
@@ -119,6 +136,7 @@ layout_mode = 2
 layout_mode = 2
 
 [connection signal="pressed" from="UI/FlipButton" to="." method="_on_flip_button_pressed"]
-[connection signal="pressed" from="UI/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="UI/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed" from="UI/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
