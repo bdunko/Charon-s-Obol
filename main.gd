@@ -21,6 +21,9 @@ enum State {
 @onready var _RESET_BUTTON = $UI/ResetButton
 @onready var _ARROWS_BUTTON = $UI/ArrowsButton
 
+@onready var _WARNING_LABEL = $UI/WarningLabel
+@onready var _WARNING_TIMER = $UI/WarningLabel/Timer
+
 var _state := State.BEFORE_FLIP:
 	set(val):
 		_state = val
@@ -32,12 +35,14 @@ var _state := State.BEFORE_FLIP:
 			_ARROWS_BUTTON.hide()
 			_SHOP.hide()
 		elif _state == State.AFTER_FLIP:
+			_WARNING_LABEL.hide()
 			_FLIP_BUTTON.hide()
 			_END_ROUND_BUTTON.hide()
 			if _arrows > 0:
 				_ARROWS_BUTTON.show()
 			_ACCEPT_BUTTON.show()
 		elif _state == State.SHOP:
+			_WARNING_LABEL.hide()
 			_FLIP_BUTTON.hide()
 			_END_ROUND_BUTTON.hide()
 			_ACCEPT_BUTTON.show()
@@ -132,27 +137,15 @@ func _on_game_end() -> void:
 	_ROUNDS_LABEL.hide()
 	_FRAGMENT_LABEL.hide()
 	_LIVES_LABEL.hide()
+	_WARNING_LABEL.hide()
 	
 	_RESULT_LABEL.show()
 	_RESET_BUTTON.show()
-	
+
 func _on_reset_button_pressed() -> void:
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children():
 		coin.queue_free()
-	
-	# make a single starting coin
-	var starting_coin: CoinEntity = load("res://coin.tscn").instantiate()
-	starting_coin.clicked.connect(_on_coin_clicked)
-	_COIN_ROW.add_child(starting_coin)
-	starting_coin.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
-	
-	# debug - give myself what I need
-	var debug_coin: CoinEntity = load("res://coin.tscn").instantiate()
-	debug_coin.clicked.connect(_on_coin_clicked)
-	_COIN_ROW.add_child(debug_coin)
-	debug_coin.assign_coin(Global.make_coin(Global.ARES_FAMILY, Global.Denomination.OBOL))
-	# todo - remove this
 	
 	_round = 1
 	_lives = _LIVES_PER_ROUND[1]
@@ -161,10 +154,20 @@ func _on_reset_button_pressed() -> void:
 	_arrows = 0
 	_active_coin_power = Global.Power.NONE
 	
+	# make a single starting coin
+	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
+	
+	# debug - give myself what I need
+	_gain_coin(Global.make_coin(Global.HADES_FAMILY, Global.Denomination.OBOL))
+	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL))
+	_lives = 1000
+	# todo - remove this
+	
 	_ROUNDS_LABEL.show()
 	_FRAGMENT_LABEL.show()
 	_LIVES_LABEL.show()
 	
+	_WARNING_LABEL.hide()
 	_RESULT_LABEL.hide()
 	_RESET_BUTTON.hide()
 	_state = State.BEFORE_FLIP
@@ -201,7 +204,7 @@ func _on_accept_button_pressed():
 			# recharge all coin powers
 			for coin in _COIN_ROW.get_children():
 				coin = coin as CoinEntity
-				coin.recharge_power_uses_fully()
+				coin.reset_power_uses()
 		
 	if _state != State.GAME_OVER:
 		_state = State.BEFORE_FLIP
@@ -214,15 +217,22 @@ func _on_end_round_button_pressed():
 func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
 	# make sure we can afford this coin
 	if _fragments < price:
-		print("cant afford!")
-		return #todo - error msg
+		_display_warning("Insufficient fragments!")
+		return 
 	
 	# we can afford it, so purchase this coin and remove it from the shop
 	_fragments -= price
-	_gain_coin(shop_item.take_coin())
+	_gain_coin_entity(shop_item.take_coin())
 	shop_item.queue_free()
 
-func _gain_coin(coin: CoinEntity):
+func _gain_coin(coin: Global.Coin) -> void:
+	var new_coin: CoinEntity = load("res://coin.tscn").instantiate()
+	new_coin.clicked.connect(_on_coin_clicked)
+	_COIN_ROW.add_child(new_coin)
+	new_coin.assign_coin(coin)
+	_coin_value += coin.get_value()
+
+func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
 	coin.clicked.connect(_on_coin_clicked)
 	_coin_value += coin.get_value()
@@ -234,9 +244,14 @@ func _on_coin_clicked(coin: CoinEntity):
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if _active_coin_power != Global.Power.NONE:
-		if coin == _active_coin_power_coin or (_active_coin_power == Global.Power.ARROW_REFLIP and coin.get_power() == Global.Power.GAIN_ARROW):
-			print("coin cannot activate on itself")
-			# todo - user facing error msg
+		if coin == _active_coin_power_coin:
+			_display_warning("Cannot use a coin's power on itself!")
+			return
+		elif _active_coin_power == Global.Power.ARROW_REFLIP and coin.get_power() == Global.Power.GAIN_ARROW:
+			_display_warning("Cannot reflip Apollo coins with Arrows!")
+			return
+		elif _active_coin_power == Global.Power.WISDOM and coin.get_power() == Global.Power.WISDOM:
+			_display_warning("Cannot use Athena's power on Athena coins!")
 			return
 		
 		match(_active_coin_power):
@@ -266,13 +281,40 @@ func _on_coin_clicked(coin: CoinEntity):
 			Global.Power.CHANGE_AND_BLURSE:
 				coin.change_face()
 				coin.curse() if coin.is_heads() else coin.bless()
+			Global.Power.WISDOM:
+				if coin.get_life_loss() == 0:
+					_display_warning("This coin already has no penalty!")
+					return
+				coin.apply_athena_wisdom()
+			Global.Power.FORGE:
+				if coin.get_denomination() == Global.Denomination.TETROBOL:
+					_display_warning("This coin cannot be upgraded further!")
+					return
+				_coin_value -= coin.get_value()
+				coin.upgrade_denomination()
+				_coin_value += coin.get_value()
+			Global.Power.RECHARGE:
+				if coin.get_power() == Global.Power.NONE:
+					_display_warning("This coin has no power to recharge!")
+					return
+				coin.recharge_power_uses_by(1)
+			Global.Power.EXCHANGE:
+				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
+			Global.Power.BLESS:
+				if coin.is_blessed():
+					_display_warning("This coin is already blessed!")
+					return
+				coin.bless()
+			Global.Power.DESTROY:
+				_fragments += coin.get_store_price() + _active_coin_power_coin.get_store_price()
+				_coin_value -= coin.get_value()
+				coin.queue_free()
 			Global.Power.ARROW_REFLIP:
 				coin.flip()
 				_arrows -= 1
 				if _arrows == 0:
 					_active_coin_power = Global.Power.NONE
 				return #special case - this power is not from a coin, so just exit immediately
-			
 				
 		_active_coin_power_coin.spend_power_use()
 		if _active_coin_power_coin.get_power_uses_remaining() == 0:
@@ -295,9 +337,27 @@ func _on_coin_clicked(coin: CoinEntity):
 					if c != coin:
 						c.flip()
 				coin.spend_power_use()
+			Global.Power.GAIN_COIN:
+				_gain_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
+				coin.spend_power_use()
 			_: # otherwise, make this the active coin and coin power and await click on target
 				_active_coin_power_coin = coin
 				_active_coin_power = coin.get_power()
 		
 func _on_arrow_button_pressed():
 	_active_coin_power = Global.Power.ARROW_REFLIP
+
+func _display_warning(warning_msg: String) -> void:
+	_WARNING_LABEL.text = warning_msg
+	_WARNING_TIMER.start()
+	_WARNING_LABEL.show()
+
+func _on_warning_timer_timeout():
+	_WARNING_LABEL.hide()
+
+func _input(event):
+	# right click with a god power disables it
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			_active_coin_power = Global.Power.NONE
+			_active_coin_power_coin = null

@@ -14,7 +14,7 @@ enum Denomination {
 
 enum Power {
 	NONE,
-	REFLIP, LOCK, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, CHANGE_AND_BLURSE, REFLIP_ALL, REDUCE_LOSS, FORGE, RECHARGE, EXCHANGE, BLESS, GAIN_COIN, DESTROY,
+	REFLIP, LOCK, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, CHANGE_AND_BLURSE, REFLIP_ALL, WISDOM, FORGE, RECHARGE, EXCHANGE, BLESS, GAIN_COIN, DESTROY,
 	ARROW_REFLIP
 }
 
@@ -69,6 +69,9 @@ class Coin:
 	func get_max_power_uses() -> int:
 		return _coin_family.power_uses_for_denom[_denomination]
 	
+	func get_denomination() -> Denomination:
+		return _denomination
+	
 	func get_store_subtitle() -> String:
 		return _coin_family.store_subtitle
 	
@@ -112,26 +115,41 @@ class Coin:
 			Denomination.TETROBOL:
 				return 4
 		return 0
+	
+	func upgrade_denomination() -> void:
+		assert(_denomination != Denomination.TETROBOL)
+		match(_denomination):
+			Denomination.OBOL:
+				_denomination = Denomination.DIOBOL
+			Denomination.DIOBOL:
+				_denomination = Denomination.TRIOBOL
+			Denomination.TRIOBOL:
+				_denomination = Denomination.TETROBOL
 
 var GENERIC_FAMILY = CoinFamily.new("", "Common Currency", [1, 4, 9, 16], [1, 3, 8, 13], [1, 2, 3, 4], Power.NONE, "No Power", [0, 0, 0, 0])
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "Bolt of Lightning", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip", [2, 3, 4, 5])
-var HERA_FAMILY = CoinFamily.new(" of Hera", "Jealous Chains", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock", [1, 2, 3, 4])
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Rattle the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Quake", [1, 2, 3, 4])
-var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "Grow Ever Higher", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "Revitalize", [1, 2, 3, 4])
+var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "Lighting Strikes", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip", [2, 3, 4, 5])
+var HERA_FAMILY = CoinFamily.new(" of Hera", "Envious Chains", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock", [1, 2, 3, 4])
+var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Shake the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Quake", [1, 2, 3, 4])
+var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "Grow Ever Stronger", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "Revitalize", [1, 2, 3, 4])
 var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "Arrow of Light", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "Arrow", [1, 2, 3, 4])
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "The Wild Moon", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Harmony", [1, 2, 3, 4])
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "Moonlit Ritual", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Harmony", [1, 2, 3, 4])
 var ARES_FAMILY = CoinFamily.new(" of Ares", "Chaos of War", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "War", [3, 4, 5, 6])
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "Patience, and Wisdom", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REDUCE_LOSS, "Wisdom", [1, 2, 3, 4])
+var ATHENA_FAMILY = CoinFamily.new(" of Athena", "Phalanx Strategy", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Wisdom", [1, 2, 3, 4])
 var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "Forged in Fire", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FORGE, "Forge", [1, 2, 3, 4])
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "Moment of Warmth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge", [1, 2, 3, 4])
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "From Distant Lands", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Exchange", [1, 2, 3, 4])
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "A Comforting Hearth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless", [1, 2, 3, 4])
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "Baleful Revelry", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Offering", [1, 2, 3, 4])
-var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy", [1, 2, 3, 4])
+var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "A Moment of Warmth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge", [1, 2, 3, 4])
+var HERMES_FAMILY = CoinFamily.new(" of Hermes", "From Lands Distant", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Exchange", [1, 2, 3, 4])
+var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "Weary Bones Rest", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless", [1, 2, 3, 4])
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "Wanton Revelry", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Patronage", [1, 1, 1, 1])
+var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy", [1, 1, 1, 1])
 
-func random_god_coin_type() -> CoinFamily:
-	return choose_one([ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
-		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY])
+var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
+		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
+
+func random_family() -> CoinFamily:
+	return choose_one([GENERIC_FAMILY] + _GOD_FAMILIES)
+
+func random_god_family() -> CoinFamily:
+	return choose_one(_GOD_FAMILIES)
 
 func random_shop_denomination() -> Denomination:
 	return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL])

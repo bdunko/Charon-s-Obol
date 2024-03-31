@@ -11,9 +11,8 @@ var _coin: Global.Coin:
 	set(val):
 		_coin = val
 		_NAME_LABEL.text = _coin.get_name()
-		_heads = true  #default a new coin to the heads side; this also updates the coin graphic
 
-var _heads := true:
+var _heads:
 	set(val):
 		_heads = val
 		_SPRITE.color = _HEADS_COLOR if _heads else _TAILS_COLOR
@@ -26,7 +25,7 @@ var _power_uses_remaining = -1:
 
 func update_coin_text() -> void:
 	if not _heads:
-		_SIDE_LABEL.text = "-%d Life" % _coin.get_life_loss()
+		_SIDE_LABEL.text = "-%d Life" % get_life_loss() if get_life_loss() != 0 else "No Penalty"
 	elif _coin.get_power() != Global.Power.NONE:
 		_SIDE_LABEL.text = "%d %s" % [_power_uses_remaining, _coin.get_power_string()]
 	else:
@@ -54,20 +53,37 @@ const _TAILS_COLOR = Color("#ea1e2d")
 @onready var _SIDE_LABEL = $Sprite/SideLabel
 @onready var _NAME_LABEL = $NameLabel
 
+# times the Wisdom power has been used on this coin; which reduces the tail downside by 1 each time
+var _athena_wisdom_stacks = 0
+
 func _ready():
 	assert(_SPRITE)
 	assert(_SIDE_LABEL)
 	assert(_NAME_LABEL)
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
+	_heads = true
 	_locked = false
 	_bless_curse_state = BlessCurseState.NONE
 
 func assign_coin(coin: Global.Coin):
 	_coin = coin
-	recharge_power_uses_fully()
+	reset_power_uses()
+	update_coin_text()
 
 func is_heads() -> bool:
 	return _heads
+
+func flip() -> void:
+	if _locked: #don't flip if locked
+		return
+	
+	match(_bless_curse_state):
+		BlessCurseState.NONE:
+			_heads = Global.RNG.randi_range(0, 1) == 1 #50% chance for heads
+		BlessCurseState.BLESSED:
+			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
+		BlessCurseState.CURSED:
+			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
 
 func get_store_price() -> int:
 	return _coin.get_store_price()
@@ -76,7 +92,7 @@ func get_fragments() -> int:
 	return _coin.get_fragments()
 
 func get_life_loss() -> int:
-	return _coin.get_life_loss()
+	return max(_coin.get_life_loss() - _athena_wisdom_stacks, 0)
 
 func get_value() -> int:
 	return _coin.get_value()
@@ -90,6 +106,12 @@ func get_power_string() -> String:
 func get_power_uses_remaining() -> int:
 	return _power_uses_remaining
 
+func get_max_power_uses() -> int:
+	return _coin.get_max_power_uses()
+
+func get_denomination() -> Global.Denomination:
+	return _coin.get_denomination()
+
 func spend_power_use() -> void:
 	assert(_power_uses_remaining > 0)
 	_power_uses_remaining -= 1
@@ -98,24 +120,12 @@ func spend_all_power_uses() -> void:
 	assert(_power_uses_remaining > 0)
 	_power_uses_remaining = 0
 
-func recharge_power_uses_fully() -> void:
+func reset_power_uses() -> void:
 	_power_uses_remaining = _coin.get_max_power_uses()
 
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
-	_power_uses_remaining = clamp(_power_uses_remaining + recharge_amount, 0, _coin.get_max_power_uses())
-
-func flip() -> void:
-	if _locked: #don't flip if locked
-		return
-	
-	match(_bless_curse_state):
-		BlessCurseState.NONE:
-			_heads = Global.RNG.randi_range(0, 1) == 1 #50% chance for heads
-		BlessCurseState.BLESSED:
-			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
-		BlessCurseState.CURSED:
-			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
+	_power_uses_remaining += recharge_amount
 
 func change_face() -> void:
 	_heads = not _heads
@@ -131,6 +141,21 @@ func bless() -> void:
 
 func curse() -> void:
 	_bless_curse_state = BlessCurseState.CURSED
+
+func is_blessed() -> bool:
+	return _bless_curse_state == BlessCurseState.BLESSED
+
+func is_cursed() -> bool:
+	return _bless_curse_state == BlessCurseState.CURSED
+
+func upgrade_denomination() -> void:
+	_coin.upgrade_denomination()
+	update_coin_text()
+	_NAME_LABEL.text = _coin.get_name()
+
+func apply_athena_wisdom() -> void:
+	_athena_wisdom_stacks += 1
+	update_coin_text()
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:

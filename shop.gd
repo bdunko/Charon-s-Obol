@@ -19,7 +19,7 @@ func randomize_shop():
 		if _i == 0:
 			shop_item.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination()))
 		else:
-			shop_item.assign_coin(Global.make_coin(Global.random_god_coin_type(), Global.random_shop_denomination()))
+			shop_item.assign_coin(Global.make_coin(Global.random_god_family(), Global.random_shop_denomination()))
 		
 		# todo - smarter coin shop randomization
 		shop_item.purchased.connect(_on_coin_purchased)
