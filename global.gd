@@ -27,11 +27,14 @@ class CoinFamily:
 	var power: Power
 	var power_string: String
 	var power_uses_for_denom: Array[int]
+	var heads_icon_path: String
+	var tails_icon_path: String
 	
 	func _init(suffix: String, 
 			subtitle: String, prices: Array[int],
 			fragments_on_heads: Array[int], life_loss_on_tails: Array[int], 
-			coin_power: Power, power_str: String, power_uses: Array[int]) -> void:
+			coin_power: Power, power_str: String, power_uses: Array[int],
+			heads_icon: String, tails_icon: String) -> void:
 		of_suffix = suffix
 		store_subtitle = subtitle
 		store_price_for_denom = prices
@@ -42,6 +45,12 @@ class CoinFamily:
 		power = coin_power
 		power_string = power_str
 		power_uses_for_denom = power_uses
+		
+		heads_icon_path = heads_icon
+		tails_icon_path = tails_icon
+		
+		assert(FileAccess.file_exists(heads_icon_path))
+		assert(FileAccess.file_exists(tails_icon_path))
 
 class Coin:
 	var _coin_family: CoinFamily
@@ -74,6 +83,12 @@ class Coin:
 	
 	func get_store_subtitle() -> String:
 		return _coin_family.store_subtitle
+	
+	func get_heads_icon_path() -> String:
+		return _coin_family.heads_icon_path
+	
+	func get_tails_icon_path() -> String:
+		return _coin_family.tails_icon_path
 	
 	const _STORE_DESCRIPTION_FORMAT = "Heads: %s\nTails: %s"
 	func get_store_description() -> String:
@@ -125,22 +140,54 @@ class Coin:
 				_denomination = Denomination.TRIOBOL
 			Denomination.TRIOBOL:
 				_denomination = Denomination.TETROBOL
+	
+	var _OBOL_SPRITE = "res://assets/coins/obol.png"
+	var _DIOBOL_SPRITE = "res://assets/coins/diobol.png"
+	var _TRIOBOL_SPRITE = "res://assets/coins/triobol.png"
+	var _TETROBOL_SPRITE = "res://assets/coins/tetrobol.png"
+	func get_denomination_sprite_path() -> String:
+		match(_denomination):
+			Denomination.OBOL:
+				return _OBOL_SPRITE
+			Denomination.DIOBOL:
+				return _DIOBOL_SPRITE
+			Denomination.TRIOBOL:
+				return _TRIOBOL_SPRITE
+			_: #Denomination.TETROBOL
+				return _TETROBOL_SPRITE
 
-var GENERIC_FAMILY = CoinFamily.new("", "Common Currency", [1, 4, 9, 16], [1, 3, 8, 13], [1, 2, 3, 4], Power.NONE, "No Power", [0, 0, 0, 0])
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "Lighting Strikes", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip", [2, 3, 4, 5])
-var HERA_FAMILY = CoinFamily.new(" of Hera", "Envious Chains", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock", [1, 2, 3, 4])
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Shake the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Quake", [1, 2, 3, 4])
-var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "Grow Ever Stronger", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "Revitalize", [1, 2, 3, 4])
-var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "Arrow of Light", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "Arrow", [1, 2, 3, 4])
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "Moonlit Ritual", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Harmony", [1, 2, 3, 4])
-var ARES_FAMILY = CoinFamily.new(" of Ares", "Chaos of War", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "War", [3, 4, 5, 6])
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "Phalanx Strategy", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Wisdom", [1, 2, 3, 4])
-var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "Forged in Fire", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FORGE, "Forge", [1, 2, 3, 4])
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "A Moment of Warmth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge", [1, 2, 3, 4])
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "From Lands Distant", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Exchange", [1, 2, 3, 4])
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "Weary Bones Rest", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless", [1, 2, 3, 4])
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "Wanton Revelry", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Patronage", [1, 1, 1, 1])
-var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy", [1, 1, 1, 1])
+var _FRAGMENT_ICON_BLUE = "res://assets/icons/soul_fragment_blue_icon.png"
+var _FRAGMENT_ICON_RED = "res://assets/icons/soul_fragment_red_icon.png"
+var _ZEUS_ICON = "res://assets/icons/zeus_icon.png"
+var _HERA_ICON = "res://assets/icons/hera_icon.png"
+var _POSEIDON_ICON = "res://assets/icons/poseidon_icon.png"
+var _DEMETER_ICON = "res://assets/icons/demeter_icon.png"
+var _APOLLO_ICON = "res://assets/icons/apollo_icon.png"
+var _ARTEMIS_ICON = "res://assets/icons/artemis_icon.png"
+var _ARES_ICON = "res://assets/icons/ares_icon.png"
+var _ATHENA_ICON = "res://assets/icons/athena_icon.png"
+var _HEPHAESTUS_ICON = "res://assets/icons/hephaestus_icon.png"
+var _APHRODITE_ICON = "res://assets/icons/aphrodite_icon.png"
+var _HERMES_ICON = "res://assets/icons/hermes_icon.png"
+var _HESTIA_ICON = "res://assets/icons/hestia_icon.png"
+var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
+var _HADES_ICON = "res://assets/icons/hades_icon.png"
+
+var GENERIC_FAMILY = CoinFamily.new("", "Common Currency", [1, 4, 9, 16], [1, 3, 8, 13], [1, 2, 3, 4], Power.NONE, "No Power", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED)
+var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "Lighting Strikes", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED)
+var HERA_FAMILY = CoinFamily.new(" of Hera", "Envious Chains", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED)
+var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Shake the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Quake", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED)
+var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "Grow Ever Stronger", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "Revitalize", [1, 2, 3, 4], _DEMETER_ICON, _FRAGMENT_ICON_RED)
+var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "Arrow of Light", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "Arrow", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED)
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "Moonlit Ritual", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Harmony", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED)
+var ARES_FAMILY = CoinFamily.new(" of Ares", "Chaos of War", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "War", [3, 4, 5, 6], _ARES_ICON, _FRAGMENT_ICON_RED)
+var ATHENA_FAMILY = CoinFamily.new(" of Athena", "Phalanx Strategy", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Wisdom", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED)
+var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "Forged in Fire", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FORGE, "Forge", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED)
+var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "A Moment of Warmth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED)
+var HERMES_FAMILY = CoinFamily.new(" of Hermes", "From Lands Distant", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Exchange", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED)
+var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "Weary Bones Rest", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED)
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "Wanton Revelry", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Patronage", [1, 1, 1, 1], _DIONYSUS_ICON, _FRAGMENT_ICON_RED)
+var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

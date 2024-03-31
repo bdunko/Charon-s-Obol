@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=5 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://coin.tscn" id="3_43qkv"]
 [ext_resource type="PackedScene" uid="uid://svl2gfhqrjtk" path="res://shop_item.tscn" id="3_d2o1n"]
 [ext_resource type="Script" path="res://shop.gd" id="3_ie1li"]
 
@@ -11,78 +12,78 @@ script = ExtResource("1_68se7")
 
 [node name="FlipButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 538.0
-offset_top = 149.0
-offset_right = 604.0
-offset_bottom = 170.0
+offset_left = 247.0
+offset_top = 35.0
+offset_right = 313.0
+offset_bottom = 56.0
 text = "Flip"
 
 [node name="AcceptButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 534.0
-offset_top = 150.0
-offset_right = 609.0
-offset_bottom = 171.0
+offset_left = 243.0
+offset_top = 35.0
+offset_right = 318.0
+offset_bottom = 56.0
 text = "Accept"
 
 [node name="EndRoundButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 536.0
-offset_top = 174.0
-offset_right = 609.0
-offset_bottom = 195.0
+offset_left = 244.0
+offset_top = 59.0
+offset_right = 317.0
+offset_bottom = 80.0
 text = "End Round"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 309.0
-offset_top = 330.0
-offset_right = 377.0
-offset_bottom = 349.0
+offset_left = 59.0
+offset_top = 157.0
+offset_right = 127.0
+offset_bottom = 176.0
 text = "Lives: 5"
 horizontal_alignment = 1
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 137.0
-offset_top = 330.0
-offset_right = 205.0
-offset_bottom = 349.0
+offset_left = 172.0
+offset_top = 157.0
+offset_right = 240.0
+offset_bottom = 176.0
 text = "Fragments: 0"
 
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 58.0
-offset_top = 160.0
-offset_right = 502.0
-offset_bottom = 189.0
+offset_left = -59.0
+offset_top = 4.0
+offset_right = 385.0
+offset_bottom = 33.0
 theme_override_font_sizes/font_size = 32
 text = "Power: "
 horizontal_alignment = 1
 
 [node name="CoinValueLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 527.0
-offset_top = 319.0
-offset_right = 624.0
-offset_bottom = 335.0
+offset_left = 291.0
+offset_top = -60.0
+offset_right = 388.0
+offset_bottom = -44.0
 text = "Total Coin Value: 0"
 
 [node name="GoalLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 527.0
-offset_top = 335.0
-offset_right = 628.0
-offset_bottom = 351.0
+offset_left = 290.0
+offset_top = -42.0
+offset_right = 391.0
+offset_bottom = -26.0
 text = "Goal Coin Value: 5"
 horizontal_alignment = 1
 
 [node name="RoundsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 532.0
-offset_top = 129.0
-offset_right = 608.0
-offset_bottom = 148.0
+offset_left = 241.0
+offset_top = 13.0
+offset_right = 317.0
+offset_bottom = 32.0
 text = "Rounds Left: 5"
 
 [node name="ResultLabel" type="Label" parent="UI"]
@@ -107,18 +108,18 @@ text = "Reset"
 
 [node name="ArrowsButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 411.0
-offset_top = 326.0
-offset_right = 476.0
-offset_bottom = 347.0
+offset_left = 248.0
+offset_top = 86.0
+offset_right = 313.0
+offset_bottom = 107.0
 text = "Arrows 0"
 
 [node name="WarningLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 48.0
-offset_top = 190.0
-offset_right = 496.0
-offset_bottom = 206.0
+offset_left = -68.0
+offset_top = 33.0
+offset_right = 380.0
+offset_bottom = 49.0
 text = "Can't do that!"
 horizontal_alignment = 1
 
@@ -128,20 +129,45 @@ wait_time = 2.0
 [node name="Table" type="Node2D" parent="."]
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
-offset_left = 7.0
-offset_top = 226.0
-offset_right = 520.0
-offset_bottom = 301.0
+offset_left = -101.0
+offset_top = 121.0
+offset_right = 420.0
+offset_bottom = 196.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
+theme_override_constants/separation = 6
 alignment = 1
 
+[node name="Coin" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin2" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin3" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin4" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin5" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin6" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin7" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
+[node name="Coin8" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
+layout_mode = 2
+
 [node name="Shop" type="HBoxContainer" parent="Table"]
-offset_left = 7.0
-offset_top = 4.0
-offset_right = 527.0
-offset_bottom = 224.0
+offset_left = 117.0
+offset_top = -292.0
+offset_right = 637.0
+offset_bottom = -72.0
 mouse_filter = 2
 theme_override_constants/separation = 20
 alignment = 1

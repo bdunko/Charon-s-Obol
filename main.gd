@@ -157,12 +157,6 @@ func _on_reset_button_pressed() -> void:
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
 	
-	# debug - give myself what I need
-	_gain_coin(Global.make_coin(Global.HADES_FAMILY, Global.Denomination.OBOL))
-	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL))
-	_lives = 1000
-	# todo - remove this
-	
 	_ROUNDS_LABEL.show()
 	_FRAGMENT_LABEL.show()
 	_LIVES_LABEL.show()

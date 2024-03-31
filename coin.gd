@@ -7,15 +7,13 @@ signal clicked
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
 
-var _coin: Global.Coin:
-	set(val):
-		_coin = val
-		_NAME_LABEL.text = _coin.get_name()
+var _coin: Global.Coin
 
 var _heads:
 	set(val):
 		_heads = val
-		_SPRITE.color = _HEADS_COLOR if _heads else _TAILS_COLOR
+		# update sprite to match denomination
+		_SPRITE.texture = load(_coin.get_denomination_sprite_path())
 		update_coin_text()
 		
 var _power_uses_remaining = -1:
@@ -23,13 +21,18 @@ var _power_uses_remaining = -1:
 		_power_uses_remaining = val
 		update_coin_text()
 
+const _FACE_FORMAT = "[center][color=%s]%s[/color][/center][img=10x13]%s[/img]"
+const _RED = "#e12f3b"
+const _BLUE = "#a6fcdb"
+const _YELLOW = "#ffd541"
+const _GRAY = "#b3b9d1"
 func update_coin_text() -> void:
 	if not _heads:
-		_SIDE_LABEL.text = "-%d Life" % get_life_loss() if get_life_loss() != 0 else "No Penalty"
+		_FACE_LABEL.text = _FACE_FORMAT % [_RED, "%d" % get_life_loss(), _coin.get_tails_icon_path()]
 	elif _coin.get_power() != Global.Power.NONE:
-		_SIDE_LABEL.text = "%d %s" % [_power_uses_remaining, _coin.get_power_string()]
+		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%dx" % _power_uses_remaining, _coin.get_heads_icon_path()]
 	else:
-		_SIDE_LABEL.text = "+%d Frag" % _coin.get_fragments()
+		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_fragments(), _coin.get_heads_icon_path()]
 
 var _locked: bool:
 	set(val):
@@ -50,16 +53,14 @@ const _HEADS_COLOR = Color("#6db517")
 const _TAILS_COLOR = Color("#ea1e2d")
 
 @onready var _SPRITE = $Sprite
-@onready var _SIDE_LABEL = $Sprite/SideLabel
-@onready var _NAME_LABEL = $NameLabel
+@onready var _FACE_LABEL = $Sprite/FaceLabel
 
 # times the Wisdom power has been used on this coin; which reduces the tail downside by 1 each time
 var _athena_wisdom_stacks = 0
 
 func _ready():
 	assert(_SPRITE)
-	assert(_SIDE_LABEL)
-	assert(_NAME_LABEL)
+	assert(_FACE_LABEL)
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
 	_locked = false
@@ -151,7 +152,6 @@ func is_cursed() -> bool:
 func upgrade_denomination() -> void:
 	_coin.upgrade_denomination()
 	update_coin_text()
-	_NAME_LABEL.text = _coin.get_name()
 
 func apply_athena_wisdom() -> void:
 	_athena_wisdom_stacks += 1
