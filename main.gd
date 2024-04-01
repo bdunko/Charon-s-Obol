@@ -15,13 +15,16 @@ func _ready() -> void:
 	
 	assert(_RESET_BUTTON)
 	
-	Global.state_changed.connect(_on_game_end)
+	Global.state_changed.connect(_on_state_changed)
 	
 	_on_reset_button_pressed()
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
 		_on_game_end()
+	else:
+		_RESULT_LABEL.hide()
+		_RESET_BUTTON.hide()
 
 func _on_game_end() -> void:
 	var victory = Global.coin_value >= Global.GOAL_COIN_VALUE

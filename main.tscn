@@ -56,15 +56,6 @@ offset_bottom = 177.0
 text = "End Round"
 script = ExtResource("5_hbpym")
 
-[node name="ResetButton" type="Button" parent="UI"]
-visible = false
-texture_filter = 1
-offset_left = 242.0
-offset_top = 110.0
-offset_right = 307.0
-offset_bottom = 131.0
-text = "Reset"
-
 [node name="ArrowsButton" type="Button" parent="UI"]
 texture_filter = 1
 offset_left = 20.0
@@ -94,6 +85,7 @@ text = "Fragments: 0"
 script = ExtResource("4_cmijk")
 
 [node name="PowerLabel" type="Label" parent="UI"]
+visible = false
 texture_filter = 1
 offset_left = 5.0
 offset_top = 31.0
@@ -104,18 +96,28 @@ text = "Power: "
 horizontal_alignment = 1
 script = ExtResource("10_aytg2")
 
+[node name="ResetButton" type="Button" parent="UI"]
+visible = false
+texture_filter = 1
+offset_left = 127.0
+offset_top = 48.0
+offset_right = 192.0
+offset_bottom = 69.0
+text = "Reset"
+
 [node name="ResultLabel" type="Label" parent="UI"]
 visible = false
 texture_filter = 1
-offset_left = 233.0
-offset_top = 42.0
-offset_right = 317.0
-offset_bottom = 71.0
+offset_left = 118.0
+offset_top = 16.0
+offset_right = 202.0
+offset_bottom = 45.0
 theme_override_font_sizes/font_size = 32
 text = "You win!"
 horizontal_alignment = 1
 
 [node name="WarningLabel" type="Label" parent="UI"]
+visible = false
 texture_filter = 1
 offset_left = -76.0
 offset_top = 13.0
@@ -201,7 +203,7 @@ layout_mode = 2
 [connection signal="pressed" from="UI/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="pressed" from="UI/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="pressed" from="UI/EndRoundButton" to="." method="_on_end_round_button_pressed"]
-[connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="UI/ArrowsButton" to="." method="_on_arrow_button_pressed"]
+[connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
