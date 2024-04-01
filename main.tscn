@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=16 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -6,7 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://svl2gfhqrjtk" path="res://shop_item.tscn" id="3_d2o1n"]
 [ext_resource type="Script" path="res://shop.gd" id="3_ie1li"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/world/table.png" id="3_lyhfa"]
+[ext_resource type="Script" path="res://flip_button.gd" id="4_7l1h8"]
+[ext_resource type="Script" path="res://fragments_label.gd" id="4_cmijk"]
+[ext_resource type="Script" path="res://lives_label.gd" id="5_47pph"]
+[ext_resource type="Script" path="res://end_round_button.gd" id="5_hbpym"]
+[ext_resource type="Script" path="res://accept_button.gd" id="5_mah4n"]
+[ext_resource type="Script" path="res://arrows_button.gd" id="5_npep4"]
+[ext_resource type="Script" path="res://warning_label.gd" id="7_gwofi"]
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://voyage.tscn" id="7_o62wp"]
+[ext_resource type="Script" path="res://power_label.gd" id="10_aytg2"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_68se7")
@@ -28,6 +36,7 @@ offset_top = 155.0
 offset_right = 170.0
 offset_bottom = 176.0
 text = "Flip"
+script = ExtResource("4_7l1h8")
 
 [node name="AcceptButton" type="Button" parent="UI"]
 texture_filter = 1
@@ -36,6 +45,7 @@ offset_top = 155.0
 offset_right = 176.0
 offset_bottom = 176.0
 text = "Accept"
+script = ExtResource("5_mah4n")
 
 [node name="EndRoundButton" type="Button" parent="UI"]
 texture_filter = 1
@@ -44,69 +54,7 @@ offset_top = 156.0
 offset_right = 251.0
 offset_bottom = 177.0
 text = "End Round"
-
-[node name="LivesLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 9.0
-offset_top = 8.0
-offset_right = 77.0
-offset_bottom = 27.0
-text = "Lives: 5"
-horizontal_alignment = 1
-
-[node name="FragmentsLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 234.0
-offset_top = 10.0
-offset_right = 302.0
-offset_bottom = 29.0
-text = "Fragments: 0"
-
-[node name="PowerLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = -65.0
-offset_top = -61.0
-offset_right = 379.0
-offset_bottom = -32.0
-theme_override_font_sizes/font_size = 32
-text = "Power: "
-horizontal_alignment = 1
-
-[node name="CoinValueLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 291.0
-offset_top = -60.0
-offset_right = 388.0
-offset_bottom = -44.0
-text = "Total Coin Value: 0"
-
-[node name="GoalLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 290.0
-offset_top = -42.0
-offset_right = 391.0
-offset_bottom = -26.0
-text = "Goal Coin Value: 5"
-horizontal_alignment = 1
-
-[node name="RoundsLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 247.0
-offset_top = 85.0
-offset_right = 323.0
-offset_bottom = 104.0
-text = "Rounds Left: 5"
-
-[node name="ResultLabel" type="Label" parent="UI"]
-visible = false
-texture_filter = 1
-offset_left = 233.0
-offset_top = 42.0
-offset_right = 317.0
-offset_bottom = 71.0
-theme_override_font_sizes/font_size = 32
-text = "You win!"
-horizontal_alignment = 1
+script = ExtResource("5_hbpym")
 
 [node name="ResetButton" type="Button" parent="UI"]
 visible = false
@@ -124,15 +72,58 @@ offset_top = 157.0
 offset_right = 85.0
 offset_bottom = 178.0
 text = "Arrows 0"
+script = ExtResource("5_npep4")
+
+[node name="LivesLabel" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 77.0
+offset_bottom = 27.0
+text = "Lives: 5"
+horizontal_alignment = 1
+script = ExtResource("5_47pph")
+
+[node name="FragmentsLabel" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 234.0
+offset_top = 10.0
+offset_right = 302.0
+offset_bottom = 29.0
+text = "Fragments: 0"
+script = ExtResource("4_cmijk")
+
+[node name="PowerLabel" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 5.0
+offset_top = 31.0
+offset_right = 314.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "Power: "
+horizontal_alignment = 1
+script = ExtResource("10_aytg2")
+
+[node name="ResultLabel" type="Label" parent="UI"]
+visible = false
+texture_filter = 1
+offset_left = 233.0
+offset_top = 42.0
+offset_right = 317.0
+offset_bottom = 71.0
+theme_override_font_sizes/font_size = 32
+text = "You win!"
+horizontal_alignment = 1
 
 [node name="WarningLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = -74.0
-offset_top = -30.0
-offset_right = 374.0
-offset_bottom = -14.0
+offset_left = -76.0
+offset_top = 13.0
+offset_right = 372.0
+offset_bottom = 29.0
 text = "Can't do that!"
 horizontal_alignment = 1
+script = ExtResource("7_gwofi")
 
 [node name="Timer" type="Timer" parent="UI/WarningLabel"]
 wait_time = 2.0
@@ -212,5 +203,5 @@ layout_mode = 2
 [connection signal="pressed" from="UI/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="UI/ArrowsButton" to="." method="_on_arrow_button_pressed"]
-[connection signal="timeout" from="UI/WarningLabel/Timer" to="." method="_on_warning_timer_timeout"]
+[connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]

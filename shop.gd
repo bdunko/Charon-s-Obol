@@ -10,7 +10,16 @@ signal coin_purchased
 const _NUM_GENERIC_SHOP_ITEMS = 1
 const _NUM_GOD_SHOP_ITEMS = 3
 
-func randomize_shop():
+func _ready() -> void:
+	Global.state_changed.connect(_on_state_changed)
+	
+func _on_state_changed() -> void:
+	if Global.state == Global.State.SHOP:
+		show()
+	else:
+		hide()
+
+func randomize_shop() -> void:
 	for generic_child in _GENERIC_COIN_CONTAINER.get_children():
 		generic_child.queue_free()
 	for god_child in _GOD_COIN_CONTAINER.get_children():
@@ -30,9 +39,5 @@ func randomize_shop():
 		shop_item.assign_coin(Global.make_coin(Global.random_god_family(), Global.random_shop_denomination()))
 		shop_item.purchased.connect(_on_coin_purchased)
 
-func _notify_num_fragments(num_fragments: int) -> void:
-	# 
-
-func _on_coin_purchased(item: ShopItem, price: int):
-	print("coin")
+func _on_coin_purchased(item: ShopItem, price: int) -> void:
 	emit_signal("coin_purchased", item, price)

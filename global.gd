@@ -1,9 +1,86 @@
 extends Node
 
+enum State {
+	BEFORE_FLIP, AFTER_FLIP, SHOP, GAME_OVER
+}
+
+signal state_changed
+signal round_changed
+signal fragments_count_changed
+signal life_count_changed
+signal arrow_count_changed
+signal active_coin_power_changed
+
+signal warning
+func show_warning(warning_str: String) -> void:
+	emit_signal("warning", warning_str)
+
+var fragments: int:
+	set(val):
+		fragments = val
+		assert(fragments >= 0)
+		emit_signal("fragments_count_changed")
+
+var arrows: int:
+	set(val):
+		arrows = val
+		assert(arrows >= 0)
+		emit_signal("arrow_count_changed")
+
+var state := State.BEFORE_FLIP:
+	set(val):
+		state = val
+		emit_signal("state_changed")
+
+const NUM_ROUNDS = 5
+var round_count:
+	set(val):
+		round_count = val
+		emit_signal("round_changed")
+		if round_count > NUM_ROUNDS:
+			state = State.GAME_OVER
+
+const LIVES_PER_ROUND = [-1, 3, 5, 8, 10, 15]
+var lives:
+	set(val):
+		lives = val
+		emit_signal("life_count_changed")
+		if lives < 0:
+			state = State.GAME_OVER
+
+
+const GOAL_COIN_VALUE = 20
+var coin_value:
+	set(val):
+		coin_value = val
+		if coin_value >= GOAL_COIN_VALUE:
+			state = State.GAME_OVER
+
+
+var active_coin_power_coin: CoinEntity = null
+var active_coin_power:
+	set(val):
+		active_coin_power = val
+		emit_signal("active_coin_power_changed")
+
+
+
+
+# refactor this into Util
 var RNG = RandomNumberGenerator.new()
 
 func choose_one(arr: Array):
 	return arr[RNG.randi_range(0, arr.size()-1)]
+
+
+
+
+
+
+
+
+
+# todo - refactor this into a separate file probably; CoinInfo
 
 enum Denomination {
 	OBOL = 0, 
