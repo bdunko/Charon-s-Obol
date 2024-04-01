@@ -1,5 +1,4 @@
-extends Button
-
+extends Textbox
 
 func _ready() -> void:
 	Global.state_changed.connect(_on_state_changed)

@@ -8,7 +8,7 @@
 z_index = 4000
 offset_right = 24.0
 offset_bottom = 21.0
-mouse_filter = 2
+mouse_filter = 0
 theme = ExtResource("1_sj8u6")
 script = ExtResource("2_pt1s1")
 

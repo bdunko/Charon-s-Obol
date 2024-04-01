@@ -100,7 +100,7 @@ static func create_manual(source: Control, text: String, global_mouse_position: 
 	
 	return tooltip
 
-func _process(delta):
+func _process(_delta):
 	var mouse_position = get_global_mouse_position()
 	if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
 		destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip

@@ -5,27 +5,27 @@
 
 [node name="ShopItem" type="VBoxContainer"]
 offset_right = 32.0
-offset_bottom = 120.0
+offset_bottom = 74.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/separation = 0
 script = ExtResource("1_p34cn")
-
-[node name="Coin" parent="." instance=ExtResource("1_av0wv")]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="Price" type="RichTextLabel" parent="."]
 texture_filter = 1
 clip_contents = false
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
 text = "[center][color=#e12f3b]5[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+scroll_active = false
 autowrap_mode = 2
+
+[node name="Coin" parent="." instance=ExtResource("1_av0wv")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [connection signal="clicked" from="Coin" to="." method="_on_coin_clicked"]

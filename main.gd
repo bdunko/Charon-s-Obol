@@ -3,15 +3,11 @@ extends Node2D
 @onready var _COIN_ROW = $Table/CoinRow
 @onready var _SHOP : Shop = $Table/Shop
 
-@onready var _RESULT_LABEL = $UI/ResultLabel
-
 @onready var _RESET_BUTTON = $UI/ResetButton
 
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
-	
-	assert(_RESULT_LABEL)
 	
 	assert(_RESET_BUTTON)
 	
@@ -23,13 +19,9 @@ func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 	else:
-		_RESULT_LABEL.hide()
 		_RESET_BUTTON.hide()
 
 func _on_game_end() -> void:
-	var victory = Global.coin_value >= Global.GOAL_COIN_VALUE
-	_RESULT_LABEL.text = "You win!" if victory else "You lose..."
-	_RESULT_LABEL.show()
 	_RESET_BUTTON.show()
 
 func _on_reset_button_pressed() -> void:
@@ -46,8 +38,7 @@ func _on_reset_button_pressed() -> void:
 	
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
-	
-	_RESULT_LABEL.hide()
+
 	_RESET_BUTTON.hide()
 	Global.state = Global.State.BEFORE_FLIP
 

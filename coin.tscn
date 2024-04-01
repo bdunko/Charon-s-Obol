@@ -62,3 +62,5 @@ color = Color(1, 1, 0.211765, 1)
 polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 
 [connection signal="input_event" from="Sprite/ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

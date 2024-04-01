@@ -160,9 +160,15 @@ func apply_athena_wisdom() -> void:
 	update_coin_text()
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	UITooltip.create(self, "Hello world!", get_global_mouse_position(), get_tree().root)
-	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				emit_signal("clicked", self)
+
+func _on_clickable_area_mouse_entered():
+	Global.power_text = _coin.get_name() + "\n" + get_power_string()
+	Global.power_text_source = self
+
+func _on_clickable_area_mouse_exited():
+	if Global.power_text_source == self:
+		Global.power_text = ""

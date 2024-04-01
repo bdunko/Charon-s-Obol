@@ -1,10 +1,10 @@
-extends Button
+extends Textbox
 
 func _ready():
 	Global.state_changed.connect(_on_state_changed)
 
 func _on_state_changed() -> void:
-	if Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.SHOP:
+	if Global.state == Global.State.AFTER_FLIP:
 		show()
 	else:
 		hide()
