@@ -32,7 +32,7 @@ func update_coin_text() -> void:
 	if not _heads:
 		_FACE_LABEL.text = _FACE_FORMAT % [_RED, "%d" % get_life_loss(), _coin.get_tails_icon_path()]
 	elif _coin.get_power() != Global.Power.NONE:
-		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%dx" % _power_uses_remaining, _coin.get_heads_icon_path()]
+		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%d" % _power_uses_remaining, _coin.get_heads_icon_path()]
 	else:
 		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_fragments(), _coin.get_heads_icon_path()]
 

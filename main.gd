@@ -155,15 +155,7 @@ func _on_reset_button_pressed() -> void:
 	_active_coin_power = Global.Power.NONE
 	
 	# make a single starting coin
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL))
-	
+	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
 	
 	_ROUNDS_LABEL.show()
 	_FRAGMENT_LABEL.show()

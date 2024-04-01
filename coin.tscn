@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_3pbpe"]
 
 [node name="Coin" type="Control"]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 36.0
@@ -28,6 +28,7 @@ offset_right = -16.0
 offset_bottom = -11.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
@@ -36,12 +37,11 @@ fit_content = true
 scroll_active = false
 
 [node name="ClickableArea" type="Area2D" parent="Sprite"]
-visible = false
 position = Vector2(-16, -16)
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Sprite/ClickableArea"]
 position = Vector2(-7, -7)
-polygon = PackedVector2Array(30, 7, 36, 10, 39, 17, 39, 30, 36, 36, 30, 39, 16, 39, 10, 36, 7, 30, 7, 16, 10, 10, 16, 7)
+polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 30, 37, 37, 30, 41, 16, 41, 9, 37, 5, 30, 5, 16, 9, 9, 16, 5)
 
 [node name="LockedIcon" type="Polygon2D" parent="."]
 visible = false

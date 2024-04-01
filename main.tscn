@@ -23,51 +23,51 @@ centered = false
 
 [node name="FlipButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 361.0
-offset_top = 28.0
-offset_right = 427.0
-offset_bottom = 49.0
+offset_left = 104.0
+offset_top = 155.0
+offset_right = 170.0
+offset_bottom = 176.0
 text = "Flip"
 
 [node name="AcceptButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 385.0
-offset_top = 56.0
-offset_right = 460.0
-offset_bottom = 77.0
+offset_left = 101.0
+offset_top = 155.0
+offset_right = 176.0
+offset_bottom = 176.0
 text = "Accept"
 
 [node name="EndRoundButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 370.0
-offset_top = 86.0
-offset_right = 443.0
-offset_bottom = 107.0
+offset_left = 178.0
+offset_top = 156.0
+offset_right = 251.0
+offset_bottom = 177.0
 text = "End Round"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 59.0
-offset_top = 157.0
-offset_right = 127.0
-offset_bottom = 176.0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 77.0
+offset_bottom = 27.0
 text = "Lives: 5"
 horizontal_alignment = 1
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 172.0
-offset_top = 157.0
-offset_right = 240.0
-offset_bottom = 176.0
+offset_left = 234.0
+offset_top = 10.0
+offset_right = 302.0
+offset_bottom = 29.0
 text = "Fragments: 0"
 
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = -59.0
-offset_top = 4.0
-offset_right = 385.0
-offset_bottom = 33.0
+offset_left = -65.0
+offset_top = -61.0
+offset_right = 379.0
+offset_bottom = -32.0
 theme_override_font_sizes/font_size = 32
 text = "Power: "
 horizontal_alignment = 1
@@ -91,10 +91,10 @@ horizontal_alignment = 1
 
 [node name="RoundsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 240.0
-offset_top = 159.0
-offset_right = 316.0
-offset_bottom = 178.0
+offset_left = 247.0
+offset_top = 85.0
+offset_right = 323.0
+offset_bottom = 104.0
 text = "Rounds Left: 5"
 
 [node name="ResultLabel" type="Label" parent="UI"]
@@ -119,18 +119,18 @@ text = "Reset"
 
 [node name="ArrowsButton" type="Button" parent="UI"]
 texture_filter = 1
-offset_left = 362.0
-offset_top = 124.0
-offset_right = 427.0
-offset_bottom = 145.0
+offset_left = 20.0
+offset_top = 157.0
+offset_right = 85.0
+offset_bottom = 178.0
 text = "Arrows 0"
 
 [node name="WarningLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = -68.0
-offset_top = 33.0
-offset_right = 380.0
-offset_bottom = 49.0
+offset_left = -74.0
+offset_top = -30.0
+offset_right = 374.0
+offset_bottom = -14.0
 text = "Can't do that!"
 horizontal_alignment = 1
 
@@ -150,7 +150,7 @@ offset_bottom = 153.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 2
 alignment = 1
 
 [node name="Coin" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
@@ -178,22 +178,33 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
-offset_left = 32.0
-offset_top = -268.0
-offset_right = 552.0
-offset_bottom = -48.0
+offset_left = 76.0
+offset_top = 40.0
+offset_right = 242.0
+offset_bottom = 100.0
 mouse_filter = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 14
 alignment = 1
 script = ExtResource("3_ie1li")
 
-[node name="ShopItem" parent="Table/Shop" instance=ExtResource("3_d2o1n")]
+[node name="GenericCoinContainer" type="HBoxContainer" parent="Table/Shop"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GenericCoinShopItem" parent="Table/Shop/GenericCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
 
-[node name="ShopItem2" parent="Table/Shop" instance=ExtResource("3_d2o1n")]
+[node name="GodCoinContainer" type="HBoxContainer" parent="Table/Shop"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GodCoinShopItem1" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
 
-[node name="ShopItem3" parent="Table/Shop" instance=ExtResource("3_d2o1n")]
+[node name="GodCoinShopItem2" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
+layout_mode = 2
+
+[node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
 
 [connection signal="pressed" from="UI/FlipButton" to="." method="_on_flip_button_pressed"]
