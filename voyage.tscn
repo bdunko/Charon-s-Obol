@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjl18p6kktksk"]
+
+[ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/world/voyage_river.png" id="1_pmhan"]
+[ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/world/voyage_ship.png" id="2_mka22"]
+[ext_resource type="Texture2D" uid="uid://ni8luuna6wp3" path="res://assets/world/voyage.png" id="2_s3lai"]
+
+[node name="Voyage" type="Node2D"]
+
+[node name="UI" type="Sprite2D" parent="."]
+texture = ExtResource("2_s3lai")
+
+[node name="Ship" type="Sprite2D" parent="."]
+position = Vector2(-61, 3)
+texture = ExtResource("2_mka22")
+
+[node name="River" type="Sprite2D" parent="."]
+position = Vector2(4, 8)
+texture = ExtResource("1_pmhan")

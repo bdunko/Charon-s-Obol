@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1ex6sdbqewl6"
-path="res://.godot/imported/oboltest.png-38a637d3ba0380e508ed54a4565e1fd7.ctex"
+uid="uid://b0mdmdt17jqo5"
+path="res://.godot/imported/voyage_river.png-343340e31339364edef2d047bf00880d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/oboltest.png"
-dest_files=["res://.godot/imported/oboltest.png-38a637d3ba0380e508ed54a4565e1fd7.ctex"]
+source_file="res://assets/world/voyage_river.png"
+dest_files=["res://.godot/imported/voyage_river.png-343340e31339364edef2d047bf00880d.ctex"]
 
 [params]
 

@@ -7,13 +7,15 @@ signal clicked
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
 
-var _coin: Global.Coin
+var _coin: Global.Coin:
+	set(val):
+		_coin = val
+		# update sprite to match denomination
+		_SPRITE.texture = load(_coin.get_denomination_sprite_path())
 
 var _heads:
 	set(val):
 		_heads = val
-		# update sprite to match denomination
-		_SPRITE.texture = load(_coin.get_denomination_sprite_path())
 		update_coin_text()
 		
 var _power_uses_remaining = -1:
