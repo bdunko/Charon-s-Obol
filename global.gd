@@ -260,7 +260,7 @@ var _HESTIA_ICON = "res://assets/icons/hestia_icon.png"
 var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
 var _HADES_ICON = "res://assets/icons/hades_icon.png"
 
-var GENERIC_FAMILY = CoinFamily.new("", "Common Currency", [1, 4, 9, 16], [1, 3, 8, 13], [1, 2, 3, 4], Power.NONE, "", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED)
+var GENERIC_FAMILY = CoinFamily.new("", "Common Currency", [1, 4, 9, 16], [1, 3, 8, 13], [1, 2, 3, 4], Power.NONE, "Gain soul fragments.", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED)
 var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "Lighting Strikes", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED)
 var HERA_FAMILY = CoinFamily.new(" of Hera", "Envious Chains", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock a coin, preventing it from flipping.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED)
 var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Shake the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip a coin and its neighbors.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkl5p2djoo52i"]
 
-[ext_resource type="Script" path="res://coin.gd" id="1_7p678"]
+[ext_resource type="Script" path="res://components/coin.gd" id="1_7p678"]
 [ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_3pbpe"]
 
 [node name="Coin" type="Control"]

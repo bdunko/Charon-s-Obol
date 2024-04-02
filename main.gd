@@ -9,9 +9,10 @@ extends Node2D
 @onready var _BLUE_SOUL_FRAGMENTS = $BlueSoulFragments
 @onready var _ARROWS = $Arrows
 
-@onready var _RED_SOUL_FRAGMENT_SCENE = preload("res://red_soul_fragment.tscn")
-@onready var _BLUE_SOUL_FRAGMENT_SCENE = preload("res://blue_soul_fragment.tscn")
-@onready var _ARROW_SCENE = preload("res://arrow.tscn")
+@onready var _COIN_SCENE = preload("res://components/coin.tscn")
+@onready var _RED_SOUL_FRAGMENT_SCENE = preload("res://components/red_soul_fragment.tscn")
+@onready var _BLUE_SOUL_FRAGMENT_SCENE = preload("res://components/blue_soul_fragment.tscn")
+@onready var _ARROW_SCENE = preload("res://components/arrow.tscn")
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
@@ -180,7 +181,7 @@ func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
 	shop_item.queue_free()
 
 func _gain_coin(coin: Global.Coin) -> void:
-	var new_coin: CoinEntity = load("res://coin.tscn").instantiate()
+	var new_coin: CoinEntity = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.assign_coin(coin)

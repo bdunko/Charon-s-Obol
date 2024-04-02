@@ -3,7 +3,7 @@ extends HBoxContainer
 
 signal coin_purchased
 
-@onready var _SHOP_ITEM = preload("res://shop_item.tscn")
+@onready var _SHOP_ITEM = preload("res://ui/shop_item.tscn")
 @onready var _GENERIC_COIN_CONTAINER = $GenericCoinContainer
 @onready var _GOD_COIN_CONTAINER = $GodCoinContainer 
 

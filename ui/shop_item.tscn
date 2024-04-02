@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://svl2gfhqrjtk"]
 
-[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://coin.tscn" id="1_av0wv"]
-[ext_resource type="Script" path="res://shop_item.gd" id="1_p34cn"]
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="1_av0wv"]
+[ext_resource type="Script" path="res://ui/shop_item.gd" id="1_p34cn"]
 
 [node name="ShopItem" type="VBoxContainer"]
 offset_right = 32.0

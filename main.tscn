@@ -2,23 +2,23 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
-[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://coin.tscn" id="3_43qkv"]
-[ext_resource type="PackedScene" uid="uid://svl2gfhqrjtk" path="res://shop_item.tscn" id="3_d2o1n"]
-[ext_resource type="Script" path="res://shop.gd" id="3_ie1li"]
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="3_43qkv"]
+[ext_resource type="PackedScene" uid="uid://svl2gfhqrjtk" path="res://ui/shop_item.tscn" id="3_d2o1n"]
+[ext_resource type="Script" path="res://ui/shop.gd" id="3_ie1li"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/world/table.png" id="3_lyhfa"]
-[ext_resource type="Script" path="res://flip_button.gd" id="4_7l1h8"]
-[ext_resource type="Script" path="res://fragments_label.gd" id="4_cmijk"]
-[ext_resource type="Script" path="res://lives_label.gd" id="5_47pph"]
-[ext_resource type="Script" path="res://end_round_button.gd" id="5_hbpym"]
-[ext_resource type="Script" path="res://accept_button.gd" id="5_mah4n"]
-[ext_resource type="Script" path="res://warning_label.gd" id="7_gwofi"]
-[ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://voyage.tscn" id="7_o62wp"]
-[ext_resource type="Script" path="res://continue_button.gd" id="7_qf0wi"]
+[ext_resource type="Script" path="res://ui/flip_button.gd" id="5_txadv"]
+[ext_resource type="Script" path="res://ui/accept_button.gd" id="6_qnf0i"]
+[ext_resource type="Script" path="res://ui/continue_button.gd" id="7_fn2pr"]
+[ext_resource type="Script" path="res://ui/warning_label.gd" id="7_gwofi"]
+[ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://ui/voyage.tscn" id="7_o62wp"]
+[ext_resource type="Script" path="res://ui/end_round_button.gd" id="8_kge6t"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
-[ext_resource type="Script" path="res://power_label.gd" id="10_aytg2"]
-[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://textbox.tscn" id="13_kjj73"]
+[ext_resource type="Script" path="res://ui/power_label.gd" id="10_aytg2"]
+[ext_resource type="Script" path="res://ui/lives_label.gd" id="10_ihbyb"]
+[ext_resource type="Script" path="res://ui/fragments_label.gd" id="11_3fcsv"]
+[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Texture2D" uid="uid://bvm3hdbvg6vry" path="res://assets/ninepatch/charon_dialogue_9patch.png" id="14_une3h"]
-[ext_resource type="Script" path="res://charon_textbox.gd" id="15_68qeo"]
+[ext_resource type="Script" path="res://ui/charon_textbox.gd" id="15_jk3ch"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_68se7")
@@ -44,7 +44,7 @@ alignment = 1
 z_index = 0
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
-script = ExtResource("4_7l1h8")
+script = ExtResource("5_txadv")
 
 [node name="TextMargin" parent="UI/PlayerTextboxs/FlipButton" index="1"]
 size_flags_horizontal = 1
@@ -57,7 +57,7 @@ text = "[center]Flip[/center]"
 visible = false
 z_index = 0
 layout_mode = 2
-script = ExtResource("5_mah4n")
+script = ExtResource("6_qnf0i")
 
 [node name="Text" parent="UI/PlayerTextboxs/AcceptButton/TextMargin" index="0"]
 text = "Accept"
@@ -66,7 +66,7 @@ text = "Accept"
 visible = false
 z_index = 0
 layout_mode = 2
-script = ExtResource("7_qf0wi")
+script = ExtResource("7_fn2pr")
 
 [node name="Text" parent="UI/PlayerTextboxs/ContinueButton/TextMargin" index="0"]
 text = "Continue"
@@ -74,7 +74,7 @@ text = "Continue"
 [node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 z_index = 0
 layout_mode = 2
-script = ExtResource("5_hbpym")
+script = ExtResource("8_kge6t")
 
 [node name="Text" parent="UI/PlayerTextboxs/EndRoundButton/TextMargin" index="0"]
 text = "End Round"
@@ -90,7 +90,7 @@ theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
 text = "3"
 horizontal_alignment = 1
-script = ExtResource("5_47pph")
+script = ExtResource("10_ihbyb")
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -102,7 +102,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 text = "5"
 horizontal_alignment = 1
-script = ExtResource("4_cmijk")
+script = ExtResource("11_3fcsv")
 
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -153,7 +153,7 @@ offset_top = 3.0
 offset_right = 320.0
 offset_bottom = 24.0
 alignment = 1
-script = ExtResource("15_68qeo")
+script = ExtResource("15_jk3ch")
 
 [node name="Textbox" parent="UI/CharonTextbox" instance=ExtResource("13_kjj73")]
 layout_mode = 2
