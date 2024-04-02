@@ -6,8 +6,8 @@
 
 [node name="Textbox" type="MarginContainer"]
 z_index = 4000
-offset_right = 24.0
-offset_bottom = 21.0
+offset_right = 49.0
+offset_bottom = 16.0
 mouse_filter = 0
 theme = ExtResource("1_hmwmk")
 script = ExtResource("2_5nlw7")
@@ -25,9 +25,9 @@ layout_mode = 2
 size_flags_horizontal = 0
 mouse_filter = 2
 theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 3
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 3
 
 [node name="Text" type="RichTextLabel" parent="TextMargin"]
 texture_filter = 1
@@ -37,7 +37,7 @@ size_flags_horizontal = 0
 mouse_filter = 2
 theme = ExtResource("1_hmwmk")
 bbcode_enabled = true
-text = "jdf"
+text = "CHARONj"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
