@@ -47,7 +47,7 @@ var round_count:
 		if round_count > NUM_ROUNDS:
 			state = State.GAME_OVER
 
-const LIVES_PER_ROUND = [-1, 3, 5, 8, 10, 15]
+const LIVES_PER_ROUND = [-1, 3, 5, 8, 10, 13]
 var lives:
 	set(val):
 		lives = val
@@ -79,7 +79,10 @@ var RNG = RandomNumberGenerator.new()
 func choose_one(arr: Array):
 	return arr[RNG.randi_range(0, arr.size()-1)]
 
-
+# creates a delay of a given time
+# await on this function call
+func delay(delay_in_secs: float):
+	await get_tree().create_timer(delay_in_secs).timeout
 
 
 
@@ -263,7 +266,7 @@ var HERA_FAMILY = CoinFamily.new(" of Hera", "Envious Chains", [2, 8, 18, 32], [
 var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "Shake the Earth", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip a coin and its neighbors.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED)
 var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "Grow Ever Stronger", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "Restores life fragments.", [1, 2, 3, 4], _DEMETER_ICON, _FRAGMENT_ICON_RED)
 var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "Arrow of Light", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "Gain an Arrow of Light.", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED)
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "Moonlit Ritual", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Change heads to tails or tails to heads, then...", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED)
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "Moonlit Ritual", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Swap heads to tails or vice versa, then...", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED)
 var ARES_FAMILY = CoinFamily.new(" of Ares", "Chaos of War", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip ALL other coins.", [3, 4, 5, 6], _ARES_ICON, _FRAGMENT_ICON_RED)
 var ATHENA_FAMILY = CoinFamily.new(" of Athena", "Phalanx Strategy", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce a coin's tails penalty.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED)
 var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "Forged in Fire", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.FORGE, "Upgrade a coin's value.", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED)

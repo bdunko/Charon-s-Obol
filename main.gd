@@ -4,6 +4,16 @@ extends Node2D
 @onready var _SHOP : Shop = $Table/Shop
 
 @onready var _RESET_BUTTON = $UI/ResetButton
+@onready var _RED_SOUL_FRAGMENTS = $RedSoulFragments
+@onready var _BLUE_SOUL_FRAGMENTS = $BlueSoulFragments
+
+@onready var _RED_SOUL_FRAGMENT_SCENE = preload("res://red_soul_fragment.tscn")
+@onready var _BLUE_SOUL_FRAGMENT_SCENE = preload("res://blue_soul_fragment.tscn")
+
+@onready var _CHARON_POINT = $Points/Charon
+@onready var _PLAYER_POINT = $Points/Player
+@onready var _RED_SOUL_FRAGMENT_POINT = $Points/RedSoulFragmentPile
+@onready var _BLUE_SOUL_FRAGMENT_POINT = $Points/BlueSoulFragmentPile
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -11,9 +21,56 @@ func _ready() -> void:
 	
 	assert(_RESET_BUTTON)
 	
+	assert(_CHARON_POINT)
+	assert(_PLAYER_POINT)
+	assert(_RED_SOUL_FRAGMENT_POINT)
+	assert(_BLUE_SOUL_FRAGMENT_POINT)
+	
 	Global.state_changed.connect(_on_state_changed)
+	Global.life_count_changed.connect(_on_life_count_changed)
+	Global.fragments_count_changed.connect(_on_fragment_count_changed)
 	
 	_on_reset_button_pressed()
+	
+func _on_fragment_count_changed() -> void:
+	_update_fragment_pile(Global.fragments, _BLUE_SOUL_FRAGMENT_SCENE, _BLUE_SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _BLUE_SOUL_FRAGMENT_POINT)
+
+func _on_life_count_changed() -> void:
+	_update_fragment_pile(Global.lives, _RED_SOUL_FRAGMENT_SCENE, _RED_SOUL_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _RED_SOUL_FRAGMENT_POINT)
+
+func _update_fragment_pile(amount: int, scene: Resource, pile: Node, point_gain: Node, point_take: Node, point_pile: Node) -> void:
+	var fragment_count = 0
+	
+	# move live from pile to charon
+	while pile.get_child_count() > max(0, amount):
+		var fragment = pile.get_child(0)
+		pile.remove_child(fragment)
+		get_tree().root.add_child(fragment)
+		
+		# visually move it from pile to charon
+		var tween = create_tween()
+		#tween.tween_interval(fragment_count * 0.02)
+		tween.tween_property(fragment, "position", point_take.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_callback(fragment.queue_free)
+
+		fragment_count += 1
+	
+	while pile.get_child_count() < amount:
+		var fragment: AnimatedSprite2D = scene.instantiate()
+		
+		# randomize appearance
+		fragment.frame = Global.RNG.randi_range(0, 4)
+		
+		fragment.position = point_gain.position
+		var target_pos = point_pile.position + Vector2(Global.RNG.randi_range(-20, 20), Global.RNG.randi_range(-12, 12))
+		
+		# move from player to pile
+		var tween = create_tween()
+		#tween.tween_interval(fragment_count * 0.02)
+		tween.tween_property(fragment, "position", target_pos, 0.5).set_trans(Tween.TRANS_CUBIC)
+		
+		pile.add_child(fragment)
+		fragment_count += 1
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
@@ -69,7 +126,7 @@ func _on_accept_button_pressed():
 				return
 				
 			# refresh lives
-			Global.lives = Global.LIVES_PER_ROUND[Global.round_count]
+			Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
 			
 			# recharge all coin powers
 			for coin in _COIN_ROW.get_children():

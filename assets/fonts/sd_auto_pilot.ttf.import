@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bd2gns5j8fooy"
-path="res://.godot/imported/m5x7.ttf-f3d3fe4e6e3486da58d880a7b5ad4f74.fontdata"
+uid="uid://bbhvqc2nh53sr"
+path="res://.godot/imported/sd_auto_pilot.ttf-4ac7c21e316f30e8d528205f95771b4b.fontdata"
 
 [deps]
 
-source_file="res://assets/m5x7.ttf"
-dest_files=["res://.godot/imported/m5x7.ttf-f3d3fe4e6e3486da58d880a7b5ad4f74.fontdata"]
+source_file="res://assets/fonts/sd_auto_pilot.ttf"
+dest_files=["res://.godot/imported/sd_auto_pilot.ttf-4ac7c21e316f30e8d528205f95771b4b.fontdata"]
 
 [params]
 

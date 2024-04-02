@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpenc5by7cwjw"]
+
+[ext_resource type="Texture2D" uid="uid://cx4bursdkr6ms" path="res://assets/world/soul_fragment_blue_spritesheet.png" id="1_khgko"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p47nu"]
+atlas = ExtResource("1_khgko")
+region = Rect2(51, 0, 17, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6lav"]
+atlas = ExtResource("1_khgko")
+region = Rect2(17, 0, 17, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tesv"]
+atlas = ExtResource("1_khgko")
+region = Rect2(34, 0, 17, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6bsc"]
+atlas = ExtResource("1_khgko")
+region = Rect2(0, 0, 17, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v08ao"]
+atlas = ExtResource("1_khgko")
+region = Rect2(68, 0, 17, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u3xnx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p47nu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6lav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tesv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k6bsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v08ao")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="BlueSoulFragment" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_u3xnx")
+centered = false
+offset = Vector2(-8, -16)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://warning_label.gd" id="7_gwofi"]
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://voyage.tscn" id="7_o62wp"]
 [ext_resource type="Script" path="res://continue_button.gd" id="7_qf0wi"]
+[ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
 [ext_resource type="Script" path="res://power_label.gd" id="10_aytg2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://textbox.tscn" id="13_kjj73"]
 [ext_resource type="Texture2D" uid="uid://bvm3hdbvg6vry" path="res://assets/ninepatch/charon_dialogue_9patch.png" id="14_une3h"]
@@ -90,31 +91,39 @@ script = ExtResource("5_npep4")
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 9.0
-offset_top = 8.0
-offset_right = 77.0
-offset_bottom = 27.0
-text = "Lives: 5"
+offset_left = 6.0
+offset_top = 62.0
+offset_right = 74.0
+offset_bottom = 81.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_5ty3u")
+theme_override_font_sizes/font_size = 16
+text = "3"
 horizontal_alignment = 1
 script = ExtResource("5_47pph")
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 234.0
-offset_top = 10.0
-offset_right = 302.0
-offset_bottom = 29.0
-text = "Fragments: 0"
+offset_left = 240.0
+offset_top = 61.0
+offset_right = 308.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_5ty3u")
+text = "5"
+horizontal_alignment = 1
 script = ExtResource("4_cmijk")
 
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 6.0
-offset_top = 84.0
+offset_top = 76.0
 offset_right = 314.0
-offset_bottom = 109.0
+offset_bottom = 117.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/line_spacing = -1
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("10_5ty3u")
+theme_override_font_sizes/font_size = 16
 text = "Diobol of Athena
 Power Text
 "
@@ -150,9 +159,9 @@ visible = false
 position = Vector2(150, 27)
 
 [node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 7.0
+offset_top = 3.0
 offset_right = 320.0
-offset_bottom = 28.0
+offset_bottom = 24.0
 alignment = 1
 script = ExtResource("15_68qeo")
 
@@ -164,6 +173,7 @@ texture = ExtResource("14_une3h")
 
 [node name="Text" parent="UI/CharonTextbox/Textbox/TextMargin" index="0"]
 theme_override_colors/default_color = Color(0.737255, 0.290196, 0.607843, 1)
+theme_override_font_sizes/normal_font_size = 0
 text = "Charon Dialogue"
 
 [node name="Table" type="Node2D" parent="."]
@@ -205,9 +215,9 @@ layout_mode = 2
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
 offset_left = 77.0
-offset_top = 28.0
+offset_top = 21.0
 offset_right = 243.0
-offset_bottom = 88.0
+offset_bottom = 81.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 alignment = 1
@@ -232,6 +242,24 @@ layout_mode = 2
 
 [node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
+
+[node name="RedSoulFragments" type="Node" parent="."]
+
+[node name="BlueSoulFragments" type="Node" parent="."]
+
+[node name="Points" type="Node" parent="."]
+
+[node name="Charon" type="Node2D" parent="Points"]
+position = Vector2(160, -99)
+
+[node name="BlueSoulFragmentPile" type="Node2D" parent="Points"]
+position = Vector2(273, 34)
+
+[node name="Player" type="Node2D" parent="Points"]
+position = Vector2(160, 210)
+
+[node name="RedSoulFragmentPile" type="Node2D" parent="Points"]
+position = Vector2(39, 34)
 
 [connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
