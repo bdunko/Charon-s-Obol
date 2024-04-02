@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" path="res://lives_label.gd" id="5_47pph"]
 [ext_resource type="Script" path="res://end_round_button.gd" id="5_hbpym"]
 [ext_resource type="Script" path="res://accept_button.gd" id="5_mah4n"]
-[ext_resource type="Script" path="res://arrows_button.gd" id="5_npep4"]
 [ext_resource type="Script" path="res://warning_label.gd" id="7_gwofi"]
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://voyage.tscn" id="7_o62wp"]
 [ext_resource type="Script" path="res://continue_button.gd" id="7_qf0wi"]
@@ -79,15 +78,6 @@ script = ExtResource("5_hbpym")
 
 [node name="Text" parent="UI/PlayerTextboxs/EndRoundButton/TextMargin" index="0"]
 text = "End Round"
-
-[node name="ArrowsButton" type="Button" parent="UI"]
-texture_filter = 1
-offset_left = 18.0
-offset_top = 153.0
-offset_right = 83.0
-offset_bottom = 174.0
-text = "Arrows 0"
-script = ExtResource("5_npep4")
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -173,7 +163,6 @@ texture = ExtResource("14_une3h")
 
 [node name="Text" parent="UI/CharonTextbox/Textbox/TextMargin" index="0"]
 theme_override_colors/default_color = Color(0.737255, 0.290196, 0.607843, 1)
-theme_override_font_sizes/normal_font_size = 0
 text = "Charon Dialogue"
 
 [node name="Table" type="Node2D" parent="."]
@@ -243,6 +232,8 @@ layout_mode = 2
 [node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
 
+[node name="Arrows" type="Node" parent="."]
+
 [node name="RedSoulFragments" type="Node" parent="."]
 
 [node name="BlueSoulFragments" type="Node" parent="."]
@@ -261,11 +252,13 @@ position = Vector2(160, 210)
 [node name="RedSoulFragmentPile" type="Node2D" parent="Points"]
 position = Vector2(39, 34)
 
+[node name="ArrowPile" type="Node2D" parent="Points"]
+position = Vector2(50, 164)
+
 [connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/ContinueButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
-[connection signal="pressed" from="UI/ArrowsButton" to="." method="_on_arrow_button_pressed"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgshopm0ome8b"]
+
+[ext_resource type="Texture2D" uid="uid://bwswyp5u1hmst" path="res://assets/world/arrow.png" id="1_n5g4j"]
+[ext_resource type="Script" path="res://arrow.gd" id="2_5jgjb"]
+
+[node name="Arrow" type="Sprite2D"]
+texture = ExtResource("1_n5g4j")
+centered = false
+offset = Vector2(-30, -7)
+script = ExtResource("2_5jgjb")
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(-7, -7)
+polygon = PackedVector2Array(43, 16, 51, 22, 51, 24, 42, 31, -7, 31, -7, 16)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]
