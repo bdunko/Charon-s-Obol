@@ -169,9 +169,9 @@ text = "Charon Dialogue"
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 121.0
+offset_top = 115.0
 offset_right = 314.0
-offset_bottom = 157.0
+offset_bottom = 151.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2

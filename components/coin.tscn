@@ -1,20 +1,20 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkl5p2djoo52i"]
 
-[ext_resource type="Script" path="res://components/coin.gd" id="1_7p678"]
-[ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_3pbpe"]
+[ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
+[ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_dhyo4"]
 
 [node name="Coin" type="Control"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(36, 39)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 36.0
 offset_bottom = 36.0
 mouse_filter = 2
-script = ExtResource("1_7p678")
+script = ExtResource("1_eg3xp")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(18, 18)
-texture = ExtResource("2_3pbpe")
+texture = ExtResource("2_dhyo4")
+centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
 texture_filter = 1
@@ -22,10 +22,10 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -17.0
-offset_top = -25.0
-offset_right = -16.0
-offset_bottom = -11.0
+offset_left = 1.0
+offset_top = -8.5
+offset_right = 2.0
+offset_bottom = 5.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -40,8 +40,8 @@ scroll_active = false
 position = Vector2(-16, -16)
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Sprite/ClickableArea"]
-position = Vector2(-7, -7)
-polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 30, 37, 37, 30, 41, 16, 41, 9, 37, 5, 30, 5, 16, 9, 9, 16, 5)
+position = Vector2(11, 12)
+polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
 
 [node name="LockedIcon" type="Polygon2D" parent="."]
 visible = false
