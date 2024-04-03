@@ -106,19 +106,20 @@ script = ExtResource("11_3fcsv")
 
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 6.0
-offset_top = 73.0
-offset_right = 314.0
-offset_bottom = 114.0
+offset_left = 9.0
+offset_top = 74.0
+offset_right = 310.0
+offset_bottom = 119.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
-text = "Diobol of Athena
-Power Text
+text = "Tetrobol of Hades
+Break a coin into fragments.
 "
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 script = ExtResource("10_aytg2")
 
 [node name="ResetButton" type="Button" parent="UI"]
@@ -169,9 +170,9 @@ text = "Charon Dialogue"
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 115.0
+offset_top = 118.0
 offset_right = 314.0
-offset_bottom = 151.0
+offset_bottom = 154.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -211,9 +212,9 @@ size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
 offset_left = 77.0
-offset_top = 16.0
+offset_top = 18.0
 offset_right = 243.0
-offset_bottom = 76.0
+offset_bottom = 78.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 alignment = 1

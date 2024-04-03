@@ -227,21 +227,6 @@ class Coin:
 				_denomination = Denomination.TRIOBOL
 			Denomination.TRIOBOL:
 				_denomination = Denomination.TETROBOL
-	
-	var _OBOL_SPRITE = "res://assets/coins/obol.png"
-	var _DIOBOL_SPRITE = "res://assets/coins/diobol.png"
-	var _TRIOBOL_SPRITE = "res://assets/coins/triobol.png"
-	var _TETROBOL_SPRITE = "res://assets/coins/tetrobol.png"
-	func get_denomination_sprite_path() -> String:
-		match(_denomination):
-			Denomination.OBOL:
-				return _OBOL_SPRITE
-			Denomination.DIOBOL:
-				return _DIOBOL_SPRITE
-			Denomination.TRIOBOL:
-				return _TRIOBOL_SPRITE
-			_: #Denomination.TETROBOL
-				return _TETROBOL_SPRITE
 
 var _FRAGMENT_ICON_BLUE = "res://assets/icons/soul_fragment_blue_icon.png"
 var _FRAGMENT_ICON_RED = "res://assets/icons/soul_fragment_red_icon.png"
@@ -274,7 +259,7 @@ var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "A Moment of Warmth", [2,
 var HERMES_FAMILY = CoinFamily.new(" of Hermes", "From Lands Distant", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for a coin of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED)
 var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "Weary Bones Rest", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless a coin.", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED)
 var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "Wanton Revelry", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random coin.", [1, 1, 1, 1], _DIONYSUS_ICON, _FRAGMENT_ICON_RED)
-var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy a coin. Gain fragments equal to its cost.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED)
+var HADES_FAMILY = CoinFamily.new(" of Hades", "Beyond the Pale", [2, 8, 18, 32], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy a coin and gain fragments.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

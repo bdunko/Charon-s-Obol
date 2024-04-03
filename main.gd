@@ -127,13 +127,21 @@ func _on_reset_button_pressed() -> void:
 	_RESET_BUTTON.hide()
 	Global.state = Global.State.BEFORE_FLIP
 
+var flips_completed = 0
+
+func _on_flip_complete() -> void:
+	flips_completed += 1
+	
+	# if every flip is done
+	if flips_completed == _COIN_ROW.get_child_count():
+		Global.state = Global.State.AFTER_FLIP
+
 func _on_flip_button_pressed() -> void:
 	# flip all the coins
+	flips_completed = 0
 	for coin in _COIN_ROW.get_children() :
 		coin = coin as CoinEntity
 		coin.flip()
-		coin.unlock() #remove any lock from a previous round
-	Global.state = Global.State.AFTER_FLIP
 
 func _on_accept_button_pressed():
 	assert(Global.state != Global.State.GAME_OVER and Global.state != Global.State.BEFORE_FLIP, "this shouldn't happen")
@@ -183,6 +191,7 @@ func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
 func _gain_coin(coin: Global.Coin) -> void:
 	var new_coin: CoinEntity = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
+	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.assign_coin(coin)
 	Global.coin_value += coin.get_value()

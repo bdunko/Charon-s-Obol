@@ -24,6 +24,7 @@ scroll_active = false
 autowrap_mode = 2
 
 [node name="Coin" parent="." instance=ExtResource("1_av0wv")]
+custom_minimum_size = Vector2(36, 39)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

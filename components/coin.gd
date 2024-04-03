@@ -1,7 +1,16 @@
 class_name CoinEntity
 extends Control
 
+signal flip_complete
 signal clicked
+
+enum _BlessCurseState {
+	NONE, BLESSED, CURSED
+}
+
+enum _Animation {
+	FLAT, FLIP
+}
 
 @onready var LOCKED_ICON = $LockedIcon
 @onready var BLESSED_ICON = $BlessedIcon
@@ -10,8 +19,8 @@ signal clicked
 var _coin: Global.Coin:
 	set(val):
 		_coin = val
-		# update sprite to match denomination
-		_SPRITE.texture = load(_coin.get_denomination_sprite_path())
+		# update sprite animation to match denomination
+		set_animation(_Animation.FLAT)
 
 var _heads:
 	set(val):
@@ -41,15 +50,11 @@ var _locked: bool:
 		_locked = val
 		LOCKED_ICON.visible = _locked
 
-enum BlessCurseState {
-	NONE, BLESSED, CURSED
-}
-
-var _bless_curse_state: BlessCurseState:
+var _bless_curse_state: _BlessCurseState:
 	set(val):
 		_bless_curse_state = val
-		BLESSED_ICON.visible = _bless_curse_state == BlessCurseState.BLESSED
-		CURSED_ICON.visible = _bless_curse_state == BlessCurseState.CURSED
+		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
+		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 
 const _HEADS_COLOR = Color("#6db517")
 const _TAILS_COLOR = Color("#ea1e2d")
@@ -66,7 +71,7 @@ func _ready():
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
 	_locked = false
-	_bless_curse_state = BlessCurseState.NONE
+	_bless_curse_state = _BlessCurseState.NONE
 
 func assign_coin(coin: Global.Coin):
 	_coin = coin
@@ -80,13 +85,28 @@ func flip() -> void:
 	if _locked: #don't flip if locked
 		return
 	
+	# animate
+	_FACE_LABEL.hide() # hide text
+	
+	# todo - animation for _locked
+	# todo - make it move up in a parabola; add a shadow
+	set_animation(_Animation.FLIP)
+	await Global.delay(1)
+	set_animation(_Animation.FLAT)
+	
 	match(_bless_curse_state):
-		BlessCurseState.NONE:
+		_BlessCurseState.NONE:
 			_heads = Global.RNG.randi_range(0, 1) == 1 #50% chance for heads
-		BlessCurseState.BLESSED:
+		_BlessCurseState.BLESSED:
 			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
-		BlessCurseState.CURSED:
+		_BlessCurseState.CURSED:
 			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
+	
+	_FACE_LABEL.show()
+	
+	_unlock()
+	
+	emit_signal("flip_complete")
 
 func get_store_price() -> int:
 	return _coin.get_store_price()
@@ -136,20 +156,20 @@ func change_face() -> void:
 func lock() -> void:
 	_locked = true
 
-func unlock() -> void:
+func _unlock() -> void:
 	_locked = false
 
 func bless() -> void:
-	_bless_curse_state = BlessCurseState.BLESSED
+	_bless_curse_state = _BlessCurseState.BLESSED
 
 func curse() -> void:
-	_bless_curse_state = BlessCurseState.CURSED
+	_bless_curse_state = _BlessCurseState.CURSED
 
 func is_blessed() -> bool:
-	return _bless_curse_state == BlessCurseState.BLESSED
+	return _bless_curse_state == _BlessCurseState.BLESSED
 
 func is_cursed() -> bool:
-	return _bless_curse_state == BlessCurseState.CURSED
+	return _bless_curse_state == _BlessCurseState.CURSED
 
 func upgrade_denomination() -> void:
 	_coin.upgrade_denomination()
@@ -172,3 +192,26 @@ func _on_clickable_area_mouse_entered():
 func _on_clickable_area_mouse_exited():
 	if Global.power_text_source == self:
 		Global.power_text = ""
+
+func set_animation(anim: _Animation) -> void:
+	var denom_str = ""
+	match(_coin.get_denomination()):
+		Global.Denomination.OBOL:
+			denom_str = "obol"
+		Global.Denomination.DIOBOL:
+			denom_str = "diobol"
+		Global.Denomination.TRIOBOL:
+			denom_str = "triobol"
+		Global.Denomination.TETROBOL:
+			denom_str = "tetrobol"
+	assert(denom_str != "")
+	
+	var anim_str = ""
+	match(anim):
+		_Animation.FLAT:
+			anim_str = "flat"
+		_Animation.FLIP:
+			anim_str = "flip"
+	assert(anim_str != "")
+	
+	_SPRITE.play("%s_%s" % [denom_str, anim_str])
