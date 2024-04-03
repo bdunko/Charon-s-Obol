@@ -91,7 +91,7 @@ func flip() -> void:
 	# todo - animation for _locked
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
-	await Global.delay(1)
+	await Global.delay(0.5)
 	set_animation(_Animation.FLAT)
 	
 	match(_bless_curse_state):

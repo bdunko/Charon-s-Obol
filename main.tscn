@@ -115,7 +115,7 @@ theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
 text = "Tetrobol of Hades
-Break a coin into fragments.
+Destroy a coin and gain fragments.
 "
 horizontal_alignment = 1
 vertical_alignment = 1
