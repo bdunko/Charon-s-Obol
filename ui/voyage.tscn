@@ -34,7 +34,7 @@ texture = ExtResource("2_s3lai")
 centered = false
 
 [node name="Ship" type="Sprite2D" parent="."]
-position = Vector2(15, 14)
+position = Vector2(15, 15)
 texture = ExtResource("2_mka22")
 centered = false
 

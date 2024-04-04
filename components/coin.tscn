@@ -248,6 +248,21 @@ position = Vector2(-8, 0)
 color = Color(1, 1, 0.211765, 1)
 polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 
+[node name="Price" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(0, 10)
+offset_left = -7.0
+offset_top = -13.0
+offset_right = 43.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#e12f3b]5[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+scroll_active = false
+autowrap_mode = 2
+
 [connection signal="input_event" from="Sprite/ClickableArea" to="." method="_on_clickable_area_input_event"]
 [connection signal="mouse_entered" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
 [connection signal="mouse_exited" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

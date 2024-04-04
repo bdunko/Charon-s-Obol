@@ -16,6 +16,8 @@ enum _Animation {
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
 
+var _disabled := false
+
 var _coin: Global.Coin:
 	set(val):
 		_coin = val
@@ -83,7 +85,10 @@ func is_heads() -> bool:
 
 func flip() -> void:
 	if _locked: #don't flip if locked
+		emit_signal("flip_complete")
 		return
+		
+	_disabled = true # ignore input while flipping
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
@@ -107,6 +112,8 @@ func flip() -> void:
 	_unlock()
 	
 	emit_signal("flip_complete")
+	
+	_disabled = false
 
 func get_store_price() -> int:
 	return _coin.get_store_price()
@@ -171,18 +178,28 @@ func is_blessed() -> bool:
 func is_cursed() -> bool:
 	return _bless_curse_state == _BlessCurseState.CURSED
 
+func get_subtitle() -> String:
+	return _coin.get_subtitle()
+
 func upgrade_denomination() -> void:
 	_coin.upgrade_denomination()
 	update_coin_text()
+	set_animation(_Animation.FLAT) # update sprite
 
 func apply_athena_wisdom() -> void:
 	_athena_wisdom_stacks += 1
 	update_coin_text()
 
+func disable_input() -> void:
+	_disabled = true
+
+func enable_input() -> void:
+	_disabled = false
+
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
+			if event.pressed and not _disabled:
 				emit_signal("clicked", self)
 
 func _on_clickable_area_mouse_entered():

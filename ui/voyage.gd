@@ -20,6 +20,6 @@ func _on_state_changed() -> void:
 func move_boat(round_count: int) -> void:
 	await Global.delay(0.3)
 	var tween = create_tween()
-	tween.tween_property(_SHIP, "position:x", _BOAT_POSITION_FOR_ROUND[round_count], 1.5).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(_SHIP, "position:x", _BOAT_POSITION_FOR_ROUND[round_count], 1.0).set_trans(Tween.TRANS_LINEAR)
 	await tween.finished
-	await Global.delay(1.0)
+	await Global.delay(0.3)

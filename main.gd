@@ -22,7 +22,7 @@ extends Node2D
 @onready var _BLUE_SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/BlueSoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
 
-@onready var _VOYAGE: Voyage = $Voyage
+@onready var _VOYAGE: Voyage = $UI/Voyage
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -56,7 +56,6 @@ func _on_arrow_count_changed() -> void:
 		#todo - anim
 		arrow.queue_free()
 		
-	
 	while _ARROWS.get_child_count() < Global.arrows:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
@@ -128,19 +127,31 @@ func _on_reset_button_pressed() -> void:
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
 	
+	# debug
+	#Global.fragments = 100
+	#Global.lives = 100
+	#_gain_coin(Global.make_coin(Global.ZEUS_FAMILY, Global.Denomination.TETROBOL))
+	
+	
 	_RESET_BUTTON.hide()
 	Global.state = Global.State.BEFORE_FLIP
 
 var flips_completed = 0
 
 func _on_flip_complete() -> void:
+	if Global.state == Global.State.AFTER_FLIP:
+		return #ignore reflips such as Zeus
+	
 	flips_completed += 1
 	
 	# if every flip is done
 	if flips_completed == _COIN_ROW.get_child_count():
 		Global.state = Global.State.AFTER_FLIP
+		_PLAYER_TEXTBOXES.show()
 
 func _on_flip_button_pressed() -> void:
+	_PLAYER_TEXTBOXES.hide()
+	
 	# flip all the coins
 	flips_completed = 0
 	for coin in _COIN_ROW.get_children() :
@@ -211,6 +222,7 @@ func _gain_coin(coin: Global.Coin) -> void:
 func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
 	coin.clicked.connect(_on_coin_clicked)
+	coin.flip_complete.connect(_on_flip_complete)
 	Global.coin_value += coin.get_value()
 
 func _on_coin_clicked(coin: CoinEntity):

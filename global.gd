@@ -107,7 +107,7 @@ enum Power {
 
 class CoinFamily:
 	var of_suffix: String
-	var store_subtitle: String
+	var subtitle: String
 	var store_price_for_denom: Array[int]
 	var heads_fragments_for_denom: Array[int]
 	var tails_life_loss_for_denom: Array[int]
@@ -118,12 +118,12 @@ class CoinFamily:
 	var tails_icon_path: String
 	
 	func _init(suffix: String, 
-			subtitle: String, prices: Array[int],
+			sub_title: String, prices: Array[int],
 			fragments_on_heads: Array[int], life_loss_on_tails: Array[int], 
 			coin_power: Power, power_str: String, power_uses: Array[int],
 			heads_icon: String, tails_icon: String) -> void:
 		of_suffix = suffix
-		store_subtitle = subtitle
+		subtitle = sub_title
 		store_price_for_denom = prices
 		
 		heads_fragments_for_denom = fragments_on_heads
@@ -168,31 +168,14 @@ class Coin:
 	func get_denomination() -> Denomination:
 		return _denomination
 	
-	func get_store_subtitle() -> String:
-		return _coin_family.store_subtitle
+	func get_subtitle() -> String:
+		return _coin_family.subtitle
 	
 	func get_heads_icon_path() -> String:
 		return _coin_family.heads_icon_path
 	
 	func get_tails_icon_path() -> String:
 		return _coin_family.tails_icon_path
-	
-	const _STORE_DESCRIPTION_FORMAT = "Heads: %s\nTails: %s"
-	func get_store_description() -> String:
-		var heads_effect = "Nothing happens."
-		var tails_effect = "Nothing happens."
-		
-		if get_fragments() != 0:
-			assert(_coin_family.power == Power.NONE)
-			heads_effect = "+%d Frags" % get_fragments()
-		else:
-			heads_effect = "%d %s" % [get_max_power_uses(), get_power_string()]
-			
-		
-		if get_life_loss() != 0:
-			tails_effect = "-%d Life" % get_life_loss()
-		
-		return _STORE_DESCRIPTION_FORMAT % [heads_effect, tails_effect]
 	
 	func get_name() -> String:
 		match(_denomination):

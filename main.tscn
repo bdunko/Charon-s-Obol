@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Texture2D" uid="uid://bvm3hdbvg6vry" path="res://assets/ninepatch/charon_dialogue_9patch.png" id="14_une3h"]
 [ext_resource type="Script" path="res://ui/charon_textbox.gd" id="15_jk3ch"]
+[ext_resource type="Script" path="res://active_power_label.gd" id="15_vfx1c"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_68se7")
@@ -34,9 +35,9 @@ centered = false
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 5.0
+offset_top = 4.0
 offset_right = 320.0
-offset_bottom = 21.0
+offset_bottom = 20.0
 alignment = 1
 script = ExtResource("15_jk3ch")
 
@@ -52,9 +53,9 @@ text = "Charon Dialogue"
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
-offset_top = 159.0
+offset_top = 161.0
 offset_right = 314.0
-offset_bottom = 175.0
+offset_bottom = 177.0
 alignment = 1
 
 [node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
@@ -124,9 +125,9 @@ script = ExtResource("11_3fcsv")
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 9.0
-offset_top = 74.0
+offset_top = 69.0
 offset_right = 310.0
-offset_bottom = 119.0
+offset_bottom = 114.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("10_5ty3u")
@@ -138,6 +139,23 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 script = ExtResource("10_aytg2")
+
+[node name="ActivePowerLabel" type="Label" parent="UI"]
+visible = false
+texture_filter = 1
+offset_left = 86.0
+offset_top = 31.0
+offset_right = 238.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("10_5ty3u")
+theme_override_font_sizes/font_size = 16
+text = "Destroy"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+script = ExtResource("15_vfx1c")
 
 [node name="ResetButton" type="Button" parent="UI"]
 visible = false
@@ -152,9 +170,9 @@ text = "Reset"
 visible = false
 texture_filter = 1
 offset_left = -76.0
-offset_top = 13.0
+offset_top = 23.0
 offset_right = 372.0
-offset_bottom = 29.0
+offset_bottom = 39.0
 text = "Can't do that!"
 horizontal_alignment = 1
 script = ExtResource("7_gwofi")
@@ -164,15 +182,15 @@ wait_time = 2.0
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
 visible = false
-position = Vector2(150, 27)
+position = Vector2(64, 34)
 
 [node name="Table" type="Node2D" parent="."]
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 117.0
+offset_top = 120.0
 offset_right = 314.0
-offset_bottom = 153.0
+offset_bottom = 156.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -211,11 +229,10 @@ layout_mode = 2
 size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
-visible = false
 offset_left = 77.0
-offset_top = 18.0
+offset_top = 16.0
 offset_right = 243.0
-offset_bottom = 78.0
+offset_bottom = 76.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 alignment = 1
@@ -240,9 +257,6 @@ layout_mode = 2
 
 [node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
-
-[node name="Voyage" parent="." instance=ExtResource("7_o62wp")]
-position = Vector2(64, 34)
 
 [node name="Arrows" type="Node" parent="."]
 
