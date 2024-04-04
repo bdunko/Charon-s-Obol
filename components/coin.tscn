@@ -227,7 +227,6 @@ scroll_active = false
 position = Vector2(-16, -16)
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Sprite/ClickableArea"]
-visible = false
 position = Vector2(11, 12)
 polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
 

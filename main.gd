@@ -14,15 +14,21 @@ extends Node2D
 @onready var _BLUE_SOUL_FRAGMENT_SCENE = preload("res://components/blue_soul_fragment.tscn")
 @onready var _ARROW_SCENE = preload("res://components/arrow.tscn")
 
+@onready var _PLAYER_TEXTBOXES = $UI/PlayerTextboxs
+
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
 @onready var _RED_SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/RedSoulFragmentPile.position
 @onready var _BLUE_SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/BlueSoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
 
+@onready var _VOYAGE: Voyage = $Voyage
+
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
+	
+	assert(_PLAYER_TEXTBOXES)
 	
 	assert(_RESET_BUTTON)
 	
@@ -32,6 +38,8 @@ func _ready() -> void:
 	assert(_BLUE_SOUL_FRAGMENT_PILE_POINT)
 	assert(_ARROW_PILE_POINT)
 	assert(_ARROWS)
+	
+	assert(_VOYAGE)
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
@@ -120,10 +128,6 @@ func _on_reset_button_pressed() -> void:
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
 	
-	#debug
-	_gain_coin(Global.make_coin(Global.APOLLO_FAMILY, Global.Denomination.TETROBOL))
-	
-
 	_RESET_BUTTON.hide()
 	Global.state = Global.State.BEFORE_FLIP
 
@@ -144,33 +148,41 @@ func _on_flip_button_pressed() -> void:
 		coin.flip()
 
 func _on_accept_button_pressed():
-	assert(Global.state != Global.State.GAME_OVER and Global.state != Global.State.BEFORE_FLIP, "this shouldn't happen")
+	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
 	
 	Global.active_coin_power = Global.Power.NONE
 	Global.active_coin_power_coin = null
 	
-	match(Global.state):
-		Global.State.AFTER_FLIP:
-			for coin in _COIN_ROW.get_children():
-				if coin.is_heads():
-					Global.fragments += coin.get_fragments()
-				else:
-					Global.lives -= coin.get_life_loss()
-		Global.State.SHOP:
-			Global.round_count += 1
-			if Global.round_count > Global.NUM_ROUNDS: # if the game ended, just exit
-				return
-				
-			# refresh lives
-			Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
-			
-			# recharge all coin powers
-			for coin in _COIN_ROW.get_children():
-				coin = coin as CoinEntity
-				coin.reset_power_uses()
-		
+	for coin in _COIN_ROW.get_children():
+		if coin.is_heads():
+			Global.fragments += coin.get_fragments()
+		else:
+			Global.lives -= coin.get_life_loss()
+	
 	if Global.state != Global.State.GAME_OVER:
 		Global.state = Global.State.BEFORE_FLIP
+
+func _on_continue_button_pressed():
+	# await the voyage here
+	Global.state = Global.State.BEFORE_FLIP #hides the shop
+	_PLAYER_TEXTBOXES.hide()
+	_VOYAGE.show()
+	await _VOYAGE.move_boat(Global.round_count + 1)
+	_VOYAGE.hide()
+	_PLAYER_TEXTBOXES.show()
+	
+	Global.round_count += 1
+	
+	if Global.round_count > Global.NUM_ROUNDS: # if the game ended, just exit
+		return
+		
+	# refresh lives
+	Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
+	
+	# recharge all coin powers
+	for coin in _COIN_ROW.get_children():
+		coin = coin as CoinEntity
+		coin.reset_power_uses()
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP)

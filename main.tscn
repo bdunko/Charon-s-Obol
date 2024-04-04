@@ -33,11 +33,28 @@ centered = false
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="CharonTextbox" type="BoxContainer" parent="UI"]
+offset_top = 5.0
+offset_right = 320.0
+offset_bottom = 21.0
+alignment = 1
+script = ExtResource("15_jk3ch")
+
+[node name="Textbox" parent="UI/CharonTextbox" instance=ExtResource("13_kjj73")]
+layout_mode = 2
+
+[node name="NinePatchRect" parent="UI/CharonTextbox/Textbox" index="0"]
+texture = ExtResource("14_une3h")
+
+[node name="Text" parent="UI/CharonTextbox/Textbox/TextMargin" index="0"]
+theme_override_colors/default_color = Color(0.737255, 0.290196, 0.607843, 1)
+text = "Charon Dialogue"
+
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
-offset_top = 160.0
+offset_top = 159.0
 offset_right = 314.0
-offset_bottom = 176.0
+offset_bottom = 175.0
 alignment = 1
 
 [node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
@@ -149,30 +166,13 @@ wait_time = 2.0
 visible = false
 position = Vector2(150, 27)
 
-[node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 4.0
-offset_right = 320.0
-offset_bottom = 20.0
-alignment = 1
-script = ExtResource("15_jk3ch")
-
-[node name="Textbox" parent="UI/CharonTextbox" instance=ExtResource("13_kjj73")]
-layout_mode = 2
-
-[node name="NinePatchRect" parent="UI/CharonTextbox/Textbox" index="0"]
-texture = ExtResource("14_une3h")
-
-[node name="Text" parent="UI/CharonTextbox/Textbox/TextMargin" index="0"]
-theme_override_colors/default_color = Color(0.737255, 0.290196, 0.607843, 1)
-text = "Charon Dialogue"
-
 [node name="Table" type="Node2D" parent="."]
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 118.0
+offset_top = 117.0
 offset_right = 314.0
-offset_bottom = 154.0
+offset_bottom = 153.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -211,6 +211,7 @@ layout_mode = 2
 size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
+visible = false
 offset_left = 77.0
 offset_top = 18.0
 offset_right = 243.0
@@ -240,6 +241,9 @@ layout_mode = 2
 [node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
 layout_mode = 2
 
+[node name="Voyage" parent="." instance=ExtResource("7_o62wp")]
+position = Vector2(64, 34)
+
 [node name="Arrows" type="Node" parent="."]
 
 [node name="RedSoulFragments" type="Node" parent="."]
@@ -265,14 +269,14 @@ position = Vector2(50, 164)
 
 [connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
-[connection signal="clicked" from="UI/PlayerTextboxs/ContinueButton" to="." method="_on_accept_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxs/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 
+[editable path="UI/CharonTextbox/Textbox"]
 [editable path="UI/PlayerTextboxs/FlipButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]
 [editable path="UI/PlayerTextboxs/ContinueButton"]
 [editable path="UI/PlayerTextboxs/EndRoundButton"]
-[editable path="UI/CharonTextbox/Textbox"]
