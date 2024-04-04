@@ -4,6 +4,10 @@ extends Control
 signal flip_complete
 signal clicked
 
+enum _Owner {
+	SHOP, PLAYER
+}
+
 enum _BlessCurseState {
 	NONE, BLESSED, CURSED
 }
@@ -15,8 +19,20 @@ enum _Animation {
 @onready var LOCKED_ICON = $LockedIcon
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
+@onready var PRICE = $Price
 
 var _disabled := false
+
+var _owner: _Owner:
+	set(val):
+		_owner = val
+		_update_price_label()
+	
+func owned_by_shop() -> void:
+	_owner = _Owner.SHOP
+
+func owned_by_player() -> void:
+	_owner = _Owner.PLAYER
 
 var _coin: Global.Coin:
 	set(val):
@@ -58,11 +74,9 @@ var _bless_curse_state: _BlessCurseState:
 		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
 		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 
-const _HEADS_COLOR = Color("#6db517")
-const _TAILS_COLOR = Color("#ea1e2d")
-
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
+@onready var _PRICE = $Price
 
 # times the Wisdom power has been used on this coin; which reduces the tail downside by 1 each time
 var _athena_wisdom_stacks = 0
@@ -70,10 +84,31 @@ var _athena_wisdom_stacks = 0
 func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
+	Global.fragments_count_changed.connect(_update_price_label)
+	Global.state_changed.connect(_on_state_changed)
+	_PRICE.hide()
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
 	_locked = false
 	_bless_curse_state = _BlessCurseState.NONE
+	_owner = _Owner.PLAYER
+
+const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+const _UNAFFORDABLE_COLOR = "#e12f3b"
+const _AFFORDABLE_COLOR = "#ffffff"
+const _SELL_COLOR = "#59c135"
+
+func _update_price_label() -> void:
+	var price = get_sell_price() if _owner == _Owner.PLAYER else get_store_price()
+	var color = _SELL_COLOR if _owner == _Owner.PLAYER else (_AFFORDABLE_COLOR if Global.fragments >= price else _UNAFFORDABLE_COLOR)
+	_PRICE.text = _PRICE_FORMAT % [color, price]
+
+func _on_state_changed() -> void:
+	if Global.state == Global.State.SHOP:
+		_update_price_label()
+		_PRICE.show()
+	else:
+		_PRICE.hide()
 
 func assign_coin(coin: Global.Coin):
 	_coin = coin
@@ -85,6 +120,7 @@ func is_heads() -> bool:
 
 func flip() -> void:
 	if _locked: #don't flip if locked
+		_unlock()
 		emit_signal("flip_complete")
 		return
 		
@@ -109,14 +145,15 @@ func flip() -> void:
 	
 	_FACE_LABEL.show()
 	
-	_unlock()
-	
 	emit_signal("flip_complete")
 	
 	_disabled = false
 
 func get_store_price() -> int:
 	return _coin.get_store_price()
+
+func get_sell_price() -> int:
+	return _coin.get_sell_price()
 
 func get_fragments() -> int:
 	return _coin.get_fragments()
@@ -203,12 +240,15 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 				emit_signal("clicked", self)
 
 func _on_clickable_area_mouse_entered():
-	Global.power_text = _coin.get_name() + "\n" + get_power_string()
-	Global.power_text_source = self
+	activate_power_text()
 
 func _on_clickable_area_mouse_exited():
 	if Global.power_text_source == self:
 		Global.power_text = ""
+
+func activate_power_text() -> void:
+	Global.power_text = _coin.get_name() + "\n" + get_power_string()
+	Global.power_text_source = self
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = ""

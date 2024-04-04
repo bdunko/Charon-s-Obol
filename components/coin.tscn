@@ -249,7 +249,6 @@ color = Color(1, 1, 0.211765, 1)
 polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 
 [node name="Price" type="RichTextLabel" parent="."]
-visible = false
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)

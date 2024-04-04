@@ -70,7 +70,7 @@ var active_coin_power:
 		active_coin_power = val
 		emit_signal("active_coin_power_changed")
 
-
+const COIN_LIMIT = 8
 
 
 # refactor this into Util
@@ -155,6 +155,9 @@ class Coin:
 	
 	func get_store_price() -> int:
 		return _coin_family.store_price_for_denom[_denomination]
+	
+	func get_sell_price() -> int:
+		return max(1, int(get_store_price()/3.0))
 	
 	func get_power() -> Power:
 		return _coin_family.power
@@ -253,8 +256,17 @@ func random_family() -> CoinFamily:
 func random_god_family() -> CoinFamily:
 	return choose_one(_GOD_FAMILIES)
 
-func random_shop_denomination() -> Denomination:
-	return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL])
+func random_shop_denomination_for_round() -> Denomination:
+	if Global.round_count == 1:
+		return Denomination.OBOL
+	elif Global.round_count == 2:
+		return choose_one([Denomination.OBOL, Denomination.DIOBOL])
+	elif Global.round_count == 3:
+		return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL])
+	elif Global.round_count == 4:
+		return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL])
+	else:
+		return choose_one([Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL])
 
 func make_coin(family: CoinFamily, denomination: Denomination) -> Coin:
 	return Coin.new(family, denomination)

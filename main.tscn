@@ -1,9 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="3_43qkv"]
-[ext_resource type="PackedScene" uid="uid://svl2gfhqrjtk" path="res://ui/shop_item.tscn" id="3_d2o1n"]
 [ext_resource type="Script" path="res://ui/shop.gd" id="3_ie1li"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/world/table.png" id="3_lyhfa"]
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="5_txadv"]
@@ -53,9 +52,9 @@ text = "Charon Dialogue"
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
-offset_top = 161.0
+offset_top = 160.0
 offset_right = 314.0
-offset_bottom = 177.0
+offset_bottom = 176.0
 alignment = 1
 
 [node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
@@ -100,9 +99,9 @@ text = "End Round"
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 6.0
-offset_top = 62.0
+offset_top = 61.0
 offset_right = 74.0
-offset_bottom = 81.0
+offset_bottom = 80.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
@@ -125,9 +124,9 @@ script = ExtResource("11_3fcsv")
 [node name="PowerLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 9.0
-offset_top = 69.0
+offset_top = 68.0
 offset_right = 310.0
-offset_bottom = 114.0
+offset_bottom = 113.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("10_5ty3u")
@@ -230,9 +229,9 @@ size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
 offset_left = 77.0
-offset_top = 16.0
+offset_top = 34.0
 offset_right = 243.0
-offset_bottom = 76.0
+offset_bottom = 70.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 alignment = 1
@@ -242,20 +241,22 @@ script = ExtResource("3_ie1li")
 layout_mode = 2
 mouse_filter = 2
 
-[node name="GenericCoinShopItem" parent="Table/Shop/GenericCoinContainer" instance=ExtResource("3_d2o1n")]
+[node name="Coin" parent="Table/Shop/GenericCoinContainer" instance=ExtResource("3_43qkv")]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="GodCoinContainer" type="HBoxContainer" parent="Table/Shop"]
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="GodCoinShopItem1" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
+[node name="Coin" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
 layout_mode = 2
 
-[node name="GodCoinShopItem2" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
+[node name="Coin2" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
 layout_mode = 2
 
-[node name="GodCoinShopItem3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_d2o1n")]
+[node name="Coin3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
 layout_mode = 2
 
 [node name="Arrows" type="Node" parent="."]
@@ -270,13 +271,13 @@ layout_mode = 2
 position = Vector2(160, -99)
 
 [node name="BlueSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(273, 34)
+position = Vector2(273, 31)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(160, 210)
 
 [node name="RedSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(39, 34)
+position = Vector2(39, 33)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(50, 164)

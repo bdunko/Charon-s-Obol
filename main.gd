@@ -127,7 +127,7 @@ func _on_reset_button_pressed() -> void:
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
 	
-	# debug
+	#debug
 	#Global.fragments = 100
 	#Global.lives = 100
 	#_gain_coin(Global.make_coin(Global.ZEUS_FAMILY, Global.Denomination.TETROBOL))
@@ -146,6 +146,11 @@ func _on_flip_complete() -> void:
 	
 	# if every flip is done
 	if flips_completed == _COIN_ROW.get_child_count():
+		# recharge all coin powers
+		for coin in _COIN_ROW.get_children():
+			coin = coin as CoinEntity
+			coin.reset_power_uses()
+		
 		Global.state = Global.State.AFTER_FLIP
 		_PLAYER_TEXTBOXES.show()
 
@@ -189,27 +194,25 @@ func _on_continue_button_pressed():
 		
 	# refresh lives
 	Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
-	
-	# recharge all coin powers
-	for coin in _COIN_ROW.get_children():
-		coin = coin as CoinEntity
-		coin.reset_power_uses()
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP)
 	_SHOP.randomize_shop()
 	Global.state = Global.State.SHOP
 
-func _on_shop_coin_purchased(shop_item: ShopItem, price: int):
+func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
 	if Global.fragments < price:
 		Global.show_warning("Insufficient fragments!")
 		return 
 	
-	# we can afford it, so purchase this coin and remove it from the shop
-	Global.fragments -= price
-	_gain_coin_entity(shop_item.take_coin())
-	shop_item.queue_free()
+	if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+		Global.show_warning("Out of space for coins!")
+		return
+	
+	_SHOP.purchase_coin(coin)
+	
+	_gain_coin_entity(coin)
 
 func _gain_coin(coin: Global.Coin) -> void:
 	var new_coin: CoinEntity = _COIN_SCENE.instantiate()
@@ -221,11 +224,23 @@ func _gain_coin(coin: Global.Coin) -> void:
 
 func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
+	coin.owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 	Global.coin_value += coin.get_value()
 
 func _on_coin_clicked(coin: CoinEntity):
+	# if we're in the shop, sell this coin
+	if Global.state == Global.State.SHOP:
+		# don't sell if this is the last coin
+		if _COIN_ROW.get_child_count() == 1:
+			Global.show_warning("Can't sell last coin!")
+			return
+		Global.fragments += coin.get_sell_price()
+		Global.coin_value -= coin.get_value()
+		coin.queue_free()
+		return
+	
 	# only use coin powers during after flip
 	if Global.state != Global.State.AFTER_FLIP:
 		return
@@ -288,6 +303,7 @@ func _on_coin_clicked(coin: CoinEntity):
 				coin.recharge_power_uses_by(1)
 			Global.Power.EXCHANGE:
 				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
+				coin.activate_power_text() # update power text
 			Global.Power.BLESS:
 				if coin.is_blessed():
 					Global.show_warning("This coin is already blessed!")
@@ -310,7 +326,7 @@ func _on_coin_clicked(coin: CoinEntity):
 			Global.active_coin_power = Global.Power.NONE
 	
 	# otherwise we're attempting to activate a coin
-	elif coin.get_power() != Global.Power.NONE and coin.get_power_uses_remaining() > 0:
+	elif coin.is_heads() and coin.get_power() != Global.Power.NONE and coin.get_power_uses_remaining() > 0:
 		# if this is a power which does not target, resolve it
 		match coin.get_power():
 			Global.Power.GAIN_LIFE:
@@ -326,6 +342,9 @@ func _on_coin_clicked(coin: CoinEntity):
 						c.flip()
 				coin.spend_power_use()
 			Global.Power.GAIN_COIN:
+				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+					Global.show_warning("Not enough space for coin!")
+					return
 				_gain_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
 				coin.spend_power_use()
 			_: # otherwise, make this the active coin and coin power and await click on target
