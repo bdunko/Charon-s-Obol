@@ -1,5 +1,8 @@
 extends Node
 
+const UNAFFORDABLE_COLOR = "#e12f3b"
+const AFFORDABLE_COLOR = "#ffffff"
+
 enum State {
 	BEFORE_FLIP, AFTER_FLIP, SHOP, GAME_OVER
 }
@@ -10,10 +13,19 @@ signal fragments_count_changed
 signal life_count_changed
 signal arrow_count_changed
 signal active_coin_power_changed
+signal shop_reroll_count_changed
 
 signal warning
 func show_warning(warning_str: String) -> void:
 	emit_signal("warning", warning_str)
+
+var shop_reroll_count: int:
+	set(val):
+		shop_reroll_count = val
+		emit_signal("shop_reroll_count_changed")
+
+func reroll_price() -> int:
+	return shop_reroll_count #todo - maybe a fancier formula here
 
 var power_text_source: Node
 var power_text: String:

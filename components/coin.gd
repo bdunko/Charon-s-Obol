@@ -94,13 +94,10 @@ func _ready():
 	_owner = _Owner.PLAYER
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-const _UNAFFORDABLE_COLOR = "#e12f3b"
-const _AFFORDABLE_COLOR = "#ffffff"
 const _SELL_COLOR = "#59c135"
-
 func _update_price_label() -> void:
 	var price = get_sell_price() if _owner == _Owner.PLAYER else get_store_price()
-	var color = _SELL_COLOR if _owner == _Owner.PLAYER else (_AFFORDABLE_COLOR if Global.fragments >= price else _UNAFFORDABLE_COLOR)
+	var color = _SELL_COLOR if _owner == _Owner.PLAYER else (Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR)
 	_PRICE.text = _PRICE_FORMAT % [color, price]
 
 func _on_state_changed() -> void:

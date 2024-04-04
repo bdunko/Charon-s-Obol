@@ -37,7 +37,7 @@ size_flags_horizontal = 0
 mouse_filter = 2
 theme = ExtResource("1_hmwmk")
 bbcode_enabled = true
-text = "CHARONj"
+text = "CHARONj [color=#e12f3b]5[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0

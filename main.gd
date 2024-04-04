@@ -123,6 +123,7 @@ func _on_reset_button_pressed() -> void:
 	Global.fragments = 0
 	Global.arrows = 0
 	Global.active_coin_power = Global.Power.NONE
+	Global.shop_reroll_count = 0
 	
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
@@ -360,3 +361,12 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power = Global.Power.NONE
 			Global.active_coin_power_coin = null
+
+func _on_reroll_shop_button_clicked():
+	if Global.reroll_price() > Global.fragments:
+		Global.show_warning("Not enough souls!")
+		return
+	
+	Global.fragments -= Global.reroll_price()
+	_SHOP.randomize_shop()
+	Global.shop_reroll_count += 1
