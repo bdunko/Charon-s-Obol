@@ -1,10 +1,14 @@
-[gd_scene load_steps=27 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=51 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
 [ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_dhyo4"]
 [ext_resource type="Texture2D" uid="uid://buq0pt2mv61r8" path="res://assets/coins/obol.png" id="2_gp4tc"]
 [ext_resource type="Texture2D" uid="uid://bai3xcjjbsmi2" path="res://assets/coins/triobol.png" id="5_rwtkc"]
+[ext_resource type="Texture2D" uid="uid://br2b7urvog30m" path="res://assets/coins/diobol_god.png" id="6_8y6lf"]
+[ext_resource type="Texture2D" uid="uid://ulayqf1flk3x" path="res://assets/coins/obol_god.png" id="7_piem0"]
+[ext_resource type="Texture2D" uid="uid://b2d1rbovnhmix" path="res://assets/coins/tetrobol_god.png" id="8_sc7h6"]
+[ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bk4o2"]
 atlas = ExtResource("2_bkxn3")
@@ -86,6 +90,86 @@ region = Rect2(72, 0, 36, 39)
 atlas = ExtResource("5_rwtkc")
 region = Rect2(108, 0, 36, 39)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck2w1"]
+atlas = ExtResource("6_8y6lf")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdros"]
+atlas = ExtResource("6_8y6lf")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bjjt"]
+atlas = ExtResource("6_8y6lf")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gle1x"]
+atlas = ExtResource("6_8y6lf")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ui4ni"]
+atlas = ExtResource("6_8y6lf")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2by0"]
+atlas = ExtResource("7_piem0")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_556ps"]
+atlas = ExtResource("7_piem0")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trj11"]
+atlas = ExtResource("7_piem0")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxmwr"]
+atlas = ExtResource("7_piem0")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpp1k"]
+atlas = ExtResource("7_piem0")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08i64"]
+atlas = ExtResource("8_sc7h6")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4kft"]
+atlas = ExtResource("8_sc7h6")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxejr"]
+atlas = ExtResource("8_sc7h6")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6hd1"]
+atlas = ExtResource("8_sc7h6")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wuav"]
+atlas = ExtResource("8_sc7h6")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfsfv"]
+atlas = ExtResource("9_6dpwv")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rrxo"]
+atlas = ExtResource("9_6dpwv")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a32tv"]
+atlas = ExtResource("9_6dpwv")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvc4f"]
+atlas = ExtResource("9_6dpwv")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r13tq"]
+atlas = ExtResource("9_6dpwv")
+region = Rect2(108, 0, 36, 39)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_w12pp"]
 animations = [{
 "frames": [{
@@ -93,7 +177,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_bk4o2")
 }],
 "loop": true,
-"name": &"diobol_flat",
+"name": &"generic_diobol_flat",
 "speed": 10.0
 }, {
 "frames": [{
@@ -110,7 +194,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_gsefd")
 }],
 "loop": true,
-"name": &"diobol_flip",
+"name": &"generic_diobol_flip",
 "speed": 20.0
 }, {
 "frames": [{
@@ -118,7 +202,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ddkol")
 }],
 "loop": true,
-"name": &"obol_flat",
+"name": &"generic_obol_flat",
 "speed": 5.0
 }, {
 "frames": [{
@@ -135,7 +219,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_kpt3g")
 }],
 "loop": true,
-"name": &"obol_flip",
+"name": &"generic_obol_flip",
 "speed": 20.0
 }, {
 "frames": [{
@@ -143,7 +227,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_vnid1")
 }],
 "loop": true,
-"name": &"tetrobol_flat",
+"name": &"generic_tetrobol_flat",
 "speed": 5.0
 }, {
 "frames": [{
@@ -160,7 +244,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_b1xxd")
 }],
 "loop": true,
-"name": &"tetrobol_flip",
+"name": &"generic_tetrobol_flip",
 "speed": 20.0
 }, {
 "frames": [{
@@ -168,7 +252,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_uubxl")
 }],
 "loop": true,
-"name": &"triobol_flat",
+"name": &"generic_triobol_flat",
 "speed": 5.0
 }, {
 "frames": [{
@@ -185,8 +269,108 @@ animations = [{
 "texture": SubResource("AtlasTexture_84he0")
 }],
 "loop": true,
-"name": &"triobol_flip",
+"name": &"generic_triobol_flip",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck2w1")
+}],
+"loop": true,
+"name": &"god_diobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdros")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bjjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gle1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ui4ni")
+}],
+"loop": true,
+"name": &"god_diobol_flip",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2by0")
+}],
+"loop": true,
+"name": &"god_obol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_556ps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trj11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxmwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpp1k")
+}],
+"loop": true,
+"name": &"god_obol_flip",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08i64")
+}],
+"loop": true,
+"name": &"god_tetrobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4kft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxejr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6hd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wuav")
+}],
+"loop": true,
+"name": &"god_tetrobol_flip",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfsfv")
+}],
+"loop": true,
+"name": &"god_triobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rrxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a32tv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvc4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r13tq")
+}],
+"loop": true,
+"name": &"god_triobol_flip",
+"speed": 5.0
 }]
 
 [node name="Coin" type="Control"]
@@ -200,7 +384,7 @@ script = ExtResource("1_eg3xp")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"tetrobol_flat"
+animation = &"god_tetrobol_flip"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]

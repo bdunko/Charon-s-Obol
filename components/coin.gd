@@ -268,4 +268,4 @@ func set_animation(anim: _Animation) -> void:
 			anim_str = "flip"
 	assert(anim_str != "")
 	
-	_SPRITE.play("%s_%s" % [denom_str, anim_str])
+	_SPRITE.play("%s_%s_%s" % [_coin.get_style_string(), denom_str, anim_str])
