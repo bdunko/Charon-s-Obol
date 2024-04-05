@@ -86,7 +86,7 @@ func _ready():
 	assert(_FACE_LABEL)
 	Global.fragments_count_changed.connect(_update_price_label)
 	Global.state_changed.connect(_on_state_changed)
-	_PRICE.hide()
+	_PRICE.visible = Global.state == Global.State.SHOP
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
 	_locked = false
@@ -117,6 +117,7 @@ func is_heads() -> bool:
 
 func flip() -> void:
 	if _locked: #don't flip if locked
+		# todo - animation for _locked
 		_unlock()
 		emit_signal("flip_complete")
 		return
@@ -126,10 +127,12 @@ func flip() -> void:
 	# animate
 	_FACE_LABEL.hide() # hide text
 	
-	# todo - animation for _locked
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
-	await Global.delay(0.5)
+	var tween = create_tween()
+	tween.tween_property(self, "position:y", self.position.y - 50, 0.20)
+	tween.tween_property(self, "position:y", self.position.y, 0.20).set_delay(0.1)
+	await tween.finished
 	set_animation(_Animation.FLAT)
 	
 	match(_bless_curse_state):

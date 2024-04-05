@@ -203,7 +203,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"generic_obol_flat",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -228,7 +228,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"generic_tetrobol_flat",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -253,7 +253,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"generic_triobol_flat",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -295,7 +295,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"god_diobol_flip",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -320,7 +320,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"god_obol_flip",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -345,7 +345,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"god_tetrobol_flip",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -353,7 +353,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"god_triobol_flat",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -370,7 +370,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"god_triobol_flip",
-"speed": 5.0
+"speed": 20.0
 }]
 
 [node name="Coin" type="Control"]
@@ -384,7 +384,7 @@ script = ExtResource("1_eg3xp")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"god_tetrobol_flip"
+animation = &"god_tetrobol_flat"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
