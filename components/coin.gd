@@ -89,8 +89,7 @@ func _ready():
 	_PRICE.visible = Global.state == Global.State.SHOP
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
-	_locked = false
-	_bless_curse_state = _BlessCurseState.NONE
+	_reset()
 	_owner = _Owner.PLAYER
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
@@ -107,7 +106,13 @@ func _on_state_changed() -> void:
 	else:
 		_PRICE.hide()
 
+func _reset() -> void:
+	_bless_curse_state = _BlessCurseState.NONE
+	_locked = false
+	_athena_wisdom_stacks = 0
+
 func assign_coin(coin: Global.Coin):
+	_reset()
 	_coin = coin
 	reset_power_uses()
 	update_coin_text()

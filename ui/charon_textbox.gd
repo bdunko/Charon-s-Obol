@@ -1,19 +1,31 @@
+class_name CharonTextbox
 extends BoxContainer
 
 @onready var _TEXTBOX: Textbox = $Textbox
 
 func _ready():
 	assert(_TEXTBOX)
-	Global.state_changed.connect(_on_state_changed)
 
 func _on_state_changed() -> void:
 	match(Global.state):
 		Global.State.BEFORE_FLIP:
-			_TEXTBOX.set_text("Flip...?")
+			show_dialogue("Flip...?")
 		Global.State.AFTER_FLIP:
-			_TEXTBOX.set_text("Payoff...")
+			show_dialogue("Payoff...")
 		Global.State.SHOP:
-			_TEXTBOX.set_text("Buy or sell...?")
+			show_dialogue("Buy or sell...?")
 		Global.State.GAME_OVER:
-			var victory = Global.coin_value >= Global.GOAL_COIN_VALUE
-			_TEXTBOX.set_text("What? You win? How??" if victory else "Your soul is mine!")
+			var victory = Global.coin_value >= Global.goal_coin_value
+			show_dialogue("What? You win? How??" if victory else "Your soul is mine!")
+
+#func _input(_event: InputEvent) -> void:
+#	if Input.is_anything_pressed():
+#		print("pressed")
+#	else:
+#		print("unpressed!")
+
+func show_dialogue(dialogue: String) -> void:
+	show()
+	_TEXTBOX.set_text(dialogue)
+	await Global.delay(0.1)
+	hide()

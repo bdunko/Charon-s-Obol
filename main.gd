@@ -24,6 +24,8 @@ extends Node2D
 
 @onready var _VOYAGE: Voyage = $UI/Voyage
 
+@onready var _CHARON_TEXTBOX: CharonTextbox = $UI/CharonTextbox
+
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
@@ -40,6 +42,7 @@ func _ready() -> void:
 	assert(_ARROWS)
 	
 	assert(_VOYAGE)
+	assert(_CHARON_TEXTBOX)
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
@@ -83,7 +86,6 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		#tween.tween_interval(fragment_count * 0.02)
 		tween.tween_property(fragment, "position", take_pos, 0.5).set_trans(Tween.TRANS_CUBIC)
 		tween.tween_callback(fragment.queue_free)
-
 		#fragment_count += 1
 	
 	while pile.get_child_count() < amount:
@@ -116,10 +118,10 @@ func _on_reset_button_pressed() -> void:
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children():
 		coin.queue_free()
+		_COIN_ROW.remove_child(coin)
 	
 	Global.round_count = 1
 	Global.lives = Global.LIVES_PER_ROUND[1]
-	Global.coin_value = 1
 	Global.fragments = 0
 	Global.arrows = 0
 	Global.active_coin_power = Global.Power.NONE
@@ -135,7 +137,16 @@ func _on_reset_button_pressed() -> void:
 	
 	
 	_RESET_BUTTON.hide()
+	
 	Global.state = Global.State.BEFORE_FLIP
+	
+	_PLAYER_TEXTBOXES.hide()
+	await _CHARON_TEXTBOX.show_dialogue("I am the ferryman Charon, shephard of the dead!")
+	await _CHARON_TEXTBOX.show_dialogue("Fool from Eleusis, you wish to cross the river?")
+	await _CHARON_TEXTBOX.show_dialogue("We shall play a game, on the way across.")
+	await _CHARON_TEXTBOX.show_dialogue("Earn 20 obols by the crossing's end...")
+	await _CHARON_TEXTBOX.show_dialogue("Or you shall stay here with me, forevermore!")
+	_PLAYER_TEXTBOXES.show()
 
 var flips_completed = 0
 
@@ -215,20 +226,26 @@ func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	
 	_gain_coin_entity(coin)
 
+#todo - refactor this
 func _gain_coin(coin: Global.Coin) -> void:
 	var new_coin: CoinEntity = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.assign_coin(coin)
-	Global.coin_value += coin.get_value()
+	_update_coin_value()
 
 func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
 	coin.owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
-	Global.coin_value += coin.get_value()
+	_update_coin_value()
+
+func _remove_coin(coin: CoinEntity):
+	_COIN_ROW.remove_child(coin)
+	coin.queue_free()
+	_update_coin_value()
 
 func _on_coin_clicked(coin: CoinEntity):
 	# if we're in the shop, sell this coin
@@ -238,8 +255,7 @@ func _on_coin_clicked(coin: CoinEntity):
 			Global.show_warning("Can't sell last coin!")
 			return
 		Global.fragments += coin.get_sell_price()
-		Global.coin_value -= coin.get_value()
-		coin.queue_free()
+		_remove_coin(coin)
 		return
 	
 	# only use coin powers during after flip
@@ -294,9 +310,8 @@ func _on_coin_clicked(coin: CoinEntity):
 				if coin.get_denomination() == Global.Denomination.TETROBOL:
 					Global.show_warning("This coin cannot be upgraded further!")
 					return
-				Global.coin_value -= coin.get_value()
 				coin.upgrade_denomination()
-				Global.coin_value += coin.get_value()
+				_update_coin_value()
 			Global.Power.RECHARGE:
 				if coin.get_power() == Global.Power.NONE:
 					Global.show_warning("This coin has no power to recharge!")
@@ -370,3 +385,16 @@ func _on_reroll_shop_button_clicked():
 	Global.fragments -= Global.reroll_price()
 	_SHOP.randomize_shop()
 	Global.shop_reroll_count += 1
+
+func _update_coin_value() -> void:
+	var sum = 0
+	for coin in _COIN_ROW.get_children():
+		sum += coin.get_value()
+	Global.coin_value = sum
+
+func _on_pay_toll_button_clicked():
+	print("ok")
+	if Global.coin_value >= Global.goal_coin_value:
+		Global.state = Global.State.GAME_OVER
+	else:
+		Global.show_warning("Not enough coins!")

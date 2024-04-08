@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=22 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://ui/lives_label.gd" id="10_ihbyb"]
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="11_3fcsv"]
 [ext_resource type="Script" path="res://ui/reroll_shop_button.gd" id="11_i42a0"]
+[ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="12_rlbb2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Texture2D" uid="uid://bvm3hdbvg6vry" path="res://assets/ninepatch/charon_dialogue_9patch.png" id="14_une3h"]
 [ext_resource type="Script" path="res://ui/charon_textbox.gd" id="15_jk3ch"]
@@ -35,9 +36,9 @@ centered = false
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 4.0
+offset_top = 5.0
 offset_right = 320.0
-offset_bottom = 20.0
+offset_bottom = 21.0
 alignment = 1
 script = ExtResource("15_jk3ch")
 
@@ -53,9 +54,9 @@ text = "Charon Dialogue"
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
-offset_top = 160.0
+offset_top = 159.0
 offset_right = 314.0
-offset_bottom = 176.0
+offset_bottom = 175.0
 alignment = 1
 
 [node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
@@ -105,6 +106,15 @@ script = ExtResource("11_i42a0")
 
 [node name="Text" parent="UI/PlayerTextboxs/RerollShopButton/TextMargin" index="0"]
 text = "[color=#e12f3b]5[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] Reroll Shop"
+
+[node name="PayTollButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+visible = false
+z_index = 0
+layout_mode = 2
+script = ExtResource("12_rlbb2")
+
+[node name="Text" parent="UI/PlayerTextboxs/PayTollButton/TextMargin" index="0"]
+text = "Pay Toll (1/20)"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -176,12 +186,11 @@ offset_bottom = 69.0
 text = "Reset"
 
 [node name="WarningLabel" type="Label" parent="UI"]
-visible = false
 texture_filter = 1
-offset_left = -76.0
-offset_top = 23.0
-offset_right = 372.0
-offset_bottom = 39.0
+offset_left = -78.0
+offset_top = 37.0
+offset_right = 370.0
+offset_bottom = 53.0
 text = "Can't do that!"
 horizontal_alignment = 1
 script = ExtResource("7_gwofi")
@@ -197,9 +206,9 @@ position = Vector2(64, 34)
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 120.0
+offset_top = 117.0
 offset_right = 314.0
-offset_bottom = 156.0
+offset_bottom = 153.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -290,13 +299,14 @@ position = Vector2(160, 210)
 position = Vector2(39, 33)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
-position = Vector2(50, 164)
+position = Vector2(50, 169)
 
 [connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/RerollShopButton" to="." method="_on_reroll_shop_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
@@ -307,3 +317,4 @@ position = Vector2(50, 164)
 [editable path="UI/PlayerTextboxs/ContinueButton"]
 [editable path="UI/PlayerTextboxs/EndRoundButton"]
 [editable path="UI/PlayerTextboxs/RerollShopButton"]
+[editable path="UI/PlayerTextboxs/PayTollButton"]

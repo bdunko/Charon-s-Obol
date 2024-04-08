@@ -14,6 +14,7 @@ signal life_count_changed
 signal arrow_count_changed
 signal active_coin_power_changed
 signal shop_reroll_count_changed
+signal coin_value_changed
 
 signal warning
 func show_warning(warning_str: String) -> void:
@@ -68,12 +69,11 @@ var lives:
 			state = State.GAME_OVER
 
 
-const GOAL_COIN_VALUE = 20
+var goal_coin_value = 20
 var coin_value:
 	set(val):
 		coin_value = val
-		if coin_value >= GOAL_COIN_VALUE:
-			state = State.GAME_OVER
+		emit_signal("coin_value_changed")
 
 
 var active_coin_power_coin: CoinEntity = null

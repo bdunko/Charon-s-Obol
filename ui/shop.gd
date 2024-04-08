@@ -25,10 +25,6 @@ func randomize_shop() -> void:
 	for god_child in _GOD_COIN_CONTAINER.get_children():
 		god_child.queue_free()
 	
-	# todo - smarter coin generation; set possible coin denoms based on round; ie round 1 always generates obols, round 5 makes tetrobols
-	
-	
-	
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
 		_GENERIC_COIN_CONTAINER.add_child(coin)
