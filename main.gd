@@ -239,12 +239,12 @@ func _gain_coin(coin: Global.Coin) -> void:
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
-	new_coin.assign_coin(coin)
+	new_coin.assign_coin(coin, CoinEntity.Owner.PLAYER)
 	_update_coin_value()
 
 func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
-	coin.owned_by_player()
+	coin.mark_owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 	_update_coin_value()
@@ -325,7 +325,7 @@ func _on_coin_clicked(coin: CoinEntity):
 					return
 				coin.recharge_power_uses_by(1)
 			Global.Power.EXCHANGE:
-				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
+				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
 				coin.activate_power_text() # update power text
 			Global.Power.BLESS:
 				if coin.is_blessed():

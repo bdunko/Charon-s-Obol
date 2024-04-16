@@ -28,15 +28,13 @@ func randomize_shop() -> void:
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
 		_GENERIC_COIN_CONTAINER.add_child(coin)
-		coin.owned_by_shop()
-		coin.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round()))
+		coin.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round()), CoinEntity.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 	
 	for _i in _NUM_GOD_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
 		_GOD_COIN_CONTAINER.add_child(coin)
-		coin.owned_by_shop()
-		coin.assign_coin(Global.make_coin(Global.random_god_family(), Global.random_shop_denomination_for_round()))
+		coin.assign_coin(Global.make_coin(Global.random_god_family(), Global.random_shop_denomination_for_round()), CoinEntity.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 
 func _on_try_coin_purchased(coin: CoinEntity) -> void:

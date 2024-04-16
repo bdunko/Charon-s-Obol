@@ -4,7 +4,7 @@ extends Control
 signal flip_complete
 signal clicked
 
-enum _Owner {
+enum Owner {
 	SHOP, PLAYER
 }
 
@@ -23,16 +23,10 @@ enum _Animation {
 
 var _disabled := false
 
-var _owner: _Owner:
+var _owner: Owner:
 	set(val):
 		_owner = val
-		_update_price_label()
-	
-func owned_by_shop() -> void:
-	_owner = _Owner.SHOP
-
-func owned_by_player() -> void:
-	_owner = _Owner.PLAYER
+		update_price_label()
 
 var _coin: Global.Coin:
 	set(val):
@@ -84,24 +78,23 @@ var _athena_wisdom_stacks = 0
 func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
-	Global.fragments_count_changed.connect(_update_price_label)
+	Global.fragments_count_changed.connect(update_price_label)
 	Global.state_changed.connect(_on_state_changed)
 	_PRICE.visible = Global.state == Global.State.SHOP
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
 	_heads = true
 	_reset()
-	_owner = _Owner.PLAYER
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _SELL_COLOR = "#59c135"
-func _update_price_label() -> void:
-	var price = get_sell_price() if _owner == _Owner.PLAYER else get_store_price()
-	var color = _SELL_COLOR if _owner == _Owner.PLAYER else (Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR)
+func update_price_label() -> void:
+	var price = get_sell_price() if _owner == Owner.PLAYER else get_store_price()
+	var color = _SELL_COLOR if _owner == Owner.PLAYER else (Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR)
 	_PRICE.text = _PRICE_FORMAT % [color, price]
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.SHOP:
-		_update_price_label()
+		update_price_label()
 		_PRICE.show()
 	else:
 		_PRICE.hide()
@@ -111,11 +104,15 @@ func _reset() -> void:
 	_locked = false
 	_athena_wisdom_stacks = 0
 
-func assign_coin(coin: Global.Coin):
+func assign_coin(coin: Global.Coin, owned_by: Owner):
 	_reset()
 	_coin = coin
 	reset_power_uses()
 	update_coin_text()
+	_owner = owned_by
+
+func mark_owned_by_player() -> void:
+	_owner = Owner.PLAYER
 
 func is_heads() -> bool:
 	return _heads
