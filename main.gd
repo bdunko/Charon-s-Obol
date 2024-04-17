@@ -378,6 +378,9 @@ func _on_arrow_pressed():
 	Global.active_coin_power = Global.Power.ARROW_REFLIP
 
 func _input(event):
+	if Input.is_key_pressed(KEY_SPACE):
+		breakpoint
+	
 	# right click with a god power disables it
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -400,7 +403,6 @@ func _update_coin_value() -> void:
 	Global.coin_value = sum
 
 func _on_pay_toll_button_clicked():
-	print("ok")
 	if Global.coin_value >= Global.goal_coin_value:
 		Global.state = Global.State.GAME_OVER
 	else:

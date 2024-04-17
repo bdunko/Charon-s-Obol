@@ -1,44 +1,54 @@
-[gd_scene load_steps=4 format=3 uid="uid://dm5532uugr1ym"]
+[gd_scene load_steps=4 format=3 uid="uid://bcfg3kgc4yjft"]
 
-[ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_cht1v"]
-[ext_resource type="Script" path="res://tooltip/tooltip.gd" id="2_cgw3r"]
-[ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_jm1lg"]
+[ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_en8g6"]
+[ext_resource type="Script" path="res://tooltip/tooltip.gd" id="2_q67l5"]
+[ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_onft3"]
 
 [node name="Tooltip" type="MarginContainer"]
-z_index = 4000
-offset_right = 20.0
-offset_bottom = 16.0
-mouse_filter = 2
-theme = ExtResource("1_cht1v")
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 8
-script = ExtResource("2_cgw3r")
+z_index = 4001
+offset_right = 146.0
+offset_bottom = 55.0
+size_flags_vertical = 0
+mouse_filter = 0
+theme = ExtResource("1_en8g6")
+script = ExtResource("2_q67l5")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
+[node name="Layer" type="MarginContainer" parent="."]
 layout_mode = 2
-texture = ExtResource("3_jm1lg")
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Layer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_onft3")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
 
-[node name="TextMargin" type="MarginContainer" parent="."]
+[node name="TextMargin" type="MarginContainer" parent="Layer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 0
 mouse_filter = 2
 theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 3
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 3
 
-[node name="TooltipText" type="RichTextLabel" parent="TextMargin"]
+[node name="TooltipText" type="RichTextLabel" parent="Layer/TextMargin"]
 texture_filter = 1
 clip_contents = false
 layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 2
-theme = ExtResource("1_cht1v")
+theme = ExtResource("1_en8g6")
 bbcode_enabled = true
+text = "[center]%s
+[color=yellow]%s[/color]
+[color=gray]Heads:[/color] %s 
+[color=gray]Tails:[/color] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
 fit_content = true
 scroll_active = false
+autowrap_mode = 2
 shortcut_keys_enabled = false

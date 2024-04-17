@@ -235,11 +235,27 @@ func disable_input() -> void:
 func enable_input() -> void:
 	_disabled = false
 
+func _generate_tooltip() -> String:
+	const TOOLTIP_FORMAT = "[center]%s
+[color=yellow]%s[/color]
+[color=gray]Heads:[/color] %s 
+[color=gray]Tails:[/color] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+	
+	var coin_name = _coin.get_name()
+	var subtitle = _coin.get_subtitle()
+	var power_description = _coin.get_power_string()
+	var life_lost = _coin.get_life_loss()
+	
+	return TOOLTIP_FORMAT % [coin_name, subtitle, power_description, life_lost]
+
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
+	UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
+	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed and not _disabled:
 				emit_signal("clicked", self)
+				
 
 func _on_clickable_area_mouse_entered():
 	activate_power_text()

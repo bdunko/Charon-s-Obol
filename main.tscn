@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://ui/voyage.tscn" id="7_o62wp"]
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="8_kge6t"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
-[ext_resource type="Script" path="res://ui/power_label.gd" id="10_aytg2"]
 [ext_resource type="Script" path="res://ui/lives_label.gd" id="10_ihbyb"]
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="11_3fcsv"]
 [ext_resource type="Script" path="res://ui/reroll_shop_button.gd" id="11_i42a0"]
@@ -33,12 +32,12 @@ centered = false
 texture = ExtResource("3_lyhfa")
 centered = false
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="Node" parent="."]
 
 [node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 5.0
+offset_top = 6.0
 offset_right = 320.0
-offset_bottom = 21.0
+offset_bottom = 22.0
 alignment = 1
 script = ExtResource("15_jk3ch")
 
@@ -54,13 +53,12 @@ text = "Charon Dialogue"
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
-offset_top = 159.0
+offset_top = 157.0
 offset_right = 314.0
-offset_bottom = 175.0
+offset_bottom = 173.0
 alignment = 1
 
 [node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
-z_index = 0
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("5_txadv")
@@ -74,7 +72,6 @@ text = "[center]Flip[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
-z_index = 0
 layout_mode = 2
 script = ExtResource("6_qnf0i")
 
@@ -83,7 +80,6 @@ text = "Accept"
 
 [node name="ContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
-z_index = 0
 layout_mode = 2
 script = ExtResource("7_fn2pr")
 
@@ -91,7 +87,6 @@ script = ExtResource("7_fn2pr")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
-z_index = 0
 layout_mode = 2
 script = ExtResource("8_kge6t")
 
@@ -100,7 +95,6 @@ text = "End Round"
 
 [node name="RerollShopButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
-z_index = 0
 layout_mode = 2
 script = ExtResource("11_i42a0")
 
@@ -109,7 +103,6 @@ text = "[color=#e12f3b]5[/color][img=10x13]res://assets/icons/soul_fragment_blue
 
 [node name="PayTollButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
-z_index = 0
 layout_mode = 2
 script = ExtResource("12_rlbb2")
 
@@ -140,24 +133,6 @@ theme_override_fonts/font = ExtResource("10_5ty3u")
 text = "5"
 horizontal_alignment = 1
 script = ExtResource("11_3fcsv")
-
-[node name="PowerLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 9.0
-offset_top = 68.0
-offset_right = 310.0
-offset_bottom = 113.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/line_spacing = 0
-theme_override_fonts/font = ExtResource("10_5ty3u")
-theme_override_font_sizes/font_size = 16
-text = "Tetrobol of Hades
-Destroy a coin and gain fragments.
-"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-script = ExtResource("10_aytg2")
 
 [node name="ActivePowerLabel" type="Label" parent="UI"]
 visible = false
@@ -206,9 +181,9 @@ position = Vector2(64, 34)
 
 [node name="CoinRow" type="HBoxContainer" parent="Table"]
 offset_left = 6.0
-offset_top = 117.0
+offset_top = 113.0
 offset_right = 314.0
-offset_bottom = 153.0
+offset_bottom = 149.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -248,9 +223,9 @@ size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
 offset_left = 77.0
-offset_top = 34.0
+offset_top = 40.0
 offset_right = 243.0
-offset_bottom = 70.0
+offset_bottom = 76.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 alignment = 1

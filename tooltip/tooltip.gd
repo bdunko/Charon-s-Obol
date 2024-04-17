@@ -6,7 +6,7 @@ static var _ENABLED := true
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(3, 5)
+const _TOOLTIP_OFFSET := Vector2(-65, 10)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
@@ -35,6 +35,12 @@ var source_control: Control
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
 static func create(source: Control, text: String, global_mouse_position: Vector2, scene_root: Node) -> void:
+	# if there is already a tooltip for this control, skip?
+	for tooltip in _ALL_TOOLTIPS:
+		if tooltip.source_control == source:
+			return
+			#stooltip.destroy_tooltip()
+	
 	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root)
 	tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
 	tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip) # destroy tooltip when parent exits tree (ie parent is deleted)
@@ -47,7 +53,8 @@ static func create_manual(source: Control, text: String, global_mouse_position: 
 	
 	tooltip.source_control = source
 	
-	var label: RichTextLabel = tooltip.find_child("TextMargin").find_child("TooltipText")
+	var label: RichTextLabel = tooltip.find_child("TooltipText")
+	assert(label)
 	
 	# replace img tags with a single letter to help space them 
 	# (for now, only works with small images)
@@ -76,16 +83,16 @@ static func create_manual(source: Control, text: String, global_mouse_position: 
 			if text_length > _MAX_WIDTH_THRESHOLD:
 				break
 			first_line += word + " "
-		
+
 		label.custom_minimum_size.x = font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	# otherwise set the tooltip size based on the longest line
-	else:
-		var longest_line_size = -1
-		for line in text_no_tags.split("\n"):
-			var line_size = tooltip.get_theme().get_default_font().get_string_size(line).x
-			if line_size > longest_line_size:
-				longest_line_size = line_size
-		label.custom_minimum_size.x = longest_line_size
+#	# otherwise set the tooltip size based on the longest line
+#	else:
+#		var longest_line_size = -1
+#		for line in text_no_tags.split("\n"):
+#			var line_size = tooltip.get_theme().get_default_font().get_string_size(line).x
+#			if line_size > longest_line_size:
+#				longest_line_size = line_size
+#		label.custom_minimum_size.x = longest_line_size
 		
 	label.text = _FORMAT % text
 	
@@ -107,26 +114,43 @@ func _process(_delta):
 	position = Vector2(int(mouse_position.x), int(mouse_position.y)) + _TOOLTIP_OFFSET
 	_force_position_onto_screen()
 
+# $HACK$ - get_rect() is wrong because size is wrong...
+func _get_real_rect():
+	var real_rect = find_child("Layer").get_rect()
+	real_rect.position = position
+	return real_rect
+
 # force the tooltip to be within the screen boundaries and not overlapping the mouse
 func _force_position_onto_screen():
 	# update position based on mouse position and screen position
 	var mouse_position = get_global_mouse_position()
 	var viewport_rect = get_viewport_rect()
+
+	#$HACK$ - idk why but Tooltip's y size is way larger than it should be, but this is right
+	var real_size = find_child("Layer").size
 	
 	# if we are off the right of the screen, move left until that's no longer the case.
-	while position.x + size.x > viewport_rect.size.x:
+	while position.x + real_size.x > viewport_rect.size.x:
 		position.x -= 1
+		
+	# if we are off the left of the screen, move right until that's no longer the case.
+	while position.x + real_size.x < 0:
+		position.x += 1
 	
 	# if we are off the bottom of the screen, move up until that's no longer the case.
-	while position.y + size.y > viewport_rect.size.y:
-		position.y -= 1
-	
-	# but now we might be overlapping the mouse, so continue moving up until we aren't.
-	var shifted := false
-	while get_rect().has_point(mouse_position):
-		shifted = true
+	while position.y + real_size.y > viewport_rect.size.y:
 		position.y -= 1
 		
+	# if we are off the top of the screen, move down until that's no longer the case.
+	while position.y + real_size.y < 0:
+		position.y += 1
+	
+#	# but now we might be overlapping the mouse, so move up until we aren't
+	var shifted := false
+	while _get_real_rect().has_point(mouse_position):
+		shifted = true
+		position.y -= 1
+
 	if shifted: # if we had to shift back up, go a bit more to match the same offset as normal
 		position.y -= _TOOLTIP_OFFSET.y
 

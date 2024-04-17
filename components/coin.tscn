@@ -436,6 +436,7 @@ polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
+layout_mode = 0
 offset_left = -7.0
 offset_top = -13.0
 offset_right = 43.0
