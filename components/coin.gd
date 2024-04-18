@@ -238,8 +238,8 @@ func enable_input() -> void:
 func _generate_tooltip() -> String:
 	const TOOLTIP_FORMAT = "[center]%s
 [color=yellow]%s[/color]
-[color=gray]Heads:[/color] %s 
-[color=gray]Tails:[/color] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+[img=12x13]res://assets/icons/heads_icon.png[/img] %s 
+[img=12x13]res://assets/icons/tails_icon.png[/img] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
 	
 	var coin_name = _coin.get_name()
 	var subtitle = _coin.get_subtitle()

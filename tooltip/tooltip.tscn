@@ -9,7 +9,7 @@ z_index = 4001
 offset_right = 146.0
 offset_bottom = 55.0
 size_flags_vertical = 0
-mouse_filter = 0
+mouse_filter = 2
 theme = ExtResource("1_en8g6")
 script = ExtResource("2_q67l5")
 
@@ -46,8 +46,8 @@ theme = ExtResource("1_en8g6")
 bbcode_enabled = true
 text = "[center]%s
 [color=yellow]%s[/color]
-[color=gray]Heads:[/color] %s 
-[color=gray]Tails:[/color] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+[img=12x13]res://assets/icons/heads_icon.png[/img] %s 
+[img=12x13]res://assets/icons/tails_icon.png[/img] %d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 2
