@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="3_43qkv"]
 [ext_resource type="Script" path="res://ui/shop.gd" id="3_ie1li"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/world/table.png" id="3_lyhfa"]
+[ext_resource type="Script" path="res://dialogue_manager.gd" id="4_nh4kq"]
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="5_txadv"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="6_qnf0i"]
 [ext_resource type="Script" path="res://ui/continue_button.gd" id="7_fn2pr"]
@@ -17,8 +18,6 @@
 [ext_resource type="Script" path="res://ui/reroll_shop_button.gd" id="11_i42a0"]
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="12_rlbb2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
-[ext_resource type="Texture2D" uid="uid://bvm3hdbvg6vry" path="res://assets/ninepatch/charon_dialogue_9patch.png" id="14_une3h"]
-[ext_resource type="Script" path="res://ui/charon_textbox.gd" id="15_jk3ch"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="15_vfx1c"]
 
 [node name="Game" type="Node2D"]
@@ -34,22 +33,8 @@ centered = false
 
 [node name="UI" type="Node" parent="."]
 
-[node name="CharonTextbox" type="BoxContainer" parent="UI"]
-offset_top = 6.0
-offset_right = 320.0
-offset_bottom = 22.0
-alignment = 1
-script = ExtResource("15_jk3ch")
-
-[node name="Textbox" parent="UI/CharonTextbox" instance=ExtResource("13_kjj73")]
-layout_mode = 2
-
-[node name="NinePatchRect" parent="UI/CharonTextbox/Textbox" index="0"]
-texture = ExtResource("14_une3h")
-
-[node name="Text" parent="UI/CharonTextbox/Textbox/TextMargin" index="0"]
-theme_override_colors/default_color = Color(0.737255, 0.290196, 0.607843, 1)
-text = "Charon Dialogue"
+[node name="DialogueManager" type="Node" parent="UI"]
+script = ExtResource("4_nh4kq")
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 offset_left = 6.0
@@ -112,9 +97,9 @@ text = "Pay Toll (1/20)"
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 6.0
-offset_top = 61.0
+offset_top = 71.0
 offset_right = 74.0
-offset_bottom = 80.0
+offset_bottom = 90.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
@@ -125,9 +110,9 @@ script = ExtResource("10_ihbyb")
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 240.0
-offset_top = 61.0
+offset_top = 71.0
 offset_right = 308.0
-offset_bottom = 80.0
+offset_bottom = 90.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 text = "5"
@@ -265,13 +250,13 @@ layout_mode = 2
 position = Vector2(160, -99)
 
 [node name="BlueSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(273, 31)
+position = Vector2(273, 46)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(160, 210)
 
 [node name="RedSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(39, 33)
+position = Vector2(39, 48)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(50, 169)
@@ -286,7 +271,6 @@ position = Vector2(50, 169)
 [connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 
-[editable path="UI/CharonTextbox/Textbox"]
 [editable path="UI/PlayerTextboxs/FlipButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]
 [editable path="UI/PlayerTextboxs/ContinueButton"]

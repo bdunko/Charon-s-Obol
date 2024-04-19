@@ -24,7 +24,7 @@ extends Node2D
 
 @onready var _VOYAGE: Voyage = $UI/Voyage
 
-@onready var _CHARON_TEXTBOX: CharonTextbox = $UI/CharonTextbox
+@onready var _DIALOGUE: DialogueManager = $UI/DialogueManager
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -42,7 +42,7 @@ func _ready() -> void:
 	assert(_ARROWS)
 	
 	assert(_VOYAGE)
-	assert(_CHARON_TEXTBOX)
+	assert(_DIALOGUE)
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
@@ -113,7 +113,7 @@ func _on_state_changed() -> void:
 
 func _on_game_end() -> void:
 	var victory = Global.coin_value >= Global.goal_coin_value
-	_CHARON_TEXTBOX.show_dialogue("What? You win? How??" if victory else "Your soul is mine!")
+	_DIALOGUE.show_dialogue("What? You win? How??" if victory else "Your soul is mine!")
 	_RESET_BUTTON.show()
 
 func _on_reset_button_pressed() -> void:
@@ -143,13 +143,13 @@ func _on_reset_button_pressed() -> void:
 	Global.state = Global.State.BEFORE_FLIP
 	
 	_PLAYER_TEXTBOXES.hide()
-	await _CHARON_TEXTBOX.flash_dialogue("I am the ferryman Charon, shephard of the dead!")
-	await _CHARON_TEXTBOX.flash_dialogue("Fool from Eleusis, you wish to cross the river?")
-	await _CHARON_TEXTBOX.flash_dialogue("We shall play a game, on the way across.")
-	await _CHARON_TEXTBOX.flash_dialogue("Earn 20 obols by the crossing's end...")
-	await _CHARON_TEXTBOX.flash_dialogue("Or you shall stay here with me, forevermore!")
+	await _DIALOGUE.show_dialogue_and_wait("I am the ferryman Charon, shephard of the dead!")
+	await _DIALOGUE.show_dialogue_and_wait("Fool from Eleusis, you wish to cross the river?")
+	await _DIALOGUE.show_dialogue_and_wait("We shall play a game, on the way across.")
+	await _DIALOGUE.show_dialogue_and_wait("Earn 20 obols by the crossing's end...")
+	await _DIALOGUE.show_dialogue_and_wait("Or you shall stay here with me, forevermore!")
 	_PLAYER_TEXTBOXES.show()
-	_CHARON_TEXTBOX.show_dialogue("Flip...?")
+	_DIALOGUE.show_dialogue("Flip...?")
 
 var flips_completed = 0
 
@@ -167,7 +167,7 @@ func _on_flip_complete() -> void:
 			coin.reset_power_uses()
 		
 		Global.state = Global.State.AFTER_FLIP
-		_CHARON_TEXTBOX.show_dialogue("Payoff...")
+		_DIALOGUE.show_dialogue("Payoff...")
 		_PLAYER_TEXTBOXES.show()
 
 func _on_flip_button_pressed() -> void:
@@ -193,18 +193,18 @@ func _on_accept_button_pressed():
 	
 	if Global.state != Global.State.GAME_OVER:
 		Global.state = Global.State.BEFORE_FLIP
-		_CHARON_TEXTBOX.show_dialogue("Flip...?")
+		_DIALOGUE.show_dialogue("Flip...?")
 
 func _on_continue_button_pressed():
 	# await the voyage here
 	Global.state = Global.State.BEFORE_FLIP #hides the shop
-	_CHARON_TEXTBOX.hide_dialogue()
+	_DIALOGUE.clear_dialogue()
 	_PLAYER_TEXTBOXES.hide()
 	_VOYAGE.show()
 	await _VOYAGE.move_boat(Global.round_count + 1)
 	_VOYAGE.hide()
 	_PLAYER_TEXTBOXES.show()
-	_CHARON_TEXTBOX.show_dialogue("Flip...?")
+	_DIALOGUE.show_dialogue("Flip...?")
 	
 	Global.round_count += 1
 	
@@ -218,7 +218,7 @@ func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP)
 	_SHOP.randomize_shop()
 	Global.state = Global.State.SHOP
-	_CHARON_TEXTBOX.show_dialogue("Buy, sell, upgrade...?")
+	_DIALOGUE.show_dialogue("Buy, sell, upgrade...?")
 
 func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
