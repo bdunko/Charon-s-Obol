@@ -6,7 +6,7 @@ static var _ENABLED := true
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(-65, 10)
+const _TOOLTIP_OFFSET := Vector2(-73, 10)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
@@ -35,15 +35,18 @@ var source_control: Control
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
 static func create(source: Control, text: String, global_mouse_position: Vector2, scene_root: Node) -> void:
-	# if there is already a tooltip for this control, skip?
+	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
 		if tooltip.source_control == source:
+			tooltip.find_child("TooltipText").text = text
 			return
-			#stooltip.destroy_tooltip()
 	
 	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root)
 	tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
 	tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip) # destroy tooltip when parent exits tree (ie parent is deleted)
+	
+	tooltip.modulate.a = 0.0
+	tooltip.create_tween().tween_property(tooltip, "modulate:a", 1.0, 0.03)
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
@@ -155,6 +158,9 @@ func _force_position_onto_screen():
 		position.y -= _TOOLTIP_OFFSET.y
 
 func destroy_tooltip():
-	assert(is_instance_valid(self), "This tooltip has already been destroyed?")
+	var fade_out = create_tween()
+	fade_out.tween_property(self, "modulate:a", 0.0, 0.03)
 	_ALL_TOOLTIPS.erase(self)
+	await fade_out.finished
+	assert(is_instance_valid(self), "This tooltip has already been destroyed?")
 	queue_free()

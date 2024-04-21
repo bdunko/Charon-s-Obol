@@ -63,7 +63,7 @@ func _on_arrow_count_changed() -> void:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
 		arrow.clicked.connect(_on_arrow_pressed)
-		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-10, 10), Global.RNG.randi_range(-6, 6))
+		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-8, 8), Global.RNG.randi_range(-3, 3))
 		_ARROWS.add_child(arrow)
 
 func _on_fragment_count_changed() -> void:
@@ -112,7 +112,6 @@ func _on_state_changed() -> void:
 		_RESET_BUTTON.hide()
 
 func _on_game_end() -> void:
-	var victory = Global.coin_value >= Global.goal_coin_value
 	_DIALOGUE.show_dialogue("What? You win? How??" if victory else "Your soul is mine!")
 	_RESET_BUTTON.show()
 
@@ -122,12 +121,14 @@ func _on_reset_button_pressed() -> void:
 		coin.queue_free()
 		_COIN_ROW.remove_child(coin)
 	
+	victory = false
 	Global.round_count = 1
 	Global.lives = Global.LIVES_PER_ROUND[1]
 	Global.fragments = 0
 	Global.arrows = 0
 	Global.active_coin_power = Global.Power.NONE
 	Global.shop_reroll_count = 0
+	Global.flips_this_round = 0
 	
 	# make a single starting coin
 	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
@@ -149,10 +150,9 @@ func _on_reset_button_pressed() -> void:
 	await _DIALOGUE.show_dialogue_and_wait("Earn 20 obols by the crossing's end...")
 	await _DIALOGUE.show_dialogue_and_wait("Or you shall stay here with me, forevermore!")
 	_PLAYER_TEXTBOXES.show()
-	_DIALOGUE.show_dialogue("Flip...?")
+	_DIALOGUE.show_dialogue("Will you flip...?")
 
 var flips_completed = 0
-
 func _on_flip_complete() -> void:
 	if Global.state == Global.State.AFTER_FLIP:
 		return #ignore reflips such as Zeus
@@ -166,11 +166,20 @@ func _on_flip_complete() -> void:
 			coin = coin as CoinEntity
 			coin.reset_power_uses()
 		
+		Global.flips_this_round += 1
 		Global.state = Global.State.AFTER_FLIP
 		_DIALOGUE.show_dialogue("Payoff...")
 		_PLAYER_TEXTBOXES.show()
 
 func _on_flip_button_pressed() -> void:
+	# take life from player
+	var life_loss = Global.flip_price()
+	if Global.lives < life_loss:
+		_DIALOGUE.show_dialogue("Not... enough... life...!")
+		return
+	
+	Global.lives -= life_loss
+	
 	_PLAYER_TEXTBOXES.hide()
 	
 	# flip all the coins
@@ -193,7 +202,7 @@ func _on_accept_button_pressed():
 	
 	if Global.state != Global.State.GAME_OVER:
 		Global.state = Global.State.BEFORE_FLIP
-		_DIALOGUE.show_dialogue("Flip...?")
+		_DIALOGUE.show_dialogue("Will you flip...?")
 
 func _on_continue_button_pressed():
 	# await the voyage here
@@ -204,7 +213,7 @@ func _on_continue_button_pressed():
 	await _VOYAGE.move_boat(Global.round_count + 1)
 	_VOYAGE.hide()
 	_PLAYER_TEXTBOXES.show()
-	_DIALOGUE.show_dialogue("Flip...?")
+	_DIALOGUE.show_dialogue("Will you flip...?")
 	
 	Global.round_count += 1
 	
@@ -217,17 +226,18 @@ func _on_continue_button_pressed():
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP)
 	_SHOP.randomize_shop()
+	Global.flips_this_round = 0
 	Global.state = Global.State.SHOP
-	_DIALOGUE.show_dialogue("Buy, sell, upgrade...?")
+	_DIALOGUE.show_dialogue("Buy or upgrade...?")
 
 func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
 	if Global.fragments < price:
-		Global.show_warning("Insufficient fragments!")
+		_DIALOGUE.show_dialogue("Not... enough... souls...!")
 		return 
 	
 	if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-		Global.show_warning("Out of space for coins!")
+		_DIALOGUE.show_dialogue("Too... many... coins...")
 		return
 	
 	_SHOP.purchase_coin(coin)
@@ -256,13 +266,23 @@ func _remove_coin(coin: CoinEntity):
 
 func _on_coin_clicked(coin: CoinEntity):
 	# if we're in the shop, sell this coin
+#	if Global.state == Global.State.SHOP:
+#		# don't sell if this is the last coin
+#		if _COIN_ROW.get_child_count() == 1:
+#			_DIALOGUE.show_dialogue("Can't sell last coin!")
+#			return
+#		Global.fragments += coin.get_sell_price()
+#		_remove_coin(coin)
+#		return
+
 	if Global.state == Global.State.SHOP:
-		# don't sell if this is the last coin
-		if _COIN_ROW.get_child_count() == 1:
-			Global.show_warning("Can't sell last coin!")
-			return
-		Global.fragments += coin.get_sell_price()
-		_remove_coin(coin)
+		if Global.fragments >= coin.get_upgrade_price():
+			Global.fragments -= coin.get_upgrade_price()
+			coin.upgrade_denomination()
+			_update_coin_value()
+			_DIALOGUE.show_dialogue("More... power...")
+		else:
+			_DIALOGUE.show_dialogue("Not...enough... souls...!")
 		return
 	
 	# only use coin powers during after flip
@@ -272,13 +292,7 @@ func _on_coin_clicked(coin: CoinEntity):
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power != Global.Power.NONE:
 		if coin == Global.active_coin_power_coin:
-			Global.show_warning("Cannot use a coin's power on itself!")
-			return
-		elif Global.active_coin_power == Global.Power.ARROW_REFLIP and coin.get_power() == Global.Power.GAIN_ARROW:
-			Global.show_warning("Cannot reflip Apollo coins with Arrows!")
-			return
-		elif Global.active_coin_power == Global.Power.WISDOM and coin.get_power() == Global.Power.WISDOM:
-			Global.show_warning("Cannot use Athena's power on Athena coins!")
+			_DIALOGUE.show_dialogue("Can't use a coin's power on itself...")
 			return
 		
 		match(Global.active_coin_power):
@@ -310,18 +324,18 @@ func _on_coin_clicked(coin: CoinEntity):
 				coin.curse() if coin.is_heads() else coin.bless()
 			Global.Power.WISDOM:
 				if coin.get_life_loss() == 0:
-					Global.show_warning("This coin already has no penalty!")
+					_DIALOGUE.show_dialogue("No... need...")
 					return
 				coin.apply_athena_wisdom()
 			Global.Power.FORGE:
 				if coin.get_denomination() == Global.Denomination.TETROBOL:
-					Global.show_warning("This coin cannot be upgraded further!")
+					_DIALOGUE.show_dialogue("Can't... upgrade... further...")
 					return
 				coin.upgrade_denomination()
 				_update_coin_value()
 			Global.Power.RECHARGE:
 				if coin.get_power() == Global.Power.NONE:
-					Global.show_warning("This coin has no power to recharge!")
+					_DIALOGUE.show_dialogue("No... power... to... recharge...")
 					return
 				coin.recharge_power_uses_by(1)
 			Global.Power.EXCHANGE:
@@ -329,11 +343,11 @@ func _on_coin_clicked(coin: CoinEntity):
 				coin.activate_power_text() # update power text
 			Global.Power.BLESS:
 				if coin.is_blessed():
-					Global.show_warning("This coin is already blessed!")
+					_DIALOGUE.show_dialogue("Already... blessed...")
 					return
 				coin.bless()
 			Global.Power.DESTROY:
-				Global.fragments += coin.get_store_price() + Global.active_coin_power_coin.get_store_price()
+				Global.fragments += coin.get_store_price()
 				Global.coin_value -= coin.get_value()
 				coin.queue_free()
 			Global.Power.ARROW_REFLIP:
@@ -366,7 +380,7 @@ func _on_coin_clicked(coin: CoinEntity):
 				coin.spend_power_use()
 			Global.Power.GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-					Global.show_warning("Not enough space for coin!")
+					_DIALOGUE.show_dialogue("Too... many... coins...")
 					return
 				_gain_coin(Global.make_coin(Global.random_family(), coin.get_denomination()))
 				coin.spend_power_use()
@@ -389,7 +403,7 @@ func _input(event):
 
 func _on_reroll_shop_button_clicked():
 	if Global.reroll_price() > Global.fragments:
-		Global.show_warning("Not enough souls!")
+		_DIALOGUE.show_dialogue("Not... enough...souls...!")
 		return
 	
 	Global.fragments -= Global.reroll_price()
@@ -402,8 +416,10 @@ func _update_coin_value() -> void:
 		sum += coin.get_value()
 	Global.coin_value = sum
 
+var victory = false
 func _on_pay_toll_button_clicked():
 	if Global.coin_value >= Global.goal_coin_value:
+		victory = true
 		Global.state = Global.State.GAME_OVER
 	else:
-		Global.show_warning("Not enough coins!")
+		_DIALOGUE.show_dialogue("Not... enough... money...")

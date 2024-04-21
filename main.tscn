@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=19 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="5_txadv"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="6_qnf0i"]
 [ext_resource type="Script" path="res://ui/continue_button.gd" id="7_fn2pr"]
-[ext_resource type="Script" path="res://ui/warning_label.gd" id="7_gwofi"]
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://ui/voyage.tscn" id="7_o62wp"]
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="8_kge6t"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
@@ -37,6 +36,7 @@ centered = false
 script = ExtResource("4_nh4kq")
 
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
+z_index = 1
 offset_left = 6.0
 offset_top = 157.0
 offset_right = 314.0
@@ -96,10 +96,10 @@ text = "Pay Toll (1/20)"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 6.0
-offset_top = 71.0
-offset_right = 74.0
-offset_bottom = 90.0
+offset_left = 4.0
+offset_top = 74.0
+offset_right = 72.0
+offset_bottom = 93.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 theme_override_font_sizes/font_size = 16
@@ -109,10 +109,10 @@ script = ExtResource("10_ihbyb")
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 240.0
-offset_top = 71.0
-offset_right = 308.0
-offset_bottom = 90.0
+offset_left = 242.0
+offset_top = 74.0
+offset_right = 310.0
+offset_bottom = 93.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
 text = "5"
@@ -144,19 +144,6 @@ offset_top = 48.0
 offset_right = 192.0
 offset_bottom = 69.0
 text = "Reset"
-
-[node name="WarningLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = -78.0
-offset_top = 37.0
-offset_right = 370.0
-offset_bottom = 53.0
-text = "Can't do that!"
-horizontal_alignment = 1
-script = ExtResource("7_gwofi")
-
-[node name="Timer" type="Timer" parent="UI/WarningLabel"]
-wait_time = 2.0
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
 visible = false
@@ -250,16 +237,16 @@ layout_mode = 2
 position = Vector2(160, -99)
 
 [node name="BlueSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(273, 46)
+position = Vector2(275, 44)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(160, 210)
 
 [node name="RedSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(39, 48)
+position = Vector2(37, 46)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
-position = Vector2(50, 169)
+position = Vector2(50, 166)
 
 [connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
@@ -268,7 +255,6 @@ position = Vector2(50, 169)
 [connection signal="clicked" from="UI/PlayerTextboxs/RerollShopButton" to="." method="_on_reroll_shop_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
-[connection signal="timeout" from="UI/WarningLabel/Timer" to="UI/WarningLabel" method="_on_timer_timeout"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 
 [editable path="UI/PlayerTextboxs/FlipButton"]

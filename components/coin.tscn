@@ -374,11 +374,11 @@ animations = [{
 }]
 
 [node name="Coin" type="Control"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(36, 39)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 36.0
-offset_bottom = 36.0
+offset_bottom = 39.0
 mouse_filter = 2
 script = ExtResource("1_eg3xp")
 
@@ -438,12 +438,12 @@ clip_contents = false
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 0
 offset_left = -7.0
-offset_top = -13.0
+offset_top = -14.0
 offset_right = 43.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
-text = "[center][color=#e12f3b]5[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+text = "[center][color=#e12f3b]5[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 scroll_active = false
 autowrap_mode = 2
 

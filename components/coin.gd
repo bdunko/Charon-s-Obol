@@ -86,11 +86,16 @@ func _ready():
 	_reset()
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-const _SELL_COLOR = "#59c135"
+const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 func update_price_label() -> void:
-	var price = get_sell_price() if _owner == Owner.PLAYER else get_store_price()
-	var color = _SELL_COLOR if _owner == Owner.PLAYER else (Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR)
-	_PRICE.text = _PRICE_FORMAT % [color, price]
+	# special case - can't upgrade further, show nothing
+	if _owner == Owner.PLAYER and not _coin.can_upgrade():
+		_PRICE.text = ""
+		return
+	
+	var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
+	var color = Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR
+	_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.SHOP:
@@ -156,6 +161,12 @@ func get_store_price() -> int:
 
 func get_sell_price() -> int:
 	return _coin.get_sell_price()
+
+func get_upgrade_price() -> int:
+	return _coin.get_upgrade_price()
+
+func can_upgrade() -> bool:
+	return _coin.can_upgrade()
 
 func get_fragments() -> int:
 	return _coin.get_fragments()
@@ -223,6 +234,7 @@ func get_subtitle() -> String:
 func upgrade_denomination() -> void:
 	_coin.upgrade_denomination()
 	update_coin_text()
+	update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
 
 func apply_athena_wisdom() -> void:
@@ -249,7 +261,7 @@ func _generate_tooltip() -> String:
 	return TOOLTIP_FORMAT % [coin_name, subtitle, power_description, life_lost]
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
+	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -258,9 +270,11 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 				
 
 func _on_clickable_area_mouse_entered():
+	_mouse_over = true
 	activate_power_text()
 
 func _on_clickable_area_mouse_exited():
+	_mouse_over = false
 	if Global.power_text_source == self:
 		Global.power_text = ""
 
@@ -290,3 +304,16 @@ func set_animation(anim: _Animation) -> void:
 	assert(anim_str != "")
 	
 	_SPRITE.play("%s_%s_%s" % [_coin.get_style_string(), denom_str, anim_str])
+
+var _time_mouse_hover = 0
+var _mouse_over = false
+const _DELAY_BEFORE_TOOLTIP = 0.25
+
+func _physics_process(delta):
+	if _mouse_over:
+		_time_mouse_hover += delta
+	else:
+		_time_mouse_hover = 0
+	
+	if _time_mouse_hover >= _DELAY_BEFORE_TOOLTIP:
+		UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
