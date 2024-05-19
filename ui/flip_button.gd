@@ -13,5 +13,5 @@ func _on_state_changed() -> void:
 const _FORMAT = "[center][color=#e12f3b]%d[/color][img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] Flip[/center]"
 const _FORMAT_0 = "[center]Flip[/center]"
 func _on_flips_this_round_changed() -> void:
-	var flip_price = Global.flip_price()
-	_TEXT.text = _FORMAT_0 if flip_price == 0 else _FORMAT % flip_price
+	var strain_cost = Global.strain_cost()
+	_TEXT.text = _FORMAT_0 if strain_cost == 0 else _FORMAT % strain_cost

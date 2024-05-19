@@ -13,12 +13,13 @@ enum _BlessCurseState {
 }
 
 enum _Animation {
-	FLAT, FLIP
+	FLAT, FLIP, SWAP
 }
 
-@onready var LOCKED_ICON = $LockedIcon
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
+@onready var FROZEN_ICON = $FrozenIcon
+@onready var IGNITE_ICON = $IgniteIcon
 @onready var PRICE = $Price
 
 var _disabled := false
@@ -57,10 +58,15 @@ func update_coin_text() -> void:
 	else:
 		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_fragments(), _coin.get_heads_icon_path()]
 
-var _locked: bool:
+var _frozen: bool:
 	set(val):
-		_locked = val
-		LOCKED_ICON.visible = _locked
+		_frozen = val
+		FROZEN_ICON.visible = _frozen
+	
+var _ignite_stacks: int:
+	set(val):
+		_ignite_stacks = val
+		IGNITE_ICON.visible = _ignite_stacks != 0
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -106,7 +112,8 @@ func _on_state_changed() -> void:
 
 func _reset() -> void:
 	_bless_curse_state = _BlessCurseState.NONE
-	_locked = false
+	_frozen = false
+	_ignite_stacks = 0
 	_athena_wisdom_stacks = 0
 
 func assign_coin(coin: Global.Coin, owned_by: Owner):
@@ -114,6 +121,7 @@ func assign_coin(coin: Global.Coin, owned_by: Owner):
 	_coin = coin
 	reset_power_uses()
 	update_coin_text()
+	_heads = true
 	_owner = owned_by
 
 func mark_owned_by_player() -> void:
@@ -123,24 +131,18 @@ func is_heads() -> bool:
 	return _heads
 
 func flip() -> void:
-	if _locked: #don't flip if locked
-		# todo - animation for _locked
-		_unlock()
+	if _frozen: #don't flip if frozen
+		# todo - animation for unfreezing
+		_unfreeze()
 		emit_signal("flip_complete")
 		return
+	
+	Global.lives -= _ignite_stacks
 		
 	_disabled = true # ignore input while flipping
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
-	
-	# todo - make it move up in a parabola; add a shadow
-	set_animation(_Animation.FLIP)
-	var tween = create_tween()
-	tween.tween_property(self, "position:y", self.position.y - 50, 0.20)
-	tween.tween_property(self, "position:y", self.position.y, 0.20).set_delay(0.1)
-	await tween.finished
-	set_animation(_Animation.FLAT)
 	
 	match(_bless_curse_state):
 		_BlessCurseState.NONE:
@@ -149,6 +151,14 @@ func flip() -> void:
 			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
 		_BlessCurseState.CURSED:
 			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
+	
+	# todo - make it move up in a parabola; add a shadow
+	set_animation(_Animation.FLIP)
+	var tween = create_tween()
+	tween.tween_property(self, "position:y", self.position.y - 50, 0.20)
+	tween.tween_property(self, "position:y", self.position.y, 0.20).set_delay(0.1)
+	await tween.finished
+	set_animation(_Animation.FLAT)
 	
 	_FACE_LABEL.show()
 	
@@ -196,10 +206,6 @@ func spend_power_use() -> void:
 	assert(_power_uses_remaining > 0)
 	_power_uses_remaining -= 1
 
-func spend_all_power_uses() -> void:
-	assert(_power_uses_remaining > 0)
-	_power_uses_remaining = 0
-
 func reset_power_uses() -> void:
 	_power_uses_remaining = _coin.get_max_power_uses()
 
@@ -207,14 +213,27 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
 	_power_uses_remaining += recharge_amount
 
-func change_face() -> void:
+func swap_side() -> void:
 	_heads = not _heads
+	_FACE_LABEL.hide()
+	set_animation(_Animation.FLIP)
+	await _SPRITE.animation_looped
+	set_animation(_Animation.FLAT)
+	_FACE_LABEL.show()
 
-func lock() -> void:
-	_locked = true
+func freeze() -> void:
+	_frozen = true
+	_unignite()
 
-func _unlock() -> void:
-	_locked = false
+func _unfreeze() -> void:
+	_frozen = false
+
+func ignite() -> void:
+	_ignite_stacks += 1
+	_unfreeze()
+
+func _unignite() -> void:
+	_ignite_stacks = 0
 
 func bless() -> void:
 	_bless_curse_state = _BlessCurseState.BLESSED
@@ -259,6 +278,12 @@ func _generate_tooltip() -> String:
 	var life_lost = _coin.get_life_loss()
 	
 	return TOOLTIP_FORMAT % [coin_name, subtitle, power_description, life_lost]
+
+func on_round_end() -> void:
+	# reset wisdom stacks
+	_athena_wisdom_stacks = 0
+	# force to heads
+	_heads = true
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)

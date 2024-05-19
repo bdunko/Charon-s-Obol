@@ -13,20 +13,11 @@ signal fragments_count_changed
 signal life_count_changed
 signal arrow_count_changed
 signal active_coin_power_changed
-signal shop_reroll_count_changed
 signal coin_value_changed
 signal flips_this_round_changed
 
-var shop_reroll_count: int:
-	set(val):
-		shop_reroll_count = val
-		emit_signal("shop_reroll_count_changed")
-
-func reroll_price() -> int:
-	return (0 if shop_reroll_count == 0 else 2^shop_reroll_count)
-
-func flip_price() -> int:
-	return floor(flips_this_round/2.0)
+func strain_cost() -> int:
+	return floor(flips_this_round)
 
 var power_text_source: Node
 var power_text: String:
@@ -118,7 +109,9 @@ enum Denomination {
 
 enum Power {
 	NONE,
-	REFLIP, LOCK, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, CHANGE_AND_BLURSE, REFLIP_ALL, WISDOM, FORGE, RECHARGE, EXCHANGE, BLESS, GAIN_COIN, DESTROY,
+	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
+	CHANGE_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
+	EXCHANGE, BLESS, GAIN_COIN, DESTROY_FOR_LIFE,
 	ARROW_REFLIP
 }
 
@@ -214,7 +207,11 @@ class Coin:
 		return _coin_family.power
 	
 	func get_power_string() -> String:
-		return _coin_family.power_string.replace("(SOULS)", str(get_fragments())).replace("(POWER_USES)", str(get_max_power_uses()))
+		var power_string = _coin_family.power_string
+		power_string = power_string.replace("(SOULS)", str(get_fragments()))
+		power_string = power_string.replace("(POWER_USES)", str(get_max_power_uses()))
+		power_string = power_string.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
+		return power_string
 	
 	func get_max_power_uses() -> int:
 		return _coin_family.power_uses_for_denom[_denomination]
@@ -287,20 +284,20 @@ var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
 var _HADES_ICON = "res://assets/icons/hades_icon.png"
 
 var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], [2, 4, 7, 10], [1, 2, 3, 4], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.\n((POWER_USES))", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Chains[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.LOCK, "Lock a coin, prevent its next flip.\n((POWER_USES))", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Shake the Earth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip a coin and its neighbors.\n((POWER_USES))", [2, 3, 4, 5], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Rage[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Flip and coin and its neighbors.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FREEZE, "Freeze another coin, preventing its next flip", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "+(POWER_USES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], _DEMETER_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Arrows of Light[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "+(POWER_USES) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Moonlit Ritual[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Swap tails to heads and Bless; or heads to tails and Curse.\n((POWER_USES))", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip ALL other coins.\n((POWER_USES))", [3, 4, 5, 6], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce a coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty.\n((POWER_USES))", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.FORGE, "Upgrade a coin's value.\n((POWER_USES))", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge a coin's power.\n((POWER_USES))", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.\n((POWER_USES))", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless a coin, making it more likely to land on heads\n((POWER_USES))", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton [color=palevioletred]Revelry[/color][/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random coin.\n((POWER_USES))", [1, 1, 1, 1], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY, "Destroy a coin and +[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] equal to its shop price.\n((POWER_USES))", [1, 2, 3, 4], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Moonlit Ritual[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Swap a coin to its other side. Then if it's heads, curse it, otherwise bless it.", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip ALL other coins.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce another coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.UPGRADE_AND_IGNITE, "Upgrade another coin's and ignite it. (You lose 1 [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] when an ignited coin flips.)", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless a coin, making it more likely to land on heads", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color][/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY_FOR_LIFE, "Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

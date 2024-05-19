@@ -384,7 +384,7 @@ script = ExtResource("1_eg3xp")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"god_tetrobol_flat"
+animation = &"god_diobol_flip"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -414,12 +414,6 @@ position = Vector2(-16, -16)
 position = Vector2(11, 12)
 polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
 
-[node name="LockedIcon" type="Polygon2D" parent="."]
-visible = false
-position = Vector2(-14, 0)
-color = Color(0.239216, 1, 0.560784, 1)
-polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
-
 [node name="CursedIcon" type="Polygon2D" parent="."]
 visible = false
 position = Vector2(-8, 0)
@@ -430,6 +424,18 @@ polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 visible = false
 position = Vector2(-8, 0)
 color = Color(1, 1, 0.211765, 1)
+polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+
+[node name="FrozenIcon" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(-14, 0)
+color = Color(0.470588, 0.741176, 0.968627, 1)
+polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+
+[node name="IgniteIcon" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(-14, 0)
+color = Color(1, 0.235294, 0.211765, 1)
 polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
 
 [node name="Price" type="RichTextLabel" parent="."]
