@@ -2,7 +2,9 @@ class_name Voyage
 extends Node2D
 
 @onready var _SHIP = $Ship
-@onready var _BOAT_POSITION_FOR_ROUND = [-100, _SHIP.position.x, _SHIP.position.x + 33, _SHIP.position.x + 66, _SHIP.position.x + 99, _SHIP.position.x + 132, _SHIP.position.x + 148]
+@onready var _BOAT_POSITION_FOR_ROUND = [-100, _SHIP.position.x, _SHIP.position.x + 13, _SHIP.position.x + 24, _SHIP.position.x + 37, 
+_SHIP.position.x + 48, _SHIP.position.x + 58, _SHIP.position.x + 70, _SHIP.position.x + 83, _SHIP.position.x + 94, _SHIP.position.x + 104,
+_SHIP.position.x + 116, _SHIP.position.x + 129, _SHIP.position.x + 140, _SHIP.position.x + 149]
 
 func _ready() -> void:
 	assert(_BOAT_POSITION_FOR_ROUND.size()-2 == Global.NUM_ROUNDS)

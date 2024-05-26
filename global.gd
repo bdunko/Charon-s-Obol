@@ -43,7 +43,7 @@ var state := State.BEFORE_FLIP:
 		state = val
 		emit_signal("state_changed")
 
-const NUM_ROUNDS = 5
+const NUM_ROUNDS = 13
 var round_count:
 	set(val):
 		round_count = val
@@ -51,7 +51,7 @@ var round_count:
 		if round_count > NUM_ROUNDS:
 			state = State.GAME_OVER
 
-const LIVES_PER_ROUND = [-1, 8, 10, 13, 18, 25]
+const LIVES_PER_ROUND = [-1, 0, 5, 5, 10, 0, 10, 10, 20, 0, 15, 15, 30, 0]
 var lives:
 	set(val):
 		lives = val
@@ -65,7 +65,7 @@ var flips_this_round: int:
 		emit_signal("flips_this_round_changed")
 
 
-var goal_coin_value = 20
+var goal_coin_value = 25
 var coin_value:
 	set(val):
 		coin_value = val
@@ -91,12 +91,6 @@ func choose_one(arr: Array):
 # await on this function call
 func delay(delay_in_secs: float):
 	await get_tree().create_timer(delay_in_secs).timeout
-
-
-
-
-
-
 
 # todo - refactor this into a separate file probably; CoinInfo
 

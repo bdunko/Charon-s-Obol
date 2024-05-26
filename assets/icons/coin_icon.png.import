@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cakb6nh0jw5u8"
-path="res://.godot/imported/hera_icon.png-fd2062b5e4d25c1300d09e8073288245.ctex"
+uid="uid://ddpibmdtoxqja"
+path="res://.godot/imported/coin_icon.png-90619138c232652be840ca399b8761b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/hera_icon.png"
-dest_files=["res://.godot/imported/hera_icon.png-fd2062b5e4d25c1300d09e8073288245.ctex"]
+source_file="res://assets/icons/coin_icon.png"
+dest_files=["res://.godot/imported/coin_icon.png-90619138c232652be840ca399b8761b5.ctex"]
 
 [params]
 

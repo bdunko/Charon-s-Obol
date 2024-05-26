@@ -100,9 +100,9 @@ script = ExtResource("10_ihbyb")
 
 [node name="FragmentsLabel" type="Label" parent="UI"]
 texture_filter = 1
-offset_left = 242.0
+offset_left = 247.0
 offset_top = 74.0
-offset_right = 310.0
+offset_right = 315.0
 offset_bottom = 93.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_5ty3u")
@@ -137,8 +137,7 @@ offset_bottom = 69.0
 text = "Reset"
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
-visible = false
-position = Vector2(64, 34)
+position = Vector2(67, 34)
 
 [node name="Table" type="Node2D" parent="."]
 
@@ -185,6 +184,7 @@ layout_mode = 2
 size_flags_vertical = 8
 
 [node name="Shop" type="HBoxContainer" parent="Table"]
+visible = false
 offset_left = 77.0
 offset_top = 40.0
 offset_right = 243.0
@@ -228,7 +228,7 @@ layout_mode = 2
 position = Vector2(160, -99)
 
 [node name="BlueSoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(275, 44)
+position = Vector2(280, 44)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(160, 210)

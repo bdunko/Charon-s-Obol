@@ -34,12 +34,12 @@ texture = ExtResource("2_s3lai")
 centered = false
 
 [node name="Ship" type="Sprite2D" parent="."]
-position = Vector2(15, 15)
+position = Vector2(10, 20)
 texture = ExtResource("2_mka22")
 centered = false
 
 [node name="River" type="Sprite2D" parent="."]
-position = Vector2(21, 22)
+position = Vector2(7, 26)
 texture = ExtResource("1_pmhan")
 centered = false
 
@@ -47,3 +47,48 @@ centered = false
 libraries = {
 "": SubResource("AnimationLibrary_g6o5y")
 }
+
+[node name="Price" type="RichTextLabel" parent="."]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(0, 10)
+offset_left = 46.0
+offset_top = 44.0
+offset_right = 96.0
+offset_bottom = 58.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#e12f3b]-5[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
+scroll_active = false
+autowrap_mode = 2
+
+[node name="Price2" type="RichTextLabel" parent="."]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(0, 10)
+offset_left = 92.0
+offset_top = 44.0
+offset_right = 142.0
+offset_bottom = 58.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#e12f3b]-10[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
+scroll_active = false
+autowrap_mode = 2
+
+[node name="Price3" type="RichTextLabel" parent="."]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(0, 10)
+offset_left = 139.0
+offset_top = 44.0
+offset_right = 189.0
+offset_bottom = 58.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#e12f3b]-25[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
+scroll_active = false
+autowrap_mode = 2
