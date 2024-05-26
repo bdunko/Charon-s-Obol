@@ -141,8 +141,6 @@ func _on_reset_button_pressed() -> void:
 	_gain_coin(Global.make_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL))
 	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL))
 	
-	
-	
 	_RESET_BUTTON.hide()
 	
 	Global.state = Global.State.BEFORE_FLIP
@@ -175,7 +173,7 @@ func _on_flip_complete() -> void:
 		_DIALOGUE.show_dialogue("Payoff...")
 		_PLAYER_TEXTBOXES.show()
 
-func _on_flip_button_pressed() -> void:
+func _on_toss_button_clicked() -> void:
 	# take life from player
 	var life_loss = Global.strain_cost()
 	if Global.lives < life_loss:
@@ -209,14 +207,26 @@ func _on_accept_button_pressed():
 		_DIALOGUE.show_dialogue("Will you flip...?")
 
 func _on_continue_button_pressed():
-	# await the voyage here
-	Global.state = Global.State.BEFORE_FLIP #hides the shop
+	assert(Global.state == Global.State.SHOP)
+	Global.state = Global.State.VOYAGE #hides the shop
 	_DIALOGUE.clear_dialogue()
 	_PLAYER_TEXTBOXES.hide()
 	_VOYAGE.show()
 	await _VOYAGE.move_boat(Global.round_count + 1)
-	_VOYAGE.hide()
 	_PLAYER_TEXTBOXES.show()
+
+func _on_end_round_button_pressed():
+	assert(Global.state == Global.State.BEFORE_FLIP)
+	for coin in _COIN_ROW.get_children():
+		coin.on_round_end()
+	_SHOP.randomize_shop()
+	Global.flips_this_round = 0
+	Global.state = Global.State.SHOP
+	_DIALOGUE.show_dialogue("Buy or upgrade...?")
+
+func _on_voyage_continue_button_clicked():
+	_VOYAGE.hide()
+	Global.state = Global.State.BEFORE_FLIP #hides the shop
 	_DIALOGUE.show_dialogue("Will you flip...?")
 	
 	Global.round_count += 1
@@ -227,14 +237,13 @@ func _on_continue_button_pressed():
 	# refresh lives
 	Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
 
-func _on_end_round_button_pressed():
-	assert(Global.state == Global.State.BEFORE_FLIP)
-	for coin in _COIN_ROW.get_children():
-		coin.on_round_end()
-	_SHOP.randomize_shop()
-	Global.flips_this_round = 0
-	Global.state = Global.State.SHOP
-	_DIALOGUE.show_dialogue("Buy or upgrade...?")
+var victory = false
+func _on_pay_toll_button_clicked():
+	if Global.coin_value >= Global.goal_coin_value:
+		victory = true
+		Global.state = Global.State.GAME_OVER
+	else:
+		_DIALOGUE.show_dialogue("Not... enough... money...")
 
 func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
@@ -413,7 +422,7 @@ func _on_coin_clicked(coin: CoinEntity):
 			_: # otherwise, make this the active coin and coin power and await click on target
 				Global.active_coin_power_coin = coin
 				Global.active_coin_power = coin.get_power()
-		
+
 func _on_arrow_pressed():
 	Global.active_coin_power = Global.Power.ARROW_REFLIP
 
@@ -433,10 +442,3 @@ func _update_coin_value() -> void:
 		sum += coin.get_value()
 	Global.coin_value = sum
 
-var victory = false
-func _on_pay_toll_button_clicked():
-	if Global.coin_value >= Global.goal_coin_value:
-		victory = true
-		Global.state = Global.State.GAME_OVER
-	else:
-		_DIALOGUE.show_dialogue("Not... enough... money...")

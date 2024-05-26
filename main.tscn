@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=19 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -8,12 +8,13 @@
 [ext_resource type="Script" path="res://dialogue_manager.gd" id="4_nh4kq"]
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="5_txadv"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="6_qnf0i"]
-[ext_resource type="Script" path="res://ui/continue_button.gd" id="7_fn2pr"]
 [ext_resource type="PackedScene" uid="uid://bjl18p6kktksk" path="res://ui/voyage.tscn" id="7_o62wp"]
+[ext_resource type="Script" path="res://ui/shop_continue_button.gd" id="8_5xkxl"]
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="8_kge6t"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
 [ext_resource type="Script" path="res://ui/lives_label.gd" id="10_ihbyb"]
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="11_3fcsv"]
+[ext_resource type="Script" path="res://ui/voyage_continue_button.gd" id="11_pfkss"]
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="12_rlbb2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="15_vfx1c"]
@@ -42,17 +43,17 @@ offset_right = 314.0
 offset_bottom = 173.0
 alignment = 1
 
-[node name="FlipButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+[node name="TossButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("5_txadv")
 
-[node name="TextMargin" parent="UI/PlayerTextboxs/FlipButton" index="1"]
+[node name="TextMargin" parent="UI/PlayerTextboxs/TossButton" index="1"]
 size_flags_horizontal = 1
 
-[node name="Text" parent="UI/PlayerTextboxs/FlipButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxs/TossButton/TextMargin" index="0"]
 size_flags_horizontal = 1
-text = "[center]Flip[/center]"
+text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
@@ -62,12 +63,12 @@ script = ExtResource("6_qnf0i")
 [node name="Text" parent="UI/PlayerTextboxs/AcceptButton/TextMargin" index="0"]
 text = "Accept"
 
-[node name="ContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+[node name="ShopContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
 visible = false
 layout_mode = 2
-script = ExtResource("7_fn2pr")
+script = ExtResource("8_5xkxl")
 
-[node name="Text" parent="UI/PlayerTextboxs/ContinueButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxs/ShopContinueButton/TextMargin" index="0"]
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
@@ -84,6 +85,13 @@ script = ExtResource("12_rlbb2")
 
 [node name="Text" parent="UI/PlayerTextboxs/PayTollButton/TextMargin" index="0"]
 text = "Pay Toll (1/20)"
+
+[node name="VoyageContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+layout_mode = 2
+script = ExtResource("11_pfkss")
+
+[node name="Text" parent="UI/PlayerTextboxs/VoyageContinueButton/TextMargin" index="0"]
+text = "Continue"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -137,7 +145,7 @@ offset_bottom = 69.0
 text = "Reset"
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
-position = Vector2(67, 34)
+position = Vector2(67, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
@@ -239,16 +247,18 @@ position = Vector2(37, 46)
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(50, 166)
 
-[connection signal="clicked" from="UI/PlayerTextboxs/FlipButton" to="." method="_on_flip_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
-[connection signal="clicked" from="UI/PlayerTextboxs/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxs/ShopContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 
-[editable path="UI/PlayerTextboxs/FlipButton"]
+[editable path="UI/PlayerTextboxs/TossButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]
-[editable path="UI/PlayerTextboxs/ContinueButton"]
+[editable path="UI/PlayerTextboxs/ShopContinueButton"]
 [editable path="UI/PlayerTextboxs/EndRoundButton"]
 [editable path="UI/PlayerTextboxs/PayTollButton"]
+[editable path="UI/PlayerTextboxs/VoyageContinueButton"]

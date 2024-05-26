@@ -4,7 +4,7 @@ const UNAFFORDABLE_COLOR = "#e12f3b"
 const AFFORDABLE_COLOR = "#ffffff"
 
 enum State {
-	BEFORE_FLIP, AFTER_FLIP, SHOP, GAME_OVER
+	BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER
 }
 
 signal state_changed
