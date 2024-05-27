@@ -4,7 +4,7 @@ const UNAFFORDABLE_COLOR = "#e12f3b"
 const AFFORDABLE_COLOR = "#ffffff"
 
 enum State {
-	BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER
+	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER
 }
 
 signal state_changed
@@ -13,7 +13,7 @@ signal fragments_count_changed
 signal life_count_changed
 signal arrow_count_changed
 signal active_coin_power_changed
-signal coin_value_changed
+signal toll_coins_changed
 signal flips_this_round_changed
 
 func strain_cost() -> int:
@@ -43,7 +43,7 @@ var state := State.BEFORE_FLIP:
 		state = val
 		emit_signal("state_changed")
 
-const NUM_ROUNDS = 13
+const NUM_ROUNDS = 14
 var round_count:
 	set(val):
 		round_count = val
@@ -51,7 +51,7 @@ var round_count:
 		if round_count > NUM_ROUNDS:
 			state = State.GAME_OVER
 
-const LIVES_PER_ROUND = [-1, 0, 5, 5, 10, 0, 10, 10, 20, 0, 15, 15, 30, 0]
+const LIVES_PER_ROUND = [-1, 0, 5, 5, 5, 10, 0, 10, 10, 20, 0, 15, 15, 30, 0]
 var lives:
 	set(val):
 		lives = val
@@ -64,13 +64,23 @@ var flips_this_round: int:
 		flips_this_round = val
 		emit_signal("flips_this_round_changed")
 
+const TOLLGATE_ROUNDS = [6, 10, 14]
+const TOLLGATE_PRICES = [5, 10, 25]
+var toll_index = 0
+var toll_coins_offered := []
+func add_toll_coin(coin) -> void:
+	toll_coins_offered.append(coin)
+	emit_signal("toll_coins_changed")
 
-var goal_coin_value = 25
-var coin_value:
-	set(val):
-		coin_value = val
-		emit_signal("coin_value_changed")
-
+func remove_toll_coin(coin) -> void:
+	toll_coins_offered.erase(coin)
+	emit_signal("toll_coins_changed")
+		
+func calculate_toll_coin_value() -> int:
+	var sum = 0
+	for coin in toll_coins_offered:
+		sum += coin.get_value()
+	return sum
 
 var active_coin_power_coin: CoinEntity = null
 var active_coin_power:
@@ -290,7 +300,7 @@ var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged i
 var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.BLESS, "Bless a coin, making it more likely to land on heads", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color][/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY_FOR_LIFE, "Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,

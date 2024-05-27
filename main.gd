@@ -48,6 +48,7 @@ func _ready() -> void:
 	Global.life_count_changed.connect(_on_life_count_changed)
 	Global.fragments_count_changed.connect(_on_fragment_count_changed)
 	Global.arrow_count_changed.connect(_on_arrow_count_changed)
+	Global.toll_coins_changed.connect(_show_toll_dialogue)
 	
 	_on_reset_button_pressed()
 
@@ -128,31 +129,30 @@ func _on_reset_button_pressed() -> void:
 	Global.arrows = 0
 	Global.active_coin_power = Global.Power.NONE
 	Global.flips_this_round = 0
-	
-	# make a single starting coin
-	_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL))
+	Global.toll_coins_offered = []
+	Global.toll_index = 0
 	
 	#debug
 	Global.fragments = 100
 	Global.lives = 100
-	_gain_coin(Global.make_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL))
-	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL))
+#	_gain_coin(Global.make_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL))
+#	_gain_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL))
+#	_gain_coin(Global.make_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL))
+#	_gain_coin(Global.make_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL))
+#	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL))
 	
 	_RESET_BUTTON.hide()
 	
-	Global.state = Global.State.BEFORE_FLIP
+	Global.state = Global.State.BOARDING
 	
-	_PLAYER_TEXTBOXES.hide()
-	await _DIALOGUE.show_dialogue_and_wait("I am the ferryman Charon, shephard of the dead!")
-	await _DIALOGUE.show_dialogue_and_wait("Fool from Eleusis, you wish to cross the river?")
-	await _DIALOGUE.show_dialogue_and_wait("We shall play a game, on the way across.")
-	await _DIALOGUE.show_dialogue_and_wait("Earn 20 obols by the crossing's end...")
-	await _DIALOGUE.show_dialogue_and_wait("Or you shall stay here with me, forevermore!")
-	_PLAYER_TEXTBOXES.show()
-	_DIALOGUE.show_dialogue("Will you flip...?")
+	await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead.")
+	await _wait_for_dialogue("Fool from Eleusis, you wish to cross?")
+	await _wait_for_dialogue("I cannot take the living across the river Styx...")
+	await _wait_for_dialogue("But this could yet prove entertaining...")
+	await _wait_for_dialogue("We shall play a game, on the way across.")
+	await _wait_for_dialogue("At each tollgate, you must pay the price.")
+	await _wait_for_dialogue("Or your soul shall stay here with me, forevermore!")
+	_DIALOGUE.show_dialogue("Brave hero, will you board?")
 
 var flips_completed = 0
 func _on_flip_complete() -> void:
@@ -174,6 +174,10 @@ func _on_flip_complete() -> void:
 		_PLAYER_TEXTBOXES.show()
 
 func _on_toss_button_clicked() -> void:
+	if _COIN_ROW.get_child_count() == 0:
+		_DIALOGUE.show_dialogue("No... coins...")
+		return
+	
 	# take life from player
 	var life_loss = Global.strain_cost()
 	if Global.lives < life_loss:
@@ -206,14 +210,27 @@ func _on_accept_button_pressed():
 		Global.state = Global.State.BEFORE_FLIP
 		_DIALOGUE.show_dialogue("Will you flip...?")
 
+func _wait_for_dialogue(dialogue: String) -> void:
+	_PLAYER_TEXTBOXES.hide()
+	await _DIALOGUE.show_dialogue_and_wait(dialogue)
+	_PLAYER_TEXTBOXES.show()
+
+func _advance_round() -> void:
+	Global.state = Global.State.VOYAGE
+	_VOYAGE.show()
+	_DIALOGUE.show_dialogue("Let us sail...")
+	_PLAYER_TEXTBOXES.hide()
+	await _VOYAGE.move_boat(Global.round_count)
+	Global.round_count += 1
+	_PLAYER_TEXTBOXES.show()
+
+func _on_board_button_clicked():
+	assert(Global.state == Global.State.BOARDING)
+	_advance_round()
+
 func _on_continue_button_pressed():
 	assert(Global.state == Global.State.SHOP)
-	Global.state = Global.State.VOYAGE #hides the shop
-	_DIALOGUE.clear_dialogue()
-	_PLAYER_TEXTBOXES.hide()
-	_VOYAGE.show()
-	await _VOYAGE.move_boat(Global.round_count + 1)
-	_PLAYER_TEXTBOXES.show()
+	_advance_round()
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP)
@@ -222,33 +239,79 @@ func _on_end_round_button_pressed():
 	_SHOP.randomize_shop()
 	Global.flips_this_round = 0
 	Global.state = Global.State.SHOP
-	_DIALOGUE.show_dialogue("Buy or upgrade...?")
+	_DIALOGUE.show_dialogue("Buying or upgrading...?")
+
+func _toll_price_remaining() -> int:
+	return max(0, Global.TOLLGATE_PRICES[Global.toll_index] - Global.calculate_toll_coin_value())
+
+func _show_toll_dialogue() -> void:
+	var toll_price_remaining = _toll_price_remaining()
+	if toll_price_remaining == 0:
+		_DIALOGUE.show_dialogue("Good...")
+	else:
+		_DIALOGUE.show_dialogue("%d[img=12x13]res://assets/icons/coin_icon.png[/img] more..." % toll_price_remaining)
 
 func _on_voyage_continue_button_clicked():
 	_VOYAGE.hide()
-	Global.state = Global.State.BEFORE_FLIP #hides the shop
-	_DIALOGUE.show_dialogue("Will you flip...?")
+	var first_round = Global.round_count == 2
 	
-	Global.round_count += 1
+	# if this is the first round, give an obol and explain the rules a bit
+	if first_round:
+		await _wait_for_dialogue("Now place your payment on the table...")
+		_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)) # make a single starting coin
 	
 	if Global.round_count > Global.NUM_ROUNDS: # if the game ended, just exit
 		return
+	
+	if Global.TOLLGATE_ROUNDS.has(Global.round_count):
+		Global.state = Global.State.TOLLGATE
+		if Global.toll_index == 0:
+			await _wait_for_dialogue("First tollgate...")
+			await _wait_for_dialogue("You must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]..." % Global.TOLLGATE_PRICES[Global.toll_index])
+		_show_toll_dialogue()
+	else:
+		#if first_round:
+		await _wait_for_dialogue("...take a deep breath...")
 		
-	# refresh lives
-	Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
+		# refresh lives
+		Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
+		
+		if first_round:
+			await _wait_for_dialogue("...and let's begin this game...")
+			await _wait_for_dialogue("...of life and death!")
+		
+		Global.state = Global.State.BEFORE_FLIP #hides the shop
+		_DIALOGUE.show_dialogue("Will you toss...?")
 
 var victory = false
 func _on_pay_toll_button_clicked():
-	if Global.coin_value >= Global.goal_coin_value:
-		victory = true
-		Global.state = Global.State.GAME_OVER
+	if _toll_price_remaining() == 0:
+		# delete each of the coins used to pay the toll
+		for coin in Global.toll_coins_offered:
+			_COIN_ROW.remove_child(coin)
+			coin.queue_free()
+		Global.toll_coins_offered.clear()
+		
+		# advance the toll
+		Global.toll_index += 1
+		
+		# now move the boat forward...
+		_advance_round()
+		
+		# if we're reached the end, end the game
+		if Global.toll_index == Global.TOLLGATE_ROUNDS.size():
+			Global.state = Global.State.GAME_OVER
+			victory = true
 	else:
-		_DIALOGUE.show_dialogue("Not... enough... money...")
+		_DIALOGUE.show_dialogue("Not... enough...")
+
+func _on_die_button_clicked() -> void:
+	Global.state = Global.State.GAME_OVER
 
 func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
 	if Global.fragments < price:
-		_DIALOGUE.show_dialogue("Not... enough... souls...!")
+		_DIALOGUE.show_dialogue("Not... enough... souls...")
 		return 
 	
 	if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
@@ -265,19 +328,16 @@ func _gain_coin(coin: Global.Coin) -> void:
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.assign_coin(coin, CoinEntity.Owner.PLAYER)
-	_update_coin_value()
 
 func _gain_coin_entity(coin: CoinEntity):
 	_COIN_ROW.add_child(coin)
 	coin.mark_owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
-	_update_coin_value()
 
 func _remove_coin(coin: CoinEntity):
 	_COIN_ROW.remove_child(coin)
 	coin.queue_free()
-	_update_coin_value()
 
 func _on_coin_clicked(coin: CoinEntity):
 	# if we're in the shop, sell this coin
@@ -290,11 +350,22 @@ func _on_coin_clicked(coin: CoinEntity):
 #		_remove_coin(coin)
 #		return
 
+	if Global.state == Global.State.TOLLGATE:
+		# if this coin is in the toll offering, remove it
+		if Global.toll_coins_offered.has(coin):
+			Global.remove_toll_coin(coin)
+			# move the coin back down
+			create_tween().tween_property(coin, "position:y", 0, 0.2).set_trans(Tween.TRANS_CUBIC)
+		else: # otherwise add it
+			Global.add_toll_coin(coin)
+			# move the coin up a bit
+			create_tween().tween_property(coin, "position:y", -20, 0.2).set_trans(Tween.TRANS_CUBIC)
+		return
+
 	if Global.state == Global.State.SHOP:
 		if Global.fragments >= coin.get_upgrade_price():
 			Global.fragments -= coin.get_upgrade_price()
 			coin.upgrade_denomination()
-			_update_coin_value()
 			_DIALOGUE.show_dialogue("More... power...")
 		else:
 			_DIALOGUE.show_dialogue("Not...enough... souls...!")
@@ -353,7 +424,6 @@ func _on_coin_clicked(coin: CoinEntity):
 					return
 				coin.upgrade_denomination()
 				coin.ignite()
-				_update_coin_value()
 			Global.Power.RECHARGE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
@@ -376,7 +446,6 @@ func _on_coin_clicked(coin: CoinEntity):
 					return
 				# gain life equal to (2 * hades_value) * destroyed_value
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
-				Global.coin_value -= coin.get_value()
 				coin.queue_free()
 			Global.Power.ARROW_REFLIP:
 				coin.flip()
@@ -435,10 +504,4 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power = Global.Power.NONE
 			Global.active_coin_power_coin = null
-
-func _update_coin_value() -> void:
-	var sum = 0
-	for coin in _COIN_ROW.get_children():
-		sum += coin.get_value()
-	Global.coin_value = sum
 

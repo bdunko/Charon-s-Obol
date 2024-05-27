@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -13,8 +13,10 @@
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="8_kge6t"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="10_5ty3u"]
 [ext_resource type="Script" path="res://ui/lives_label.gd" id="10_ihbyb"]
+[ext_resource type="Script" path="res://ui/die_button.gd" id="10_urpx8"]
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="11_3fcsv"]
 [ext_resource type="Script" path="res://ui/voyage_continue_button.gd" id="11_pfkss"]
+[ext_resource type="Script" path="res://ui/board_button.gd" id="12_dq7f4"]
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="12_rlbb2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="15_vfx1c"]
@@ -44,6 +46,7 @@ offset_bottom = 173.0
 alignment = 1
 
 [node name="TossButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+visible = false
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("5_txadv")
@@ -72,26 +75,42 @@ script = ExtResource("8_5xkxl")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+visible = false
 layout_mode = 2
 script = ExtResource("8_kge6t")
 
 [node name="Text" parent="UI/PlayerTextboxs/EndRoundButton/TextMargin" index="0"]
 text = "End Round"
 
+[node name="DieButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+layout_mode = 2
+script = ExtResource("10_urpx8")
+
+[node name="Text" parent="UI/PlayerTextboxs/DieButton/TextMargin" index="0"]
+text = "Die, Forgotten"
+
 [node name="PayTollButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
-visible = false
 layout_mode = 2
 script = ExtResource("12_rlbb2")
 
 [node name="Text" parent="UI/PlayerTextboxs/PayTollButton/TextMargin" index="0"]
-text = "Pay Toll (1/20)"
+text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]"
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+visible = false
 layout_mode = 2
 script = ExtResource("11_pfkss")
 
 [node name="Text" parent="UI/PlayerTextboxs/VoyageContinueButton/TextMargin" index="0"]
 text = "Continue"
+
+[node name="BoardButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]
+visible = false
+layout_mode = 2
+script = ExtResource("12_dq7f4")
+
+[node name="Text" parent="UI/PlayerTextboxs/BoardButton/TextMargin" index="0"]
+text = "Board"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 texture_filter = 1
@@ -118,20 +137,16 @@ text = "5"
 horizontal_alignment = 1
 script = ExtResource("11_3fcsv")
 
-[node name="ActivePowerLabel" type="Label" parent="UI"]
+[node name="ActivePowerLabel" type="RichTextLabel" parent="UI"]
 visible = false
 texture_filter = 1
-offset_left = 86.0
-offset_top = 31.0
-offset_right = 238.0
-offset_bottom = 76.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/line_spacing = 0
-theme_override_fonts/font = ExtResource("10_5ty3u")
-theme_override_font_sizes/font_size = 16
-text = "Destroy"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_left = 76.0
+offset_top = 41.0
+offset_right = 248.0
+offset_bottom = 91.0
+theme_override_fonts/normal_font = ExtResource("10_5ty3u")
+bbcode_enabled = true
+text = "[center]Power[/center]"
 autowrap_mode = 2
 script = ExtResource("15_vfx1c")
 
@@ -145,7 +160,7 @@ offset_bottom = 69.0
 text = "Reset"
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
-position = Vector2(67, 26)
+position = Vector2(65, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
@@ -251,8 +266,10 @@ position = Vector2(50, 166)
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/ShopContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxs/DieButton" to="." method="_on_die_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 
@@ -260,5 +277,7 @@ position = Vector2(50, 166)
 [editable path="UI/PlayerTextboxs/AcceptButton"]
 [editable path="UI/PlayerTextboxs/ShopContinueButton"]
 [editable path="UI/PlayerTextboxs/EndRoundButton"]
+[editable path="UI/PlayerTextboxs/DieButton"]
 [editable path="UI/PlayerTextboxs/PayTollButton"]
 [editable path="UI/PlayerTextboxs/VoyageContinueButton"]
+[editable path="UI/PlayerTextboxs/BoardButton"]

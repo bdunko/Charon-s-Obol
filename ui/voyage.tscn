@@ -34,12 +34,12 @@ texture = ExtResource("2_s3lai")
 centered = false
 
 [node name="Ship" type="Sprite2D" parent="."]
-position = Vector2(10, 20)
+position = Vector2(8, 20)
 texture = ExtResource("2_mka22")
 centered = false
 
 [node name="River" type="Sprite2D" parent="."]
-position = Vector2(7, 26)
+position = Vector2(5, 26)
 texture = ExtResource("1_pmhan")
 centered = false
 
@@ -52,9 +52,9 @@ libraries = {
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 46.0
+offset_left = 56.0
 offset_top = 44.0
-offset_right = 96.0
+offset_right = 106.0
 offset_bottom = 58.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
@@ -67,9 +67,9 @@ autowrap_mode = 2
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 92.0
+offset_left = 104.0
 offset_top = 44.0
-offset_right = 142.0
+offset_right = 154.0
 offset_bottom = 58.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
@@ -82,9 +82,9 @@ autowrap_mode = 2
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 139.0
+offset_left = 151.0
 offset_top = 44.0
-offset_right = 189.0
+offset_right = 201.0
 offset_bottom = 58.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
@@ -92,3 +92,50 @@ bbcode_enabled = true
 text = "[center][color=#e12f3b]-25[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
 scroll_active = false
 autowrap_mode = 2
+
+[node name="ShipPositions" type="Node" parent="."]
+
+[node name="Dock" type="Node2D" parent="ShipPositions"]
+position = Vector2(8, 20)
+
+[node name="Round1" type="Node2D" parent="ShipPositions"]
+position = Vector2(22, 20)
+
+[node name="Round2" type="Node2D" parent="ShipPositions"]
+position = Vector2(34, 20)
+
+[node name="Round3" type="Node2D" parent="ShipPositions"]
+position = Vector2(46, 20)
+
+[node name="TrialRound4" type="Node2D" parent="ShipPositions"]
+position = Vector2(59, 20)
+
+[node name="Gate1" type="Node2D" parent="ShipPositions"]
+position = Vector2(70, 20)
+
+[node name="Round5" type="Node2D" parent="ShipPositions"]
+position = Vector2(80, 20)
+
+[node name="Round6" type="Node2D" parent="ShipPositions"]
+position = Vector2(92, 20)
+
+[node name="TrialRound7" type="Node2D" parent="ShipPositions"]
+position = Vector2(105, 20)
+
+[node name="Gate2" type="Node2D" parent="ShipPositions"]
+position = Vector2(116, 20)
+
+[node name="Round8" type="Node2D" parent="ShipPositions"]
+position = Vector2(126, 20)
+
+[node name="Round9" type="Node2D" parent="ShipPositions"]
+position = Vector2(138, 20)
+
+[node name="BossRound10" type="Node2D" parent="ShipPositions"]
+position = Vector2(151, 20)
+
+[node name="Gate3" type="Node2D" parent="ShipPositions"]
+position = Vector2(163, 20)
+
+[node name="Win" type="Node2D" parent="ShipPositions"]
+position = Vector2(174, 20)
