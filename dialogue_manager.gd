@@ -9,7 +9,7 @@ var _current_textbox = null
 
 var _is_depressed = false
 func _input(_event: InputEvent) -> void:
-	if Input.is_anything_pressed():
+	if Input.is_anything_pressed() and not _is_depressed:
 		_is_depressed = true
 		emit_signal("_pressed")
 	else:
@@ -18,7 +18,7 @@ func _input(_event: InputEvent) -> void:
 func show_dialogue_and_wait(dialogue: String) -> void:
 	show_dialogue(dialogue)
 	await _pressed
-	await Global.delay(0.033) #small delay after
+	await Global.delay(0.04) #small delay after
 
 func show_dialogue(dialogue: String) -> void:
 	# remove the previous dialogue

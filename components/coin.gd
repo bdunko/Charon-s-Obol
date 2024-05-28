@@ -332,7 +332,7 @@ func set_animation(anim: _Animation) -> void:
 
 var _time_mouse_hover = 0
 var _mouse_over = false
-const _DELAY_BEFORE_TOOLTIP = 0.25
+const _DELAY_BEFORE_TOOLTIP = 0.3
 
 func _physics_process(delta):
 	if _mouse_over:

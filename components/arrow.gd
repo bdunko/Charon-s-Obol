@@ -1,5 +1,5 @@
 class_name Arrow
-extends Sprite2D
+extends Control
 
 signal clicked
 
@@ -17,6 +17,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 func _on_clickable_area_mouse_entered():
 	Global.power_text = "Arrow of Light\nReflip a coin."
 	Global.power_text_source = self
+	UITooltip.create(self, "[color=yellow]Arrow of Light (%d)[/color]\nReflip a coin." % Global.arrows, get_global_mouse_position(), get_tree().root)
 
 func _on_clickable_area_mouse_exited():
 	if Global.power_text_source == self:

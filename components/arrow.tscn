@@ -3,17 +3,22 @@
 [ext_resource type="Texture2D" uid="uid://bwswyp5u1hmst" path="res://assets/world/arrow.png" id="1_23mql"]
 [ext_resource type="Script" path="res://components/arrow.gd" id="2_i8io3"]
 
-[node name="Arrow" type="Sprite2D"]
-texture = ExtResource("1_23mql")
-centered = false
-offset = Vector2(-30, -7)
+[node name="Arrow" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 58.0
+offset_bottom = 15.0
+mouse_filter = 2
 script = ExtResource("2_i8io3")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_23mql")
+centered = false
+
 [node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(-16, -16)
 
 [node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(-7, -7)
+position = Vector2(7, -16)
 polygon = PackedVector2Array(43, 16, 51, 22, 51, 24, 42, 31, -7, 31, -7, 16)
 
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]

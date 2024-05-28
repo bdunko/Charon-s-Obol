@@ -64,7 +64,7 @@ func _on_arrow_count_changed() -> void:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
 		arrow.clicked.connect(_on_arrow_pressed)
-		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-8, 8), Global.RNG.randi_range(-3, 3))
+		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-5, 5), Global.RNG.randi_range(-4, 4))
 		_ARROWS.add_child(arrow)
 
 func _on_fragment_count_changed() -> void:
@@ -154,6 +154,7 @@ func _on_reset_button_pressed() -> void:
 	#debug
 	Global.fragments = 100
 	Global.lives = 100
+	Global.arrows = 10
 #	_gain_coin(Global.make_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL))
 #	_gain_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL))
 #	_gain_coin(Global.make_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL))
@@ -319,8 +320,8 @@ func _on_pay_toll_button_clicked():
 		
 		# if we're reached the end, end the game
 		if Global.toll_index == Global.TOLLGATE_ROUNDS.size():
-			Global.state = Global.State.GAME_OVER
 			victory = true
+			Global.state = Global.State.GAME_OVER
 	else:
 		_DIALOGUE.show_dialogue("Not... enough...")
 

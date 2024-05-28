@@ -261,7 +261,7 @@ position = Vector2(160, 210)
 position = Vector2(37, 46)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
-position = Vector2(50, 166)
+position = Vector2(16, 159)
 
 [connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
