@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://dx84aref84idh"]
+
+[ext_resource type="Script" path="res://components/life_fragment.gd" id="1_33mg3"]
+[ext_resource type="Texture2D" uid="uid://bb4xh2hm7w8vb" path="res://assets/world/soul_fragment_red_spritesheet.png" id="1_252m5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euq3n"]
+atlas = ExtResource("1_252m5")
+region = Rect2(0, 0, 21, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya506"]
+atlas = ExtResource("1_252m5")
+region = Rect2(21, 0, 21, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_me68j"]
+atlas = ExtResource("1_252m5")
+region = Rect2(42, 0, 21, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uj742"]
+atlas = ExtResource("1_252m5")
+region = Rect2(63, 0, 21, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_erj65"]
+atlas = ExtResource("1_252m5")
+region = Rect2(84, 0, 21, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ws1fb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euq3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ya506")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_me68j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uj742")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_erj65")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="RedSoulFragment" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_33mg3")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ws1fb")
+animation = &"new_animation"
+centered = false

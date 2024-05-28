@@ -5,21 +5,21 @@ extends Node2D
 
 @onready var _RESET_BUTTON = $UI/ResetButton
 
-@onready var _RED_SOUL_FRAGMENTS = $RedSoulFragments
-@onready var _BLUE_SOUL_FRAGMENTS = $BlueSoulFragments
+@onready var _LIFE_FRAGMENTS = $LifeFragments
+@onready var _SOUL_FRAGMENTS = $SoulFragments
 @onready var _ARROWS = $Arrows
 
 @onready var _COIN_SCENE = preload("res://components/coin.tscn")
-@onready var _RED_SOUL_FRAGMENT_SCENE = preload("res://components/red_soul_fragment.tscn")
-@onready var _BLUE_SOUL_FRAGMENT_SCENE = preload("res://components/blue_soul_fragment.tscn")
+@onready var _LIFE_FRAGMENT_SCENE = preload("res://components/life_fragment.tscn")
+@onready var _SOUL_FRAGMENT_SCENE = preload("res://components/soul_fragment.tscn")
 @onready var _ARROW_SCENE = preload("res://components/arrow.tscn")
 
 @onready var _PLAYER_TEXTBOXES = $UI/PlayerTextboxs
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
-@onready var _RED_SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/RedSoulFragmentPile.position
-@onready var _BLUE_SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/BlueSoulFragmentPile.position
+@onready var _LIFE_FRAGMENT_PILE_POINT: Vector2 = $Points/LifeFragmentPile.position
+@onready var _SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/SoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
 
 @onready var _VOYAGE: Voyage = $UI/Voyage
@@ -36,8 +36,8 @@ func _ready() -> void:
 	
 	assert(_CHARON_POINT)
 	assert(_PLAYER_POINT)
-	assert(_RED_SOUL_FRAGMENT_PILE_POINT)
-	assert(_BLUE_SOUL_FRAGMENT_PILE_POINT)
+	assert(_LIFE_FRAGMENT_PILE_POINT)
+	assert(_SOUL_FRAGMENT_PILE_POINT)
 	assert(_ARROW_PILE_POINT)
 	assert(_ARROWS)
 	
@@ -64,14 +64,14 @@ func _on_arrow_count_changed() -> void:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
 		arrow.clicked.connect(_on_arrow_pressed)
-		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-5, 5), Global.RNG.randi_range(-4, 4))
+		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-4, 4), Global.RNG.randi_range(-3, 3))
 		_ARROWS.add_child(arrow)
 
 func _on_fragment_count_changed() -> void:
-	_update_fragment_pile(Global.fragments, _BLUE_SOUL_FRAGMENT_SCENE, _BLUE_SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _BLUE_SOUL_FRAGMENT_PILE_POINT)
+	_update_fragment_pile(Global.fragments, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
 
 func _on_life_count_changed() -> void:
-	_update_fragment_pile(Global.lives, _RED_SOUL_FRAGMENT_SCENE, _RED_SOUL_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _RED_SOUL_FRAGMENT_PILE_POINT)
+	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
 	#var fragment_count = 0
@@ -90,13 +90,10 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		#fragment_count += 1
 	
 	while pile.get_child_count() < amount:
-		var fragment: AnimatedSprite2D = scene.instantiate()
-		
-		# randomize appearance
-		fragment.frame = Global.RNG.randi_range(0, 4)
+		var fragment = scene.instantiate()
 		
 		fragment.position = give_pos
-		var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-20, 20), Global.RNG.randi_range(-12, 12))
+		var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-16, 16), Global.RNG.randi_range(-9, 9))
 		
 		# move from player to pile
 		var tween = create_tween()
