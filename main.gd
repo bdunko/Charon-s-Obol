@@ -106,7 +106,23 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		pile.add_child(fragment)
 		#fragment_count += 1
 
+@onready var _PLAYER_TEXTBOX_INITIAL_POSITION = $UI/PlayerTextboxs.position
+@onready var _OFFSET = Vector2(0, 15)
+func _play_player_text_animation() -> void:
+	_PLAYER_TEXTBOXES.position = _PLAYER_TEXTBOX_INITIAL_POSITION + _OFFSET
+	_PLAYER_TEXTBOXES.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(_PLAYER_TEXTBOXES, "position", _PLAYER_TEXTBOX_INITIAL_POSITION, 0.075)
+	tween.parallel().tween_property(_PLAYER_TEXTBOXES, "modulate:a", 1.0, 0.075)
+
+func _show_player_textboxes() -> void:
+	for textbox in _PLAYER_TEXTBOXES.get_children():
+		textbox.enable()
+	_PLAYER_TEXTBOXES.show()
+	_play_player_text_animation()
+
 func _on_state_changed() -> void:
+	_play_player_text_animation()
 	if Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 	else:
@@ -171,7 +187,7 @@ func _on_flip_complete() -> void:
 		Global.flips_this_round += 1
 		Global.state = Global.State.AFTER_FLIP
 		_DIALOGUE.show_dialogue("Payoff...")
-		_PLAYER_TEXTBOXES.show()
+		_show_player_textboxes()
 
 func _on_toss_button_clicked() -> void:
 	if _COIN_ROW.get_child_count() == 0:
@@ -213,7 +229,7 @@ func _on_accept_button_pressed():
 func _wait_for_dialogue(dialogue: String) -> void:
 	_PLAYER_TEXTBOXES.hide()
 	await _DIALOGUE.show_dialogue_and_wait(dialogue)
-	_PLAYER_TEXTBOXES.show()
+	_show_player_textboxes()
 
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
@@ -222,7 +238,7 @@ func _advance_round() -> void:
 	_PLAYER_TEXTBOXES.hide()
 	await _VOYAGE.move_boat(Global.round_count)
 	Global.round_count += 1
-	_PLAYER_TEXTBOXES.show()
+	_show_player_textboxes()
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)

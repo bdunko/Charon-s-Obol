@@ -43,6 +43,7 @@ offset_left = 6.0
 offset_top = 157.0
 offset_right = 314.0
 offset_bottom = 173.0
+pivot_offset = Vector2(154, 8)
 alignment = 1
 
 [node name="TossButton" parent="UI/PlayerTextboxs" instance=ExtResource("13_kjj73")]

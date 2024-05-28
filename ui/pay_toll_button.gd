@@ -6,6 +6,7 @@ func _ready() -> void:
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.TOLLGATE:
+		_update_text()
 		show()
 	else:
 		hide()

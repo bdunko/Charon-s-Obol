@@ -313,16 +313,16 @@ func random_god_family() -> CoinFamily:
 	return choose_one(_GOD_FAMILIES)
 
 func random_shop_denomination_for_round() -> Denomination:
-	if Global.round_count == 1:
+	# B 1 2 3 4 T 5 6 7 T  8  9  10 T
+	# 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+	if Global.round_count <= 3: #rounds 1-2
 		return Denomination.OBOL
-	elif Global.round_count == 2:
+	elif Global.round_count <= 7: #rounds 3-5
 		return choose_one([Denomination.OBOL, Denomination.DIOBOL])
-	elif Global.round_count == 3:
-		return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL])
-	elif Global.round_count == 4:
-		return choose_one([Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL])
+	elif Global.round_count == 11: #rounds 6-8
+		return choose_one([Denomination.DIOBOL, Denomination.TRIOBOL])
 	else:
-		return choose_one([Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL])
+		return choose_one([Denomination.TRIOBOL, Denomination.TETROBOL])
 
 func make_coin(family: CoinFamily, denomination: Denomination) -> Coin:
 	return Coin.new(family, denomination)
