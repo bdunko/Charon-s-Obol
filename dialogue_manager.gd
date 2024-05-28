@@ -18,6 +18,7 @@ func _input(_event: InputEvent) -> void:
 func show_dialogue_and_wait(dialogue: String) -> void:
 	show_dialogue(dialogue)
 	await _pressed
+	await Global.delay(0.033) #small delay after
 
 func show_dialogue(dialogue: String) -> void:
 	# remove the previous dialogue

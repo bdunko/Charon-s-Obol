@@ -109,15 +109,18 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 @onready var _PLAYER_TEXTBOX_INITIAL_POSITION = $UI/PlayerTextboxs.position
 @onready var _OFFSET = Vector2(0, 15)
 func _play_player_text_animation() -> void:
+	for textbox in _PLAYER_TEXTBOXES.get_children():
+		textbox.disable()
 	_PLAYER_TEXTBOXES.position = _PLAYER_TEXTBOX_INITIAL_POSITION + _OFFSET
 	_PLAYER_TEXTBOXES.modulate.a = 0.0
 	var tween = create_tween()
-	tween.tween_property(_PLAYER_TEXTBOXES, "position", _PLAYER_TEXTBOX_INITIAL_POSITION, 0.075)
-	tween.parallel().tween_property(_PLAYER_TEXTBOXES, "modulate:a", 1.0, 0.075)
+	tween.tween_property(_PLAYER_TEXTBOXES, "position", _PLAYER_TEXTBOX_INITIAL_POSITION, 0.08)
+	tween.parallel().tween_property(_PLAYER_TEXTBOXES, "modulate:a", 1.0, 0.04)
+	for textbox in _PLAYER_TEXTBOXES.get_children():
+		tween.tween_callback(textbox.enable)
 
 func _show_player_textboxes() -> void:
-	for textbox in _PLAYER_TEXTBOXES.get_children():
-		textbox.enable()
+
 	_PLAYER_TEXTBOXES.show()
 	_play_player_text_animation()
 
