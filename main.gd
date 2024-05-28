@@ -46,7 +46,7 @@ func _ready() -> void:
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
-	Global.fragments_count_changed.connect(_on_fragment_count_changed)
+	Global.souls_count_changed.connect(_on_soul_count_changed)
 	Global.arrow_count_changed.connect(_on_arrow_count_changed)
 	Global.toll_coins_changed.connect(_show_toll_dialogue)
 	
@@ -67,8 +67,8 @@ func _on_arrow_count_changed() -> void:
 		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-4, 4), Global.RNG.randi_range(-3, 3))
 		_ARROWS.add_child(arrow)
 
-func _on_fragment_count_changed() -> void:
-	_update_fragment_pile(Global.fragments, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
+func _on_soul_count_changed() -> void:
+	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
 
 func _on_life_count_changed() -> void:
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
@@ -141,7 +141,7 @@ func _on_reset_button_pressed() -> void:
 	victory = false
 	Global.round_count = 1
 	Global.lives = Global.LIVES_PER_ROUND[1]
-	Global.fragments = 0
+	Global.souls = 0
 	Global.arrows = 0
 	Global.active_coin_power = Global.Power.NONE
 	Global.flips_this_round = 0
@@ -149,7 +149,7 @@ func _on_reset_button_pressed() -> void:
 	Global.toll_index = 0
 	
 	#debug
-	Global.fragments = 100
+	Global.souls = 100
 	Global.lives = 100
 	Global.arrows = 10
 #	_gain_coin(Global.make_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL))
@@ -219,7 +219,7 @@ func _on_accept_button_pressed():
 	
 	for coin in _COIN_ROW.get_children():
 		if coin.is_heads():
-			Global.fragments += coin.get_fragments()
+			Global.souls += coin.get_souls()
 		else:
 			Global.lives -= coin.get_life_loss()
 	
@@ -294,8 +294,7 @@ func _on_voyage_continue_button_clicked():
 		Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
 		
 		if first_round:
-			await _wait_for_dialogue("...and let's begin this game...")
-			await _wait_for_dialogue("...of life and death!")
+			await _wait_for_dialogue("...Let's begin the game...")
 		
 		Global.state = Global.State.BEFORE_FLIP #hides the shop
 		_DIALOGUE.show_dialogue("Will you toss...?")
@@ -327,7 +326,7 @@ func _on_die_button_clicked() -> void:
 
 func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	# make sure we can afford this coin
-	if Global.fragments < price:
+	if Global.souls < price:
 		_DIALOGUE.show_dialogue("Not... enough... souls...")
 		return 
 	
@@ -363,7 +362,7 @@ func _on_coin_clicked(coin: CoinEntity):
 #		if _COIN_ROW.get_child_count() == 1:
 #			_DIALOGUE.show_dialogue("Can't sell last coin!")
 #			return
-#		Global.fragments += coin.get_sell_price()
+#		Global.souls += coin.get_sell_price()
 #		_remove_coin(coin)
 #		return
 
@@ -380,8 +379,8 @@ func _on_coin_clicked(coin: CoinEntity):
 		return
 
 	if Global.state == Global.State.SHOP:
-		if Global.fragments >= coin.get_upgrade_price():
-			Global.fragments -= coin.get_upgrade_price()
+		if Global.souls >= coin.get_upgrade_price():
+			Global.souls -= coin.get_upgrade_price()
 			coin.upgrade_denomination()
 			_DIALOGUE.show_dialogue("More... power...")
 		else:

@@ -46,11 +46,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="BlueSoulFragment" type="Control"]
+[node name="SoulFragment" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 18.0
+offset_bottom = 32.0
 script = ExtResource("1_t2nc6")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ea05b")
+frame = 4
+frame_progress = 0.278655
 centered = false
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

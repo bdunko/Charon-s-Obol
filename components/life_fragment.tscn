@@ -46,12 +46,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="RedSoulFragment" type="Control"]
+[node name="LifeFragment" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 21.0
+offset_bottom = 21.0
 script = ExtResource("1_33mg3")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ws1fb")
 animation = &"new_animation"
+frame_progress = 0.608716
 centered = false
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

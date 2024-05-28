@@ -1,7 +1,7 @@
 extends Label
 
 func _ready():
-	Global.fragments_count_changed.connect(_on_fragments_count_changed)
+	Global.souls_count_changed.connect(_on_souls_count_changed)
 	
-func _on_fragments_count_changed() -> void:
-	text = str(Global.fragments)
+func _on_souls_count_changed() -> void:
+	text = str(Global.souls)

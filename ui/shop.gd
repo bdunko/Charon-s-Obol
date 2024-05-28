@@ -42,6 +42,6 @@ func _on_try_coin_purchased(coin: CoinEntity) -> void:
 
 # called after main confirms the price can be paid and there are enough coin spaces
 func purchase_coin(coin: CoinEntity) -> void:
-	Global.fragments -= coin.get_store_price()
+	Global.souls -= coin.get_store_price()
 	coin.clicked.disconnect(_on_try_coin_purchased)
 	coin.get_parent().remove_child(coin)

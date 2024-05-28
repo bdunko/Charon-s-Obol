@@ -9,7 +9,7 @@ enum State {
 
 signal state_changed
 signal round_changed
-signal fragments_count_changed
+signal souls_count_changed
 signal life_count_changed
 signal arrow_count_changed
 signal active_coin_power_changed
@@ -26,11 +26,11 @@ var power_text: String:
 		emit_signal("power_text_changed")
 signal power_text_changed
 
-var fragments: int:
+var souls: int:
 	set(val):
-		fragments = val
-		assert(fragments >= 0)
-		emit_signal("fragments_count_changed")
+		souls = val
+		assert(souls >= 0)
+		emit_signal("souls_count_changed")
 
 var arrows: int:
 	set(val):
@@ -127,7 +127,7 @@ class CoinFamily:
 	var of_suffix: String
 	var subtitle: String
 	var store_price_for_denom: Array[int]
-	var heads_fragments_for_denom: Array[int]
+	var souls_for_denom: Array[int]
 	var tails_life_loss_for_denom: Array[int]
 	var power: Power
 	var power_string: String
@@ -138,7 +138,7 @@ class CoinFamily:
 	
 	func _init(suffix: String, 
 			sub_title: String, prices: Array[int],
-			fragments_on_heads: Array[int], life_loss_on_tails: Array[int], 
+			souls_on_heads: Array[int], life_loss_on_tails: Array[int], 
 			coin_power: Power, power_str: String, power_uses: Array[int],
 			heads_icon: String, tails_icon: String,
 			style: _SpriteStyle) -> void:
@@ -146,7 +146,7 @@ class CoinFamily:
 		subtitle = sub_title
 		store_price_for_denom = prices
 		
-		heads_fragments_for_denom = fragments_on_heads
+		souls_for_denom = souls_on_heads
 		tails_life_loss_for_denom = life_loss_on_tails
 		
 		power = coin_power
@@ -178,8 +178,8 @@ class Coin:
 		_coin_family = family
 		_denomination = denomination
 	
-	func get_fragments() -> int:
-		return _coin_family.heads_fragments_for_denom[_denomination]
+	func get_souls() -> int:
+		return _coin_family.souls_for_denom[_denomination]
 	
 	func get_life_loss() -> int:
 		return _coin_family.tails_life_loss_for_denom[_denomination]
@@ -212,7 +212,7 @@ class Coin:
 	
 	func get_power_string() -> String:
 		var power_string = _coin_family.power_string
-		power_string = power_string.replace("(SOULS)", str(get_fragments()))
+		power_string = power_string.replace("(SOULS)", str(get_souls()))
 		power_string = power_string.replace("(POWER_USES)", str(get_max_power_uses()))
 		power_string = power_string.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
 		return power_string

@@ -56,7 +56,7 @@ func update_coin_text() -> void:
 	elif _coin.get_power() != Global.Power.NONE:
 		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%d" % _power_uses_remaining, _coin.get_heads_icon_path()]
 	else:
-		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_fragments(), _coin.get_heads_icon_path()]
+		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_souls(), _coin.get_heads_icon_path()]
 
 var _frozen: bool:
 	set(val):
@@ -84,7 +84,7 @@ var _athena_wisdom_stacks = 0
 func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
-	Global.fragments_count_changed.connect(update_price_label)
+	Global.souls_count_changed.connect(update_price_label)
 	Global.state_changed.connect(_on_state_changed)
 	_PRICE.visible = Global.state == Global.State.SHOP
 	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
@@ -100,7 +100,7 @@ func update_price_label() -> void:
 		return
 	
 	var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
-	var color = Global.AFFORDABLE_COLOR if Global.fragments >= price else Global.UNAFFORDABLE_COLOR
+	var color = Global.AFFORDABLE_COLOR if Global.souls >= price else Global.UNAFFORDABLE_COLOR
 	_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
 
 func _on_state_changed() -> void:
@@ -178,8 +178,8 @@ func get_upgrade_price() -> int:
 func can_upgrade() -> bool:
 	return _coin.can_upgrade()
 
-func get_fragments() -> int:
-	return _coin.get_fragments()
+func get_souls() -> int:
+	return _coin.get_souls()
 
 func get_life_loss() -> int:
 	return max(_coin.get_life_loss() - _athena_wisdom_stacks, 0)
