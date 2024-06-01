@@ -166,6 +166,14 @@ func flip() -> void:
 	
 	_disabled = false
 
+func swap_side() -> void:
+	_heads = not _heads
+	_FACE_LABEL.hide()
+	set_animation(_Animation.FLIP)
+	await _SPRITE.animation_looped
+	set_animation(_Animation.FLAT)
+	_FACE_LABEL.show()
+
 func get_store_price() -> int:
 	return _coin.get_store_price()
 
@@ -212,14 +220,6 @@ func reset_power_uses() -> void:
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
 	_power_uses_remaining += recharge_amount
-
-func swap_side() -> void:
-	_heads = not _heads
-	_FACE_LABEL.hide()
-	set_animation(_Animation.FLIP)
-	await _SPRITE.animation_looped
-	set_animation(_Animation.FLAT)
-	_FACE_LABEL.show()
 
 func freeze() -> void:
 	_frozen = true
@@ -283,7 +283,8 @@ func on_round_end() -> void:
 	# reset wisdom stacks
 	_athena_wisdom_stacks = 0
 	# force to heads
-	_heads = true
+	if not _heads:
+		swap_side()
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)

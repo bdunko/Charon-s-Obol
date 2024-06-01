@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=23 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_68se7"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/world/river.png" id="2_f8cb3"]
@@ -20,6 +20,8 @@
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="12_rlbb2"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="13_kjj73"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="15_vfx1c"]
+[ext_resource type="PackedScene" uid="uid://kw0850n3cqvo" path="res://components/coin_row.tscn" id="19_4a0o6"]
+[ext_resource type="Script" path="res://components/coin_row.gd" id="19_7pex4"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_68se7")
@@ -161,84 +163,43 @@ offset_bottom = 69.0
 text = "Reset"
 
 [node name="Voyage" parent="UI" instance=ExtResource("7_o62wp")]
+visible = false
 position = Vector2(65, 26)
 
-[node name="Table" type="Node2D" parent="."]
+[node name="Table" type="Node" parent="."]
 
-[node name="CoinRow" type="HBoxContainer" parent="Table"]
-offset_left = 6.0
-offset_top = 113.0
-offset_right = 314.0
-offset_bottom = 149.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 2
-alignment = 1
+[node name="CoinRow" parent="Table" instance=ExtResource("19_4a0o6")]
+custom_minimum_size = Vector2(310, 39)
 
-[node name="Coin" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-
-[node name="Coin2" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin3" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin4" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin5" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin6" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin7" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Coin8" parent="Table/CoinRow" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Shop" type="HBoxContainer" parent="Table"]
-visible = false
-offset_left = 77.0
-offset_top = 40.0
-offset_right = 243.0
-offset_bottom = 76.0
-mouse_filter = 2
-theme_override_constants/separation = 14
-alignment = 1
+[node name="Shop" type="Node2D" parent="Table"]
 script = ExtResource("3_ie1li")
 
-[node name="GenericCoinContainer" type="HBoxContainer" parent="Table/Shop"]
-layout_mode = 2
+[node name="ShopRow" type="Control" parent="Table/Shop"]
+custom_minimum_size = Vector2(116, 39)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 40.0
+offset_right = 314.0
+offset_bottom = 79.0
 mouse_filter = 2
+script = ExtResource("19_7pex4")
 
-[node name="Coin" parent="Table/Shop/GenericCoinContainer" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-size_flags_vertical = 4
+[node name="Coin" parent="Table/Shop/ShopRow" instance=ExtResource("3_43qkv")]
+offset_left = 77.0
+offset_right = 115.0
 
-[node name="GodCoinContainer" type="HBoxContainer" parent="Table/Shop"]
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
+[node name="Coin2" parent="Table/Shop/ShopRow" instance=ExtResource("3_43qkv")]
+offset_left = 117.0
+offset_right = 155.0
 
-[node name="Coin" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
-layout_mode = 2
+[node name="Coin3" parent="Table/Shop/ShopRow" instance=ExtResource("3_43qkv")]
+offset_left = 157.0
+offset_right = 195.0
 
-[node name="Coin2" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
-layout_mode = 2
-
-[node name="Coin3" parent="Table/Shop/GodCoinContainer" instance=ExtResource("3_43qkv")]
-layout_mode = 2
+[node name="Coin4" parent="Table/Shop/ShopRow" instance=ExtResource("3_43qkv")]
+offset_left = 197.0
+offset_right = 235.0
 
 [node name="Arrows" type="Node" parent="."]
 
@@ -273,6 +234,8 @@ position = Vector2(16, 159)
 [connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
+[connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
 
 [editable path="UI/PlayerTextboxs/TossButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]

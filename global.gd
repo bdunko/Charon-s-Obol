@@ -188,7 +188,7 @@ class Coin:
 		return _coin_family.store_price_for_denom[_denomination]
 	
 	func get_sell_price() -> int:
-		breakpoint #deprecated for now
+		#breakpoint #deprecated for now
 		return max(1, int(get_store_price()/3.0))
 	
 	func get_upgrade_price() -> int:
@@ -294,7 +294,7 @@ var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of I
 var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "+(POWER_USES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], _DEMETER_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Arrows of Light[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "+(POWER_USES) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Moonlit Ritual[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.CHANGE_AND_BLURSE, "Swap a coin to its other side. Then if it's heads, curse it, otherwise bless it.", [1, 2, 3, 4], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip ALL other coins.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip ALL coins.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce another coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.UPGRADE_AND_IGNITE, "Upgrade another coin's and ignite it. (You lose 1 [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] when an ignited coin flips.)", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)

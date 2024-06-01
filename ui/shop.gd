@@ -1,16 +1,16 @@
 class_name Shop
-extends HBoxContainer
+extends Node2D
 
 signal coin_purchased
 
 @onready var _COIN_SCENE = preload("res://components/coin.tscn")
-@onready var _GENERIC_COIN_CONTAINER = $GenericCoinContainer
-@onready var _GOD_COIN_CONTAINER = $GodCoinContainer 
+@onready var _SHOP_ROW = $ShopRow
 
 const _NUM_GENERIC_SHOP_ITEMS = 1
 const _NUM_GOD_SHOP_ITEMS = 3
 
 func _ready() -> void:
+	assert(_SHOP_ROW)
 	Global.state_changed.connect(_on_state_changed)
 	
 func _on_state_changed() -> void:
@@ -20,20 +20,19 @@ func _on_state_changed() -> void:
 		hide()
 
 func randomize_shop() -> void:
-	for generic_child in _GENERIC_COIN_CONTAINER.get_children():
-		generic_child.queue_free()
-	for god_child in _GOD_COIN_CONTAINER.get_children():
-		god_child.queue_free()
+	for coin in _SHOP_ROW.get_children():
+		_SHOP_ROW.remove_child(coin)
+		coin.queue_free()
 	
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
-		_GENERIC_COIN_CONTAINER.add_child(coin)
+		_SHOP_ROW.add_child(coin)
 		coin.assign_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round()), CoinEntity.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 	
 	for _i in _NUM_GOD_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
-		_GOD_COIN_CONTAINER.add_child(coin)
+		_SHOP_ROW.add_child(coin)
 		coin.assign_coin(Global.make_coin(Global.random_god_family(), Global.random_shop_denomination_for_round()), CoinEntity.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 

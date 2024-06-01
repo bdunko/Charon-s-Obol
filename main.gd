@@ -357,14 +357,14 @@ func _remove_coin(coin: CoinEntity):
 
 func _on_coin_clicked(coin: CoinEntity):
 	# if we're in the shop, sell this coin
-#	if Global.state == Global.State.SHOP:
-#		# don't sell if this is the last coin
-#		if _COIN_ROW.get_child_count() == 1:
-#			_DIALOGUE.show_dialogue("Can't sell last coin!")
-#			return
-#		Global.souls += coin.get_sell_price()
-#		_remove_coin(coin)
-#		return
+	#sif Global.state == Global.State.SHOP:
+	#	# don't sell if this is the last coin
+	#	if _COIN_ROW.get_child_count() == 1:
+	#		_DIALOGUE.show_dialogue("Can't sell last coin!")
+	#		return
+	#	Global.souls += coin.get_sell_price()
+	#	_remove_coin(coin)
+	#	return
 
 	if Global.state == Global.State.TOLLGATE:
 		# if this coin is in the toll offering, remove it
@@ -520,4 +520,3 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power = Global.Power.NONE
 			Global.active_coin_power_coin = null
-
