@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://08gavqs15dvr"]
+
+[ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
+[ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/peaceful_background.png" id="1_eaydu"]
+[ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patrons/godless.tscn" id="3_a302y"]
+
+[node name="PatronSelection" type="Node2D"]
+script = ExtResource("1_bldrb")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_eaydu")
+centered = false
+
+[node name="PatronStatues" type="Node2D" parent="."]
+
+[node name="Left" parent="PatronStatues" instance=ExtResource("3_a302y")]
+offset_left = 12.0
+offset_top = 3.0
+offset_right = 12.0
+offset_bottom = 3.0
+
+[node name="Middle" parent="PatronStatues" instance=ExtResource("3_a302y")]
+offset_left = 108.0
+offset_top = -5.0
+offset_right = 108.0
+offset_bottom = -5.0
+
+[node name="Right" parent="PatronStatues" instance=ExtResource("3_a302y")]
+offset_left = 200.0
+offset_top = 3.0
+offset_right = 200.0
+offset_bottom = 3.0
+
+[node name="ZoomCamera" type="Camera2D" parent="."]
+position = Vector2(313, 81)
+limit_left = 0
+limit_top = 0
+limit_right = 320
+limit_bottom = 180

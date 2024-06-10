@@ -1,26 +1,26 @@
 [gd_scene load_steps=9 format=3 uid="uid://dpenc5by7cwjw"]
 
-[ext_resource type="Texture2D" uid="uid://cx4bursdkr6ms" path="res://assets/world/soul_fragment_blue_spritesheet.png" id="1_f01j5"]
 [ext_resource type="Script" path="res://components/soul_fragment.gd" id="1_t2nc6"]
+[ext_resource type="Texture2D" uid="uid://cx4bursdkr6ms" path="res://assets/table/soul_fragment_blue_spritesheet.png" id="2_qy741"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3g56p"]
-atlas = ExtResource("1_f01j5")
+atlas = ExtResource("2_qy741")
 region = Rect2(0, 0, 17, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fbssy"]
-atlas = ExtResource("1_f01j5")
+atlas = ExtResource("2_qy741")
 region = Rect2(17, 0, 17, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xndlq"]
-atlas = ExtResource("1_f01j5")
+atlas = ExtResource("2_qy741")
 region = Rect2(34, 0, 17, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3c55b"]
-atlas = ExtResource("1_f01j5")
+atlas = ExtResource("2_qy741")
 region = Rect2(51, 0, 17, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjull"]
-atlas = ExtResource("1_f01j5")
+atlas = ExtResource("2_qy741")
 region = Rect2(68, 0, 17, 34)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ea05b"]

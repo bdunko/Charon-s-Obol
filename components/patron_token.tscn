@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgshopm0ome8b"]
+[gd_scene load_steps=3 format=3 uid="uid://c56siavbwv7mw"]
 
-[ext_resource type="Texture2D" uid="uid://bwswyp5u1hmst" path="res://assets/table/arrow.png" id="1_23mql"]
-[ext_resource type="Script" path="res://components/arrow.gd" id="2_i8io3"]
+[ext_resource type="Texture2D" uid="uid://bwswyp5u1hmst" path="res://assets/table/arrow.png" id="1_j85kw"]
+[ext_resource type="Script" path="res://components/patron_token.gd" id="1_ktvtb"]
 
-[node name="Arrow" type="Control"]
+[node name="PatronToken" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 58.0
 offset_bottom = 15.0
 mouse_filter = 2
-script = ExtResource("2_i8io3")
+script = ExtResource("1_ktvtb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_23mql")
+texture = ExtResource("1_j85kw")
 centered = false
 
 [node name="ClickableArea" type="Area2D" parent="."]

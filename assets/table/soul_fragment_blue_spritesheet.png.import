@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cig0x4566omk0"
-path="res://.godot/imported/voyage_ship.png-8dd5e55df93058c75e32309a1d9736ed.ctex"
+uid="uid://cx4bursdkr6ms"
+path="res://.godot/imported/soul_fragment_blue_spritesheet.png-d5ecb9c16db8691a38bc423f8477ce77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/voyage_ship.png"
-dest_files=["res://.godot/imported/voyage_ship.png-8dd5e55df93058c75e32309a1d9736ed.ctex"]
+source_file="res://assets/table/soul_fragment_blue_spritesheet.png"
+dest_files=["res://.godot/imported/soul_fragment_blue_spritesheet.png-d5ecb9c16db8691a38bc423f8477ce77.ctex"]
 
 [params]
 

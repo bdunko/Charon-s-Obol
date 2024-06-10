@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ni8luuna6wp3"
-path="res://.godot/imported/voyage.png-b8b415a98204f5c4e914b132cb091e9b.ctex"
+uid="uid://d2wp54skwvxmj"
+path="res://.godot/imported/hephaestus_statue.png-c38534200e3a1aa5542f08396da6816d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/voyage.png"
-dest_files=["res://.godot/imported/voyage.png-b8b415a98204f5c4e914b132cb091e9b.ctex"]
+source_file="res://assets/patron_choice/hephaestus_statue.png"
+dest_files=["res://.godot/imported/hephaestus_statue.png-c38534200e3a1aa5542f08396da6816d.ctex"]
 
 [params]
 

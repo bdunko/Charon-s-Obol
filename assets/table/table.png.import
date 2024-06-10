@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb4xh2hm7w8vb"
-path="res://.godot/imported/soul_fragment_red_spritesheet.png-0769b6735cf0372394313a53eeed0596.ctex"
+uid="uid://sr30u1imc127"
+path="res://.godot/imported/table.png-28737c7eaceeabcc8dbff040af964ba8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/soul_fragment_red_spritesheet.png"
-dest_files=["res://.godot/imported/soul_fragment_red_spritesheet.png-0769b6735cf0372394313a53eeed0596.ctex"]
+source_file="res://assets/table/table.png"
+dest_files=["res://.godot/imported/table.png-28737c7eaceeabcc8dbff040af964ba8.ctex"]
 
 [params]
 

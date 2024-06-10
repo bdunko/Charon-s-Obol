@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsx4mxqxqbpwf"]
+
+[ext_resource type="Script" path="res://components/patrons/god_statue.gd" id="1_lbe1j"]
+[ext_resource type="Texture2D" uid="uid://dwk2oorh2vw3b" path="res://assets/patron_choice/godless_statue.png" id="1_lnahq"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lbe1j")
+patron_power = 17
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_lnahq")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(5, 5, 2, 8, 2, 15, 5, 17, 5, 39, 2, 41, 2, 45, 26, 45, 43, 45, 43, 40, 41, 38, 41, 17, 44, 15, 44, 10, 43, 9, 36, 5)
+
+[node name="CuteLittleRock =D" type="CollisionPolygon2D" parent="ClickableArea"]
+polygon = PackedVector2Array(42, 126, 44, 126, 45, 127, 45, 128, 44, 130, 43, 131, 41, 131, 40, 130, 40, 128)
+
+[node name="CuteLittleRock2 =D" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(-2, 6)
+polygon = PackedVector2Array(42, 126, 43, 126, 44, 127, 45, 128, 45, 131, 42, 131, 41, 130, 41, 129, 40, 128, 40, 127, 41, 126)
+
+[node name="CuteLittleRock3 =D" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(44, -3)
+polygon = PackedVector2Array(40, 127, 42, 128, 43, 129, 43, 131, 42, 132, 39, 132, 38, 131, 38, 130, 39, 130, 39, 129, 38, 129, 38, 128, 39, 127)
+
+[node name="CuteLittleRock4 =D" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(44, 5)
+polygon = PackedVector2Array(42, 127, 44, 128, 45, 129, 45, 130, 44, 131, 43, 132, 40, 131, 40, 127)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

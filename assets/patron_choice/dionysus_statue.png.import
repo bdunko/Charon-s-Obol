@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvi6aad8v1ow8"
-path="res://.godot/imported/river.png-4f367e1d9645336646c54e7c93e8ffa1.ctex"
+uid="uid://daocnlofduu6e"
+path="res://.godot/imported/dionysus_statue.png-460b6d7234f64ebcd781521253070b0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/river.png"
-dest_files=["res://.godot/imported/river.png-4f367e1d9645336646c54e7c93e8ffa1.ctex"]
+source_file="res://assets/patron_choice/dionysus_statue.png"
+dest_files=["res://.godot/imported/dionysus_statue.png-460b6d7234f64ebcd781521253070b0e.ctex"]
 
 [params]
 

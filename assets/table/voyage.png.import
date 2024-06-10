@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sr30u1imc127"
-path="res://.godot/imported/table.png-a4cf31d8267319ecfe346987488a0758.ctex"
+uid="uid://ni8luuna6wp3"
+path="res://.godot/imported/voyage.png-9ee649b9892e93ee511a50ff215a46e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/table.png"
-dest_files=["res://.godot/imported/table.png-a4cf31d8267319ecfe346987488a0758.ctex"]
+source_file="res://assets/table/voyage.png"
+dest_files=["res://.godot/imported/voyage.png-9ee649b9892e93ee511a50ff215a46e1.ctex"]
 
 [params]
 

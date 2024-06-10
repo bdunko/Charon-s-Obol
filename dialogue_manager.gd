@@ -1,5 +1,5 @@
 class_name DialogueManager
-extends Node
+extends Node2D
 
 signal _pressed
 

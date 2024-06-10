@@ -130,7 +130,7 @@ func mark_owned_by_player() -> void:
 func is_heads() -> bool:
 	return _heads
 
-func flip() -> void:
+func flip(bonus: int = 0) -> void:
 	if _frozen: #don't flip if frozen
 		# todo - animation for unfreezing
 		_unfreeze()
@@ -144,13 +144,14 @@ func flip() -> void:
 	# animate
 	_FACE_LABEL.hide() # hide text
 	
+	var success_roll_min = 50 + bonus
 	match(_bless_curse_state):
-		_BlessCurseState.NONE:
-			_heads = Global.RNG.randi_range(0, 1) == 1 #50% chance for heads
 		_BlessCurseState.BLESSED:
-			_heads = Global.RNG.randi_range(0, 2) != 2 #66% chance for heads
+			success_roll_min += 16
 		_BlessCurseState.CURSED:
-			_heads = Global.RNG.randi_range(0, 2) == 2 #33% chance for heads
+			success_roll_min -= 17
+	
+	_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)

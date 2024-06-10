@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0mdmdt17jqo5"
-path="res://.godot/imported/voyage_river.png-343340e31339364edef2d047bf00880d.ctex"
+uid="uid://dyd7xsbr8hmfh"
+path="res://.godot/imported/hermes_statue.png-c82f30a84bb4ec65d2871dbbe4c29a65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/voyage_river.png"
-dest_files=["res://.godot/imported/voyage_river.png-343340e31339364edef2d047bf00880d.ctex"]
+source_file="res://assets/patron_choice/hermes_statue.png"
+dest_files=["res://.godot/imported/hermes_statue.png-c82f30a84bb4ec65d2871dbbe4c29a65.ctex"]
 
 [params]
 

@@ -15,6 +15,8 @@ signal arrow_count_changed
 signal active_coin_power_changed
 signal toll_coins_changed
 signal flips_this_round_changed
+signal patron_changed
+signal patron_uses_changed
 
 func strain_cost() -> int:
 	return floor(flips_this_round)
@@ -64,6 +66,17 @@ var flips_this_round: int:
 		flips_this_round = val
 		emit_signal("flips_this_round_changed")
 
+var patron: Patron:
+	set(val):
+		patron = val
+		emit_signal("patron_changed")
+
+const PATRON_USES_PER_ROUND = [-1, 0, 1, 1, 1, 2, 0, 2, 2, 3, 0, 3, 3, 5, 0]
+var patron_uses: int:
+	set(val):
+		patron_uses = val
+		emit_signal("patron_uses_changed")
+
 const TOLLGATE_ROUNDS = [6, 10, 14]
 const TOLLGATE_PRICES = [5, 10, 25]
 var toll_index = 0
@@ -90,8 +103,19 @@ var active_coin_power:
 
 const COIN_LIMIT = 8
 
+enum Power {
+	NONE,
+	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
+	CHANGE_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
+	EXCHANGE, BLESS, GAIN_COIN, DESTROY_FOR_LIFE,
+	
+	ARROW_REFLIP,
+	
+	PATRON_ZEUS,
+	PATRON_GODLESS # used as a placeholder for the godless statue, not a real power
+}
 
-# refactor this into Util
+# todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
 
 func choose_one(arr: Array):
@@ -102,21 +126,44 @@ func choose_one(arr: Array):
 func delay(delay_in_secs: float):
 	await get_tree().create_timer(delay_in_secs).timeout
 
-# todo - refactor this into a separate file probably; CoinInfo
+# todo - this should be in another file, PatronData I think?
+class Patron:
+	var god_name: String
+	var token_name: String
+	var description: String
+	var power: Power
+	
+	func _init(name: String, token: String, power_desc: String, pwr: Power) -> void:
+		self.god_name = name
+		self.token_name = token
+		self.description = power_desc
+		self.power = pwr
 
+var PATRONS = [
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin. It has a +25% chance to land on heads.", Power.PATRON_ZEUS)
+]
+
+func patron_for_power(power: Power) -> Patron:
+	if power == Power.PATRON_GODLESS:
+		return choose_one(PATRONS)
+	for possible_patron in PATRONS:
+		if possible_patron.power == power:
+			return possible_patron
+	assert(false, "Patron does not exist.")
+	return null
+
+func is_patron_power(power: Power) -> bool:
+	for possible_patron in PATRONS:
+		if possible_patron.power == power:
+			return true
+	return false
+
+# todo - refactor this into a separate file probably; CoinInfo
 enum Denomination {
 	OBOL = 0, 
 	DIOBOL = 1, 
 	TRIOBOL = 2, 
 	TETROBOL = 3
-}
-
-enum Power {
-	NONE,
-	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
-	CHANGE_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
-	EXCHANGE, BLESS, GAIN_COIN, DESTROY_FOR_LIFE,
-	ARROW_REFLIP
 }
 
 enum _SpriteStyle {
