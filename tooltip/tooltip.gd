@@ -114,7 +114,10 @@ func _process(_delta):
 	if not is_instance_valid(source_control):
 		destroy_tooltip()
 		return
-		
+	
+	# problem - this code doesn't handle rotations at all, like at all.
+	
+	# HINT - common problem if tooltip appears but immediately vanishes; check size of the control carefully!
 	var mouse_position = get_global_mouse_position()
 	if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
 		destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip

@@ -26,6 +26,8 @@ signal game_ended
 
 @onready var _VOYAGE: Voyage = $UI/Voyage
 
+@onready var _PATRON_TOKEN: PatronToken = $PatronToken
+
 @onready var _DIALOGUE: DialogueManager = $UI/DialogueManager
 
 func _ready() -> void:
@@ -402,7 +404,7 @@ func _on_coin_clicked(coin: CoinEntity):
 					coin.flip(25)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
-				Global.active_coin_power = Global.Power.NONE
+				_PATRON_TOKEN.deactivate()
 			return
 		match(Global.active_coin_power):
 			Global.Power.REFLIP:
@@ -527,7 +529,7 @@ func _on_patron_token_clicked():
 	if Global.patron_uses == 0:
 		_DIALOGUE.show_dialogue("No... more... gods...")
 		return
-	Global.active_coin_power = Global.patron.power
+	_PATRON_TOKEN.activate()
 
 func _input(event):
 	if Input.is_key_pressed(KEY_SPACE):
@@ -537,7 +539,8 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power = Global.Power.NONE
-			Global.active_coin_power_coin = null
+			if _PATRON_TOKEN.is_activated():
+				_PATRON_TOKEN.deactivate()
 
 # todo - delete this thing
 func _on_reset_button_pressed():
