@@ -5,7 +5,7 @@ signal flip_complete
 signal clicked
 
 enum Owner {
-	SHOP, PLAYER
+	SHOP, PLAYER, BOSS
 }
 
 enum _BlessCurseState {

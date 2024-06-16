@@ -103,6 +103,21 @@ var active_coin_power:
 
 const COIN_LIMIT = 8
 
+class BossData:
+	var coins
+	var name
+	var description
+	
+	func _init(bossName, bossCoins, bossDescription):
+		self.coins = bossCoins
+		self.name = bossName
+		self.description = bossDescription
+
+const BOSS_ROUND = 2
+@onready var BOSSES = [BossData.new("Hades", [GENERIC_FAMILY, HADES_FAMILY, HADES_FAMILY], "This is a a boss!"),
+			BossData.new("Cerberus I guess", [POSEIDON_FAMILY, ZEUS_FAMILY, GENERIC_FAMILY], "This is a a boss2!")]
+var boss = null
+
 enum Power {
 	NONE,
 	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 

@@ -4,6 +4,8 @@ signal game_ended
 
 @onready var _COIN_ROW = $Table/CoinRow
 @onready var _SHOP : Shop = $Table/Shop
+@onready var _BOSS = $Table/Boss
+@onready var _BOSS_ROW = $Table/Boss/BossRow
 
 @onready var _RESET_BUTTON = $UI/ResetButton
 
@@ -33,6 +35,8 @@ signal game_ended
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
+	assert(_BOSS)
+	assert(_BOSS_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
 	
@@ -139,6 +143,13 @@ func on_start() -> void:
 		coin.queue_free()
 		_COIN_ROW.remove_child(coin)
 	
+	# randomize and set up the boss
+	Global.boss = Global.choose_one(Global.BOSSES)
+	_BOSS.setup()
+	for c in _BOSS_ROW.get_children():
+		var coin = c as CoinEntity
+		coin.flip_complete.connect(_on_flip_complete)
+	
 	victory = false
 	Global.round_count = 1
 	Global.lives = Global.LIVES_PER_ROUND[1]
@@ -181,7 +192,7 @@ func _on_flip_complete() -> void:
 	flips_completed += 1
 	
 	# if every flip is done
-	if flips_completed == _COIN_ROW.get_child_count():
+	if flips_completed == _COIN_ROW.get_child_count() + _BOSS_ROW.get_child_count():
 		# recharge all coin powers
 		for coin in _COIN_ROW.get_children():
 			coin = coin as CoinEntity
@@ -189,7 +200,7 @@ func _on_flip_complete() -> void:
 		
 		Global.flips_this_round += 1
 		Global.state = Global.State.AFTER_FLIP
-		_DIALOGUE.show_dialogue("Payoff...")
+		_DIALOGUE.show_dialogue("Alea iacta est!")
 		_show_player_textboxes()
 
 func _on_toss_button_clicked() -> void:
@@ -212,6 +223,9 @@ func _on_toss_button_clicked() -> void:
 	for coin in _COIN_ROW.get_children() :
 		coin = coin as CoinEntity
 		coin.flip()
+	for coin in _BOSS_ROW.get_children():
+		coin = coin as CoinEntity
+		coin.flip()
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
@@ -219,7 +233,8 @@ func _on_accept_button_pressed():
 	Global.active_coin_power = Global.Power.NONE
 	Global.active_coin_power_coin = null
 	
-	for coin in _COIN_ROW.get_children():
+	# todo - payoff animation
+	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
 		if coin.is_heads():
 			Global.souls += coin.get_souls()
 		else:

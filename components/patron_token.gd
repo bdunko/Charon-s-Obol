@@ -4,7 +4,8 @@ extends Control
 signal clicked
 
 @onready var _START_POSITION = position
-const _SPEED = 500
+const _SPEED = 5000
+const _RETURN_SPEED = 500
 const _ROTATION_TIME = 0.1
 
 var _disabled = false
@@ -45,7 +46,7 @@ func is_activated() -> bool:
 
 func _process(delta) -> void:
 	var target = (get_global_mouse_position() - size/2) if _activated else _START_POSITION
-	position = position.move_toward(target, _SPEED * delta)
+	position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
 
 func _on_state_changed() -> void:
 	if Global.state != Global.State.AFTER_FLIP:

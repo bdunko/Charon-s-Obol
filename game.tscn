@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=25 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/table/river.png" id="2_d61yp"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://ui/shop.gd" id="20_xqqdj"]
 [ext_resource type="Script" path="res://components/coin_row.gd" id="21_60gfb"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
+[ext_resource type="Script" path="res://boss.gd" id="23_ebj1m"]
 [ext_resource type="PackedScene" uid="uid://c56siavbwv7mw" path="res://components/patron_token.tscn" id="23_tpid8"]
 
 [node name="Game" type="Node2D"]
@@ -145,9 +146,9 @@ script = ExtResource("16_ee6yk")
 visible = false
 texture_filter = 1
 offset_left = 76.0
-offset_top = 41.0
+offset_top = 32.0
 offset_right = 248.0
-offset_bottom = 91.0
+offset_bottom = 82.0
 theme_override_fonts/normal_font = ExtResource("14_om374")
 bbcode_enabled = true
 text = "[center]Power[/center]"
@@ -173,6 +174,7 @@ position = Vector2(65, 26)
 custom_minimum_size = Vector2(310, 39)
 
 [node name="Shop" type="Node2D" parent="Table"]
+visible = false
 script = ExtResource("20_xqqdj")
 
 [node name="ShopRow" type="Control" parent="Table/Shop"]
@@ -199,6 +201,37 @@ offset_left = 157.0
 offset_right = 195.0
 
 [node name="Coin4" parent="Table/Shop/ShopRow" instance=ExtResource("22_nqi2l")]
+offset_left = 197.0
+offset_right = 235.0
+
+[node name="Boss" type="Node2D" parent="Table"]
+visible = false
+script = ExtResource("23_ebj1m")
+
+[node name="BossRow" type="Control" parent="Table/Boss"]
+custom_minimum_size = Vector2(116, 39)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 58.0
+offset_right = 315.0
+offset_bottom = 97.0
+mouse_filter = 2
+script = ExtResource("21_60gfb")
+
+[node name="Coin" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 77.0
+offset_right = 115.0
+
+[node name="Coin2" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 117.0
+offset_right = 155.0
+
+[node name="Coin3" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 157.0
+offset_right = 195.0
+
+[node name="Coin4" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
 offset_left = 197.0
 offset_right = 235.0
 
@@ -243,6 +276,8 @@ offset_bottom = 176.0
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
+[connection signal="child_entered_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_exiting_tree"]
 [connection signal="clicked" from="PatronToken" to="." method="_on_patron_token_clicked"]
 
 [editable path="UI/PlayerTextboxs/TossButton"]
