@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://ghrsck3nl2m5"]
+
+[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_jexj6"]
+[ext_resource type="Texture2D" uid="uid://cbgwyql6suqwu" path="res://assets/patron_choice/demeter_statue.png" id="2_hvdfu"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_jexj6")
+patron_power = 21
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hvdfu")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(4, 5, 2, 7, 2, 15, 5, 17, 5, 26, 2, 28, 2, 41, -1, 44, -1, 52, 1, 54, 45, 54, 47, 52, 47, 44, 44, 41.0164, 44, 33, 43, 32, 43, 29, 41, 26, 41, 19, 43, 17, 44, 14, 44, 7, 44, 1, 47, -3, 47, -5, 45, -7, 43, -7, 38, -5, 34, -4, 28, -4, 23, -4, 16, 2, 15, 5, 13, 2, 11.112, 1.00945, 7, 4)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

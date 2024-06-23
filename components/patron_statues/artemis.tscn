@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://6j4gs6d6nakl"]
+
+[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_kil82"]
+[ext_resource type="Texture2D" uid="uid://dee6gm3wdhvoy" path="res://assets/patron_choice/artemis_statue.png" id="2_2u86b"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_kil82")
+patron_power = 19
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2u86b")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(4, 5, 2, 7, 2, 15, 5, 18, 5, 33, 3, 33, -1, 37, -3, 41, -3, 45, -1, 49, 3, 53, 8, 55, 12, 56, 34, 56, 38, 55, 43, 53, 47, 49, 49, 45, 49, 41, 47, 37, 43, 33, 41, 33, 41, 18, 44, 15, 44, 7, 42, 5, 36, 5, 36, -31, 38, -33, 34, -37, 25, -37, 18, -34, 12, -28, 7, -16, 7, -8, 9, -2, 13, 5)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

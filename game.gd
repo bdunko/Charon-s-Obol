@@ -28,9 +28,11 @@ signal game_ended
 
 @onready var _VOYAGE: Voyage = $UI/Voyage
 
-@onready var _PATRON_TOKEN: PatronToken = $PatronToken
+@onready var _PATRON_TOKEN_POSITION: Vector2 = $PatronToken.position
 
 @onready var _DIALOGUE: DialogueManager = $UI/DialogueManager
+
+@onready var _patron_token = $PatronToken
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -149,6 +151,15 @@ func on_start() -> void:
 	for c in _BOSS_ROW.get_children():
 		var coin = c as CoinEntity
 		coin.flip_complete.connect(_on_flip_complete)
+		
+	# delete any old patron token and create a new one
+	_patron_token.queue_free()
+	_patron_token = Global.patron.patron_token.instantiate()
+	_patron_token.position = _PATRON_TOKEN_POSITION
+	_patron_token.clicked.connect(_on_patron_token_clicked)
+	add_child(_patron_token)
+	
+	
 	
 	victory = false
 	Global.round_count = 1
@@ -419,7 +430,7 @@ func _on_coin_clicked(coin: CoinEntity):
 					coin.flip(25)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
-				_PATRON_TOKEN.deactivate()
+				_patron_token.deactivate()
 			return
 		match(Global.active_coin_power):
 			Global.Power.REFLIP:
@@ -544,7 +555,7 @@ func _on_patron_token_clicked():
 	if Global.patron_uses == 0:
 		_DIALOGUE.show_dialogue("No... more... gods...")
 		return
-	_PATRON_TOKEN.activate()
+	_patron_token.activate()
 
 func _input(event):
 	if Input.is_key_pressed(KEY_SPACE):
@@ -554,8 +565,8 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power = Global.Power.NONE
-			if _PATRON_TOKEN.is_activated():
-				_PATRON_TOKEN.deactivate()
+			if _patron_token.is_activated():
+				_patron_token.deactivate()
 
 # todo - delete this thing
 func _on_reset_button_pressed():

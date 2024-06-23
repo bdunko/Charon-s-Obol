@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctbf25vgtif8b"]
+
+[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_tthmt"]
+[ext_resource type="Texture2D" uid="uid://xkem2g4gx8ty" path="res://assets/patron_choice/ares_statue.png" id="2_j1ano"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_tthmt")
+patron_power = 18
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_j1ano")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(4, 5, 2, 7, 2, 13, -3, 13, -7, 16, -7, 28, -3, 31, -3, 33, -7, 36, -7, 48, -3, 51, 4, 51, 7, 49, 39, 49, 42, 51, 49, 51, 53, 48, 53, 36, 49, 33, 49, 31, 53, 28, 53, 16, 49, 13, 44, 13, 44, 7, 42, 5, 37, 5, 36, 3, 33, 5, 27, 5, 26, 1, 26, -38, 24, -40, 23, -40, 21, -38, 21, 1, 20, 5, 9, 5)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

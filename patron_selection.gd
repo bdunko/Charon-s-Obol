@@ -2,8 +2,7 @@ extends Node2D
 
 signal patron_selected
 
-var _GODLESS_STATUE = preload("res://components/patrons/godless.tscn")
-var _STATUES = [preload("res://components/patrons/zeus.tscn")]
+var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 
 @onready var _STATUE_POSITION_LEFT = $PatronStatues/Left.position
 @onready var _STATUE_POSITION_MIDDLE = $PatronStatues/Middle.position
@@ -33,8 +32,8 @@ func on_start() -> void:
 		statue.get_parent().remove_child(statue)
 	
 	# create the 3 new statues
-	_add_statue(Global.choose_one(_STATUES), _STATUE_POSITION_LEFT)
+	_add_statue(Global.choose_one(Global.PATRONS).patron_statue, _STATUE_POSITION_LEFT)
 	_add_statue(_GODLESS_STATUE, _STATUE_POSITION_MIDDLE)
-	_add_statue(Global.choose_one(_STATUES), _STATUE_POSITION_RIGHT)
+	_add_statue(Global.choose_one(Global.PATRONS).patron_statue, _STATUE_POSITION_RIGHT)
 	
 

@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://x5j3ytl7mwsm"]
+
+[ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_jww7o"]
+[ext_resource type="Texture2D" uid="uid://dsmg5biupc77a" path="res://assets/table/token/hera.png" id="2_umkbj"]
+
+[node name="PatronToken" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 22.0
+offset_bottom = 22.0
+pivot_offset = Vector2(32, 11)
+mouse_filter = 2
+script = ExtResource("1_jww7o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 1)
+texture = ExtResource("2_umkbj")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(7, -15)
+polygon = PackedVector2Array(2, 33, 1, 31, 0, 30, 0, 29, 0.50625, 27.9875, 2, 27, 0, 26, -1, 25, 0, 23, 0, 22, -1, 21, -1, 20, 1, 18, 3, 18, 4, 17, 5, 17, 6, 18, 8, 18, 10, 20, 10, 21, 9, 22, 9, 23, 10, 25, 9, 26, 7, 27, 8, 28, 9, 29, 9, 30, 8, 31, 7, 33, 5, 35, 4, 35)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

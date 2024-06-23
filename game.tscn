@@ -23,7 +23,7 @@
 [ext_resource type="Script" path="res://components/coin_row.gd" id="21_60gfb"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
 [ext_resource type="Script" path="res://boss.gd" id="23_ebj1m"]
-[ext_resource type="PackedScene" uid="uid://c56siavbwv7mw" path="res://components/patron_token.tscn" id="23_tpid8"]
+[ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_2km4d")
@@ -170,6 +170,37 @@ position = Vector2(65, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
+[node name="Boss" type="Node2D" parent="Table"]
+visible = false
+script = ExtResource("23_ebj1m")
+
+[node name="BossRow" type="Control" parent="Table/Boss"]
+custom_minimum_size = Vector2(116, 39)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 58.0
+offset_right = 315.0
+offset_bottom = 97.0
+mouse_filter = 2
+script = ExtResource("21_60gfb")
+
+[node name="Coin" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 77.0
+offset_right = 115.0
+
+[node name="Coin2" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 117.0
+offset_right = 155.0
+
+[node name="Coin3" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 157.0
+offset_right = 195.0
+
+[node name="Coin4" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
+offset_left = 197.0
+offset_right = 235.0
+
 [node name="CoinRow" parent="Table" instance=ExtResource("19_ym3ga")]
 custom_minimum_size = Vector2(310, 39)
 
@@ -204,37 +235,6 @@ offset_right = 195.0
 offset_left = 197.0
 offset_right = 235.0
 
-[node name="Boss" type="Node2D" parent="Table"]
-visible = false
-script = ExtResource("23_ebj1m")
-
-[node name="BossRow" type="Control" parent="Table/Boss"]
-custom_minimum_size = Vector2(116, 39)
-layout_mode = 3
-anchors_preset = 0
-offset_left = 6.0
-offset_top = 58.0
-offset_right = 315.0
-offset_bottom = 97.0
-mouse_filter = 2
-script = ExtResource("21_60gfb")
-
-[node name="Coin" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
-offset_left = 77.0
-offset_right = 115.0
-
-[node name="Coin2" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
-offset_left = 117.0
-offset_right = 155.0
-
-[node name="Coin3" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
-offset_left = 157.0
-offset_right = 195.0
-
-[node name="Coin4" parent="Table/Boss/BossRow" instance=ExtResource("22_nqi2l")]
-offset_left = 197.0
-offset_right = 235.0
-
 [node name="Arrows" type="Node2D" parent="."]
 
 [node name="LifeFragments" type="Node2D" parent="."]
@@ -258,10 +258,10 @@ position = Vector2(25, 39)
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(16, 159)
 
-[node name="PatronToken" parent="." instance=ExtResource("23_tpid8")]
-offset_left = 235.0
+[node name="PatronToken" parent="." instance=ExtResource("24_k7xdm")]
+offset_left = 266.0
 offset_top = 154.0
-offset_right = 299.0
+offset_right = 288.0
 offset_bottom = 176.0
 
 [connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
@@ -273,11 +273,11 @@ offset_bottom = 176.0
 [connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="child_entered_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_exiting_tree"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
-[connection signal="child_entered_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/Boss/BossRow" to="Table/Boss/BossRow" method="_on_child_exiting_tree"]
 [connection signal="clicked" from="PatronToken" to="." method="_on_patron_token_clicked"]
 
 [editable path="UI/PlayerTextboxs/TossButton"]

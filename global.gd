@@ -126,6 +126,19 @@ enum Power {
 	
 	ARROW_REFLIP,
 	
+	PATRON_APHRODITE,
+	PATRON_APOLLO,
+	PATRON_ARES,
+	PATRON_ARTEMIS,
+	PATRON_ATHENA,
+	PATRON_DEMETER,
+	PATRON_DIONYSUS,
+	PATRON_HADES,
+	PATRON_HEPHAESTUS,
+	PATRON_HERA,
+	PATRON_HERMES,
+	PATRON_HESTIA,
+	PATRON_POSEIDON,
 	PATRON_ZEUS,
 	PATRON_GODLESS # used as a placeholder for the godless statue, not a real power
 }
@@ -147,15 +160,32 @@ class Patron:
 	var token_name: String
 	var description: String
 	var power: Power
+	var patron_statue: PackedScene
+	var patron_token: PackedScene
 	
-	func _init(name: String, token: String, power_desc: String, pwr: Power) -> void:
+	func _init(name: String, token: String, power_desc: String, pwr: Power, statue: PackedScene, tkn: PackedScene) -> void:
 		self.god_name = name
 		self.token_name = token
 		self.description = power_desc
 		self.power = pwr
+		self.patron_statue = statue
+		self.patron_token = tkn
 
 var PATRONS = [
-	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin. It has a +25% chance to land on heads.", Power.PATRON_ZEUS)
+	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Love[/color]", "", Power.PATRON_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn")),
+	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Arrows[/color]", "", Power.PATRON_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn")),
+	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Fury[/color]", "", Power.PATRON_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn")),
+	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Moonlight[/color]", "", Power.PATRON_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn")),
+	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "", Power.PATRON_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn")),
+	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Harvest[/color]", "", Power.PATRON_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn")),
+	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Wine[/color]", "", Power.PATRON_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn")),
+	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Void[/color]", "", Power.PATRON_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn")),
+	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "", Power.PATRON_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn")),
+	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "", Power.PATRON_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn")),	
+	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "", Power.PATRON_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn")),
+	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "", Power.PATRON_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn")),
+	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Ice[/color]", "", Power.PATRON_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn")),
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin. It has a +25% chance to land on heads.", Power.PATRON_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"))
 ]
 
 func patron_for_power(power: Power) -> Patron:

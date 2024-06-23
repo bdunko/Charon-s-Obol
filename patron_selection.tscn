@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/peaceful_background.png" id="1_eaydu"]
-[ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patrons/godless.tscn" id="3_a302y"]
+[ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patron_statues/godless.tscn" id="3_a302y"]
 
 [node name="PatronSelection" type="Node2D"]
 script = ExtResource("1_bldrb")

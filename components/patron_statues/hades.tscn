@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqwkxt1uaga76"]
+
+[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_onw2l"]
+[ext_resource type="Texture2D" uid="uid://jmen6j0gdejk" path="res://assets/patron_choice/hades_statue.png" id="2_0ah0p"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_onw2l")
+patron_power = 23
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0ah0p")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(4, 5, 1, 8, 1, 16, 2, 17, 5, 17, 5, 28, 5, 31, 0, 33, -4, 37, -4, 45, -2, 49, 4, 54, 9, 55, 16, 56, 30, 56, 36, 55, 39, 54, 42, 53, 46, 51, 50, 48, 51, 46, 51, 37, 47, 33, 41, 31, 41, 17, 44, 17, 45, 16, 45, 8, 42, 5, 37, 5, 35, 5, 34.8981, 3.94906, 33, 3, 32, 4, 30, 3, 27, 5, 27, -1, 30, -1, 33, -4, 34, -6, 34, -9, 31, -15, 31, -17, 34, -23, 34, -26, 33, -27, 30, -27, 27, -24, 25, -20, 25, -11, 26, -9, 27, -6, 19, -6, 20, -9, 21, -11, 21, -20, 19, -24, 16, -27, 13, -27, 12, -26, 12, -23, 15, -17, 15, -15, 12, -9, 12, -6, 13, -4, 16, -1, 18, 0, 20, 0, 20, 5, 16, 4, 12, 5, 8, 3)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

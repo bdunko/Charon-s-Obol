@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfgi8a3j1u321"]
+
+[ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_wcexf"]
+[ext_resource type="Texture2D" uid="uid://dim5ix81wj52c" path="res://assets/table/token/hades.png" id="2_i2fhi"]
+
+[node name="PatronToken" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 22.0
+offset_bottom = 22.0
+pivot_offset = Vector2(32, 11)
+mouse_filter = 2
+script = ExtResource("1_wcexf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 1)
+texture = ExtResource("2_i2fhi")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(7, -15)
+polygon = PackedVector2Array(1, 35, 1, 31, -1, 29, -1, 28, 0, 27, -4, 23, -4, 19, -1, 16, 0, 16, 2, 17, 5, 17, 6, 17, 7, 16, 8, 16, 11, 19, 11, 23, 7, 27, 8, 28, 8, 29, 6, 31, 6, 35, 4, 37, 3, 37)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbv55bmqvao37"]
+
+[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_6g2er"]
+[ext_resource type="Texture2D" uid="uid://li2creu1als0" path="res://assets/patron_choice/hera_statue.png" id="2_ewxjh"]
+
+[node name="PatronStatue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6g2er")
+patron_power = 25
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ewxjh")
+centered = false
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(-16, -16)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+position = Vector2(41, 91)
+polygon = PackedVector2Array(4, 5, 2, 7, 2, 15, 5, 18, 5, 38, 2, 41, 2, 44, 4, 46, 4, 49, 5, 51, 9, 55, 11, 56, 16, 57, 30, 57, 35, 56, 37, 55, 41, 51, 42, 49, 42, 46, 44, 44, 44, 41, 41, 38, 41, 18, 44, 15, 44, 7, 42, 5, 34, 5, 35, 4, 35, 1, 33, -1, 33, -2, 32, -3, 31, -3, 29, -5, 28, -5, 26, -3, 25, -3, 23, -5, 22, -5, 21, -4, 20, -3, 18, -5, 17, -5, 14, -3, 13, -2, 11, 1, 11, 4, 9, 5)
+
+[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]
