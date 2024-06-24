@@ -1,19 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://btvuwhfuctcjq"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_e0hf5"]
-[ext_resource type="Texture2D" uid="uid://d1o8d7vr8e4u4" path="res://assets/table/token/hestia.png" id="2_ifbmu"]
+[ext_resource type="Texture2D" uid="uid://d040en8lq1gyf" path="res://assets/table/token/hestia.png" id="2_ifbmu"]
 
 [node name="PatronToken" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 22.0
-offset_bottom = 22.0
+offset_right = 44.0
+offset_bottom = 28.0
 pivot_offset = Vector2(32, 11)
 mouse_filter = 2
 script = ExtResource("1_e0hf5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, 1)
 texture = ExtResource("2_ifbmu")
 centered = false
 
@@ -21,7 +20,7 @@ centered = false
 
 [node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
 position = Vector2(8, -15)
-polygon = PackedVector2Array(-2, 36, -2, 32, -4, 30, -4, 28, -3, 27, -5, 25, -5, 22, -4, 20, -6, 17, -5, 15, 0, 15, 2, 18, 1, 23, 2, 24, 5, 24, 6, 23, 5, 18, 8, 15, 12, 15, 13, 17, 11, 20, 12, 22, 12, 26, 10, 27, 11, 28, 11, 30, 9, 32, 9, 36, 7, 37, 5, 37, 4, 36, 3, 36, 2, 37, 0, 37)
+polygon = PackedVector2Array(-3, 41, -4, 41, -6, 39, -6, 36, -2, 32, 5, 32, 7, 33, 9, 31, 9, 27, 7, 25, 5, 26, -2, 26, -6, 22, -6, 19, -4, 17, -3, 17, -1, 19, 0, 19, 2, 20, 4, 19, 10, 19, 13, 22, 13, 17, 14, 16, 18, 16, 19, 17, 19, 21, 34, 21, 35, 22, 35, 25, 34, 26, 19, 26, 19, 31, 34, 31, 35, 32, 35, 35, 34, 36, 19, 36, 19, 40, 18, 41, 14, 41, 13, 40, 13, 36, 10, 39, 4, 39, 2, 38, -2, 40)
 
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
 [connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]

@@ -6,7 +6,7 @@ signal clicked
 @onready var _START_POSITION = position
 const _SPEED = 5000
 const _RETURN_SPEED = 500
-const _ROTATION_TIME = 0.1
+const _ROTATION_TIME = 0.15
 
 var _disabled = false
 var _activated = false
@@ -32,7 +32,7 @@ func _on_clickable_area_mouse_exited():
 		Global.power_text = ""
 
 func activate() -> void:
-	create_tween().tween_property(self, "rotation_degrees", -90, _ROTATION_TIME)
+	create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
 	Global.active_coin_power = Global.patron.power
 	_activated = true
 
@@ -45,7 +45,7 @@ func is_activated() -> bool:
 	return _activated
 
 func _process(delta) -> void:
-	var target = (get_global_mouse_position() - size/2) if _activated else _START_POSITION
+	var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
 	position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
 
 func _on_state_changed() -> void:

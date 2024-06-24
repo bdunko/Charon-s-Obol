@@ -9,18 +9,12 @@ func _ready() -> void:
 		coin.queue_free()
 
 func setup() -> void:
-	print(Global.boss.name)
-	print(Global.boss.description)
 	for coinFamily in Global.boss.coins:
-		print(coinFamily)
 		var coin = _COIN_SCENE.instantiate()
 		_BOSS_ROW.add_child(coin)
 		coin.assign_coin(Global.make_coin(coinFamily, Global.Denomination.TETROBOL), CoinEntity.Owner.BOSS)
 
 func _on_state_changed() -> void:
-	print("this is in boss btw")
-	print(Global.round_count)
-	print(Global.BOSS_ROUND)
 	if Global.round_count == Global.BOSS_ROUND and (Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.BEFORE_FLIP):
 		show()
 	else:

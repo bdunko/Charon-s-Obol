@@ -1,19 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cpxtfbhk2qmac"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_4q7as"]
-[ext_resource type="Texture2D" uid="uid://dma11brg0anvf" path="res://assets/table/token/poseidon.png" id="2_pt5l5"]
+[ext_resource type="Texture2D" uid="uid://bqx2ggivlrv0x" path="res://assets/table/token/poseidon.png" id="2_pt5l5"]
 
 [node name="PatronToken" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 22.0
-offset_bottom = 22.0
+offset_right = 44.0
+offset_bottom = 28.0
 pivot_offset = Vector2(32, 11)
 mouse_filter = 2
 script = ExtResource("1_4q7as")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, 1)
 texture = ExtResource("2_pt5l5")
 centered = false
 
@@ -21,7 +20,7 @@ centered = false
 
 [node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
 position = Vector2(8, -15)
-polygon = PackedVector2Array(-3, 34, -3, 30, -1, 29, -5, 23, -4, 16, -2, 15, -1, 15, 0, 16, 1, 16, 2, 15, 4, 15, 5, 16, 6, 16, 8, 15, 11, 18, 11, 23, 7, 29, 9, 30, 9, 34, 6, 35, 4, 37, 2, 37, 0, 35)
+polygon = PackedVector2Array(-5, 36, -2, 33, -1, 33, 0, 34, 11, 34, 11, 31, 0, 31, -1, 32, -2, 32, -5, 29, -5, 28, -2, 25, -1, 25, 0, 26, 11, 26, 11, 23, 0, 23, -1, 24, -2, 24, -5, 21, -5, 20, -2, 17, -1, 17, 0, 18, 13, 18, 15, 20, 16, 22, 16, 26, 33, 26, 35, 28, 35, 29, 33, 31, 16, 31, 16, 35, 15, 37, 13, 39, 0, 39, -1, 40, -2, 40, -5, 37)
 
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
 [connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]

@@ -141,9 +141,9 @@ func _on_game_end() -> void:
 
 func on_start() -> void:
 	# delete all existing coins
-	for coin in _COIN_ROW.get_children():
+	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
 		coin.queue_free()
-		_COIN_ROW.remove_child(coin)
+		coin.get_parent().remove_child(coin)
 	
 	# randomize and set up the boss
 	Global.boss = Global.choose_one(Global.BOSSES)
@@ -158,8 +158,6 @@ func on_start() -> void:
 	_patron_token.position = _PATRON_TOKEN_POSITION
 	_patron_token.clicked.connect(_on_patron_token_clicked)
 	add_child(_patron_token)
-	
-	
 	
 	victory = false
 	Global.round_count = 1

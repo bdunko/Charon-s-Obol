@@ -44,9 +44,9 @@ script = ExtResource("4_f43mi")
 [node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
 z_index = 1
 offset_left = 6.0
-offset_top = 157.0
+offset_top = 155.0
 offset_right = 314.0
-offset_bottom = 173.0
+offset_bottom = 171.0
 pivot_offset = Vector2(154, 8)
 alignment = 1
 
@@ -171,17 +171,16 @@ position = Vector2(65, 26)
 [node name="Table" type="Node2D" parent="."]
 
 [node name="Boss" type="Node2D" parent="Table"]
-visible = false
 script = ExtResource("23_ebj1m")
 
 [node name="BossRow" type="Control" parent="Table/Boss"]
 custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 6.0
-offset_top = 58.0
+offset_left = 5.0
+offset_top = 52.0
 offset_right = 315.0
-offset_bottom = 97.0
+offset_bottom = 91.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 
@@ -203,9 +202,10 @@ offset_right = 235.0
 
 [node name="CoinRow" parent="Table" instance=ExtResource("19_ym3ga")]
 custom_minimum_size = Vector2(310, 39)
+offset_top = 110.0
+offset_bottom = 149.0
 
 [node name="Shop" type="Node2D" parent="Table"]
-visible = false
 script = ExtResource("20_xqqdj")
 
 [node name="ShopRow" type="Control" parent="Table/Shop"]
@@ -256,13 +256,13 @@ position = Vector2(160, 210)
 position = Vector2(25, 39)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
-position = Vector2(16, 159)
+position = Vector2(16, 158)
 
 [node name="PatronToken" parent="." instance=ExtResource("24_k7xdm")]
-offset_left = 266.0
-offset_top = 154.0
-offset_right = 288.0
-offset_bottom = 176.0
+offset_left = 254.0
+offset_top = 150.0
+offset_right = 298.0
+offset_bottom = 178.0
 
 [connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
