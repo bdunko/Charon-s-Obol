@@ -31,9 +31,10 @@ func on_start() -> void:
 		statue.queue_free()
 		statue.get_parent().remove_child(statue)
 	
-	# create the 3 new statues
-	_add_statue(Global.choose_one(Global.PATRONS).patron_statue, _STATUE_POSITION_LEFT)
+	# create the 3 new statues; third cannot equal first
+	var first_patron = Global.choose_one(Global.PATRONS)
+	_add_statue(first_patron.patron_statue, _STATUE_POSITION_LEFT)
 	_add_statue(_GODLESS_STATUE, _STATUE_POSITION_MIDDLE)
-	_add_statue(Global.choose_one(Global.PATRONS).patron_statue, _STATUE_POSITION_RIGHT)
+	_add_statue(Global.choose_one_excluding(Global.PATRONS, [first_patron]).patron_statue, _STATUE_POSITION_RIGHT)
 	
 

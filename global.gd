@@ -146,8 +146,26 @@ enum Power {
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
 
+# Randomly return one element of the array
 func choose_one(arr: Array):
 	return arr[RNG.randi_range(0, arr.size()-1)]
+
+# Randomly return on element of the array, except the given exclude elements; returns null if impossible
+func choose_one_excluding(arr: Array, exclude: Array):
+	# if every element in arr is in exclude, can't be done...
+	var all_excluded = true
+	for elem in arr:
+		if not exclude.has(elem):
+			all_excluded = false
+			break
+	if all_excluded:
+		assert(false, "excluding all elements in choose_on_excluding...")
+		return null
+	
+	var rand_element = choose_one(arr)
+	while exclude.has(rand_element):
+		rand_element = choose_one(arr)
+	return rand_element
 
 # creates a delay of a given time
 # await on this function call
