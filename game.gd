@@ -239,15 +239,45 @@ func _on_toss_button_clicked() -> void:
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
 	
+	_PLAYER_TEXTBOXES.hide()
+	
 	Global.active_coin_power = Global.Power.NONE
 	Global.active_coin_power_coin = null
 	
 	# todo - payoff animation
+	# payoff animation
+	
+	# gain souls
+	var soul_coins = []
 	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
-		if coin.is_heads():
+		if coin.is_heads() and coin.get_souls() > 0:
+			soul_coins.append(coin)
 			Global.souls += coin.get_souls()
-		else:
+	if not soul_coins.is_empty():
+		for coin in soul_coins:
+			create_tween().tween_property(coin, "position:y", -20, 0.1).set_trans(Tween.TRANS_CUBIC)
+		await Global.delay(0.3)
+		for coin in soul_coins:
+			create_tween().tween_property(coin, "position:y", 0, 0.1).set_trans(Tween.TRANS_CUBIC)
+		await Global.delay(0.15)
+	
+	# other effects
+	
+	# lose life
+	var life_coins = []
+	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
+		if coin.is_tails() and coin.get_life_loss() > 0:
+			life_coins.append(coin)
 			Global.lives -= coin.get_life_loss()
+	if not life_coins.is_empty():
+		for coin in life_coins:
+			create_tween().tween_property(coin, "position:y", -20, 0.1).set_trans(Tween.TRANS_CUBIC)
+		await Global.delay(0.3)
+		for coin in life_coins:
+			create_tween().tween_property(coin, "position:y", 0, 0.1).set_trans(Tween.TRANS_CUBIC)
+		await Global.delay(0.15)
+	
+	_PLAYER_TEXTBOXES.show()
 	
 	if Global.state != Global.State.GAME_OVER:
 		Global.state = Global.State.BEFORE_FLIP

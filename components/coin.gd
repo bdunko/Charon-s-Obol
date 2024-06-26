@@ -130,6 +130,9 @@ func mark_owned_by_player() -> void:
 func is_heads() -> bool:
 	return _heads
 
+func is_tails() -> bool:
+	return not _heads
+
 func flip(bonus: int = 0) -> void:
 	if _frozen: #don't flip if frozen
 		# todo - animation for unfreezing
