@@ -445,7 +445,8 @@ func _on_coin_clicked(coin: CoinEntity):
 		if Global.is_patron_power(Global.active_coin_power):
 			match(Global.active_coin_power):
 				Global.Power.PATRON_ZEUS:
-					coin.flip(25)
+					coin.supercharge()
+					coin.flip()
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
 				_patron_token.deactivate()
@@ -508,11 +509,11 @@ func _on_coin_clicked(coin: CoinEntity):
 			Global.Power.EXCHANGE:
 				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
 				coin.activate_power_text() # update power text
-			Global.Power.BLESS:
-				if coin.is_blessed():
-					_DIALOGUE.show_dialogue("Already... blessed...")
+			Global.Power.MAKE_LUCKY:
+				if coin.is_lucky():
+					_DIALOGUE.show_dialogue("Already... lucky...")
 					return
-				coin.bless()
+				coin.make_lucky()
 			Global.Power.DESTROY_FOR_LIFE:
 				if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 					_DIALOGUE.show_dialogue("Can't destroy... last coin...")

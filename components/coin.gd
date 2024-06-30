@@ -12,14 +12,25 @@ enum _BlessCurseState {
 	NONE, BLESSED, CURSED
 }
 
+enum _LuckState {
+	NONE, LUCKY, UNLUCKY
+}
+
 enum _Animation {
 	FLAT, FLIP, SWAP
 }
 
-@onready var BLESSED_ICON = $BlessedIcon
-@onready var CURSED_ICON = $CursedIcon
+enum _FreezeIgniteState {
+	NONE, FROZEN, IGNITED
+}
+
+@onready var LUCKY_ICON = $LuckyIcon
+@onready var UNLUCKY_ICON = $UnluckyIcon
 @onready var FROZEN_ICON = $FrozenIcon
 @onready var IGNITE_ICON = $IgniteIcon
+@onready var BLESSED_ICON = $BlessedIcon
+@onready var CURSED_ICON = $CursedIcon
+@onready var SUPERCHARGE_ICON = $SuperchargeIcon
 @onready var PRICE = $Price
 
 var _disabled := false
@@ -58,28 +69,35 @@ func update_coin_text() -> void:
 	else:
 		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_souls(), _coin.get_heads_icon_path()]
 
-var _frozen: bool:
-	set(val):
-		_frozen = val
-		FROZEN_ICON.visible = _frozen
-	
-var _ignite_stacks: int:
-	set(val):
-		_ignite_stacks = val
-		IGNITE_ICON.visible = _ignite_stacks != 0
-
 var _bless_curse_state: _BlessCurseState:
 	set(val):
 		_bless_curse_state = val
 		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
 		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 
-@onready var _SPRITE = $Sprite
-@onready var _FACE_LABEL = $Sprite/FaceLabel
-@onready var _PRICE = $Price
+var _freeze_ignite_state: _FreezeIgniteState:
+	set(val):
+		_freeze_ignite_state = val
+		FROZEN_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
+		IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
+
+var _supercharged: bool:
+	set(val):
+		_supercharged = val
+		SUPERCHARGE_ICON.visible = _supercharged
+
+var _luck_state: _LuckState:
+	set(val):
+		_luck_state = val
+		LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
+		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
 
 # times the Wisdom power has been used on this coin; which reduces the tail downside by 1 each time
 var _athena_wisdom_stacks = 0
+
+@onready var _SPRITE = $Sprite
+@onready var _FACE_LABEL = $Sprite/FaceLabel
+@onready var _PRICE = $Price
 
 func _ready():
 	assert(_SPRITE)
@@ -111,9 +129,9 @@ func _on_state_changed() -> void:
 		_PRICE.hide()
 
 func _reset() -> void:
-	_bless_curse_state = _BlessCurseState.NONE
-	_frozen = false
-	_ignite_stacks = 0
+	_luck_state = _LuckState.NONE
+	_freeze_ignite_state = _FreezeIgniteState.NONE
+	_supercharged = false
 	_athena_wisdom_stacks = 0
 
 func assign_coin(coin: Global.Coin, owned_by: Owner):
@@ -127,34 +145,36 @@ func assign_coin(coin: Global.Coin, owned_by: Owner):
 func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
 
-func is_heads() -> bool:
-	return _heads
-
-func is_tails() -> bool:
-	return not _heads
-
 func flip(bonus: int = 0) -> void:
-	if _frozen: #don't flip if frozen
+	if is_frozen(): #don't flip if frozen
 		# todo - animation for unfreezing
-		_unfreeze()
+		_freeze_ignite_state = _FreezeIgniteState.NONE
 		emit_signal("flip_complete")
 		return
 	
-	Global.lives -= _ignite_stacks
+	if is_ignited():
+		#todo - animation for ignite
+		Global.lives -= _coin.get_life_loss()
 		
 	_disabled = true # ignore input while flipping
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
 	
-	var success_roll_min = 50 + bonus
-	match(_bless_curse_state):
-		_BlessCurseState.BLESSED:
-			success_roll_min += 16
-		_BlessCurseState.CURSED:
-			success_roll_min -= 17
-	
-	_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
+	if is_blessed():
+		_heads = true
+		_bless_curse_state = _BlessCurseState.BLESSED
+	elif is_cursed():
+		_heads = false
+		_bless_curse_state = _BlessCurseState.CURSED
+	else:
+		var success_roll_min = 50 + bonus
+		match(_luck_state):
+			_LuckState.LUCKY:
+				success_roll_min += 20
+			_LuckState.UNLUCKY:
+				success_roll_min -= 20
+		_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
@@ -165,6 +185,11 @@ func flip(bonus: int = 0) -> void:
 	set_animation(_Animation.FLAT)
 	
 	_FACE_LABEL.show()
+	
+	# if supercharged and we landed on tails, flip again.
+	if _supercharged:
+		_supercharged = false
+		await flip()
 	
 	emit_signal("flip_complete")
 	
@@ -225,19 +250,14 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
 	_power_uses_remaining += recharge_amount
 
-func freeze() -> void:
-	_frozen = true
-	_unignite()
+func make_lucky() -> void:
+	_luck_state = _LuckState.LUCKY
 
-func _unfreeze() -> void:
-	_frozen = false
+func make_unlucky() -> void:
+	_luck_state = _LuckState.UNLUCKY
 
-func ignite() -> void:
-	_ignite_stacks += 1
-	_unfreeze()
-
-func _unignite() -> void:
-	_ignite_stacks = 0
+func supercharge() -> void:
+	_supercharged = true
 
 func bless() -> void:
 	_bless_curse_state = _BlessCurseState.BLESSED
@@ -245,11 +265,35 @@ func bless() -> void:
 func curse() -> void:
 	_bless_curse_state = _BlessCurseState.CURSED
 
+func freeze() -> void:
+	_freeze_ignite_state = _FreezeIgniteState.FROZEN
+
+func ignite() -> void:
+	_freeze_ignite_state = _FreezeIgniteState.IGNITED
+
+func is_heads() -> bool:
+	return _heads
+
+func is_tails() -> bool:
+	return not _heads
+
+func is_lucky() -> bool:
+	return _luck_state == _LuckState.LUCKY
+
 func is_blessed() -> bool:
 	return _bless_curse_state == _BlessCurseState.BLESSED
 
 func is_cursed() -> bool:
 	return _bless_curse_state == _BlessCurseState.CURSED
+
+func is_unlucky() -> bool:
+	return _luck_state == _LuckState.UNLUCKY
+
+func is_frozen() -> bool:
+	return _freeze_ignite_state == _FreezeIgniteState.FROZEN
+	
+func is_ignited() -> bool:
+	return _freeze_ignite_state == _FreezeIgniteState.IGNITED
 
 func get_subtitle() -> String:
 	return _coin.get_subtitle()
