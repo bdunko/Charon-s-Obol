@@ -63,7 +63,7 @@ const _YELLOW = "#ffd541"
 const _GRAY = "#b3b9d1"
 func update_coin_text() -> void:
 	if not _heads:
-		_FACE_LABEL.text = _FACE_FORMAT % [_RED, "%d" % get_life_loss(), _coin.get_tails_icon_path()]
+		_FACE_LABEL.text = _FACE_FORMAT % [_RED, "%d" % get_tails_penalty(), _coin.get_tails_icon_path()]
 	elif _coin.get_power() != Global.Power.NONE:
 		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%d" % _power_uses_remaining, _coin.get_heads_icon_path()]
 	else:
@@ -92,8 +92,9 @@ var _luck_state: _LuckState:
 		LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
 		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
 
-# times the Wisdom power has been used on this coin; which reduces the tail downside by 1 each time
-var _athena_wisdom_stacks = 0
+# stacks of the Athena god coin; reduces tails penalty by 1 temporary (coin) or permanently (patron)
+var _round_tails_penalty_reduction = 0
+var _permanent_tails_penalty_reduction = 0
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -132,7 +133,8 @@ func _reset() -> void:
 	_luck_state = _LuckState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_supercharged = false
-	_athena_wisdom_stacks = 0
+	_round_tails_penalty_reduction = 0
+	_permanent_tails_penalty_reduction = 0
 
 func assign_coin(coin: Global.Coin, owned_by: Owner):
 	_reset()
@@ -154,7 +156,7 @@ func flip(bonus: int = 0) -> void:
 	
 	if is_ignited():
 		#todo - animation for ignite
-		Global.lives -= _coin.get_life_loss()
+		Global.lives -= _coin.get_tails_penalty()
 		
 	_disabled = true # ignore input while flipping
 	
@@ -195,7 +197,8 @@ func flip(bonus: int = 0) -> void:
 	
 	_disabled = false
 
-func swap_side() -> void:
+# turn a coin to its other side
+func turn() -> void:
 	_heads = not _heads
 	_FACE_LABEL.hide()
 	set_animation(_Animation.FLIP)
@@ -218,8 +221,8 @@ func can_upgrade() -> bool:
 func get_souls() -> int:
 	return _coin.get_souls()
 
-func get_life_loss() -> int:
-	return max(_coin.get_life_loss() - _athena_wisdom_stacks, 0)
+func get_tails_penalty() -> int:
+	return max(_coin.get_tails_penalty() - (_round_tails_penalty_reduction + _permanent_tails_penalty_reduction), 0)
 
 func get_value() -> int:
 	return _coin.get_value()
@@ -259,6 +262,9 @@ func make_lucky() -> void:
 func make_unlucky() -> void:
 	_luck_state = _LuckState.UNLUCKY
 
+func clear_lucky_unlucky() -> void:
+	_luck_state = _LuckState.NONE
+
 func supercharge() -> void:
 	_supercharged = true
 
@@ -268,11 +274,17 @@ func bless() -> void:
 func curse() -> void:
 	_bless_curse_state = _BlessCurseState.CURSED
 
+func clear_blessed_cursed() -> void:
+	_bless_curse_state = _BlessCurseState.NONE
+
 func freeze() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.FROZEN
 
 func ignite() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.IGNITED
+
+func clear_freeze_ignire() -> void:
+	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func is_heads() -> bool:
 	return _heads
@@ -307,8 +319,12 @@ func upgrade_denomination() -> void:
 	update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
 
-func apply_athena_wisdom() -> void:
-	_athena_wisdom_stacks += 1
+func reduce_tails_penalty_permanently() -> void:
+	_permanent_tails_penalty_reduction += 1
+	update_coin_text()
+
+func reduce_tails_downside_for_round() -> void:
+	_round_tails_penalty_reduction += 1
 	update_coin_text()
 
 func disable_input() -> void:
@@ -326,16 +342,16 @@ func _generate_tooltip() -> String:
 	var coin_name = _coin.get_name()
 	var subtitle = _coin.get_subtitle()
 	var power_description = _coin.get_power_string()
-	var life_lost = _coin.get_life_loss()
+	var life_lost = _coin.get_tails_penalty()
 	
 	return TOOLTIP_FORMAT % [coin_name, subtitle, power_description, life_lost]
 
 func on_round_end() -> void:
 	# reset wisdom stacks
-	_athena_wisdom_stacks = 0
+	_round_tails_penalty_reduction = 0
 	# force to heads
 	if not _heads:
-		swap_side()
+		turn()
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
