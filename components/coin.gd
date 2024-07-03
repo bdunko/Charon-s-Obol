@@ -239,6 +239,9 @@ func get_max_power_uses() -> int:
 func get_denomination() -> Global.Denomination:
 	return _coin.get_denomination()
 
+func get_denomination_as_int() -> int:
+	return _coin.get_denomination_as_int()
+
 func spend_power_use() -> void:
 	assert(_power_uses_remaining > 0)
 	_power_uses_remaining -= 1

@@ -170,7 +170,7 @@ func on_start() -> void:
 	Global.souls = 100
 	Global.lives = 100
 	Global.arrows = 10
-#	_gain_coin(Global.make_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL))
+	_gain_coin(Global.make_coin(Global.DEMETER_FAMILY, Global.Denomination.TETROBOL))
 #	_gain_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL))
 #	_gain_coin(Global.make_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL))
 #	_gain_coin(Global.make_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL))
@@ -538,7 +538,7 @@ func _on_coin_clicked(coin: CoinEntity):
 		# if this is a power which does not target, resolve it
 		match coin.get_power():
 			Global.Power.GAIN_LIFE:
-				Global.lives += 1
+				Global.lives += coin.get_denomination_as_int() + 1
 				coin.spend_power_use()
 			Global.Power.GAIN_ARROW:
 				Global.arrows += 1
