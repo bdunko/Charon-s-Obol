@@ -118,14 +118,81 @@ const BOSS_ROUND = 2
 			BossData.new("Cerberus I guess", [POSEIDON_FAMILY, ZEUS_FAMILY, GENERIC_FAMILY], "This is a a boss2!")]
 var boss = null
 
-enum Power {
+class Power:
+	var description: String
+	var uses_for_denom: Array[int]
+	var is_auto: bool
+	var icon_path: String
+	
+	func _init(desc: String, uses_per_denom: Array[int], auto: bool, icon: String) -> void:
+		self.description = desc
+		self.uses_for_denom = uses_per_denom
+		self.is_auto = auto
+		self.icon = icon
+
+var POWER_GAIN_SOULS = Power.new("+(SOULS_GAIN)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], true, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_LOSE_LIFE = Power.new("-(LIFE_PENALTY)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [0, 0, 0, 0], true, "res://assets/icons/soul_fragment_red_icon.png")
+# todo - crete all these powers...
+# todo - update god coins...
+# update coins code since it is probably confused now (coinentity)
+# update payoff code
+# todo - update patron tokens...
+# todo - medusa powers
+
+"""
+	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
+	TURN_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
+	EXCHANGE, MAKE_LUCKY, GAIN_COIN, DESTROY_FOR_LIFE,"""
+
+"""
+var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
+var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip and coin and its neighbors.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FREEZE, "Freeze another coin.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], _DEMETER_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.TURN_AND_BLURSE, "Turn a coin to its other face. Then, if it's [img=10x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=10x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "+(1_PER_DENOM) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 1, 1, 1], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip all coins and shuffle their position.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce another coin's [img=10x13]res://assets/icons/tails_icon.png[/img] [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.UPGRADE_AND_IGNITE, "Upgrade another coin and Ignite it.", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.MAKE_LUCKY, "Make another coin Lucky.", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY_FOR_LIFE, "Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+"""
+
+"""
+var _FRAGMENT_ICON_RED = "res://assets/icons/soul_fragment_red_icon.png"
+var _ZEUS_ICON = "res://assets/icons/zeus_icon.png"
+var _HERA_ICON = "res://assets/icons/hera_icon.png"
+var _POSEIDON_ICON = "res://assets/icons/poseidon_icon.png"
+var _DEMETER_ICON = "res://assets/icons/demeter_icon.png"
+var _APOLLO_ICON = "res://assets/icons/apollo_icon.png"
+var _ARTEMIS_ICON = "res://assets/icons/artemis_icon.png"
+var _ARES_ICON = "res://assets/icons/ares_icon.png"
+var _ATHENA_ICON = "res://assets/icons/athena_icon.png"
+var _HEPHAESTUS_ICON = "res://assets/icons/hephaestus_icon.png"
+var _APHRODITE_ICON = "res://assets/icons/aphrodite_icon.png"
+var _HERMES_ICON = "res://assets/icons/hermes_icon.png"
+var _HESTIA_ICON = "res://assets/icons/hestia_icon.png"
+var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
+var _HADES_ICON = "res://assets/icons/hades_icon.png"
+"""
+
+enum PowerEnum {
 	NONE,
+	
+	# coin powers
+	LOSE_LIFE, GAIN_SOULS,
 	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
 	TURN_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
 	EXCHANGE, MAKE_LUCKY, GAIN_COIN, DESTROY_FOR_LIFE,
 	
+	# arrow power
 	ARROW_REFLIP,
 	
+	# patron powers
 	PATRON_APHRODITE,
 	PATRON_APOLLO,
 	PATRON_ARES,
@@ -140,7 +207,11 @@ enum Power {
 	PATRON_HESTIA,
 	PATRON_POSEIDON,
 	PATRON_ZEUS,
-	PATRON_GODLESS # used as a placeholder for the godless statue, not a real power
+	PATRON_GODLESS, # used as a placeholder for the godless statue, not a real power
+	
+	# nemesis powers
+	NEMESIS_MEDUSA, NEMESIS_EURYALE, NEMESIS_STHENO,
+	NEMESIS_CURSE2, NEMESIS_STRAIN, NEMESIS_DOWNGRADE
 }
 
 # todo - refactor this into Util
@@ -234,42 +305,29 @@ enum _SpriteStyle {
 }
 
 class CoinFamily:
+	#todo refactor this outside
+	const TAILS_PENALTY_FOR_DENOM = [1, 2, 3, 4]
+	const SOULS_GAIN_FOR_DENOM = [2, 4, 7, 10]
+	
 	var of_suffix: String
 	var subtitle: String
+	
 	var store_price_for_denom: Array[int]
-	var souls_for_denom: Array[int]
-	var tails_penalty_for_denom: Array[int]
-	var power: Power
-	var power_string: String
-	var power_uses_for_denom: Array[int]
-	var heads_icon_path: String
-	var tails_icon_path: String
+	var heads_power: Power
+	var tails_power: Power
+	
 	var _sprite_style: _SpriteStyle
 	
 	func _init(suffix: String, 
 			sub_title: String, prices: Array[int],
-			souls_on_heads: Array[int], penalty_on_tails: Array[int], 
-			coin_power: Power, power_str: String, power_uses: Array[int],
-			heads_icon: String, tails_icon: String,
+			heads_pwr: Power, tails_pwr: Power,
 			style: _SpriteStyle) -> void:
 		of_suffix = suffix
 		subtitle = sub_title
 		store_price_for_denom = prices
-		
-		souls_for_denom = souls_on_heads
-		tails_penalty_for_denom = penalty_on_tails
-		
-		power = coin_power
-		power_string = power_str
-		power_uses_for_denom = power_uses
-		
-		heads_icon_path = heads_icon
-		tails_icon_path = tails_icon
-		
+		heads_power = heads_pwr
+		tails_power = tails_pwr
 		_sprite_style = style
-		
-		assert(FileAccess.file_exists(heads_icon_path))
-		assert(FileAccess.file_exists(tails_icon_path))
 	
 	func get_style_string() -> String:
 		match(_sprite_style):
@@ -322,7 +380,8 @@ class Coin:
 	
 	func get_power_string() -> String:
 		var power_string = _coin_family.power_string
-		power_string = power_string.replace("(SOULS)", str(get_souls()))
+		power_string = power_string.replace("(SOULS_GAIN)", str(get_souls()))
+		power_string = power_string.replace("(LIFE_PENALTY)", str(get_tails_penalty()))
 		power_string = power_string.replace("(POWER_USES)", str(get_max_power_uses()))
 		power_string = power_string.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
 		power_string = power_string.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
@@ -395,24 +454,7 @@ class Coin:
 			Denomination.TRIOBOL:
 				_denomination = Denomination.TETROBOL
 
-var _FRAGMENT_ICON_BLUE = "res://assets/icons/soul_fragment_blue_icon.png"
-var _FRAGMENT_ICON_RED = "res://assets/icons/soul_fragment_red_icon.png"
-var _ZEUS_ICON = "res://assets/icons/zeus_icon.png"
-var _HERA_ICON = "res://assets/icons/hera_icon.png"
-var _POSEIDON_ICON = "res://assets/icons/poseidon_icon.png"
-var _DEMETER_ICON = "res://assets/icons/demeter_icon.png"
-var _APOLLO_ICON = "res://assets/icons/apollo_icon.png"
-var _ARTEMIS_ICON = "res://assets/icons/artemis_icon.png"
-var _ARES_ICON = "res://assets/icons/ares_icon.png"
-var _ATHENA_ICON = "res://assets/icons/athena_icon.png"
-var _HEPHAESTUS_ICON = "res://assets/icons/hephaestus_icon.png"
-var _APHRODITE_ICON = "res://assets/icons/aphrodite_icon.png"
-var _HERMES_ICON = "res://assets/icons/hermes_icon.png"
-var _HESTIA_ICON = "res://assets/icons/hestia_icon.png"
-var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
-var _HADES_ICON = "res://assets/icons/hades_icon.png"
-
-var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], [2, 4, 7, 10], [1, 2, 3, 4], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
+var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
 var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip and coin and its neighbors.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
 var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FREEZE, "Freeze another coin.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
