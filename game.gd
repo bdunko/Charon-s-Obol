@@ -201,11 +201,11 @@ func _on_flip_complete() -> void:
 		# recharge all coin powers
 		for coin in _COIN_ROW.get_children():
 			coin = coin as CoinEntity
-			coin.reset_power_uses()
+			coin.on_toss_complete()
 		
 		Global.flips_this_round += 1
 		Global.state = Global.State.AFTER_FLIP
-		_DIALOGUE.show_dialogue("Alea iacta est!")
+		_DIALOGUE.show_dialogue("The coins fall...")
 		_show_player_textboxes()
 
 func _on_toss_button_clicked() -> void:
@@ -245,7 +245,7 @@ func _on_accept_button_pressed():
 		var gain_souls = coin.is_heads() and coin.get_souls() > 0
 		var lose_life = coin.is_tails() and coin.get_tails_penalty() > 0
 		
-		if gain_souls or lose_life:
+		if not coin.is_stone() and (gain_souls or lose_life):
 			create_tween().tween_property(coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
 			if gain_souls:
 				Global.souls += coin.get_souls()

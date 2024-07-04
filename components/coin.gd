@@ -24,6 +24,10 @@ enum _FreezeIgniteState {
 	NONE, FROZEN, IGNITED
 }
 
+enum _MaterialState {
+	NONE, STONE #GOLD, GLASS(?)
+}
+
 @onready var LUCKY_ICON = $LuckyIcon
 @onready var UNLUCKY_ICON = $UnluckyIcon
 @onready var FROZEN_ICON = $FrozenIcon
@@ -31,6 +35,7 @@ enum _FreezeIgniteState {
 @onready var BLESSED_ICON = $BlessedIcon
 @onready var CURSED_ICON = $CursedIcon
 @onready var SUPERCHARGE_ICON = $SuperchargeIcon
+@onready var STONE_ICON = $StoneIcon
 @onready var PRICE = $Price
 
 var _disabled := false
@@ -91,6 +96,11 @@ var _luck_state: _LuckState:
 		_luck_state = val
 		LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
 		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
+
+var _material_state: _MaterialState:
+	set(val):
+		_material_state = val
+		STONE_ICON.visible = _material_state == _MaterialState.STONE
 
 # stacks of the Athena god coin; reduces tails penalty by 1 temporary (coin) or permanently (patron)
 var _round_tails_penalty_reduction = 0
@@ -154,6 +164,10 @@ func flip(bonus: int = 0) -> void:
 		emit_signal("flip_complete")
 		return
 	
+	if is_stone(): #don't flip if stoned
+		emit_signal("flip_complete")
+		return
+	
 	if is_ignited():
 		#todo - animation for ignite
 		Global.lives -= _coin.get_tails_penalty()
@@ -199,6 +213,8 @@ func flip(bonus: int = 0) -> void:
 
 # turn a coin to its other side
 func turn() -> void:
+	if is_stone():
+		return
 	_heads = not _heads
 	_FACE_LABEL.hide()
 	set_animation(_Animation.FLIP)
@@ -310,6 +326,9 @@ func is_frozen() -> bool:
 func is_ignited() -> bool:
 	return _freeze_ignite_state == _FreezeIgniteState.IGNITED
 
+func is_stone() -> bool:
+	return _material_state == _MaterialState.STONE
+
 func get_subtitle() -> String:
 	return _coin.get_subtitle()
 
@@ -352,6 +371,13 @@ func on_round_end() -> void:
 	# force to heads
 	if not _heads:
 		turn()
+
+func on_toss_complete() -> void:
+	if not is_stone():
+		reset_power_uses()
+
+func on_payoff() -> void:
+	pass
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)

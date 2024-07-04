@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=57 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ulayqf1flk3x" path="res://assets/coins/obol_god.png" id="7_piem0"]
 [ext_resource type="Texture2D" uid="uid://b2d1rbovnhmix" path="res://assets/coins/tetrobol_god.png" id="8_sc7h6"]
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
+[ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bk4o2"]
 atlas = ExtResource("2_bkxn3")
@@ -168,6 +169,26 @@ region = Rect2(72, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r13tq"]
 atlas = ExtResource("9_6dpwv")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65ok8"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwq68"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl7mj"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y846"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bpjv"]
+atlas = ExtResource("10_6uffn")
 region = Rect2(108, 0, 36, 39)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w12pp"]
@@ -371,6 +392,31 @@ animations = [{
 "loop": true,
 "name": &"god_triobol_flip",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65ok8")
+}],
+"loop": true,
+"name": &"nemesis_tetrobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwq68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bl7mj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y846")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bpjv")
+}],
+"loop": true,
+"name": &"nemesis_tetrobol_flip",
+"speed": 20.0
 }]
 
 [node name="Coin" type="Control"]
@@ -417,13 +463,13 @@ polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 4
 
 [node name="UnluckyIcon" type="Polygon2D" parent="."]
 visible = false
-position = Vector2(-8, -2)
+position = Vector2(-9, -2)
 color = Color(0.784314, 0.105882, 0.203922, 1)
 polygon = PackedVector2Array(13, -1, 17, -1, 17, 3, 15, 6, 13, 3)
 
 [node name="LuckyIcon" type="Polygon2D" parent="."]
 visible = false
-position = Vector2(-8, 0)
+position = Vector2(-9, 0)
 color = Color(0.0509804, 1, 0.211765, 1)
 polygon = PackedVector2Array(13, -1, 15, -4, 17, -1, 17, 3, 13, 3)
 
@@ -435,15 +481,15 @@ polygon = PackedVector2Array(14, 1, 16, 1, 17, 3, 15, 5, 13, 3)
 
 [node name="CursedIcon" type="Polygon2D" parent="."]
 visible = false
-position = Vector2(-4, 0)
+position = Vector2(-5, 0)
 color = Color(0.45098, 0.247059, 0.721569, 1)
 polygon = PackedVector2Array(13, -1, 15, 0, 17, -1, 16, 1, 17, 3, 15, 2, 13, 3, 14, 1)
 
 [node name="FrozenIcon" type="Polygon2D" parent="."]
 visible = false
-position = Vector2(-14, 0)
+position = Vector2(-13, 0)
 color = Color(0.470588, 0.741176, 0.968627, 1)
-polygon = PackedVector2Array(14, -1, 17, -1, 18, 1, 16, 4, 14, 3, 13, 1)
+polygon = PackedVector2Array(14, -1, 16, -1, 17, 1, 16, 4, 14, 3, 13, 2)
 
 [node name="IgniteIcon" type="Polygon2D" parent="."]
 visible = false
@@ -452,9 +498,28 @@ color = Color(1, 0.235294, 0.211765, 1)
 polygon = PackedVector2Array(15, 1, 16, -1, 17, 1, 17, 3, 15, 3, 13, 3, 13, 1, 14, -1)
 
 [node name="SuperchargeIcon" type="Polygon2D" parent="."]
+visible = false
 position = Vector2(19, 0)
 color = Color(1, 1, 0.211765, 1)
 polygon = PackedVector2Array(15, -2, 17, -2, 15, 1, 16, 5, 15, 4, 13, 1)
+
+[node name="StoneIcon" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(-1, -1)
+color = Color(0.568627, 0.568627, 0.568627, 1)
+polygon = PackedVector2Array(14, 0, 16, 0, 17, 2, 16, 4, 14, 4, 13, 2)
+
+[node name="GoldIconUNUSED" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(-1, -1)
+color = Color(0.952941, 0.803922, 0.337255, 1)
+polygon = PackedVector2Array(14, 0, 16, 0, 17, 2, 16, 4, 14, 4, 13, 2)
+
+[node name="GlassIconUNUSED" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(-1, -1)
+color = Color(0.784314, 1, 1, 1)
+polygon = PackedVector2Array(14, 0, 16, 0, 17, 2, 16, 4, 14, 4, 13, 2)
 
 [node name="Price" type="RichTextLabel" parent="."]
 texture_filter = 1
