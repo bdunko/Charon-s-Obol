@@ -7,7 +7,7 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_s6gla")
-patron_power = 27
+patron_power = 12
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_pedkd")

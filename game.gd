@@ -161,7 +161,7 @@ func on_start() -> void:
 	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
 	Global.souls = 0
 	Global.arrows = 0
-	Global.active_coin_power = Global.Power.NONE
+	Global.active_coin_power = null
 	Global.flips_this_round = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
@@ -234,7 +234,7 @@ func _on_toss_button_clicked() -> void:
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
-	Global.active_coin_power = Global.Power.NONE
+	Global.active_coin_power = null
 	Global.active_coin_power_coin = null
 	
 	_DIALOGUE.show_dialogue("Payoff...")
@@ -464,36 +464,36 @@ func _on_coin_clicked(coin: CoinEntity):
 		return
 	
 	# if we have a coin power active, we're using a power on this coin; do that
-	if Global.active_coin_power != Global.Power.NONE:
+	if Global.active_coin_power != null:
 		if Global.is_patron_power(Global.active_coin_power):
 			match(Global.active_coin_power):
-				Global.Power.PATRON_ZEUS:
+				Global.PATRON_POWER_ZEUS:
 					coin.supercharge()
 					coin.flip()
-				Global.Power.PATRON_HERA:
+				Global.PATRON_POWER_HERA:
 					coin.turn()
 					if _left_coin(coin):
 						_left_coin(coin).turn()
 					if _right_coin(coin):
 						_right_coin(coin).turn()
-				Global.Power.PATRON_POSEIDON:
+				Global.PATRON_POWER_POSEIDON:
 					coin.freeze()
 					if _left_coin(coin):
 						_left_coin(coin).freeze()
 					if _right_coin(coin):
 						_right_coin(coin).freeze()
-				Global.Power.PATRON_ATHENA:
+				Global.PATRON_POWER_ATHENA:
 					coin.reduce_tails_penalty_permanently()
-				Global.Power.PATRON_HEPHAESTUS:
+				Global.PATRON_POWER_HEPHAESTUS:
 					coin.upgrade_denomination()
-				Global.Power.PATRON_HERMES:
+				Global.PATRON_POWER_HERMES:
 					coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
 					if Global.RNG.randi_range(1, 4) == 1:
 						coin.upgrade()
-				Global.Power.PATRON_HESTIA:
+				Global.PATRON_POWER_HESTIA:
 					coin.make_lucky()
 					coin.bless()
-				Global.Power.PATRON_HADES:
+				Global.PATRON_POWER_HADES:
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 						return
@@ -506,24 +506,24 @@ func _on_coin_clicked(coin: CoinEntity):
 				_patron_token.deactivate()
 			return
 		match(Global.active_coin_power):
-			Global.Power.REFLIP:
+			Global.POWER_REFLIP:
 				coin.flip()
-			Global.Power.FREEZE:
+			Global.POWER_FREEZE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... freeze... itself...")
 					return
 				coin.freeze()
-			Global.Power.FLIP_AND_NEIGHBORS:
+			Global.POWER_REFLIP_AND_NEIGHBORS:
 				# flip coin and neighbors
 				coin.flip()
 				if _left_coin(coin):
 					_left_coin(coin).flip()
 				if _right_coin(coin):
 					_right_coin(coin).flip()
-			Global.Power.TURN_AND_BLURSE:
+			Global.POWER_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
-			Global.Power.WISDOM:
+			Global.POWER_REDUCE_PENALTY:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... reduce... itself...")
 					return
@@ -531,7 +531,7 @@ func _on_coin_clicked(coin: CoinEntity):
 					_DIALOGUE.show_dialogue("No... need...")
 					return
 				coin.reduce_tails_downside_for_round()
-			Global.Power.UPGRADE_AND_IGNITE:
+			Global.POWER_UPGRADE_AND_IGNITE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... forge... itself...")
 					return
@@ -540,57 +540,58 @@ func _on_coin_clicked(coin: CoinEntity):
 					return
 				coin.upgrade_denomination()
 				coin.ignite()
-			Global.Power.RECHARGE:
+			Global.POWER_RECHARGE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				if coin.get_power() == Global.Power.NONE:
+				# TODODO - need coin.is_power_rechargable() to check this
+				if not coin.get_power().is_auto:
 					_DIALOGUE.show_dialogue("No... power... to... recharge...")
 					return
 				coin.recharge_power_uses_by(1)
-			Global.Power.EXCHANGE:
+			Global.POWER_EXCHANGE:
 				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
 				coin.activate_power_text() # update power text
-			Global.Power.MAKE_LUCKY:
+			Global.POWER_MAKE_LUCKY:
 				coin.make_lucky()
-			Global.Power.DESTROY_FOR_LIFE:
+			Global.POWER_DESTROY_FOR_LIFE:
 				if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 					_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 					return
 				# gain life equal to (2 * hades_value) * destroyed_value
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
 				coin.queue_free()
-			Global.Power.ARROW_REFLIP:
+			Global.POWER_ARROW_REFLIP:
 				coin.flip()
 				Global.arrows -= 1
 				if Global.arrows == 0:
-					Global.active_coin_power = Global.Power.NONE
+					Global.active_coin_power = null
 				return #special case - this power is not from a coin, so just exit immediately
 				
 		Global.active_coin_power_coin.spend_power_use()
 		if Global.active_coin_power_coin.get_power_uses_remaining() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
-			Global.active_coin_power = Global.Power.NONE
+			Global.active_coin_power = null
 	
 	# otherwise we're attempting to activate a coin
-	elif coin.is_heads() and coin.get_power() != Global.Power.NONE and coin.get_power_uses_remaining() > 0:
+	elif not coin.get_face_power().is_auto and coin.get_power_uses_remaining() > 0:
 		# if this is a power which does not target, resolve it
 		# todo - this could be refactored some probably...? I don't like spendPowerUse being repeated so many times, though I can't think of a better way yet
 		match coin.get_power():
-			Global.Power.GAIN_LIFE:
+			Global.POWER_GAIN_LIFE:
 				Global.lives += coin.get_denomination_as_int() + 1
 				coin.spend_power_use()
-			Global.Power.GAIN_ARROW:
+			Global.POWER_GAIN_ARROW:
 				Global.arrows += coin.get_denomination_as_int()
 				coin.spend_power_use()
-			Global.Power.REFLIP_ALL:
+			Global.POWER_REFLIP_ALL:
 				# reflip all coins
 				for c in _COIN_ROW.get_children():
 					c = c as CoinEntity
 					c.flip()
 				_shuffle_coin_row()
 				coin.spend_power_use()
-			Global.Power.GAIN_COIN:
+			Global.POWER_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
 					return
@@ -602,7 +603,7 @@ func _on_coin_clicked(coin: CoinEntity):
 
 func _on_arrow_pressed():
 	assert(Global.arrows >= 0)
-	Global.active_coin_power = Global.Power.ARROW_REFLIP
+	Global.active_coin_power = Global.POWER_ARROW_REFLIP
 
 func _on_patron_token_clicked():
 	if Global.patron_uses == 0:
@@ -611,37 +612,37 @@ func _on_patron_token_clicked():
 	
 	# immediate patron powers
 	match(Global.patron.power):
-		Global.Power.PATRON_DEMETER:
+		Global.PATRON_POWER_DEMETER:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: CoinEntity = coin
 				if as_coin.is_tails():
 					Global.lives += as_coin.get_tails_penalty()
 			Global.patron_uses -= 1
-		Global.Power.PATRON_APOLLO:
+		Global.PATRON_POWER_APOLLO:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: CoinEntity = coin
 				as_coin.turn()
 			Global.patron_uses -= 1
-		Global.Power.PATRON_ARTEMIS:
+		Global.PATRON_POWER_ARTEMIS:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: CoinEntity = coin
 				if as_coin.is_heads():
 					as_coin.turn()
 					Global.arrows += 2
 			Global.patron_uses -= 1
-		Global.Power.PATRON_ARES:
+		Global.PATRON_POWER_ARES:
 			for coin in _COIN_ROW.get_children():
 				coin.flip()
 				coin.reset()
 			_shuffle_coin_row()
 			Global.patron_uses -= 1
-		Global.Power.PATRON_APHRODITE:
+		Global.PATRON_POWER_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: CoinEntity = coin
-				if as_coin.get_power() != Global.Power.NONE:
+				if as_coin.get_face_power().is_auto:
 					as_coin.recharge_power_uses_by(1)
 			Global.patron_uses -= 1
-		Global.Power.PATRON_DIONYSUS:
+		Global.PATRON_POWER_DIONYSUS:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
 					return
@@ -659,7 +660,7 @@ func _input(event):
 	# right click with a god power disables it
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
-			Global.active_coin_power = Global.Power.NONE
+			Global.active_coin_power = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
 

@@ -38,7 +38,7 @@ func activate() -> void:
 
 func deactivate() -> void:
 	create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
-	Global.active_coin_power = Global.Power.NONE
+	Global.active_coin_power = null
 	_activated = false
 
 func is_activated() -> bool:

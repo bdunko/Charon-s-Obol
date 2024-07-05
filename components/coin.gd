@@ -67,12 +67,14 @@ const _BLUE = "#a6fcdb"
 const _YELLOW = "#ffd541"
 const _GRAY = "#b3b9d1"
 func update_coin_text() -> void:
-	if not _heads:
-		_FACE_LABEL.text = _FACE_FORMAT % [_RED, "%d" % get_tails_penalty(), _coin.get_tails_icon_path()]
-	elif _coin.get_power() != Global.Power.NONE:
-		_FACE_LABEL.text = _FACE_FORMAT % [_YELLOW if _power_uses_remaining != 0 else _GRAY, "%d" % _power_uses_remaining, _coin.get_heads_icon_path()]
-	else:
-		_FACE_LABEL.text = _FACE_FORMAT % [_BLUE, "%d" % _coin.get_souls(), _coin.get_heads_icon_path()]
+	var color = _YELLOW
+	match(get_face_power()):
+		Global.POWER_GAIN_SOULS:
+			color = _BLUE
+		Global.POWER_LOSE_LIFE:
+			color = _RED
+	
+	_FACE_LABEL.text = _FACE_FORMAT % [color, "%d" % _power_uses_remaining, get_face_power().icon_path]
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -243,8 +245,8 @@ func get_tails_penalty() -> int:
 func get_value() -> int:
 	return _coin.get_value()
 
-func get_power() -> Global.Power:
-	return _coin.get_power()
+func get_face_power() -> Global.Power:
+	return _coin.get_heads_power()  if is_heads() else _coin.get_tails_power()
 
 func get_power_string() -> String:
 	return _coin.get_power_string()

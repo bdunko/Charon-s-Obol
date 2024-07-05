@@ -278,7 +278,6 @@ offset_bottom = 178.0
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
-[connection signal="clicked" from="PatronToken" to="." method="_on_patron_token_clicked"]
 
 [editable path="UI/PlayerTextboxs/TossButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]

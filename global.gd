@@ -128,91 +128,40 @@ class Power:
 		self.description = desc
 		self.uses_for_denom = uses_per_denom
 		self.is_auto = auto
-		self.icon = icon
+		self.icon_path = icon
+		if icon != "":
+			assert(FileAccess.file_exists(self.icon_path))
 
-var POWER_GAIN_SOULS = Power.new("+(SOULS_GAIN)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], true, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_LOSE_LIFE = Power.new("-(LIFE_PENALTY)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [0, 0, 0, 0], true, "res://assets/icons/soul_fragment_red_icon.png")
-# todo - crete all these powers...
 # todo - update god coins...
 # update coins code since it is probably confused now (coinentity)
 # update payoff code
 # todo - update patron tokens...
 # todo - medusa powers
+var POWER_GAIN_SOULS = Power.new("+(SOULS_GAIN)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [2, 4, 7, 10], true, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_LOSE_LIFE = Power.new("-(LIFE_PENALTY)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 2, 3, 4], true, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_REFLIP = Power.new("Reflip a coin.", [2, 3, 4, 5], false, "res://assets/icons/zeus_icon.png")
+var POWER_FREEZE = Power.new("Freeze another coin.", [1, 2, 3, 4], false, "res://assets/icons/poseidon_icon.png")
+var POWER_REFLIP_AND_NEIGHBORS = Power.new("Reflip and coin and its neighbors.", [1, 2, 3, 4], false, "res://assets/icons/hera_icon.png")
+var POWER_GAIN_LIFE = Power.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], false, "res://assets/icons/demeter_icon.png")
+var POWER_GAIN_ARROW = Power.new("+(1_PER_DENOM) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 1, 1, 1], false, "res://assets/icons/artemis_icon.png")
+var POWER_TURN_AND_BLURSE = Power.new("Turn a coin to its other face. Then, if it's [img=10x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=10x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], false, "res://assets/icons/apollo_icon.png")
+var POWER_REFLIP_ALL = Power.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], false, "res://assets/icons/ares_icon.png")
+var POWER_REDUCE_PENALTY = Power.new("Reduce another coin's [img=10x13]res://assets/icons/tails_icon.png[/img] [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], false, "res://assets/icons/athena_icon.png")
+var POWER_UPGRADE_AND_IGNITE = Power.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], false, "res://assets/icons/hephaestus_icon.png")
+var POWER_RECHARGE = Power.new("Recharge another coin's power.", [1, 2, 3, 4], false, "res://assets/icons/aphrodite_icon.png")
+var POWER_EXCHANGE = Power.new("Trade a coin for another of equal value.", [1, 2, 3, 4], false, "res://assets/icons/hermes_icon.png")
+var POWER_MAKE_LUCKY = Power.new("Make another coin Lucky.", [1, 2, 3, 4], false, "res://assets/icons/hestia_icon.png")
+var POWER_GAIN_COIN = Power.new("Gain a random Obol.", [1, 2, 3, 4], false, "res://assets/icons/dionysus_icon.png")
+var POWER_DESTROY_FOR_LIFE = Power.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], false, "res://assets/icons/hades_icon.png")
 
-"""
-	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
-	TURN_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
-	EXCHANGE, MAKE_LUCKY, GAIN_COIN, DESTROY_FOR_LIFE,"""
+var POWER_ARROW_REFLIP = Power.new("Reflip a coin.", [1, 1, 1, 1], false, "")
 
-"""
-var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip and coin and its neighbors.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FREEZE, "Freeze another coin.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], _DEMETER_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.TURN_AND_BLURSE, "Turn a coin to its other face. Then, if it's [img=10x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=10x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "+(1_PER_DENOM) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 1, 1, 1], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip all coins and shuffle their position.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce another coin's [img=10x13]res://assets/icons/tails_icon.png[/img] [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.UPGRADE_AND_IGNITE, "Upgrade another coin and Ignite it.", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.MAKE_LUCKY, "Make another coin Lucky.", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY_FOR_LIFE, "Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-"""
-
-"""
-var _FRAGMENT_ICON_RED = "res://assets/icons/soul_fragment_red_icon.png"
-var _ZEUS_ICON = "res://assets/icons/zeus_icon.png"
-var _HERA_ICON = "res://assets/icons/hera_icon.png"
-var _POSEIDON_ICON = "res://assets/icons/poseidon_icon.png"
-var _DEMETER_ICON = "res://assets/icons/demeter_icon.png"
-var _APOLLO_ICON = "res://assets/icons/apollo_icon.png"
-var _ARTEMIS_ICON = "res://assets/icons/artemis_icon.png"
-var _ARES_ICON = "res://assets/icons/ares_icon.png"
-var _ATHENA_ICON = "res://assets/icons/athena_icon.png"
-var _HEPHAESTUS_ICON = "res://assets/icons/hephaestus_icon.png"
-var _APHRODITE_ICON = "res://assets/icons/aphrodite_icon.png"
-var _HERMES_ICON = "res://assets/icons/hermes_icon.png"
-var _HESTIA_ICON = "res://assets/icons/hestia_icon.png"
-var _DIONYSUS_ICON = "res://assets/icons/dionysus_icon.png"
-var _HADES_ICON = "res://assets/icons/hades_icon.png"
-"""
-
-enum PowerEnum {
-	NONE,
-	
-	# coin powers
-	LOSE_LIFE, GAIN_SOULS,
-	REFLIP, FREEZE, FLIP_AND_NEIGHBORS, GAIN_LIFE, GAIN_ARROW, 
-	TURN_AND_BLURSE, REFLIP_ALL, WISDOM, UPGRADE_AND_IGNITE, RECHARGE, 
-	EXCHANGE, MAKE_LUCKY, GAIN_COIN, DESTROY_FOR_LIFE,
-	
-	# arrow power
-	ARROW_REFLIP,
-	
-	# patron powers
-	PATRON_APHRODITE,
-	PATRON_APOLLO,
-	PATRON_ARES,
-	PATRON_ARTEMIS,
-	PATRON_ATHENA,
-	PATRON_DEMETER,
-	PATRON_DIONYSUS,
-	PATRON_HADES,
-	PATRON_HEPHAESTUS,
-	PATRON_HERA,
-	PATRON_HERMES,
-	PATRON_HESTIA,
-	PATRON_POSEIDON,
-	PATRON_ZEUS,
-	PATRON_GODLESS, # used as a placeholder for the godless statue, not a real power
-	
-	# nemesis powers
-	NEMESIS_MEDUSA, NEMESIS_EURYALE, NEMESIS_STHENO,
-	NEMESIS_CURSE2, NEMESIS_STRAIN, NEMESIS_DOWNGRADE
-}
+var NEMESIS_POWER_MEDUSA_STONE = Power.new("Turn the most valuable coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/medusa_icon.png")
+var NEMESIS_POWER_MEDUSA_STRAIN = Power.new("Increase Strain by 1.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/strain_icon.png")
+var NEMESIS_POWER_EURYALE_STONE = Power.new("Turn the leftmost coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/euryale_icon.png")
+var NEMESIS_POWER_EURYALE_UNLUCKY2 = Power.new("Make 2 random coins Unlucky.", [2, 2, 2, 2], true, "res://assets/icons/nemesis/unlucky_icon.png")
+var NEMESIS_POWER_STHENO_STONE = Power.new("Turn the rightmost coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/stheno_icon.png")
+var NEMESIS_POWER_STHENO_DOWNGRADE = Power.new("Downgrade a random coin.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/downgrade_icon.png")
 
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
@@ -248,40 +197,78 @@ class Patron:
 	var god_name: String
 	var token_name: String
 	var description: String
+	var patron_enum: PatronEnum
 	var power: Power
 	var patron_statue: PackedScene
 	var patron_token: PackedScene
 	
-	func _init(name: String, token: String, power_desc: String, pwr: Power, statue: PackedScene, tkn: PackedScene) -> void:
+	func _init(name: String, token: String, power_desc: String, ptrn_enum: PatronEnum, pwr: Power, statue: PackedScene, tkn: PackedScene) -> void:
 		self.god_name = name
 		self.token_name = token
 		self.description = power_desc
+		self.patron_enum = ptrn_enum
 		self.power = pwr
 		self.patron_statue = statue
 		self.patron_token = tkn
 
+# placeholder powers... kinda a $HACK$
+var PATRON_POWER_APHRODITE = Power.new("Aphrodite", [1, 2, 3, 4], false, "");
+var PATRON_POWER_APOLLO = Power.new("Apollo", [1, 2, 3, 4], false, "");
+var PATRON_POWER_ARES = Power.new("Ares", [1, 2, 3, 4], false, "");
+var PATRON_POWER_ARTEMIS = Power.new("Artemis", [1, 2, 3, 4], false, "");
+var PATRON_POWER_ATHENA = Power.new("Athena", [1, 2, 3, 4], false, "");
+var PATRON_POWER_DEMETER = Power.new("Demeter", [1, 2, 3, 4], false, "");
+var PATRON_POWER_DIONYSUS = Power.new("Dionysus", [1, 2, 3, 4], false, "");
+var PATRON_POWER_HADES = Power.new("Hades", [1, 2, 3, 4], false, "");
+var PATRON_POWER_HEPHAESTUS = Power.new("Hephaestus", [1, 2, 3, 4], false, "");
+var PATRON_POWER_HERA = Power.new("Hera", [1, 2, 3, 4], false, "");
+var PATRON_POWER_HERMES = Power.new("Hermes", [1, 2, 3, 4], false, "");
+var PATRON_POWER_HESTIA = Power.new("Hestia", [1, 2, 3, 4], false, "");
+var PATRON_POWER_POSEIDON = Power.new("Poseidon", [1, 2, 3, 4], false, "");
+var PATRON_POWER_ZEUS = Power.new("Zeus", [1, 2, 3, 4], false, "");
+
+# exists so I can define a value for the Patron in the editor for patron statues
+enum PatronEnum {
+	NONE, #used as default for debugging purposes
+	APHRODITE,
+	APOLLO,
+	ARES,
+	ARTEMIS,
+	ATHENA,
+	DEMETER,
+	DIONYSUS,
+	HADES,
+	HEPHAESTUS,
+	HERA,
+	HERMES,
+	HESTIA,
+	POSEIDON,
+	ZEUS,
+	GODLESS, # used as a placeholder for the godless statue, not a real power
+}
+
 var PATRONS = [
-	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Recharge every coin.", Power.PATRON_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn")),
-	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Turn each coin to their other face.", Power.PATRON_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn")),
-	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Reflip all coins, shuffle their positions, and remove all their statuses.", Power.PATRON_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn")),
-	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Gain 2 Arrows for each coin on heads, then turn all coins to tails.", Power.PATRON_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn")),
-	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's tails penalty by 1.", Power.PATRON_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn")),
-	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on tails, heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to its tails penalty. ", Power.PATRON_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn")),
-	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "Gain a random Obol and make it Lucky.", Power.PATRON_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn")),
-	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] and [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] based on its value.", Power.PATRON_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn")),
-	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Upgrade a coin.", Power.PATRON_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn")),
-	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Turn a coin and its neighbors to their other face.", Power.PATRON_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn")),	
-	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal or (25% of the time) greater value.", Power.PATRON_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn")),
-	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin Lucky and Blessed.", Power.PATRON_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn")),
-	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "Freeze a coin and its neighbors.", Power.PATRON_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn")),
-	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Supercharge a coin, then reflip it.", Power.PATRON_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"))
+	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Recharge every coin.", PatronEnum.APHRODITE, PATRON_POWER_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn")),
+	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Turn each coin to their other face.", PatronEnum.APOLLO, PATRON_POWER_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn")),
+	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Reflip all coins, shuffle their positions, and remove all their statuses.", PatronEnum.ARES, PATRON_POWER_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn")),
+	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Gain 2 Arrows for each coin on heads, then turn all coins to tails.", PatronEnum.ARTEMIS, PATRON_POWER_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn")),
+	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's tails penalty by 1.", PatronEnum.ATHENA, PATRON_POWER_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn")),
+	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on tails, heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to its tails penalty. ", PatronEnum.DEMETER, PATRON_POWER_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn")),
+	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "Gain a random Obol and make it Lucky.", PatronEnum.DIONYSUS, PATRON_POWER_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn")),
+	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] and [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] based on its value.", PatronEnum.HADES, PATRON_POWER_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn")),
+	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Upgrade a coin.", PatronEnum.HEPHAESTUS, PATRON_POWER_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn")),
+	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Turn a coin and its neighbors to their other face.", PatronEnum.HERA, PATRON_POWER_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn")),	
+	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal or (25% of the time) greater value.", PatronEnum.HERMES, PATRON_POWER_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn")),
+	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin Lucky and Blessed.", PatronEnum.HESTIA, PATRON_POWER_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn")),
+	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "Freeze a coin and its neighbors.", PatronEnum.POSEIDON, PATRON_POWER_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn")),
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Supercharge a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"))
 ]
 
-func patron_for_power(power: Power) -> Patron:
-	if power == Power.PATRON_GODLESS:
+func patron_for_power(enm: PatronEnum) -> Patron:
+	if enm == PatronEnum.GODLESS:
 		return choose_one(PATRONS)
 	for possible_patron in PATRONS:
-		if possible_patron.power == power:
+		if possible_patron.patron_enum == enm:
 			return possible_patron
 	assert(false, "Patron does not exist.")
 	return null
@@ -305,10 +292,6 @@ enum _SpriteStyle {
 }
 
 class CoinFamily:
-	#todo refactor this outside
-	const TAILS_PENALTY_FOR_DENOM = [1, 2, 3, 4]
-	const SOULS_GAIN_FOR_DENOM = [2, 4, 7, 10]
-	
 	var of_suffix: String
 	var subtitle: String
 	
@@ -375,8 +358,11 @@ class Coin:
 	func can_upgrade() -> bool:
 		return _denomination != Denomination.TETROBOL
 	
-	func get_power() -> Power:
-		return _coin_family.power
+	func get_heads_power() -> Power:
+		return _coin_family.heads_power
+	
+	func get_tails_power() -> Power:
+		return _coin_family.tails_power
 	
 	func get_power_string() -> String:
 		var power_string = _coin_family.power_string
@@ -454,21 +440,21 @@ class Coin:
 			Denomination.TRIOBOL:
 				_denomination = Denomination.TETROBOL
 
-var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], Power.NONE, "+(SOULS)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [0, 0, 0, 0], _FRAGMENT_ICON_BLUE, _FRAGMENT_ICON_RED, _SpriteStyle.GENERIC)
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP, "Reflip a coin.", [2, 3, 4, 5], _ZEUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FLIP_AND_NEIGHBORS, "Reflip and coin and its neighbors.", [1, 2, 3, 4], _HERA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.FREEZE, "Freeze another coin.", [1, 2, 3, 4], _POSEIDON_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_LIFE, "+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], _DEMETER_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.TURN_AND_BLURSE, "Turn a coin to its other face. Then, if it's [img=10x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=10x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], _APOLLO_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_ARROW, "+(1_PER_DENOM) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 1, 1, 1], _ARTEMIS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], [0, 0, 0, 0], [1, 2, 3, 4], Power.REFLIP_ALL, "Reflip all coins and shuffle their position.", [1, 2, 3, 4], _ARES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.WISDOM, "Reduce another coin's [img=10x13]res://assets/icons/tails_icon.png[/img] [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], _ATHENA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], [0, 0, 0, 0], [1, 2, 3, 4], Power.UPGRADE_AND_IGNITE, "Upgrade another coin and Ignite it.", [1, 2, 3, 4], _HEPHAESTUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.RECHARGE, "Recharge another coin's power.", [1, 2, 3, 4], _APHRODITE_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.EXCHANGE, "Trade a coin for another of equal value.", [1, 2, 3, 4], _HERMES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.MAKE_LUCKY, "Make another coin Lucky.", [1, 2, 3, 4], _HESTIA_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], [0, 0, 0, 0], [1, 2, 3, 4], Power.GAIN_COIN, "Gain a random Obol.", [1, 2, 3, 4], _DIONYSUS_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
-var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], [0, 0, 0, 0], [1, 2, 3, 4], Power.DESTROY_FOR_LIFE, "Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], _HADES_ICON, _FRAGMENT_ICON_RED, _SpriteStyle.GOD)
+var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], POWER_GAIN_SOULS, POWER_LOSE_LIFE, _SpriteStyle.GENERIC)
+var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], POWER_REFLIP, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], POWER_REFLIP_AND_NEIGHBORS, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], POWER_FREEZE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], POWER_GAIN_LIFE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], POWER_TURN_AND_BLURSE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], POWER_GAIN_ARROW, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], POWER_REFLIP_ALL, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], POWER_REDUCE_PENALTY, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], POWER_UPGRADE_AND_IGNITE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], POWER_RECHARGE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], POWER_EXCHANGE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22],  POWER_MAKE_LUCKY, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], POWER_GAIN_COIN, POWER_LOSE_LIFE, _SpriteStyle.GOD)
+var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], POWER_DESTROY_FOR_LIFE, POWER_LOSE_LIFE, _SpriteStyle.GOD)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
