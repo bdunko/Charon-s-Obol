@@ -7,7 +7,7 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_lbe1j")
-patron_power = 15
+patron_enum = 15
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_lnahq")

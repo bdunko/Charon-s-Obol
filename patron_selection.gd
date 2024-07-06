@@ -16,7 +16,7 @@ func _ready() -> void:
 	assert(_PATRON_STATUES)
 
 func _on_statue_clicked(statue: PatronStatue):
-	Global.patron = Global.patron_for_power(statue.patron_power)
+	Global.patron = Global.patron_for_enum(statue.patron_enum)
 	emit_signal("patron_selected")
 
 func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:

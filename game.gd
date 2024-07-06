@@ -161,7 +161,7 @@ func on_start() -> void:
 	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
 	Global.souls = 0
 	Global.arrows = 0
-	Global.active_coin_power = null
+	Global.active_coin_power_family = null
 	Global.flips_this_round = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
@@ -170,11 +170,11 @@ func on_start() -> void:
 	Global.souls = 100
 	Global.lives = 100
 	Global.arrows = 10
-	_gain_coin(Global.make_coin(Global.DEMETER_FAMILY, Global.Denomination.TETROBOL))
-#	_gain_coin(Global.make_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL))
-#	_gain_coin(Global.make_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL))
-#	_gain_coin(Global.make_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL))
-#	_gain_coin(Global.make_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL))
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL)
+#	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
+#	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
+#	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	
 	_RESET_BUTTON.hide()
 	
@@ -200,7 +200,7 @@ func _on_flip_complete() -> void:
 	if flips_completed == _COIN_ROW.get_child_count() + _BOSS_ROW.get_child_count():
 		# recharge all coin powers
 		for coin in _COIN_ROW.get_children():
-			coin = coin as CoinEntity
+			coin = coin as Coin
 			coin.on_toss_complete()
 		
 		Global.flips_this_round += 1
@@ -226,15 +226,15 @@ func _on_toss_button_clicked() -> void:
 	# flip all the coins
 	flips_completed = 0
 	for coin in _COIN_ROW.get_children() :
-		coin = coin as CoinEntity
+		coin = coin as Coin
 		coin.flip()
 	for coin in _BOSS_ROW.get_children():
-		coin = coin as CoinEntity
+		coin = coin as Coin
 		coin.flip()
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
-	Global.active_coin_power = null
+	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
 	
 	_DIALOGUE.show_dialogue("Payoff...")
@@ -242,15 +242,16 @@ func _on_accept_button_pressed():
 	
 	# payoff animation
 	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
-		var gain_souls = coin.is_heads() and coin.get_souls() > 0
-		var lose_life = coin.is_tails() and coin.get_tails_penalty() > 0
+		var payoff_power_family = coin.get_active_power_family()
+		var charges = coin.get_active_power_charges()
 		
-		if not coin.is_stone() and (gain_souls or lose_life):
+		if payoff_power_family.is_payoff and not coin.is_stone() and charges > 0:
 			create_tween().tween_property(coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
-			if gain_souls:
-				Global.souls += coin.get_souls()
-			elif lose_life:
-				Global.lives -= coin.get_tails_penalty()
+			match(payoff_power_family):
+				Global.POWER_FAMILY_GAIN_SOULS:
+					Global.souls += charges
+				Global.POWER_FAMILY_LOSE_LIFE:
+					Global.lives -= charges
 			# todo - other abilities
 			await Global.delay(0.15)
 			create_tween().tween_property(coin, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
@@ -278,7 +279,7 @@ func _advance_round() -> void:
 	if Global.round_count == Global.BOSS_ROUND:
 		_BOSS.setup()
 		for c in _BOSS_ROW.get_children():
-			var coin = c as CoinEntity
+			var coin = c as Coin
 			coin.flip_complete.connect(_on_flip_complete)
 	else:
 		for c in _BOSS_ROW.get_children():
@@ -321,7 +322,7 @@ func _on_voyage_continue_button_clicked():
 	# if this is the first round, give an obol and explain the rules a bit
 	if first_round:
 		await _wait_for_dialogue("Now place your payment on the table...")
-		_gain_coin(Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)) # make a single starting coin
+		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
 	
 	if Global.round_count > Global.NUM_ROUNDS: # if the game ended, just exit
 		return
@@ -373,7 +374,7 @@ func _on_pay_toll_button_clicked():
 func _on_die_button_clicked() -> void:
 	Global.state = Global.State.GAME_OVER
 
-func _on_shop_coin_purchased(coin: CoinEntity, price: int):
+func _on_shop_coin_purchased(coin: Coin, price: int):
 	# make sure we can afford this coin
 	if Global.souls < price:
 		_DIALOGUE.show_dialogue("Not... enough... souls...")
@@ -387,31 +388,32 @@ func _on_shop_coin_purchased(coin: CoinEntity, price: int):
 	
 	_gain_coin_entity(coin)
 
-func _gain_coin(coin: Global.Coin) -> void:
-	var new_coin: CoinEntity = _COIN_SCENE.instantiate()
+func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination) -> Coin:
+	var new_coin: Coin = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
-	new_coin.assign_coin(coin, CoinEntity.Owner.PLAYER)
+	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
+	return new_coin
 
-func _gain_coin_entity(coin: CoinEntity):
+func _gain_coin_entity(coin: Coin):
 	_COIN_ROW.add_child(coin)
 	coin.mark_owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 
-func _remove_coin(coin: CoinEntity):
+func _remove_coin(coin: Coin):
 	_COIN_ROW.remove_child(coin)
 	coin.queue_free()
 
 # returns the coin to the left, or nullptr if none
-func _left_coin(coin: CoinEntity) -> CoinEntity:
+func _left_coin(coin: Coin) -> Coin:
 	if coin.get_index() == 0: #nothing more to the left
 		return null
 	return _COIN_ROW.get_child(coin.get_index() - 1)
 
 # returns the coin to the right, or nullptr if none
-func _right_coin(coin: CoinEntity) -> CoinEntity:
+func _right_coin(coin: Coin) -> Coin:
 	if coin.get_index() + 1 == _COIN_ROW.get_child_count(): #nothing more to the right
 		return null
 	return _COIN_ROW.get_child(coin.get_index() + 1)
@@ -420,14 +422,14 @@ func _right_coin(coin: CoinEntity) -> CoinEntity:
 func _shuffle_coin_row() -> void:
 	var all_coins = []
 	for c in _COIN_ROW.get_children():
-		c = c as CoinEntity
+		c = c as Coin
 		all_coins.append(c)
 		_COIN_ROW.remove_child(c)
 	all_coins.shuffle()
 	for c in all_coins:
 		_COIN_ROW.add_child(c)
 
-func _on_coin_clicked(coin: CoinEntity):
+func _on_coin_clicked(coin: Coin):
 	# if we're in the shop, sell this coin
 	# if Global.state == Global.State.SHOP:
 	#	# don't sell if this is the last coin
@@ -464,36 +466,38 @@ func _on_coin_clicked(coin: CoinEntity):
 		return
 	
 	# if we have a coin power active, we're using a power on this coin; do that
-	if Global.active_coin_power != null:
-		if Global.is_patron_power(Global.active_coin_power):
-			match(Global.active_coin_power):
-				Global.PATRON_POWER_ZEUS:
+	if Global.active_coin_power_family != null:
+		if Global.is_patron_power(Global.active_coin_power_family):
+			match(Global.active_coin_power_family):
+				Global.PATRON_POWER_FAMILY_ZEUS:
 					coin.supercharge()
 					coin.flip()
-				Global.PATRON_POWER_HERA:
+				Global.PATRON_POWER_FAMILY_HERA:
 					coin.turn()
 					if _left_coin(coin):
 						_left_coin(coin).turn()
 					if _right_coin(coin):
 						_right_coin(coin).turn()
-				Global.PATRON_POWER_POSEIDON:
+				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
 					if _left_coin(coin):
 						_left_coin(coin).freeze()
 					if _right_coin(coin):
 						_right_coin(coin).freeze()
-				Global.PATRON_POWER_ATHENA:
-					coin.reduce_tails_penalty_permanently()
-				Global.PATRON_POWER_HEPHAESTUS:
+				Global.PATRON_POWER_FAMILY_ATHENA:
+					if not coin.can_reduce_life_penalty():
+						_DIALOGUE.show_dialogue("No... need...")
+					coin.reduce_life_penalty_permanently()
+				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
 					coin.upgrade_denomination()
-				Global.PATRON_POWER_HERMES:
-					coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
+				Global.PATRON_POWER_FAMILY_HERMES:
+					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 					if Global.RNG.randi_range(1, 4) == 1:
 						coin.upgrade()
-				Global.PATRON_POWER_HESTIA:
+				Global.PATRON_POWER_FAMILY_HESTIA:
 					coin.make_lucky()
 					coin.bless()
-				Global.PATRON_POWER_HADES:
+				Global.PATRON_POWER_FAMILY_HADES:
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 						return
@@ -505,33 +509,33 @@ func _on_coin_clicked(coin: CoinEntity):
 			if Global.patron_uses == 0:
 				_patron_token.deactivate()
 			return
-		match(Global.active_coin_power):
-			Global.POWER_REFLIP:
+		match(Global.active_coin_power_family):
+			Global.POWER_FAMILY_REFLIP:
 				coin.flip()
-			Global.POWER_FREEZE:
+			Global.POWER_FAMILY_FREEZE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... freeze... itself...")
 					return
 				coin.freeze()
-			Global.POWER_REFLIP_AND_NEIGHBORS:
+			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
 				# flip coin and neighbors
 				coin.flip()
 				if _left_coin(coin):
 					_left_coin(coin).flip()
 				if _right_coin(coin):
 					_right_coin(coin).flip()
-			Global.POWER_TURN_AND_BLURSE:
+			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
-			Global.POWER_REDUCE_PENALTY:
+			Global.POWER_FAMILY_REDUCE_PENALTY:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... reduce... itself...")
 					return
-				if coin.get_tails_penalty() == 0:
+				if not coin.can_reduce_life_penalty():
 					_DIALOGUE.show_dialogue("No... need...")
 					return
-				coin.reduce_tails_downside_for_round()
-			Global.POWER_UPGRADE_AND_IGNITE:
+				coin.reduce_life_penalty_for_round()
+			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... forge... itself...")
 					return
@@ -540,70 +544,67 @@ func _on_coin_clicked(coin: CoinEntity):
 					return
 				coin.upgrade_denomination()
 				coin.ignite()
-			Global.POWER_RECHARGE:
+			Global.POWER_FAMILY_RECHARGE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				# TODODO - need coin.is_power_rechargable() to check this
-				if not coin.get_power().is_auto:
-					_DIALOGUE.show_dialogue("No... power... to... recharge...")
+				if not coin.get_active_power_family().is_payoff:
+					_DIALOGUE.show_dialogue("Can't... recharge... that..")
 					return
 				coin.recharge_power_uses_by(1)
-			Global.POWER_EXCHANGE:
-				coin.assign_coin(Global.make_coin(Global.random_family(), coin.get_denomination()), CoinEntity.Owner.PLAYER)
-				coin.activate_power_text() # update power text
-			Global.POWER_MAKE_LUCKY:
+			Global.POWER_FAMILY_EXCHANGE:
+				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
+			Global.POWER_FAMILY_MAKE_LUCKY:
 				coin.make_lucky()
-			Global.POWER_DESTROY_FOR_LIFE:
+			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
 				if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 					_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 					return
 				# gain life equal to (2 * hades_value) * destroyed_value
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
 				coin.queue_free()
-			Global.POWER_ARROW_REFLIP:
+			Global.POWER_FAMILY_ARROW_REFLIP:
 				coin.flip()
 				Global.arrows -= 1
 				if Global.arrows == 0:
-					Global.active_coin_power = null
+					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
 				
 		Global.active_coin_power_coin.spend_power_use()
-		if Global.active_coin_power_coin.get_power_uses_remaining() == 0 or not Global.active_coin_power_coin.is_heads():
+		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
-			Global.active_coin_power = null
+			Global.active_coin_power_family = null
 	
 	# otherwise we're attempting to activate a coin
-	elif not coin.get_face_power().is_auto and coin.get_power_uses_remaining() > 0:
+	elif not coin.get_active_power_family().is_payoff and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
-		# todo - this could be refactored some probably...? I don't like spendPowerUse being repeated so many times, though I can't think of a better way yet
-		match coin.get_power():
-			Global.POWER_GAIN_LIFE:
+		match coin.get_active_power_family():
+			Global.POWER_FAMILY_GAIN_LIFE:
 				Global.lives += coin.get_denomination_as_int() + 1
 				coin.spend_power_use()
-			Global.POWER_GAIN_ARROW:
+			Global.POWER_FAMILY_GAIN_ARROW:
 				Global.arrows += coin.get_denomination_as_int()
 				coin.spend_power_use()
-			Global.POWER_REFLIP_ALL:
+			Global.POWER_FAMILY_REFLIP_ALL:
 				# reflip all coins
 				for c in _COIN_ROW.get_children():
-					c = c as CoinEntity
+					c = c as Coin
 					c.flip()
 				_shuffle_coin_row()
 				coin.spend_power_use()
-			Global.POWER_GAIN_COIN:
+			Global.POWER_FAMILY_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
 					return
-				_gain_coin(Global.make_coin(Global.random_family(), Global.Denomination.OBOL))
+				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
 				coin.spend_power_use()
 			_: # otherwise, make this the active coin and coin power and await click on target
 				Global.active_coin_power_coin = coin
-				Global.active_coin_power = coin.get_power()
+				Global.active_coin_power_family = coin.get_active_power_family()
 
 func _on_arrow_pressed():
 	assert(Global.arrows >= 0)
-	Global.active_coin_power = Global.POWER_ARROW_REFLIP
+	Global.active_coin_power_family = Global.POWER_FAMILY_ARROW_REFLIP
 
 func _on_patron_token_clicked():
 	if Global.patron_uses == 0:
@@ -612,44 +613,43 @@ func _on_patron_token_clicked():
 	
 	# immediate patron powers
 	match(Global.patron.power):
-		Global.PATRON_POWER_DEMETER:
+		Global.PATRON_POWER_FAMILY_DEMETER:
 			for coin in _COIN_ROW.get_children():
-				var as_coin: CoinEntity = coin
+				var as_coin: Coin = coin
 				if as_coin.is_tails():
 					Global.lives += as_coin.get_tails_penalty()
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_APOLLO:
+		Global.PATRON_POWER_FAMILY_APOLLO:
 			for coin in _COIN_ROW.get_children():
-				var as_coin: CoinEntity = coin
+				var as_coin: Coin = coin
 				as_coin.turn()
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_ARTEMIS:
+		Global.PATRON_POWER_FAMILY_ARTEMIS:
 			for coin in _COIN_ROW.get_children():
-				var as_coin: CoinEntity = coin
+				var as_coin: Coin = coin
 				if as_coin.is_heads():
 					as_coin.turn()
 					Global.arrows += 2
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_ARES:
+		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children():
 				coin.flip()
 				coin.reset()
 			_shuffle_coin_row()
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_APHRODITE:
+		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
-				var as_coin: CoinEntity = coin
-				if as_coin.get_face_power().is_auto:
+				var as_coin: Coin = coin
+				if as_coin.get_active_power_family().is_payoff:
 					as_coin.recharge_power_uses_by(1)
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_DIONYSUS:
+		Global.PATRON_POWER_FAMILY_DIONYSUS:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
 					return
-				var coin = Global.make_coin(Global.random_family(), Global.Denomination.OBOL)
-				coin.make_lucky()
-				_gain_coin(coin)
-				Global.patroN_uses -= 1
+				var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
+				new_coin.make_lucky()
+				Global.patron_uses -= 1
 		_: # if not immediate, activate the token
 			_patron_token.activate()
 
@@ -660,10 +660,10 @@ func _input(event):
 	# right click with a god power disables it
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
-			Global.active_coin_power = null
+			Global.active_coin_power_family = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
 
-# todo - delete this thing
+# todo - delete the reset button
 func _on_reset_button_pressed():
 	emit_signal("game_ended")

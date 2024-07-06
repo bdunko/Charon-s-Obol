@@ -22,23 +22,20 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 				emit_signal("clicked")
 
 func _on_clickable_area_mouse_entered():
-	Global.power_text = "this does nothing"
-	Global.power_text_source = self
 	if not _activated:
 		UITooltip.create(self, "%s (%d)\n%s" % [Global.patron.token_name, Global.patron_uses, Global.patron.description], get_global_mouse_position(), get_tree().root)
 
 func _on_clickable_area_mouse_exited():
-	if Global.power_text_source == self:
-		Global.power_text = ""
+	pass
 
 func activate() -> void:
 	create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
-	Global.active_coin_power = Global.patron.power
+	Global.active_coin_power_family = Global.patron.power_family
 	_activated = true
 
 func deactivate() -> void:
 	create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
-	Global.active_coin_power = null
+	Global.active_coin_power_family = null
 	_activated = false
 
 func is_activated() -> bool:

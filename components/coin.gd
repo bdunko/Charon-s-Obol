@@ -1,4 +1,4 @@
-class_name CoinEntity
+class_name Coin
 extends Control
 
 signal flip_complete
@@ -43,38 +43,46 @@ var _disabled := false
 var _owner: Owner:
 	set(val):
 		_owner = val
-		update_price_label()
+		_update_price_label()
 
-var _coin: Global.Coin:
+var _coin_family: Global.CoinFamily:
 	set(val):
-		_coin = val
-		# update sprite animation to match denomination
-		set_animation(_Animation.FLAT)
+		_coin_family = val
+
+var _denomination: Global.Denomination:
+	set(val):
+		_denomination = val
+		set_animation(_Animation.FLAT) #update denom
 
 var _heads:
 	set(val):
 		_heads = val
-		update_coin_text()
-		
-var _power_uses_remaining = -1:
-	set(val):
-		_power_uses_remaining = val
-		update_coin_text()
+		_update_coin_text()
+
+class FacePower:
+	var charges: int = 0
+	var power_family: Global.PowerFamily
+	
+	func _init(fam: Global.PowerFamily, starting_charges: int):
+		self.power_family = fam
+		self.charges = starting_charges
+
+var _heads_power: FacePower
+var _tails_power: FacePower
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][/center][img=10x13]%s[/img]"
 const _RED = "#e12f3b"
 const _BLUE = "#a6fcdb"
 const _YELLOW = "#ffd541"
 const _GRAY = "#b3b9d1"
-func update_coin_text() -> void:
+func _update_coin_text() -> void:
 	var color = _YELLOW
-	match(get_face_power()):
-		Global.POWER_GAIN_SOULS:
+	match(get_active_power_family()):
+		Global.POWER_FAMILY_GAIN_SOULS:
 			color = _BLUE
-		Global.POWER_LOSE_LIFE:
+		Global.POWER_FAMILY_LOSE_LIFE:
 			color = _RED
-	
-	_FACE_LABEL.text = _FACE_FORMAT % [color, "%d" % _power_uses_remaining, get_face_power().icon_path]
+	_FACE_LABEL.text = _FACE_FORMAT % [color, "%d" % get_active_power_charges(), get_active_power_family().icon_path]
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -104,7 +112,7 @@ var _material_state: _MaterialState:
 		_material_state = val
 		STONE_ICON.visible = _material_state == _MaterialState.STONE
 
-# stacks of the Athena god coin; reduces tails penalty by 1 temporary (coin) or permanently (patron)
+# stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
 var _round_tails_penalty_reduction = 0
 var _permanent_tails_penalty_reduction = 0
 
@@ -115,18 +123,12 @@ var _permanent_tails_penalty_reduction = 0
 func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
-	Global.souls_count_changed.connect(update_price_label)
-	Global.state_changed.connect(_on_state_changed)
-	_PRICE.visible = Global.state == Global.State.SHOP
-	_coin = Global.make_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
-	_heads = true
-	_reset()
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-func update_price_label() -> void:
+func _update_price_label() -> void:
 	# special case - can't upgrade further, show nothing
-	if _owner == Owner.PLAYER and not _coin.can_upgrade():
+	if _owner == Owner.PLAYER and not can_upgrade():
 		_PRICE.text = ""
 		return
 	
@@ -136,7 +138,7 @@ func update_price_label() -> void:
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.SHOP:
-		update_price_label()
+		_update_price_label()
 		_PRICE.show()
 	else:
 		_PRICE.hide()
@@ -148,16 +150,110 @@ func _reset() -> void:
 	_round_tails_penalty_reduction = 0
 	_permanent_tails_penalty_reduction = 0
 
-func assign_coin(coin: Global.Coin, owned_by: Owner):
-	_reset()
-	_coin = coin
-	reset_power_uses()
-	update_coin_text()
+func init_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
+	_coin_family = coin_family
+	_denomination = denomination
+	Global.souls_count_changed.connect(_update_price_label)
+	Global.state_changed.connect(_on_state_changed)
+	_PRICE.visible = Global.state == Global.State.SHOP
+	_heads_power = FacePower.new(coin_family.heads_power_family, coin_family.heads_power_family.uses_for_denom[_denomination])
+	_tails_power = FacePower.new(coin_family.tails_power_family, coin_family.tails_power_family.uses_for_denom[_denomination])
 	_heads = true
+	reset_power_uses()
 	_owner = owned_by
+	_reset()
 
 func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
+
+func get_store_price() -> int:
+	return _coin_family.store_price_for_denom[_denomination]
+
+func get_sell_price() -> int:
+	#breakpoint #deprecated for now
+	return max(1, int(get_store_price()/3.0))
+
+func can_upgrade() -> bool:
+	return _denomination != Global.Denomination.TETROBOL
+
+func get_denomination() -> Global.Denomination:
+	return _denomination
+
+func get_denomination_as_int() -> int:
+	match(_denomination):
+		Global.Denomination.OBOL:
+			return 1
+		Global.Denomination.DIOBOL:
+			return 2
+		Global.Denomination.TRIOBOL:
+			return 3
+		Global.Denomination.TETROBOL:
+			return 4
+	assert(false)
+	return -9999
+
+func get_subtitle() -> String:
+		return _coin_family.subtitle
+	
+func get_heads_icon_path() -> String:
+	return _coin_family.heads_icon_path
+
+func get_tails_icon_path() -> String:
+	return _coin_family.tails_icon_path
+
+func get_coin_name() -> String:
+	match(_denomination):
+		Global.Denomination.OBOL:
+			return "Obol%s" % _coin_family.of_suffix
+		Global.Denomination.DIOBOL:
+			return "Diobol%s" % _coin_family.of_suffix
+		Global.Denomination.TRIOBOL:
+			return "Triobol%s" % _coin_family.of_suffix
+		Global.Denomination.TETROBOL:
+			return "Tetrobol%s" % _coin_family.of_suffix
+	assert(false)
+	return "ERROR"
+
+func get_style_string() -> String:
+	return _coin_family.get_style_string()
+
+func get_value() -> int:
+	match(_denomination):
+		Global.Denomination.OBOL:
+			return 1
+		Global.Denomination.DIOBOL:
+			return 2
+		Global.Denomination.TRIOBOL:
+			return 3
+		Global.Denomination.TETROBOL:
+			return 4
+	return 0
+
+func upgrade_denomination() -> void:
+	assert(_denomination != Global.Denomination.TETROBOL)
+	match(_denomination):
+		Global.Denomination.OBOL:
+			_denomination = Global.Denomination.DIOBOL
+		Global.Denomination.DIOBOL:
+			_denomination = Global.Denomination.TRIOBOL
+		Global.Denomination.TRIOBOL:
+			_denomination = Global.Denomination.TETROBOL
+	_update_coin_text()
+	_update_price_label()
+	set_animation(_Animation.FLAT) # update sprite
+
+func get_upgrade_price() -> int:
+	match(_denomination):
+		Global.Denomination.OBOL:
+			return _coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL] + 1
+		Global.Denomination.DIOBOL:
+			return _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL] + 3
+		Global.Denomination.TRIOBOL:
+			return _coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] + 5
+		Global.Denomination.TETROBOL:
+			return 100000 #error case really
+	breakpoint
+	return 10000
 
 func flip(bonus: int = 0) -> void:
 	if is_frozen(): #don't flip if frozen
@@ -172,7 +268,7 @@ func flip(bonus: int = 0) -> void:
 	
 	if is_ignited():
 		#todo - animation for ignite
-		Global.lives -= _coin.get_tails_penalty()
+		Global.lives -= get_value()
 		
 	_disabled = true # ignore input while flipping
 	
@@ -224,55 +320,39 @@ func turn() -> void:
 	set_animation(_Animation.FLAT)
 	_FACE_LABEL.show()
 
-func get_store_price() -> int:
-	return _coin.get_store_price()
+func get_active_power_family() -> Global.PowerFamily:
+	return _heads_power.power_family if is_heads() else _tails_power.power_family
 
-func get_sell_price() -> int:
-	return _coin.get_sell_price()
-
-func get_upgrade_price() -> int:
-	return _coin.get_upgrade_price()
-
-func can_upgrade() -> bool:
-	return _coin.can_upgrade()
-
-func get_souls() -> int:
-	return _coin.get_souls()
-
-func get_tails_penalty() -> int:
-	return max(_coin.get_tails_penalty() - (_round_tails_penalty_reduction + _permanent_tails_penalty_reduction), 0)
-
-func get_value() -> int:
-	return _coin.get_value()
-
-func get_face_power() -> Global.Power:
-	return _coin.get_heads_power()  if is_heads() else _coin.get_tails_power()
-
-func get_power_string() -> String:
-	return _coin.get_power_string()
-
-func get_power_uses_remaining() -> int:
-	return _power_uses_remaining
-
-func get_max_power_uses() -> int:
-	return _coin.get_max_power_uses()
-
-func get_denomination() -> Global.Denomination:
-	return _coin.get_denomination()
-
-func get_denomination_as_int() -> int:
-	return _coin.get_denomination_as_int()
+func get_active_power_charges() -> int:
+	return _heads_power.charges if is_heads() else _tails_power.charges
 
 func spend_power_use() -> void:
-	assert(_power_uses_remaining > 0)
-	_power_uses_remaining -= 1
+	if is_heads():
+		_heads_power.charges -= 1
+	else:
+		_tails_power.charges -= 1
+	assert(_heads_power.charges >= 0)
+	assert(_tails_power.charges >= 0)
+	_update_coin_text()
 
 func reset_power_uses() -> void:
-	_power_uses_remaining = _coin.get_max_power_uses()
+	_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
+	_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
+	
+	if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
+		_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
+		_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	
+	_update_coin_text()
 
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
-	_power_uses_remaining += recharge_amount
+	if is_heads():
+		_heads_power.charges += recharge_amount
+	else:
+		_tails_power.charges += recharge_amount
+	_update_coin_text()
 
 func make_lucky() -> void:
 	_luck_state = _LuckState.LUCKY
@@ -331,22 +411,25 @@ func is_ignited() -> bool:
 func is_stone() -> bool:
 	return _material_state == _MaterialState.STONE
 
-func get_subtitle() -> String:
-	return _coin.get_subtitle()
+func can_reduce_life_penalty() -> bool:
+	var can_reduce_heads = (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0)
+	var can_reduce_tails = (_tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _tails_power.charges != 0)
+	return can_reduce_heads or can_reduce_tails
 
-func upgrade_denomination() -> void:
-	_coin.upgrade_denomination()
-	update_coin_text()
-	update_price_label()
-	set_animation(_Animation.FLAT) # update sprite
-
-func reduce_tails_penalty_permanently() -> void:
+func reduce_life_penalty_permanently() -> void:
 	_permanent_tails_penalty_reduction += 1
-	update_coin_text()
+	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
+	reduced_power.charges -= 1
+	_update_coin_text()
+	_generate_tooltip()
 
-func reduce_tails_downside_for_round() -> void:
+func reduce_life_penalty_for_round() -> void:
+	assert(can_reduce_life_penalty())
+	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	_round_tails_penalty_reduction += 1
-	update_coin_text()
+	reduced_power.charges -= 1
+	_update_coin_text()
+	_generate_tooltip()
 
 func disable_input() -> void:
 	_disabled = true
@@ -354,22 +437,31 @@ func disable_input() -> void:
 func enable_input() -> void:
 	_disabled = false
 
-func _generate_tooltip() -> String:
-	const TOOLTIP_FORMAT = "[center]%s
-[color=yellow]%s[/color]
-[img=12x13]res://assets/icons/heads_icon.png[/img] %s 
-[img=12x13]res://assets/icons/tails_icon.png[/img] -%d[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+func _generate_tooltip() -> void:
+	const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img] %s\n[img=12x13]res://assets/icons/tails_icon.png[/img] %s[/center]"
 	
-	var coin_name = _coin.get_name()
-	var subtitle = _coin.get_subtitle()
-	var power_description = _coin.get_power_string()
-	var life_lost = _coin.get_tails_penalty()
+	var coin_name = get_coin_name()
+	var subtitle = get_subtitle()
 	
-	return TOOLTIP_FORMAT % [coin_name, subtitle, power_description, life_lost]
+	# helper lambda
+	var _replace = func (description: String, max_charges: int, current_charges: int) -> String:
+		description = description.replace("(MAX_CHARGES)", str(max_charges))
+		description = description.replace("(CURRENT_CHARGES)", str(current_charges))
+		description = description.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
+		description = description.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
+		description = description.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
+		return description
+		
+	var heads_power_str = _replace.call(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+	var tails_power_str = _replace.call(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+	
+	var txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power_str, tails_power_str]
+	
+	UITooltip.create(self, txt, get_global_mouse_position(), get_tree().root)
 
 func on_round_end() -> void:
-	# reset wisdom stacks
 	_round_tails_penalty_reduction = 0
+	reset_power_uses()
 	# force to heads
 	if not _heads:
 		turn()
@@ -381,31 +473,9 @@ func on_toss_complete() -> void:
 func on_payoff() -> void:
 	pass
 
-func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	#UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
-	
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed and not _disabled:
-				emit_signal("clicked", self)
-				
-
-func _on_clickable_area_mouse_entered():
-	_mouse_over = true
-	activate_power_text()
-
-func _on_clickable_area_mouse_exited():
-	_mouse_over = false
-	if Global.power_text_source == self:
-		Global.power_text = ""
-
-func activate_power_text() -> void:
-	Global.power_text = _coin.get_name() + "\n" + get_power_string()
-	Global.power_text_source = self
-
 func set_animation(anim: _Animation) -> void:
 	var denom_str = ""
-	match(_coin.get_denomination()):
+	match(_denomination):
 		Global.Denomination.OBOL:
 			denom_str = "obol"
 		Global.Denomination.DIOBOL:
@@ -424,7 +494,19 @@ func set_animation(anim: _Animation) -> void:
 			anim_str = "flip"
 	assert(anim_str != "")
 	
-	_SPRITE.play("%s_%s_%s" % [_coin.get_style_string(), denom_str, anim_str])
+	_SPRITE.play("%s_%s_%s" % [get_style_string(), denom_str, anim_str])
+
+func _on_clickable_area_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed and not _disabled:
+				emit_signal("clicked", self)
+
+func _on_clickable_area_mouse_entered():
+	_mouse_over = true
+
+func _on_clickable_area_mouse_exited():
+	_mouse_over = false
 
 var _time_mouse_hover = 0
 var _mouse_over = false
@@ -437,4 +519,4 @@ func _physics_process(delta):
 		_time_mouse_hover = 0
 	
 	if _time_mouse_hover >= _DELAY_BEFORE_TOOLTIP:
-		UITooltip.create(self, _generate_tooltip(), get_global_mouse_position(), get_tree().root)
+		_generate_tooltip()
