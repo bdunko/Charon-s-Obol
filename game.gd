@@ -2,10 +2,10 @@ extends Node2D
 
 signal game_ended
 
-@onready var _COIN_ROW = $Table/CoinRow
-@onready var _SHOP : Shop = $Table/Shop
-@onready var _BOSS = $Table/Boss
-@onready var _BOSS_ROW = $Table/Boss/BossRow
+@onready var _COIN_ROW: CoinRow = $Table/CoinRow
+@onready var _SHOP: Shop = $Table/Shop
+@onready var _NEMESIS: Nemesis = $Table/Nemesis
+@onready var _NEMESIS_ROW: CoinRow = $Table/Nemesis/NemesisRow
 
 @onready var _RESET_BUTTON = $UI/ResetButton
 
@@ -32,13 +32,13 @@ signal game_ended
 
 @onready var _DIALOGUE: DialogueManager = $UI/DialogueManager
 
-@onready var _patron_token = $PatronToken
+@onready var _patron_token: PatronToken = $PatronToken
 
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
-	assert(_BOSS)
-	assert(_BOSS_ROW)
+	assert(_NEMESIS)
+	assert(_NEMESIS_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
 	
@@ -141,12 +141,12 @@ func _on_game_end() -> void:
 
 func on_start() -> void:
 	# delete all existing coins
-	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
+	for coin in _COIN_ROW.get_children() + _NEMESIS_ROW.get_children():
 		coin.queue_free()
 		coin.get_parent().remove_child(coin)
 	
-	# randomize and set up the boss
-	Global.boss = Global.choose_one(Global.BOSSES)
+	# randomize and set up the nemesis
+	Global.nemesis = Global.choose_one(Global.NEMESES)
 		
 	# delete any old patron token and create a new one
 	_patron_token.queue_free()
@@ -163,6 +163,7 @@ func on_start() -> void:
 	Global.arrows = 0
 	Global.active_coin_power_family = null
 	Global.flips_this_round = 0
+	Global.strain_modifier = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	
@@ -197,7 +198,7 @@ func _on_flip_complete() -> void:
 	flips_completed += 1
 	
 	# if every flip is done
-	if flips_completed == _COIN_ROW.get_child_count() + _BOSS_ROW.get_child_count():
+	if flips_completed == _COIN_ROW.get_child_count() + _NEMESIS_ROW.get_child_count():
 		# recharge all coin powers
 		for coin in _COIN_ROW.get_children():
 			coin = coin as Coin
@@ -228,7 +229,7 @@ func _on_toss_button_clicked() -> void:
 	for coin in _COIN_ROW.get_children() :
 		coin = coin as Coin
 		coin.flip()
-	for coin in _BOSS_ROW.get_children():
+	for coin in _NEMESIS_ROW.get_children():
 		coin = coin as Coin
 		coin.flip()
 
@@ -240,28 +241,61 @@ func _on_accept_button_pressed():
 	_DIALOGUE.show_dialogue("Payoff...")
 	_PLAYER_TEXTBOXES.hide()
 	
-	# payoff animation
-	for coin in _COIN_ROW.get_children() + _BOSS_ROW.get_children():
-		var payoff_power_family = coin.get_active_power_family()
-		var charges = coin.get_active_power_charges()
+	# trigger payoffs
+	for payoff_coin in _COIN_ROW.get_children() + _NEMESIS_ROW.get_children():
+		var payoff_power_family = payoff_coin.get_active_power_family()
+		var charges = payoff_coin.get_active_power_charges()
 		
-		if payoff_power_family.is_payoff and not coin.is_stone() and charges > 0:
-			create_tween().tween_property(coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
+		if payoff_power_family.is_payoff and not payoff_coin.is_stone() and charges > 0:
+			create_tween().tween_property(payoff_coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
 					Global.souls += charges
 				Global.POWER_FAMILY_LOSE_LIFE:
 					Global.lives -= charges
-			# todo - other abilities
+				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
+					var possible_coins = []
+					for coin in _COIN_ROW.get_highest_to_lowest_value():
+						if not coin.is_stone():
+							if possible_coins.is_empty() or possible_coins[0].get_value() == coin.get_value():
+								possible_coins.append(coin)
+					if not possible_coins.is_empty():
+						Global.choose_one(possible_coins).stone()
+				Global.NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE: # downgrade highest value coin
+					var highest = _COIN_ROW.get_highest_valued()
+					highest.shuffle()
+					if highest[0].get_denomination() != Global.Denomination.OBOL:
+						highest[0].downgrade()
+				Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
+					for coin in _COIN_ROW.get_leftmost_to_rightmost():
+						if not coin.is_stone():
+							coin.stone()
+							break
+				Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
+					var num_unluckied = 0
+					for coin in _COIN_ROW.get_randomized():
+						if coin.is_unlucky():
+							continue
+						coin.make_unlucky()
+						num_unluckied += 1
+						if num_unluckied == 2:
+							break
+				Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
+					for coin in _COIN_ROW.get_rightmost_to_leftmost():
+						if not coin.is_stone():
+							coin.stone()
+							break
+				Global.NEMESIS_POWER_FAMILY_STHENO_STRAIN:
+					Global.strain_modifier += 1
 			await Global.delay(0.15)
-			create_tween().tween_property(coin, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+			create_tween().tween_property(payoff_coin, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 			await Global.delay(0.15)
 	
 	_PLAYER_TEXTBOXES.show()
 	
 	if Global.state != Global.State.GAME_OVER:
 		Global.state = Global.State.BEFORE_FLIP
-		_DIALOGUE.show_dialogue("Will you flip...?")
+		_DIALOGUE.show_dialogue("Will you toss the coins...?")
 
 func _wait_for_dialogue(dialogue: String) -> void:
 	_PLAYER_TEXTBOXES.hide()
@@ -271,20 +305,21 @@ func _wait_for_dialogue(dialogue: String) -> void:
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
 	_VOYAGE.show()
-	_DIALOGUE.show_dialogue("Let us sail...")
+	_DIALOGUE.show_dialogue("Now let us sail...")
 	_PLAYER_TEXTBOXES.hide()
 	await _VOYAGE.move_boat(Global.round_count)
 	Global.round_count += 1
 	
-	if Global.round_count == Global.BOSS_ROUND:
-		_BOSS.setup()
-		for c in _BOSS_ROW.get_children():
+	if Global.round_count == Global.NEMESIS_ROUND:
+		_NEMESIS.setup()
+		for c in _NEMESIS_ROW.get_children():
 			var coin = c as Coin
 			coin.flip_complete.connect(_on_flip_complete)
+			coin.clicked.connect(_on_coin_clicked)
 	else:
-		for c in _BOSS_ROW.get_children():
+		for c in _NEMESIS_ROW.get_children():
 			c.queue_free()
-			_BOSS_ROW.remove_child(c)
+			_NEMESIS_ROW.remove_child(c)
 	
 	_show_player_textboxes()
 
@@ -302,6 +337,7 @@ func _on_end_round_button_pressed():
 		coin.on_round_end()
 	_SHOP.randomize_shop()
 	Global.flips_this_round = 0
+	Global.strain_modifier = 0
 	Global.state = Global.State.SHOP
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
 
@@ -406,28 +442,13 @@ func _remove_coin(coin: Coin):
 	_COIN_ROW.remove_child(coin)
 	coin.queue_free()
 
-# returns the coin to the left, or nullptr if none
-func _left_coin(coin: Coin) -> Coin:
-	if coin.get_index() == 0: #nothing more to the left
-		return null
-	return _COIN_ROW.get_child(coin.get_index() - 1)
-
-# returns the coin to the right, or nullptr if none
-func _right_coin(coin: Coin) -> Coin:
-	if coin.get_index() + 1 == _COIN_ROW.get_child_count(): #nothing more to the right
-		return null
-	return _COIN_ROW.get_child(coin.get_index() + 1)
-
-# randomize the position of each coin in the row
-func _shuffle_coin_row() -> void:
-	var all_coins = []
-	for c in _COIN_ROW.get_children():
-		c = c as Coin
-		all_coins.append(c)
-		_COIN_ROW.remove_child(c)
-	all_coins.shuffle()
-	for c in all_coins:
-		_COIN_ROW.add_child(c)
+func _get_row_for(coin: Coin) -> CoinRow:
+	if _COIN_ROW.has_coin(coin):
+		return _COIN_ROW
+	if _NEMESIS_ROW.has_coin(coin):
+		return _NEMESIS_ROW
+	assert(false, "Not in either row!")
+	return null
 
 func _on_coin_clicked(coin: Coin):
 	# if we're in the shop, sell this coin
@@ -455,7 +476,8 @@ func _on_coin_clicked(coin: Coin):
 	if Global.state == Global.State.SHOP:
 		if Global.souls >= coin.get_upgrade_price():
 			Global.souls -= coin.get_upgrade_price()
-			coin.upgrade_denomination()
+			coin.upgrade()
+			coin.reset_power_uses()
 			_DIALOGUE.show_dialogue("More... power...")
 		else:
 			_DIALOGUE.show_dialogue("Not...enough... souls...!")
@@ -464,6 +486,12 @@ func _on_coin_clicked(coin: Coin):
 	# only use coin powers during after flip
 	if Global.state != Global.State.AFTER_FLIP:
 		return
+	
+	var row = _get_row_for(coin)
+	var left = row.get_left_of(coin)
+	var right = row.get_right_of(coin)
+	
+	print("clicked")
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
@@ -474,23 +502,30 @@ func _on_coin_clicked(coin: Coin):
 					coin.flip()
 				Global.PATRON_POWER_FAMILY_HERA:
 					coin.turn()
-					if _left_coin(coin):
-						_left_coin(coin).turn()
-					if _right_coin(coin):
-						_right_coin(coin).turn()
+					if left:
+						left.turn()
+					if right:
+						right.turn()
 				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
-					if _left_coin(coin):
-						_left_coin(coin).freeze()
-					if _right_coin(coin):
-						_right_coin(coin).freeze()
+					if left:
+						left.freeze()
+					if right:
+						right.freeze()
 				Global.PATRON_POWER_FAMILY_ATHENA:
 					if not coin.can_reduce_life_penalty():
 						_DIALOGUE.show_dialogue("No... need...")
 					coin.reduce_life_penalty_permanently()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
-					coin.upgrade_denomination()
+					if row == _NEMESIS_ROW:
+						_DIALOGUE.show_dialogue("Can't... upgrade... nemesis...")
+					if coin.get_denomination() == Global.Denomination.TETROBOL:
+						_DIALOGUE.show_dialogue("Can't... upgrade... further...")
+						return
+					coin.upgrade()
 				Global.PATRON_POWER_FAMILY_HERMES:
+					if row == _NEMESIS_ROW:
+						_DIALOGUE.show_dialogue("Can't... trade... nemesis...")
 					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 					if Global.RNG.randi_range(1, 4) == 1:
 						coin.upgrade()
@@ -498,6 +533,9 @@ func _on_coin_clicked(coin: Coin):
 					coin.make_lucky()
 					coin.bless()
 				Global.PATRON_POWER_FAMILY_HADES:
+					if row == _NEMESIS_ROW:
+						#todo - will need to revisit for Echidna; make exception for monster coins
+						_DIALOGUE.show_dialogue("Can't... destroy... nemesis...")
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 						return
@@ -520,10 +558,10 @@ func _on_coin_clicked(coin: Coin):
 			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
 				# flip coin and neighbors
 				coin.flip()
-				if _left_coin(coin):
-					_left_coin(coin).flip()
-				if _right_coin(coin):
-					_right_coin(coin).flip()
+				if left:
+					left.flip()
+				if right:
+					right.flip()
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
@@ -536,27 +574,35 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.reduce_life_penalty_for_round()
 			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
+				if row == _NEMESIS_ROW:
+					_DIALOGUE.show_dialogue("Can't... upgrade... nemesis...")
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... forge... itself...")
 					return
 				if coin.get_denomination() == Global.Denomination.TETROBOL:
 					_DIALOGUE.show_dialogue("Can't... upgrade... further...")
 					return
-				coin.upgrade_denomination()
+				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_RECHARGE:
+				if row == _NEMESIS_ROW:
+						_DIALOGUE.show_dialogue("Can't... love... nemesis...")
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
 				if not coin.get_active_power_family().is_payoff:
-					_DIALOGUE.show_dialogue("Can't... recharge... that..")
+					_DIALOGUE.show_dialogue("Can't... recharge... that...")
 					return
 				coin.recharge_power_uses_by(1)
 			Global.POWER_FAMILY_EXCHANGE:
+				if row == _NEMESIS_ROW:
+					_DIALOGUE.show_dialogue("Can't... trade... nemesis...")
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				coin.make_lucky()
 			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
+				if row == _NEMESIS_ROW:
+					_DIALOGUE.show_dialogue("Can't... destroy... nemesis...")
 				if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 					_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 					return
@@ -587,10 +633,11 @@ func _on_coin_clicked(coin: Coin):
 				coin.spend_power_use()
 			Global.POWER_FAMILY_REFLIP_ALL:
 				# reflip all coins
-				for c in _COIN_ROW.get_children():
+				for c in _COIN_ROW.get_children() + _NEMESIS_ROW.get_children():
 					c = c as Coin
 					c.flip()
-				_shuffle_coin_row()
+				_COIN_ROW.shuffle()
+				_NEMESIS_ROW.shuffle()
 				coin.spend_power_use()
 			Global.POWER_FAMILY_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
@@ -612,12 +659,12 @@ func _on_patron_token_clicked():
 		return
 	
 	# immediate patron powers
-	match(Global.patron.power):
+	match(Global.patron.power_family):
 		Global.PATRON_POWER_FAMILY_DEMETER:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				if as_coin.is_tails():
-					Global.lives += as_coin.get_tails_penalty()
+				if as_coin.is_tails() and as_coin.get_active_power_family() == Global.POWER_FAMILY_LOSE_LIFE:
+					Global.lives += as_coin.get_active_power_charges()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APOLLO:
 			for coin in _COIN_ROW.get_children():
@@ -632,24 +679,25 @@ func _on_patron_token_clicked():
 					Global.arrows += 2
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
-			for coin in _COIN_ROW.get_children():
+			for coin in _COIN_ROW.get_children() + _NEMESIS_ROW.get_children():
 				coin.flip()
 				coin.reset()
-			_shuffle_coin_row()
+			_COIN_ROW.shuffle()
+			_NEMESIS_ROW.shuffle()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				if as_coin.get_active_power_family().is_payoff:
+				if not as_coin.get_active_power_family().is_payoff:
 					as_coin.recharge_power_uses_by(1)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_DIONYSUS:
-				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-					_DIALOGUE.show_dialogue("Too... many... coins...")
-					return
-				var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
-				new_coin.make_lucky()
-				Global.patron_uses -= 1
+			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+				_DIALOGUE.show_dialogue("Too... many... coins...")
+				return
+			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
+			new_coin.make_lucky()
+			Global.patron_uses -= 1
 		_: # if not immediate, activate the token
 			_patron_token.activate()
 

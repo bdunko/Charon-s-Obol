@@ -15,11 +15,9 @@ signal arrow_count_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
 signal flips_this_round_changed
+signal strain_changed
 signal patron_changed
 signal patron_uses_changed
-
-func strain_cost() -> int:
-	return floor(flips_this_round)
 
 var souls: int:
 	set(val):
@@ -58,6 +56,16 @@ var flips_this_round: int:
 	set(val):
 		flips_this_round = val
 		emit_signal("flips_this_round_changed")
+		emit_signal("strain_changed")
+
+var strain_modifier: int:
+	set(val):
+		strain_modifier = val
+		emit_signal("strain_changed")
+
+# returns the life cost of a toss; min 0
+func strain_cost() -> int:
+	return max(0, flips_this_round + strain_modifier)
 
 var patron: Patron:
 	set(val):
@@ -96,20 +104,19 @@ var active_coin_power_family: PowerFamily:
 
 const COIN_LIMIT = 8
 
-class BossData:
+class NemesisData:
 	var coins
 	var name
 	var description
 	
-	func _init(bossName, bossCoins, bossDescription):
-		self.coins = bossCoins
-		self.name = bossName
-		self.description = bossDescription
+	func _init(nemesisName, nemesisCoins, nemesisDescription):
+		self.coins = nemesisCoins
+		self.name = nemesisName
+		self.description = nemesisDescription
 
-const BOSS_ROUND = 2
-@onready var BOSSES = [BossData.new("Hades", [GENERIC_FAMILY, HADES_FAMILY, HADES_FAMILY], "This is a a boss!"),
-			BossData.new("Cerberus I guess", [POSEIDON_FAMILY, ZEUS_FAMILY, GENERIC_FAMILY], "This is a a boss2!")]
-var boss = null
+const NEMESIS_ROUND = 2
+@onready var NEMESES = [NemesisData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a nemesis description!")]
+var nemesis = null
 
 class PowerFamily:
 	var description: String
@@ -131,8 +138,8 @@ var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5], false,
 var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], false, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip and coin and its neighbors.", [1, 2, 3, 4], false, "res://assets/icons/hera_icon.png")
 var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], false, "res://assets/icons/demeter_icon.png")
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).\n(Arrows can be used to reflip coins.)", [1, 1, 1, 1], false, "res://assets/icons/artemis_icon.png")
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=10x13]res://assets/icons/heads_icon.pn8g[/img], Curse it, if [img=10x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], false, "res://assets/icons/apollo_icon.png")
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], false, "res://assets/icons/artemis_icon.png")
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], false, "res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], false, "res://assets/icons/ares_icon.png")
 var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], false, "res://assets/icons/athena_icon.png")
 var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], false, "res://assets/icons/hephaestus_icon.png")
@@ -144,12 +151,12 @@ var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [im
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], false, "")
 
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn the most valuable coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/medusa_icon.png")
-var NEMESIS_POWER_FAMILY_MEDUSA_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/strain_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn the leftmost coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/euryale_icon.png")
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn the most valuable non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/medusa_icon.png")
+var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/downgrade_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn the leftmost non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/euryale_icon.png")
 var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 random coins Unlucky.", [2, 2, 2, 2], true, "res://assets/icons/nemesis/unlucky_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost coin to Stone.", [0, 0, 0, 0], true, "res://assets/icons/nemesis/stheno_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_DOWNGRADE = PowerFamily.new("Downgrade a random coin.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/downgrade_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/stheno_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/strain_icon.png")
 
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
@@ -275,12 +282,25 @@ enum Denomination {
 	TETROBOL = 3
 }
 
+func denom_to_string(denom: Denomination) -> String:
+	match(denom):
+		Denomination.OBOL:
+			return "Obol"
+		Denomination.DIOBOL:
+			return "Diobol"
+		Denomination.TRIOBOL:
+			return "Triobol"
+		Denomination.TETROBOL:
+			return "Tetrobol"
+	assert(false, "No matching case for denom...?")
+	return "ERROR"
+
 enum _SpriteStyle {
-	GENERIC, GOD
+	GENERIC, GOD, NEMESIS
 }
 
 class CoinFamily:
-	var of_suffix: String
+	var coin_name: String
 	var subtitle: String
 	
 	var store_price_for_denom: Array[int]
@@ -289,11 +309,11 @@ class CoinFamily:
 	
 	var _sprite_style: _SpriteStyle
 	
-	func _init(suffix: String, 
+	func _init(nme: String, 
 			sub_title: String, prices: Array[int],
 			heads_pwr: PowerFamily, tails_pwr: PowerFamily,
 			style: _SpriteStyle) -> void:
-		of_suffix = suffix
+		coin_name = nme
 		subtitle = sub_title
 		store_price_for_denom = prices
 		heads_power_family = heads_pwr
@@ -306,24 +326,30 @@ class CoinFamily:
 				return "generic"
 			_SpriteStyle.GOD:
 				return "god"
+			_SpriteStyle.NEMESIS:
+				return "nemesis"
 		breakpoint
 		return ""
 
-var GENERIC_FAMILY = CoinFamily.new("", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GENERIC)
-var ZEUS_FAMILY = CoinFamily.new(" of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var HERA_FAMILY = CoinFamily.new(" of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var POSEIDON_FAMILY = CoinFamily.new(" of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var DEMETER_FAMILY = CoinFamily.new(" of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var APOLLO_FAMILY = CoinFamily.new(" of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var ARTEMIS_FAMILY = CoinFamily.new(" of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var ARES_FAMILY = CoinFamily.new(" of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var ATHENA_FAMILY = CoinFamily.new(" of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var HEPHAESTUS_FAMILY = CoinFamily.new(" of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var APHRODITE_FAMILY = CoinFamily.new(" of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], POWER_FAMILY_RECHARGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var HERMES_FAMILY = CoinFamily.new(" of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var HESTIA_FAMILY = CoinFamily.new(" of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22],  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var DIONYSUS_FAMILY = CoinFamily.new(" of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
-var HADES_FAMILY = CoinFamily.new(" of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], POWER_FAMILY_DESTROY_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var GENERIC_FAMILY = CoinFamily.new("(DENOM)", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GENERIC)
+var ZEUS_FAMILY = CoinFamily.new("(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var HERA_FAMILY = CoinFamily.new("(DENOM) of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var POSEIDON_FAMILY = CoinFamily.new("(DENOM) of Poseidon", "[color=lightblue]Wave of Ice[/color]", [2, 8, 20, 44], POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var DEMETER_FAMILY = CoinFamily.new("(DENOM) of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var APOLLO_FAMILY = CoinFamily.new("(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", [2, 8, 20, 44], POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var ARTEMIS_FAMILY = CoinFamily.new("(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var ARES_FAMILY = CoinFamily.new("(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", [3, 12, 30, 66], POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var ATHENA_FAMILY = CoinFamily.new("(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", [2, 8, 20, 44], POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var HEPHAESTUS_FAMILY = CoinFamily.new("(DENOM) of Hephaestus", "[color=sienna]Forged in Fire[/color]", [4, 16, 40, 88], POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var APHRODITE_FAMILY = CoinFamily.new("(DENOM) of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", [2, 8, 20, 44], POWER_FAMILY_RECHARGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var HERMES_FAMILY = CoinFamily.new("(DENOM) of Hermes", "[color=lightskyblue]From Lands Distant[/color]", [2, 8, 20, 44], POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var HESTIA_FAMILY = CoinFamily.new("(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", [1, 4, 10, 22],  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var DIONYSUS_FAMILY = CoinFamily.new("(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", [2, 8, 20, 44], POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+var HADES_FAMILY = CoinFamily.new("(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", [1, 4, 10, 22], POWER_FAMILY_DESTROY_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.GOD)
+
+var MEDUSA_FAMILY = CoinFamily.new("[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", [-1, -1, -1, -1], NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS)
+var EURYALE_FAMILY = CoinFamily.new("[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", [-1, -1, -1, -1], NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS)
+var STHENO_FAMILY = CoinFamily.new("[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", [-1, -1, -1, -1], NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

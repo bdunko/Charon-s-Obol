@@ -5,7 +5,7 @@ signal flip_complete
 signal clicked
 
 enum Owner {
-	SHOP, PLAYER, BOSS
+	SHOP, PLAYER, NEMESIS
 }
 
 enum _BlessCurseState {
@@ -57,7 +57,7 @@ var _denomination: Global.Denomination:
 var _heads:
 	set(val):
 		_heads = val
-		_update_coin_text()
+		_update_face_label()
 
 class FacePower:
 	var charges: int = 0
@@ -70,18 +70,19 @@ class FacePower:
 var _heads_power: FacePower
 var _tails_power: FacePower
 
-const _FACE_FORMAT = "[center][color=%s]%s[/color][/center][img=10x13]%s[/img]"
+const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#e12f3b"
 const _BLUE = "#a6fcdb"
 const _YELLOW = "#ffd541"
 const _GRAY = "#b3b9d1"
-func _update_coin_text() -> void:
+func _update_face_label() -> void:
 	var color = _YELLOW
 	match(get_active_power_family()):
 		Global.POWER_FAMILY_GAIN_SOULS:
 			color = _BLUE
 		Global.POWER_FAMILY_LOSE_LIFE:
 			color = _RED
+	#var charges_str = "%d" % get_active_power_charges() if get_max_active_power_charges() != 0 else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%d" % get_active_power_charges(), get_active_power_family().icon_path]
 
 var _bless_curse_state: _BlessCurseState:
@@ -146,6 +147,7 @@ func _on_state_changed() -> void:
 func _reset() -> void:
 	_luck_state = _LuckState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
+	_material_state = _MaterialState.NONE
 	_supercharged = false
 	_round_tails_penalty_reduction = 0
 	_permanent_tails_penalty_reduction = 0
@@ -153,8 +155,11 @@ func _reset() -> void:
 func init_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
 	_coin_family = coin_family
 	_denomination = denomination
-	Global.souls_count_changed.connect(_update_price_label)
-	Global.state_changed.connect(_on_state_changed)
+	# in the case of a trade; we don't need to reconnect signals
+	if not Global.souls_count_changed.is_connected(_update_price_label):
+		Global.souls_count_changed.connect(_update_price_label)
+	if not Global.state_changed.is_connected(_on_state_changed):
+		Global.state_changed.connect(_on_state_changed)
 	_PRICE.visible = Global.state == Global.State.SHOP
 	_heads_power = FacePower.new(coin_family.heads_power_family, coin_family.heads_power_family.uses_for_denom[_denomination])
 	_tails_power = FacePower.new(coin_family.tails_power_family, coin_family.tails_power_family.uses_for_denom[_denomination])
@@ -202,17 +207,7 @@ func get_tails_icon_path() -> String:
 	return _coin_family.tails_icon_path
 
 func get_coin_name() -> String:
-	match(_denomination):
-		Global.Denomination.OBOL:
-			return "Obol%s" % _coin_family.of_suffix
-		Global.Denomination.DIOBOL:
-			return "Diobol%s" % _coin_family.of_suffix
-		Global.Denomination.TRIOBOL:
-			return "Triobol%s" % _coin_family.of_suffix
-		Global.Denomination.TETROBOL:
-			return "Tetrobol%s" % _coin_family.of_suffix
-	assert(false)
-	return "ERROR"
+	return _replace_placeholder_text(_coin_family.coin_name, -1, -1)
 
 func get_style_string() -> String:
 	return _coin_family.get_style_string()
@@ -229,8 +224,7 @@ func get_value() -> int:
 			return 4
 	return 0
 
-func upgrade_denomination() -> void:
-	assert(_denomination != Global.Denomination.TETROBOL)
+func upgrade() -> void:
 	match(_denomination):
 		Global.Denomination.OBOL:
 			_denomination = Global.Denomination.DIOBOL
@@ -238,7 +232,19 @@ func upgrade_denomination() -> void:
 			_denomination = Global.Denomination.TRIOBOL
 		Global.Denomination.TRIOBOL:
 			_denomination = Global.Denomination.TETROBOL
-	_update_coin_text()
+	_update_face_label()
+	_update_price_label()
+	set_animation(_Animation.FLAT) # update sprite
+
+func downgrade() -> void:
+	match(_denomination):
+		Global.Denomination.DIOBOL:
+			_denomination = Global.Denomination.OBOL
+		Global.Denomination.TRIOBOL:
+			_denomination = Global.Denomination.DIOBOL
+		Global.Denomination.TETROBOL:
+			_denomination = Global.Denomination.TRIOBOL
+	_update_face_label()
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
 
@@ -326,6 +332,9 @@ func get_active_power_family() -> Global.PowerFamily:
 func get_active_power_charges() -> int:
 	return _heads_power.charges if is_heads() else _tails_power.charges
 
+func get_max_active_power_charges() -> int:
+	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.uses_for_denom[_denomination]
+
 func spend_power_use() -> void:
 	if is_heads():
 		_heads_power.charges -= 1
@@ -333,7 +342,7 @@ func spend_power_use() -> void:
 		_tails_power.charges -= 1
 	assert(_heads_power.charges >= 0)
 	assert(_tails_power.charges >= 0)
-	_update_coin_text()
+	_update_face_label()
 
 func reset_power_uses() -> void:
 	_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
@@ -344,7 +353,7 @@ func reset_power_uses() -> void:
 	if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
 		_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	
-	_update_coin_text()
+	_update_face_label()
 
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
@@ -352,7 +361,7 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 		_heads_power.charges += recharge_amount
 	else:
 		_tails_power.charges += recharge_amount
-	_update_coin_text()
+	_update_face_label()
 
 func make_lucky() -> void:
 	_luck_state = _LuckState.LUCKY
@@ -381,8 +390,14 @@ func freeze() -> void:
 func ignite() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.IGNITED
 
-func clear_freeze_ignire() -> void:
+func stone() -> void:
+	_material_state = _MaterialState.STONE
+
+func clear_freeze_ignite() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
+
+func clear_material() -> void:
+	_material_state = _MaterialState.NONE
 
 func is_heads() -> bool:
 	return _heads
@@ -420,7 +435,7 @@ func reduce_life_penalty_permanently() -> void:
 	_permanent_tails_penalty_reduction += 1
 	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	reduced_power.charges -= 1
-	_update_coin_text()
+	_update_face_label()
 	_generate_tooltip()
 
 func reduce_life_penalty_for_round() -> void:
@@ -428,7 +443,7 @@ func reduce_life_penalty_for_round() -> void:
 	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	_round_tails_penalty_reduction += 1
 	reduced_power.charges -= 1
-	_update_coin_text()
+	_update_face_label()
 	_generate_tooltip()
 
 func disable_input() -> void:
@@ -437,23 +452,24 @@ func disable_input() -> void:
 func enable_input() -> void:
 	_disabled = false
 
+func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charges: int = -1) -> String:
+	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
+	if max_charges != -1:
+		txt = txt.replace("(MAX_CHARGES)", str(max_charges))
+	if current_charges != -1:
+		txt = txt.replace("(CURRENT_CHARGES)", str(current_charges))
+	txt = txt.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
+	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
+	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
+	return txt
+
 func _generate_tooltip() -> void:
 	const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img] %s\n[img=12x13]res://assets/icons/tails_icon.png[/img] %s[/center]"
 	
 	var coin_name = get_coin_name()
 	var subtitle = get_subtitle()
-	
-	# helper lambda
-	var _replace = func (description: String, max_charges: int, current_charges: int) -> String:
-		description = description.replace("(MAX_CHARGES)", str(max_charges))
-		description = description.replace("(CURRENT_CHARGES)", str(current_charges))
-		description = description.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
-		description = description.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
-		description = description.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
-		return description
-		
-	var heads_power_str = _replace.call(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-	var tails_power_str = _replace.call(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+	var heads_power_str = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+	var tails_power_str = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 	
 	var txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power_str, tails_power_str]
 	
@@ -474,17 +490,7 @@ func on_payoff() -> void:
 	pass
 
 func set_animation(anim: _Animation) -> void:
-	var denom_str = ""
-	match(_denomination):
-		Global.Denomination.OBOL:
-			denom_str = "obol"
-		Global.Denomination.DIOBOL:
-			denom_str = "diobol"
-		Global.Denomination.TRIOBOL:
-			denom_str = "triobol"
-		Global.Denomination.TETROBOL:
-			denom_str = "tetrobol"
-	assert(denom_str != "")
+	var denom_str = Global.denom_to_string(_denomination).to_lower()
 	
 	var anim_str = ""
 	match(anim):

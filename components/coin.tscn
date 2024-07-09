@@ -431,7 +431,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"god_tetrobol_flip"
+animation = &"nemesis_tetrobol_flat"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -450,7 +450,7 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
-text = "[center][color=#b3b9d1]0[/color][/center][img=10x13]res://assets/icons/dionysus_icon.png[/img]"
+text = "[center][color=#b3b9d1]0[img=10x13]res://assets/icons/dionysus_icon.png[/img][/color][/center]"
 fit_content = true
 scroll_active = false
 
