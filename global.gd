@@ -1,5 +1,13 @@
 extends Node
 
+enum Character {
+	ELEUSINIAN, TEST
+}
+
+enum Difficulty {
+	INDIFFERENT, HATEFUL, UNFAIR
+}
+
 const UNAFFORDABLE_COLOR = "#e12f3b"
 const AFFORDABLE_COLOR = "#ffffff"
 

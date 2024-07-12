@@ -111,6 +111,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		pile.add_child(fragment)
 		#fragment_count += 1
 
+#TODO - refactor this into PlayerTextboxes class; reuse on main menu
 @onready var _PLAYER_TEXTBOX_INITIAL_POSITION = $UI/PlayerTextboxs.position
 @onready var _OFFSET = Vector2(0, 15)
 func _play_player_text_animation() -> void:
