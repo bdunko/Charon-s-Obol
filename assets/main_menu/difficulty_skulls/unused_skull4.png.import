@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pwsxy14hmjhr"
-path="res://.godot/imported/skull1_cracked.png-c1d61128f682abd4aa43390071ddfb7f.ctex"
+uid="uid://c5x4g3q1s3to3"
+path="res://.godot/imported/unused_skull4.png-14bdf8f1e2d7de9aa6bb67e3cdc8aa27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/main_menu/difficulty_skulls/skull1_cracked.png"
-dest_files=["res://.godot/imported/skull1_cracked.png-c1d61128f682abd4aa43390071ddfb7f.ctex"]
+source_file="res://assets/main_menu/difficulty_skulls/unused_skull4.png"
+dest_files=["res://.godot/imported/unused_skull4.png-14bdf8f1e2d7de9aa6bb67e3cdc8aa27.ctex"]
 
 [params]
 

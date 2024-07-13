@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=9 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
 [ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/arrow_selector.tscn" id="3_xyj46"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
+[ext_resource type="Texture2D" uid="uid://dgst44vhjr2p8" path="res://assets/main_menu/difficulty_skulls/skull2.png" id="5_j10ut"]
+[ext_resource type="Texture2D" uid="uid://pifs7wspyh74" path="res://assets/main_menu/difficulty_skulls/skull3.png" id="6_5h1f1"]
+[ext_resource type="Texture2D" uid="uid://ij1eq4bd8nb5" path="res://assets/main_menu/difficulty_skulls/skull4.png" id="7_2pmti"]
+[ext_resource type="Texture2D" uid="uid://dw3bk7xc6nfl" path="res://assets/main_menu/difficulty_skulls/skull5.png" id="8_7t7gr"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")
@@ -14,15 +18,16 @@ offset_bottom = 180.0
 color = Color(0, 0, 0, 1)
 
 [node name="Title" type="RichTextLabel" parent="."]
-offset_top = 28.0
+offset_top = 16.0
 offset_right = 319.0
-offset_bottom = 62.0
+offset_bottom = 31.0
 theme_override_colors/font_shadow_color = Color(0.772549, 0.227451, 0.74902, 0.262745)
 theme_override_constants/shadow_outline_size = 2
 theme_override_fonts/normal_font = ExtResource("1_jpqrs")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "[center]Charon's Obol[/center]"
+fit_content = true
 
 [node name="StartButton" type="Button" parent="."]
 offset_left = 72.0
@@ -33,9 +38,9 @@ text = "Start Game"
 
 [node name="QuitButton" type="Button" parent="."]
 offset_left = 172.0
-offset_top = 152.0
+offset_top = 153.0
 offset_right = 266.0
-offset_bottom = 173.0
+offset_bottom = 174.0
 text = "Quit"
 
 [node name="TextureButton" type="TextureButton" parent="."]
@@ -45,9 +50,9 @@ offset_right = 256.0
 offset_bottom = 142.0
 
 [node name="Container" type="VBoxContainer" parent="."]
-offset_top = 45.0
+offset_top = 61.0
 offset_right = 320.0
-offset_bottom = 96.0
+offset_bottom = 112.0
 alignment = 2
 
 [node name="CharacterDescription" type="RichTextLabel" parent="Container"]
@@ -75,6 +80,22 @@ size_flags_vertical = 4
 [node name="Skull1" type="TextureButton" parent="Selector/Difficulty"]
 layout_mode = 2
 texture_normal = ExtResource("4_vorie")
+
+[node name="Skull2" type="TextureButton" parent="Selector/Difficulty"]
+layout_mode = 2
+texture_normal = ExtResource("5_j10ut")
+
+[node name="Skull3" type="TextureButton" parent="Selector/Difficulty"]
+layout_mode = 2
+texture_normal = ExtResource("6_5h1f1")
+
+[node name="Skull4" type="TextureButton" parent="Selector/Difficulty"]
+layout_mode = 2
+texture_normal = ExtResource("7_2pmti")
+
+[node name="Skull5" type="TextureButton" parent="Selector/Difficulty"]
+layout_mode = 2
+texture_normal = ExtResource("8_7t7gr")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
