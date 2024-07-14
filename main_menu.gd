@@ -4,6 +4,7 @@ signal start_pressed
 
 @onready var _CHARACTER_SELECTOR: ArrowSelector = $Selector/Character
 @onready var _CHARACTER_DESCRIPTION: RichTextLabel = $Container/CharacterDescription
+@onready var _DIFFICULTY_SELECTOR = $Selector/Difficulty
 
 class CharacterData:
 	var character: Global.Character
@@ -24,6 +25,10 @@ func _ready() -> void:
 	for character in _CHARACTERS:
 		names.append(character.name)
 	_CHARACTER_SELECTOR.init(names)
+	
+	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
+		difficultySkull.selected.connect(_on_difficulty_changed)
+	_DIFFICULTY_SELECTOR.get_child(0).select()
 
 func _on_start_button_pressed() -> void:
 	emit_signal("start_pressed")
@@ -31,11 +36,20 @@ func _on_start_button_pressed() -> void:
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
-
 func _on_character_changed(characterName: String) -> void:
 	const FORMAT = "[center]%s[/center]"
 	for character in _CHARACTERS:
 		if character.name == characterName:
 			_CHARACTER_DESCRIPTION.text = FORMAT % character.description
+			Global.character = character.character
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
+
+
+func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):
+	Global.difficulty = newDifficulty
+	
+	# graphically unselect each other skull
+	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
+		if difficultySkull != changed:
+			difficultySkull.unselect()

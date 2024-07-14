@@ -1,13 +1,29 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=25 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
-[ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/arrow_selector.tscn" id="3_xyj46"]
+[ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/main_menu/arrow_selector.tscn" id="3_trmuq"]
+[ext_resource type="Script" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
 [ext_resource type="Texture2D" uid="uid://dgst44vhjr2p8" path="res://assets/main_menu/difficulty_skulls/skull2.png" id="5_j10ut"]
-[ext_resource type="Texture2D" uid="uid://pifs7wspyh74" path="res://assets/main_menu/difficulty_skulls/skull3.png" id="6_5h1f1"]
-[ext_resource type="Texture2D" uid="uid://ij1eq4bd8nb5" path="res://assets/main_menu/difficulty_skulls/skull4.png" id="7_2pmti"]
-[ext_resource type="Texture2D" uid="uid://dw3bk7xc6nfl" path="res://assets/main_menu/difficulty_skulls/skull5.png" id="8_7t7gr"]
+[ext_resource type="Texture2D" uid="uid://cm3se406p72ah" path="res://assets/main_menu/difficulty_skulls/skull1_hover.png" id="5_rjkur"]
+[ext_resource type="Texture2D" uid="uid://dnfj4cic18gct" path="res://assets/main_menu/difficulty_skulls/skull1_vanquished.png" id="6_0c7wk"]
+[ext_resource type="Texture2D" uid="uid://4gnhyu0f88pe" path="res://assets/main_menu/difficulty_skulls/skull2_hover.png" id="7_72k32"]
+[ext_resource type="Texture2D" uid="uid://brm0xjehlrt6b" path="res://assets/main_menu/difficulty_skulls/skull1_vanquished_hover.png" id="7_yehu3"]
+[ext_resource type="Texture2D" uid="uid://s87yv2m18kg" path="res://assets/main_menu/difficulty_skulls/skull2_vanquished.png" id="10_1fs3h"]
+[ext_resource type="Texture2D" uid="uid://c6430vitdj5p3" path="res://assets/main_menu/difficulty_skulls/skull2_vanquished_hover.png" id="11_j5kxn"]
+[ext_resource type="Texture2D" uid="uid://pifs7wspyh74" path="res://assets/main_menu/difficulty_skulls/skull3.png" id="13_cm17n"]
+[ext_resource type="Texture2D" uid="uid://csvvmt6lscfge" path="res://assets/main_menu/difficulty_skulls/skull3_hover.png" id="14_7daqw"]
+[ext_resource type="Texture2D" uid="uid://crmpm3qp363ln" path="res://assets/main_menu/difficulty_skulls/skull3_vanquished.png" id="15_bobj0"]
+[ext_resource type="Texture2D" uid="uid://cb0qg5op4vdwe" path="res://assets/main_menu/difficulty_skulls/skull3_vanquished_hover.png" id="16_85eo4"]
+[ext_resource type="Texture2D" uid="uid://ij1eq4bd8nb5" path="res://assets/main_menu/difficulty_skulls/skull4.png" id="17_04co6"]
+[ext_resource type="Texture2D" uid="uid://731ilqujtg4i" path="res://assets/main_menu/difficulty_skulls/skull4_hover.png" id="18_gsexb"]
+[ext_resource type="Texture2D" uid="uid://bcvybwa0h5c0k" path="res://assets/main_menu/difficulty_skulls/skull4_vanquished.png" id="19_8cqw2"]
+[ext_resource type="Texture2D" uid="uid://csbufcihlq05n" path="res://assets/main_menu/difficulty_skulls/skull4_vanquished_hover.png" id="20_7ie8d"]
+[ext_resource type="Texture2D" uid="uid://dw3bk7xc6nfl" path="res://assets/main_menu/difficulty_skulls/skull5.png" id="21_xvp1m"]
+[ext_resource type="Texture2D" uid="uid://xv5jdwimm8m3" path="res://assets/main_menu/difficulty_skulls/skull5_hover.png" id="22_uhdo5"]
+[ext_resource type="Texture2D" uid="uid://bjnua4hqljkkk" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished.png" id="23_1dh72"]
+[ext_resource type="Texture2D" uid="uid://bnmoty087x0kw" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished_hover.png" id="24_yeah1"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")
@@ -43,19 +59,13 @@ offset_right = 266.0
 offset_bottom = 174.0
 text = "Quit"
 
-[node name="TextureButton" type="TextureButton" parent="."]
-offset_left = 216.0
-offset_top = 102.0
-offset_right = 256.0
-offset_bottom = 142.0
-
-[node name="Container" type="VBoxContainer" parent="."]
-offset_top = 61.0
+[node name="DescriptionContainer" type="VBoxContainer" parent="."]
+offset_top = 60.0
 offset_right = 320.0
-offset_bottom = 112.0
+offset_bottom = 111.0
 alignment = 2
 
-[node name="CharacterDescription" type="RichTextLabel" parent="Container"]
+[node name="CharacterDescription" type="RichTextLabel" parent="DescriptionContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 bbcode_enabled = true
@@ -67,35 +77,200 @@ scroll_active = false
 offset_top = 114.0
 offset_right = 320.0
 offset_bottom = 149.0
-theme_override_constants/separation = 0
+theme_override_constants/separation = 1
 
-[node name="Character" parent="Selector" instance=ExtResource("3_xyj46")]
+[node name="Character" parent="Selector" instance=ExtResource("3_trmuq")]
 layout_mode = 2
 
 [node name="Difficulty" type="HBoxContainer" parent="Selector"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_constants/separation = 1
 
-[node name="Skull1" type="TextureButton" parent="Selector/Difficulty"]
+[node name="Skull1" type="BoxContainer" parent="Selector/Difficulty"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_13483")
+
+[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull1"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull1/Unvanquished"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("4_vorie")
+texture_hover = ExtResource("5_rjkur")
 
-[node name="Skull2" type="TextureButton" parent="Selector/Difficulty"]
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull1/Unvanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("5_rjkur")
+
+[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull1"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull1/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("6_0c7wk")
+texture_hover = ExtResource("7_yehu3")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull1/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("7_yehu3")
+
+[node name="Skull2" type="BoxContainer" parent="Selector/Difficulty"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_13483")
+difficulty = 1
+
+[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull2"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull2/Unvanquished"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("5_j10ut")
+texture_hover = ExtResource("7_72k32")
 
-[node name="Skull3" type="TextureButton" parent="Selector/Difficulty"]
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull2/Unvanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("6_5h1f1")
+texture_normal = ExtResource("7_72k32")
 
-[node name="Skull4" type="TextureButton" parent="Selector/Difficulty"]
+[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull2"]
 layout_mode = 2
-texture_normal = ExtResource("7_2pmti")
 
-[node name="Skull5" type="TextureButton" parent="Selector/Difficulty"]
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull2/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("8_7t7gr")
+texture_normal = ExtResource("10_1fs3h")
+texture_hover = ExtResource("11_j5kxn")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull2/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("11_j5kxn")
+
+[node name="Skull3" type="BoxContainer" parent="Selector/Difficulty"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_13483")
+difficulty = 2
+
+[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull3"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull3/Unvanquished"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("13_cm17n")
+texture_hover = ExtResource("14_7daqw")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull3/Unvanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("14_7daqw")
+
+[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull3"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull3/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("15_bobj0")
+texture_hover = ExtResource("16_85eo4")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull3/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("16_85eo4")
+
+[node name="Skull4" type="BoxContainer" parent="Selector/Difficulty"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_13483")
+difficulty = 3
+
+[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull4"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull4/Unvanquished"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("17_04co6")
+texture_hover = ExtResource("18_gsexb")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull4/Unvanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("18_gsexb")
+
+[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull4"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull4/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("19_8cqw2")
+texture_hover = ExtResource("20_7ie8d")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull4/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("20_7ie8d")
+
+[node name="Skull5" type="BoxContainer" parent="Selector/Difficulty"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_13483")
+difficulty = 4
+
+[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull5"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull5/Unvanquished"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("21_xvp1m")
+texture_hover = ExtResource("22_uhdo5")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull5/Unvanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("22_uhdo5")
+
+[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull5"]
+layout_mode = 2
+
+[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull5/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("23_1dh72")
+texture_hover = ExtResource("24_yeah1")
+
+[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull5/Vanquished"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture_normal = ExtResource("24_yeah1")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
