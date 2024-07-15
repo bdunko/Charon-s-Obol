@@ -3,7 +3,7 @@ extends Node2D
 signal start_pressed
 
 @onready var _CHARACTER_SELECTOR: ArrowSelector = $Selector/Character
-@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $Container/CharacterDescription
+@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $DescriptionContainer/CharacterDescription
 @onready var _DIFFICULTY_SELECTOR = $Selector/Difficulty
 
 class CharacterData:
@@ -17,10 +17,16 @@ class CharacterData:
 		self.description = descriptionStr
 
 var _CHARACTERS = [
+	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", ""),
 	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", ""),
 ]
 
 func _ready() -> void:
+	assert(_CHARACTER_SELECTOR)
+	assert(_CHARACTER_DESCRIPTION)
+	assert(_DIFFICULTY_SELECTOR)
+	assert(Global.Character.size() == _CHARACTERS.size())
+	
 	var names = []
 	for character in _CHARACTERS:
 		names.append(character.name)

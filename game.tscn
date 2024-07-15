@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=26 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/table/river.png" id="2_d61yp"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="6_rf73a"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="7_2acd8"]
 [ext_resource type="Script" path="res://ui/shop_continue_button.gd" id="8_leu43"]
+[ext_resource type="Script" path="res://ui/shop_reroll_button.gd" id="9_cd2hg"]
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="9_d50av"]
 [ext_resource type="Script" path="res://ui/die_button.gd" id="10_oe7lm"]
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="11_mcnia"]
@@ -77,6 +78,14 @@ layout_mode = 2
 script = ExtResource("8_leu43")
 
 [node name="Text" parent="UI/PlayerTextboxs/ShopContinueButton/TextMargin" index="0"]
+text = "Continue"
+
+[node name="ShopRerollButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+visible = false
+layout_mode = 2
+script = ExtResource("9_cd2hg")
+
+[node name="Text" parent="UI/PlayerTextboxs/ShopRerollButton/TextMargin" index="0"]
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
@@ -268,6 +277,7 @@ offset_bottom = 178.0
 [connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/ShopContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxs/ShopRerollButton" to="." method="_on_shop_reroll_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxs/DieButton" to="." method="_on_die_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
@@ -283,6 +293,7 @@ offset_bottom = 178.0
 [editable path="UI/PlayerTextboxs/TossButton"]
 [editable path="UI/PlayerTextboxs/AcceptButton"]
 [editable path="UI/PlayerTextboxs/ShopContinueButton"]
+[editable path="UI/PlayerTextboxs/ShopRerollButton"]
 [editable path="UI/PlayerTextboxs/EndRoundButton"]
 [editable path="UI/PlayerTextboxs/DieButton"]
 [editable path="UI/PlayerTextboxs/PayTollButton"]

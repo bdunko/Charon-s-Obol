@@ -165,6 +165,7 @@ func on_start() -> void:
 	Global.active_coin_power_family = null
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
+	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	
@@ -172,8 +173,8 @@ func on_start() -> void:
 	Global.souls = 100
 	Global.lives = 100
 	Global.arrows = 10
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.HERA_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TRIOBOL)
+	_make_and_gain_coin(Global.HERA_FAMILY, Global.Denomination.OBOL)
 #	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
 #	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
 #	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
@@ -217,7 +218,7 @@ func _on_toss_button_clicked() -> void:
 	
 	# take life from player
 	var strain = Global.strain_cost()
-	if Global.lives < strain:
+	if Global.lives < strain: #todo - skip this check and let player die if they cannot continue otherwise
 		_DIALOGUE.show_dialogue("Not... enough... life...!")
 		return
 	
@@ -397,6 +398,15 @@ func _on_pay_toll_button_clicked():
 		
 		# advance the toll
 		Global.toll_index += 1
+		
+		await _wait_for_dialogue("The toll is paid.")
+		
+		if _COIN_ROW.get_child_count() == 0:
+			await _wait_for_dialogue("...Ah, no more coins?")
+			await _wait_for_dialogue("...So you've lost the game...")
+			await _wait_for_dialogue("...A shame... goodbye...")
+			_on_die_button_clicked()
+			return
 		
 		# now move the boat forward...
 		_advance_round()
@@ -716,3 +726,11 @@ func _input(event):
 # todo - delete the reset button
 func _on_reset_button_pressed():
 	emit_signal("game_ended")
+
+func _on_shop_reroll_button_clicked():
+	if Global.souls <= Global.reroll_cost():
+		_DIALOGUE.show_dialogue("Not... enough... souls...")
+		return
+	Global.souls -= Global.reroll_cost()
+	_SHOP.randomize_shop()
+	Global.shop_rerolls += 1

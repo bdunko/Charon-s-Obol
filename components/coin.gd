@@ -168,6 +168,9 @@ func init_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination
 	_owner = owned_by
 	_reset()
 
+func coin_family() -> Global.CoinFamily:
+	return _coin_family
+
 func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
 

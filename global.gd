@@ -3,7 +3,7 @@ extends Node
 var character: Character
 
 enum Character {
-	ELEUSINIAN, TEST
+	ELEUSINIAN, LADY
 }
 
 var difficulty: Difficulty
@@ -11,6 +11,23 @@ var difficulty: Difficulty
 enum Difficulty {
 	INDIFFERENT, DISPLEASED, AGGREVATED, HATEFUL, UNFAIR
 }
+
+func difficulty_tooltip_for(diff: Difficulty) -> String:
+	#todo - fill these description
+	match diff:
+		Difficulty.INDIFFERENT:
+			return "indiff\nBase difficulty."
+		Difficulty.DISPLEASED:
+			return "displeased\nCharon will occasionally unleash his malice..."
+		Difficulty.AGGREVATED:
+			return "aggrevated"
+		Difficulty.HATEFUL:
+			return "hateful\nEach Trial round now has two challenges."
+		Difficulty.UNFAIR:
+			return "unfair\nCoins will land on tails 10% more often.\nCharon's malice is more targetted."
+	assert(false, "shouldn't happen..")
+	return ""
+
 
 const UNAFFORDABLE_COLOR = "#e12f3b"
 const AFFORDABLE_COLOR = "#ffffff"
@@ -30,6 +47,16 @@ signal flips_this_round_changed
 signal strain_changed
 signal patron_changed
 signal patron_uses_changed
+signal rerolls_changed
+
+func reroll_cost() -> int:
+	return (1+shop_rerolls) * (1+shop_rerolls)
+
+var shop_rerolls: int:
+	set(val):
+		shop_rerolls = val
+		assert(shop_rerolls >= 0)
+		emit_signal("rerolls_changed")
 
 var souls: int:
 	set(val):
