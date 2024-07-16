@@ -175,7 +175,7 @@ var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res:
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 2, 3, 4], true, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5], false, "res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], false, "res://assets/icons/poseidon_icon.png")
-var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip and coin and its neighbors.", [1, 2, 3, 4], false, "res://assets/icons/hera_icon.png")
+var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], false, "res://assets/icons/hera_icon.png")
 var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], false, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], false, "res://assets/icons/artemis_icon.png")
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], false, "res://assets/icons/apollo_icon.png")

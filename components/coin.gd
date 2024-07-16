@@ -152,8 +152,8 @@ func _reset() -> void:
 	_round_tails_penalty_reduction = 0
 	_permanent_tails_penalty_reduction = 0
 
-func init_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
-	_coin_family = coin_family
+func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
+	_coin_family = family
 	_denomination = denomination
 	# in the case of a trade; we don't need to reconnect signals
 	if not Global.souls_count_changed.is_connected(_update_price_label):
@@ -161,8 +161,8 @@ func init_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination
 	if not Global.state_changed.is_connected(_on_state_changed):
 		Global.state_changed.connect(_on_state_changed)
 	_PRICE.visible = Global.state == Global.State.SHOP
-	_heads_power = FacePower.new(coin_family.heads_power_family, coin_family.heads_power_family.uses_for_denom[_denomination])
-	_tails_power = FacePower.new(coin_family.tails_power_family, coin_family.tails_power_family.uses_for_denom[_denomination])
+	_heads_power = FacePower.new(_coin_family.heads_power_family, _coin_family.heads_power_family.uses_for_denom[_denomination])
+	_tails_power = FacePower.new(_coin_family.tails_power_family, _coin_family.tails_power_family.uses_for_denom[_denomination])
 	_heads = true
 	reset_power_uses()
 	_owner = owned_by
@@ -466,15 +466,26 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
 	return txt
 
+# icons which we don't show an icon for in tooltips at the front.
+var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS]
 func _generate_tooltip() -> void:
-	const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img] %s\n[img=12x13]res://assets/icons/tails_icon.png[/img] %s[/center]"
-	
+	const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s[/center]"
+
 	var coin_name = get_coin_name()
 	var subtitle = get_subtitle()
-	var heads_power_str = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-	var tails_power_str = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+	var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+	var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+	var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path
+	var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _tails_power.power_family.icon_path
+	var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+	var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow)(CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 	
-	var txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power_str, tails_power_str]
+	#(charges)[icon] description
+	const POWER_FORMAT = "%s%s%s"
+	var heads_power = POWER_FORMAT % [heads_charges, heads_power_icon, heads_power_desc]
+	var tails_power = POWER_FORMAT % [tails_charges, tails_power_icon, tails_power_desc]
+	
+	var txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power, tails_power]
 	
 	UITooltip.create(self, txt, get_global_mouse_position(), get_tree().root)
 
