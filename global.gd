@@ -1,5 +1,18 @@
 extends Node
 
+signal state_changed
+signal round_changed
+signal souls_count_changed
+signal life_count_changed
+signal arrow_count_changed
+signal active_coin_power_family_changed
+signal toll_coins_changed
+signal flips_this_round_changed
+signal strain_changed
+signal patron_changed
+signal patron_uses_changed
+signal rerolls_changed
+
 var character: Character
 
 enum Character {
@@ -28,26 +41,9 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 	assert(false, "shouldn't happen..")
 	return ""
 
-
-const UNAFFORDABLE_COLOR = "#e12f3b"
-const AFFORDABLE_COLOR = "#ffffff"
-
 enum State {
 	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER
 }
-
-signal state_changed
-signal round_changed
-signal souls_count_changed
-signal life_count_changed
-signal arrow_count_changed
-signal active_coin_power_family_changed
-signal toll_coins_changed
-signal flips_this_round_changed
-signal strain_changed
-signal patron_changed
-signal patron_uses_changed
-signal rerolls_changed
 
 func reroll_cost() -> int:
 	return (1+shop_rerolls) * (1+shop_rerolls)
@@ -75,15 +71,60 @@ var state := State.BEFORE_FLIP:
 		state = val
 		emit_signal("state_changed")
 
-const NUM_ROUNDS = 14
+enum RoundType {
+	BOARDING, NORMAL, TRIAL1, TRIAL2, BOSS, TOLLGATE, END
+}
+
+class Round:
+	var roundType: RoundType
+	var lifeRegen: int
+	var shopDenoms: Array
+	var tollCost: int
+	
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst := 0):
+		self.roundType = roundTyp
+		self.lifeRegen = lifeRegn
+		self.shopDenoms = shopDenms
+		self.tollCost = tollCst
+
+var _VOYAGE = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL]),
+	Round.new(RoundType.NORMAL, 5, [Denomination.OBOL]),
+	Round.new(RoundType.NORMAL, 6, [Denomination.OBOL]),
+	Round.new(RoundType.NORMAL, 7, [Denomination.OBOL, Denomination.DIOBOL]),
+	Round.new(RoundType.TRIAL1, 10, [Denomination.OBOL, Denomination.DIOBOL]),
+	Round.new(RoundType.TOLLGATE, 0, [], 5),
+	Round.new(RoundType.NORMAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
+	Round.new(RoundType.NORMAL, 10, [Denomination.DIOBOL]),
+	Round.new(RoundType.TRIAL2, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
+	Round.new(RoundType.TOLLGATE, 0, [], 10),
+	Round.new(RoundType.NORMAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
+	Round.new(RoundType.NORMAL, 20, [Denomination.TRIOBOL, Denomination.TETROBOL]),
+	Round.new(RoundType.BOSS, 30, [Denomination.TRIOBOL, Denomination.TETROBOL]),
+	Round.new(RoundType.TOLLGATE, 0, [], 25),
+	Round.new(RoundType.END, 0, [])
+]
+
+func voyage_length() -> int:
+	return _VOYAGE.size()
+
+func current_round_type() -> RoundType:
+	return _VOYAGE[round_count-1].roundType
+
+func current_round_life_regen() -> int:
+	return _VOYAGE[round_count-1].lifeRegen
+
+func current_round_toll() -> int:
+	return _VOYAGE[round_count-1].tollCost
+
+func _current_round_shop_denoms() -> Array:
+	return _VOYAGE[round_count-1].shopDenoms
+
 var round_count:
 	set(val):
 		round_count = val
 		emit_signal("round_changed")
-		if round_count > NUM_ROUNDS:
-			state = State.GAME_OVER
 
-const LIVES_PER_ROUND = [-1, 0, 5, 5, 5, 10, 0, 10, 10, 20, 0, 15, 15, 30, 0]
 var lives:
 	set(val):
 		lives = val
@@ -117,8 +158,6 @@ var patron_uses: int:
 		patron_uses = val
 		emit_signal("patron_uses_changed")
 
-const TOLLGATE_ROUNDS = [6, 10, 14]
-const TOLLGATE_PRICES = [5, 10, 25]
 var toll_index = 0
 var toll_coins_offered := []
 func add_toll_coin(coin) -> void:
@@ -400,13 +439,4 @@ func random_god_family() -> CoinFamily:
 	return choose_one(_GOD_FAMILIES)
 
 func random_shop_denomination_for_round() -> Denomination:
-	# B 1 2 3 4 T 5 6 7 T  8  9  10 T
-	# 1 2 3 4 5 6 7 8 9 10 11 12 13 14
-	if Global.round_count <= 3: #rounds 1-2
-		return Denomination.OBOL
-	elif Global.round_count <= 7: #rounds 3-5
-		return choose_one([Denomination.OBOL, Denomination.DIOBOL])
-	elif Global.round_count == 11: #rounds 6-8
-		return choose_one([Denomination.DIOBOL, Denomination.TRIOBOL])
-	else:
-		return choose_one([Denomination.TRIOBOL, Denomination.TETROBOL])
+	return choose_one(_current_round_shop_denoms())

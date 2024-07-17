@@ -4,6 +4,9 @@ extends Control
 signal flip_complete
 signal clicked
 
+const UNAFFORDABLE_COLOR = "#e12f3b"
+const AFFORDABLE_COLOR = "#ffffff"
+
 enum Owner {
 	SHOP, PLAYER, NEMESIS
 }
@@ -127,18 +130,22 @@ func _ready():
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+const _TOLL_FORMAT = "[center]%d[/center][img=12x13]res://assets/icons/coin_icon.png[/img]"
 func _update_price_label() -> void:
-	# special case - can't upgrade further, show nothing
-	if _owner == Owner.PLAYER and not can_upgrade():
-		_PRICE.text = ""
-		return
-	
-	var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
-	var color = Global.AFFORDABLE_COLOR if Global.souls >= price else Global.UNAFFORDABLE_COLOR
-	_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
+	if Global.state == Global.State.SHOP:
+		# special case - can't upgrade further, show nothing
+		if _owner == Owner.PLAYER and not can_upgrade():
+			_PRICE.text = ""
+			return
+		
+		var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
+		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
+		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
+	elif Global.state == Global.State.TOLLGATE:
+		_PRICE.text = _TOLL_FORMAT % get_value()
 
 func _on_state_changed() -> void:
-	if Global.state == Global.State.SHOP:
+	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE:
 		_update_price_label()
 		_PRICE.show()
 	else:

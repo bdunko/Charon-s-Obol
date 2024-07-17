@@ -158,7 +158,7 @@ func on_start() -> void:
 	
 	victory = false
 	Global.round_count = 1
-	Global.lives = Global.LIVES_PER_ROUND[1]
+	Global.lives = Global.current_round_life_regen()
 	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
 	Global.souls = 0
 	Global.arrows = 0
@@ -344,7 +344,7 @@ func _on_end_round_button_pressed():
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
 
 func _toll_price_remaining() -> int:
-	return max(0, Global.TOLLGATE_PRICES[Global.toll_index] - Global.calculate_toll_coin_value())
+	return max(0, Global.current_round_toll() - Global.calculate_toll_coin_value())
 
 func _show_toll_dialogue() -> void:
 	var toll_price_remaining = _toll_price_remaining()
@@ -362,21 +362,18 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("Now place your payment on the table...")
 		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
 	
-	if Global.round_count > Global.NUM_ROUNDS: # if the game ended, just exit
-		return
-	
-	if Global.TOLLGATE_ROUNDS.has(Global.round_count):
+	if Global.current_round_type() == Global.RoundType.TOLLGATE:
 		Global.state = Global.State.TOLLGATE
 		if Global.toll_index == 0:
 			await _wait_for_dialogue("First tollgate...")
-			await _wait_for_dialogue("You must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]..." % Global.TOLLGATE_PRICES[Global.toll_index])
+			await _wait_for_dialogue("You must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]..." % Global.current_round_toll())
 		_show_toll_dialogue()
 	else:
 		#if first_round:
 		await _wait_for_dialogue("...take a deep breath...")
 		
 		# refresh lives
-		Global.lives += Global.LIVES_PER_ROUND[Global.round_count]
+		Global.lives += Global.current_round_life_regen()
 		
 		# refresh patron powers
 		Global.patron_uses = Global.PATRON_USES_PER_ROUND[Global.round_count]
@@ -412,7 +409,7 @@ func _on_pay_toll_button_clicked():
 		_advance_round()
 		
 		# if we're reached the end, end the game
-		if Global.toll_index == Global.TOLLGATE_ROUNDS.size():
+		if Global.current_round_type() == Global.RoundType.END: # if the game ended, just exit
 			victory = true
 			Global.state = Global.State.GAME_OVER
 	else:

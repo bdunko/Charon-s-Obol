@@ -13,4 +13,4 @@ func _on_state_changed() -> void:
 
 const _FORMAT = "Pay Toll (%d/%d[img=12x13]res://assets/icons/coin_icon.png[/img])"
 func _update_text() -> void:
-	_TEXT.text = _FORMAT % [Global.calculate_toll_coin_value(), Global.TOLLGATE_PRICES[Global.toll_index]]
+	_TEXT.text = _FORMAT % [Global.calculate_toll_coin_value(), Global.current_round_toll()]

@@ -5,7 +5,7 @@ extends Node2D
 @onready var _SHIP_POSITIONS = $ShipPositions
 
 func _ready() -> void:
-	assert(_SHIP_POSITIONS.get_children().size()-1 == Global.NUM_ROUNDS)
+	assert(_SHIP_POSITIONS.get_children().size() == Global.voyage_length())
 	
 	Global.state_changed.connect(_on_state_changed)
 	
