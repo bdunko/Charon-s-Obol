@@ -22,22 +22,22 @@ enum Character {
 var difficulty: Difficulty
 
 enum Difficulty {
-	INDIFFERENT, DISPLEASED, AGGREVATED, HATEFUL, UNFAIR
+	INDIFFERENT, HOSTILE, VENGEFUL, CRUEL, UNFAIR
 }
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
-	#todo - fill these description
+	#todo - fill these description with colors too
 	match diff:
 		Difficulty.INDIFFERENT:
-			return "indiff\nBase difficulty."
-		Difficulty.DISPLEASED:
-			return "displeased\nCharon will occasionally unleash his malice..."
-		Difficulty.AGGREVATED:
-			return "aggrevated"
-		Difficulty.HATEFUL:
-			return "hateful\nEach Trial round now has two challenges."
+			return "Charon is Indifferent\nThe standard difficulty."
+		Difficulty.HOSTILE:
+			return "Charon is Hostile\nCharon will occasionally unleash his Malice."
+		Difficulty.VENGEFUL:
+			return "Charon is Vengeful\nEach Trial has two modifiers.\nThe Nemesis is more powerful."
+		Difficulty.CRUEL:
+			return "Charon is Cruel\nTollgates are more expensive.\nCoins purchasable in the Shop may have negative statuses."
 		Difficulty.UNFAIR:
-			return "unfair\nCoins will land on tails 10% more often.\nCharon's malice is more targetted."
+			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nCharon's Malice is more targeted."
 	assert(false, "shouldn't happen..")
 	return ""
 
@@ -72,7 +72,7 @@ var state := State.BEFORE_FLIP:
 		emit_signal("state_changed")
 
 enum RoundType {
-	BOARDING, NORMAL, TRIAL1, TRIAL2, BOSS, TOLLGATE, END
+	BOARDING, NORMAL, TRIAL, NEMESIS, TOLLGATE, END
 }
 
 class Round:
@@ -92,15 +92,15 @@ var _VOYAGE = [
 	Round.new(RoundType.NORMAL, 5, [Denomination.OBOL]),
 	Round.new(RoundType.NORMAL, 6, [Denomination.OBOL]),
 	Round.new(RoundType.NORMAL, 7, [Denomination.OBOL, Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL1, 10, [Denomination.OBOL, Denomination.DIOBOL]),
+	Round.new(RoundType.TRIAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
 	Round.new(RoundType.TOLLGATE, 0, [], 5),
 	Round.new(RoundType.NORMAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
 	Round.new(RoundType.NORMAL, 10, [Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL2, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
+	Round.new(RoundType.TRIAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
 	Round.new(RoundType.TOLLGATE, 0, [], 10),
 	Round.new(RoundType.NORMAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
 	Round.new(RoundType.NORMAL, 20, [Denomination.TRIOBOL, Denomination.TETROBOL]),
-	Round.new(RoundType.BOSS, 30, [Denomination.TRIOBOL, Denomination.TETROBOL]),
+	Round.new(RoundType.NEMESIS, 30, [Denomination.TRIOBOL, Denomination.TETROBOL]),
 	Round.new(RoundType.TOLLGATE, 0, [], 25),
 	Round.new(RoundType.END, 0, [])
 ]
@@ -182,19 +182,18 @@ var active_coin_power_family: PowerFamily:
 
 const COIN_LIMIT = 8
 
-class NemesisData:
+class TrialData:
 	var coins
 	var name
 	var description
 	
-	func _init(nemesisName, nemesisCoins, nemesisDescription):
-		self.coins = nemesisCoins
-		self.name = nemesisName
-		self.description = nemesisDescription
+	func _init(trialName, trialCoins, trialDescription):
+		self.coins = trialName
+		self.name = trialCoins
+		self.description = trialDescription
 
-const NEMESIS_ROUND = 2
-@onready var NEMESES = [NemesisData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a nemesis description!")]
-var nemesis = null
+@onready var NEMESES = [TrialData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a trial description!")]
+var nemesis: TrialData = null
 
 class PowerFamily:
 	var description: String

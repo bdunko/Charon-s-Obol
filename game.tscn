@@ -19,8 +19,8 @@
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="16_ee6yk"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="17_uno8g"]
 [ext_resource type="PackedScene" uid="uid://dgds4d2p6hdb6" path="res://ui/voyage.tscn" id="18_vo2di"]
-[ext_resource type="Script" path="res://nemesis.gd" id="19_4fcrd"]
 [ext_resource type="PackedScene" uid="uid://kw0850n3cqvo" path="res://components/coin_row.tscn" id="19_ym3ga"]
+[ext_resource type="Script" path="res://trial.gd" id="20_kmro7"]
 [ext_resource type="Script" path="res://ui/shop.gd" id="20_xqqdj"]
 [ext_resource type="Script" path="res://components/coin_row.gd" id="21_60gfb"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
@@ -180,10 +180,10 @@ position = Vector2(65, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
-[node name="Nemesis" type="Node2D" parent="Table"]
-script = ExtResource("19_4fcrd")
+[node name="Trial" type="Node2D" parent="Table"]
+script = ExtResource("20_kmro7")
 
-[node name="NemesisRow" type="Control" parent="Table/Nemesis"]
+[node name="TrialRow" type="Control" parent="Table/Trial"]
 custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
@@ -194,19 +194,19 @@ offset_bottom = 96.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 
-[node name="Coin" parent="Table/Nemesis/NemesisRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
 offset_left = 77.0
 offset_right = 115.0
 
-[node name="Coin2" parent="Table/Nemesis/NemesisRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin2" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
 offset_left = 117.0
 offset_right = 155.0
 
-[node name="Coin3" parent="Table/Nemesis/NemesisRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin3" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
 offset_left = 157.0
 offset_right = 195.0
 
-[node name="Coin4" parent="Table/Nemesis/NemesisRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin4" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
 offset_left = 197.0
 offset_right = 235.0
 
@@ -284,8 +284,8 @@ offset_bottom = 178.0
 [connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
-[connection signal="child_entered_tree" from="Table/Nemesis/NemesisRow" to="Table/Nemesis/NemesisRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/Nemesis/NemesisRow" to="Table/Nemesis/NemesisRow" method="_on_child_exiting_tree"]
+[connection signal="child_entered_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_exiting_tree"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
