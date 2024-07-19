@@ -37,7 +37,7 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 		Difficulty.CRUEL:
 			return "Charon is Cruel\nTollgates are more expensive.\nCoins purchasable in the Shop may have negative statuses."
 		Difficulty.UNFAIR:
-			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nCharon's Malice is more targeted."
+			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nCharon's Malice is more targeted.\nYou cannot view future Trials until completing the previous one."
 	assert(false, "shouldn't happen..")
 	return ""
 
@@ -72,7 +72,7 @@ var state := State.BEFORE_FLIP:
 		emit_signal("state_changed")
 
 enum RoundType {
-	BOARDING, NORMAL, TRIAL, NEMESIS, TOLLGATE, END
+	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
 }
 
 class Round:
@@ -92,11 +92,11 @@ var _VOYAGE = [
 	Round.new(RoundType.NORMAL, 5, [Denomination.OBOL]),
 	Round.new(RoundType.NORMAL, 6, [Denomination.OBOL]),
 	Round.new(RoundType.NORMAL, 7, [Denomination.OBOL, Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
+	Round.new(RoundType.TRIAL1, 10, [Denomination.OBOL, Denomination.DIOBOL]),
 	Round.new(RoundType.TOLLGATE, 0, [], 5),
 	Round.new(RoundType.NORMAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
 	Round.new(RoundType.NORMAL, 10, [Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
+	Round.new(RoundType.TRIAL2, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
 	Round.new(RoundType.TOLLGATE, 0, [], 10),
 	Round.new(RoundType.NORMAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
 	Round.new(RoundType.NORMAL, 20, [Denomination.TRIOBOL, Denomination.TETROBOL]),
@@ -192,48 +192,71 @@ class TrialData:
 		self.name = trialCoins
 		self.description = trialDescription
 
-@onready var NEMESES = [TrialData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a trial description!")]
+@onready var NEMESES = [
+	TrialData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a trial description!")
+]
 var nemesis: TrialData = null
+
+@onready var LV1_TRIALS = [
+	
+]
+
+@onready var LV2_TRIALS = [
+	
+]
+
+enum PowerType {
+	PAYOFF, POWER, PASSIVE
+}
 
 class PowerFamily:
 	var description: String
 	var uses_for_denom: Array[int]
-	var is_payoff: bool
+	var powerType: PowerType
 	var icon_path: String
 	
-	func _init(desc: String, uses_per_denom: Array[int], payoff: bool, icon: String) -> void:
+	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String) -> void:
 		self.description = desc
 		self.uses_for_denom = uses_per_denom
-		self.is_payoff = payoff
+		self.powerType = pwrType
 		self.icon_path = icon
 		if icon != "":
 			assert(FileAccess.file_exists(self.icon_path))
+	
+	func is_payoff() -> bool:
+		return powerType == PowerType.PAYOFF
+	
+	func is_power() -> bool:
+		return powerType == PowerType.POWER
+	
+	func is_passive() -> bool:
+		return powerType == PowerType.PASSIVE
 
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [2, 4, 7, 10], true, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 2, 3, 4], true, "res://assets/icons/soul_fragment_red_icon.png")
-var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5], false, "res://assets/icons/zeus_icon.png")
-var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], false, "res://assets/icons/poseidon_icon.png")
-var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], false, "res://assets/icons/hera_icon.png")
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], false, "res://assets/icons/demeter_icon.png")
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], false, "res://assets/icons/artemis_icon.png")
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], false, "res://assets/icons/apollo_icon.png")
-var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], false, "res://assets/icons/ares_icon.png")
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], false, "res://assets/icons/athena_icon.png")
-var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], false, "res://assets/icons/hephaestus_icon.png")
-var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1, 2, 3, 4], false, "res://assets/icons/aphrodite_icon.png")
-var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], false, "res://assets/icons/hermes_icon.png")
-var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin Lucky.", [1, 2, 3, 4], false, "res://assets/icons/hestia_icon.png")
-var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4], false, "res://assets/icons/dionysus_icon.png")
-var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], false, "res://assets/icons/hades_icon.png")
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [2, 4, 7, 10], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 2, 3, 4], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
+var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
+var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
+var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
+var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
+var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/aphrodite_icon.png")
+var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hermes_icon.png")
+var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin Lucky.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hestia_icon.png")
+var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/dionysus_icon.png")
+var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/hades_icon.png")
 
-var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], false, "")
+var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], PowerType.POWER, "")
 
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn the most valuable non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/medusa_icon.png")
-var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/downgrade_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn the leftmost non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/euryale_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 random coins Unlucky.", [2, 2, 2, 2], true, "res://assets/icons/nemesis/unlucky_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost non-Stoned coin to Stone.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/stheno_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], true, "res://assets/icons/nemesis/strain_icon.png")
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn the most valuable non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/medusa_icon.png")
+var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/downgrade_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn the leftmost non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 random coins Unlucky.", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
 
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
@@ -284,20 +307,20 @@ class Patron:
 		self.patron_token = tkn
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [1, 2, 3, 4], false, "");
-var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [1, 2, 3, 4], false, "");
+var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [1, 2, 3, 4], PowerType.POWER, "");
+var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [1, 2, 3, 4], PowerType.POWER, "");
 
 # exists so I can define a value for the Patron in the editor for patron statues
 enum PatronEnum {

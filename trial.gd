@@ -19,7 +19,7 @@ func setup() -> void:
 		coin.init_coin(coinFamily, Global.Denomination.TETROBOL, Coin.Owner.NEMESIS)
 
 func _on_state_changed() -> void:
-	var trial_or_boss = (Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL)
+	var trial_or_boss = (Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2)
 	if trial_or_boss and (Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.BEFORE_FLIP):
 		show()
 	else:

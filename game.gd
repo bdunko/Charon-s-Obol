@@ -249,7 +249,7 @@ func _on_accept_button_pressed():
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
-		if payoff_power_family.is_payoff and not payoff_coin.is_stone() and charges > 0:
+		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and charges > 0:
 			create_tween().tween_property(payoff_coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
@@ -313,7 +313,7 @@ func _advance_round() -> void:
 	await _VOYAGE.move_boat(Global.round_count)
 	Global.round_count += 1
 	
-	if Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL:
+	if Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2:
 		_TRIAL.setup()
 		for c in _TRIAL_ROW.get_children():
 			var coin = c as Coin
@@ -500,8 +500,6 @@ func _on_coin_clicked(coin: Coin):
 	var left = row.get_left_of(coin)
 	var right = row.get_right_of(coin)
 	
-	print("clicked")
-	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
 		if Global.is_patron_power(Global.active_coin_power_family):
@@ -599,7 +597,7 @@ func _on_coin_clicked(coin: Coin):
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				if not coin.get_active_power_family().is_payoff:
+				if not coin.get_active_power_family().is_payoff():
 					_DIALOGUE.show_dialogue("Can't... recharge... that...")
 					return
 				coin.recharge_power_uses_by(1)
@@ -631,7 +629,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.active_coin_power_family = null
 	
 	# otherwise we're attempting to activate a coin
-	elif not coin.get_active_power_family().is_payoff and coin.get_active_power_charges() > 0:
+	elif not coin.get_active_power_family().is_payoff() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
 		match coin.get_active_power_family():
 			Global.POWER_FAMILY_GAIN_LIFE:
@@ -696,7 +694,7 @@ func _on_patron_token_clicked():
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				if not as_coin.get_active_power_family().is_payoff:
+				if not as_coin.get_active_power_family().is_payoff():
 					as_coin.recharge_power_uses_by(1)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_DIONYSUS:
