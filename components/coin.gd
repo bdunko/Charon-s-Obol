@@ -267,9 +267,9 @@ func get_upgrade_price() -> int:
 		Global.Denomination.TRIOBOL:
 			return _coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] + 5
 		Global.Denomination.TETROBOL:
-			return 100000 #error case really
+			return 10000000 #error case really
 	breakpoint
-	return 10000
+	return 1000000
 
 func flip(bonus: int = 0) -> void:
 	if is_frozen(): #don't flip if frozen

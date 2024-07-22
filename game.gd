@@ -483,13 +483,15 @@ func _on_coin_clicked(coin: Coin):
 		return
 
 	if Global.state == Global.State.SHOP:
-		if Global.souls >= coin.get_upgrade_price():
+		if not coin.can_upgrade():
+			_DIALOGUE.show_dialogue("Can't... upgrade... more...")
+		elif Global.souls >= coin.get_upgrade_price():
 			Global.souls -= coin.get_upgrade_price()
 			coin.upgrade()
 			coin.reset_power_uses()
 			_DIALOGUE.show_dialogue("More... power...")
 		else:
-			_DIALOGUE.show_dialogue("Not...enough... souls...!")
+			_DIALOGUE.show_dialogue("Not... enough... souls...!")
 		return
 	
 	# only use coin powers during after flip
