@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://b68ccb5fvw5is"]
+
+[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="1_56c4t"]
+
+[node name="TooltipEmitter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -304.0
+offset_bottom = -164.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_56c4t")
+_tooltip = "test"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

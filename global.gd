@@ -188,8 +188,8 @@ class TrialData:
 	var description
 	
 	func _init(trialName, trialCoins, trialDescription):
-		self.coins = trialName
-		self.name = trialCoins
+		self.name = trialName
+		self.coins = trialCoins
 		self.description = trialDescription
 
 @onready var NEMESES = [

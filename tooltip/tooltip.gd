@@ -38,7 +38,7 @@ static func create(source: Control, text: String, global_mouse_position: Vector2
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
 		if tooltip.source_control == source:
-			tooltip.find_child("TooltipText").text = text
+			tooltip.find_child("TooltipText").text = _FORMAT % text
 			return
 	
 	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root)
