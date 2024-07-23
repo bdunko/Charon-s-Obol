@@ -29,12 +29,14 @@ static func clear_tooltips():
 		tooltip.queue_free() #not sure this is safe; keep an eye on this
 	_ALL_TOOLTIPS.clear()
 
-var source_control: Control
+var source_control
 
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(source: Control, text: String, global_mouse_position: Vector2, scene_root: Node) -> void:
+static func create(source, text: String, global_mouse_position: Vector2, scene_root: Node) -> void:
+	assert(source is Control or source is Area2D)
+	
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
 		if tooltip.source_control == source:
@@ -50,7 +52,10 @@ static func create(source: Control, text: String, global_mouse_position: Vector2
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func create_manual(source: Control, text: String, global_mouse_position: Vector2, scene_root: Node) -> UITooltip:
+static func create_manual(source, text: String, global_mouse_position: Vector2, scene_root: Node) -> UITooltip:
+	assert(source is Control or source is Area2D)
+	
+	
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
@@ -119,8 +124,13 @@ func _process(_delta):
 	
 	# HINT - common problem if tooltip appears but immediately vanishes; check size of the control carefully!
 	var mouse_position = get_global_mouse_position()
-	if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
-		destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip
+	if source_control is Control:
+		if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
+			destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip
+	# $HACK$ - I guess we don't need this - dunno, seems to work without it...
+	#elif source_control is Area2D:
+	#	var area = source_control as Area2D
+	#	area.get_size
 	position = Vector2(int(mouse_position.x), int(mouse_position.y)) + _TOOLTIP_OFFSET
 	_force_position_onto_screen()
 
