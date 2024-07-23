@@ -71,55 +71,6 @@ var state := State.BEFORE_FLIP:
 		state = val
 		emit_signal("state_changed")
 
-enum RoundType {
-	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
-}
-
-class Round:
-	var roundType: RoundType
-	var lifeRegen: int
-	var shopDenoms: Array
-	var tollCost: int
-	
-	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst := 0):
-		self.roundType = roundTyp
-		self.lifeRegen = lifeRegn
-		self.shopDenoms = shopDenms
-		self.tollCost = tollCst
-
-var _VOYAGE = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL]),
-	Round.new(RoundType.NORMAL, 5, [Denomination.OBOL]),
-	Round.new(RoundType.NORMAL, 6, [Denomination.OBOL]),
-	Round.new(RoundType.NORMAL, 7, [Denomination.OBOL, Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL1, 10, [Denomination.OBOL, Denomination.DIOBOL]),
-	Round.new(RoundType.TOLLGATE, 0, [], 5),
-	Round.new(RoundType.NORMAL, 10, [Denomination.OBOL, Denomination.DIOBOL]),
-	Round.new(RoundType.NORMAL, 10, [Denomination.DIOBOL]),
-	Round.new(RoundType.TRIAL2, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
-	Round.new(RoundType.TOLLGATE, 0, [], 10),
-	Round.new(RoundType.NORMAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL]),
-	Round.new(RoundType.NORMAL, 20, [Denomination.TRIOBOL, Denomination.TETROBOL]),
-	Round.new(RoundType.NEMESIS, 30, [Denomination.TRIOBOL, Denomination.TETROBOL]),
-	Round.new(RoundType.TOLLGATE, 0, [], 25),
-	Round.new(RoundType.END, 0, [])
-]
-
-func voyage_length() -> int:
-	return _VOYAGE.size()
-
-func current_round_type() -> RoundType:
-	return _VOYAGE[round_count-1].roundType
-
-func current_round_life_regen() -> int:
-	return _VOYAGE[round_count-1].lifeRegen
-
-func current_round_toll() -> int:
-	return _VOYAGE[round_count-1].tollCost
-
-func _current_round_shop_denoms() -> Array:
-	return _VOYAGE[round_count-1].shopDenoms
-
 var round_count:
 	set(val):
 		round_count = val
@@ -182,6 +133,94 @@ var active_coin_power_family: PowerFamily:
 
 const COIN_LIMIT = 8
 
+enum RoundType {
+	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
+}
+
+class Round:
+	var roundType: RoundType
+	var lifeRegen: int
+	var shopDenoms: Array
+	var tollCost: int
+	var trialData: TrialData
+	
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, triData: TrialData):
+		self.roundType = roundTyp
+		self.lifeRegen = lifeRegn
+		self.shopDenoms = shopDenms
+		self.tollCost = tollCst
+		self.trialData = triData
+
+var _VOYAGE = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, null),
+	Round.new(RoundType.NORMAL, 5, [Denomination.OBOL], 0, null),
+	Round.new(RoundType.NORMAL, 6, [Denomination.OBOL], 0, null),
+	Round.new(RoundType.NORMAL, 7, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
+	Round.new(RoundType.TRIAL1, 10, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
+	Round.new(RoundType.TOLLGATE, 0, [], 5, null),
+	Round.new(RoundType.NORMAL, 10, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
+	Round.new(RoundType.NORMAL, 10, [Denomination.DIOBOL], 0, null),
+	Round.new(RoundType.TRIAL2, 20, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, null),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, null),
+	Round.new(RoundType.NORMAL, 20, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, null),
+	Round.new(RoundType.NORMAL, 20, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, null),
+	Round.new(RoundType.NEMESIS, 30, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, null),
+	Round.new(RoundType.TOLLGATE, 0, [], 25, null),
+	Round.new(RoundType.END, 0, [], 0, null)
+]
+
+func randomize_voyage() -> void:
+	for rnd in _VOYAGE:
+		match(rnd.roundType):
+			RoundType.TRIAL1:
+				rnd.trialData = Global.choose_one(LV1_TRIALS)
+			RoundType.TRIAL2:
+				rnd.trialData = Global.choose_one(LV2_TRIALS)
+			RoundType.NEMESIS:
+				rnd.trialData = Global.choose_one(NEMESES)
+
+func voyage_length() -> int:
+	return _VOYAGE.size()
+
+func current_round_type() -> RoundType:
+	return _VOYAGE[round_count-1].roundType
+
+func current_round_life_regen() -> int:
+	return _VOYAGE[round_count-1].lifeRegen
+
+func current_round_toll() -> int:
+	return _VOYAGE[round_count-1].tollCost
+
+func _current_round_shop_denoms() -> Array:
+	return _VOYAGE[round_count-1].shopDenoms
+
+func current_round_trial() -> TrialData:
+	return _VOYAGE[round_count-1].trialData
+
+func get_trial1() -> TrialData:
+	return _get_first_round_of_type(RoundType.TRIAL1)
+
+func get_trial2() -> TrialData:
+	return _get_first_round_of_type(RoundType.TRIAL2)
+
+func get_nemesis() -> TrialData:
+	return _get_first_round_of_type(RoundType.NEMESIS)
+
+func get_tollgate_cost(tollgateIndex: int) -> int:
+	var tollgates = 0
+	for rnd in _VOYAGE:
+		if rnd.roundType == RoundType.TOLLGATE:
+			tollgates += 1
+			if tollgates == tollgateIndex:
+				return rnd.tollCost
+	return 0
+
+func _get_first_round_of_type(roundType: RoundType) -> TrialData:
+	for rnd in _VOYAGE:
+		if rnd.roundType == roundType:
+			return rnd.trialData
+	return null
+
 class TrialData:
 	var coins
 	var name
@@ -193,16 +232,15 @@ class TrialData:
 		self.description = trialDescription
 
 @onready var NEMESES = [
-	TrialData.new("Gorgon Sisters", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "This is a trial description!")
+	TrialData.new("[color=lightgreen]The Gorgon Sisters[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "Known for their gaze of stone, these three sisters will render you helpless with a variety of misfortunes.")
 ]
-var nemesis: TrialData = null
 
 @onready var LV1_TRIALS = [
-	
+	TrialData.new("TestTrial1", [GENERIC_FAMILY], "This is trial lv1")
 ]
 
 @onready var LV2_TRIALS = [
-	
+	TrialData.new("TestTrial2", [ZEUS_FAMILY], "This is trial lv2")
 ]
 
 enum PowerType {

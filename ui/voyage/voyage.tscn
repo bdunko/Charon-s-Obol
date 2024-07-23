@@ -225,3 +225,24 @@ offset_top = -1.0
 offset_right = 1.0
 offset_bottom = 1.0
 _tooltip = "Trial 3"
+
+[node name="TollgateTooltip1" parent="." instance=ExtResource("6_ghygi")]
+offset_left = 76.0
+offset_top = 32.0
+offset_right = 85.0
+offset_bottom = 42.0
+_tooltip = "Trial 3"
+
+[node name="TollgateTooltip2" parent="." instance=ExtResource("6_ghygi")]
+offset_left = 122.0
+offset_top = 32.0
+offset_right = 131.0
+offset_bottom = 42.0
+_tooltip = "Trial 3"
+
+[node name="TollgateTooltip3" parent="." instance=ExtResource("6_ghygi")]
+offset_left = 169.0
+offset_top = 32.0
+offset_right = 178.0
+offset_bottom = 42.0
+_tooltip = "Trial 3"

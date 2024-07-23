@@ -10,10 +10,8 @@ func _ready() -> void:
 	for coin in _TRIAL_ROW.get_children():
 		coin.queue_free()
 
-func setup() -> void:
-	#trialtododo
-	#fetch trial coins from Global
-	for coinFamily in Global.nemesis.coins:
+func setup_trial() -> void:
+	for coinFamily in Global.current_round_trial().coins:
 		var coin = _COIN_SCENE.instantiate()
 		_TRIAL_ROW.add_child(coin)
 		coin.init_coin(coinFamily, Global.Denomination.TETROBOL, Coin.Owner.NEMESIS)

@@ -147,8 +147,14 @@ func on_start() -> void:
 		coin.get_parent().remove_child(coin)
 	
 	# randomize and set up the nemesis & trials
-	Global.nemesis = Global.choose_one(Global.NEMESES)
+	Global.randomize_voyage()
+	_VOYAGE.update_tooltips()
+	
+	
 	#TRIALTODO - randomize trials
+	
+	
+	
 		
 	# delete any old patron token and create a new one
 	_patron_token.queue_free()
@@ -314,7 +320,7 @@ func _advance_round() -> void:
 	Global.round_count += 1
 	
 	if Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2:
-		_TRIAL.setup()
+		_TRIAL.setup_trial()
 		for c in _TRIAL_ROW.get_children():
 			var coin = c as Coin
 			coin.flip_complete.connect(_on_flip_complete)
