@@ -188,9 +188,9 @@ custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 5.0
-offset_top = 57.0
+offset_top = 54.0
 offset_right = 315.0
-offset_bottom = 96.0
+offset_bottom = 93.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 

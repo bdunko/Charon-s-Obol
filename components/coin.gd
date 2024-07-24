@@ -41,6 +41,13 @@ enum _MaterialState {
 @onready var STONE_ICON = $StoneIcon
 @onready var PRICE = $Price
 
+@onready var _SPRITE = $Sprite
+@onready var _FACE_LABEL = $Sprite/FaceLabel
+@onready var _PRICE = $Price
+
+# $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
+@onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
+
 var _disabled := false
 
 var _owner: Owner:
@@ -85,8 +92,15 @@ func _update_face_label() -> void:
 			color = _BLUE
 		Global.POWER_FAMILY_LOSE_LIFE:
 			color = _RED
-	#var charges_str = "%d" % get_active_power_charges() if get_max_active_power_charges() != 0 else ""
-	_FACE_LABEL.text = _FACE_FORMAT % [color, "%d" % get_active_power_charges(), get_active_power_family().icon_path]
+	var charges_str = "%d" % get_active_power_charges() if get_max_active_power_charges() != 0 else ""
+	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
+	
+	# this is a $HACK$ to center the icon better
+	if get_max_active_power_charges() == 0:
+		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
+	else:
+		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION
+	
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -119,10 +133,6 @@ var _material_state: _MaterialState:
 # stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
 var _round_tails_penalty_reduction = 0
 var _permanent_tails_penalty_reduction = 0
-
-@onready var _SPRITE = $Sprite
-@onready var _FACE_LABEL = $Sprite/FaceLabel
-@onready var _PRICE = $Price
 
 func _ready():
 	assert(_SPRITE)
@@ -271,7 +281,21 @@ func get_upgrade_price() -> int:
 	breakpoint
 	return 1000000
 
+func is_passive() -> bool:
+	return get_active_power_family().is_passive()
+
+func is_payoff() -> bool:
+	return get_active_power_family().is_payoff()
+
+func is_power() -> bool:
+	return get_active_power_family().is_power()
+
 func flip(bonus: int = 0) -> void:
+	if get_active_power_family().is_passive():
+		_freeze_ignite_state = _FreezeIgniteState.NONE
+		emit_signal("flip_complete")
+		return
+	
 	if is_frozen(): #don't flip if frozen
 		# todo - animation for unfreezing
 		_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -476,23 +500,31 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 # icons which we don't show an icon for in tooltips at the front.
 var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS]
 func _generate_tooltip() -> void:
-	const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s[/center]"
-
+	var txt = ""
 	var coin_name = get_coin_name()
 	var subtitle = get_subtitle()
-	var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-	var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-	var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path
-	var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _tails_power.power_family.icon_path
-	var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-	var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow)(CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 	
-	#(charges)[icon] description
-	const POWER_FORMAT = "%s%s%s"
-	var heads_power = POWER_FORMAT % [heads_charges, heads_power_icon, heads_power_desc]
-	var tails_power = POWER_FORMAT % [tails_charges, tails_power_icon, tails_power_desc]
-	
-	var txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power, tails_power]
+	# special case - use a shortened tooltip for passive coins
+	if get_active_power_family().powerType == Global.PowerType.PASSIVE:
+		const PASSIVE_FORMAT = "[center]%s\n[color=lightgray]%s[/color]\n%s"
+		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		txt = PASSIVE_FORMAT % [coin_name, subtitle, desc]
+	# regular case - payoff, payoff, and nemesis coins
+	else:
+		const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s[/center]"
+		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path
+		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _tails_power.power_family.icon_path
+		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow)(CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		
+		#(charges)[icon] description
+		const POWER_FORMAT = "%s%s%s"
+		var heads_power = POWER_FORMAT % [heads_charges, heads_power_icon, heads_power_desc]
+		var tails_power = POWER_FORMAT % [tails_charges, tails_power_icon, tails_power_desc]
+		
+		txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power, tails_power]
 	
 	UITooltip.create(self, txt, get_global_mouse_position(), get_tree().root)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=63 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
@@ -10,6 +10,44 @@
 [ext_resource type="Texture2D" uid="uid://b2d1rbovnhmix" path="res://assets/coins/tetrobol_god.png" id="8_sc7h6"]
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
+[ext_resource type="Texture2D" uid="uid://cs28gy8awrvql" path="res://assets/coins/trial_lg.png" id="11_1wr5j"]
+[ext_resource type="Texture2D" uid="uid://cjhvd4a4je4jf" path="res://assets/coins/trial_sm.png" id="11_3ybk3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65ok8"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwq68"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl7mj"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y846"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bpjv"]
+atlas = ExtResource("10_6uffn")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8n17"]
+atlas = ExtResource("11_1wr5j")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cdo1"]
+atlas = ExtResource("11_1wr5j")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qe4iv"]
+atlas = ExtResource("11_3ybk3")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxdfo"]
+atlas = ExtResource("11_3ybk3")
+region = Rect2(0, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bk4o2"]
 atlas = ExtResource("2_bkxn3")
@@ -171,228 +209,8 @@ region = Rect2(72, 0, 36, 39)
 atlas = ExtResource("9_6dpwv")
 region = Rect2(108, 0, 36, 39)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_65ok8"]
-atlas = ExtResource("10_6uffn")
-region = Rect2(0, 0, 36, 39)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qwq68"]
-atlas = ExtResource("10_6uffn")
-region = Rect2(0, 0, 36, 39)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bl7mj"]
-atlas = ExtResource("10_6uffn")
-region = Rect2(36, 0, 36, 39)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0y846"]
-atlas = ExtResource("10_6uffn")
-region = Rect2(72, 0, 36, 39)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6bpjv"]
-atlas = ExtResource("10_6uffn")
-region = Rect2(108, 0, 36, 39)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_w12pp"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bk4o2")
-}],
-"loop": true,
-"name": &"generic_diobol_flat",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d3ye4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_68j5a")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m64u7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gsefd")
-}],
-"loop": true,
-"name": &"generic_diobol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ddkol")
-}],
-"loop": true,
-"name": &"generic_obol_flat",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1s7qg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1pbxa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v62qj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kpt3g")
-}],
-"loop": true,
-"name": &"generic_obol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vnid1")
-}],
-"loop": true,
-"name": &"generic_tetrobol_flat",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4egg5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ytpad")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_epokj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b1xxd")
-}],
-"loop": true,
-"name": &"generic_tetrobol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uubxl")
-}],
-"loop": true,
-"name": &"generic_triobol_flat",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3jqtd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1t6tv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jqi6c")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_84he0")
-}],
-"loop": true,
-"name": &"generic_triobol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ck2w1")
-}],
-"loop": true,
-"name": &"god_diobol_flat",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vdros")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2bjjt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gle1x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ui4ni")
-}],
-"loop": true,
-"name": &"god_diobol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m2by0")
-}],
-"loop": true,
-"name": &"god_obol_flat",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_556ps")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_trj11")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jxmwr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jpp1k")
-}],
-"loop": true,
-"name": &"god_obol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_08i64")
-}],
-"loop": true,
-"name": &"god_tetrobol_flat",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q4kft")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jxejr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g6hd1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6wuav")
-}],
-"loop": true,
-"name": &"god_tetrobol_flip",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mfsfv")
-}],
-"loop": true,
-"name": &"god_triobol_flat",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7rrxo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a32tv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cvc4f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r13tq")
-}],
-"loop": true,
-"name": &"god_triobol_flip",
-"speed": 20.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_65ok8")
@@ -417,6 +235,238 @@ animations = [{
 "loop": true,
 "name": &"nemesis_tetrobol_flip",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8n17")
+}],
+"loop": true,
+"name": &"passive_diobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cdo1")
+}],
+"loop": true,
+"name": &"passive_diobol_flip",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qe4iv")
+}],
+"loop": true,
+"name": &"passive_obol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxdfo")
+}],
+"loop": true,
+"name": &"passive_obol_flip",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bk4o2")
+}],
+"loop": true,
+"name": &"payoff_diobol_flat",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3ye4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68j5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m64u7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsefd")
+}],
+"loop": true,
+"name": &"payoff_diobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddkol")
+}],
+"loop": true,
+"name": &"payoff_obol_flat",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1s7qg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pbxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v62qj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpt3g")
+}],
+"loop": true,
+"name": &"payoff_obol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnid1")
+}],
+"loop": true,
+"name": &"payoff_tetrobol_flat",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4egg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytpad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epokj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1xxd")
+}],
+"loop": true,
+"name": &"payoff_tetrobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uubxl")
+}],
+"loop": true,
+"name": &"payoff_triobol_flat",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3jqtd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1t6tv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqi6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84he0")
+}],
+"loop": true,
+"name": &"payoff_triobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck2w1")
+}],
+"loop": true,
+"name": &"power_diobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdros")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bjjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gle1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ui4ni")
+}],
+"loop": true,
+"name": &"power_diobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2by0")
+}],
+"loop": true,
+"name": &"power_obol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_556ps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trj11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxmwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpp1k")
+}],
+"loop": true,
+"name": &"power_obol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08i64")
+}],
+"loop": true,
+"name": &"power_tetrobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4kft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxejr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6hd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wuav")
+}],
+"loop": true,
+"name": &"power_tetrobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfsfv")
+}],
+"loop": true,
+"name": &"power_triobol_flat",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rrxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a32tv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvc4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r13tq")
+}],
+"loop": true,
+"name": &"power_triobol_flip",
+"speed": 20.0
 }]
 
 [node name="Coin" type="Control"]
@@ -431,7 +481,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"nemesis_tetrobol_flat"
+animation = &"passive_obol_flat"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -450,7 +500,7 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
-text = "[center][color=#b3b9d1]0[img=10x13]res://assets/icons/dionysus_icon.png[/img][/color][/center]"
+text = "[center][color=#b3b9d1][img=10x13]res://assets/icons/dionysus_icon.png[/img][/color][/center]"
 fit_content = true
 scroll_active = false
 

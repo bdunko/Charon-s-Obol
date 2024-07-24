@@ -510,6 +510,8 @@ func _on_coin_clicked(coin: Coin):
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
+		if coin.is_passive(): # powers can't be used on passive coins
+			_DIALOGUE.show_dialogue("Can't... do... that...")
 		if Global.is_patron_power(Global.active_coin_power_family):
 			match(Global.active_coin_power_family):
 				Global.PATRON_POWER_FAMILY_ZEUS:
@@ -530,17 +532,27 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_ATHENA:
 					if not coin.can_reduce_life_penalty():
 						_DIALOGUE.show_dialogue("No... need...")
+						return
 					coin.reduce_life_penalty_permanently()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
 					if row == _TRIAL_ROW:
-						_DIALOGUE.show_dialogue("Can't... upgrade... nemesis...")
-					if coin.get_denomination() == Global.Denomination.TETROBOL:
+						_DIALOGUE.show_dialogue("Can't... upgrade... that...")
+						return
+					if coin.get_denomination() == Global.Denomination.OBOL:
+						_DIALOGUE.show_dialogue("Can't... downgrade... that one...")
+						return
+					if left and left.get_denomination() == Global.Denomination.TETROBOL and right and right.get_denomination() == Global.Denomination.TETROBOL:
 						_DIALOGUE.show_dialogue("Can't... upgrade... further...")
 						return
-					coin.upgrade()
+					coin.downgrade()
+					if left:
+						left.update()
+					if right:
+						right.upgrade()
 				Global.PATRON_POWER_FAMILY_HERMES:
 					if row == _TRIAL_ROW:
-						_DIALOGUE.show_dialogue("Can't... trade... nemesis...")
+						_DIALOGUE.show_dialogue("Can't... trade... that...")
+						return
 					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 					if Global.RNG.randi_range(1, 4) == 1:
 						coin.upgrade()
@@ -550,7 +562,8 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_HADES:
 					if row == _TRIAL_ROW:
 						#todo - will need to revisit for Echidna; make exception for monster coins
-						_DIALOGUE.show_dialogue("Can't... destroy... nemesis...")
+						_DIALOGUE.show_dialogue("Can't... destroy... that...")
+						return
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 						return
@@ -590,7 +603,8 @@ func _on_coin_clicked(coin: Coin):
 				coin.reduce_life_penalty_for_round()
 			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
 				if row == _TRIAL_ROW:
-					_DIALOGUE.show_dialogue("Can't... upgrade... nemesis...")
+					_DIALOGUE.show_dialogue("Can't... upgrade... that...")
+					return
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... forge... itself...")
 					return
@@ -601,23 +615,26 @@ func _on_coin_clicked(coin: Coin):
 				coin.ignite()
 			Global.POWER_FAMILY_RECHARGE:
 				if row == _TRIAL_ROW:
-						_DIALOGUE.show_dialogue("Can't... love... nemesis...")
+					_DIALOGUE.show_dialogue("Can't... love... that...")
+					return
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				if not coin.get_active_power_family().is_payoff():
+				if not coin.get_active_power_family().is_power():
 					_DIALOGUE.show_dialogue("Can't... recharge... that...")
 					return
 				coin.recharge_power_uses_by(1)
 			Global.POWER_FAMILY_EXCHANGE:
 				if row == _TRIAL_ROW:
-					_DIALOGUE.show_dialogue("Can't... trade... nemesis...")
+					_DIALOGUE.show_dialogue("Can't... trade... that...")
+					return
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				coin.make_lucky()
 			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
 				if row == _TRIAL_ROW:
-					_DIALOGUE.show_dialogue("Can't... destroy... nemesis...")
+					_DIALOGUE.show_dialogue("Can't... destroy...")
+					return
 				if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 					_DIALOGUE.show_dialogue("Can't destroy... last coin...")
 					return
@@ -637,7 +654,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.active_coin_power_family = null
 	
 	# otherwise we're attempting to activate a coin
-	elif not coin.get_active_power_family().is_payoff() and coin.get_active_power_charges() > 0:
+	elif coin.is_power() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
 		match coin.get_active_power_family():
 			Global.POWER_FAMILY_GAIN_LIFE:
@@ -681,23 +698,22 @@ func _on_patron_token_clicked():
 					Global.lives += as_coin.get_active_power_charges()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APOLLO:
-			for coin in _COIN_ROW.get_children():
+			for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 				var as_coin: Coin = coin
 				as_coin.turn()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
-			for coin in _COIN_ROW.get_children():
+			for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 				var as_coin: Coin = coin
+				Global.arrows += 1
 				if as_coin.is_heads():
 					as_coin.turn()
-					Global.arrows += 2
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 				coin.flip()
 				coin.reset()
 			_COIN_ROW.shuffle()
-			_TRIAL_ROW.shuffle()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():

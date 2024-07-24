@@ -14,7 +14,20 @@ func setup_trial() -> void:
 	for coinFamily in Global.current_round_trial().coins:
 		var coin = _COIN_SCENE.instantiate()
 		_TRIAL_ROW.add_child(coin)
-		coin.init_coin(coinFamily, Global.Denomination.TETROBOL, Coin.Owner.NEMESIS)
+		
+		var denom
+		
+		match Global.current_round_type():
+			Global.RoundType.TRIAL1:
+				denom = Global.Denomination.OBOL
+			Global.RoundType.TRIAL2:
+				denom = Global.Denomination.DIOBOL
+			Global.RoundType.NEMESIS:
+				denom = Global.Denomination.TETROBOL
+			_:
+				assert(false, "Round type isn't trial or nemesis?")
+		
+		coin.init_coin(coinFamily, denom, Coin.Owner.NEMESIS)
 
 func _on_state_changed() -> void:
 	var trial_or_boss = (Global.current_round_type() == Global.RoundType.NEMESIS or Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2)

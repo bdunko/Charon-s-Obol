@@ -127,7 +127,7 @@ func _process(_delta):
 	if source_control is Control:
 		if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
 			destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip
-	# $HACK$ - I guess we don't need this - dunno, seems to work without it...
+	# $HACK$ - I guess we don't need this Area2D case - dunno, seems to work without it...
 	#elif source_control is Area2D:
 	#	var area = source_control as Area2D
 	#	area.get_size
