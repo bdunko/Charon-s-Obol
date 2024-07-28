@@ -17,7 +17,7 @@ class CharacterData:
 		self.description = descriptionStr
 
 var _CHARACTERS = [
-	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", "Learn how to play Charon's game."),
+	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", "Learn the rules of Charon's game."),
 	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", "The standard game.\n10 Rounds, 3 Tollgates, 2 Trials, 1 Nemesis."),
 ]
 

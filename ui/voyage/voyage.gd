@@ -27,7 +27,7 @@ func _on_state_changed() -> void:
 		_SHIP.position.x = _get_x_for_round(0) #reset boat position
 
 func update_tooltips() -> void:
-	const _TRIAL_FORMAT = "Trial of %s\n%s"
+	const _TRIAL_FORMAT = "%s\n%s"
 	var trial1 = Global.get_trial1()
 	_TRIAL1_TOOLTIP.set_tooltip(_TRIAL_FORMAT % [trial1.name, trial1.description])
 	var trial2 = Global.get_trial2()

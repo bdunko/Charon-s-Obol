@@ -86,11 +86,14 @@ const _BLUE = "#a6fcdb"
 const _YELLOW = "#ffd541"
 const _GRAY = "#b3b9d1"
 func _update_face_label() -> void:
+	if _blank:
+		_FACE_LABEL.text = ""
+	
 	var color = _YELLOW
 	match(get_active_power_family()):
 		Global.POWER_FAMILY_GAIN_SOULS:
 			color = _BLUE
-		Global.POWER_FAMILY_LOSE_LIFE:
+		Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_LOSE_SOULS:
 			color = _RED
 	var charges_str = "%d" % get_active_power_charges() if get_max_active_power_charges() != 0 else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
@@ -100,7 +103,11 @@ func _update_face_label() -> void:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION
-	
+
+var _blank: bool = false:
+	set(val):
+		_blank = val
+		_update_face_label()
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -152,6 +159,10 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
 	elif Global.state == Global.State.TOLLGATE:
+		# if the coin cannot be offered at a tollgate, show nothing
+		if _coin_family in Global.TOLL_EXCLUDE_COIN_FAMILIES:
+			_PRICE.text = ""
+			return
 		_PRICE.text = _TOLL_FORMAT % get_value()
 
 func _on_state_changed() -> void:
@@ -185,7 +196,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_owner = owned_by
 	_reset()
 
-func coin_family() -> Global.CoinFamily:
+func get_coin_family() -> Global.CoinFamily:
 	return _coin_family
 
 func mark_owned_by_player() -> void:
@@ -199,6 +210,8 @@ func get_sell_price() -> int:
 	return max(1, int(get_store_price()/3.0))
 
 func can_upgrade() -> bool:
+	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
+		return false
 	return _denomination != Global.Denomination.TETROBOL
 
 func get_denomination() -> Global.Denomination:
@@ -289,6 +302,9 @@ func is_payoff() -> bool:
 
 func is_power() -> bool:
 	return get_active_power_family().is_power()
+	
+func can_activate_power() -> bool:
+	return get_active_power_family().is_power() and not _blank
 
 func flip(bonus: int = 0) -> void:
 	if get_active_power_family().is_passive():
@@ -406,6 +422,9 @@ func make_unlucky() -> void:
 func clear_lucky_unlucky() -> void:
 	_luck_state = _LuckState.NONE
 
+func blank() -> void:
+	_blank = true
+
 func supercharge() -> void:
 	_supercharged = true
 
@@ -460,6 +479,9 @@ func is_ignited() -> bool:
 func is_stone() -> bool:
 	return _material_state == _MaterialState.STONE
 
+func is_blank() -> bool:
+	return _blank
+
 func can_reduce_life_penalty() -> bool:
 	var can_reduce_heads = (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0)
 	var can_reduce_tails = (_tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _tails_power.charges != 0)
@@ -497,8 +519,8 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
 	return txt
 
-# icons which we don't show an icon for in tooltips at the front.
-var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS]
+# icons which we don't show an icon and charge count for in tooltips at the front.
+var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS]
 func _generate_tooltip() -> void:
 	var txt = ""
 	var coin_name = get_coin_name()
@@ -506,12 +528,12 @@ func _generate_tooltip() -> void:
 	
 	# special case - use a shortened tooltip for passive coins
 	if get_active_power_family().powerType == Global.PowerType.PASSIVE:
-		const PASSIVE_FORMAT = "[center]%s\n[color=lightgray]%s[/color]\n%s"
+		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n%s"
 		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		txt = PASSIVE_FORMAT % [coin_name, subtitle, desc]
 	# regular case - payoff, payoff, and nemesis coins
 	else:
-		const TOOLTIP_FORMAT = "[center]%s\n[color=yellow]%s[/color]\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s[/center]"
+		const TOOLTIP_FORMAT = "%s\n%s\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path

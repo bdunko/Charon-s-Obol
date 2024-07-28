@@ -54,6 +54,8 @@ func _ready() -> void:
 	assert(_VOYAGE)
 	assert(_DIALOGUE)
 	
+	Global.COIN_ROWS = [_COIN_ROW, _TRIAL_ROW]
+	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
 	Global.souls_count_changed.connect(_on_soul_count_changed)
@@ -137,7 +139,7 @@ func _on_state_changed() -> void:
 		_RESET_BUTTON.hide()
 
 func _on_game_end() -> void:
-	_DIALOGUE.show_dialogue("What? You win? How?" if victory else "Your soul is mine!")
+	_DIALOGUE.show_dialogue("You've won, this time..." if victory else "Your soul is mine!")
 	_RESET_BUTTON.show()
 
 func on_start() -> void:
@@ -150,12 +152,6 @@ func on_start() -> void:
 	Global.randomize_voyage()
 	_VOYAGE.update_tooltips()
 	
-	
-	#TRIALTODO - randomize trials
-	
-	
-	
-		
 	# delete any old patron token and create a new one
 	_patron_token.queue_free()
 	_patron_token = Global.patron.patron_token.instantiate()
@@ -177,14 +173,17 @@ func on_start() -> void:
 	Global.toll_index = 0
 	
 	#debug
-	Global.souls = 100
-	Global.lives = 100
-	Global.arrows = 10
+	#Global.souls = 100
+	#Global.lives = 100
+	#Global.arrows = 10
 	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TRIOBOL)
-	_make_and_gain_coin(Global.HERA_FAMILY, Global.Denomination.OBOL)
-#	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
-#	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
-#	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
+	
 	
 	_RESET_BUTTON.hide()
 	
@@ -260,6 +259,8 @@ func _on_accept_button_pressed():
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
 					Global.souls += charges
+				Global.POWER_FAMILY_LOSE_SOULS:
+					Global.souls = max(0, Global.souls - charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
 					Global.lives -= charges
 				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
@@ -387,6 +388,25 @@ func _on_voyage_continue_button_clicked():
 		
 		if first_round:
 			await _wait_for_dialogue("...Let's begin the game...")
+		elif Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2:
+			await _wait_for_dialogue("Your trial begins.")
+		
+		
+		# todo - make passive activating coins move up a bit like when doing payoff
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_IRON):
+			var coins_to_anim = _COIN_ROW.get_all_of_family(Global.TRIAL_IRON_FAMILY)
+			# refactor - move the coin moving up anim to coin itself instead of in payoff, so we can reuse it easier
+			
+			while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-3: # make space for thorns obols
+				_COIN_ROW.destroy_lowest_value()
+			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+			await _wait_for_dialogue("You shall be bound in Iron!")
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE):
+			for coin in _COIN_ROW.get_children():
+				coin.make_unlucky()
+			await _wait_for_dialogue("You shall be shrouded in Misfortune!")
 		
 		Global.state = Global.State.BEFORE_FLIP #hides the shop
 		_DIALOGUE.show_dialogue("Will you toss...?")
@@ -477,6 +497,10 @@ func _on_coin_clicked(coin: Coin):
 	#	return
 
 	if Global.state == Global.State.TOLLGATE:
+		# if this coin cannot be offered at a toll, error message and return
+		if coin.get_coin_family() in Global.TOLL_EXCLUDE_COIN_FAMILIES:
+			_DIALOGUE.show_dialogue("Don't... want... that...")
+			return
 		# if this coin is in the toll offering, remove it
 		if Global.toll_coins_offered.has(coin):
 			Global.remove_toll_coin(coin)
@@ -490,7 +514,10 @@ func _on_coin_clicked(coin: Coin):
 
 	if Global.state == Global.State.SHOP:
 		if not coin.can_upgrade():
-			_DIALOGUE.show_dialogue("Can't... upgrade... more...")
+			if coin.get_denomination() == Global.Denomination.TETROBOL:
+				_DIALOGUE.show_dialogue("Can't... upgrade... more...")
+			else:
+				_DIALOGUE.show_dialogue("Can't... upgrade.... that...")
 		elif Global.souls >= coin.get_upgrade_price():
 			Global.souls -= coin.get_upgrade_price()
 			coin.upgrade()
@@ -608,9 +635,11 @@ func _on_coin_clicked(coin: Coin):
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... forge... itself...")
 					return
-				if coin.get_denomination() == Global.Denomination.TETROBOL:
-					_DIALOGUE.show_dialogue("Can't... upgrade... further...")
-					return
+				if not coin.can_upgrade():
+					if coin.get_denomination() == Global.Denomination.TETROBOL:
+						_DIALOGUE.show_dialogue("Can't... upgrade... more...")
+					else:
+						_DIALOGUE.show_dialogue("Can't... upgrade.... that...")
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_RECHARGE:
@@ -620,7 +649,7 @@ func _on_coin_clicked(coin: Coin):
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				if not coin.get_active_power_family().is_power():
+				if not coin.get_active_power_family().can_activate_power():
 					_DIALOGUE.show_dialogue("Can't... recharge... that...")
 					return
 				coin.recharge_power_uses_by(1)
@@ -654,7 +683,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.active_coin_power_family = null
 	
 	# otherwise we're attempting to activate a coin
-	elif coin.is_power() and coin.get_active_power_charges() > 0:
+	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
 		match coin.get_active_power_family():
 			Global.POWER_FAMILY_GAIN_LIFE:

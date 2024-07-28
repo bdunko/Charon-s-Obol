@@ -26,6 +26,14 @@ enum Difficulty {
 }
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
+	# potential difficulty revamp - 
+	# 1 regular difficulty
+	# 2 adds unpredictability - Charon Malice
+	# 3 amp up trials - Trials have 2 modifiers. You cannot view future Trials until completing the previous one. Nemesis is stronger.
+	# 4 more challenge - Some spaces contain Monster encounters.
+	# 5 shop behavior change - You start with 5 Obol of Stone. Coins in the Shop may have negative statuses. 
+	# 6 general difficulty bump - Your coins land on tails more often. Tollgates are more expensive. Charon is more aggressive.
+	
 	#todo - fill these description with colors too
 	match diff:
 		Difficulty.INDIFFERENT:
@@ -37,7 +45,7 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 		Difficulty.CRUEL:
 			return "Charon is Cruel\nTollgates are more expensive.\nCoins purchasable in the Shop may have negative statuses."
 		Difficulty.UNFAIR:
-			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nCharon's Malice is more targeted.\nYou cannot view future Trials until completing the previous one."
+			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nYou cannot view future Trials until completing the previous one."
 	assert(false, "shouldn't happen..")
 	return ""
 
@@ -111,6 +119,7 @@ var patron_uses: int:
 
 var toll_index = 0
 var toll_coins_offered := []
+
 func add_toll_coin(coin) -> void:
 	toll_coins_offered.append(coin)
 	emit_signal("toll_coins_changed")
@@ -118,7 +127,12 @@ func add_toll_coin(coin) -> void:
 func remove_toll_coin(coin) -> void:
 	toll_coins_offered.erase(coin)
 	emit_signal("toll_coins_changed")
-		
+
+# coins that cannot be offered at tolls
+@onready var TOLL_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
+# coins that cannot be upgraded
+@onready var UPGRADE_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
+
 func calculate_toll_coin_value() -> int:
 	var sum = 0
 	for coin in toll_coins_offered:
@@ -132,6 +146,8 @@ var active_coin_power_family: PowerFamily:
 		emit_signal("active_coin_power_family_changed")
 
 const COIN_LIMIT = 8
+
+var COIN_ROWS: Array
 
 enum RoundType {
 	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
@@ -171,13 +187,16 @@ var _VOYAGE = [
 
 func randomize_voyage() -> void:
 	for rnd in _VOYAGE:
+		# debug - seed trial
 		match(rnd.roundType):
 			RoundType.TRIAL1:
 				rnd.trialData = Global.choose_one(LV1_TRIALS)
+				rnd.trialData = LV1_TRIALS[1]
 			RoundType.TRIAL2:
 				rnd.trialData = Global.choose_one(LV2_TRIALS)
 			RoundType.NEMESIS:
 				rnd.trialData = Global.choose_one(NEMESES)
+			
 
 func voyage_length() -> int:
 	return _VOYAGE.size()
@@ -236,45 +255,44 @@ class TrialData:
 ]
 
 @onready var LV1_TRIALS = [
-	TrialData.new("[color=gray]Iron[/color]", [TRIAL_IRON_FAMILY], "When the trial begins, you gain 3 Obols of Thorns. (If not enough space, destroy coins until there is.)"),
-	TrialData.new("Misfortune", [GENERIC_FAMILY], "When the trial begins, all your coins become Unlucky."),
-	TrialData.new("Fossilization", [GENERIC_FAMILY], "When the trial begins, your highest value coin is turned to Stone."),
-	TrialData.new("Polarization", [GENERIC_FAMILY], "Diobols are Blank."),
-	TrialData.new("Silence", [GENERIC_FAMILY], "Your leftmost 2 coins are Blank."),
-	TrialData.new("Silence", [GENERIC_FAMILY], "Your rightmost 2 coins are Blank."),
-	TrialData.new("Exhaustion", [GENERIC_FAMILY], "Every 3 payoffs, your lowest value coin is destroyed."),
-	TrialData.new("Equivalence", [GENERIC_FAMILY], "After payoff, Bless each coin on tails and Curse each coin on heads."),
-	TrialData.new("Pain", [GENERIC_FAMILY], "Damage you take from tails penalties is tripled."),
-	TrialData.new("Blood", [GENERIC_FAMILY], "Activating a power costs 1 life."),
-	TrialData.new("Draining", [GENERIC_FAMILY], "Using a power also drains a charge from each adjacent coin."),
-	TrialData.new("Suffering", [GENERIC_FAMILY], "Strain starts at 4."),
-	TrialData.new("Restraint", [GENERIC_FAMILY], "After using a coin's power, that coin becomes Locked."),
+	TrialData.new(TRIAL_IRON_FAMILY.coin_name, [TRIAL_IRON_FAMILY], TRIAL_POWER_FAMILY_IRON.description),
+	TrialData.new(TRIAL_MISFORTUNE_FAMILY.coin_name, [TRIAL_MISFORTUNE_FAMILY], TRIAL_POWER_FAMILY_MISFORTUNE.description),
+	#TrialData.new("Fossilization", [GENERIC_FAMILY], "When the trial begins, your highest value coin is turned to Stone."),
+	TrialData.new(TRIAL_POLARIZATION_FAMILY.coin_name, [TRIAL_POLARIZATION_FAMILY], TRIAL_POWER_FAMILY_POLARIZATION.description),
+	#TrialData.new("Silence", [GENERIC_FAMILY], "Your leftmost 2 coins are Blank."),
+	#TrialData.new("Silence", [GENERIC_FAMILY], "Your rightmost 2 coins are Blank."),
+	#TrialData.new("Exhaustion", [GENERIC_FAMILY], "Every 3 payoffs, your lowest value coin is destroyed."),
+	TrialData.new(TRIAL_EQUIVALENCE_FAMILY.coin_name, [TRIAL_EQUIVALENCE_FAMILY], TRIAL_POWER_FAMILY_EQUIVALENCE.description),
+	TrialData.new(TRIAL_PAIN_FAMILY.coin_name, [TRIAL_PAIN_FAMILY], TRIAL_POWER_FAMILY_PAIN.description),
+	TrialData.new(TRIAL_BLOOD_FAMILY.coin_name, [TRIAL_BLOOD_FAMILY], TRIAL_POWER_FAMILY_BLOOD.description),
+	#TrialData.new("Draining", [GENERIC_FAMILY], "Using a power also drains a charge from each adjacent coin."),
+	#TrialData.new("Suffering", [GENERIC_FAMILY], "Strain starts at 4."),
+	#TrialData.new("Restraint", [GENERIC_FAMILY], "After using a coin's power, that coin becomes Locked."),
 ]
 
 @onready var LV2_TRIALS = [
-	TrialData.new("Famine", [GENERIC_FAMILY], "Life does not replenish at the start of the this round."),
-	TrialData.new("Vainglory", [GENERIC_FAMILY], "When the trial begins, your Obols and Diobols are destroyed."),
-	TrialData.new("Torture", [GENERIC_FAMILY], "After payoff, downgrade the highest value coin."),
-	TrialData.new("Petrification", [GENERIC_FAMILY], "When the trial begins, your two highest value coins are turned to Stone."),
-	TrialData.new("Fate", [GENERIC_FAMILY], "Coins cannot be reflipped by powers."),
-	TrialData.new("Limitation", [GENERIC_FAMILY], "During payoff, each coin may earn no more than 3 Souls."),
-	TrialData.new("Gating", [GENERIC_FAMILY], "During payoff, any coin which earns fewer than 10 Souls earns 0 instead."),
-	TrialData.new("Impatience", [GENERIC_FAMILY], "You must perform exactly 3 total tosses this round."),
-	TrialData.new("Flames", [GENERIC_FAMILY], "When the trial begins, all your coins Ignite."),
-	TrialData.new("Malaise", [GENERIC_FAMILY], "After payoff, your leftmost non-Blank coin becomes Blank."),
-	
-	# todo - rename to poverty and redo icon
-	TrialData.new("Resistance", [GENERIC_FAMILY], "Your payoff coins land on tails 90% of the time."),
-	TrialData.new("Collapse", [GENERIC_FAMILY], "After payoff, each coin on tails becomes Cursed and Frozen."),
-	TrialData.new("Chaos", [GENERIC_FAMILY], "All coin powers have random targets when activated."),
-	TrialData.new("Overload", [GENERIC_FAMILY], "After payoff, you lose 1 life for each unused power charge on a heads coin."),
-	TrialData.new("Sapping", [GENERIC_FAMILY], "Coins replenish only a single charge each toss."),
-	TrialData.new("Singularity", [GENERIC_FAMILY], "Every power coin has only a single charge."),
-	TrialData.new("Recklessness", [GENERIC_FAMILY], "You cannot end the round until your life is 5 or fewer."),
-	TrialData.new("Adversity", [GENERIC_FAMILY], "Gain a random permanent Monster coin. (If not enough space, destroy coins until there is.)"),
-	TrialData.new("Fury", [GENERIC_FAMILY], "Charon's Malice increases 3 times as fast."),
-	TrialData.new("Chains", [GENERIC_FAMILY], "When the trial begins, each of your non-payoff coins becomes Locked."),
-	TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begins, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
+	TrialData.new(TRIAL_FAMINE_FAMILY.coin_name, [TRIAL_FAMINE_FAMILY], TRIAL_POWER_FAMILY_FAMINE.description),
+	#TrialData.new("Vainglory", [GENERIC_FAMILY], "When the trial begins, your Obols and Diobols are destroyed."),
+	TrialData.new(TRIAL_TORTURE_FAMILY.coin_name, [TRIAL_TORTURE_FAMILY], TRIAL_POWER_FAMILY_TORTURE.description),
+	#TrialData.new("Petrification", [GENERIC_FAMILY], "When the trial begins, your two highest value coins are turned to Stone."),
+	#TrialData.new("Fate", [GENERIC_FAMILY], "Coins cannot be reflipped by powers."),
+	TrialData.new(TRIAL_LIMITATION_FAMILY.coin_name, [TRIAL_LIMITATION_FAMILY], TRIAL_POWER_FAMILY_LIMITATION.description),
+	#TrialData.new("Gating", [GENERIC_FAMILY], "During payoff, any coin which earns fewer than 10 Souls earns 0 instead."),
+	#TrialData.new("Impatience", [GENERIC_FAMILY], "You must perform exactly 3 total tosses this round."),
+	#TrialData.new("Flames", [GENERIC_FAMILY], "When the trial begins, all your coins Ignite."),
+	#TrialData.new("Malaise", [GENERIC_FAMILY], "After payoff, your leftmost non-Blank coin becomes Blank."),
+	# todo - rename resistance to poverty and redo icon
+	#TrialData.new("Resistance", [GENERIC_FAMILY], "Your payoff coins land on tails 90% of the time."),
+	TrialData.new(TRIAL_COLLAPSE_FAMILY.coin_name, [TRIAL_COLLAPSE_FAMILY], TRIAL_POWER_FAMILY_COLLAPSE.description),
+	#TrialData.new("Chaos", [GENERIC_FAMILY], "All coin powers have random targets when activated."),
+	TrialData.new(TRIAL_OVERLOAD_FAMILY.coin_name, [TRIAL_OVERLOAD_FAMILY], TRIAL_POWER_FAMILY_OVERLOAD.description),
+	TrialData.new(TRIAL_SAPPING_FAMILY.coin_name, [TRIAL_SAPPING_FAMILY], TRIAL_POWER_FAMILY_SAPPING.description),
+	#TrialData.new("Singularity", [GENERIC_FAMILY], "Every power coin has only a single charge."),
+	#TrialData.new("Recklessness", [GENERIC_FAMILY], "You cannot end the round until your life is 5 or fewer."),
+	#TrialData.new("Adversity", [GENERIC_FAMILY], "Gain a random permanent Monster coin. (If not enough space, destroy coins until there is.)"),
+	#TrialData.new("Fury", [GENERIC_FAMILY], "Charon's Malice increases 3 times as fast."),
+	#TrialData.new("Chains", [GENERIC_FAMILY], "When the trial begins, each of your non-payoff coins becomes Locked."),
+	#TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begins, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
 	
 	# unused idea
 	#TrialData.new("Balance", [GENERIC_FAMILY], "After payoff, each coin on heads becomes Unlucky."),
@@ -307,16 +325,19 @@ class PowerFamily:
 	func is_passive() -> bool:
 		return powerType == PowerType.PASSIVE
 
+# Coin Powers
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [2, 4, 7, 10], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 2, 3, 4], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
 var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
 var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/aphrodite_icon.png")
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hermes_icon.png")
@@ -333,7 +354,20 @@ var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 random coins
 var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
 var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
 
-var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("At the start of the round, gain 2 Obols of Thorns.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
+var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 3 Obols of Thorns. (If not enough space, destroy coins until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
+var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, all your coins become Unlucky.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
+var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Your Diobols are Blank.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png")
+var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png")
+var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
+var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on heads, Curse it. After a coin lands on tails, Bless it.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
+
+var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
+var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value coin is downgraded.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png")
+var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("During payoff, each coin may earn no more than 5[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img].", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
+var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on trails becomes Cursed and Frozen.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png")
+var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single charge each toss.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png")
+var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
+
 
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
@@ -434,7 +468,6 @@ var PATRONS = [
 	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin Lucky and Blessed.", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn")),
 	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "Freeze a coin and its neighbors.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn")),
 	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Supercharge a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"))
-	
 ]
 
 func patron_for_enum(enm: PatronEnum) -> Patron:
@@ -511,6 +544,7 @@ class CoinFamily:
 		breakpoint
 		return ""
 
+# Coin Families
 var GENERIC_FAMILY = CoinFamily.new("(DENOM)", "[color=gray]Common Currency[/color]", [1, 4, 10, 22], POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var ZEUS_FAMILY = CoinFamily.new("(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HERA_FAMILY = CoinFamily.new("(DENOM) of Hera", "[color=silver]Envious Wrath[/color]", [2, 8, 20, 44], POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
@@ -531,7 +565,20 @@ var MEDUSA_FAMILY = CoinFamily.new("[color=greenyellow]Medusa[/color]", "[color=
 var EURYALE_FAMILY = CoinFamily.new("[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", [0, 0, 0, 0], NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS)
 var STHENO_FAMILY = CoinFamily.new("[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", [0, 0, 0, 0], NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS)
 
-var TRIAL_IRON_FAMILY = CoinFamily.new("[color=darkgray]Trial of Iron[/color]", "[color=lightgray]The First Test[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
+var TRIAL_IRON_FAMILY = CoinFamily.new("[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
+var THORNS_FAMILY = CoinFamily.new("(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", [0, 0, 0, 0], POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new("[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE)
+var TRIAL_POLARIZATION_FAMILY = CoinFamily.new("[color=skyblue]Trial of Polarization[/color]", "[color=lightgray]One or Another[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_POLARIZATION, TRIAL_POWER_FAMILY_POLARIZATION, _SpriteStyle.PASSIVE)
+var TRIAL_PAIN_FAMILY = CoinFamily.new("[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_PAIN, TRIAL_POWER_FAMILY_PAIN, _SpriteStyle.PASSIVE)
+var TRIAL_BLOOD_FAMILY = CoinFamily.new("[color=crimson]Trial of Blood[/color]", "[color=lightgray]Paid in Crimson[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_BLOOD, TRIAL_POWER_FAMILY_BLOOD, _SpriteStyle.PASSIVE)
+var TRIAL_EQUIVALENCE_FAMILY = CoinFamily.new("[color=gold]Trial of Equivalence[/color]", "[color=lightgray]Fair, in a Way[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_EQUIVALENCE, TRIAL_POWER_FAMILY_EQUIVALENCE, _SpriteStyle.PASSIVE)
+var TRIAL_FAMINE_FAMILY = CoinFamily.new("[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_FAMINE, TRIAL_POWER_FAMILY_FAMINE, _SpriteStyle.PASSIVE)
+var TRIAL_TORTURE_FAMILY = CoinFamily.new("[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE)
+var TRIAL_LIMITATION_FAMILY = CoinFamily.new("[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
+var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
+var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping/color]", "[color=lightgray]Unnatural... fatigue...[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
+var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[colorsteelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
+
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
@@ -544,3 +591,11 @@ func random_god_family() -> CoinFamily:
 
 func random_shop_denomination_for_round() -> Denomination:
 	return choose_one(_current_round_shop_denoms())
+
+func is_passive_active(passivePower: PowerFamily) -> bool:
+	assert(passivePower.powerType == PowerType.PASSIVE)
+	for row in COIN_ROWS:
+		for coin in row.get_children():
+			if coin.is_passive() and coin.get_active_power_family() == passivePower:
+				return true
+	return false

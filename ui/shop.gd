@@ -45,7 +45,7 @@ func randomize_shop() -> void:
 	var dup = false
 	for i in _SHOP_ROW.get_child_count():
 		for j in range(i+1, _SHOP_ROW.get_child_count()):
-			if _SHOP_ROW.get_child(i).coin_family() == _SHOP_ROW.get_child(j).coin_family():
+			if _SHOP_ROW.get_child(i).get_coin_family() == _SHOP_ROW.get_child(j).get_coin_family():
 				dup = true
 	if dup:
 		randomize_shop()

@@ -71,6 +71,14 @@ func get_all_of_denomination(denom: Global.Denomination) -> Array:
 			coins_of_denom.append(coin)
 	return coins_of_denom
 
+func get_all_of_family(fam: Global.CoinFamily) -> Array:
+	assert(get_child_count() != 0)
+	var coins_of_fam = []
+	for coin in get_children():
+		if coin.get_coin_family() == fam:
+			coins_of_fam.append(coin)
+	return coins_of_fam
+
 # returns the coins in a random order
 func get_randomized() -> Array:
 	assert(get_child_count() != 0)
@@ -96,6 +104,16 @@ func get_right_of(coin: Coin) -> Coin:
 	if coin.get_index() + 1 == get_child_count(): #nothing more to the right
 		return null
 	return get_child(coin.get_index() + 1)
+
+# randomly destroy one coin of the lowest denomination
+func destroy_lowest_value() -> void:
+	for denom in [Global.Denomination.OBOL, Global.Denomination.DIOBOL, Global.Denomination.TRIOBOL, Global.Denomination.TETROBOL]:
+		var destroyable_coins = get_all_of_denomination(denom)
+		if not destroyable_coins.is_empty():
+			var destroy = Global.choose_one(destroyable_coins)
+			destroy.queue_free()
+			remove_child(destroy)
+			return
 
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
