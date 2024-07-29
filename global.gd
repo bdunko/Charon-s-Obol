@@ -191,7 +191,7 @@ func randomize_voyage() -> void:
 		match(rnd.roundType):
 			RoundType.TRIAL1:
 				rnd.trialData = Global.choose_one(LV1_TRIALS)
-				#rnd.trialData = LV1_TRIALS[1]
+				#rnd.trialData = LV1_TRIALS[0]
 			RoundType.TRIAL2:
 				rnd.trialData = Global.choose_one(LV2_TRIALS)
 			RoundType.NEMESIS:
@@ -507,7 +507,7 @@ func denom_to_string(denom: Denomination) -> String:
 	return "ERROR"
 
 enum _SpriteStyle {
-	PAYOFF, POWER, PASSIVE, NEMESIS
+	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS
 }
 
 class CoinFamily:
@@ -541,6 +541,8 @@ class CoinFamily:
 				return "nemesis"
 			_SpriteStyle.PASSIVE:
 				return "passive"
+			_SpriteStyle.THORNS:
+				return "thorns"
 		breakpoint
 		return ""
 
@@ -566,7 +568,7 @@ var EURYALE_FAMILY = CoinFamily.new("[color=mediumaquamarine]Euryale[/color]", "
 var STHENO_FAMILY = CoinFamily.new("[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", [0, 0, 0, 0], NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS)
 
 var TRIAL_IRON_FAMILY = CoinFamily.new("[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
-var THORNS_FAMILY = CoinFamily.new("(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", [0, 0, 0, 0], POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+var THORNS_FAMILY = CoinFamily.new("(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", [0, 0, 0, 0], POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.THORNS)
 var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new("[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE)
 var TRIAL_POLARIZATION_FAMILY = CoinFamily.new("[color=skyblue]Trial of Polarization[/color]", "[color=lightgray]One or Another[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_POLARIZATION, TRIAL_POWER_FAMILY_POLARIZATION, _SpriteStyle.PASSIVE)
 var TRIAL_PAIN_FAMILY = CoinFamily.new("[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_PAIN, TRIAL_POWER_FAMILY_PAIN, _SpriteStyle.PASSIVE)

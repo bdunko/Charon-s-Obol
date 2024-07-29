@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=69 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 [ext_resource type="Texture2D" uid="uid://cs28gy8awrvql" path="res://assets/coins/trial_lg.png" id="11_1wr5j"]
 [ext_resource type="Texture2D" uid="uid://cjhvd4a4je4jf" path="res://assets/coins/trial_sm.png" id="11_3ybk3"]
+[ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_65ok8"]
 atlas = ExtResource("10_6uffn")
@@ -207,6 +208,26 @@ region = Rect2(72, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r13tq"]
 atlas = ExtResource("9_6dpwv")
+region = Rect2(108, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2oiae"]
+atlas = ExtResource("13_0q14r")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2o1a0"]
+atlas = ExtResource("13_0q14r")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f03no"]
+atlas = ExtResource("13_0q14r")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqnqv"]
+atlas = ExtResource("13_0q14r")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_km2tv"]
+atlas = ExtResource("13_0q14r")
 region = Rect2(108, 0, 36, 39)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w12pp"]
@@ -467,6 +488,31 @@ animations = [{
 "loop": true,
 "name": &"power_triobol_flip",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2oiae")
+}],
+"loop": true,
+"name": &"thorns_obol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2o1a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f03no")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqnqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_km2tv")
+}],
+"loop": true,
+"name": &"thorns_obol_flip",
+"speed": 20.0
 }]
 
 [node name="Coin" type="Control"]
@@ -481,7 +527,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"passive_obol_flat"
+animation = &"thorns_obol_flip"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
