@@ -173,6 +173,7 @@ func _on_state_changed() -> void:
 		_PRICE.hide()
 
 func _reset() -> void:
+	_blank = false
 	_luck_state = _LuckState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_material_state = _MaterialState.NONE
@@ -346,6 +347,9 @@ func flip(bonus: int = 0) -> void:
 				success_roll_min -= 20
 		_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
 	
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
+		_bless_curse_state = _BlessCurseState.CURSED if _heads else _BlessCurseState.BLESSED
+	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
 	var tween = create_tween()
@@ -357,9 +361,10 @@ func flip(bonus: int = 0) -> void:
 	_FACE_LABEL.show()
 	
 	# if supercharged and we landed on tails, flip again.
-	if _supercharged:
+	if _supercharged and not _heads:
 		_supercharged = false
 		await flip()
+		return
 	
 	emit_signal("flip_complete")
 	
@@ -395,8 +400,15 @@ func spend_power_use() -> void:
 	_update_face_label()
 
 func reset_power_uses() -> void:
-	_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
-	_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and is_power(): # sapping trial - recharge only by 1
+		_heads_power.charges = max(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
+		_tails_power.charges = max(_tails_power.charges + 1, _tails_power.power_family.uses_for_denom[_denomination])
+	else:
+		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
+		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
+	
+	# pain trial - lose life penalties are tripled
+	
 	
 	if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
 		_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
@@ -556,6 +568,8 @@ func on_round_end() -> void:
 	# force to heads
 	if not _heads:
 		turn()
+	# unblank
+	_blank = false
 
 func on_toss_complete() -> void:
 	if not is_stone():
@@ -576,6 +590,12 @@ func set_animation(anim: _Animation) -> void:
 	assert(anim_str != "")
 	
 	_SPRITE.play("%s_%s_%s" % [get_style_string(), denom_str, anim_str])
+
+func payoff_move_up() -> void:
+	await create_tween().tween_property(self, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
+
+func payoff_move_down() -> void:
+	await create_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:

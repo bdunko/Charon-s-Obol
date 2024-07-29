@@ -255,14 +255,20 @@ func _on_accept_button_pressed():
 		var charges = payoff_coin.get_active_power_charges()
 		
 		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and charges > 0:
-			create_tween().tween_property(payoff_coin, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC)
+			payoff_coin.payoff_move_up()
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
-					Global.souls += charges
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - max 3 souls per payoff coin
+						Global.souls += min(3, charges)
+					else:
+						Global.souls += charges
 				Global.POWER_FAMILY_LOSE_SOULS:
 					Global.souls = max(0, Global.souls - charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
-					Global.lives -= charges
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # limitation pain - 3x loss from tails penalties
+						Global.lives -= charges * 3
+					else:
+						Global.lives -= charges
 				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
 					var possible_coins = []
 					for coin in _COIN_ROW.get_highest_to_lowest_value():
@@ -298,14 +304,32 @@ func _on_accept_button_pressed():
 				Global.NEMESIS_POWER_FAMILY_STHENO_STRAIN:
 					Global.strain_modifier += 1
 			await Global.delay(0.15)
-			create_tween().tween_property(payoff_coin, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
+			if Global.state == Global.State.GAME_OVER:
+				return
+	
+	# post payoff actions
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
+		for denom in [Global.Denomination.TETROBOL, Global.Denomination.TRIOBOL, Global.Denomination.DIOBOL, Global.Denomination.OBOL]:
+			var coins = _COIN_ROW.get_all_of_denomination(denom)
+			if not coins.is_empty():
+				Global.choose_one(coins).downgrade()
+				break
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
+		for coin in _COIN_ROW.get_children():
+			if coin.is_tails():
+				coin.curse()
+				coin.freeze()
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
+		for coin in _COIN_ROW.get_children():
+			if coin.is_power():
+				Global.lives -= coin.get_active_power_charges()
 	
 	_PLAYER_TEXTBOXES.show()
 	
-	if Global.state != Global.State.GAME_OVER:
-		Global.state = Global.State.BEFORE_FLIP
-		_DIALOGUE.show_dialogue("Will you toss the coins...?")
+	Global.state = Global.State.BEFORE_FLIP
+	_DIALOGUE.show_dialogue("Will you toss the coins...?")
 
 func _wait_for_dialogue(dialogue: String) -> void:
 	_PLAYER_TEXTBOXES.hide()
@@ -381,7 +405,8 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("...take a deep breath...")
 		
 		# refresh lives
-		Global.lives += Global.current_round_life_regen()
+		if not Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FAMINE): # famine trial prevents life regen
+			Global.lives += Global.current_round_life_regen()
 		
 		# refresh patron powers
 		Global.patron_uses = Global.PATRON_USES_PER_ROUND[Global.round_count]
@@ -389,26 +414,54 @@ func _on_voyage_continue_button_clicked():
 		if first_round:
 			await _wait_for_dialogue("...Let's begin the game...")
 		elif Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2:
-			await _wait_for_dialogue("Your trial begins.")
+			await _wait_for_dialogue("Your trial begins...")
 		
+		Global.state = Global.State.BEFORE_FLIP #shows trial row
+		_PLAYER_TEXTBOXES.hide()
 		
-		# todo - make passive activating coins move up a bit like when doing payoff
-		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_IRON):
-			var coins_to_anim = _COIN_ROW.get_all_of_family(Global.TRIAL_IRON_FAMILY)
-			# refactor - move the coin moving up anim to coin itself instead of in payoff, so we can reuse it easier
-			
-			while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-3: # make space for thorns obols
-				_COIN_ROW.destroy_lowest_value()
-			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
-			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
-			_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
-			await _wait_for_dialogue("You shall be bound in Iron!")
-		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE):
-			for coin in _COIN_ROW.get_children():
-				coin.make_unlucky()
-			await _wait_for_dialogue("You shall be shrouded in Misfortune!")
+		if _TRIAL_ROW.get_child_count() != 0:
+			await Global.delay(0.2)
+		for coin in _TRIAL_ROW.get_children():
+			if coin.is_passive():
+				await coin.payoff_move_up()
+				match coin.get_coin_family():
+					Global.TRIAL_IRON_FAMILY:
+						while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-3: # make space for thorns obols
+							_COIN_ROW.destroy_lowest_value()
+						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+						await _wait_for_dialogue("You shall be bound in Iron!")
+					Global.TRIAL_MISFORTUNE_FAMILY:
+						for c in _COIN_ROW.get_children():
+							c.make_unlucky()
+						await _wait_for_dialogue("You shall be shrouded in Misfortune!")
+					Global.TRIAL_POLARIZATION_FAMILY:
+						for c in _COIN_ROW.get_children():
+							if c.get_denomination() == Global.Denomination.DIOBOL:
+								c.blank()
+						await _wait_for_dialogue("Your coins must be Polarized...")
+					Global.TRIAL_PAIN_FAMILY:
+						await _wait_for_dialogue("You shall writhe in Pain!")
+					Global.TRIAL_BLOOD_FAMILY:
+						await _wait_for_dialogue("Your Blood shall boil!")
+					Global.TRIAL_EQUIVALENCE_FAMILY:
+						await _wait_for_dialogue("Each coin will be one of Equivalence!")
+					Global.TRIAL_EQUIVALENCE_FAMILY:
+						await _wait_for_dialogue("Feel the hunger of Famine!")
+					Global.TRIAL_TORTURE_FAMILY:
+						await _wait_for_dialogue("Can you withstand this Torture?")
+					Global.TRIAL_LIMITATION_FAMILY:
+						await _wait_for_dialogue("It is time to feel mortal Limitation!")
+					Global.TRIAL_COLLAPSE_FAMILY:
+						await _wait_for_dialogue("You must beware an untimely Collapse!")
+					Global.TRIAL_SAPPING_FAMILY:
+						await _wait_for_dialogue("Your energy shall be Sapping.")
+					Global.TRIAL_OVERLOAD_FAMILY:
+						await _wait_for_dialogue("You may have power, but beware the Overload!")
+				coin.payoff_move_down()
 		
-		Global.state = Global.State.BEFORE_FLIP #hides the shop
+		_show_player_textboxes()
 		_DIALOGUE.show_dialogue("Will you toss...?")
 
 var victory = false

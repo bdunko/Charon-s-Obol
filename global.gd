@@ -191,7 +191,7 @@ func randomize_voyage() -> void:
 		match(rnd.roundType):
 			RoundType.TRIAL1:
 				rnd.trialData = Global.choose_one(LV1_TRIALS)
-				rnd.trialData = LV1_TRIALS[1]
+				#rnd.trialData = LV1_TRIALS[1]
 			RoundType.TRIAL2:
 				rnd.trialData = Global.choose_one(LV2_TRIALS)
 			RoundType.NEMESIS:
