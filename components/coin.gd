@@ -381,6 +381,14 @@ func turn() -> void:
 	set_animation(_Animation.FLAT)
 	_FACE_LABEL.show()
 
+# sets to heads without an animation
+func set_heads_no_anim() -> void:
+	_heads = true
+
+# sets to tails without an animation
+func set_tails_no_anim() -> void:
+	_heads = false
+
 func get_active_power_family() -> Global.PowerFamily:
 	return _heads_power.power_family if is_heads() else _tails_power.power_family
 
@@ -532,7 +540,7 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 	return txt
 
 # icons which we don't show an icon and charge count for in tooltips at the front.
-var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS]
+var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS, Global.CHARON_POWER_DEATH, Global.CHARON_POWER_LIFE]
 func _generate_tooltip() -> void:
 	var txt = ""
 	var coin_name = get_coin_name()
@@ -551,7 +559,7 @@ func _generate_tooltip() -> void:
 		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path
 		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _tails_power.power_family.icon_path
 		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow)(CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
 		#(charges)[icon] description
 		const POWER_FORMAT = "%s%s%s"

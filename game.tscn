@@ -180,6 +180,21 @@ position = Vector2(65, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
+[node name="CharonRow" type="Control" parent="Table"]
+custom_minimum_size = Vector2(116, 39)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 75.0
+offset_right = 315.0
+offset_bottom = 114.0
+mouse_filter = 2
+script = ExtResource("21_60gfb")
+
+[node name="Coin" parent="Table/CharonRow" instance=ExtResource("22_nqi2l")]
+offset_left = 136.0
+offset_right = 174.0
+
 [node name="Trial" type="Node2D" parent="Table"]
 script = ExtResource("20_kmro7")
 
@@ -284,6 +299,8 @@ offset_bottom = 178.0
 [connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="child_entered_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_exiting_tree"]
 [connection signal="child_entered_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_exiting_tree"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]

@@ -5,7 +5,7 @@ func _ready() -> void:
 	Global.strain_changed.connect(_on_strain_changed)
 
 func _on_state_changed() -> void:
-	if Global.state == Global.State.BEFORE_FLIP:
+	if Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP:
 		show()
 	else:
 		hide()

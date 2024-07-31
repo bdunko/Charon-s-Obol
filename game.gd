@@ -6,6 +6,7 @@ signal game_ended
 @onready var _SHOP: Shop = $Table/Shop
 @onready var _TRIAL: Trial = $Table/Trial
 @onready var _TRIAL_ROW: CoinRow = $Table/Trial/TrialRow
+@onready var _CHARON_ROW: CoinRow = $Table/CharonRow
 
 @onready var _RESET_BUTTON = $UI/ResetButton
 
@@ -39,6 +40,7 @@ func _ready() -> void:
 	assert(_SHOP)
 	assert(_TRIAL)
 	assert(_TRIAL_ROW)
+	assert(_CHARON_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
 	
@@ -82,6 +84,12 @@ func _on_soul_count_changed() -> void:
 
 func _on_life_count_changed() -> void:
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
+	
+	# if we ran out of life, initiate last chance flip
+	if Global.lives < 0:
+		await _wait_for_dialogue("You're out of life...")
+		# todo - fancier dialogue
+		Global.state = Global.State.CHARON_OBOL_FLIP
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
 	#var fragment_count = 0
@@ -133,13 +141,29 @@ func _show_player_textboxes() -> void:
 
 func _on_state_changed() -> void:
 	_play_player_text_animation()
-	if Global.state == Global.State.GAME_OVER:
+	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
+	
+	_CHARON_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
+	_COIN_ROW.visible = Global.state != Global.State.CHARON_OBOL_FLIP and Global.state != Global.State.GAME_OVER
+	_RESET_BUTTON.visible = Global.state == Global.State.GAME_OVER
+	_patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
+	
+	if Global.state == Global.State.CHARON_OBOL_FLIP:
+		Global.flips_this_round = 0 # reduce strain to 0 for display purposes
+		_CHARON_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
+		_PLAYER_TEXTBOXES.hide()
+		await _wait_for_dialogue("Yet, I will grant you one final opportunity.")
+		await _wait_for_dialogue("We will flip this single obol.")
+		await _wait_for_dialogue("Tails, and the story continues.")
+		await _wait_for_dialogue("Heads, and your long journey ends here.")
+		await _wait_for_dialogue("And now, on the edge of life and death...")
+		_DIALOGUE.show_dialogue("You must flip!")
+		_show_player_textboxes()
+	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
-	else:
-		_RESET_BUTTON.hide()
 
 func _on_game_end() -> void:
-	_DIALOGUE.show_dialogue("You've won, this time..." if victory else "Your soul is mine!")
+	_DIALOGUE.show_dialogue("You've won, this time..." if victory else "Your soul shall be mine!")
 	_RESET_BUTTON.show()
 
 func on_start() -> void:
@@ -147,6 +171,16 @@ func on_start() -> void:
 	for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 		coin.queue_free()
 		coin.get_parent().remove_child(coin)
+	
+	# make charon's obol
+	for coin in _CHARON_ROW.get_children():
+		_CHARON_ROW.remove_child(coin)
+		coin.queue_free()
+	var charons_obol = _COIN_SCENE.instantiate()
+	_CHARON_ROW.add_child(charons_obol)
+	charons_obol.flip_complete.connect(_on_flip_complete)
+	charons_obol.init_coin(Global.CHARON_OBOL_FAMILY, Global.Denomination.TETROBOL, Coin.Owner.NEMESIS)
+	_CHARON_ROW.hide()
 	
 	# randomize and set up the nemesis & trials
 	Global.randomize_voyage()
@@ -184,11 +218,11 @@ func on_start() -> void:
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	
-	
 	_RESET_BUTTON.hide()
 	
 	Global.state = Global.State.BOARDING
 	
+	await Global.delay(0.1)
 	await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead.")
 	await _wait_for_dialogue("Fool from Eleusis, you wish to cross?")
 	await _wait_for_dialogue("I cannot take the living across the river Styx...")
@@ -205,6 +239,25 @@ func _on_flip_complete() -> void:
 	
 	flips_completed += 1
 	
+	# if this is after the last chance flip, resolve payoff
+	if Global.state == Global.State.CHARON_OBOL_FLIP:
+		var charons_obol = _CHARON_ROW.get_child(0) as Coin
+		match charons_obol.get_active_power_family():
+			Global.CHARON_POWER_DEATH:
+				await _wait_for_dialogue("Fate is cruel indeed.")
+				await _wait_for_dialogue("It seems this is the end for you.")
+				await _wait_for_dialogue("And now...")
+				await _wait_for_dialogue("...my prize.")
+				Global.state = Global.State.GAME_OVER
+			Global.CHARON_POWER_LIFE:
+				await _wait_for_dialogue("Fate smiles upon you...")
+				await _wait_for_dialogue("It seems you have dodged death, for a time.")
+				await _wait_for_dialogue("But your voyage has not yet concluded...")
+				_advance_round()
+			_:
+				assert(false, "Charon's obol has an incorrect power?")
+		return
+	
 	# if every flip is done
 	if flips_completed == _COIN_ROW.get_child_count() + _TRIAL_ROW.get_child_count():
 		# recharge all coin powers
@@ -218,6 +271,12 @@ func _on_flip_complete() -> void:
 		_show_player_textboxes()
 
 func _on_toss_button_clicked() -> void:
+	if Global.state == Global.State.CHARON_OBOL_FLIP:
+		for coin in _CHARON_ROW.get_children():
+			coin.flip()
+		_PLAYER_TEXTBOXES.hide()
+		return
+	
 	if _COIN_ROW.get_child_count() == 0:
 		_DIALOGUE.show_dialogue("No... coins...")
 		return
@@ -234,7 +293,7 @@ func _on_toss_button_clicked() -> void:
 	
 	# flip all the coins
 	flips_completed = 0
-	for coin in _COIN_ROW.get_children() :
+	for coin in _COIN_ROW.get_children():
 		coin = coin as Coin
 		coin.flip()
 	for coin in _TRIAL_ROW.get_children():
@@ -306,7 +365,7 @@ func _on_accept_button_pressed():
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
-			if Global.state == Global.State.GAME_OVER:
+			if Global.lives < 0:
 				return
 	
 	# post payoff actions

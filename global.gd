@@ -50,7 +50,7 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 	return ""
 
 enum State {
-	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER
+	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER, CHARON_OBOL_FLIP
 }
 
 func reroll_cost() -> int:
@@ -88,8 +88,6 @@ var lives:
 	set(val):
 		lives = val
 		emit_signal("life_count_changed")
-		if lives < 0:
-			state = State.GAME_OVER
 
 var flips_this_round: int:
 	set(val):
@@ -368,6 +366,9 @@ var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on tr
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single charge each toss.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png")
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
 
+var CHARON_POWER_DEATH = PowerFamily.new("Die.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/trial/adversity_icon.png")
+var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/trial/vainglory_icon.png")
+
 
 # todo - refactor this into Util
 var RNG = RandomNumberGenerator.new()
@@ -579,8 +580,9 @@ var TRIAL_TORTURE_FAMILY = CoinFamily.new("[color=darkred]Trial of Torture[/colo
 var TRIAL_LIMITATION_FAMILY = CoinFamily.new("[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
 var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
 var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping/color]", "[color=lightgray]Unnatural... fatigue...[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
-var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[colorsteelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
+var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
+var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", [0, 0, 0, 0], CHARON_POWER_DEATH, CHARON_POWER_LIFE, _SpriteStyle.NEMESIS)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
