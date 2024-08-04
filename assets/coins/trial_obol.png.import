@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs28gy8awrvql"
-path="res://.godot/imported/trial_lg.png-6dbf874c00c32470cb0dd2948bbc71e9.ctex"
+uid="uid://cjhvd4a4je4jf"
+path="res://.godot/imported/trial_obol.png-a1f004154b7e86f44ac5b4c49f5ebe4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/coins/trial_lg.png"
-dest_files=["res://.godot/imported/trial_lg.png-6dbf874c00c32470cb0dd2948bbc71e9.ctex"]
+source_file="res://assets/coins/trial_obol.png"
+dest_files=["res://.godot/imported/trial_obol.png-a1f004154b7e86f44ac5b4c49f5ebe4b.ctex"]
 
 [params]
 

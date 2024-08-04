@@ -366,8 +366,8 @@ var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on tr
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single charge each toss.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png")
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
 
-var CHARON_POWER_DEATH = PowerFamily.new("Die.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/trial/adversity_icon.png")
-var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/trial/vainglory_icon.png")
+var CHARON_POWER_DEATH = PowerFamily.new("Die.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_death_icon.png")
+var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_life_icon.png")
 
 
 # todo - refactor this into Util
@@ -508,7 +508,7 @@ func denom_to_string(denom: Denomination) -> String:
 	return "ERROR"
 
 enum _SpriteStyle {
-	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS
+	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS, CHARONS
 }
 
 class CoinFamily:
@@ -544,6 +544,8 @@ class CoinFamily:
 				return "passive"
 			_SpriteStyle.THORNS:
 				return "thorns"
+			_SpriteStyle.CHARONS:
+				return "charons"
 		breakpoint
 		return ""
 
@@ -582,7 +584,7 @@ var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/c
 var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping/color]", "[color=lightgray]Unnatural... fatigue...[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", [0, 0, 0, 0], TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
-var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", [0, 0, 0, 0], CHARON_POWER_DEATH, CHARON_POWER_LIFE, _SpriteStyle.NEMESIS)
+var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", [0, 0, 0, 0], CHARON_POWER_DEATH, CHARON_POWER_LIFE, _SpriteStyle.CHARONS)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

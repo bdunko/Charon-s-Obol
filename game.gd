@@ -179,7 +179,7 @@ func on_start() -> void:
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_ROW.add_child(charons_obol)
 	charons_obol.flip_complete.connect(_on_flip_complete)
-	charons_obol.init_coin(Global.CHARON_OBOL_FAMILY, Global.Denomination.TETROBOL, Coin.Owner.NEMESIS)
+	charons_obol.init_coin(Global.CHARON_OBOL_FAMILY, Global.Denomination.OBOL, Coin.Owner.NEMESIS)
 	_CHARON_ROW.hide()
 	
 	# randomize and set up the nemesis & trials
@@ -253,6 +253,7 @@ func _on_flip_complete() -> void:
 				await _wait_for_dialogue("Fate smiles upon you...")
 				await _wait_for_dialogue("It seems you have dodged death, for a time.")
 				await _wait_for_dialogue("But your voyage has not yet concluded...")
+				Global.lives = 0
 				_advance_round()
 			_:
 				assert(false, "Charon's obol has an incorrect power?")

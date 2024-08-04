@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ciisarej61ml3"
-path="res://.godot/imported/adversity_icon.png-288cb190642b716a777cd46d52823673.ctex"
+uid="uid://c8vge32mxqbaw"
+path="res://.godot/imported/obol_charon.png-603a71cc19c9167d9af4babad6470bf3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/adversity_icon.png"
-dest_files=["res://.godot/imported/adversity_icon.png-288cb190642b716a777cd46d52823673.ctex"]
+source_file="res://assets/coins/obol_charon.png"
+dest_files=["res://.godot/imported/obol_charon.png-603a71cc19c9167d9af4babad6470bf3.ctex"]
 
 [params]
 

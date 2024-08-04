@@ -1,18 +1,40 @@
-[gd_scene load_steps=69 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=81 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
+[ext_resource type="Texture2D" uid="uid://c8vge32mxqbaw" path="res://assets/coins/obol_charon.png" id="2_8bght"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
 [ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_dhyo4"]
 [ext_resource type="Texture2D" uid="uid://buq0pt2mv61r8" path="res://assets/coins/obol.png" id="2_gp4tc"]
+[ext_resource type="Texture2D" uid="uid://cs28gy8awrvql" path="res://assets/coins/trial_diobol.png" id="4_n3pk8"]
+[ext_resource type="Texture2D" uid="uid://b5x3f1xc0aa8h" path="res://assets/coins/triobol_nemesis.png" id="4_x6x5q"]
+[ext_resource type="Texture2D" uid="uid://cjhvd4a4je4jf" path="res://assets/coins/trial_obol.png" id="5_hpecf"]
 [ext_resource type="Texture2D" uid="uid://bai3xcjjbsmi2" path="res://assets/coins/triobol.png" id="5_rwtkc"]
 [ext_resource type="Texture2D" uid="uid://br2b7urvog30m" path="res://assets/coins/diobol_god.png" id="6_8y6lf"]
 [ext_resource type="Texture2D" uid="uid://ulayqf1flk3x" path="res://assets/coins/obol_god.png" id="7_piem0"]
 [ext_resource type="Texture2D" uid="uid://b2d1rbovnhmix" path="res://assets/coins/tetrobol_god.png" id="8_sc7h6"]
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
-[ext_resource type="Texture2D" uid="uid://cs28gy8awrvql" path="res://assets/coins/trial_lg.png" id="11_1wr5j"]
-[ext_resource type="Texture2D" uid="uid://cjhvd4a4je4jf" path="res://assets/coins/trial_sm.png" id="11_3ybk3"]
 [ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnuna"]
+atlas = ExtResource("2_8bght")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u6h2"]
+atlas = ExtResource("2_8bght")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oiail"]
+atlas = ExtResource("2_8bght")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyyby"]
+atlas = ExtResource("2_8bght")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2cse"]
+atlas = ExtResource("2_8bght")
+region = Rect2(108, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_65ok8"]
 atlas = ExtResource("10_6uffn")
@@ -34,20 +56,40 @@ region = Rect2(72, 0, 36, 39)
 atlas = ExtResource("10_6uffn")
 region = Rect2(108, 0, 36, 39)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bo8oi"]
+atlas = ExtResource("4_x6x5q")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpt4b"]
+atlas = ExtResource("4_x6x5q")
+region = Rect2(0, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkb02"]
+atlas = ExtResource("4_x6x5q")
+region = Rect2(36, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2ebu"]
+atlas = ExtResource("4_x6x5q")
+region = Rect2(72, 0, 36, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t225x"]
+atlas = ExtResource("4_x6x5q")
+region = Rect2(108, 0, 36, 39)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_a8n17"]
-atlas = ExtResource("11_1wr5j")
+atlas = ExtResource("4_n3pk8")
 region = Rect2(0, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8cdo1"]
-atlas = ExtResource("11_1wr5j")
+atlas = ExtResource("4_n3pk8")
 region = Rect2(0, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qe4iv"]
-atlas = ExtResource("11_3ybk3")
+atlas = ExtResource("5_hpecf")
 region = Rect2(0, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxdfo"]
-atlas = ExtResource("11_3ybk3")
+atlas = ExtResource("5_hpecf")
 region = Rect2(0, 0, 36, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bk4o2"]
@@ -234,6 +276,31 @@ region = Rect2(108, 0, 36, 39)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_tnuna")
+}],
+"loop": true,
+"name": &"charons_obol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1u6h2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiail")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyyby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2cse")
+}],
+"loop": true,
+"name": &"charons_obol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_65ok8")
 }],
 "loop": true,
@@ -255,6 +322,31 @@ animations = [{
 }],
 "loop": true,
 "name": &"nemesis_tetrobol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bo8oi")
+}],
+"loop": true,
+"name": &"nemesis_triobol_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpt4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkb02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2ebu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t225x")
+}],
+"loop": true,
+"name": &"nemesis_triobol_flip",
 "speed": 20.0
 }, {
 "frames": [{
@@ -527,7 +619,8 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"thorns_obol_flip"
+animation = &"charons_obol_flat"
+frame_progress = 0.581485
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
