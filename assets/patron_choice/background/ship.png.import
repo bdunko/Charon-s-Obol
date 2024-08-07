@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cddpxdsre4t0m"
-path="res://.godot/imported/peaceful_background.png-6f2e3107a6e98f0fb8d61f4e217b3786.ctex"
+uid="uid://bklbq2rd5wq1q"
+path="res://.godot/imported/ship.png-23174e42657890afd7cf64c9f0bf3ebe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/patron_choice/peaceful_background.png"
-dest_files=["res://.godot/imported/peaceful_background.png-6f2e3107a6e98f0fb8d61f4e217b3786.ctex"]
+source_file="res://assets/patron_choice/background/ship.png"
+dest_files=["res://.godot/imported/ship.png-23174e42657890afd7cf64c9f0bf3ebe.ctex"]
 
 [params]
 

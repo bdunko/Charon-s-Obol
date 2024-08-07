@@ -1,14 +1,163 @@
-[gd_scene load_steps=4 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=26 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
-[ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/peaceful_background.png" id="1_eaydu"]
+[ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
 [ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patron_statues/godless.tscn" id="3_a302y"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_jc04v"]
+[ext_resource type="Texture2D" uid="uid://2pf5r8texxrf" path="res://assets/patron_choice/background/cloud_layer_back.png" id="3_kr0hu"]
+[ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_5llq3"]
+[ext_resource type="Texture2D" uid="uid://ce0gftxajuwdt" path="res://assets/patron_choice/background/cloud_layer_front.png" id="5_k0wgb"]
+[ext_resource type="Texture2D" uid="uid://bv4hqkeqjxkfv" path="res://assets/patron_choice/background/cloud_ring.png" id="6_4xg8b"]
+[ext_resource type="Texture2D" uid="uid://ck31yg12emdjm" path="res://assets/patron_choice/background/eyes.png" id="6_kttg8"]
+[ext_resource type="Texture2D" uid="uid://cgof7rvyy8ooc" path="res://assets/patron_choice/background/flowers.png" id="7_xij8r"]
+[ext_resource type="Texture2D" uid="uid://bklbq2rd5wq1q" path="res://assets/patron_choice/background/ship.png" id="9_in8ic"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhj36"]
+atlas = ExtResource("6_kttg8")
+region = Rect2(0, 0, 6, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dded"]
+atlas = ExtResource("6_kttg8")
+region = Rect2(6, 0, 6, 3)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l0p62"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhj36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dded")
+}],
+"loop": true,
+"name": &"default",
+"speed": 25.0
+}]
+
+[sub_resource type="Curve2D" id="Curve2D_8pu6n"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 35, 91, 0, 0, 0, 0, 158, 91, 0, 0, 0, 0, 195, 90)
+}
+point_count = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jusas"]
+atlas = ExtResource("9_in8ic")
+region = Rect2(0, 0, 5, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh85q"]
+atlas = ExtResource("9_in8ic")
+region = Rect2(5, 0, 5, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aov53"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jusas")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bh85q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.5
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmv8i"]
+atlas = ExtResource("6_4xg8b")
+region = Rect2(0, 0, 78, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5rrn"]
+atlas = ExtResource("6_4xg8b")
+region = Rect2(78, 0, 78, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm81o"]
+atlas = ExtResource("6_4xg8b")
+region = Rect2(156, 0, 78, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrbuj"]
+atlas = ExtResource("6_4xg8b")
+region = Rect2(234, 0, 78, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jivof"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmv8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5rrn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm81o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrbuj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ke5ey"]
+shader = ExtResource("3_jc04v")
+shader_parameter/pan_speed = Vector2(0.01, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_68yvk"]
+shader = ExtResource("3_jc04v")
+shader_parameter/pan_speed = Vector2(0.04, 0)
 
 [node name="PatronSelection" type="Node2D"]
 script = ExtResource("1_bldrb")
 
-[node name="Background" type="Sprite2D" parent="."]
-texture = ExtResource("1_eaydu")
+[node name="WitheredBG" type="Sprite2D" parent="."]
+texture = ExtResource("2_djeuf")
+centered = false
+
+[node name="Eyes" type="AnimatedSprite2D" parent="WitheredBG"]
+position = Vector2(310, 79)
+sprite_frames = SubResource("SpriteFrames_l0p62")
+autoplay = "default"
+frame_progress = 0.122705
+centered = false
+
+[node name="PeacefulBG" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_5llq3")
+centered = false
+
+[node name="ShipPath" type="Path2D" parent="PeacefulBG"]
+curve = SubResource("Curve2D_8pu6n")
+
+[node name="Follow" type="PathFollow2D" parent="PeacefulBG/ShipPath"]
+position = Vector2(35, 91)
+rotates = false
+
+[node name="Ship" type="AnimatedSprite2D" parent="PeacefulBG/ShipPath/Follow"]
+sprite_frames = SubResource("SpriteFrames_aov53")
+autoplay = "default"
+frame_progress = 0.138843
+centered = false
+offset = Vector2(0, -5)
+
+[node name="CloudRing" type="AnimatedSprite2D" parent="PeacefulBG"]
+position = Vector2(113, 24)
+sprite_frames = SubResource("SpriteFrames_jivof")
+autoplay = "default"
+frame_progress = 0.993193
+centered = false
+
+[node name="Flowers" type="Sprite2D" parent="PeacefulBG"]
+texture = ExtResource("7_xij8r")
+centered = false
+
+[node name="CloudBack" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ke5ey")
+texture = ExtResource("3_kr0hu")
+centered = false
+
+[node name="CloudFront" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_68yvk")
+texture = ExtResource("5_k0wgb")
 centered = false
 
 [node name="PatronStatues" type="Node2D" parent="."]

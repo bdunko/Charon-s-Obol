@@ -620,7 +620,7 @@ script = ExtResource("1_eg3xp")
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
 animation = &"charons_obol_flat"
-frame_progress = 0.581485
+frame_progress = 0.64061
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]

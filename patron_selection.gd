@@ -8,12 +8,18 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _STATUE_POSITION_MIDDLE = $PatronStatues/Middle.position
 @onready var _STATUE_POSITION_RIGHT = $PatronStatues/Right.position
 @onready var _PATRON_STATUES = $PatronStatues
+@onready var _SHIP_PATH_FOLLOW = $PeacefulBG/ShipPath/Follow
 
 func _ready() -> void:
 	assert(_STATUE_POSITION_LEFT)
 	assert(_STATUE_POSITION_MIDDLE)
 	assert(_STATUE_POSITION_RIGHT)
 	assert(_PATRON_STATUES)
+	assert(_SHIP_PATH_FOLLOW)
+	
+	var tween = create_tween().set_loops()
+	tween.tween_property(_SHIP_PATH_FOLLOW, "progress_ratio", 1, 30).set_delay(2)
+	tween.tween_property(_SHIP_PATH_FOLLOW, "progress_ratio", 0, 30).set_delay(5)
 
 func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
