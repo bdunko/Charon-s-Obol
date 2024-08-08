@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=27 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/table/river.png" id="2_d61yp"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/table/table.png" id="3_uvdwv"]
-[ext_resource type="Script" path="res://dialogue_manager.gd" id="4_f43mi"]
+[ext_resource type="PackedScene" uid="uid://cr6fktifdg2pi" path="res://ui/dialogue_system.tscn" id="4_sixhk"]
+[ext_resource type="Script" path="res://player_textboxes.gd" id="5_6g64w"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="5_703wq"]
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="6_rf73a"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="7_2acd8"]
@@ -39,10 +40,10 @@ centered = false
 
 [node name="UI" type="Node2D" parent="."]
 
-[node name="DialogueManager" type="Node2D" parent="UI"]
-script = ExtResource("4_f43mi")
+[node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
+position = Vector2(0, 2)
 
-[node name="PlayerTextboxs" type="HBoxContainer" parent="UI"]
+[node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
 z_index = 1
 offset_left = 6.0
 offset_top = 155.0
@@ -50,80 +51,81 @@ offset_right = 314.0
 offset_bottom = 171.0
 pivot_offset = Vector2(154, 8)
 alignment = 1
+script = ExtResource("5_6g64w")
 
-[node name="TossButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
 
-[node name="TextMargin" parent="UI/PlayerTextboxs/TossButton" index="1"]
+[node name="TextMargin" parent="UI/PlayerTextboxes/TossButton" index="1"]
 size_flags_horizontal = 1
 
-[node name="Text" parent="UI/PlayerTextboxs/TossButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/TossButton/TextMargin" index="0"]
 size_flags_horizontal = 1
 text = "[center]Toss[/center]"
 
-[node name="AcceptButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
-[node name="Text" parent="UI/PlayerTextboxs/AcceptButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/AcceptButton/TextMargin" index="0"]
 text = "Accept"
 
-[node name="ShopContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("8_leu43")
 
-[node name="Text" parent="UI/PlayerTextboxs/ShopContinueButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/ShopContinueButton/TextMargin" index="0"]
 text = "Continue"
 
-[node name="ShopRerollButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
-[node name="Text" parent="UI/PlayerTextboxs/ShopRerollButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/ShopRerollButton/TextMargin" index="0"]
 text = "Continue"
 
-[node name="EndRoundButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("9_d50av")
 
-[node name="Text" parent="UI/PlayerTextboxs/EndRoundButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/EndRoundButton/TextMargin" index="0"]
 text = "End Round"
 
-[node name="DieButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
-[node name="Text" parent="UI/PlayerTextboxs/DieButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/DieButton/TextMargin" index="0"]
 text = "Die, Forgotten"
 
-[node name="PayTollButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
-[node name="Text" parent="UI/PlayerTextboxs/PayTollButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/PayTollButton/TextMargin" index="0"]
 text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]"
 
-[node name="VoyageContinueButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
-[node name="Text" parent="UI/PlayerTextboxs/VoyageContinueButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/VoyageContinueButton/TextMargin" index="0"]
 text = "Continue"
 
-[node name="BoardButton" parent="UI/PlayerTextboxs" instance=ExtResource("5_703wq")]
+[node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 
-[node name="Text" parent="UI/PlayerTextboxs/BoardButton/TextMargin" index="0"]
+[node name="Text" parent="UI/PlayerTextboxes/BoardButton/TextMargin" index="0"]
 text = "Board"
 
 [node name="LivesLabel" type="Label" parent="UI"]
@@ -289,15 +291,15 @@ offset_top = 150.0
 offset_right = 298.0
 offset_bottom = 178.0
 
-[connection signal="clicked" from="UI/PlayerTextboxs/TossButton" to="." method="_on_toss_button_clicked"]
-[connection signal="clicked" from="UI/PlayerTextboxs/AcceptButton" to="." method="_on_accept_button_pressed"]
-[connection signal="clicked" from="UI/PlayerTextboxs/ShopContinueButton" to="." method="_on_continue_button_pressed"]
-[connection signal="clicked" from="UI/PlayerTextboxs/ShopRerollButton" to="." method="_on_shop_reroll_button_clicked"]
-[connection signal="clicked" from="UI/PlayerTextboxs/EndRoundButton" to="." method="_on_end_round_button_pressed"]
-[connection signal="clicked" from="UI/PlayerTextboxs/DieButton" to="." method="_on_die_button_clicked"]
-[connection signal="clicked" from="UI/PlayerTextboxs/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
-[connection signal="clicked" from="UI/PlayerTextboxs/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
-[connection signal="clicked" from="UI/PlayerTextboxs/BoardButton" to="." method="_on_board_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/TossButton" to="." method="_on_toss_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxes/ShopContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxes/ShopRerollButton" to="." method="_on_shop_reroll_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/EndRoundButton" to="." method="_on_end_round_button_pressed"]
+[connection signal="clicked" from="UI/PlayerTextboxes/DieButton" to="." method="_on_die_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
+[connection signal="clicked" from="UI/PlayerTextboxes/BoardButton" to="." method="_on_board_button_clicked"]
 [connection signal="pressed" from="UI/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="child_entered_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_exiting_tree"]
@@ -307,12 +309,12 @@ offset_bottom = 178.0
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
 
-[editable path="UI/PlayerTextboxs/TossButton"]
-[editable path="UI/PlayerTextboxs/AcceptButton"]
-[editable path="UI/PlayerTextboxs/ShopContinueButton"]
-[editable path="UI/PlayerTextboxs/ShopRerollButton"]
-[editable path="UI/PlayerTextboxs/EndRoundButton"]
-[editable path="UI/PlayerTextboxs/DieButton"]
-[editable path="UI/PlayerTextboxs/PayTollButton"]
-[editable path="UI/PlayerTextboxs/VoyageContinueButton"]
-[editable path="UI/PlayerTextboxs/BoardButton"]
+[editable path="UI/PlayerTextboxes/TossButton"]
+[editable path="UI/PlayerTextboxes/AcceptButton"]
+[editable path="UI/PlayerTextboxes/ShopContinueButton"]
+[editable path="UI/PlayerTextboxes/ShopRerollButton"]
+[editable path="UI/PlayerTextboxes/EndRoundButton"]
+[editable path="UI/PlayerTextboxes/DieButton"]
+[editable path="UI/PlayerTextboxes/PayTollButton"]
+[editable path="UI/PlayerTextboxes/VoyageContinueButton"]
+[editable path="UI/PlayerTextboxes/BoardButton"]

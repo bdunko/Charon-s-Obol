@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr6fktifdg2pi"]
+
+[ext_resource type="Script" path="res://ui/dialogue_system.gd" id="1_1cyir"]
+[ext_resource type="PackedScene" uid="uid://cujqnyrti75kp" path="res://ui/dialogue_textbox.tscn" id="2_pnmv8"]
+
+[node name="DialogueSystem" type="Node2D"]
+script = ExtResource("1_1cyir")
+
+[node name="CharonTextbox" parent="." instance=ExtResource("2_pnmv8")]
+offset_left = 114.0
+offset_top = 0.0
+offset_right = 205.0
+offset_bottom = 16.0

@@ -1,6 +1,7 @@
 extends Node2D
 
 signal patron_selected
+signal exited
 
 var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 
@@ -14,6 +15,8 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _PEACEFUL_BG = $PeacefulBG
 @onready var _RAIN = $Rain
 
+@onready var _VICTORY_TEXTBOXES = $VictoryTextboxes
+
 func _ready() -> void:
 	assert(_STATUE_POSITION_LEFT)
 	assert(_STATUE_POSITION_MIDDLE)
@@ -23,6 +26,7 @@ func _ready() -> void:
 	assert(_WITHERED_BG)
 	assert(_PEACEFUL_BG)
 	assert(_RAIN)
+	assert(_VICTORY_TEXTBOXES)
 	
 	var tween = create_tween().set_loops()
 	tween.tween_property(_SHIP_PATH_FOLLOW, "progress_ratio", 1, 30).set_delay(2)
@@ -30,6 +34,8 @@ func _ready() -> void:
 
 func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
+	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
+		statu.disable()
 	emit_signal("patron_selected")
 
 func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:
@@ -38,17 +44,23 @@ func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:
 	statue.clicked.connect(_on_statue_clicked)
 	_PATRON_STATUES.add_child(statue)
 
-func make_background_peaceful() -> void:
+func _make_background_peaceful() -> void:
 	_RAIN.hide()
 	_WITHERED_BG.hide()
 	_PEACEFUL_BG.show()
 
-func make_background_withered() -> void:
+func _make_background_withered() -> void:
 	_RAIN.show()
 	_WITHERED_BG.show()
 	_PEACEFUL_BG.hide()
 
-func on_start() -> void:
+func on_victory() -> void:
+	_make_background_peaceful()
+	_VICTORY_TEXTBOXES.make_visible()
+
+func on_start_god_selection() -> void:
+	_make_background_withered()
+	
 	# delete the 3 existing god statues
 	for statue in _PATRON_STATUES.get_children():
 		statue.queue_free()
@@ -60,4 +72,7 @@ func on_start() -> void:
 	_add_statue(_GODLESS_STATUE, _STATUE_POSITION_MIDDLE)
 	_add_statue(Global.choose_one_excluding(Global.PATRONS, [first_patron]).patron_statue, _STATUE_POSITION_RIGHT)
 	
+	_VICTORY_TEXTBOXES.make_invisible()
 
+func _on_victory_continue_button_clicked():
+	emit_signal("exited")

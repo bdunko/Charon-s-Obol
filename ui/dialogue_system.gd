@@ -1,11 +1,16 @@
-class_name DialogueManager
+class_name DialogueSystem
 extends Node2D
 
 signal _pressed
 
-const _DIALOGUE_POS = Vector2(0, 4)
-const _TOP_OFFSET = Vector2(0, -20)
+@onready var _INITIAL_POSITION = position
+@export var ANIMATION_OFFSET = Vector2(0, -20)
 var _current_textbox = null
+
+func _ready() -> void:
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
 
 var _is_depressed = false
 func _input(_event: InputEvent) -> void:
@@ -24,16 +29,16 @@ func show_dialogue(dialogue: String) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
 	
-	_current_textbox = CharonTextbox.create()
+	_current_textbox = DialogueTextbox.create()
 	add_child(_current_textbox)
 	_current_textbox.set_text(dialogue)
-	_current_textbox.position = _DIALOGUE_POS + _TOP_OFFSET
+	_current_textbox.position = _INITIAL_POSITION + ANIMATION_OFFSET
 	_current_textbox.modulate.a = 0.0
 	_current_textbox.scale = Vector2(0.2, 0.2)
 	
 	# move the dialogue in from the top
 	var tween = create_tween()
-	tween.tween_property(_current_textbox, "position", _DIALOGUE_POS, 0.2)
+	tween.tween_property(_current_textbox, "position", _INITIAL_POSITION, 0.2)
 	tween.parallel().tween_property(_current_textbox, "modulate:a", 1.0, 0.2)
 	tween.parallel().tween_property(_current_textbox, "scale", Vector2(1.0, 1.0), 0.1)
 

@@ -1,12 +1,17 @@
-class_name CharonTextbox
+class_name DialogueTextbox
 extends BoxContainer
 
-const _SCENE = preload("res://ui/charon_textbox.tscn")
-static func create() -> CharonTextbox:
+const _SCENE = preload("res://ui/dialogue_textbox.tscn")
+static func create() -> DialogueTextbox:
 	var textbox = _SCENE.instantiate()
 	return textbox
 
 @onready var _TEXTBOX: Textbox = $Textbox
+
+# todo - add styling options to this for more generic usage
+# text color
+# border color
+# can do this with shader easily
 
 func _ready():
 	assert(_TEXTBOX)

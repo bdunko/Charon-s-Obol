@@ -19,7 +19,7 @@ signal game_ended
 @onready var _SOUL_FRAGMENT_SCENE = preload("res://components/soul_fragment.tscn")
 @onready var _ARROW_SCENE = preload("res://components/arrow.tscn")
 
-@onready var _PLAYER_TEXTBOXES = $UI/PlayerTextboxs
+@onready var _PLAYER_TEXTBOXES = $UI/PlayerTextboxes
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
@@ -31,7 +31,7 @@ signal game_ended
 
 @onready var _PATRON_TOKEN_POSITION: Vector2 = $PatronToken.position
 
-@onready var _DIALOGUE: DialogueManager = $UI/DialogueManager
+@onready var _DIALOGUE: DialogueSystem = $UI/DialogueSystem
 
 @onready var _patron_token: PatronToken = $PatronToken
 
@@ -87,6 +87,11 @@ func _on_life_count_changed() -> void:
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
+		# DEBUG TODODO
+		victory = true
+		Global.state = Global.State.GAME_OVER
+		return
+		
 		await _wait_for_dialogue("You're out of life...")
 		# todo - fancier dialogue
 		Global.state = Global.State.CHARON_OBOL_FLIP
@@ -121,26 +126,8 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		pile.add_child(fragment)
 		#fragment_count += 1
 
-#TODO - refactor this into PlayerTextboxes class; reuse on main menu
-@onready var _PLAYER_TEXTBOX_INITIAL_POSITION = $UI/PlayerTextboxs.position
-@onready var _OFFSET = Vector2(0, 15)
-func _play_player_text_animation() -> void:
-	for textbox in _PLAYER_TEXTBOXES.get_children():
-		textbox.disable()
-	_PLAYER_TEXTBOXES.position = _PLAYER_TEXTBOX_INITIAL_POSITION + _OFFSET
-	_PLAYER_TEXTBOXES.modulate.a = 0.0
-	var tween = create_tween()
-	tween.tween_property(_PLAYER_TEXTBOXES, "position", _PLAYER_TEXTBOX_INITIAL_POSITION, 0.08)
-	tween.parallel().tween_property(_PLAYER_TEXTBOXES, "modulate:a", 1.0, 0.04)
-	for textbox in _PLAYER_TEXTBOXES.get_children():
-		tween.tween_callback(textbox.enable)
-
-func _show_player_textboxes() -> void:
-	_PLAYER_TEXTBOXES.show()
-	_play_player_text_animation()
-
 func _on_state_changed() -> void:
-	_play_player_text_animation()
+	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
 	_CHARON_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
@@ -151,14 +138,14 @@ func _on_state_changed() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce strain to 0 for display purposes
 		_CHARON_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
-		_PLAYER_TEXTBOXES.hide()
+		_PLAYER_TEXTBOXES.make_invisible()
 		await _wait_for_dialogue("Yet, I will grant you one final opportunity.")
 		await _wait_for_dialogue("We will flip this single obol.")
 		await _wait_for_dialogue("Tails, and the story continues.")
 		await _wait_for_dialogue("Heads, and your long journey ends here.")
 		await _wait_for_dialogue("And now, on the edge of life and death...")
 		_DIALOGUE.show_dialogue("You must flip!")
-		_show_player_textboxes()
+		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 
@@ -218,10 +205,12 @@ func on_start() -> void:
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	
+	
+	
 	_RESET_BUTTON.hide()
 	
 	Global.state = Global.State.BOARDING
-	
+	_PLAYER_TEXTBOXES.make_invisible()
 	await Global.delay(0.1)
 	await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead.")
 	await _wait_for_dialogue("Fool from Eleusis, you wish to cross?")
@@ -231,6 +220,7 @@ func on_start() -> void:
 	await _wait_for_dialogue("At each tollgate, you must pay the price.")
 	await _wait_for_dialogue("Or your soul shall stay here with me, forevermore!")
 	_DIALOGUE.show_dialogue("Brave hero, will you board?")
+	_PLAYER_TEXTBOXES.make_visible()
 
 var flips_completed = 0
 func _on_flip_complete() -> void:
@@ -269,13 +259,13 @@ func _on_flip_complete() -> void:
 		Global.flips_this_round += 1
 		Global.state = Global.State.AFTER_FLIP
 		_DIALOGUE.show_dialogue("The coins fall...")
-		_show_player_textboxes()
+		_PLAYER_TEXTBOXES.make_visible()
 
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_ROW.get_children():
 			coin.flip()
-		_PLAYER_TEXTBOXES.hide()
+		_PLAYER_TEXTBOXES.make_invisible()
 		return
 	
 	if _COIN_ROW.get_child_count() == 0:
@@ -290,7 +280,7 @@ func _on_toss_button_clicked() -> void:
 	
 	Global.lives -= strain
 	
-	_PLAYER_TEXTBOXES.hide()
+	_PLAYER_TEXTBOXES.make_invisible()
 	
 	# flip all the coins
 	flips_completed = 0
@@ -307,7 +297,7 @@ func _on_accept_button_pressed():
 	Global.active_coin_power_coin = null
 	
 	_DIALOGUE.show_dialogue("Payoff...")
-	_PLAYER_TEXTBOXES.hide()
+	_PLAYER_TEXTBOXES.make_invisible()
 	
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
@@ -386,15 +376,15 @@ func _on_accept_button_pressed():
 			if coin.is_power():
 				Global.lives -= coin.get_active_power_charges()
 	
-	_PLAYER_TEXTBOXES.show()
+	_PLAYER_TEXTBOXES.make_visible()
 	
 	Global.state = Global.State.BEFORE_FLIP
 	_DIALOGUE.show_dialogue("Will you toss the coins...?")
 
 func _wait_for_dialogue(dialogue: String) -> void:
-	_PLAYER_TEXTBOXES.hide()
+	_PLAYER_TEXTBOXES.make_invisible()
 	await _DIALOGUE.show_dialogue_and_wait(dialogue)
-	_show_player_textboxes()
+	_PLAYER_TEXTBOXES.make_visible()
 
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
@@ -415,7 +405,7 @@ func _advance_round() -> void:
 			c.queue_free()
 			_TRIAL_ROW.remove_child(c)
 	
-	_show_player_textboxes()
+	_PLAYER_TEXTBOXES.make_visible()
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)
@@ -521,7 +511,7 @@ func _on_voyage_continue_button_clicked():
 						await _wait_for_dialogue("You may have power, but beware the Overload!")
 				coin.payoff_move_down()
 		
-		_show_player_textboxes()
+		_PLAYER_TEXTBOXES.make_visible()
 		_DIALOGUE.show_dialogue("Will you toss...?")
 
 var victory = false
@@ -886,7 +876,7 @@ func _input(event):
 
 # todo - delete the reset button
 func _on_reset_button_pressed():
-	emit_signal("game_ended")
+	emit_signal("game_ended", victory)
 
 func _on_shop_reroll_button_clicked():
 	if Global.souls <= Global.reroll_cost():

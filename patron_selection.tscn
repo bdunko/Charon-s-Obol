@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=30 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://cgof7rvyy8ooc" path="res://assets/patron_choice/background/flowers.png" id="7_xij8r"]
 [ext_resource type="Texture2D" uid="uid://bklbq2rd5wq1q" path="res://assets/patron_choice/background/ship.png" id="9_in8ic"]
 [ext_resource type="Texture2D" uid="uid://cls4mh5y2hk01" path="res://assets/patron_choice/background/rain.png" id="12_joapm"]
+[ext_resource type="Script" path="res://player_textboxes.gd" id="13_8yqjs"]
+[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="14_id8ra"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vhj36"]
 atlas = ExtResource("6_kttg8")
@@ -205,3 +207,28 @@ limit_left = 0
 limit_top = 0
 limit_right = 320
 limit_bottom = 180
+
+[node name="VictoryTextboxes" type="HBoxContainer" parent="."]
+z_index = 1
+offset_left = 6.0
+offset_top = 155.0
+offset_right = 314.0
+offset_bottom = 171.0
+pivot_offset = Vector2(154, 8)
+alignment = 1
+script = ExtResource("13_8yqjs")
+
+[node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
+custom_minimum_size = Vector2(41, 0)
+layout_mode = 2
+
+[node name="TextMargin" parent="VictoryTextboxes/VictoryContinueButton" index="1"]
+size_flags_horizontal = 1
+
+[node name="Text" parent="VictoryTextboxes/VictoryContinueButton/TextMargin" index="0"]
+size_flags_horizontal = 1
+text = "[center]Victory![/center]"
+
+[connection signal="clicked" from="VictoryTextboxes/VictoryContinueButton" to="." method="_on_victory_continue_button_clicked"]
+
+[editable path="VictoryTextboxes/VictoryContinueButton"]
