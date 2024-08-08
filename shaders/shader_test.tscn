@@ -7,10 +7,12 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
 shader_parameter/pan_speed = Vector2(0.1, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k065"]
 shader = ExtResource("1_j17hv")
 shader_parameter/pan_speed = Vector2(0.12, 0)
+shader_parameter/transparency = 1.0
 
 [node name="shader_test" type="Node2D"]
 

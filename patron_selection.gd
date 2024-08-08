@@ -10,12 +10,19 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _PATRON_STATUES = $PatronStatues
 @onready var _SHIP_PATH_FOLLOW = $PeacefulBG/ShipPath/Follow
 
+@onready var _WITHERED_BG = $WitheredBG
+@onready var _PEACEFUL_BG = $PeacefulBG
+@onready var _RAIN = $Rain
+
 func _ready() -> void:
 	assert(_STATUE_POSITION_LEFT)
 	assert(_STATUE_POSITION_MIDDLE)
 	assert(_STATUE_POSITION_RIGHT)
 	assert(_PATRON_STATUES)
 	assert(_SHIP_PATH_FOLLOW)
+	assert(_WITHERED_BG)
+	assert(_PEACEFUL_BG)
+	assert(_RAIN)
 	
 	var tween = create_tween().set_loops()
 	tween.tween_property(_SHIP_PATH_FOLLOW, "progress_ratio", 1, 30).set_delay(2)
@@ -30,6 +37,16 @@ func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:
 	statue.position = statue_position
 	statue.clicked.connect(_on_statue_clicked)
 	_PATRON_STATUES.add_child(statue)
+
+func make_background_peaceful() -> void:
+	_RAIN.hide()
+	_WITHERED_BG.hide()
+	_PEACEFUL_BG.show()
+
+func make_background_withered() -> void:
+	_RAIN.show()
+	_WITHERED_BG.show()
+	_PEACEFUL_BG.hide()
 
 func on_start() -> void:
 	# delete the 3 existing god statues
