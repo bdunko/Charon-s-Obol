@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=31 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
+[ext_resource type="PackedScene" uid="uid://cr6fktifdg2pi" path="res://ui/dialogue_system.tscn" id="2_uhgja"]
 [ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patron_statues/godless.tscn" id="3_a302y"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_jc04v"]
 [ext_resource type="Texture2D" uid="uid://2pf5r8texxrf" path="res://assets/patron_choice/background/cloud_layer_back.png" id="3_kr0hu"]
@@ -124,6 +125,9 @@ shader_parameter/transparency = 0.5
 
 [node name="PatronSelection" type="Node2D"]
 script = ExtResource("1_bldrb")
+
+[node name="DialogueSystem" parent="." instance=ExtResource("2_uhgja")]
+position = Vector2(0, 1)
 
 [node name="WitheredBG" type="Sprite2D" parent="."]
 texture = ExtResource("2_djeuf")

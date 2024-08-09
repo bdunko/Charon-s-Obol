@@ -41,7 +41,7 @@ centered = false
 [node name="UI" type="Node2D" parent="."]
 
 [node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
-position = Vector2(0, 2)
+position = Vector2(0, 1)
 
 [node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
 z_index = 1

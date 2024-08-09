@@ -13,11 +13,43 @@ signal patron_changed
 signal patron_uses_changed
 signal rerolls_changed
 
-var character: Character
+var character: CharacterData
+
+class CharacterData:
+	var character: Global.Character
+	var name: String
+	var description: String
+	var victoryDialogue: Array #[String]
+	var victoryClosingLine: String
+	
+	func _init(characterEnum: Global.Character, nameStr: String, descriptionStr: String, victoryDlg: Array, victoryClosingLn: String):
+		self.character = characterEnum
+		self.name = nameStr
+		self.description = descriptionStr
+		self.victoryDialogue = victoryDlg
+		self.victoryClosingLine = victoryClosingLn
 
 enum Character {
 	ELEUSINIAN, LADY
 }
+
+var CHARACTERS = [
+	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
+		"Learn the rules of Charon's game.", 
+		["So you've returned to me once more.",
+		"You always were one to keep me waiting.",
+		"Regardless, welcome back home."],
+		"...Persephone."),
+	
+	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", 
+		"The standard game.\n10 Rounds, 3 Tollgates, 2 Trials, 1 Nemesis.",
+		["The birds are singing.", 
+		"The sun is shining.",
+		"People parade through the streets.",
+		"All is well in the world.",
+		"Spring has come again."], 
+		"...Thank you."),
+]
 
 var difficulty: Difficulty
 

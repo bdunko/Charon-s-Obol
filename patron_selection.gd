@@ -16,6 +16,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _RAIN = $Rain
 
 @onready var _VICTORY_TEXTBOXES = $VictoryTextboxes
+@onready var _DIALOGUE = $DialogueSystem
 
 func _ready() -> void:
 	assert(_STATUE_POSITION_LEFT)
@@ -26,6 +27,7 @@ func _ready() -> void:
 	assert(_WITHERED_BG)
 	assert(_PEACEFUL_BG)
 	assert(_RAIN)
+	assert(_DIALOGUE)
 	assert(_VICTORY_TEXTBOXES)
 	
 	var tween = create_tween().set_loops()
@@ -56,6 +58,11 @@ func _make_background_withered() -> void:
 
 func on_victory() -> void:
 	_make_background_peaceful()
+	
+	for line in Global.character.victoryDialogue:
+		await _DIALOGUE.show_dialogue_and_wait(line)
+	_DIALOGUE.show_dialogue(Global.character.victoryClosingLine)
+	
 	_VICTORY_TEXTBOXES.make_visible()
 
 func on_start_god_selection() -> void:
@@ -72,6 +79,7 @@ func on_start_god_selection() -> void:
 	_add_statue(_GODLESS_STATUE, _STATUE_POSITION_MIDDLE)
 	_add_statue(Global.choose_one_excluding(Global.PATRONS, [first_patron]).patron_statue, _STATUE_POSITION_RIGHT)
 	
+	_DIALOGUE.instant_clear_dialogue()
 	_VICTORY_TEXTBOXES.make_invisible()
 
 func _on_victory_continue_button_clicked():

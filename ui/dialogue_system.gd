@@ -46,3 +46,8 @@ func clear_dialogue() -> void:
 	if _current_textbox:
 		_current_textbox.fade_and_free()
 		_current_textbox = null
+
+func instant_clear_dialogue() -> void:
+	if _current_textbox:
+		_current_textbox.hide()
+		clear_dialogue()

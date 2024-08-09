@@ -205,8 +205,6 @@ func on_start() -> void:
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	
-	
-	
 	_RESET_BUTTON.hide()
 	
 	Global.state = Global.State.BOARDING

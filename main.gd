@@ -9,7 +9,6 @@ func _ready() -> void:
 	assert(MAIN_MENU_SCENE)
 	assert(GOD_SELECTION_SCENE)
 	
-
 func _on_main_menu_start_pressed():
 	# todo - transition
 	MAIN_MENU_SCENE.hide()
@@ -23,8 +22,8 @@ func _on_game_game_ended(victory: bool):
 	
 	# if we won, show the victory screen
 	if victory:
-		GOD_SELECTION_SCENE.on_victory()
 		GOD_SELECTION_SCENE.show()
+		GOD_SELECTION_SCENE.on_victory()
 	# otherwise go straight back to main menu
 	else:
 		MAIN_MENU_SCENE.show()
