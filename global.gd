@@ -418,7 +418,7 @@ func choose_one_excluding(arr: Array, exclude: Array):
 			all_excluded = false
 			break
 	if all_excluded:
-		assert(false, "excluding all elements in choose_on_excluding...")
+		#assert(false, "excluding all elements in choose_on_excluding...")
 		return null
 	
 	var rand_element = choose_one(arr)

@@ -1,32 +1,97 @@
-[gd_scene load_steps=8 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=11 format=3 uid="uid://358hx2cun580"]
 
+[ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
 [ext_resource type="Texture2D" uid="uid://2pf5r8texxrf" path="res://assets/patron_choice/background/cloud_layer_back.png" id="2_vb8gb"]
 [ext_resource type="Texture2D" uid="uid://ce0gftxajuwdt" path="res://assets/patron_choice/background/cloud_layer_front.png" id="3_36qem"]
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_wabw4"]
+[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="6_tt4g1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
+shader = ExtResource("1_j17hv")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
 shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
-shader_parameter/pan_speed = Vector2(0.1, 0)
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k065"]
 shader = ExtResource("1_j17hv")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
 shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
-shader_parameter/pan_speed = Vector2(0.12, 0)
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v2gj2"]
+resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
-shader_parameter/tint_color = Vector3(1, 1, 1)
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
 [node name="shader_test" type="Node2D"]
+script = ExtResource("1_1a6s1")
+
+[node name="Peaceful" type="Sprite2D" parent="."]
+modulate = Color(0.364706, 0.682353, 0.54902, 1)
+material = SubResource("ShaderMaterial_ut0i6")
+texture = ExtResource("4_wabw4")
+centered = false
 
 [node name="CloudBack" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1cgal")
@@ -38,8 +103,5 @@ material = SubResource("ShaderMaterial_5k065")
 texture = ExtResource("3_36qem")
 centered = false
 
-[node name="Peaceful" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_ut0i6")
-position = Vector2(320, 0)
-texture = ExtResource("4_wabw4")
-centered = false
+[node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
+material = SubResource("ShaderMaterial_v2gj2")

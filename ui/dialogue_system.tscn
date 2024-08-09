@@ -1,13 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr6fktifdg2pi"]
+[gd_scene load_steps=5 format=3 uid="uid://cr6fktifdg2pi"]
 
 [ext_resource type="Script" path="res://ui/dialogue_system.gd" id="1_1cyir"]
-[ext_resource type="PackedScene" uid="uid://cujqnyrti75kp" path="res://ui/dialogue_textbox.tscn" id="2_pnmv8"]
+[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="2_r1ciw"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_u014s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5g6gr"]
+resource_local_to_scene = true
+shader = ExtResource("3_u014s")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="DialogueSystem" type="Node2D"]
 script = ExtResource("1_1cyir")
 
-[node name="CharonTextbox" parent="." instance=ExtResource("2_pnmv8")]
-offset_left = 114.0
-offset_top = 2.0
-offset_right = 205.0
-offset_bottom = 18.0
+[node name="Textbox" parent="." instance=ExtResource("2_r1ciw")]
+material = SubResource("ShaderMaterial_5g6gr")
+offset_left = 144.0
+offset_top = -1.0
+offset_right = 177.0
+offset_bottom = 15.0

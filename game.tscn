@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=37 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Texture2D" uid="uid://cvi6aad8v1ow8" path="res://assets/table/river.png" id="2_d61yp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="5_703wq"]
 [ext_resource type="Script" path="res://ui/flip_button.gd" id="6_rf73a"]
 [ext_resource type="Script" path="res://ui/accept_button.gd" id="7_2acd8"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="7_aonp5"]
 [ext_resource type="Script" path="res://ui/shop_continue_button.gd" id="8_leu43"]
 [ext_resource type="Script" path="res://ui/shop_reroll_button.gd" id="9_cd2hg"]
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="9_d50av"]
@@ -27,6 +28,186 @@
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
 [ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ltkam"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_winj0"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ukdqv"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fionj"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skapo"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2byam"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qlgx1"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ha2vs"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gcjk"]
+resource_local_to_scene = true
+shader = ExtResource("7_aonp5")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_2km4d")
 
@@ -41,7 +222,11 @@ centered = false
 [node name="UI" type="Node2D" parent="."]
 
 [node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
-position = Vector2(0, 1)
+z_index = 100
+position = Vector2(0, 3)
+text_color = Color(0.737255, 0.290196, 0.607843, 1)
+border_color = Color(0.909804, 0.415686, 0.45098, 1)
+textbox_float = true
 
 [node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
 z_index = 1
@@ -55,6 +240,7 @@ script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_ltkam")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -68,6 +254,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_winj0")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -76,6 +263,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_ukdqv")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -84,6 +272,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_fionj")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -92,6 +281,7 @@ text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_skapo")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -99,6 +289,7 @@ script = ExtResource("9_d50av")
 text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+material = SubResource("ShaderMaterial_2byam")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -106,6 +297,7 @@ script = ExtResource("10_oe7lm")
 text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+material = SubResource("ShaderMaterial_qlgx1")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -114,6 +306,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_ha2vs")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -122,6 +315,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
+material = SubResource("ShaderMaterial_5gcjk")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 

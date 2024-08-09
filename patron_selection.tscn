@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=32 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
@@ -104,30 +104,87 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ke5ey"]
 shader = ExtResource("3_jc04v")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
 shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.01, 0)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_68yvk"]
 shader = ExtResource("3_jc04v")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
 shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.04, 0)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o110x"]
 shader = ExtResource("3_jc04v")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
 shader_parameter/tint_color = Vector3(0, 0, 0)
 shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.5, -1)
-shader_parameter/transparency = 0.5
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvge3"]
+resource_local_to_scene = true
+shader = ExtResource("3_jc04v")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="PatronSelection" type="Node2D"]
 script = ExtResource("1_bldrb")
 
 [node name="DialogueSystem" parent="." instance=ExtResource("2_uhgja")]
-position = Vector2(0, 1)
+z_index = 100
+position = Vector2(0, 2)
 
 [node name="WitheredBG" type="Sprite2D" parent="."]
 texture = ExtResource("2_djeuf")
@@ -223,6 +280,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
+material = SubResource("ShaderMaterial_hvge3")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
