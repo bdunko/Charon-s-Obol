@@ -862,9 +862,6 @@ func _on_patron_token_clicked():
 			_patron_token.activate()
 
 func _input(event):
-	if Input.is_key_pressed(KEY_SPACE):
-		breakpoint
-	
 	# right click with a god power disables it
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:

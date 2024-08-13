@@ -10,16 +10,20 @@ func _ready() -> void:
 	assert(GOD_SELECTION_SCENE)
 	
 func _on_main_menu_start_pressed():
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+	await Global.delay(0.3)
+	TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
+	await Global.any_input
+	await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
+	await Global.delay(0.3)
 	MAIN_MENU_SCENE.hide()
 	GOD_SELECTION_SCENE.on_start_god_selection()
 	GOD_SELECTION_SCENE.show()
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	GAME_SCENE.hide()
-	
 	# if we won, show the victory screen
 	if victory:
 		GOD_SELECTION_SCENE.show()
@@ -27,17 +31,18 @@ func _on_game_game_ended(victory: bool):
 	# otherwise go straight back to main menu
 	else:
 		MAIN_MENU_SCENE.show()
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_god_selection_patron_selected():
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	GOD_SELECTION_SCENE.hide()
 	GAME_SCENE.on_start()
 	GAME_SCENE.show()
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_god_selection_exited():
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)
+	await Global.delay(2.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
-	# todo - transition
+	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

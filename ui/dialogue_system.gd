@@ -1,8 +1,6 @@
 class_name DialogueSystem
 extends Node2D
 
-signal _pressed
-
 const _DEFAULT_TEXT_COLOR = Color.WHITE
 @export var text_color = _DEFAULT_TEXT_COLOR:
 	set(val):
@@ -34,18 +32,10 @@ func _ready() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-
-var _is_depressed = false
-func _input(_event: InputEvent) -> void:
-	if Input.is_anything_pressed() and not _is_depressed:
-		_is_depressed = true
-		emit_signal("_pressed")
-	else:
-		_is_depressed = false
  
 func show_dialogue_and_wait(dialogue: String) -> void:
 	show_dialogue(dialogue)
-	await _pressed
+	await Global.any_input
 	await Global.delay(0.04) #small delay after
 
 func show_dialogue(dialogue: String) -> void:
@@ -67,7 +57,6 @@ func show_dialogue(dialogue: String) -> void:
 	
 	_current_textbox.position.x = int((320.0/2.0) - (_current_textbox.size.x/2.0))
 	
-
 func clear_dialogue() -> void:
 	if _current_textbox:
 		_current_textbox.fade_and_free()

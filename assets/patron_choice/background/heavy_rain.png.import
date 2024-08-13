@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cls4mh5y2hk01"
-path="res://.godot/imported/rain.png-8b362aa947ccd42f51207477c4664962.ctex"
+uid="uid://divdjx3egkbkg"
+path="res://.godot/imported/heavy_rain.png-df59b387007f5e4b1ef7c1582655b0b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/patron_choice/background/rain.png"
-dest_files=["res://.godot/imported/rain.png-8b362aa947ccd42f51207477c4664962.ctex"]
+source_file="res://assets/patron_choice/background/heavy_rain.png"
+dest_files=["res://.godot/imported/heavy_rain.png-df59b387007f5e4b1ef7c1582655b0b4.ctex"]
 
 [params]
 

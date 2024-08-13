@@ -12,8 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://ck31yg12emdjm" path="res://assets/patron_choice/background/eyes.png" id="6_kttg8"]
 [ext_resource type="Texture2D" uid="uid://cgof7rvyy8ooc" path="res://assets/patron_choice/background/flowers.png" id="7_xij8r"]
 [ext_resource type="Texture2D" uid="uid://bklbq2rd5wq1q" path="res://assets/patron_choice/background/ship.png" id="9_in8ic"]
-[ext_resource type="Texture2D" uid="uid://cls4mh5y2hk01" path="res://assets/patron_choice/background/rain.png" id="12_joapm"]
 [ext_resource type="Script" path="res://player_textboxes.gd" id="13_8yqjs"]
+[ext_resource type="Texture2D" uid="uid://divdjx3egkbkg" path="res://assets/patron_choice/background/heavy_rain.png" id="13_e5xt1"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="14_id8ra"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vhj36"]
@@ -157,9 +157,9 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.5, -1)
-shader_parameter/transparency = 1.0
+shader_parameter/transparency = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvge3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkawk"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -185,6 +185,8 @@ script = ExtResource("1_bldrb")
 [node name="DialogueSystem" parent="." instance=ExtResource("2_uhgja")]
 z_index = 100
 position = Vector2(0, 2)
+text_color = Color(0.560784, 1, 0.407843, 1)
+border_color = Color(1, 0.8, 0.32549, 1)
 
 [node name="WitheredBG" type="Sprite2D" parent="."]
 texture = ExtResource("2_djeuf")
@@ -259,7 +261,7 @@ offset_bottom = 3.0
 
 [node name="Rain" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_o110x")
-texture = ExtResource("12_joapm")
+texture = ExtResource("13_e5xt1")
 centered = false
 
 [node name="ZoomCamera" type="Camera2D" parent="."]
@@ -271,16 +273,15 @@ limit_bottom = 180
 
 [node name="VictoryTextboxes" type="HBoxContainer" parent="."]
 z_index = 1
-offset_left = 6.0
 offset_top = 155.0
-offset_right = 314.0
+offset_right = 320.0
 offset_bottom = 171.0
 pivot_offset = Vector2(154, 8)
 alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_hvge3")
+material = SubResource("ShaderMaterial_jkawk")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

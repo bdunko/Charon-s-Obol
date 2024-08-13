@@ -31,6 +31,7 @@ script = ExtResource("1_yp8j4")
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 320.0
 offset_bottom = 180.0
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Title" type="RichTextLabel" parent="."]

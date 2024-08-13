@@ -403,7 +403,22 @@ var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], Po
 
 
 # todo - refactor this into Util
+signal any_input
+
+var debug = true # utility flag for debugging mode
+var breakpoint_on_space = true
+
 var RNG = RandomNumberGenerator.new()
+
+var _is_depressed = false
+func _input(_event: InputEvent) -> void:
+	if breakpoint_on_space and Input.is_key_pressed(KEY_SPACE):
+		breakpoint
+	elif Input.is_anything_pressed() and not _is_depressed:
+		_is_depressed = true
+		emit_signal("any_input")
+	else:
+		_is_depressed = false
 
 # Randomly return one element of the array
 func choose_one(arr: Array):

@@ -20,6 +20,10 @@ func _ready() -> void:
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		difficultySkull.selected.connect(_on_difficulty_changed)
 	_DIFFICULTY_SELECTOR.get_child(0).select()
+	
+	# start faded out and fade in
+	modulate.a = 0
+	create_tween().tween_property(self, "modulate:a", 1.0, 0.8)
 
 func _on_start_button_pressed() -> void:
 	emit_signal("start_pressed")
