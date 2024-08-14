@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=30 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -24,6 +24,49 @@
 [ext_resource type="Texture2D" uid="uid://xv5jdwimm8m3" path="res://assets/main_menu/difficulty_skulls/skull5_hover.png" id="22_uhdo5"]
 [ext_resource type="Texture2D" uid="uid://bjnua4hqljkkk" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished.png" id="23_1dh72"]
 [ext_resource type="Texture2D" uid="uid://bnmoty087x0kw" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished_hover.png" id="24_yeah1"]
+[ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
+[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gh8fd"]
+resource_local_to_scene = true
+shader = ExtResource("27_x0p8j")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ye1q"]
+resource_local_to_scene = true
+shader = ExtResource("27_x0p8j")
+shader_parameter/replace_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
+shader_parameter/replace_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
+shader_parameter/replace_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
+shader_parameter/replace_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
+shader_parameter/replace_color5 = Vector3(0, 0, 0)
+shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
+shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")
@@ -46,24 +89,10 @@ bbcode_enabled = true
 text = "[center]Charon's Obol[/center]"
 fit_content = true
 
-[node name="StartButton" type="Button" parent="."]
-offset_left = 72.0
-offset_top = 153.0
-offset_right = 166.0
-offset_bottom = 174.0
-text = "Start Game"
-
-[node name="QuitButton" type="Button" parent="."]
-offset_left = 172.0
-offset_top = 153.0
-offset_right = 266.0
-offset_bottom = 174.0
-text = "Quit"
-
 [node name="DescriptionContainer" type="VBoxContainer" parent="."]
-offset_top = 60.0
+offset_top = 57.0
 offset_right = 320.0
-offset_bottom = 111.0
+offset_bottom = 116.0
 alignment = 2
 
 [node name="CharacterDescription" type="RichTextLabel" parent="DescriptionContainer"]
@@ -75,11 +104,11 @@ fit_content = true
 scroll_active = false
 
 [node name="Selector" type="VBoxContainer" parent="."]
-offset_top = 114.0
+offset_top = 118.0
 offset_right = 320.0
-offset_bottom = 149.0
+offset_bottom = 154.0
 mouse_filter = 2
-theme_override_constants/separation = 1
+theme_override_constants/separation = -1
 
 [node name="Character" parent="Selector" instance=ExtResource("3_trmuq")]
 layout_mode = 2
@@ -280,6 +309,44 @@ custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("24_yeah1")
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[node name="Textboxes" type="HBoxContainer" parent="."]
+z_index = 1
+offset_top = 156.0
+offset_right = 320.0
+offset_bottom = 172.0
+pivot_offset = Vector2(154, 8)
+alignment = 1
+script = ExtResource("25_r145h")
+
+[node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_gh8fd")
+custom_minimum_size = Vector2(41, 0)
+layout_mode = 2
+background_color = Color(0, 0, 0, 1)
+
+[node name="TextMargin" parent="Textboxes/EmbarkButton" index="1"]
+size_flags_horizontal = 1
+
+[node name="Text" parent="Textboxes/EmbarkButton/TextMargin" index="0"]
+size_flags_horizontal = 1
+text = "[center]Embark[/center]"
+
+[node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_2ye1q")
+custom_minimum_size = Vector2(41, 0)
+layout_mode = 2
+background_color = Color(0, 0, 0, 1)
+
+[node name="TextMargin" parent="Textboxes/QuitButton" index="1"]
+size_flags_horizontal = 1
+
+[node name="Text" parent="Textboxes/QuitButton/TextMargin" index="0"]
+size_flags_horizontal = 1
+text = "[center]Quit[/center]"
+
 [connection signal="changed" from="Selector/Character" to="." method="_on_character_changed"]
+[connection signal="clicked" from="Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]
+[connection signal="clicked" from="Textboxes/QuitButton" to="." method="_on_quit_button_clicked"]
+
+[editable path="Textboxes/EmbarkButton"]
+[editable path="Textboxes/QuitButton"]

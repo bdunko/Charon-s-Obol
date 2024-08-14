@@ -8,8 +8,6 @@ signal game_ended
 @onready var _TRIAL_ROW: CoinRow = $Table/Trial/TrialRow
 @onready var _CHARON_ROW: CoinRow = $Table/CharonRow
 
-@onready var _RESET_BUTTON = $UI/ResetButton
-
 @onready var _LIFE_FRAGMENTS = $LifeFragments
 @onready var _SOUL_FRAGMENTS = $SoulFragments
 @onready var _ARROWS = $Arrows
@@ -43,8 +41,6 @@ func _ready() -> void:
 	assert(_CHARON_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
-	
-	assert(_RESET_BUTTON)
 	
 	assert(_CHARON_POINT)
 	assert(_PLAYER_POINT)
@@ -132,7 +128,6 @@ func _on_state_changed() -> void:
 	
 	_CHARON_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	_COIN_ROW.visible = Global.state != Global.State.CHARON_OBOL_FLIP and Global.state != Global.State.GAME_OVER
-	_RESET_BUTTON.visible = Global.state == Global.State.GAME_OVER
 	_patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
@@ -150,8 +145,8 @@ func _on_state_changed() -> void:
 		_on_game_end()
 
 func _on_game_end() -> void:
-	_DIALOGUE.show_dialogue("You've won, this time..." if victory else "Your soul shall be mine!")
-	_RESET_BUTTON.show()
+	await _wait_for_dialogue("You've won, this time..." if victory else "Your soul shall be mine!")
+	emit_signal("game_ended", victory)
 
 func on_start() -> void:
 	# delete all existing coins
@@ -204,8 +199,6 @@ func on_start() -> void:
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
-	
-	_RESET_BUTTON.hide()
 	
 	Global.state = Global.State.BOARDING
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -868,10 +861,6 @@ func _input(event):
 			Global.active_coin_power_family = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
-
-# todo - delete the reset button
-func _on_reset_button_pressed():
-	emit_signal("game_ended", victory)
 
 func _on_shop_reroll_button_clicked():
 	if Global.souls <= Global.reroll_cost():

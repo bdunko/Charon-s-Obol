@@ -9,7 +9,7 @@ func _ready() -> void:
 	assert(MAIN_MENU_SCENE)
 	assert(GOD_SELECTION_SCENE)
 	
-func _on_main_menu_start_pressed():
+func _on_main_menu_start_game():
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	await Global.delay(0.3)
 	TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)

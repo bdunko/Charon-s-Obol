@@ -32,7 +32,7 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 
 @export var should_float = false
 
-var _click_enabled = false
+var _click_enabled = true
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
 

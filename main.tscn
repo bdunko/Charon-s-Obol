@@ -23,6 +23,6 @@ visible = false
 visible = false
 
 [connection signal="game_ended" from="Game" to="." method="_on_game_game_ended"]
-[connection signal="start_pressed" from="MainMenu" to="." method="_on_main_menu_start_pressed"]
+[connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]
 [connection signal="exited" from="GodSelection" to="." method="_on_god_selection_exited"]
 [connection signal="patron_selected" from="GodSelection" to="." method="_on_god_selection_patron_selected"]

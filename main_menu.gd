@@ -1,15 +1,17 @@
 extends Node2D
 
-signal start_pressed
+signal start_game
 
 @onready var _CHARACTER_SELECTOR: ArrowSelector = $Selector/Character
 @onready var _CHARACTER_DESCRIPTION: RichTextLabel = $DescriptionContainer/CharacterDescription
 @onready var _DIFFICULTY_SELECTOR = $Selector/Difficulty
+@onready var _TEXTBOXES = $Textboxes
 
 func _ready() -> void:
 	assert(_CHARACTER_SELECTOR)
 	assert(_CHARACTER_DESCRIPTION)
 	assert(_DIFFICULTY_SELECTOR)
+	assert(_TEXTBOXES)
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 	
 	var names = []
@@ -20,15 +22,11 @@ func _ready() -> void:
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		difficultySkull.selected.connect(_on_difficulty_changed)
 	_DIFFICULTY_SELECTOR.get_child(0).select()
-	
-	# start faded out and fade in
-	modulate.a = 0
-	create_tween().tween_property(self, "modulate:a", 1.0, 0.8)
 
-func _on_start_button_pressed() -> void:
-	emit_signal("start_pressed")
+func _on_embark_button_clicked():
+	emit_signal("start_game")
 
-func _on_quit_button_pressed() -> void:
+func _on_quit_button_clicked():
 	get_tree().quit()
 
 func _on_character_changed(characterName: String) -> void:

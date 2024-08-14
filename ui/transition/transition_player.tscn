@@ -23,3 +23,6 @@ theme_override_colors/default_color = Color(1, 1, 1, 1)
 bbcode_enabled = true
 text = "[center]\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"
 -Epicurus[/center]"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
