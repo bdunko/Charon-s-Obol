@@ -38,7 +38,6 @@ func _on_character_changed(characterName: String) -> void:
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
 
-
 func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):
 	Global.difficulty = newDifficulty
 	

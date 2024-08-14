@@ -23,4 +23,6 @@ func make_visible() -> void:
 	play_animation()
 
 func make_invisible() -> void:
+	for textbox in get_children():
+		textbox.disable()
 	hide()

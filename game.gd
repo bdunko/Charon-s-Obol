@@ -30,6 +30,7 @@ signal game_ended
 @onready var _PATRON_TOKEN_POSITION: Vector2 = $PatronToken.position
 
 @onready var _DIALOGUE: DialogueSystem = $UI/DialogueSystem
+@onready var _CAMERA: Camera2D = $Camera
 
 @onready var _patron_token: PatronToken = $PatronToken
 
@@ -149,6 +150,8 @@ func _on_game_end() -> void:
 	emit_signal("game_ended", victory)
 
 func on_start() -> void:
+	_CAMERA.make_current()
+	
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 		coin.queue_free()

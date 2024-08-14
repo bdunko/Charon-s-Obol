@@ -28,7 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gh8fd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1465y"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -48,7 +48,7 @@ shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ye1q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m04fg"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -319,7 +319,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_gh8fd")
+material = SubResource("ShaderMaterial_1465y")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 background_color = Color(0, 0, 0, 1)
@@ -332,7 +332,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_2ye1q")
+material = SubResource("ShaderMaterial_m04fg")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 background_color = Color(0, 0, 0, 1)

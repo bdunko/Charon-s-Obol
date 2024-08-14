@@ -10,19 +10,22 @@ func _ready() -> void:
 	assert(GOD_SELECTION_SCENE)
 	
 func _on_main_menu_start_game():
-	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-	await Global.delay(0.3)
-	TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
-	await Global.any_input
-	await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
-	await Global.delay(0.3)
-	MAIN_MENU_SCENE.hide()
-	GOD_SELECTION_SCENE.on_start_god_selection()
-	GOD_SELECTION_SCENE.show()
-	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
+	# bit of a $HACK$ to prevent double clicking on the start button
+	if not TransitionPlayer.is_playing():
+		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+		await Global.delay(0.3)
+		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
+		await Global.any_input
+		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
+		await Global.delay(0.3)
+		MAIN_MENU_SCENE.hide()
+		GOD_SELECTION_SCENE.on_start_god_selection()
+		GOD_SELECTION_SCENE.show()
+		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+	await Global.delay(1.0)
 	GAME_SCENE.hide()
 	# if we won, show the victory screen
 	if victory:
@@ -35,6 +38,7 @@ func _on_game_game_ended(victory: bool):
 
 func _on_god_selection_patron_selected():
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	GAME_SCENE.on_start()
 	GAME_SCENE.show()
@@ -42,7 +46,7 @@ func _on_god_selection_patron_selected():
 
 func _on_god_selection_exited():
 	await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)
-	await Global.delay(2.0)
+	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

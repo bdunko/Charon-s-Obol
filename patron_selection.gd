@@ -18,6 +18,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _VICTORY_TEXTBOXES = $VictoryTextboxes
 @onready var _VICTORY_DIALOGUE = $VictoryDialogueSystem
 @onready var _PATRON_DIALOGUE = $PatronDialogueSystem
+@onready var _PLAYER_DIALOGUE = $PlayerDialogueSystem
 @onready var _CAMERA = $Camera
 
 func _ready() -> void:
@@ -31,7 +32,9 @@ func _ready() -> void:
 	assert(_RAIN)
 	assert(_VICTORY_DIALOGUE)
 	assert(_PATRON_DIALOGUE)
+	assert(_PLAYER_DIALOGUE)
 	assert(_VICTORY_TEXTBOXES)
+	assert(_CAMERA)
 	
 	var tween = create_tween().set_loops()
 	tween.tween_property(_SHIP_PATH_FOLLOW, "progress_ratio", 1, 30).set_delay(2)
@@ -41,14 +44,13 @@ func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
 	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
 		statu.disable()
+	_PLAYER_DIALOGUE.clear_dialogue()
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("Yes...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("Into the depths.")
-	$Camera.make_current()
-	var zoom = create_tween()
-	zoom.tween_property($Camera, "zoom", Vector2(100, 100), 1.0)
-	await zoom.finished
+	await create_tween().tween_property(_CAMERA, "zoom", Vector2(50, 50), 1.2).finished
+	_PATRON_DIALOGUE.instant_clear_dialogue()
 	emit_signal("patron_selected")
 
 func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:
@@ -67,8 +69,12 @@ func _make_background_withered() -> void:
 	_WITHERED_BG.show()
 	_PEACEFUL_BG.hide()
 
+func _enable_and_reset_camera() -> void:
+	_CAMERA.make_current()
+	_CAMERA.zoom = Vector2(1, 1)
+
 func on_victory() -> void:
-	$Camera.zoom = Vector2(1, 1)
+	_enable_and_reset_camera()
 	_make_background_peaceful()
 	
 	for line in Global.character.victoryDialogue:
@@ -78,8 +84,7 @@ func on_victory() -> void:
 	_VICTORY_TEXTBOXES.make_visible()
 
 func on_start_god_selection() -> void:
-	$Camera.zoom = Vector2(1, 1)
-	
+	_enable_and_reset_camera()
 	_make_background_withered()
 	
 	# delete the 3 existing god statues
@@ -95,6 +100,8 @@ func on_start_god_selection() -> void:
 	
 	_VICTORY_DIALOGUE.instant_clear_dialogue()
 	_VICTORY_TEXTBOXES.make_invisible()
+	
+	_PLAYER_DIALOGUE.show_dialogue("One last prayer...")
 
 func _on_victory_continue_button_clicked():
 	emit_signal("exited")

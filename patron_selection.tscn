@@ -159,7 +159,7 @@ shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.5, -1)
 shader_parameter/transparency = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kdel"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yhr57"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -191,9 +191,12 @@ border_color = Color(1, 0.8, 0.32549, 1)
 [node name="PatronDialogueSystem" parent="." instance=ExtResource("2_uhgja")]
 z_index = 100
 position = Vector2(0, 2)
-text_color = Color(0.945098, 0.764706, 0.356863, 1)
-background_color = Color(1, 1, 1, 1)
-border_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+text_color = Color(0.560784, 1, 0.407843, 1)
+border_color = Color(1, 0.8, 0.32549, 1)
+
+[node name="PlayerDialogueSystem" parent="." instance=ExtResource("2_uhgja")]
+z_index = 100
+position = Vector2(0, 2)
 
 [node name="WitheredBG" type="Sprite2D" parent="."]
 texture = ExtResource("2_djeuf")
@@ -272,8 +275,7 @@ texture = ExtResource("13_e5xt1")
 centered = false
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(313, 81)
-zoom = Vector2(20, 20)
+position = Vector2(313, 80)
 limit_left = 0
 limit_top = 0
 limit_right = 320
@@ -290,7 +292,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_4kdel")
+material = SubResource("ShaderMaterial_yhr57")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
