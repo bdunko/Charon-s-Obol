@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="2_r1ciw"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_u014s"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7od6w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fwa20"]
 resource_local_to_scene = true
 shader = ExtResource("3_u014s")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -28,6 +28,6 @@ shader_parameter/transparency = 1.0
 script = ExtResource("1_1cyir")
 
 [node name="Textbox" parent="." instance=ExtResource("2_r1ciw")]
-material = SubResource("ShaderMaterial_7od6w")
+material = SubResource("ShaderMaterial_fwa20")
 offset_left = 144.0
 offset_right = 177.0

@@ -159,7 +159,7 @@ shader_parameter/exclude_tint = Vector3(0, 0, 0)
 shader_parameter/pan_speed = Vector2(-0.5, -1)
 shader_parameter/transparency = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yhr57"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m6ha8"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/replace_color1 = Vector3(0, 0, 0)
@@ -292,7 +292,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_yhr57")
+material = SubResource("ShaderMaterial_m6ha8")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

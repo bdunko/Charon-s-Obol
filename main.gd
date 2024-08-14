@@ -24,8 +24,10 @@ func _on_main_menu_start_game():
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
+	if victory:
+		TransitionPlayer.set_color(Color.ANTIQUE_WHITE)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-	await Global.delay(1.0)
+	await Global.delay(2.0)
 	GAME_SCENE.hide()
 	# if we won, show the victory screen
 	if victory:
@@ -35,14 +37,17 @@ func _on_game_game_ended(victory: bool):
 	else:
 		MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
+	TransitionPlayer.reset_color()
 
 func _on_god_selection_patron_selected():
+	TransitionPlayer.set_color(Color("793a80"))
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	GAME_SCENE.on_start()
 	GAME_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
+	TransitionPlayer.reset_color()
 
 func _on_god_selection_exited():
 	await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)

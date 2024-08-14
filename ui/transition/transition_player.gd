@@ -21,6 +21,7 @@ enum Effect {
 }
 
 @onready var _COLORBOX = $ColorBox
+@onready var _INITIAL_COLOR = $ColorBox.color
 @onready var _LABEL = $Label
 
 var _is_playing = false
@@ -44,6 +45,9 @@ func set_text(txt: String) -> void:
 
 func set_color(clr: Color) -> void:
 	_COLORBOX.color = clr
+
+func reset_color() -> void:
+	_COLORBOX.color = _INITIAL_COLOR
 
 # play a transition effect
 func play(effect: Effect) -> void:

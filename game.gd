@@ -151,6 +151,7 @@ func _on_game_end() -> void:
 
 func on_start() -> void:
 	_CAMERA.make_current()
+	_DIALOGUE.instant_clear_dialogue()
 	
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
