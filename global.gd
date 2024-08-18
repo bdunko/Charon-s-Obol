@@ -66,6 +66,14 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 	# 5 shop behavior change - You start with 5 Obol of Stone. Coins in the Shop may have negative statuses. 
 	# 6 general difficulty bump - Your coins land on tails more often. Tollgates are more expensive. Charon is more aggressive.
 	
+	# Normal difficulty.
+	# Charon will unleash his Malice.
+	# Each Trial has two modifiers. The Nemesis is more powerful. 
+	# Charon may summon monsters at the start of non-Trial rounds. Coins available in the Shop may have negative statuses. 
+	# When exiting the shop, all unspent Souls are lost. When you end the round, half of your unspent Life is lost. 
+	# You cannot view future Trials until completing the previous one. Tollgates are more expensive. 
+	# Your coins land on tails 10% more often. Charon's behavior is more unpredictable. (he has a chance to diverge from his attack pattern and mix in an unused attack)
+	
 	#todo - fill these description with colors too
 	match diff:
 		Difficulty.INDIFFERENT:

@@ -28,43 +28,43 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ev00d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h1qg5"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
-shader_parameter/replace_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_color5 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
-shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_soi64"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8rx7w"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
-shader_parameter/replace_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_color5 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
-shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -319,7 +319,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ev00d")
+material = SubResource("ShaderMaterial_h1qg5")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 background_color = Color(0, 0, 0, 1)
@@ -332,7 +332,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_soi64")
+material = SubResource("ShaderMaterial_8rx7w")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 background_color = Color(0, 0, 0, 1)

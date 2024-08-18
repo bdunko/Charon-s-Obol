@@ -29,16 +29,16 @@ bool vec3eq(vec3 val1, vec3 val2) {
 // RECOLOR
 // Replaces replace_colorN with replace_with_colorN.
 group_uniforms Recolor;
-uniform vec3 replace_color1 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color1 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color2 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color2 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color3 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color3 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color4 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color4 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color5 = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color5 = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color1: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color1: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color2: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color2: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color3: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color3: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color4: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color4: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color5: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color5: source_color = vec3(0.0, 0.0, 0.0);
 
 // TINT
 // Tint the texture with tint_color (rbg) 
@@ -46,10 +46,10 @@ uniform vec3 replace_with_color5 = vec3(0.0, 0.0, 0.0);
 // If use_exclude_tint, the tint ignores pixels whose color matches excude_tint (useful for ignoring borders)
 // Can also be used to create flashing effects.
 group_uniforms Tint;
-uniform vec3 tint_color = vec3(0.0, 0.0, 0.0);
-uniform float tint_strength = 0.0;
+uniform vec3 tint_color: source_color = vec3(0.0, 0.0, 0.0);
+uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 uniform bool use_exclude_tint = false;
-uniform vec3 exclude_tint = vec3(0.0, 0.0, 0.0);
+uniform vec3 exclude_tint: source_color = vec3(0.0, 0.0, 0.0);
 
 // PAN
 // Controls texture left/right/up/down panning (the texture will be repeated)
@@ -60,7 +60,7 @@ uniform vec2 pan_speed = vec2(0, 0);
 // TRANSPARENCY
 // Controls transparency of the texture.
 group_uniforms Transparency;
-uniform float transparency = 1.0;
+uniform float transparency: hint_range(0.0, 1.0) = 1.0;
 
 // --- Fragment Shader --- //
 void fragment() {
@@ -85,7 +85,7 @@ void fragment() {
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0)
-		COLOR.a = transparency;
+		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
 }
 
 // --- Vertex Shader --- //

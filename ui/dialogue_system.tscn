@@ -4,23 +4,23 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="2_r1ciw"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_u014s"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fwa20"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i27u5"]
 resource_local_to_scene = true
 shader = ExtResource("3_u014s")
-shader_parameter/replace_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color1 = Vector3(0, 0, 0)
-shader_parameter/replace_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color2 = Vector3(0, 0, 0)
-shader_parameter/replace_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color3 = Vector3(0, 0, 0)
-shader_parameter/replace_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color4 = Vector3(0, 0, 0)
-shader_parameter/replace_color5 = Vector3(0, 0, 0)
-shader_parameter/replace_with_color5 = Vector3(0, 0, 0)
-shader_parameter/tint_color = Vector3(0, 0, 0)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Vector3(0, 0, 0)
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -28,6 +28,6 @@ shader_parameter/transparency = 1.0
 script = ExtResource("1_1cyir")
 
 [node name="Textbox" parent="." instance=ExtResource("2_r1ciw")]
-material = SubResource("ShaderMaterial_fwa20")
+material = SubResource("ShaderMaterial_i27u5")
 offset_left = 144.0
 offset_right = 177.0
