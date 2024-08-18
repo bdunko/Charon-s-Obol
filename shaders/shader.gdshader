@@ -1,29 +1,13 @@
-// NOTE - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors.
-// Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
-
+// Ben's Generic Pixel Shader
+// WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
 shader_type canvas_item;
 
 // --- Utilty Functions --- //
 // checks if two values are 'equal' (within EPSILON of each other)
 // necessary when doing float calculations since it's not perfectly precise
 const float EPSILON = 0.001;
-
-bool floateq(float val1, float val2) {
-	return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON;
-}
-
-bool vec3eq(vec3 val1, vec3 val2) {
-	return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b);
-}
-
-// Glow - Create Border of Color and Size
-
-// Sway
-
-// Squish
-
-// Shadow (copy of the existing sprite drawn behind it, with a given shadow color and offset)
-// basically for each pixel, move it by offset, then if transparent, draw pixel of that color
+bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
+bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
 
 // --- Effects --- //
 // RECOLOR
@@ -51,6 +35,19 @@ uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 uniform bool use_exclude_tint = false;
 uniform vec3 exclude_tint: source_color = vec3(0.0, 0.0, 0.0);
 
+// OUTLINE
+// Adds a pixel outline to the texture, with outline_color and outline_thickness.
+// outline_dialgonals controls if we also create this outline diagonally, which makes it thicker.
+// Can also be used to create glowing effects.
+// WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
+// WARNING - Can have some odd effects with sprites containing partial transparency at higher thickness.
+group_uniforms Outline;
+uniform vec4 outline_color: source_color = vec4(1.0);
+uniform int outline_thickness: hint_range(0, 10) = 0;
+uniform bool outline_diagonals = false;
+const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
+const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
+
 // PAN
 // Controls texture left/right/up/down panning (the texture will be repeated)
 // Set to a positive number for left/up panning; negative number for right/down panning
@@ -63,9 +60,11 @@ group_uniforms Transparency;
 uniform float transparency: hint_range(0.0, 1.0) = 1.0;
 
 // --- Fragment Shader --- //
-void fragment() {
+void fragment() 
+{
 	// PAN
-	COLOR = texture(TEXTURE, mod(UV + TIME * pan_speed, 1.0)); //since this reads from texture, it has to go first; otherwise we rewrite changes
+	vec2 panUV = mod(UV + TIME * pan_speed, 1.0); // WARNING - Use this instead of UV below, otherwise effects break with panning
+	COLOR = texture(TEXTURE, panUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
 	
 	// RECOLOR
 	if (vec3eq(COLOR.rgb, replace_color1)) 
@@ -80,15 +79,29 @@ void fragment() {
 		COLOR.rgb = replace_with_color5;
 	
 	// TINT
-	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, UV).rgb, exclude_tint))
+	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint))
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0)
 		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
+	
+	// OUTLINE
+	vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
+	float outline = 0.0;
+	for (int i = 0; i < HORIZONTAL_VERTICAL_OFFSETS.length(); i++) {
+		outline += texture(TEXTURE, panUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
+	}
+	if (outline_diagonals) {
+		for (int i = 0; i < DIAGONAL_OUTLINE_OFFSETS.length(); i++) {
+			outline += texture(TEXTURE, panUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
+		}
+	}
+	outline = min(outline, 1.0);
+	COLOR = mix(COLOR, outline_color, outline - COLOR.a);
 }
 
-// --- Vertex Shader --- //
-void vertex() {
+void vertex()
+{
 	
 }

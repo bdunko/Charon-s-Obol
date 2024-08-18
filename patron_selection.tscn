@@ -120,6 +120,13 @@ shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(-0.01, 0)
 shader_parameter/transparency = 1.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/displace_x = true
+shader_parameter/displace_y = true
+shader_parameter/displace_amount = 0.0
+shader_parameter/abberationAmt = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_68yvk"]
 shader = ExtResource("3_jc04v")
@@ -139,6 +146,13 @@ shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(-0.04, 0)
 shader_parameter/transparency = 1.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/displace_x = true
+shader_parameter/displace_y = true
+shader_parameter/displace_amount = 0.0
+shader_parameter/abberationAmt = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o110x"]
 shader = ExtResource("3_jc04v")
@@ -158,6 +172,13 @@ shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(-0.5, -1)
 shader_parameter/transparency = 0.5
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/displace_x = true
+shader_parameter/displace_y = true
+shader_parameter/displace_amount = 0.0
+shader_parameter/abberationAmt = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_urc83"]
 resource_local_to_scene = true
@@ -178,6 +199,13 @@ shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/displace_x = true
+shader_parameter/displace_y = true
+shader_parameter/displace_amount = 0.0
+shader_parameter/abberationAmt = 0.0
 
 [node name="PatronSelection" type="Node2D"]
 script = ExtResource("1_bldrb")

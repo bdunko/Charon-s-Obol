@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=15 format=3 uid="uid://358hx2cun580"]
 
 [ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_wabw4"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="6_tt4g1"]
 [ext_resource type="Texture2D" uid="uid://di6ewinnoex3n" path="res://shaders/test_coin.png" id="7_ccctr"]
-[ext_resource type="Shader" path="res://shaders/shader_test2.gdshader" id="7_lbw3e"]
+[ext_resource type="Texture2D" uid="uid://4ievnrt5nh4v" path="res://shaders/test_coin2.png" id="9_gc8jb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
 shader = ExtResource("1_j17hv")
@@ -25,6 +25,9 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -44,6 +47,9 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -63,7 +69,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
-shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/pan_speed = Vector2(0.1, 0)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1x1fr"]
@@ -83,13 +92,55 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ijj8"]
-shader = ExtResource("7_lbw3e")
-shader_parameter/outline_size = 1.0
-shader_parameter/outline_color = Color(1, 0.905882, 0, 1)
+shader = ExtResource("1_j17hv")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oi8e2"]
+shader = ExtResource("1_j17hv")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.345
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(0.929412, 0, 0, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="shader_test" type="Node2D"]
 script = ExtResource("1_1a6s1")
@@ -112,7 +163,17 @@ centered = false
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
 material = SubResource("ShaderMaterial_1x1fr")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Text" parent="Textbox/TextMargin" index="0"]
+text = "Hello World"
+
+[node name="Cointrans" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_7ijj8")
-position = Vector2(74, 120)
+position = Vector2(128, 118)
 texture = ExtResource("7_ccctr")
+
+[node name="Coin" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oi8e2")
+position = Vector2(163, 118)
+texture = ExtResource("9_gc8jb")
+
+[editable path="Textbox"]
