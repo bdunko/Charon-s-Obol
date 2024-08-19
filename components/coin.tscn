@@ -1,7 +1,8 @@
-[gd_scene load_steps=81 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=86 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://c8vge32mxqbaw" path="res://assets/coins/obol_charon.png" id="2_8bght"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
 [ext_resource type="Texture2D" uid="uid://beojhxabonyeq" path="res://assets/coins/diobol.png" id="2_bkxn3"]
 [ext_resource type="Texture2D" uid="uid://d0e73sw1twm8f" path="res://assets/coins/tetrobol.png" id="2_dhyo4"]
 [ext_resource type="Texture2D" uid="uid://buq0pt2mv61r8" path="res://assets/coins/obol.png" id="2_gp4tc"]
@@ -15,6 +16,34 @@
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 [ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
+resource_local_to_scene = true
+shader = ExtResource("2_14jmd")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.078125, 0.0625, 0.0742188, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tnuna"]
 atlas = ExtResource("2_8bght")
@@ -607,6 +636,44 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="Animation" id="Animation_fbum8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_m8cf3"]
+resource_name = "flash"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1c8tt"]
+_data = {
+"RESET": SubResource("Animation_fbum8"),
+"flash": SubResource("Animation_m8cf3")
+}
+
 [node name="Coin" type="Control"]
 custom_minimum_size = Vector2(36, 39)
 layout_mode = 3
@@ -617,10 +684,11 @@ mouse_filter = 2
 script = ExtResource("1_eg3xp")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_tte34")
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
 animation = &"charons_obol_flat"
-frame_progress = 0.64061
+frame_progress = 0.319161
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -639,16 +707,22 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
-text = "[center][color=#b3b9d1][img=10x13]res://assets/icons/dionysus_icon.png[/img][/color][/center]"
+text = "[center][color=#b3b9d1]1[img=10x13]res://assets/icons/dionysus_icon.png[/img][/color][/center]"
 fit_content = true
 scroll_active = false
 
 [node name="ClickableArea" type="Area2D" parent="Sprite"]
+visible = false
 position = Vector2(-16, -16)
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Sprite/ClickableArea"]
 position = Vector2(11, 12)
 polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_1c8tt")
+}
 
 [node name="UnluckyIcon" type="Polygon2D" parent="."]
 visible = false

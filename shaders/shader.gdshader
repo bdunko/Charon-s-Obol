@@ -1,6 +1,11 @@
-// Ben's Generic Pixel Shader
-// WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
+// Ben's General Purpose Pixel Shader
+// WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
+//           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
 shader_type canvas_item;
+
+//todo - separate out glow and outline perhaps?
+//todo - stretch/squish
+//todo - sway
 
 // --- Utilty Functions --- //
 // checks if two values are 'equal' (within EPSILON of each other)
@@ -21,19 +26,22 @@ uniform vec3 replace_color3: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color3: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_color4: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color4: source_color = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color5: source_color = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_with_color5: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 replace_with_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392);
 
 // TINT
 // Tint the texture with tint_color (rbg) 
 // The strength of the tint is controlled by tint_strength (0-1)
 // If use_exclude_tint, the tint ignores pixels whose color matches excude_tint (useful for ignoring borders)
-// Can also be used to create flashing effects.
-group_uniforms Tint;
+// Can also be used to create flashing effects (flash_color/strength is identical to tint_color/strength, but provides another layer for flexibility)
+// Flash is applied after tint.
+group_uniforms TintAndFlash;
 uniform vec3 tint_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
-uniform bool use_exclude_tint = false;
-uniform vec3 exclude_tint: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
+uniform float flash_strength: hint_range(0.0, 1.0);
+uniform bool use_exclude_tint = true;
+uniform vec3 exclude_tint: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
@@ -41,7 +49,7 @@ uniform vec3 exclude_tint: source_color = vec3(0.0, 0.0, 0.0);
 // Can also be used to create glowing effects which fluctuate alpha between outline_glow_min to outline_glow_max.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
 // WARNING - Can have some odd effects with sprites containing partial transparency.
-group_uniforms Outline;
+group_uniforms OutlineAndGlow;
 uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
@@ -82,8 +90,10 @@ void fragment()
 		COLOR.rgb = replace_with_color5;
 	
 	// TINT
-	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint))
+	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint)) {
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
+		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
+	}
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0)

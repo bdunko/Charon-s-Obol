@@ -25,7 +25,7 @@ func _on_main_menu_start_game():
 
 func _on_game_game_ended(victory: bool):
 	if victory:
-		TransitionPlayer.set_color(Color.ANTIQUE_WHITE)
+		TransitionPlayer.set_color(Color.WHITE)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	await Global.delay(2.0)
 	GAME_SCENE.hide()

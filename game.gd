@@ -193,16 +193,15 @@ func on_start() -> void:
 	Global.toll_index = 0
 	
 	#debug
-	#Global.souls = 100
-	#Global.lives = 100
-	#Global.arrows = 10
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TRIOBOL)
-	_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+	Global.souls = 100
+	Global.lives = 100
+	Global.arrows = 10
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
 	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
+	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
 	Global.state = Global.State.BOARDING
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -670,9 +669,9 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't... upgrade... further...")
 						return
 					coin.downgrade()
-					if left:
-						left.update()
-					if right:
+					if left and left.can_upgrade():
+						left.upgrade()
+					if right and right.can_upgrade():
 						right.upgrade()
 				Global.PATRON_POWER_FAMILY_HERMES:
 					if row == _TRIAL_ROW:
@@ -738,6 +737,7 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't... upgrade... more...")
 					else:
 						_DIALOGUE.show_dialogue("Can't... upgrade.... that...")
+					return
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_RECHARGE:
