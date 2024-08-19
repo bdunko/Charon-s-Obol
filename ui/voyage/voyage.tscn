@@ -1,12 +1,38 @@
-[gd_scene load_steps=16 format=3 uid="uid://dgds4d2p6hdb6"]
+[gd_scene load_steps=18 format=3 uid="uid://dgds4d2p6hdb6"]
 
 [ext_resource type="Script" path="res://ui/voyage/voyage.gd" id="1_5qb4k"]
 [ext_resource type="Texture2D" uid="uid://ni8luuna6wp3" path="res://assets/table/voyage.png" id="2_7p6d8"]
 [ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_ship.png" id="3_xhs1r"]
 [ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/table/voyage_river.png" id="4_d6uqt"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="4_qfjp8"]
 [ext_resource type="Texture2D" uid="uid://b4vcjstucr4wq" path="res://assets/table/voyage_trial.png" id="5_0byhk"]
 [ext_resource type="PackedScene" uid="uid://b68ccb5fvw5is" path="res://ui/tooltip_emitter.tscn" id="6_ghygi"]
 [ext_resource type="Texture2D" uid="uid://cpmrsed2g2wu2" path="res://assets/table/voyage_nemesis.png" id="7_gw4gm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yrc8f"]
+shader = ExtResource("4_qfjp8")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/use_exclude_tint = false
+shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow = false
+shader_parameter/outline_glow_min = 0.2
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="Animation" id="Animation_bgtnn"]
 resource_name = "boat"
@@ -86,6 +112,7 @@ texture = ExtResource("3_xhs1r")
 centered = false
 
 [node name="River" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_yrc8f")
 position = Vector2(5, 26)
 texture = ExtResource("4_d6uqt")
 centered = false

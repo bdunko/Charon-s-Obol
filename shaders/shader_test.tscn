@@ -28,6 +28,9 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.2
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -50,6 +53,9 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.5
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -72,10 +78,13 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.5
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0.1, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1x1fr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8dxl5"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -95,6 +104,9 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.2
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -117,6 +129,9 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.5
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -133,12 +148,15 @@ shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
-shader_parameter/tint_strength = 0.345
+shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(0.929412, 0, 0, 1)
-shader_parameter/outline_thickness = 0
+shader_parameter/outline_thickness = 2
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_glow_speed = 1.0
+shader_parameter/outline_glow_min = 0.5
+shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
@@ -161,7 +179,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_1x1fr")
+material = SubResource("ShaderMaterial_8dxl5")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
@@ -173,7 +191,7 @@ texture = ExtResource("7_ccctr")
 
 [node name="Coin" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_oi8e2")
-position = Vector2(163, 118)
+position = Vector2(165, 118)
 texture = ExtResource("9_gc8jb")
 
 [editable path="Textbox"]

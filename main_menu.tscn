@@ -45,15 +45,11 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
-shader_parameter/pan_speed = Vector2(0, 0)
-shader_parameter/transparency = 1.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
-shader_parameter/displace_x = true
-shader_parameter/displace_y = true
-shader_parameter/displace_amount = 0.0
-shader_parameter/abberationAmt = 0.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8rx7w"]
 resource_local_to_scene = true
@@ -72,15 +68,11 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
-shader_parameter/pan_speed = Vector2(0, 0)
-shader_parameter/transparency = 1.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
-shader_parameter/displace_x = true
-shader_parameter/displace_y = true
-shader_parameter/displace_amount = 0.0
-shader_parameter/abberationAmt = 0.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")

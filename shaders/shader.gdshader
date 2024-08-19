@@ -38,13 +38,16 @@ uniform vec3 exclude_tint: source_color = vec3(0.0, 0.0, 0.0);
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
 // outline_dialgonals controls if we also create this outline diagonally, which makes it thicker.
-// Can also be used to create glowing effects.
+// Can also be used to create glowing effects which fluctuate alpha between outline_glow_min to outline_glow_max.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
-// WARNING - Can have some odd effects with sprites containing partial transparency at higher thickness.
+// WARNING - Can have some odd effects with sprites containing partial transparency.
 group_uniforms Outline;
 uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
+uniform float outline_glow_speed = 2.5;
+uniform float outline_glow_min = 1.0;
+uniform float outline_glow_max = 1.0;
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
@@ -87,18 +90,21 @@ void fragment()
 		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
 	
 	// OUTLINE
-	vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
-	float outline = 0.0;
-	for (int i = 0; i < HORIZONTAL_VERTICAL_OFFSETS.length(); i++) {
-		outline += texture(TEXTURE, panUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
-	}
-	if (outline_diagonals) {
-		for (int i = 0; i < DIAGONAL_OUTLINE_OFFSETS.length(); i++) {
-			outline += texture(TEXTURE, panUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
+	if (outline_thickness != 0) {
+		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
+		float outline = 0.0;
+		for (int i = 0; i < HORIZONTAL_VERTICAL_OFFSETS.length(); i++) {
+			outline += texture(TEXTURE, panUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
 		}
+		if (outline_diagonals) {
+			for (int i = 0; i < DIAGONAL_OUTLINE_OFFSETS.length(); i++) {
+				outline += texture(TEXTURE, panUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
+			}
+		}
+		outline = min(outline, 1.0);
+		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(sin(TIME * outline_glow_speed)));
+		COLOR = mix(COLOR, outline_color * glow_alpha, outline - COLOR.a);
 	}
-	outline = min(outline, 1.0);
-	COLOR = mix(COLOR, outline_color, outline - COLOR.a);
 }
 
 void vertex()
