@@ -45,7 +45,7 @@ enum _MaterialState {
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Price
 
-@onready var _ANIMATION_PLAYER = $Sprite/AnimationPlayer
+@onready var _FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
@@ -110,7 +110,7 @@ var _blank: bool = false:
 	set(val):
 		_blank = val
 		if _blank:
-			flash(Color.BISQUE)
+			_FX.flash(Color.BISQUE)
 		_update_face_label()
 
 var _bless_curse_state: _BlessCurseState:
@@ -119,11 +119,11 @@ var _bless_curse_state: _BlessCurseState:
 		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
 		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 		if _bless_curse_state == _BlessCurseState.BLESSED:
-			outline(Color.BISQUE)
+			_FX.outline(Color.BISQUE)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
-			outline(Color.PALE_VIOLET_RED)
+			_FX.outline(Color.PALE_VIOLET_RED)
 		else:
-			clear_outline()
+			_FX.clear_outline()
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -131,19 +131,21 @@ var _freeze_ignite_state: _FreezeIgniteState:
 		FROZEN_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
 		IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
-			flash(Color.AQUA)
+			_FX.flash(Color.AQUA)
+			if not is_stone(): # if it was ignited before, clear that effect
+				_FX.clear_tint()
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
-			flash(Color.RED)
-			tint(Color.RED, 0.5)
+			_FX.flash(Color.RED)
+			_FX.tint(Color.RED, 0.5)
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
-			clear_tint()
+			_FX.clear_tint()
 
 var _supercharged: bool:
 	set(val):
 		_supercharged = val
 		SUPERCHARGE_ICON.visible = _supercharged
 		if _supercharged:
-			flash(Color.YELLOW)
+			_FX.flash(Color.YELLOW)
 
 var _luck_state: _LuckState:
 	set(val):
@@ -151,22 +153,22 @@ var _luck_state: _LuckState:
 		LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
 		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
 		if _luck_state == _LuckState.LUCKY:
-			flash(Color.GOLD)
-			glow(Color.GOLD)
+			_FX.flash(Color.GOLD)
+			_FX.glow(Color.GOLD)
 		elif _luck_state == _LuckState.UNLUCKY:
-			flash(Color.MEDIUM_PURPLE)
-			glow(Color.MEDIUM_PURPLE)
+			_FX.flash(Color.MEDIUM_PURPLE)
+			_FX.glow(Color.MEDIUM_PURPLE)
 		else:
-			clear_glow()
+			_FX.clear_glow()
 
 var _material_state: _MaterialState:
 	set(val):
 		_material_state = val
 		STONE_ICON.visible = _material_state == _MaterialState.STONE
 		if _material_state == _MaterialState.STONE:
-			tint(Color.SLATE_GRAY, 0.7)
+			_FX.tint(Color.SLATE_GRAY, 0.7)
 		elif _material_state == _MaterialState.NONE and not is_ignited():
-			clear_tint()
+			_FX.clear_tint()
 
 # stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
 var _round_tails_penalty_reduction = 0
@@ -175,7 +177,7 @@ var _permanent_tails_penalty_reduction = 0
 func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
-	assert(_ANIMATION_PLAYER)
+	assert(_FX)
 	_SPRITE.find_child("ClickableArea").show() # just in case I hide it in editor...
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
@@ -306,34 +308,7 @@ func upgrade() -> void:
 	_update_face_label()
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
-	flash(Color.ANTIQUE_WHITE)
-
-func flash(color: Color) -> void:
-	_SPRITE.material.set_shader_parameter("flash_color", color)
-	_ANIMATION_PLAYER.play("flash")
-
-func tint(color: Color, strength: float) -> void:
-	assert(strength >= 0.0 and strength <= 1.0)
-	_SPRITE.material.set_shader_parameter("tint_color", color)
-	_SPRITE.material.set_shader_parameter("tint_strength", strength)
-
-func clear_tint() -> void:
-	_SPRITE.material.set_shader_parameter("tint_strength", 0.0)
-
-func glow(color: Color) -> void:
-	_SPRITE.material.set_shader_parameter("outline_thickness", 1)
-	_SPRITE.material.set_shader_parameter("outline_color", color)
-	_SPRITE.material.set_shader_parameter("outline_glow_min", 0.65)
-	
-func clear_glow() -> void:
-	_SPRITE.material.set_shader_parameter("outline_thickness", 0)
-	_SPRITE.material.set_shader_parameter("outline_glow_min", 1.0)
-
-func outline(color: Color) -> void:
-	_SPRITE.material.set_shader_parameter("replace_with_color5", color)
-
-func clear_outline() -> void:
-	_SPRITE.material.set_shader_parameter(_SPRITE.material.get_shader_parameter("replace_color5"))
+	_FX.flash(Color.ANTIQUE_WHITE)
 
 func downgrade() -> void:
 	match(_denomination):
@@ -346,7 +321,7 @@ func downgrade() -> void:
 	_update_face_label()
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
-	flash(Color.DARK_GRAY)
+	_FX.flash(Color.DARK_GRAY)
 
 func get_upgrade_price() -> int:
 	match(_denomination):
@@ -498,7 +473,7 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	else:
 		_tails_power.charges += recharge_amount
 	_update_face_label()
-	flash(Color.LIGHT_PINK)
+	_FX.flash(Color.LIGHT_PINK)
 
 func make_lucky() -> void:
 	_luck_state = _LuckState.LUCKY

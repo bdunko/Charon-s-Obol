@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=84 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://c8vge32mxqbaw" path="res://assets/coins/obol_charon.png" id="2_8bght"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 [ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://components/fx.tscn" id="17_fulxb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true
@@ -636,44 +637,6 @@ animations = [{
 "speed": 20.0
 }]
 
-[sub_resource type="Animation" id="Animation_fbum8"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/flash_strength")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_m8cf3"]
-resource_name = "flash"
-length = 0.2
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/flash_strength")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_1c8tt"]
-_data = {
-"RESET": SubResource("Animation_fbum8"),
-"flash": SubResource("Animation_m8cf3")
-}
-
 [node name="Coin" type="Control"]
 custom_minimum_size = Vector2(36, 39)
 layout_mode = 3
@@ -688,7 +651,7 @@ material = SubResource("ShaderMaterial_tte34")
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
 animation = &"charons_obol_flat"
-frame_progress = 0.319161
+frame_progress = 0.145488
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -719,10 +682,7 @@ position = Vector2(-16, -16)
 position = Vector2(11, 12)
 polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
-libraries = {
-"": SubResource("AnimationLibrary_1c8tt")
-}
+[node name="FX" parent="Sprite" instance=ExtResource("17_fulxb")]
 
 [node name="UnluckyIcon" type="Polygon2D" parent="."]
 visible = false
