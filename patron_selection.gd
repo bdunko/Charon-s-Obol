@@ -46,6 +46,7 @@ func _on_statue_clicked(statue: PatronStatue):
 		statu.disable()
 	_PLAYER_DIALOGUE.clear_dialogue()
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("Yes...")
+	await _PATRON_DIALOGUE.show_dialogue_and_wait("You've made a wise decision.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("Into the depths.")
@@ -80,6 +81,9 @@ func on_victory() -> void:
 	for line in Global.character.victoryDialogue:
 		await _VICTORY_DIALOGUE.show_dialogue_and_wait(line)
 	_VICTORY_DIALOGUE.show_dialogue(Global.character.victoryClosingLine)
+
+	for statue in _PATRON_STATUES.get_children():
+		statue.clear_fx()
 	
 	_VICTORY_TEXTBOXES.make_visible()
 

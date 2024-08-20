@@ -3,6 +3,8 @@ extends Control
 
 signal clicked
 
+@onready var _FX: FX = $Sprite2D/FX
+
 @onready var _START_POSITION = position
 const _SPEED = 5000
 const _RETURN_SPEED = 500
@@ -12,7 +14,9 @@ var _disabled = false
 var _activated = false
 
 func _ready():
+	assert(_FX)
 	Global.state_changed.connect(_on_state_changed)
+	Global.patron_uses_changed.connect(_on_patron_uses_changed)
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
@@ -24,9 +28,12 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 func _on_clickable_area_mouse_entered():
 	if not _activated:
 		UITooltip.create(self, "%s (%d)\n%s" % [Global.patron.token_name, Global.patron_uses, Global.patron.description], get_global_mouse_position(), get_tree().root)
+		if Global.patron_uses != 0 and not _disabled:
+			_FX.glow(Color.GOLD, 1, false)
 
 func _on_clickable_area_mouse_exited():
-	pass
+	if Global.patron_uses != 0 and not _activated:
+		_FX.glow(Color.WHITE, 1, false)
 
 func activate() -> void:
 	create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
@@ -41,11 +48,24 @@ func deactivate() -> void:
 func is_activated() -> bool:
 	return _activated
 
+func _on_patron_uses_changed() -> void:
+	if Global.patron_uses == 0:
+		_FX.clear_glow()
+		_FX.clear_tint()
+	else:
+		_FX.tint(Color.GOLD, 0.4)
+		_FX.slow_flash(Color.WHITE)
+		if not _activated:
+			_FX.glow(Color.WHITE, 1)
+
 func _process(delta) -> void:
 	var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
 	position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
 
 func _on_state_changed() -> void:
+	if Global.state != Global.State.AFTER_FLIP and Global.state != Global.State.BEFORE_FLIP:
+		_FX.clear_glow()
+		_FX.clear_tint()
 	if Global.state != Global.State.AFTER_FLIP:
 		_disabled = true
 	else:

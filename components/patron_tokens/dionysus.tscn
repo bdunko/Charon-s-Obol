@@ -1,7 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://byobqd4crwtiy"]
+[gd_scene load_steps=6 format=3 uid="uid://byobqd4crwtiy"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_yv4h5"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_3avxv"]
 [ext_resource type="Texture2D" uid="uid://5705hu60e8oo" path="res://assets/table/token/dionysus.png" id="2_sray7"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_2egvw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t0law"]
+shader = ExtResource("2_3avxv")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="PatronToken" type="Control"]
 layout_mode = 3
@@ -13,8 +43,11 @@ mouse_filter = 2
 script = ExtResource("1_yv4h5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t0law")
 texture = ExtResource("2_sray7")
 centered = false
+
+[node name="FX" parent="Sprite2D" instance=ExtResource("3_2egvw")]
 
 [node name="ClickableArea" type="Area2D" parent="."]
 

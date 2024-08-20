@@ -1,7 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4x4getos2oam"]
+[gd_scene load_steps=6 format=3 uid="uid://b4x4getos2oam"]
 
 [ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_s6gla"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_j10xb"]
 [ext_resource type="Texture2D" uid="uid://c5d6p75w1inse" path="res://assets/patron_choice/hestia_statue.png" id="2_pedkd"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_l125u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ap3ra"]
+shader = ExtResource("2_j10xb")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [node name="PatronStatue" type="Control"]
 layout_mode = 3
@@ -10,8 +40,11 @@ script = ExtResource("1_s6gla")
 patron_enum = 12
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ap3ra")
 texture = ExtResource("2_pedkd")
 centered = false
+
+[node name="FX" parent="Sprite2D" instance=ExtResource("3_l125u")]
 
 [node name="ClickableArea" type="Area2D" parent="."]
 position = Vector2(-16, -16)

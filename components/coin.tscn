@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cnfpk7vap7qlh" path="res://assets/coins/triobol_god.png" id="9_6dpwv"]
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 [ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
-[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://components/fx.tscn" id="17_fulxb"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="17_tmr1x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true
@@ -40,6 +40,7 @@ shader_parameter/exclude_tint = Color(0.078125, 0.0625, 0.0742188, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
@@ -650,8 +651,7 @@ script = ExtResource("1_eg3xp")
 material = SubResource("ShaderMaterial_tte34")
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"charons_obol_flat"
-frame_progress = 0.145488
+animation = &"payoff_obol_flat"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -682,7 +682,7 @@ position = Vector2(-16, -16)
 position = Vector2(11, 12)
 polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 43, 9, 38, 5, 32, 5, 16, 9, 9, 16, 5)
 
-[node name="FX" parent="Sprite" instance=ExtResource("17_fulxb")]
+[node name="FX" parent="Sprite" instance=ExtResource("17_tmr1x")]
 
 [node name="UnluckyIcon" type="Polygon2D" parent="."]
 visible = false

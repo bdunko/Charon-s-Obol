@@ -39,7 +39,6 @@ enum _MaterialState {
 @onready var CURSED_ICON = $CursedIcon
 @onready var SUPERCHARGE_ICON = $SuperchargeIcon
 @onready var STONE_ICON = $StoneIcon
-@onready var PRICE = $Price
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -91,7 +90,7 @@ func _update_face_label() -> void:
 	if _blank:
 		_FACE_LABEL.text = ""
 	
-	var color = _YELLOW
+	var color = _YELLOW if get_active_power_charges() != 0 else _GRAY
 	match(get_active_power_family()):
 		Global.POWER_FAMILY_GAIN_SOULS:
 			color = _BLUE
@@ -131,11 +130,8 @@ var _freeze_ignite_state: _FreezeIgniteState:
 		FROZEN_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
 		IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
-			_FX.flash(Color.AQUA)
-			if not is_stone(): # if it was ignited before, clear that effect
-				_FX.clear_tint()
+			_FX.tint(Color.CYAN, 0.5)
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
-			_FX.flash(Color.RED)
 			_FX.tint(Color.RED, 0.5)
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			_FX.clear_tint()
@@ -179,6 +175,8 @@ func _ready():
 	assert(_FACE_LABEL)
 	assert(_FX)
 	_SPRITE.find_child("ClickableArea").show() # just in case I hide it in editor...
+	
+	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 
 const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
@@ -207,7 +205,7 @@ func _on_state_changed() -> void:
 	else:
 		_PRICE.hide()
 
-func _reset() -> void:
+func reset() -> void:
 	_blank = false
 	_luck_state = _LuckState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -230,7 +228,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_heads = true
 	reset_power_uses()
 	_owner = owned_by
-	_reset()
+	reset()
 
 func get_coin_family() -> Global.CoinFamily:
 	return _coin_family
@@ -308,7 +306,7 @@ func upgrade() -> void:
 	_update_face_label()
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
-	_FX.flash(Color.ANTIQUE_WHITE)
+	_FX.flash(Color.GOLDENROD)
 
 func downgrade() -> void:
 	match(_denomination):
@@ -375,10 +373,10 @@ func flip(bonus: int = 0) -> void:
 	
 	if is_blessed():
 		_heads = true
-		_bless_curse_state = _BlessCurseState.BLESSED
+		_bless_curse_state = _BlessCurseState.NONE
 	elif is_cursed():
 		_heads = false
-		_bless_curse_state = _BlessCurseState.CURSED
+		_bless_curse_state = _BlessCurseState.NONE
 	else:
 		var success_roll_min = 50 + bonus
 		match(_luck_state):
@@ -393,9 +391,9 @@ func flip(bonus: int = 0) -> void:
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
-	var tween = create_tween()
-	tween.tween_property(self, "position:y", self.position.y - 50, 0.20)
-	tween.tween_property(self, "position:y", self.position.y, 0.20).set_delay(0.1)
+	var tween = _new_movement_tween()
+	tween.tween_property(self, "position:y", -50, 0.20)
+	tween.tween_property(self, "position:y", 0, 0.20).set_delay(0.1)
 	await tween.finished
 	set_animation(_Animation.FLAT)
 	
@@ -415,12 +413,14 @@ func flip(bonus: int = 0) -> void:
 func turn() -> void:
 	if is_stone():
 		return
+	_disabled = true
 	_heads = not _heads
 	_FACE_LABEL.hide()
 	set_animation(_Animation.FLIP)
 	await _SPRITE.animation_looped
 	set_animation(_Animation.FLAT)
 	_FACE_LABEL.show()
+	_disabled = false
 
 # sets to heads without an animation
 func set_heads_no_anim() -> void:
@@ -447,6 +447,7 @@ func spend_power_use() -> void:
 	assert(_heads_power.charges >= 0)
 	assert(_tails_power.charges >= 0)
 	_update_face_label()
+	_FX.flash(Color.WHITE)
 
 func reset_power_uses() -> void:
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and is_power(): # sapping trial - recharge only by 1
@@ -500,16 +501,18 @@ func clear_blessed_cursed() -> void:
 	_bless_curse_state = _BlessCurseState.NONE
 
 func freeze() -> void:
-	_freeze_ignite_state = _FreezeIgniteState.FROZEN
+	_FX.flash(Color.CYAN)
+	# if stoned, don't freeze
+	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.FROZEN
 
 func ignite() -> void:
-	# if stoned, don't ignite; but do clear frozen
+	_FX.flash(Color.RED)
+	# if stoned, don't ignite
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.IGNITED
 
 func stone() -> void:
 	_material_state = _MaterialState.STONE
-	if _freeze_ignite_state == _FreezeIgniteState.IGNITED: # if ignited, unignite when stoning
-		_freeze_ignite_state = _FreezeIgniteState.NONE
+	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func clear_freeze_ignite() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -558,6 +561,7 @@ func reduce_life_penalty_permanently() -> void:
 	reduced_power.charges -= 1
 	_update_face_label()
 	_generate_tooltip()
+	_FX.flash(Color.SEA_GREEN)
 
 func reduce_life_penalty_for_round() -> void:
 	assert(can_reduce_life_penalty())
@@ -566,6 +570,7 @@ func reduce_life_penalty_for_round() -> void:
 	reduced_power.charges -= 1
 	_update_face_label()
 	_generate_tooltip()
+	_FX.flash(Color.SEA_GREEN)
 
 func disable_input() -> void:
 	_disabled = true
@@ -644,11 +649,18 @@ func set_animation(anim: _Animation) -> void:
 	
 	_SPRITE.play("%s_%s_%s" % [get_style_string(), denom_str, anim_str])
 
+var _movement_tween: Tween = null
+func _new_movement_tween() -> Tween:
+	if _movement_tween:
+		_movement_tween.kill()
+	_movement_tween = create_tween()
+	return _movement_tween
+
 func payoff_move_up() -> void:
-	await create_tween().tween_property(self, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _new_movement_tween().tween_property(self, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func payoff_move_down() -> void:
-	await create_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
@@ -658,9 +670,26 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 
 func _on_clickable_area_mouse_entered():
 	_mouse_over = true
+	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
+		_new_movement_tween().tween_property(self, "position:y", -3, 0.15).set_trans(Tween.TRANS_CIRC)
 
 func _on_clickable_area_mouse_exited():
 	_mouse_over = false
+	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
+		_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+
+var _was_active_power_coin = false
+func _on_active_coin_power_coin_changed() -> void:
+	if not is_inside_tree(): #bit of a $HACK$ since this gets called before we're in tree to make tween; could also check tween return value but meh
+		return
+	
+	# if this is the active power coin, move it up a bit.
+	if not _disabled and Global.active_coin_power_coin == self:
+		_was_active_power_coin = true
+		_new_movement_tween().tween_property(self, "position:y", -6, 0.15).set_trans(Tween.TRANS_CIRC)
+	else:
+		if not _disabled and _was_active_power_coin:
+			_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 
 var _time_mouse_hover = 0
 var _mouse_over = false

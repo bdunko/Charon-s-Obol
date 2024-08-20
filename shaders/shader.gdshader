@@ -53,6 +53,7 @@ group_uniforms OutlineAndGlow;
 uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
+uniform float outline_start = 0;
 uniform float outline_glow_speed = 2.5;
 uniform float outline_glow_min = 1.0;
 uniform float outline_glow_max = 1.0;
@@ -112,7 +113,8 @@ void fragment()
 			}
 		}
 		outline = min(outline, 1.0);
-		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(sin(TIME * outline_glow_speed)));
+		
+		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos((TIME - outline_start) * outline_glow_speed)));
 		COLOR = mix(COLOR, outline_color * glow_alpha, outline - COLOR.a);
 	}
 }

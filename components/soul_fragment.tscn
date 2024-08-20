@@ -1,7 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpenc5by7cwjw"]
+[gd_scene load_steps=12 format=3 uid="uid://dpenc5by7cwjw"]
 
 [ext_resource type="Script" path="res://components/soul_fragment.gd" id="1_t2nc6"]
 [ext_resource type="Texture2D" uid="uid://cx4bursdkr6ms" path="res://assets/table/soul_fragment_blue_spritesheet.png" id="2_qy741"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_wohky"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_6wcwh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2pjeg"]
+shader = ExtResource("2_wohky")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/transparency = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3g56p"]
 atlas = ExtResource("2_qy741")
@@ -54,9 +84,12 @@ offset_bottom = 32.0
 script = ExtResource("1_t2nc6")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_2pjeg")
 sprite_frames = SubResource("SpriteFrames_ea05b")
 frame = 4
 frame_progress = 0.278655
 centered = false
+
+[node name="FX" parent="Sprite" instance=ExtResource("3_6wcwh")]
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

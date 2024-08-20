@@ -13,12 +13,12 @@ func _on_main_menu_start_game():
 	# bit of a $HACK$ to prevent double clicking on the start button
 	if not TransitionPlayer.is_playing():
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+		MAIN_MENU_SCENE.hide()
 		await Global.delay(0.3)
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.any_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
 		await Global.delay(0.3)
-		MAIN_MENU_SCENE.hide()
 		GOD_SELECTION_SCENE.on_start_god_selection()
 		GOD_SELECTION_SCENE.show()
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

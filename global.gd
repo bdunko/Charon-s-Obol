@@ -5,6 +5,7 @@ signal round_changed
 signal souls_count_changed
 signal life_count_changed
 signal arrow_count_changed
+signal active_coin_power_coin_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
 signal flips_this_round_changed
@@ -177,11 +178,17 @@ func calculate_toll_coin_value() -> int:
 		sum += coin.get_value()
 	return sum
 
-var active_coin_power_coin: Coin = null
+var active_coin_power_coin: Coin = null:
+	set(val):
+		active_coin_power_coin = val
+		emit_signal("active_coin_power_coin_changed")
+		
 var active_coin_power_family: PowerFamily:
 	set(val):
 		active_coin_power_family = val
 		emit_signal("active_coin_power_family_changed")
+		#if val == null: #should not be necessary...
+		#	active_coin_power_coin = null
 
 const COIN_LIMIT = 8
 

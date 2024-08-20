@@ -186,6 +186,7 @@ func on_start() -> void:
 	Global.souls = 0
 	Global.arrows = 0
 	Global.active_coin_power_family = null
+	Global.active_coin_power_coin = null
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
 	Global.shop_rerolls = 0
@@ -216,12 +217,15 @@ func on_start() -> void:
 	_DIALOGUE.show_dialogue("Brave hero, will you board?")
 	_PLAYER_TEXTBOXES.make_visible()
 
-var flips_completed = 0
+var flips_pending = 0
 func _on_flip_complete() -> void:
-	if Global.state == Global.State.AFTER_FLIP:
-		return #ignore reflips such as Zeus
+	flips_pending -= 1
+	assert(flips_pending >= 0)
 	
-	flips_completed += 1
+	if Global.state == Global.State.AFTER_FLIP:
+		if flips_pending == 0:
+			_PLAYER_TEXTBOXES.make_visible()
+		return #ignore reflips such as Zeus
 	
 	# if this is after the last chance flip, resolve payoff
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
@@ -231,12 +235,12 @@ func _on_flip_complete() -> void:
 				await _wait_for_dialogue("Fate is cruel indeed.")
 				await _wait_for_dialogue("It seems this is the end for you.")
 				await _wait_for_dialogue("And now...")
-				await _wait_for_dialogue("...my prize.")
+				await _wait_for_dialogue("...I collect my prize.")
 				Global.state = Global.State.GAME_OVER
 			Global.CHARON_POWER_LIFE:
 				await _wait_for_dialogue("Fate smiles upon you...")
 				await _wait_for_dialogue("It seems you have dodged death, for a time.")
-				await _wait_for_dialogue("But your voyage has not yet concluded...")
+				await _wait_for_dialogue("But your journey has not yet concluded...")
 				Global.lives = 0
 				_advance_round()
 			_:
@@ -244,7 +248,7 @@ func _on_flip_complete() -> void:
 		return
 	
 	# if every flip is done
-	if flips_completed == _COIN_ROW.get_child_count() + _TRIAL_ROW.get_child_count():
+	if flips_pending == 0:
 		# recharge all coin powers
 		for coin in _COIN_ROW.get_children():
 			coin = coin as Coin
@@ -258,8 +262,7 @@ func _on_flip_complete() -> void:
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_ROW.get_children():
-			coin.flip()
-		_PLAYER_TEXTBOXES.make_invisible()
+			_safe_flip(coin)
 		return
 	
 	if _COIN_ROW.get_child_count() == 0:
@@ -274,16 +277,18 @@ func _on_toss_button_clicked() -> void:
 	
 	Global.lives -= strain
 	
-	_PLAYER_TEXTBOXES.make_invisible()
-	
 	# flip all the coins
-	flips_completed = 0
 	for coin in _COIN_ROW.get_children():
 		coin = coin as Coin
-		coin.flip()
+		_safe_flip(coin)
 	for coin in _TRIAL_ROW.get_children():
 		coin = coin as Coin
-		coin.flip()
+		_safe_flip(coin)
+
+func _safe_flip(coin: Coin) -> void:
+	flips_pending += 1
+	_PLAYER_TEXTBOXES.make_invisible()
+	coin.flip()
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
@@ -298,7 +303,7 @@ func _on_accept_button_pressed():
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
-		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and charges > 0:
+		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and not payoff_coin.is_frozen() and charges > 0:
 			payoff_coin.payoff_move_up()
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
@@ -640,7 +645,7 @@ func _on_coin_clicked(coin: Coin):
 			match(Global.active_coin_power_family):
 				Global.PATRON_POWER_FAMILY_ZEUS:
 					coin.supercharge()
-					coin.flip()
+					_safe_flip(coin)
 				Global.PATRON_POWER_FAMILY_HERA:
 					coin.turn()
 					if left:
@@ -678,7 +683,7 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't... trade... that...")
 						return
 					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
-					if Global.RNG.randi_range(1, 4) == 1:
+					if Global.RNG.randi_range(1, 4) == 1 and coin.can_upgrade():
 						coin.upgrade()
 				Global.PATRON_POWER_FAMILY_HESTIA:
 					coin.make_lucky()
@@ -701,7 +706,7 @@ func _on_coin_clicked(coin: Coin):
 			return
 		match(Global.active_coin_power_family):
 			Global.POWER_FAMILY_REFLIP:
-				coin.flip()
+				_safe_flip(coin)
 			Global.POWER_FAMILY_FREEZE:
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... freeze... itself...")
@@ -709,11 +714,11 @@ func _on_coin_clicked(coin: Coin):
 				coin.freeze()
 			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
 				# flip coin and neighbors
-				coin.flip()
+				_safe_flip(coin)
 				if left:
-					left.flip()
+					_safe_flip(coin)
 				if right:
-					right.flip()
+					_safe_flip(coin)
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
@@ -747,7 +752,7 @@ func _on_coin_clicked(coin: Coin):
 				if coin == Global.active_coin_power_coin:
 					_DIALOGUE.show_dialogue("Can't... love... yourself...")
 					return
-				if not coin.get_active_power_family().can_activate_power():
+				if not coin.can_activate_power():
 					_DIALOGUE.show_dialogue("Can't... recharge... that...")
 					return
 				coin.recharge_power_uses_by(1)
@@ -757,6 +762,9 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
+				if coin == Global.active_coin_power_coin:
+					_DIALOGUE.show_dialogue("Can't... benefit... itself...")
+					return
 				coin.make_lucky()
 			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
 				if row == _TRIAL_ROW:
@@ -769,7 +777,7 @@ func _on_coin_clicked(coin: Coin):
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
 				coin.queue_free()
 			Global.POWER_FAMILY_ARROW_REFLIP:
-				coin.flip()
+				_safe_flip(coin)
 				Global.arrows -= 1
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
@@ -794,7 +802,7 @@ func _on_coin_clicked(coin: Coin):
 				# reflip all coins
 				for c in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 					c = c as Coin
-					c.flip()
+					_safe_flip(coin)
 				_COIN_ROW.shuffle()
 				coin.spend_power_use()
 			Global.POWER_FAMILY_GAIN_COIN:
@@ -838,7 +846,7 @@ func _on_patron_token_clicked():
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
-				coin.flip()
+				_safe_flip(coin)
 				coin.reset()
 			_COIN_ROW.shuffle()
 			Global.patron_uses -= 1
@@ -863,6 +871,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			Global.active_coin_power_family = null
+			Global.active_coin_power_coin = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
 
