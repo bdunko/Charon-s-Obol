@@ -12,6 +12,7 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_en8g6")
 script = ExtResource("2_q67l5")
+metadata/_edit_use_anchors_ = true
 
 [node name="Layer" type="MarginContainer" parent="."]
 layout_mode = 2

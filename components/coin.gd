@@ -693,7 +693,7 @@ func _on_active_coin_power_coin_changed() -> void:
 
 var _time_mouse_hover = 0
 var _mouse_over = false
-const _DELAY_BEFORE_TOOLTIP = 0.3
+const _DELAY_BEFORE_TOOLTIP = 0.1 # not sure if we really want this?
 
 func _physics_process(delta):
 	if _mouse_over:

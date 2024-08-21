@@ -10,9 +10,16 @@ const _TOOLTIP_OFFSET := Vector2(-73, 10)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
-const _MAX_WIDTH_THRESHOLD := 130
+const _MAX_WIDTH_THRESHOLD := 140
 
 const _FORMAT := "[center]%s[/center]"
+
+var source_control
+
+func get_label() -> RichTextLabel:
+	var label = find_child("TooltipText")
+	assert(label)
+	return label
 
 static func enable_tooltips():
 	_ENABLED = true
@@ -29,8 +36,6 @@ static func clear_tooltips():
 		tooltip.queue_free() #not sure this is safe; keep an eye on this
 	_ALL_TOOLTIPS.clear()
 
-var source_control
-
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
@@ -43,12 +48,21 @@ static func create(source, text: String, global_mouse_position: Vector2, scene_r
 			tooltip.find_child("TooltipText").text = _FORMAT % text
 			return
 	
+	# if there is already a tooltip with identical text, change its source to this new control but don't generate a new one
+	for tooltip in _ALL_TOOLTIPS:
+		var label = tooltip.get_label()
+		if label.text == text:
+			# redo connects
+			tooltip.source_control.mouse_exited.disconnect(tooltip.destroy_tooltip)
+			tooltip.source_control.tree_exited.disconnect(tooltip.destroy_tooltip)
+			tooltip.source_control = source
+			tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip)
+			tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip)
+			return
+	
 	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root)
 	tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
 	tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip) # destroy tooltip when parent exits tree (ie parent is deleted)
-	
-	tooltip.modulate.a = 0.0
-	tooltip.create_tween().tween_property(tooltip, "modulate:a", 1.0, 0.03)
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
@@ -61,8 +75,7 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	
 	tooltip.source_control = source
 	
-	var label: RichTextLabel = tooltip.find_child("TooltipText")
-	assert(label)
+	var label = tooltip.get_label()
 	
 	# replace img tags with a single letter to help space them 
 	# (for now, only works with small images)
@@ -108,6 +121,14 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	scene_root.add_child(tooltip)
 	_ALL_TOOLTIPS.append(tooltip)
 	
+	# pivot offset controls where we scale from
+	tooltip.pivot_offset = tooltip.size/2.0
+	tooltip.scale = Vector2(0.2, 0.2)
+	tooltip.create_tween().tween_property(tooltip, "scale", Vector2(1.0, 1.0), 0.1)
+	
+	tooltip.modulate.a = 0.0
+	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85, 0.1)
+	
 	tooltip._force_position_onto_screen()
 	
 	# set initial visibility based on if tooltips are enabled
@@ -132,6 +153,7 @@ func _process(_delta):
 	#	var area = source_control as Area2D
 	#	area.get_size
 	position = Vector2(int(mouse_position.x), int(mouse_position.y)) + _TOOLTIP_OFFSET
+	pivot_offset = size/2.0
 	_force_position_onto_screen()
 
 # $HACK$ - get_rect() is wrong because size is wrong...
@@ -176,7 +198,7 @@ func _force_position_onto_screen():
 
 func destroy_tooltip():
 	var fade_out = create_tween()
-	fade_out.tween_property(self, "modulate:a", 0.0, 0.03)
+	fade_out.tween_property(self, "modulate:a", 0.0, 0.05)
 	_ALL_TOOLTIPS.erase(self)
 	await fade_out.finished
 	assert(is_instance_valid(self), "This tooltip has already been destroyed?")
