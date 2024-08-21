@@ -13,6 +13,18 @@ func slow_flash(color: Color) -> void:
 	get_parent().material.set_shader_parameter("flash_color", color)
 	play("slow_flash")
 
+func replace_color(i: int, color: Color, with: Color, ) -> void:
+	assert(i >= 1 and i <= 5, "We only support replacing up to 5 colors.")
+	if i < 1 or i > 5:
+		return
+	get_parent().material.set_shader_parameter("replace_color%d" % i, color)
+	get_parent().material.set_shader_parameter("replace_with_color%d" % i, with)
+
+func clear_replace_color() -> void:
+	for i in range(1, 5):
+		get_parent().material.set_shader_parameter("replace_color%d" % i, Color.BLACK)
+		get_parent().material.set_shader_parameter("replace_with_color%d" % i, Color.BLACK)
+
 func tint(color: Color, strength: float) -> void:
 	assert(strength >= 0.0 and strength <= 1.0)
 	get_parent().material.set_shader_parameter("tint_color", color)
@@ -39,6 +51,7 @@ func clear_outline() -> void:
 	get_parent().material.set_shader_parameter(get_parent().material.get_shader_parameter("replace_color5"))
 
 func clear_all() -> void:
+	clear_replace_color()
 	clear_glow()
 	clear_tint()
 	clear_outline()

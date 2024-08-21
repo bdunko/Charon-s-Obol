@@ -42,6 +42,10 @@ uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0);
 uniform bool use_exclude_tint = true;
 uniform vec3 exclude_tint: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_tint2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_tint3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_tint4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+
 
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
@@ -91,7 +95,7 @@ void fragment()
 		COLOR.rgb = replace_with_color5;
 	
 	// TINT
-	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint)) {
+	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint2) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint3) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint4)) {
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 	}

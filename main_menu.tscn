@@ -28,7 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0g1qv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gih1i"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -39,14 +39,17 @@ shader_parameter/replace_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -57,7 +60,7 @@ shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v11nj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf6vs"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -68,14 +71,17 @@ shader_parameter/replace_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -337,7 +343,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_0g1qv")
+material = SubResource("ShaderMaterial_gih1i")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -349,7 +355,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_v11nj")
+material = SubResource("ShaderMaterial_vf6vs")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

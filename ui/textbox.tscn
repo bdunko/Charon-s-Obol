@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bedblkbwue803"]
+[gd_scene load_steps=7 format=3 uid="uid://bedblkbwue803"]
 
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_dbfxe"]
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_hmwmk"]
 [ext_resource type="Script" path="res://ui/textbox.gd" id="2_5nlw7"]
 [ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_1cse8"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="5_yycq1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kv6cx"]
 resource_local_to_scene = true
@@ -16,20 +17,23 @@ shader_parameter/replace_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/flash_color = Color(0, 0, 0, 1)
-shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = false
-shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
-shader_parameter/outline_glow_min = 0.2
+shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
@@ -75,6 +79,8 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
+
+[node name="FX" parent="." instance=ExtResource("5_yycq1")]
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

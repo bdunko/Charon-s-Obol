@@ -35,9 +35,11 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 var _click_enabled = true
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
+@onready var _FX = $FX
 
 func _ready():
 	assert(_TEXT)
+	assert(_FX)
 
 func _update_style() -> void:
 	material.set_shader_parameter("replace_color1", _DEFAULT_TEXT_COLOR)
@@ -90,7 +92,9 @@ func _gui_input(event):
 				emit_signal("clicked")
 
 func _on_mouse_entered():
-	pass
+	if _click_enabled:
+		_FX.replace_color(1, _DEFAULT_TEXT_COLOR, Color.AQUAMARINE)
 
 func _on_mouse_exited():
+	_FX.clear_replace_color()
 	_mouse_down = false
