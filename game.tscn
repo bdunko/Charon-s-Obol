@@ -28,7 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
 [ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pmkhw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uy6dv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -50,13 +50,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjlns"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3colf"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -78,13 +79,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lrl3n"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5vbc"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -106,13 +108,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_div0o"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bv4bs"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -134,13 +137,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bcpjn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjaky"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -162,13 +166,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjxyg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wk4no"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -190,13 +195,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cw4wg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3u813"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -218,13 +224,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s56aw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_efqwo"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -246,13 +253,14 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_560qm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ov6mm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -274,6 +282,7 @@ shader_parameter/exclude_tint = Color(0, 0, 0, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
@@ -312,7 +321,7 @@ script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_pmkhw")
+material = SubResource("ShaderMaterial_uy6dv")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -326,7 +335,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_qjlns")
+material = SubResource("ShaderMaterial_3colf")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -335,7 +344,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_lrl3n")
+material = SubResource("ShaderMaterial_g5vbc")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -344,7 +353,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_div0o")
+material = SubResource("ShaderMaterial_bv4bs")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -353,7 +362,7 @@ text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_bcpjn")
+material = SubResource("ShaderMaterial_hjaky")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -361,7 +370,7 @@ script = ExtResource("9_d50av")
 text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_kjxyg")
+material = SubResource("ShaderMaterial_wk4no")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -369,7 +378,7 @@ script = ExtResource("10_oe7lm")
 text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_cw4wg")
+material = SubResource("ShaderMaterial_3u813")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -378,7 +387,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_s56aw")
+material = SubResource("ShaderMaterial_efqwo")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -387,7 +396,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_560qm")
+material = SubResource("ShaderMaterial_ov6mm")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 
@@ -486,8 +495,8 @@ offset_right = 235.0
 
 [node name="CoinRow" parent="Table" instance=ExtResource("19_ym3ga")]
 custom_minimum_size = Vector2(310, 39)
-offset_top = 110.0
-offset_bottom = 149.0
+offset_top = 109.0
+offset_bottom = 148.0
 
 [node name="Shop" type="Node2D" parent="Table"]
 script = ExtResource("20_xqqdj")
@@ -543,10 +552,10 @@ position = Vector2(24, 31)
 position = Vector2(16, 158)
 
 [node name="PatronToken" parent="." instance=ExtResource("24_k7xdm")]
-offset_left = 254.0
-offset_top = 150.0
-offset_right = 298.0
-offset_bottom = 178.0
+offset_left = 255.0
+offset_top = 149.0
+offset_right = 299.0
+offset_bottom = 177.0
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0

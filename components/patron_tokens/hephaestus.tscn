@@ -36,8 +36,8 @@ shader_parameter/transparency = 1.0
 [node name="PatronToken" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 44.0
-offset_bottom = 28.0
+offset_right = 46.0
+offset_bottom = 30.0
 pivot_offset = Vector2(32, 11)
 mouse_filter = 2
 script = ExtResource("1_usj27")
@@ -52,7 +52,7 @@ centered = false
 [node name="ClickableArea" type="Area2D" parent="."]
 
 [node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(7, -15)
+position = Vector2(8, -14)
 polygon = PackedVector2Array(0, 38, 0, 20, 2, 18, 11, 18, 13, 20, 13, 26, 31, 26, 32, 27, 32, 31, 31, 32, 13, 32, 13, 38, 11, 40, 2, 40)
 
 [connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
