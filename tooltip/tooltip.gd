@@ -154,7 +154,7 @@ func _force_position_onto_screen():
 		position.x -= 1
 		
 	# if we are off the left of the screen, move right until that's no longer the case.
-	while position.x + real_size.x < 0:
+	while position.x < 0:
 		position.x += 1
 	
 	# if we are off the bottom of the screen, move up until that's no longer the case.
@@ -162,7 +162,7 @@ func _force_position_onto_screen():
 		position.y -= 1
 		
 	# if we are off the top of the screen, move down until that's no longer the case.
-	while position.y + real_size.y < 0:
+	while position.y < 0:
 		position.y += 1
 	
 #	# but now we might be overlapping the mouse, so move up until we aren't
