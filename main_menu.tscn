@@ -28,7 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kccm1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0g1qv"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -57,7 +57,7 @@ shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/transparency = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wrtcc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v11nj"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -329,18 +329,17 @@ texture_normal = ExtResource("24_yeah1")
 
 [node name="Textboxes" type="HBoxContainer" parent="."]
 z_index = 1
-offset_top = 156.0
+offset_top = 157.0
 offset_right = 320.0
-offset_bottom = 172.0
+offset_bottom = 173.0
 pivot_offset = Vector2(154, 8)
 alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_kccm1")
+material = SubResource("ShaderMaterial_0g1qv")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
-background_color = Color(0, 0, 0, 1)
 
 [node name="TextMargin" parent="Textboxes/EmbarkButton" index="1"]
 size_flags_horizontal = 1
@@ -350,10 +349,9 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_wrtcc")
+material = SubResource("ShaderMaterial_v11nj")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
-background_color = Color(0, 0, 0, 1)
 
 [node name="TextMargin" parent="Textboxes/QuitButton" index="1"]
 size_flags_horizontal = 1

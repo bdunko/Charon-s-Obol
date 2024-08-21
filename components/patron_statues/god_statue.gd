@@ -15,13 +15,19 @@ func _ready():
 	assert(_HITBOX)
 	assert(_FX)
 
+var _mouse_down = false
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed and not _disabled:
-				emit_signal("clicked", self) 
-				_FX.glow(Color.GOLD, 2, false)
-				UITooltip.clear_tooltips()
+			if not _disabled:
+				# when we click down, remember. When the click finishes, signal if we're still over it.
+				if event.pressed:
+					_mouse_down = true
+				if not event.pressed and _mouse_down:  
+					_mouse_down = false
+					emit_signal("clicked", self) 
+					_FX.glow(Color.GOLD, 2, false)
+					UITooltip.clear_tooltips()
 
 func _on_clickable_area_mouse_entered():
 	if not _disabled:
@@ -38,5 +44,6 @@ func disable() -> void:
 	_disabled = true
 
 func _on_clickable_area_mouse_exited():
+	_mouse_down = false
 	if not _disabled:
 		_FX.clear_glow()

@@ -76,6 +76,7 @@ func _process(delta) -> void:
 	else:
 		position.y = _STARTING_Y
 
+var _mouse_down = false
 func _gui_input(event):
 	if not _click_enabled:
 		return
@@ -83,4 +84,13 @@ func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
+				_mouse_down = true
+			else:
+				_mouse_down = false
 				emit_signal("clicked")
+
+func _on_mouse_entered():
+	pass
+
+func _on_mouse_exited():
+	_mouse_down = false
