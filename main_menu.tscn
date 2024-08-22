@@ -37,6 +37,7 @@ noise = SubResource("FastNoiseLite_ct364")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_016i3"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -49,6 +50,8 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash = false
+shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = true
@@ -63,13 +66,15 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = true
 shader_parameter/fog_opacity = 0.04
 shader_parameter/fog_density = 0.276
-shader_parameter/fog_speed = Vector2(0, 0)
+shader_parameter/fog_speed = Vector2(0, 0.01)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_2nbrm")
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 0.5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_wtgcp"]
 
@@ -82,6 +87,7 @@ noise = SubResource("FastNoiseLite_wtgcp")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_16yc5"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -93,7 +99,9 @@ shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0.537255, 0.290196, 0.870588, 1)
-shader_parameter/tint_strength = 0.443
+shader_parameter/tint_strength = 0.605
+shader_parameter/tint_auto_flash = true
+shader_parameter/tint_auto_flash_speed = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = true
@@ -108,13 +116,15 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = true
-shader_parameter/fog_opacity = 0.3
+shader_parameter/fog_opacity = 0.15
 shader_parameter/fog_density = 0.0
-shader_parameter/fog_speed = Vector2(0, 0.1)
+shader_parameter/fog_speed = Vector2(0, 0.07)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_44jct")
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = true
+shader_parameter/transparency_glow_min = 0.5
+shader_parameter/transparency_glow_speed = 2.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_xyuc4"]
 seed = 5
@@ -126,6 +136,7 @@ noise = SubResource("FastNoiseLite_xyuc4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev3x1"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -138,6 +149,8 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0.0470588, 0.552941, 1, 1)
 shader_parameter/tint_strength = 1.0
+shader_parameter/tint_auto_flash = false
+shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = true
@@ -152,17 +165,20 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = true
-shader_parameter/fog_opacity = 0.05
+shader_parameter/fog_opacity = 0.04
 shader_parameter/fog_density = 0.143
 shader_parameter/fog_speed = Vector2(0, 0.2)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_jw2gs")
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8y87x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ji3k"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -175,6 +191,8 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash = false
+shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/use_exclude_tint = true
@@ -189,16 +207,19 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_chxes"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bykyb"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -211,6 +232,8 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash = false
+shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/use_exclude_tint = true
@@ -225,12 +248,14 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 0.5
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")
@@ -502,7 +527,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_8y87x")
+material = SubResource("ShaderMaterial_3ji3k")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -514,7 +539,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_chxes")
+material = SubResource("ShaderMaterial_bykyb")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

@@ -21,6 +21,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true
 shader = ExtResource("2_14jmd")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -33,6 +34,8 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash = false
+shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/use_exclude_tint = true
@@ -47,12 +50,14 @@ shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 2.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2fb7"]
 atlas = ExtResource("2_8bght")

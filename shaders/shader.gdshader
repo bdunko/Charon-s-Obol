@@ -13,8 +13,16 @@ shader_type canvas_item;
 const float EPSILON = 0.001;
 bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
+float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
+float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
 
 // --- Effects --- //
+// PAN
+// Controls texture left/right/up/down panning (the texture will be repeated)
+// Set to a positive number for left/up panning; negative number for right/down panning
+group_uniforms Pan;
+uniform vec2 pan_speed = vec2(0, 0);
+
 // RECOLOR
 // Replaces replace_colorN with replace_with_colorN.
 group_uniforms Recolor;
@@ -32,12 +40,15 @@ uniform vec3 replace_with_color5: source_color = vec3(0.07843137254, 0.062745098
 // TINT
 // Tint the texture with tint_color (rbg) 
 // The strength of the tint is controlled by tint_strength (0-1)
+// If tint_auto_flash, the tint will oscillate between the original color and tint color at tint_auto_flash_speed
 // If use_exclude_tint, the tint ignores pixels whose color matches excude_tint (useful for ignoring borders)
 // Can also be used to create flashing effects (flash_color/strength is identical to tint_color/strength, but provides another layer for flexibility)
 // Flash is applied after tint.
 group_uniforms TintAndFlash;
 uniform vec3 tint_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
+uniform bool tint_auto_flash = false;
+uniform float tint_auto_flash_speed = 0.5;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0);
 uniform bool use_exclude_tint = true;
@@ -45,7 +56,6 @@ uniform vec3 exclude_tint: source_color = vec3(0.07843137254, 0.06274509803, 0.0
 uniform vec3 exclude_tint2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_tint3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_tint4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
-
 
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
@@ -64,12 +74,6 @@ uniform float outline_glow_max = 1.0;
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
-// PAN
-// Controls texture left/right/up/down panning (the texture will be repeated)
-// Set to a positive number for left/up panning; negative number for right/down panning
-group_uniforms Pan;
-uniform vec2 pan_speed = vec2(0, 0);
-
 // FOG
 // Applies a fog_noise_texture filter over the texture with modifiable opacity and density, moving at speed
 // Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
@@ -82,8 +86,13 @@ uniform vec2 fog_speed = vec2(0.02, 0.01);
 
 // TRANSPARENCY
 // Controls transparency of the texture.
-group_uniforms Transparency;
+// If transparency_flicker, modulates between the given transparency and transparency_flicker_min at transparency_flicker_speed
+group_uniforms TransparencyAndFlicker;
 uniform float transparency: hint_range(0.0, 1.0) = 1.0;
+uniform bool transparency_glow = false;
+uniform float transparency_glow_min: hint_range(0.0, 1.0) = 0.0;
+uniform float transparency_glow_speed = 2.0;
+
 
 // --- Fragment Shader --- //
 void fragment() 
@@ -106,7 +115,10 @@ void fragment()
 	
 	// TINT
 	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint2) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint3) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint4)) {
-		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
+		float glowing_tint_str = tint_strength;
+		if (tint_auto_flash)
+			glowing_tint_str *= sin0to1(TIME * tint_auto_flash_speed);
+		COLOR.rgb = mix(COLOR.rgb, tint_color, glowing_tint_str);
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 	}
 	
@@ -124,7 +136,7 @@ void fragment()
 		}
 		outline = min(outline, 1.0);
 		
-		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos((TIME - outline_start_time) * outline_glow_speed)));
+		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos0to1((TIME - outline_start_time) * outline_glow_speed)));
 		COLOR = mix(COLOR, outline_color * glow_alpha, outline - COLOR.a);
 	}
 	
@@ -138,8 +150,12 @@ void fragment()
 	}
 	
 	// TRANSPARENCY
-	if (COLOR.a != 0.0)
-		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
+	if (COLOR.a != 0.0) {
+		float transparency_actual = transparency;
+		if (transparency_glow)
+			transparency_actual = mix(transparency, transparency_glow_min, sin0to1(TIME * transparency_glow_speed));
+		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency_actual);
+	}
 }
 
 void vertex()

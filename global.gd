@@ -426,12 +426,18 @@ var breakpoint_on_space = true
 var RNG = RandomNumberGenerator.new()
 
 var _is_depressed = false
+var _last_any_input_time = 0.0
+const _MIN_TIME_BETWEEN_ANY_INPUT_MS = 100 #0.2 sec
 func _input(_event: InputEvent) -> void:
 	if breakpoint_on_space and Input.is_key_pressed(KEY_SPACE):
 		breakpoint
 	elif Input.is_anything_pressed() and not _is_depressed:
 		_is_depressed = true
-		emit_signal("any_input")
+		
+		# don't let the signal go faster than a set rate
+		if Time.get_ticks_msec()  - _last_any_input_time >= _MIN_TIME_BETWEEN_ANY_INPUT_MS:
+			_last_any_input_time = Time.get_ticks_msec()
+			emit_signal("any_input")
 	else:
 		_is_depressed = false
 
