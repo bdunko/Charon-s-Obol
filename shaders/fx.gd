@@ -25,10 +25,11 @@ func clear_replace_color() -> void:
 		get_parent().material.set_shader_parameter("replace_color%d" % i, Color.BLACK)
 		get_parent().material.set_shader_parameter("replace_with_color%d" % i, Color.BLACK)
 
-func tint(color: Color, strength: float) -> void:
+func tint(color: Color, strength: float, auto_flash_speed: float = 0.0) -> void:
 	assert(strength >= 0.0 and strength <= 1.0)
 	get_parent().material.set_shader_parameter("tint_color", color)
 	get_parent().material.set_shader_parameter("tint_strength", strength)
+	get_parent().material.set_shader_parameter("tint_auto_flash_speed", auto_flash_speed)
 
 func clear_tint() -> void:
 	get_parent().material.set_shader_parameter("tint_strength", 0.0)
@@ -51,8 +52,19 @@ func clear_outline() -> void:
 	get_parent().material.set_shader_parameter("replace_color5", Color.WHITE)
 	get_parent().material.set_shader_parameter("replace_with_color5", Color.WHITE)
 
+func transparency(transparency: float, should_glow: bool = false, min: float = 0.0, glow_speed: float = 1.0) -> void:
+	get_parent().material.set_shader_parameter("transparency", transparency)
+	get_parent().material.set_shader_parameter("transparency_glow", should_glow)
+	get_parent().material.set_shader_parameter("transparency_glow_min", min)
+	get_parent().material.set_shader_parameter("transparency_glow_speed", glow_speed)
+
+func clear_transparency() -> void:
+	get_parent().material.set_shader_parameter("transparency", 1.0)
+	get_parent().material.set_shader_parameter("transparency_glow", false)
+
 func clear_all() -> void:
 	clear_replace_color()
 	clear_glow()
 	clear_tint()
 	clear_outline()
+	clear_transparency()

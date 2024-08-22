@@ -3,8 +3,6 @@ extends Node2D
 signal patron_selected
 signal exited
 
-var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
-
 @onready var _STATUE_POSITION_LEFT = $PatronStatues/Left.position
 @onready var _STATUE_POSITION_MIDDLE = $PatronStatues/Middle.position
 @onready var _STATUE_POSITION_RIGHT = $PatronStatues/Right.position
@@ -21,6 +19,8 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var _PLAYER_DIALOGUE = $PlayerDialogueSystem
 @onready var _CAMERA = $Camera
 
+@onready var _FOG = $Fog
+
 func _ready() -> void:
 	assert(_STATUE_POSITION_LEFT)
 	assert(_STATUE_POSITION_MIDDLE)
@@ -29,6 +29,7 @@ func _ready() -> void:
 	assert(_SHIP_PATH_FOLLOW)
 	assert(_WITHERED_BG)
 	assert(_PEACEFUL_BG)
+	assert(_FOG)
 	assert(_RAIN)
 	assert(_VICTORY_DIALOGUE)
 	assert(_PATRON_DIALOGUE)
@@ -42,6 +43,13 @@ func _ready() -> void:
 
 func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
+	
+	# if the statue was the godless, fade in the 'correct' statue over it.
+	if statue.patron_enum == Global.PatronEnum.GODLESS:
+		var new_statue = _add_statue(Global.patron.patron_statue, statue.position)
+		new_statue.apply_spectral_fx()
+		statue.clear_fx()
+	
 	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
 		statu.disable()
 	_PLAYER_DIALOGUE.clear_dialogue()
@@ -54,19 +62,22 @@ func _on_statue_clicked(statue: PatronStatue):
 	_PATRON_DIALOGUE.instant_clear_dialogue()
 	emit_signal("patron_selected")
 
-func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> void:
+func _add_statue(statue_scene: PackedScene, statue_position: Vector2) -> PatronStatue:
 	var statue: PatronStatue = statue_scene.instantiate()
 	statue.position = statue_position
 	statue.clicked.connect(_on_statue_clicked)
 	_PATRON_STATUES.add_child(statue)
+	return statue
 
 func _make_background_peaceful() -> void:
 	_RAIN.hide()
+	_FOG.hide()
 	_WITHERED_BG.hide()
 	_PEACEFUL_BG.show()
 
 func _make_background_withered() -> void:
 	_RAIN.show()
+	_FOG.show()
 	_WITHERED_BG.show()
 	_PEACEFUL_BG.hide()
 
@@ -78,12 +89,19 @@ func on_victory() -> void:
 	_enable_and_reset_camera()
 	_make_background_peaceful()
 	
+	assert(_PATRON_STATUES.get_child_count() == 3 or _PATRON_STATUES.get_child_count() == 4, "Impossible # statues?")
+	for i in range(0, _PATRON_STATUES.get_child_count()):
+		var statue: PatronStatue = _PATRON_STATUES.get_child(i)
+		
+		# hide the godless statue IFF it was selected (the 'true' statue is the fourth and will be shown instead)
+		if _PATRON_STATUES.get_child_count() == 4 and statue.patron_enum == Global.PatronEnum.GODLESS:
+			statue.hide()
+		
+		statue.clear_fx()
+	
 	for line in Global.character.victoryDialogue:
 		await _VICTORY_DIALOGUE.show_dialogue_and_wait(line)
 	_VICTORY_DIALOGUE.show_dialogue(Global.character.victoryClosingLine)
-
-	for statue in _PATRON_STATUES.get_children():
-		statue.clear_fx()
 	
 	_VICTORY_TEXTBOXES.make_visible()
 
@@ -99,7 +117,7 @@ func on_start_god_selection() -> void:
 	# create the 3 new statues; third cannot equal first
 	var first_patron = Global.choose_one(Global.PATRONS)
 	_add_statue(first_patron.patron_statue, _STATUE_POSITION_LEFT)
-	_add_statue(_GODLESS_STATUE, _STATUE_POSITION_MIDDLE)
+	_add_statue(Global.statue_scene_for_patron_enum(Global.PatronEnum.GODLESS), _STATUE_POSITION_MIDDLE)
 	_add_statue(Global.choose_one_excluding(Global.PATRONS, [first_patron]).patron_statue, _STATUE_POSITION_RIGHT)
 	
 	_VICTORY_DIALOGUE.instant_clear_dialogue()

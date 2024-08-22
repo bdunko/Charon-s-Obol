@@ -522,6 +522,7 @@ enum PatronEnum {
 	GODLESS, # used as a placeholder for the godless statue, not a real power
 }
 
+var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 var PATRONS = [
 	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Recharge all your coins.", PatronEnum.APHRODITE, PATRON_POWER_FAMILY_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn")),
 	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Turn all coins to their other face.", PatronEnum.APOLLO, PATRON_POWER_FAMILY_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn")),
@@ -539,13 +540,22 @@ var PATRONS = [
 	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Supercharge a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"))
 ]
 
+func statue_scene_for_patron_enum(enm: PatronEnum) -> PackedScene:
+	if enm == PatronEnum.GODLESS:
+		return _GODLESS_STATUE
+	for possible_patron in PATRONS:
+		if possible_patron.patron_enum == enm:
+			return possible_patron.patron_statue
+	assert(false, "Patron does not exist. (statue scene for patron enum)")
+	return null
+
 func patron_for_enum(enm: PatronEnum) -> Patron:
 	if enm == PatronEnum.GODLESS:
 		return choose_one(PATRONS)
 	for possible_patron in PATRONS:
 		if possible_patron.patron_enum == enm:
 			return possible_patron
-	assert(false, "Patron does not exist.")
+	assert(false, "Patron does not exist. (patron for enum)")
 	return null
 
 func is_patron_power(power_family: PowerFamily) -> bool:

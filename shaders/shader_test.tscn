@@ -33,8 +33,7 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
-shader_parameter/tint_auto_flash_speed = 0.5
+shader_parameter/tint_auto_flash_speed = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = false
@@ -56,8 +55,8 @@ shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_5j6xx")
 shader_parameter/transparency = 1.0
 shader_parameter/transparency_glow = false
-shader_parameter/transparency_glow_min = 0.0
-shader_parameter/transparency_glow_speed = 0.5
+shader_parameter/transparency_glow_min = 1.0
+shader_parameter/transparency_glow_speed = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
@@ -74,7 +73,6 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = null
@@ -114,7 +112,6 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = null
@@ -139,7 +136,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1cdeq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0nge"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -155,7 +152,6 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = 0.0
@@ -195,7 +191,6 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = null
@@ -241,7 +236,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(1, 0.588235, 0.211765, 1)
 shader_parameter/tint_strength = 0.469
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 0.454902, 0.384314, 1)
 shader_parameter/flash_strength = 0.0
@@ -288,7 +282,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_1cdeq")
+material = SubResource("ShaderMaterial_v0nge")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"

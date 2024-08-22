@@ -43,7 +43,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0.533333, 0.768627, 0.94902, 1)
 shader_parameter/tint_strength = 0.1
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
@@ -68,7 +67,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ife2g"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3gbkt"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -84,7 +83,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -109,7 +107,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8tjo3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bc0gc"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -125,7 +123,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -150,7 +147,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ynfhv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_11sfv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -166,7 +163,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -191,7 +187,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_blpgc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h8suj"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -207,7 +203,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -232,7 +227,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vu88"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_46twu"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -248,7 +243,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -273,7 +267,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkgtr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aixb4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -289,7 +283,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -314,7 +307,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eu7dh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tllhd"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -330,7 +323,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -355,7 +347,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sr50l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l157t"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -371,7 +363,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -396,7 +387,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_imfds"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cvmsr"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -412,7 +403,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash = false
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
@@ -459,7 +449,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0.933333, 0.690196, 0.815686, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/tint_auto_flash = true
 shader_parameter/tint_auto_flash_speed = 5.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
@@ -508,7 +497,6 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0.517647, 0.827451, 0.92549, 1)
 shader_parameter/tint_strength = 0.3
-shader_parameter/tint_auto_flash = true
 shader_parameter/tint_auto_flash_speed = 3.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
@@ -567,7 +555,7 @@ script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ife2g")
+material = SubResource("ShaderMaterial_3gbkt")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -581,7 +569,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_8tjo3")
+material = SubResource("ShaderMaterial_bc0gc")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -590,7 +578,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ynfhv")
+material = SubResource("ShaderMaterial_11sfv")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -599,7 +587,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_blpgc")
+material = SubResource("ShaderMaterial_h8suj")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -608,7 +596,7 @@ text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_6vu88")
+material = SubResource("ShaderMaterial_46twu")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -616,7 +604,7 @@ script = ExtResource("9_d50av")
 text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_tkgtr")
+material = SubResource("ShaderMaterial_aixb4")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -624,7 +612,7 @@ script = ExtResource("10_oe7lm")
 text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_eu7dh")
+material = SubResource("ShaderMaterial_tllhd")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -633,7 +621,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_sr50l")
+material = SubResource("ShaderMaterial_l157t")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -642,7 +630,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_imfds")
+material = SubResource("ShaderMaterial_cvmsr")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 

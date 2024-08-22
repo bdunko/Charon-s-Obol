@@ -29,6 +29,7 @@ func _on_game_game_ended(victory: bool):
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	await Global.delay(2.0)
 	GAME_SCENE.hide()
+	UITooltip.clear_tooltips() # fixes a small visual bug if you end with a tooltip up
 	# if we won, show the victory screen
 	if victory:
 		GOD_SELECTION_SCENE.show()

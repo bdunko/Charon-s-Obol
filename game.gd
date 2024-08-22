@@ -85,9 +85,9 @@ func _on_life_count_changed() -> void:
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
 		# DEBUG TODODO
-		victory = true
-		Global.state = Global.State.GAME_OVER
-		return
+		#victory = true
+		#Global.state = Global.State.GAME_OVER
+		#return
 		
 		await _wait_for_dialogue("You're out of life...")
 		# todo - fancier dialogue
@@ -146,7 +146,14 @@ func _on_state_changed() -> void:
 		_on_game_end()
 
 func _on_game_end() -> void:
-	await _wait_for_dialogue("You've won, this time..." if victory else "Your soul shall be mine!")
+	if victory:
+		await _wait_for_dialogue("You've won! How can this be?")
+		await _wait_for_dialogue("Regardless, a deal's a deal...")
+		await _wait_for_dialogue("I wish you luck on the rest of your journey...")
+	else:
+		await _wait_for_dialogue("You were a fool to come here.")
+		await _wait_for_dialogue("And now...")
+		await _wait_for_dialogue("Your soul shall be mine!")
 	emit_signal("game_ended", victory)
 
 func on_start() -> void:
@@ -194,15 +201,15 @@ func on_start() -> void:
 	Global.toll_index = 0
 	
 	#debug
-	Global.souls = 100
-	Global.lives = 100
-	Global.arrows = 10
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
-	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
-	_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
+	#Global.souls = 100
+	#Global.lives = 100
+	#Global.arrows = 10
+	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
+	#_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
+	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
 	Global.state = Global.State.BOARDING
 	_PLAYER_TEXTBOXES.make_invisible()

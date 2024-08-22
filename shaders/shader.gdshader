@@ -47,8 +47,7 @@ uniform vec3 replace_with_color5: source_color = vec3(0.07843137254, 0.062745098
 group_uniforms TintAndFlash;
 uniform vec3 tint_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
-uniform bool tint_auto_flash = false;
-uniform float tint_auto_flash_speed = 0.5;
+uniform float tint_auto_flash_speed = 0;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0);
 uniform bool use_exclude_tint = true;
@@ -116,8 +115,7 @@ void fragment()
 	// TINT
 	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint2) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint3) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint4)) {
 		float glowing_tint_str = tint_strength;
-		if (tint_auto_flash)
-			glowing_tint_str *= sin0to1(TIME * tint_auto_flash_speed);
+		glowing_tint_str *= cos0to1(TIME * tint_auto_flash_speed);
 		COLOR.rgb = mix(COLOR.rgb, tint_color, glowing_tint_str);
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 	}

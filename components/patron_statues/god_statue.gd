@@ -25,8 +25,8 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 					_mouse_down = true
 				if not event.pressed and _mouse_down:  
 					_mouse_down = false
-					emit_signal("clicked", self) 
 					_FX.glow(Color.GOLD, 2, false)
+					emit_signal("clicked", self) 
 					UITooltip.clear_tooltips()
 
 func _on_clickable_area_mouse_entered():
@@ -36,6 +36,11 @@ func _on_clickable_area_mouse_entered():
 		var desc = patron.description if patron_enum != Global.PatronEnum.GODLESS else "???"
 		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
 		_FX.glow(Color.GHOST_WHITE, 2)
+
+func apply_spectral_fx() -> void:
+	_FX.glow(Color.GOLD, 2, false)
+	_FX.tint(Color.AQUA, 0.8)
+	_FX.transparency(0.8, true, 0.3, 2.0)
 
 func clear_fx() -> void:
 	_FX.clear_all()
