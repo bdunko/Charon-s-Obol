@@ -90,6 +90,7 @@ func _gui_input(event):
 			else:
 				_mouse_down = false
 				emit_signal("clicked")
+				_FX.clear_replace_color()
 
 func _on_mouse_entered():
 	if _click_enabled:

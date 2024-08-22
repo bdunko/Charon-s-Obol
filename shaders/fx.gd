@@ -35,7 +35,7 @@ func clear_tint() -> void:
 
 func glow(color: Color, thickness: int = 1, initial: bool = true) -> void:
 	if initial: # start glow from outline_glow_min if true
-		get_parent().material.set_shader_parameter("outline_start", Time.get_ticks_msec()/1000.0)
+		get_parent().material.set_shader_parameter("outline_start_time", Time.get_ticks_msec()/1000.0)
 	get_parent().material.set_shader_parameter("outline_thickness", thickness)
 	get_parent().material.set_shader_parameter("outline_color", color)
 	get_parent().material.set_shader_parameter("outline_glow_min", 0.75)
@@ -48,7 +48,8 @@ func outline(color: Color) -> void:
 	get_parent().material.set_shader_parameter("replace_with_color5", color)
 
 func clear_outline() -> void:
-	get_parent().material.set_shader_parameter(get_parent().material.get_shader_parameter("replace_color5"))
+	get_parent().material.set_shader_parameter("replace_color5", Color.WHITE)
+	get_parent().material.set_shader_parameter("replace_with_color5", Color.WHITE)
 
 func clear_all() -> void:
 	clear_replace_color()

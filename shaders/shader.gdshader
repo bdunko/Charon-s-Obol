@@ -57,7 +57,7 @@ group_uniforms OutlineAndGlow;
 uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
-uniform float outline_start = 0;
+uniform float outline_start_time = 0;
 uniform float outline_glow_speed = 2.5;
 uniform float outline_glow_min = 1.0;
 uniform float outline_glow_max = 1.0;
@@ -69,6 +69,16 @@ const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), 
 // Set to a positive number for left/up panning; negative number for right/down panning
 group_uniforms Pan;
 uniform vec2 pan_speed = vec2(0, 0);
+
+// FOG
+// Applies a fog_noise_texture filter over the texture with modifiable opacity and density, moving at speed
+// Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
+group_uniforms Fog;
+uniform bool fog_enabled = false;
+uniform sampler2D fog_noise_texture: repeat_enable, filter_nearest;
+uniform float fog_opacity: hint_range(0.0, 1.0) = 0.5;
+uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
+uniform vec2 fog_speed = vec2(0.02, 0.01);
 
 // TRANSPARENCY
 // Controls transparency of the texture.
@@ -100,10 +110,6 @@ void fragment()
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 	}
 	
-	// TRANSPARENCY
-	if (COLOR.a != 0.0)
-		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
-	
 	// OUTLINE
 	if (outline_thickness != 0) {
 		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
@@ -118,9 +124,22 @@ void fragment()
 		}
 		outline = min(outline, 1.0);
 		
-		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos((TIME - outline_start) * outline_glow_speed)));
+		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos((TIME - outline_start_time) * outline_glow_speed)));
 		COLOR = mix(COLOR, outline_color * glow_alpha, outline - COLOR.a);
 	}
+	
+	// FOG
+	if (fog_enabled) {
+		vec2 fog_uv = UV + fog_speed * TIME;
+		float noise_alpha = texture(fog_noise_texture, fog_uv).r;
+		// Convert noise from (0.0, 1.0) to (-1.0, 1.0)
+		float fog = clamp((noise_alpha * 2.0 - 1.0) + (fog_density * 2.0), 0.0, 1.0);
+		COLOR.a *= fog * fog_opacity;
+	}
+	
+	// TRANSPARENCY
+	if (COLOR.a != 0.0)
+		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency);
 }
 
 void vertex()

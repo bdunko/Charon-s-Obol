@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=35 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
@@ -120,13 +120,21 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(-0.01, 0)
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_68yvk"]
@@ -147,13 +155,21 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(-0.04, 0)
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o110x"]
@@ -174,16 +190,66 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(-0.5, -1)
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_urc83"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_at7ng"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ljegw"]
+seamless = true
+noise = SubResource("FastNoiseLite_at7ng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ao8e3"]
+shader = ExtResource("3_jc04v")
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0.32549, 0.32549, 0.32549, 1)
+shader_parameter/tint_strength = 0.396
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = null
+shader_parameter/use_exclude_tint = true
+shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
+shader_parameter/outline_diagonals = false
+shader_parameter/outline_start_time = 0.0
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
+shader_parameter/outline_glow_max = 1.0
+shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/fog_enabled = true
+shader_parameter/fog_opacity = 0.151
+shader_parameter/fog_density = 0.0
+shader_parameter/fog_speed = Vector2(-0.5, 0)
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ljegw")
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pwfqj"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -199,16 +265,24 @@ shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = null
+shader_parameter/flash_strength = 0.0
 shader_parameter/use_exclude_tint = false
 shader_parameter/exclude_tint = Color(0, 0, 0, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
+shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
 
 [node name="PatronSelection" type="Node2D"]
@@ -306,6 +380,12 @@ material = SubResource("ShaderMaterial_o110x")
 texture = ExtResource("13_e5xt1")
 centered = false
 
+[node name="Fog" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ao8e3")
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2
+
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(313, 80)
 limit_left = 0
@@ -324,7 +404,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_urc83")
+material = SubResource("ShaderMaterial_pwfqj")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
