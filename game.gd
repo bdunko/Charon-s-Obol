@@ -314,10 +314,12 @@ func _on_accept_button_pressed():
 			payoff_coin.payoff_move_up()
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - max 3 souls per payoff coin
-						Global.souls += min(3, charges)
-					else:
-						Global.souls += charges
+					var payoff = charges
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
+						payoff = 0 if charges <= 5 else charges
+					if Global.is_current_round_type():
+						payoff *= 2
+					Global.souls += charges
 				Global.POWER_FAMILY_LOSE_SOULS:
 					Global.souls = max(0, Global.souls - charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
@@ -449,6 +451,7 @@ func _on_voyage_continue_button_clicked():
 	if first_round:
 		await _wait_for_dialogue("Now place your payment on the table...")
 		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
+		_make_and_gain_coin(Global.patron.get_random_starting_coin_family(), Global.Denomination.OBOL)
 	
 	if Global.current_round_type() == Global.RoundType.TOLLGATE:
 		Global.state = Global.State.TOLLGATE

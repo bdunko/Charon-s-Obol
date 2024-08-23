@@ -46,6 +46,10 @@ func _on_statue_clicked(statue: PatronStatue):
 	
 	# if the statue was the godless, fade in the 'correct' statue over it.
 	if statue.patron_enum == Global.PatronEnum.GODLESS:
+		# don't let it be the same patron as one of the two real statues if godless
+		while Global.patron.patron_enum == _PATRON_STATUES.get_child(0).patron_enum or Global.patron.patron_enum == _PATRON_STATUES.get_child(2).patron_enum:
+			Global.patron = Global.patron_for_enum(statue.patron_enum)
+		
 		var new_statue = _add_statue(Global.patron.patron_statue, statue.position)
 		new_statue.apply_spectral_fx()
 		statue.clear_fx()
