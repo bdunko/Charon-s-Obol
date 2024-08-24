@@ -206,7 +206,7 @@ func on_start() -> void:
 	#Global.arrows = 10
 	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
 	#_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.ARTEMIS_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.ARES_FAMILY, Global.Denomination.TETROBOL)
 	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
 	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
 	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
@@ -317,9 +317,9 @@ func _on_accept_button_pressed():
 					var payoff = charges
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
 						payoff = 0 if charges <= 5 else charges
-					if Global.is_current_round_type():
+					if Global.is_current_round_trial():
 						payoff *= 2
-					Global.souls += charges
+					Global.souls += payoff
 				Global.POWER_FAMILY_LOSE_SOULS:
 					Global.souls = max(0, Global.souls - charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
@@ -812,7 +812,7 @@ func _on_coin_clicked(coin: Coin):
 				# reflip all coins
 				for c in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 					c = c as Coin
-					_safe_flip(coin)
+					_safe_flip(c)
 				_COIN_ROW.shuffle()
 				coin.spend_power_use()
 			Global.POWER_FAMILY_GAIN_COIN:
