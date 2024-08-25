@@ -1,6 +1,8 @@
 class_name FX
 extends AnimationPlayer
 
+const OUTLINE_COLOR = Color(20.0/255.0, 16.0/255.0, 19.0/255.0)
+
 func _ready() -> void:
 	assert(get_parent().material) # precondition - parent's material is shader.gdshader
 	assert(get_parent().material is ShaderMaterial)
@@ -49,8 +51,7 @@ func outline(color: Color) -> void:
 	get_parent().material.set_shader_parameter("replace_with_color5", color)
 
 func clear_outline() -> void:
-	get_parent().material.set_shader_parameter("replace_color5", Color.WHITE)
-	get_parent().material.set_shader_parameter("replace_with_color5", Color.WHITE)
+	get_parent().material.set_shader_parameter("replace_with_color5", OUTLINE_COLOR)
 
 func transparency(transparency: float, should_glow: bool = false, min: float = 0.0, glow_speed: float = 1.0) -> void:
 	get_parent().material.set_shader_parameter("transparency", transparency)

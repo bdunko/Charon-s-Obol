@@ -249,7 +249,7 @@ func _on_flip_complete() -> void:
 				await _wait_for_dialogue("It seems you have dodged death, for a time.")
 				await _wait_for_dialogue("But your journey has not yet concluded...")
 				Global.lives = 0
-				_advance_round()
+				_on_end_round_button_pressed()
 			_:
 				assert(false, "Charon's obol has an incorrect power?")
 		return
@@ -726,9 +726,9 @@ func _on_coin_clicked(coin: Coin):
 				# flip coin and neighbors
 				_safe_flip(coin)
 				if left:
-					_safe_flip(coin)
+					_safe_flip(left)
 				if right:
-					_safe_flip(coin)
+					_safe_flip(right)
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
@@ -792,7 +792,6 @@ func _on_coin_clicked(coin: Coin):
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
-				
 		Global.active_coin_power_coin.spend_power_use()
 		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
@@ -810,11 +809,11 @@ func _on_coin_clicked(coin: Coin):
 				coin.spend_power_use()
 			Global.POWER_FAMILY_REFLIP_ALL:
 				# reflip all coins
+				coin.spend_power_use()
 				for c in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 					c = c as Coin
 					_safe_flip(c)
 				_COIN_ROW.shuffle()
-				coin.spend_power_use()
 			Global.POWER_FAMILY_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
