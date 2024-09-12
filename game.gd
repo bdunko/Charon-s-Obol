@@ -451,7 +451,9 @@ func _on_voyage_continue_button_clicked():
 	if first_round:
 		await _wait_for_dialogue("Now place your payment on the table...")
 		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
-		_make_and_gain_coin(Global.patron.get_random_starting_coin_family(), Global.Denomination.OBOL)
+		
+		# removed, but kept potentially for later - generate a random bonus starting coin from patron
+		#_make_and_gain_coin(Global.patron.get_random_starting_coin_family(), Global.Denomination.OBOL)
 	
 	if Global.current_round_type() == Global.RoundType.TOLLGATE:
 		Global.state = Global.State.TOLLGATE
@@ -856,7 +858,7 @@ func _on_patron_token_clicked():
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 				_safe_flip(coin)
-				coin.reset()
+				coin.clear_statuses()
 			_COIN_ROW.shuffle()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:

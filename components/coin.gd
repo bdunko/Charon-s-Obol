@@ -205,15 +205,6 @@ func _on_state_changed() -> void:
 	else:
 		_PRICE.hide()
 
-func reset() -> void:
-	_blank = false
-	_luck_state = _LuckState.NONE
-	_freeze_ignite_state = _FreezeIgniteState.NONE
-	_material_state = _MaterialState.NONE
-	_supercharged = false
-	_round_tails_penalty_reduction = 0
-	_permanent_tails_penalty_reduction = 0
-
 func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
 	_coin_family = family
 	_denomination = denomination
@@ -226,9 +217,15 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_heads_power = FacePower.new(_coin_family.heads_power_family, _coin_family.heads_power_family.uses_for_denom[_denomination])
 	_tails_power = FacePower.new(_coin_family.tails_power_family, _coin_family.tails_power_family.uses_for_denom[_denomination])
 	_heads = true
-	reset_power_uses()
 	_owner = owned_by
-	reset()
+	_blank = false
+	_luck_state = _LuckState.NONE
+	_freeze_ignite_state = _FreezeIgniteState.NONE
+	_material_state = _MaterialState.NONE
+	_supercharged = false
+	_round_tails_penalty_reduction = 0
+	_permanent_tails_penalty_reduction = 0
+	reset_power_uses()
 
 func get_coin_family() -> Global.CoinFamily:
 	return _coin_family
@@ -237,7 +234,20 @@ func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
 
 func get_store_price() -> int:
-	return _coin_family.store_price_for_denom[_denomination]
+	return _coin_family.store_price_for_denom[_denomination] * Global.current_round_price_multiplier()
+
+func get_upgrade_price() -> int:
+	match(_denomination):
+		Global.Denomination.OBOL:
+			return (_coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL]) * Global.current_round_price_multiplier()
+		Global.Denomination.DIOBOL:
+			return (_coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL]) * Global.current_round_price_multiplier()
+		Global.Denomination.TRIOBOL:
+			return (_coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL]) * Global.current_round_price_multiplier()
+		Global.Denomination.TETROBOL:
+			return 10000000 #error case really
+	breakpoint
+	return 1000000
 
 func get_sell_price() -> int:
 	#breakpoint #deprecated for now
@@ -320,19 +330,6 @@ func downgrade() -> void:
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
 	_FX.flash(Color.DARK_GRAY)
-
-func get_upgrade_price() -> int:
-	match(_denomination):
-		Global.Denomination.OBOL:
-			return _coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL] + 1
-		Global.Denomination.DIOBOL:
-			return _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL] + 3
-		Global.Denomination.TRIOBOL:
-			return _coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] + 5
-		Global.Denomination.TETROBOL:
-			return 10000000 #error case really
-	breakpoint
-	return 1000000
 
 func is_passive() -> bool:
 	return get_active_power_family().is_passive()
@@ -482,9 +479,6 @@ func make_lucky() -> void:
 func make_unlucky() -> void:
 	_luck_state = _LuckState.UNLUCKY
 
-func clear_lucky_unlucky() -> void:
-	_luck_state = _LuckState.NONE
-
 func blank() -> void:
 	_blank = true
 
@@ -496,9 +490,6 @@ func bless() -> void:
 
 func curse() -> void:
 	_bless_curse_state = _BlessCurseState.CURSED
-
-func clear_blessed_cursed() -> void:
-	_bless_curse_state = _BlessCurseState.NONE
 
 func freeze() -> void:
 	_FX.flash(Color.CYAN)
@@ -514,6 +505,20 @@ func stone() -> void:
 	_material_state = _MaterialState.STONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
+func clear_statuses() -> void:
+	_supercharged = false
+	clear_blessed_cursed()
+	clear_freeze_ignite()
+	clear_material()
+	clear_lucky_unlucky()
+	_blank = false
+
+func clear_lucky_unlucky() -> void:
+	_luck_state = _LuckState.NONE
+
+func clear_blessed_cursed() -> void:
+	_bless_curse_state = _BlessCurseState.NONE
+	
 func clear_freeze_ignite() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 

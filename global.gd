@@ -142,7 +142,7 @@ var strain_modifier: int:
 
 # returns the life cost of a toss; min 0
 func strain_cost() -> int:
-	return max(0, flips_this_round + strain_modifier)
+	return max(0, (flips_this_round * 3) + strain_modifier)
 
 var patron: Patron:
 	set(val):
@@ -202,31 +202,35 @@ class Round:
 	var lifeRegen: int
 	var shopDenoms: Array
 	var tollCost: int
+	var shopPriceMultiplier: float
+	
 	var trialData: TrialData
 	
-	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, triData: TrialData):
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, priceMult: float):
 		self.roundType = roundTyp
 		self.lifeRegen = lifeRegn
 		self.shopDenoms = shopDenms
 		self.tollCost = tollCst
-		self.trialData = triData
+		self.shopPriceMultiplier = priceMult
+		
+		self.trialData = null
 
 var _VOYAGE = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, null),
-	Round.new(RoundType.NORMAL, 20, [Denomination.OBOL], 0, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.OBOL], 0, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
-	Round.new(RoundType.TRIAL1, 50, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
-	Round.new(RoundType.TOLLGATE, 0, [], 5, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.OBOL, Denomination.DIOBOL], 0, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.DIOBOL], 0, null),
-	Round.new(RoundType.TRIAL2, 50, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, null),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, null),
-	Round.new(RoundType.NORMAL, 30, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, null),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, null),
-	Round.new(RoundType.TOLLGATE, 0, [], 25, null),
-	Round.new(RoundType.END, 0, [], 0, null)
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.5),
+	Round.new(RoundType.TOLLGATE, 0, [], 5, 0),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 3.0),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 3.5),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.0),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, 0),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.0),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.5),
+	Round.new(RoundType.TOLLGATE, 0, [], 25, 0),
+	Round.new(RoundType.END, 0, [], 0, 0)
 ]
 
 func randomize_voyage() -> void:
@@ -259,6 +263,9 @@ func _current_round_shop_denoms() -> Array:
 
 func current_round_trial() -> TrialData:
 	return _VOYAGE[round_count-1].trialData
+
+func current_round_price_multiplier() -> float:
+	return _VOYAGE[round_count-1].shopPriceMultiplier
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
@@ -636,10 +643,10 @@ class CoinFamily:
 		return ""
 
 const NO_PRICE = [0, 0, 0, 0]
-const CHEAP = [2, 10, 26, 58] # 2 + 8 + 16 + 32
-const STANDARD = [5, 15, 35, 75] # 5 + 10 + 20 + 40
-const PRICY = [8, 20, 44, 92] # 8 + 12 + 24 + 48
-const RICH = [12, 26, 54, 110] # 12 + 14 + 28 + 56
+const CHEAP = [3, 11, 22, 35] # 3 + 8 + 11 + 13
+const STANDARD = [5, 15, 27, 42] # 5 + 10 + 12 + 15
+const PRICY = [8, 19, 33, 51] # 8 + 11 + 14 + 18
+const RICH = [12, 25, 40, 60] # 12 + 13 + 15 + 20
 
 # Coin Families
 var GENERIC_FAMILY = CoinFamily.new("(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)

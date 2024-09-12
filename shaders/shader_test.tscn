@@ -136,7 +136,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0nge"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6qphn"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -282,7 +282,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_v0nge")
+material = SubResource("ShaderMaterial_6qphn")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
