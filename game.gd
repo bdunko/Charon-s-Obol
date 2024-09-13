@@ -310,13 +310,13 @@ func _on_accept_button_pressed():
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
-		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and not payoff_coin.is_frozen() and charges > 0:
+		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and charges > 0:
 			payoff_coin.payoff_move_up()
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
 					var payoff = charges
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
-						payoff = 0 if charges <= 5 else charges
+						payoff = 0 if charges <= 10 else charges
 					if Global.is_current_round_trial():
 						payoff *= 2
 					Global.souls += payoff
@@ -455,7 +455,12 @@ func _on_voyage_continue_button_clicked():
 		# removed, but kept potentially for later - generate a random bonus starting coin from patron
 		#_make_and_gain_coin(Global.patron.get_random_starting_coin_family(), Global.Denomination.OBOL)
 	
-	if Global.current_round_type() == Global.RoundType.TOLLGATE:
+	# if we won...
+	if Global.current_round_type() == Global.RoundType.END:
+		victory = true
+		Global.state = Global.State.GAME_OVER
+	# if there's a toll...
+	elif Global.current_round_type() == Global.RoundType.TOLLGATE:
 		Global.state = Global.State.TOLLGATE
 		if Global.toll_index == 0:
 			await _wait_for_dialogue("First tollgate...")
@@ -507,7 +512,7 @@ func _on_voyage_continue_button_clicked():
 					Global.TRIAL_BLOOD_FAMILY:
 						await _wait_for_dialogue("Your Blood shall boil!")
 					Global.TRIAL_EQUIVALENCE_FAMILY:
-						await _wait_for_dialogue("Each coin will be one of Equivalence!")
+						await _wait_for_dialogue("Each flip will be one of Equivalence!")
 					Global.TRIAL_EQUIVALENCE_FAMILY:
 						await _wait_for_dialogue("Feel the hunger of Famine!")
 					Global.TRIAL_TORTURE_FAMILY:
@@ -527,7 +532,7 @@ func _on_voyage_continue_button_clicked():
 
 var victory = false
 func _on_pay_toll_button_clicked():
-	if _toll_price_remaining() == 0:
+	if _toll_price_remaining() == 0 or true:
 		# delete each of the coins used to pay the toll
 		for coin in Global.toll_coins_offered:
 			_COIN_ROW.remove_child(coin)
@@ -548,11 +553,6 @@ func _on_pay_toll_button_clicked():
 		
 		# now move the boat forward...
 		_advance_round()
-		
-		# if we're reached the end, end the game
-		if Global.current_round_type() == Global.RoundType.END: # if the game ended, just exit
-			victory = true
-			Global.state = Global.State.GAME_OVER
 	else:
 		_DIALOGUE.show_dialogue("Not... enough...")
 

@@ -414,11 +414,11 @@ var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, all 
 var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Your Diobols are Blank.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png")
 var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png")
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
-var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on heads, Curse it. After a coin lands on tails, Bless it.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
+var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on heads, it becomes Unlucky. After a coin lands on tails, it becomes Lucky.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
 
 var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
 var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value coin is downgraded.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png")
-var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 5 [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to 0.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
+var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 10 [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to 0.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
 var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on trails becomes Cursed and Frozen.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png")
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single charge each toss.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png")
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
@@ -680,7 +680,7 @@ var TRIAL_FAMINE_FAMILY = CoinFamily.new("[color=burlywood]Trial of Famine[/colo
 var TRIAL_TORTURE_FAMILY = CoinFamily.new("[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", NO_PRICE, TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE)
 var TRIAL_LIMITATION_FAMILY = CoinFamily.new("[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
 var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
-var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
+var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping[]/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
 var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_DEATH, CHARON_POWER_LIFE, _SpriteStyle.CHARONS)

@@ -27,7 +27,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 
 func _on_clickable_area_mouse_entered():
 	if not _activated:
-		UITooltip.create(self, "%s (%d)\n%s" % [Global.patron.token_name, Global.patron_uses, Global.patron.description], get_global_mouse_position(), get_tree().root)
+		UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
 		if Global.patron_uses != 0 and not _disabled:
 			_FX.glow(Color.GOLD, 1, false)
 

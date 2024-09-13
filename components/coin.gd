@@ -384,7 +384,7 @@ func flip(bonus: int = 0) -> void:
 		_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
 	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
-		_bless_curse_state = _BlessCurseState.CURSED if _heads else _BlessCurseState.BLESSED
+		_luck_state = _LuckState.UNLUCKY if _heads else _LuckState.LUCKY
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
@@ -506,12 +506,12 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func clear_statuses() -> void:
+	_blank = false
 	_supercharged = false
 	clear_blessed_cursed()
 	clear_freeze_ignite()
 	clear_material()
 	clear_lucky_unlucky()
-	_blank = false
 
 func clear_lucky_unlucky() -> void:
 	_luck_state = _LuckState.NONE
@@ -611,15 +611,17 @@ func _generate_tooltip() -> void:
 		const TOOLTIP_FORMAT = "%s\n%s\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _heads_power.power_family.icon_path
-		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img] " % _tails_power.power_family.icon_path
+		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img]: " % _heads_power.power_family.icon_path
+		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img]: " % _tails_power.power_family.icon_path
 		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var max_heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var max_tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
-		#(charges)[icon] description
-		const POWER_FORMAT = "%s%s%s"
-		var heads_power = POWER_FORMAT % [heads_charges, heads_power_icon, heads_power_desc]
-		var tails_power = POWER_FORMAT % [tails_charges, tails_power_icon, tails_power_desc]
+		#(currcharges)/(maxcharges)[icon]:description
+		const POWER_FORMAT = "%s%s%s%s"
+		var heads_power = POWER_FORMAT % [heads_charges, max_heads_charges, heads_power_icon, heads_power_desc]
+		var tails_power = POWER_FORMAT % [tails_charges, max_tails_charges, tails_power_icon, tails_power_desc]
 		
 		txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power, tails_power]
 	
@@ -631,8 +633,7 @@ func on_round_end() -> void:
 	# force to heads
 	if not _heads:
 		turn()
-	# unblank
-	_blank = false
+	clear_statuses()
 
 func on_toss_complete() -> void:
 	if not is_stone():
