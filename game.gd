@@ -424,12 +424,13 @@ func _on_continue_button_pressed():
 	_advance_round()
 
 func _on_end_round_button_pressed():
-	assert(Global.state == Global.State.BEFORE_FLIP)
+	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
 	_SHOP.randomize_shop()
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
+	Global.lives = 0
 	Global.state = Global.State.SHOP
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
 

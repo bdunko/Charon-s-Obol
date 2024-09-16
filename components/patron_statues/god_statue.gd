@@ -40,7 +40,7 @@ func _on_clickable_area_mouse_entered():
 func apply_spectral_fx() -> void:
 	_FX.glow(Color.GOLD, 2, false)
 	_FX.tint(Color.AQUA, 0.8)
-	_FX.transparency(0.8, true, 0.3, 2.0)
+	_FX.alpha(0.8, true, 0.3, 2.0)
 
 func clear_fx() -> void:
 	_FX.clear_all()

@@ -53,13 +53,13 @@ func outline(color: Color) -> void:
 func clear_outline() -> void:
 	get_parent().material.set_shader_parameter("replace_with_color5", OUTLINE_COLOR)
 
-func transparency(transparency: float, should_glow: bool = false, min: float = 0.0, glow_speed: float = 1.0) -> void:
+func alpha(transparency: float, should_glow: bool = false, glow_min: float = 0.0, glow_speed: float = 1.0) -> void:
 	get_parent().material.set_shader_parameter("transparency", transparency)
 	get_parent().material.set_shader_parameter("transparency_glow", should_glow)
-	get_parent().material.set_shader_parameter("transparency_glow_min", min)
+	get_parent().material.set_shader_parameter("transparency_glow_min", glow_min)
 	get_parent().material.set_shader_parameter("transparency_glow_speed", glow_speed)
 
-func clear_transparency() -> void:
+func clear_alpha() -> void:
 	get_parent().material.set_shader_parameter("transparency", 1.0)
 	get_parent().material.set_shader_parameter("transparency_glow", false)
 
@@ -68,4 +68,4 @@ func clear_all() -> void:
 	clear_glow()
 	clear_tint()
 	clear_outline()
-	clear_transparency()
+	clear_alpha()

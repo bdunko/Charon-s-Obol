@@ -131,12 +131,12 @@ func _update_coins() -> void:
 	if get_child_count() == 0:
 		return
 	
-	var coin_width = get_child(0).size.x
+	var coin_width = get_child(0).size.x - 3 #6 for left/right padding
 	var start = size.x / 2.0 + 2 #center
 	start -= ((get_child_count() * coin_width/2.0))
 	
 	# position all the coins
 	for i in get_child_count():
 		var coin = get_child(i)
-		coin.position.x = start + (i*coin_width)
+		coin.position.x = start + (i*coin_width) - 3
 		
