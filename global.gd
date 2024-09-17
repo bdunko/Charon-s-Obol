@@ -140,10 +140,6 @@ var strain_modifier: int:
 		strain_modifier = val
 		emit_signal("strain_changed")
 
-# returns the life cost of a toss; min 0
-func strain_cost() -> int:
-	return max(0, (flips_this_round * 3) + strain_modifier)
-
 var patron: Patron:
 	set(val):
 		patron = val
@@ -192,6 +188,10 @@ var active_coin_power_family: PowerFamily:
 const COIN_LIMIT = 8
 
 var COIN_ROWS: Array
+
+# returns the life cost of a toss; min 0
+func strain_cost() -> int:
+	return max(0, (flips_this_round * 4) + strain_modifier)
 
 enum RoundType {
 	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
@@ -381,7 +381,7 @@ class PowerFamily:
 		return powerType == PowerType.PASSIVE
 
 # Coin Powers
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [5, 7, 9, 12], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [5, 8, 11, 14], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
 var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [3, 4, 5, 6], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
 
@@ -391,7 +391,7 @@ var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], 
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
 var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
-var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins and shuffle their position.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
+var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
 var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
 var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade another coin and Ignite it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
 var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/aphrodite_icon.png")

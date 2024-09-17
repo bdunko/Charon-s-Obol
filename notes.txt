@@ -1,4 +1,4 @@
-Lucky could only last for 1 round?
-
 Hotkeys for buttons so I can play with keyboard more easily, toss/advance/etc
 
+Feature - Guarantee at least 15 souls from round 1
+Bug - Fix the hovering charon textbox recoloring issue

@@ -317,8 +317,8 @@ func _on_accept_button_pressed():
 					var payoff = charges
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
 						payoff = 0 if charges <= 10 else charges
-					if Global.is_current_round_trial():
-						payoff *= 2
+					#if Global.is_current_round_trial():
+					#	payoff *= 2
 					Global.souls += payoff
 				Global.POWER_FAMILY_LOSE_SOULS:
 					Global.souls = max(0, Global.souls - charges)
@@ -430,7 +430,7 @@ func _on_end_round_button_pressed():
 	_SHOP.randomize_shop()
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
-	Global.lives = 0
+	#Global.lives = 0
 	Global.state = Global.State.SHOP
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
 
@@ -816,7 +816,6 @@ func _on_coin_clicked(coin: Coin):
 				for c in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
 					c = c as Coin
 					_safe_flip(c)
-				_COIN_ROW.shuffle()
 			Global.POWER_FAMILY_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too... many... coins...")
