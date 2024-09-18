@@ -668,19 +668,15 @@ func payoff_move_up() -> void:
 func payoff_move_down() -> void:
 	await _new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
-func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed and not _disabled:
-				emit_signal("clicked", self)
+func _on_mouse_clicked():
+	if not _disabled:
+		emit_signal("clicked", self)
 
-func _on_clickable_area_mouse_entered():
-	_mouse_over = true
+func _on_mouse_entered():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
 		_new_movement_tween().tween_property(self, "position:y", -3, 0.15).set_trans(Tween.TRANS_CIRC)
 
-func _on_clickable_area_mouse_exited():
-	_mouse_over = false
+func _on_mouse_exited():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
 		_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 
@@ -697,12 +693,13 @@ func _on_active_coin_power_coin_changed() -> void:
 		if not _disabled and _was_active_power_coin:
 			_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 
+@onready var _MOUSE = $Mouse
+
 var _time_mouse_hover = 0
-var _mouse_over = false
 const _DELAY_BEFORE_TOOLTIP = 0.1 # not sure if we really want this?
 
 func _physics_process(delta):
-	if _mouse_over:
+	if _MOUSE.is_over():
 		_time_mouse_hover += delta
 	else:
 		_time_mouse_hover = 0

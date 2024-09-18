@@ -2,12 +2,13 @@ class_name Textbox
 extends MarginContainer
 
 # factory method
-static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, shldFloat: bool = false) -> Textbox:
+static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, shldFloat: bool = false, clickable: bool = true) -> Textbox:
 	var textbox = load("res://ui/textbox.tscn").instantiate()
 	textbox.text_color = txtColor
 	textbox.background_color = bgColor
 	textbox.border_color = brdrColor
 	textbox.should_float = shldFloat
+	textbox.click_enabled = clickable
 	return textbox
 
 signal clicked
@@ -32,14 +33,16 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 
 @export var should_float = false
 
-var _click_enabled = true
+@export var click_enabled = true
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
 @onready var _FX = $FX
+@onready var _MOUSE = $Mouse
 
 func _ready():
 	assert(_TEXT)
 	assert(_FX)
+	assert(_MOUSE)
 
 func _update_style() -> void:
 	material.set_shader_parameter("replace_color1", _DEFAULT_TEXT_COLOR)
@@ -50,10 +53,12 @@ func _update_style() -> void:
 	material.set_shader_parameter("replace_with_color3", border_color)
 
 func disable() -> void:
-	_click_enabled = false
+	click_enabled = false
 
 func enable() -> void:
-	_click_enabled = true
+	click_enabled = true
+	if _MOUSE.is_over():
+		_FX.replace_color(1, _DEFAULT_TEXT_COLOR, Color.AQUAMARINE)
 
 func set_text(txt: String) -> void:
 	_TEXT.text = txt
@@ -80,7 +85,7 @@ func _process(delta) -> void:
 
 var _mouse_down = false
 func _gui_input(event):
-	if not _click_enabled:
+	if not click_enabled:
 		return
 	
 	if event is InputEventMouseButton:
@@ -93,9 +98,10 @@ func _gui_input(event):
 				_FX.clear_replace_color()
 
 func _on_mouse_entered():
-	if _click_enabled:
+	if click_enabled:
 		_FX.replace_color(1, _DEFAULT_TEXT_COLOR, Color.AQUAMARINE)
 
 func _on_mouse_exited():
-	_FX.clear_replace_color()
+	if click_enabled:
+		_FX.clear_replace_color()
 	_mouse_down = false

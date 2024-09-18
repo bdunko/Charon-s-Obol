@@ -265,7 +265,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1p2wi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ht8xd"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/pan_speed = Vector2(0, 0)
@@ -424,7 +424,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_1p2wi")
+material = SubResource("ShaderMaterial_ht8xd")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

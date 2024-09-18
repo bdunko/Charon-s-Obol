@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3cx7lpgelun1"]
+
+[ext_resource type="Script" path="res://ui/mouse_watcher.gd" id="1_ye3lr"]
+
+[node name="Mouse" type="Node2D"]
+script = ExtResource("1_ye3lr")

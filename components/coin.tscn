@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=85 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Texture2D" uid="uid://c8vge32mxqbaw" path="res://assets/coins/obol_charon.png" id="2_8bght"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cok8nuqbwf86b" path="res://assets/coins/tetrobol_nemesis.png" id="10_6uffn"]
 [ext_resource type="Texture2D" uid="uid://dpcq4yl3pfsa1" path="res://assets/coins/obol_thorns.png" id="13_0q14r"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="17_tmr1x"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="18_x8c4t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true
@@ -694,6 +695,9 @@ polygon = PackedVector2Array(30, 5, 37, 9, 41, 16, 41, 32, 37, 39, 30, 43, 16, 4
 
 [node name="FX" parent="Sprite" instance=ExtResource("17_tmr1x")]
 
+[node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
+watched = NodePath("../Sprite/ClickableArea/Polygon")
+
 [node name="UnluckyIcon" type="Polygon2D" parent="."]
 visible = false
 position = Vector2(-9, -2)
@@ -770,6 +774,6 @@ text = "[center][color=#e12f3b]5[/color][img=10x13]res://assets/icons/soul_fragm
 scroll_active = false
 autowrap_mode = 2
 
-[connection signal="input_event" from="Sprite/ClickableArea" to="." method="_on_clickable_area_input_event"]
-[connection signal="mouse_entered" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="Sprite/ClickableArea" to="." method="_on_clickable_area_mouse_exited"]
+[connection signal="clicked" from="Mouse" to="." method="_on_mouse_clicked"]
+[connection signal="entered" from="Mouse" to="." method="_on_mouse_entered"]
+[connection signal="exited" from="Mouse" to="." method="_on_mouse_exited"]

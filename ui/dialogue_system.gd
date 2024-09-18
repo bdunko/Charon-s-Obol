@@ -42,7 +42,7 @@ func show_dialogue(dialogue: String) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
 	
-	_current_textbox = Textbox.create(text_color, background_color, border_color, textbox_float)
+	_current_textbox = Textbox.create(text_color, background_color, border_color, textbox_float, false)
 	add_child(_current_textbox)
 	_current_textbox.set_text(dialogue)
 	

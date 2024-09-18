@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b65ykf244ptkj"]
+
+[ext_resource type="Script" path="res://scratch/test.gd" id="1_bfevy"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_2yiv0"]
+
+[node name="Scratch" type="Node2D"]
+
+[node name="Test" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 61.0
+offset_bottom = 65.0
+script = ExtResource("1_bfevy")
+
+[node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_2yiv0")]
+watched = NodePath("..")
+
+[node name="Hitbox" type="CollisionPolygon2D" parent="Test"]
+polygon = PackedVector2Array(0, 65, 60, 65, 61, 0, 0, 0)
+
+[node name="VisualPoly" type="Polygon2D" parent="Test"]
+position = Vector2(1, 0)
+polygon = PackedVector2Array(-1, 0, 60, 0, 60, 65, -1, 65)

@@ -1,4 +1,22 @@
 Hotkeys for buttons so I can play with keyboard more easily, toss/advance/etc
 
 Feature - Guarantee at least 15 souls from round 1
-Bug - Fix the hovering charon textbox recoloring issue
+Feature - Can defeat monsters by 'expending' souls. Spent souls are placed in a separate pile.
+Feature - Must defeat all monsters in a wave before you can next round. (or maybe only boss, or maybe each boss has a specific thing that drags out the round?)
+Feature - Spawn monsters for every round after the first, with varying strength levels.
+Feature - Remnants, which offer single use powers (similar to Patron tokens now) or passive benefits.
+
+Core - Tooltips have a 'preferred' direction (this just changes the default offset)
+ - for now, we can just have a Y for upper or lower)
+ - but for expansions sake, may as well have left and right too on X
+ - Y_ABOVE
+ - Y_CENTERED
+ - Y_BELOW
+ - X_LEFT
+ - X_CENTERED
+ - X_RIGHT
+ - coins in row should be X_CENTERED Y_ABOVE for example
+ - coins in shop/trial should be X_CENTERED Y_BELOW
+
+Bug - Fix the rest of the mouse observers
+

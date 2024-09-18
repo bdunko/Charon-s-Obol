@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bedblkbwue803"]
+[gd_scene load_steps=8 format=3 uid="uid://bedblkbwue803"]
 
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_dbfxe"]
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_hmwmk"]
 [ext_resource type="Script" path="res://ui/textbox.gd" id="2_5nlw7"]
 [ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_1cse8"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="5_yycq1"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="6_cck7s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kv6cx"]
 resource_local_to_scene = true
@@ -90,5 +91,8 @@ shortcut_keys_enabled = false
 
 [node name="FX" parent="." instance=ExtResource("5_yycq1")]
 
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("6_cck7s")]
+watched = NodePath("..")
+
+[connection signal="entered" from="Mouse" to="." method="_on_mouse_entered"]
+[connection signal="exited" from="Mouse" to="." method="_on_mouse_exited"]
