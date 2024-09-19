@@ -18,5 +18,6 @@ Core - Tooltips have a 'preferred' direction (this just changes the default offs
  - coins in row should be X_CENTERED Y_ABOVE for example
  - coins in shop/trial should be X_CENTERED Y_BELOW
 
-Bug - Fix the rest of the mouse observers
+Core - Tooltip system should accept Polygon2D (for patron token and such, so we don't need random shit to be Controls')
 
+Bug - Fix the rest of the mouse observers

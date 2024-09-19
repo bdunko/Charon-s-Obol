@@ -44,6 +44,9 @@ func _ready() -> void:
 func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
 	
+	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
+		statu.disable()
+		
 	# if the statue was the godless, fade in the 'correct' statue over it.
 	if statue.patron_enum == Global.PatronEnum.GODLESS:
 		# don't let it be the same patron as one of the two real statues if godless
@@ -52,10 +55,11 @@ func _on_statue_clicked(statue: PatronStatue):
 		
 		var new_statue = _add_statue(Global.patron.patron_statue, statue.position)
 		new_statue.apply_spectral_fx()
+		new_statue.disable_except_tooltip()
 		statue.clear_fx()
+	else:
+		statue.disable_except_tooltip()
 	
-	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
-		statu.disable()
 	_PLAYER_DIALOGUE.clear_dialogue()
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("Yes...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("You've made a wise decision.")
@@ -101,6 +105,7 @@ func on_victory() -> void:
 		if _PATRON_STATUES.get_child_count() == 4 and statue.patron_enum == Global.PatronEnum.GODLESS:
 			statue.hide()
 		
+		statue.disable()
 		statue.clear_fx()
 	
 	for line in Global.character.victoryDialogue:

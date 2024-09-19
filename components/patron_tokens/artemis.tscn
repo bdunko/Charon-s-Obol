@@ -1,12 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1m7lal0y3ugw"]
+[gd_scene load_steps=7 format=3 uid="uid://c1m7lal0y3ugw"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_1x3uy"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_i1o14"]
 [ext_resource type="Texture2D" uid="uid://dbnd4jp2g0alg" path="res://assets/table/token/artemis.png" id="2_jcphu"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_1h22d"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="5_er6jd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_50c0y"]
 shader = ExtResource("2_i1o14")
+shader_parameter/pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -19,19 +21,29 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash_speed = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/use_exclude_tint = true
 shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
-shader_parameter/outline_start = 0.0
+shader_parameter/outline_start_time = 0.0
 shader_parameter/outline_glow_speed = 2.5
 shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/transparency = 1.0
+shader_parameter/transparency_glow = false
+shader_parameter/transparency_glow_min = 0.0
+shader_parameter/transparency_glow_speed = 2.0
 
 [node name="PatronToken" type="Control"]
 layout_mode = 3
@@ -49,12 +61,13 @@ centered = false
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("3_1h22d")]
 
-[node name="ClickableArea" type="Area2D" parent="."]
-
-[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
+[node name="Polygon" type="CollisionPolygon2D" parent="."]
 position = Vector2(9, -14)
 polygon = PackedVector2Array(-4, 40, -5, 41, -6, 41, -7, 40, -7, 33, -6, 30, -5, 28, -4, 26, 2, 20, 4, 19, 10, 17, 17, 17, 20, 18, 23, 19, 25, 20, 31, 26, 32, 28, 33, 30, 34, 33, 34, 40, 33, 41, 32, 41, 31, 40)
 
-[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
-[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]
+[node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("5_er6jd")]
+watched = NodePath("../Polygon")
+
+[connection signal="clicked" from="Mouse" to="." method="_on_mouse_clicked"]
+[connection signal="entered" from="Mouse" to="." method="_on_mouse_entered"]
+[connection signal="exited" from="Mouse" to="." method="_on_mouse_exited"]

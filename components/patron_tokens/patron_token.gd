@@ -4,6 +4,7 @@ extends Control
 signal clicked
 
 @onready var _FX: FX = $Sprite2D/FX
+@onready var _MOUSE: MouseWatcher = $Mouse
 
 @onready var _START_POSITION = position
 const _SPEED = 5000
@@ -18,20 +19,18 @@ func _ready():
 	Global.state_changed.connect(_on_state_changed)
 	Global.patron_uses_changed.connect(_on_patron_uses_changed)
 
-func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed and not _disabled and not _activated and position == _START_POSITION:
-				UITooltip.clear_tooltips()
-				emit_signal("clicked")
+func _on_mouse_clicked():
+	if not _disabled and not _activated and position == _START_POSITION:
+		UITooltip.clear_tooltips()
+		emit_signal("clicked")
 
-func _on_clickable_area_mouse_entered():
+func _on_mouse_entered():
 	if not _activated:
 		UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
 		if Global.patron_uses != 0 and not _disabled:
 			_FX.glow(Color.GOLD, 1, false)
 
-func _on_clickable_area_mouse_exited():
+func _on_mouse_exited():
 	if Global.patron_uses != 0 and not _activated:
 		_FX.glow(Color.WHITE, 1, false)
 

@@ -9,6 +9,7 @@ extends Control
 signal clicked
 
 var _disabled = false
+var _show_tooltip = true
 
 func _ready():
 	assert(patron_enum != Global.PatronEnum.NONE)
@@ -27,15 +28,18 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 					_mouse_down = false
 					_FX.glow(Color.GOLD, 2, false)
 					emit_signal("clicked", self) 
-					UITooltip.clear_tooltips()
+					if patron_enum == Global.PatronEnum.GODLESS:
+						UITooltip.clear_tooltips()
 
 func _on_clickable_area_mouse_entered():
+	var patron = Global.patron_for_enum(patron_enum)
+	var nme = patron.god_name if patron_enum != Global.PatronEnum.GODLESS else "an [color=gray]Unknown God[/color]"
+	var desc = patron.description if patron_enum != Global.PatronEnum.GODLESS else "???"
+		
 	if not _disabled:
-		var patron = Global.patron_for_enum(patron_enum)
-		var nme = patron.god_name if patron_enum != Global.PatronEnum.GODLESS else "an [color=gray]Unknown God[/color]"
-		var desc = patron.description if patron_enum != Global.PatronEnum.GODLESS else "???"
-		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
 		_FX.glow(Color.GHOST_WHITE, 2)
+	if _show_tooltip:
+		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
 
 func apply_spectral_fx() -> void:
 	_FX.glow(Color.GOLD, 2, false)
@@ -47,6 +51,11 @@ func clear_fx() -> void:
 
 func disable() -> void:
 	_disabled = true
+	_show_tooltip = false
+
+func disable_except_tooltip() -> void:
+	_disabled = true
+	_show_tooltip = true
 
 func _on_clickable_area_mouse_exited():
 	_mouse_down = false
