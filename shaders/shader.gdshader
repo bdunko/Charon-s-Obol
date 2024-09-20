@@ -64,6 +64,11 @@ uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0);
 
 // COLOR CORRECTION
+group_uniforms ColorCorrection;
+uniform float red_correct: hint_range(-1.0, 1.0) = 0.0;
+uniform float green_correct: hint_range(-1.0, 1.0) = 0.0;
+uniform float blue_correct: hint_range(-1.0, 1.0) = 0.0;
+uniform float gray_correct: hint_range(0.0, 1.0) = 0.0;
 
 // SCANLINES
 
@@ -145,6 +150,13 @@ void fragment()
 		COLOR.rgb = mix(COLOR.rgb, tint_color, glowing_tint_str);
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 	}
+	
+	// COLOR CORRECTION
+	COLOR.r = mix(COLOR.r, 1.0, red_correct);
+	COLOR.g = mix(COLOR.g, 1.0, green_correct);
+	COLOR.b = mix(COLOR.b, 1.0, blue_correct);
+	COLOR.rgb = mix(COLOR.rgb, vec3(0.2126 * COLOR.r + 0.7152 * COLOR.g + 0.0722 * COLOR.b), gray_correct);
+	
 	
 	// OUTLINE
 	if (outline_thickness != 0) {
