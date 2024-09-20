@@ -3,10 +3,6 @@
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
 shader_type canvas_item;
 
-//todo - separate out glow and outline perhaps?
-//todo - stretch/squish
-//todo - sway
-
 // --- Utilty Functions --- //
 // checks if two values are 'equal' (within EPSILON of each other)
 // necessary when doing float calculations since it's not perfectly precise
@@ -15,13 +11,29 @@ bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= 
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
 float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
+// unused but may be useful someday
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
 
 // --- Effects --- //
-// PAN
-// Controls texture left/right/up/down panning (the texture will be repeated)
+// EXCLUDE
+uniform bool use_exclude_colors = true;
+uniform vec3 exclude_color: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+
+// PAN/DISPLACE
+// Displaces all pixels by (displace_x, displace_y)
+// Controls texture left/right/up/down panning (the texture will be repeated if repeat)
 // Set to a positive number for left/up panning; negative number for right/down panning
-group_uniforms Pan;
+// WARNING - Offsetting beyond the bounds of the texture will result in the texture being cut off
+// WARNING - Repeat must be true for pan_speed to work, otherwise it will immediately pan off screen
+group_uniforms PanAndDisplacement;
+uniform int displace_x = 0;
+uniform int displace_y = 0;
 uniform vec2 pan_speed = vec2(0, 0);
+uniform bool repeat = true;
 
 // RECOLOR
 // Replaces replace_colorN with replace_with_colorN.
@@ -50,11 +62,14 @@ uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 uniform float tint_auto_flash_speed = 0;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0);
-uniform bool use_exclude_tint = true;
-uniform vec3 exclude_tint: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
-uniform vec3 exclude_tint2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
-uniform vec3 exclude_tint3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
-uniform vec3 exclude_tint4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+
+// COLOR CORRECTION
+
+// SCANLINES
+
+// DISINTEGRATE
+
+// CRACK
 
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
@@ -83,6 +98,8 @@ uniform float fog_opacity: hint_range(0.0, 1.0) = 0.5;
 uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
 uniform vec2 fog_speed = vec2(0.02, 0.01);
 
+// DITHER
+
 // TRANSPARENCY
 // Controls transparency of the texture.
 // If transparency_flicker, modulates between the given transparency and transparency_flicker_min at transparency_flicker_speed
@@ -96,9 +113,18 @@ uniform float transparency_glow_speed = 2.0;
 // --- Fragment Shader --- //
 void fragment() 
 {
-	// PAN
-	vec2 panUV = mod(UV + TIME * pan_speed, 1.0); // WARNING - Use this instead of UV below, otherwise effects break with panning
-	COLOR = texture(TEXTURE, panUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
+	// DISPLACE & PAN
+	vec2 adjUV = vec2(0, 0); // WARNING - Use this instead of UV below, otherwise effects break with panning & displace
+	
+	float displaceUVX = UV.x + (TEXTURE_PIXEL_SIZE.x * float(displace_x));
+	float displaceUVY = UV.y + (TEXTURE_PIXEL_SIZE.y * float(displace_y));
+	if (repeat) {
+		adjUV = mod(vec2(displaceUVX, displaceUVY) + TIME * pan_speed, 1.0);
+	} else {
+		adjUV = vec2(displaceUVX, displaceUVY) + TIME * pan_speed;
+	}
+	
+	COLOR = texture(TEXTURE, adjUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
 	
 	// RECOLOR
 	if (vec3eq(COLOR.rgb, replace_color1)) 
@@ -113,7 +139,7 @@ void fragment()
 		COLOR.rgb = replace_with_color5;
 	
 	// TINT
-	if (!use_exclude_tint || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint2) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint3) || !vec3eq(texture(TEXTURE, panUV).rgb, exclude_tint4)) {
+	if (!use_exclude_colors || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4)) {
 		float glowing_tint_str = tint_strength;
 		glowing_tint_str *= cos0to1(TIME * tint_auto_flash_speed);
 		COLOR.rgb = mix(COLOR.rgb, tint_color, glowing_tint_str);
@@ -125,11 +151,11 @@ void fragment()
 		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
 		float outline = 0.0;
 		for (int i = 0; i < HORIZONTAL_VERTICAL_OFFSETS.length(); i++) {
-			outline += texture(TEXTURE, panUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
+			outline += texture(TEXTURE, adjUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
 		}
 		if (outline_diagonals) {
 			for (int i = 0; i < DIAGONAL_OUTLINE_OFFSETS.length(); i++) {
-				outline += texture(TEXTURE, panUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
+				outline += texture(TEXTURE, adjUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
 			}
 		}
 		outline = min(outline, 1.0);

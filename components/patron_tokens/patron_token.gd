@@ -16,6 +16,7 @@ var _activated = false
 
 func _ready():
 	assert(_FX)
+	assert(_MOUSE)
 	Global.state_changed.connect(_on_state_changed)
 	Global.patron_uses_changed.connect(_on_patron_uses_changed)
 
