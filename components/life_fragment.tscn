@@ -7,7 +7,15 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bslqn"]
 shader = ExtResource("2_qos70")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -23,11 +31,10 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false

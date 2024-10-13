@@ -158,7 +158,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tekcx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ikkxv"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/use_exclude_colors = true
@@ -331,7 +331,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_tekcx")
+material = SubResource("ShaderMaterial_ikkxv")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"

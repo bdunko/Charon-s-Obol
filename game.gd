@@ -211,6 +211,13 @@ func on_start() -> void:
 	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
 	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TRIOBOL)
+	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	
 	Global.state = Global.State.BOARDING
 	_PLAYER_TEXTBOXES.make_invisible()
 	await Global.delay(0.1)
@@ -363,6 +370,18 @@ func _on_accept_button_pressed():
 					Global.strain_modifier += 1
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
+			payoff_coin.after_payoff()
+			await Global.delay(0.15)
+			if Global.lives < 0:
+				return
+		
+	# resolve ignites
+	for payoff_coin in _COIN_ROW.get_children() + _TRIAL_ROW.get_children():
+		if payoff_coin.is_ignited():
+			payoff_coin.payoff_move_up()
+			Global.lives -= 3
+			await Global.delay(0.15)
+			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
 			if Global.lives < 0:
 				return
@@ -398,7 +417,7 @@ func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
 	_VOYAGE.show()
 	_DIALOGUE.show_dialogue("Now let us sail...")
-	_PLAYER_TEXTBOXES.hide()
+	_PLAYER_TEXTBOXES.make_invisible()
 	await _VOYAGE.move_boat(Global.round_count)
 	Global.round_count += 1
 	
@@ -425,14 +444,34 @@ func _on_continue_button_pressed():
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
+	_PLAYER_TEXTBOXES.make_invisible()
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
-	_SHOP.randomize_shop()
+	
+	
+	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
+	var first_round = Global.round_count == 2
+	var min_souls_first_round = 20
+	if first_round and Global.souls < min_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
+		if Global.flips_this_round == 0:
+			await _wait_for_dialogue("Refusal to play is not an option!")
+		else:
+			await _wait_for_dialogue("Only %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]...?" % Global.souls)
+			await _wait_for_dialogue("You are a rather misfortunate one.")
+			await _wait_for_dialogue("We wouldn't want the game ending prematurely...")
+		await _wait_for_dialogue("Just this once, I will take pity on you.")
+		Global.souls = min_souls_first_round
+		await _wait_for_dialogue("You take these...")
+		Global.lives = 0
+		await _wait_for_dialogue("And I'll take those...")
+		await _wait_for_dialogue("Now us continue.")
+	
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
-	#Global.lives = 0
+	_SHOP.randomize_shop()
 	Global.state = Global.State.SHOP
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
+	_PLAYER_TEXTBOXES.make_visible()
 
 func _toll_price_remaining() -> int:
 	return max(0, Global.current_round_toll() - Global.calculate_toll_coin_value())
@@ -484,7 +523,7 @@ func _on_voyage_continue_button_clicked():
 			await _wait_for_dialogue("Your trial begins...")
 		
 		Global.state = Global.State.BEFORE_FLIP #shows trial row
-		_PLAYER_TEXTBOXES.hide()
+		_PLAYER_TEXTBOXES.make_invisible()
 		
 		if _TRIAL_ROW.get_child_count() != 0:
 			await Global.delay(0.2)
@@ -493,9 +532,8 @@ func _on_voyage_continue_button_clicked():
 				await coin.payoff_move_up()
 				match coin.get_coin_family():
 					Global.TRIAL_IRON_FAMILY:
-						while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-3: # make space for thorns obols
+						while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-2: # make space for thorns obols
 							_COIN_ROW.destroy_lowest_value()
-						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
 						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
 						_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
 						await _wait_for_dialogue("You shall be bound in Iron!")
@@ -755,6 +793,10 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't... upgrade... more...")
 					else:
 						_DIALOGUE.show_dialogue("Can't... upgrade.... that...")
+					return
+				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
+				if Global.active_coin_power_coin.get_denomination_as_int() < coin.get_denomination_as_int():
+					_DIALOGUE.show_dialogue("Can't... upgrade... %ss..." % Global.denom_to_string(coin.get_denomination()))
 					return
 				coin.upgrade()
 				coin.ignite()

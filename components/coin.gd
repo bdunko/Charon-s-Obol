@@ -313,6 +313,18 @@ func upgrade() -> void:
 			_denomination = Global.Denomination.TRIOBOL
 		Global.Denomination.TRIOBOL:
 			_denomination = Global.Denomination.TETROBOL
+	
+	# immediately update specifically payoff powers...
+	# and if it's a lose life power, reapply athena bonuses
+	if _heads_power.power_family.is_payoff():
+		_heads_power.charges = max(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
+		if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
+			_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	if _tails_power.power_family.is_payoff():
+		_tails_power.charges = max(_tails_power.charges + 1, _tails_power.power_family.uses_for_denom[_denomination])
+		if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
+			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	
 	_update_face_label()
 	_update_price_label()
 	set_animation(_Animation.FLAT) # update sprite
@@ -358,10 +370,6 @@ func flip(bonus: int = 0) -> void:
 	if is_stone(): #don't flip if stoned
 		emit_signal("flip_complete")
 		return
-	
-	if is_ignited():
-		#todo - animation for ignite
-		Global.lives -= get_value()
 		
 	_disabled = true # ignore input while flipping
 	
@@ -592,6 +600,16 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 	txt = txt.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
 	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
+	
+	var heph_str = func(denom_as_int: int) -> String:
+		match(denom_as_int):
+			1:
+				return "an Obol"
+			2:
+				return "an Obol or Diobol"
+			_:
+				return "a coin"
+	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination_as_int()))
 	return txt
 
 # icons which we don't show an icon and charge count for in tooltips at the front.
@@ -639,8 +657,8 @@ func on_toss_complete() -> void:
 	if not is_stone():
 		reset_power_uses()
 
-func on_payoff() -> void:
-	pass
+func after_payoff() -> void:
+	_blank = false
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()

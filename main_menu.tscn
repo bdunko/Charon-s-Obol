@@ -37,7 +37,15 @@ noise = SubResource("FastNoiseLite_ct364")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_016i3"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -53,11 +61,10 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -86,7 +93,15 @@ noise = SubResource("FastNoiseLite_wtgcp")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_16yc5"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -102,11 +117,10 @@ shader_parameter/tint_strength = 0.605
 shader_parameter/tint_auto_flash_speed = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -134,7 +148,15 @@ noise = SubResource("FastNoiseLite_xyuc4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev3x1"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -150,11 +172,10 @@ shader_parameter/tint_strength = 1.0
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = null
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -172,10 +193,18 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qs6wm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u656i"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -191,11 +220,10 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -212,10 +240,18 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5pg7k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xarv"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
 shader_parameter/pan_speed = Vector2(0, 0)
+shader_parameter/repeat = true
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -231,11 +267,10 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/tint_auto_flash_speed = 0.5
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
-shader_parameter/use_exclude_tint = true
-shader_parameter/exclude_tint = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_tint4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
@@ -522,7 +557,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_qs6wm")
+material = SubResource("ShaderMaterial_u656i")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -534,7 +569,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_5pg7k")
+material = SubResource("ShaderMaterial_6xarv")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
