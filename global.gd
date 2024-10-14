@@ -77,15 +77,15 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 	#todo - fill these description with colors too
 	match diff:
 		Difficulty.INDIFFERENT:
-			return "Charon is Indifferent\nThe regular difficulty."
+			return "Charon is Indifferent\nThe base difficulty."
 		Difficulty.HOSTILE:
-			return "Charon is Hostile\nCharon will occasionally unleash his Malice."
+			return "Charon is Hostile\nMonsters shall bar your path..."
 		Difficulty.VENGEFUL:
-			return "Charon is Vengeful\nEach Trial has two modifiers.\nThe Nemesis is more powerful."
+			return "Charon is Malicious\nCharon shall occasionally unleash his Malice..."
 		Difficulty.CRUEL:
-			return "Charon is Cruel\nTollgates are more expensive.\nCoins purchasable in the Shop may have negative statuses."
+			return "Charon is Cruel\nTrials shall have two modifiers..."
 		Difficulty.UNFAIR:
-			return "Charon is Unfair\nYour coins will land on tails 10% more often.\nYou cannot view future Trials until completing the previous one."
+			return "Charon is Unfair\nYour coins shall land on tails 10% more often..."
 	assert(false, "shouldn't happen..")
 	return ""
 
@@ -203,34 +203,36 @@ class Round:
 	var shopDenoms: Array
 	var tollCost: int
 	var shopPriceMultiplier: float
+	var monsterWaveDenoms: Array
 	
 	var trialData: TrialData
 	
-	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, priceMult: float):
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, priceMult: float, mWaveDenoms: Array):
 		self.roundType = roundTyp
 		self.lifeRegen = lifeRegn
 		self.shopDenoms = shopDenms
 		self.tollCost = tollCst
 		self.shopPriceMultiplier = priceMult
+		self.monsterWaveDenoms = mWaveDenoms
 		
 		self.trialData = null
 
 var _VOYAGE = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.5),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.5),
-	Round.new(RoundType.TOLLGATE, 0, [], 5, 0),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 3.0),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 3.5),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.0),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, 0),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.5),
-	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.0),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.5),
-	Round.new(RoundType.TOLLGATE, 0, [], 25, 0),
-	Round.new(RoundType.END, 0, [], 0, 0)
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.5, [[Denomination.OBOL, Denomination.OBOL]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0, [[Denomination.OBOL, Denomination.OBOL]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.5, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 3.0, [[Denomination.DIOBOL, Denomination.DIOBOL]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 3.5, [[Denomination.DIOBOL, Denomination.DIOBOL]]),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.5, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.0, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.5, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 25, 0, [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
 
 func randomize_voyage() -> void:
@@ -261,11 +263,38 @@ func current_round_toll() -> int:
 func _current_round_shop_denoms() -> Array:
 	return _VOYAGE[round_count-1].shopDenoms
 
-func current_round_trial() -> TrialData:
-	return _VOYAGE[round_count-1].trialData
+# returns an array of [monster_family, denom] pairs for current round
+func current_round_enemy_coin_data() -> Array:
+	var coin_data = []
+	
+	if current_round_type() == RoundType.TRIAL1:
+		for trialFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+			coin_data.append([trialFamily, Denomination.OBOL])
+	elif current_round_type() == RoundType.TRIAL2:
+		for trialFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+			coin_data.append([trialFamily, Denomination.DIOBOL])
+	elif current_round_type() == RoundType.NEMESIS:
+		for nemesisFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+			coin_data.append([nemesisFamily, Denomination.TETROBOL])
+	else:
+		var monsterDenoms = Global.choose_one(_VOYAGE[round_count-1].monsterWaveDenoms)
+		for denom in monsterDenoms:
+			# TODO - more detailed monster generation here
+			coin_data.append([MONSTER_FAMILY, denom])
+	
+	return coin_data
 
 func current_round_price_multiplier() -> float:
 	return _VOYAGE[round_count-1].shopPriceMultiplier
+
+func current_round_monster_wave() -> Array:
+	var monsterDenoms = Global.choose_one(_VOYAGE[round_count-1].monsterWaveDenoms)
+	
+	var monster_wave = []
+	for denom in monsterDenoms:
+		monster_wave.append([MONSTER_FAMILY, denom])
+	
+	return monster_wave
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
@@ -296,13 +325,13 @@ func _get_first_round_of_type(roundType: RoundType) -> TrialData:
 	return null
 
 class TrialData:
-	var coins
+	var coinFamilies
 	var name
 	var description
 	
-	func _init(trialName, trialCoins, trialDescription):
+	func _init(trialName, trialCoinFamilies, trialDescription):
 		self.name = trialName
-		self.coins = trialCoins
+		self.coinFamilies = trialCoinFamilies
 		self.description = trialDescription
 
 @onready var NEMESES = [
@@ -649,7 +678,10 @@ const PRICY = [8, 19, 33, 51] # 8 + 11 + 14 + 18
 const RICH = [12, 25, 40, 60] # 12 + 13 + 15 + 20
 
 # Coin Families
+# payoff coins
 var GENERIC_FAMILY = CoinFamily.new("(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+
+# power coins
 var ZEUS_FAMILY = CoinFamily.new("(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", STANDARD, POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HERA_FAMILY = CoinFamily.new("(DENOM) of Hera", "[color=silver]Envious Wrath[/color]", STANDARD, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var POSEIDON_FAMILY = CoinFamily.new("(DENOM) of Poseidon", "[color=lightblue]Wave of Ice[/color]", STANDARD, POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
@@ -665,10 +697,15 @@ var HESTIA_FAMILY = CoinFamily.new("(DENOM) of Hestia", "[color=sandybrown]Weary
 var DIONYSUS_FAMILY = CoinFamily.new("(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", STANDARD, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HADES_FAMILY = CoinFamily.new("(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DESTROY_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
+# monsters
+var MONSTER_FAMILY = CoinFamily.new("[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS)
+
+# nemesis
 var MEDUSA_FAMILY = CoinFamily.new("[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS)
 var EURYALE_FAMILY = CoinFamily.new("[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS)
 var STHENO_FAMILY = CoinFamily.new("[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS)
 
+# trials
 var TRIAL_IRON_FAMILY = CoinFamily.new("[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
 var THORNS_FAMILY = CoinFamily.new("(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", NO_PRICE, POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.THORNS)
 var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new("[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", NO_PRICE, TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE)

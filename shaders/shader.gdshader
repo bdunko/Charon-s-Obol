@@ -71,6 +71,9 @@ uniform float blue_correct: hint_range(-1.0, 1.0) = 0.0;
 uniform float gray_correct: hint_range(0.0, 1.0) = 0.0;
 
 // SCANLINES
+//LR
+//UD
+//DIAG
 
 // DISINTEGRATE
 
@@ -104,6 +107,7 @@ uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
 uniform vec2 fog_speed = vec2(0.02, 0.01);
 
 // DITHER
+// DITHERLIGHT
 
 // TRANSPARENCY
 // Controls transparency of the texture.

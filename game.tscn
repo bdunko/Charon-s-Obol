@@ -22,10 +22,10 @@
 [ext_resource type="Script" path="res://active_power_label.gd" id="17_uno8g"]
 [ext_resource type="PackedScene" uid="uid://dgds4d2p6hdb6" path="res://ui/voyage/voyage.tscn" id="18_vo2di"]
 [ext_resource type="PackedScene" uid="uid://kw0850n3cqvo" path="res://components/coin_row.tscn" id="19_ym3ga"]
-[ext_resource type="Script" path="res://trial.gd" id="20_kmro7"]
 [ext_resource type="Script" path="res://ui/shop.gd" id="20_xqqdj"]
 [ext_resource type="Script" path="res://components/coin_row.gd" id="21_60gfb"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="22_nqi2l"]
+[ext_resource type="Script" path="res://enemy_row.gd" id="24_cds23"]
 [ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6bih8"]
@@ -74,7 +74,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5btmg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dr3i6"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -121,7 +121,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rh66a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkuv3"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -168,7 +168,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ko1oh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grucp"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -215,7 +215,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8yddw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1mhgf"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -262,7 +262,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdmlq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v45xv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -309,7 +309,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqmvx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ab430"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -356,7 +356,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wvpv5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qsibx"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -403,7 +403,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ay4a3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5p4nm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -450,7 +450,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nntdm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ovtd8"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/use_exclude_colors = true
@@ -639,7 +639,7 @@ script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_5btmg")
+material = SubResource("ShaderMaterial_dr3i6")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -653,7 +653,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_rh66a")
+material = SubResource("ShaderMaterial_dkuv3")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -662,7 +662,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ko1oh")
+material = SubResource("ShaderMaterial_grucp")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -671,7 +671,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_8yddw")
+material = SubResource("ShaderMaterial_1mhgf")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -680,7 +680,7 @@ text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gdmlq")
+material = SubResource("ShaderMaterial_v45xv")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -688,7 +688,7 @@ script = ExtResource("9_d50av")
 text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_dqmvx")
+material = SubResource("ShaderMaterial_ab430")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -696,7 +696,7 @@ script = ExtResource("10_oe7lm")
 text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_wvpv5")
+material = SubResource("ShaderMaterial_qsibx")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -705,7 +705,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ay4a3")
+material = SubResource("ShaderMaterial_5p4nm")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -714,7 +714,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_nntdm")
+material = SubResource("ShaderMaterial_ovtd8")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 
@@ -766,7 +766,7 @@ position = Vector2(65, 26)
 
 [node name="Table" type="Node2D" parent="."]
 
-[node name="CharonRow" type="Control" parent="Table"]
+[node name="CharonObolRow" type="Control" parent="Table"]
 custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
@@ -777,14 +777,14 @@ offset_bottom = 114.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 
-[node name="Coin" parent="Table/CharonRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin" parent="Table/CharonObolRow" instance=ExtResource("22_nqi2l")]
 offset_left = 136.0
 offset_right = 174.0
 
-[node name="Trial" type="Node2D" parent="Table"]
-script = ExtResource("20_kmro7")
+[node name="EnemyRow" type="Node2D" parent="Table"]
+script = ExtResource("24_cds23")
 
-[node name="TrialRow" type="Control" parent="Table/Trial"]
+[node name="CoinRow" type="Control" parent="Table/EnemyRow"]
 custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
@@ -795,19 +795,19 @@ offset_bottom = 84.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 
-[node name="Coin" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin" parent="Table/EnemyRow/CoinRow" instance=ExtResource("22_nqi2l")]
 offset_left = 77.0
 offset_right = 115.0
 
-[node name="Coin2" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin2" parent="Table/EnemyRow/CoinRow" instance=ExtResource("22_nqi2l")]
 offset_left = 117.0
 offset_right = 155.0
 
-[node name="Coin3" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin3" parent="Table/EnemyRow/CoinRow" instance=ExtResource("22_nqi2l")]
 offset_left = 157.0
 offset_right = 195.0
 
-[node name="Coin4" parent="Table/Trial/TrialRow" instance=ExtResource("22_nqi2l")]
+[node name="Coin4" parent="Table/EnemyRow/CoinRow" instance=ExtResource("22_nqi2l")]
 offset_left = 197.0
 offset_right = 235.0
 
@@ -905,10 +905,10 @@ mouse_filter = 2
 [connection signal="clicked" from="UI/PlayerTextboxes/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/BoardButton" to="." method="_on_board_button_clicked"]
-[connection signal="child_entered_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/CharonRow" to="Table/CharonRow" method="_on_child_exiting_tree"]
-[connection signal="child_entered_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/Trial/TrialRow" to="Table/Trial/TrialRow" method="_on_child_exiting_tree"]
+[connection signal="child_entered_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_exiting_tree"]
+[connection signal="child_entered_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_exiting_tree"]
 [connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
