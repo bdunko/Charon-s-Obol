@@ -178,8 +178,9 @@ func _ready():
 	
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 
-const _PRICE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+const _BUY_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
+const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _TOLL_FORMAT = "[center]%d[/center][img=12x13]res://assets/icons/coin_icon.png[/img]"
 func _update_price_label() -> void:
 	if Global.state == Global.State.SHOP:
@@ -187,19 +188,22 @@ func _update_price_label() -> void:
 		if _owner == Owner.PLAYER and not can_upgrade():
 			_PRICE.text = ""
 			return
-		
 		var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
-		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _PRICE_FORMAT) % [color, price]
+		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
 	elif Global.state == Global.State.TOLLGATE:
 		# if the coin cannot be offered at a tollgate, show nothing
 		if _coin_family in Global.TOLL_EXCLUDE_COIN_FAMILIES:
 			_PRICE.text = ""
 			return
 		_PRICE.text = _TOLL_FORMAT % get_value()
+	elif is_appeaseable():
+		var price = get_appeasal_price()
+		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
+		_PRICE.text = _APPEASE_FORMAT % [color, price]
 
 func _on_state_changed() -> void:
-	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE:
+	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE or is_appeaseable():
 		_update_price_label()
 		_PRICE.show()
 	else:
@@ -213,7 +217,6 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 		Global.souls_count_changed.connect(_update_price_label)
 	if not Global.state_changed.is_connected(_on_state_changed):
 		Global.state_changed.connect(_on_state_changed)
-	_PRICE.visible = Global.state == Global.State.SHOP
 	_heads_power = FacePower.new(_coin_family.heads_power_family, _coin_family.heads_power_family.uses_for_denom[_denomination])
 	_tails_power = FacePower.new(_coin_family.tails_power_family, _coin_family.tails_power_family.uses_for_denom[_denomination])
 	_heads = true
@@ -225,7 +228,14 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_supercharged = false
 	_round_tails_penalty_reduction = 0
 	_permanent_tails_penalty_reduction = 0
+	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
 	reset_power_uses()
+
+func get_appeasal_price() -> int:
+	return _coin_family.appeasal_price_for_denom[_denomination]
+
+func is_appeaseable() -> bool:
+	return get_appeasal_price() != Global.NOT_APPEASEABLE_PRICE and _owner == Coin.Owner.NEMESIS
 
 func get_coin_family() -> Global.CoinFamily:
 	return _coin_family
@@ -375,6 +385,7 @@ func flip(bonus: int = 0) -> void:
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
+	_PRICE.hide() # hide appease cost
 	
 	if is_blessed():
 		_heads = true
@@ -403,6 +414,8 @@ func flip(bonus: int = 0) -> void:
 	set_animation(_Animation.FLAT)
 	
 	_FACE_LABEL.show()
+	if is_appeaseable():
+		_PRICE.show()
 	
 	# if supercharged and we landed on tails, flip again.
 	if _supercharged and not _heads:
@@ -626,7 +639,8 @@ func _generate_tooltip() -> void:
 		txt = PASSIVE_FORMAT % [coin_name, subtitle, desc]
 	# regular case - payoff, payoff, and nemesis coins
 	else:
-		const TOOLTIP_FORMAT = "%s\n%s\n[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
+		const TOOLTIP_FORMAT = "%s\n%s\n%s[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
+		var appease_hint = "Spend %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to appease.\n" % get_appeasal_price() if is_appeaseable() else ""
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img]: " % _heads_power.power_family.icon_path
@@ -641,7 +655,7 @@ func _generate_tooltip() -> void:
 		var heads_power = POWER_FORMAT % [heads_charges, max_heads_charges, heads_power_icon, heads_power_desc]
 		var tails_power = POWER_FORMAT % [tails_charges, max_tails_charges, tails_power_icon, tails_power_desc]
 		
-		txt = TOOLTIP_FORMAT % [coin_name, subtitle, heads_power, tails_power]
+		txt = TOOLTIP_FORMAT % [coin_name, subtitle, appease_hint, heads_power, tails_power]
 	
 	UITooltip.create(self, txt, get_global_mouse_position(), get_tree().root)
 

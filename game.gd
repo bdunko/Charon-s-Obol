@@ -201,7 +201,7 @@ func on_start() -> void:
 	Global.toll_index = 0
 	
 	#debug
-	#Global.souls = 100
+	Global.souls = 100
 	#Global.lives = 100
 	#Global.arrows = 10
 	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
@@ -676,6 +676,17 @@ func _on_coin_clicked(coin: Coin):
 			_DIALOGUE.show_dialogue("Not... enough... souls...!")
 		return
 	
+	# try to appease a coin in enemy row
+	if coin.is_appeaseable() and Global.active_coin_power_family == null:
+		print("try to appease me!!")
+		if Global.souls >= coin.get_appeasal_price():
+			coin.queue_free()
+			Global.souls -= coin.get_appeasal_price()
+			_DIALOGUE.show_dialogue("Very good...")
+		else:
+			_DIALOGUE.show_dialogue("Not enough souls to appease...")
+		return
+	
 	# only use coin powers during after flip
 	if Global.state != Global.State.AFTER_FLIP:
 		return
@@ -753,6 +764,8 @@ func _on_coin_clicked(coin: Coin):
 			return
 		match(Global.active_coin_power_family):
 			Global.POWER_FAMILY_REFLIP:
+				if coin == Global.active_coin_power_coin:
+					_DIALOGUE.show_dialogue("Can't... reflip... itself...")
 				_safe_flip(coin)
 			Global.POWER_FAMILY_FREEZE:
 				if coin == Global.active_coin_power_coin:
