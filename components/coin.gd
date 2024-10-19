@@ -203,7 +203,7 @@ func _update_price_label() -> void:
 		_PRICE.text = _APPEASE_FORMAT % [color, price]
 
 func _on_state_changed() -> void:
-	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE or is_appeaseable():
+	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE or (is_appeaseable() and (Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP)):
 		_update_price_label()
 		_PRICE.show()
 	else:

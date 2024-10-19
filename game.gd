@@ -18,6 +18,7 @@ signal game_ended
 @onready var _ARROW_SCENE = preload("res://components/arrow.tscn")
 
 @onready var _PLAYER_TEXTBOXES = $UI/PlayerTextboxes
+@onready var _END_ROUND_TEXTBOX = $UI/PlayerTextboxes/EndRoundButton
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
@@ -42,6 +43,7 @@ func _ready() -> void:
 	assert(_CHARON_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
+	assert(_END_ROUND_TEXTBOX)
 	
 	assert(_CHARON_POINT)
 	assert(_PLAYER_POINT)
@@ -84,13 +86,7 @@ func _on_life_count_changed() -> void:
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
-		# DEBUG TODODO
-		#victory = true
-		#Global.state = Global.State.GAME_OVER
-		#return
-		
 		await _wait_for_dialogue("You're out of life...")
-		# todo - fancier dialogue
 		Global.state = Global.State.CHARON_OBOL_FLIP
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
@@ -147,8 +143,8 @@ func _on_state_changed() -> void:
 
 func _on_game_end() -> void:
 	if victory:
-		await _wait_for_dialogue("You've won! How can this be?")
-		await _wait_for_dialogue("Regardless, a deal's a deal...")
+		await _wait_for_dialogue("And we've reached the other shore...")
+		await _wait_for_dialogue("It appears that you have been victorious.")
 		await _wait_for_dialogue("I wish you luck on the rest of your journey...")
 	else:
 		await _wait_for_dialogue("You were a fool to come here.")
@@ -285,11 +281,16 @@ func _on_toss_button_clicked() -> void:
 	
 	# take life from player
 	var strain = Global.strain_cost()
-	if Global.lives < strain: #todo - skip this check and let player die if they cannot continue otherwise
+	
+	# don't allow player to kill themselves here if continue isn't disabled (ie, if this isn't the final round)
+	if Global.lives < strain and not _END_ROUND_TEXTBOX.disabled: 
 		_DIALOGUE.show_dialogue("Not... enough... life...!")
 		return
 	
 	Global.lives -= strain
+	
+	if Global.lives <= 0:
+		return
 	
 	# flip all the coins
 	for coin in _COIN_ROW.get_children():
@@ -562,6 +563,32 @@ func _on_voyage_continue_button_clicked():
 						await _wait_for_dialogue("You may have power, but beware the Overload!")
 				coin.payoff_move_down()
 		
+		# Nemesis introduction
+		if Global.current_round_type() == Global.RoundType.NEMESIS:
+			if Global.souls != 0:
+					await _wait_for_dialogue("First, I will take your remaining souls...")
+					Global.souls = 0
+			
+			await _wait_for_dialogue("And now...")
+			
+			for coin in _ENEMY_COIN_ROW.get_children():
+				coin.payoff_move_up()
+			
+			for coin in _ENEMY_COIN_ROW.get_children():
+				match coin.get_coin_family():
+					Global.MEDUSA_FAMILY:
+						await _wait_for_dialogue("Behold! The grim visage of the Gorgon Sisters!")
+			
+			await _wait_for_dialogue("To continue your voyage...")
+			await _wait_for_dialogue("You must appease the gatekeeper!")
+			await _wait_for_dialogue("Your fate lies with the coins now.")
+			await _wait_for_dialogue("Let the final trial commence!")
+			
+			for coin in _ENEMY_COIN_ROW.get_children():
+				coin.payoff_move_down()
+		
+		_END_ROUND_TEXTBOX.disable() if Global.current_round_type() == Global.RoundType.NEMESIS else _END_ROUND_TEXTBOX.enable()
+		
 		_PLAYER_TEXTBOXES.make_visible()
 		_DIALOGUE.show_dialogue("Will you toss...?")
 
@@ -678,11 +705,16 @@ func _on_coin_clicked(coin: Coin):
 	
 	# try to appease a coin in enemy row
 	if coin.is_appeaseable() and Global.active_coin_power_family == null:
-		print("try to appease me!!")
 		if Global.souls >= coin.get_appeasal_price():
 			coin.queue_free()
+			_ENEMY_COIN_ROW.remove_child(coin)
 			Global.souls -= coin.get_appeasal_price()
 			_DIALOGUE.show_dialogue("Very good...")
+			
+			# if nemesis round and the row is now empty, go ahead and end the round
+			if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
+				_on_end_round_button_pressed()
+				return
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls to appease...")
 		return

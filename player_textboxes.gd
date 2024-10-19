@@ -9,14 +9,14 @@ signal button_clicked
 
 func play_animation() -> void:
 	for textbox in get_children():
-		textbox.disable()
+		textbox.disable_clicks()
 	position = _INITIAL_POSITION + ANIMATION_OFFSET
 	modulate.a = 0.0
 	var tween = create_tween()
 	tween.tween_property(self, "position", _INITIAL_POSITION, 0.08)
 	tween.parallel().tween_property(self, "modulate:a", 1.0, 0.04)
 	for textbox in get_children():
-		tween.tween_callback(textbox.enable)
+		tween.tween_callback(textbox.enable_clicks)
 
 func make_visible() -> void:
 	show()
@@ -24,5 +24,5 @@ func make_visible() -> void:
 
 func make_invisible() -> void:
 	for textbox in get_children():
-		textbox.disable()
+		textbox.disable_clicks()
 	hide()

@@ -65,7 +65,7 @@ func _on_statue_clicked(statue: PatronStatue):
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("You've made a wise decision.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
-	await _PATRON_DIALOGUE.show_dialogue_and_wait("Into the depths.")
+	await _PATRON_DIALOGUE.show_dialogue_and_wait("Into the darkness.")
 	await create_tween().tween_property(_CAMERA, "zoom", Vector2(50, 50), 1.2).finished
 	_PATRON_DIALOGUE.instant_clear_dialogue()
 	emit_signal("patron_selected")

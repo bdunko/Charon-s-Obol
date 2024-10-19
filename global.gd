@@ -231,7 +231,7 @@ var _VOYAGE = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.5, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.0, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.5, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 25, 0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 0, 0, [[]]),
 	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
 
@@ -414,7 +414,7 @@ var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res:
 var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [3, 4, 5, 6], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
 
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
@@ -427,7 +427,7 @@ var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hermes_icon.png")
 var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin Lucky.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hestia_icon.png")
 var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/dionysus_icon.png")
-var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/hades_icon.png")
+var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/hades_icon.png")
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], PowerType.POWER, "")
 
@@ -445,7 +445,7 @@ var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from tails [img=1
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
 var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on heads, it becomes Unlucky. After a coin lands on tails, it becomes Lucky.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
 
-var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
+var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
 var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value coin is downgraded.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png")
 var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 10 [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to 0.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
 var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on trails becomes Cursed and Frozen.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png")
@@ -573,9 +573,9 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Reflip all coins, shuffle their positions, and remove all their statuses.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
 	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to tails, then gain 1 Arrow for each.", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
 	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's tails penalty by 1.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
-	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on tails, heal [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] equal to its tails penalty. ", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
+	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on tails, heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] equal to its tails penalty. ", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
 	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "Gain a random Obol and make it Lucky.", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
-	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] and [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] based on its value.", PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
+	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] and heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] based on its value.", PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
 	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Choose a coin. Downgrade it, then upgrade its neighbors.", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
 	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Turn a coin and its neighbors to their other face.", PatronEnum.HERA, PATRON_POWER_FAMILY_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn"), [HERA_FAMILY]),
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal or [color=lightgray](25% of the time)[/color] greater value.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
