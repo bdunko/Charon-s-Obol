@@ -218,7 +218,7 @@ class Round:
 		self.trialData = null
 
 var _VOYAGE = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0, [[]]),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.5, [[Denomination.OBOL, Denomination.OBOL]]),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0, [[Denomination.OBOL, Denomination.OBOL]]),
@@ -234,6 +234,11 @@ var _VOYAGE = [
 	Round.new(RoundType.TOLLGATE, 0, [], 0, 0, [[]]),
 	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
+#1 board
+#2 normal 3 normal 4 normal 5 trial1 6 toll1
+#7 normal 8 normal 9 trial2 10 toll2
+#11 normal 12 normal 13 nemesis
+#14 end
 
 func randomize_voyage() -> void:
 	for rnd in _VOYAGE:
@@ -361,10 +366,10 @@ class TrialData:
 	#TrialData.new("Petrification", [GENERIC_FAMILY], "When the trial begins, your two highest value coins are turned to Stone."),
 	#TrialData.new("Fate", [GENERIC_FAMILY], "Coins cannot be reflipped by powers."),
 	TrialData.new(TRIAL_LIMITATION_FAMILY.coin_name, [TRIAL_LIMITATION_FAMILY], TRIAL_POWER_FAMILY_LIMITATION.description),
-	#TrialData.new("Gating", [GENERIC_FAMILY], "During payoff, any coin which earns fewer than 10 Souls earns 0 instead."),
+	#TrialData.new("Gating", [GENERIC_FAMILY], "During payoff, any coin which earns more than 10 Souls earns 0 instead."),
 	#TrialData.new("Impatience", [GENERIC_FAMILY], "You must perform exactly 3 total tosses this round."),
-	#TrialData.new("Flames", [GENERIC_FAMILY], "When the trial begins, all your coins Ignite."),
-	#TrialData.new("Malaise", [GENERIC_FAMILY], "After payoff, your leftmost non-Blank coin becomes Blank."),
+	#TrialData.new("Immolation", [GENERIC_FAMILY], "When the trial begins, all your coins Ignite."),
+	#TrialData.new("Aging", [GENERIC_FAMILY], "After payoff, your leftmost non-Blank coin becomes Blank."),
 	# todo - rename resistance to poverty and redo icon
 	#TrialData.new("Resistance", [GENERIC_FAMILY], "Your payoff coins land on tails 90% of the time."),
 	TrialData.new(TRIAL_COLLAPSE_FAMILY.coin_name, [TRIAL_COLLAPSE_FAMILY], TRIAL_POWER_FAMILY_COLLAPSE.description),
@@ -377,9 +382,6 @@ class TrialData:
 	#TrialData.new("Fury", [GENERIC_FAMILY], "Charon's Malice increases 3 times as fast."),
 	#TrialData.new("Chains", [GENERIC_FAMILY], "When the trial begins, each of your non-payoff coins becomes Locked."),
 	#TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begins, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
-	
-	# unused idea
-	#TrialData.new("Balance", [GENERIC_FAMILY], "After payoff, each coin on heads becomes Unlucky."),
 ]
 
 enum PowerType {
@@ -727,7 +729,7 @@ var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/c
 var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping[]/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
-var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_DEATH, CHARON_POWER_LIFE, _SpriteStyle.CHARONS)
+var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]

@@ -377,6 +377,8 @@ func _on_accept_button_pressed():
 			await Global.delay(0.15)
 			if Global.lives < 0:
 				return
+		# unblank when it would payoff
+		payoff_coin.unblank()
 		
 	# resolve ignites
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
@@ -528,6 +530,9 @@ func _on_voyage_continue_button_clicked():
 		_PLAYER_TEXTBOXES.make_invisible()
 		
 		for coin in _ENEMY_COIN_ROW.get_children():
+			coin.hide_price() # bit of a $HACK$ to prevent nemesis price from being shown...
+		
+		for coin in _ENEMY_COIN_ROW.get_children():
 			if coin.is_passive():
 				if _ENEMY_COIN_ROW.get_child_count():
 					await Global.delay(0.2)
@@ -593,6 +598,9 @@ func _on_voyage_continue_button_clicked():
 				coin.payoff_move_down()
 		
 		_END_ROUND_TEXTBOX.disable() if Global.current_round_type() == Global.RoundType.NEMESIS else _END_ROUND_TEXTBOX.enable()
+		
+		for coin in _ENEMY_COIN_ROW.get_children():
+			coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
 		
 		_PLAYER_TEXTBOXES.make_visible()
 		_DIALOGUE.show_dialogue("Will you toss...?")

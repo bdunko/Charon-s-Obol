@@ -202,6 +202,12 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = _APPEASE_FORMAT % [color, price]
 
+func show_price() -> void:
+	_PRICE.show()
+
+func hide_price() -> void:
+	_PRICE.hide()
+
 func _on_state_changed() -> void:
 	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE or (is_appeaseable() and (Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP)):
 		_update_price_label()
@@ -503,6 +509,9 @@ func make_unlucky() -> void:
 func blank() -> void:
 	_blank = true
 
+func unblank() -> void:
+	_blank = false
+
 func supercharge() -> void:
 	_supercharged = true
 
@@ -675,7 +684,6 @@ func before_payoff() -> void:
 	_disabled = true
 
 func after_payoff() -> void:
-	_blank = false
 	_disabled = false
 
 func set_animation(anim: _Animation) -> void:
