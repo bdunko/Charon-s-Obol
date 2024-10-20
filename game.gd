@@ -313,6 +313,9 @@ func _on_accept_button_pressed():
 	_DIALOGUE.show_dialogue("Payoff...")
 	_PLAYER_TEXTBOXES.make_invisible()
 	
+	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		payoff_coin.before_payoff()
+	
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		var payoff_power_family = payoff_coin.get_active_power_family()
@@ -371,7 +374,6 @@ func _on_accept_button_pressed():
 					Global.strain_modifier += 1
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
-			payoff_coin.after_payoff()
 			await Global.delay(0.15)
 			if Global.lives < 0:
 				return
@@ -403,6 +405,9 @@ func _on_accept_button_pressed():
 		for coin in _COIN_ROW.get_children():
 			if coin.is_power():
 				Global.lives -= coin.get_active_power_charges()
+	
+	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		payoff_coin.after_payoff()
 	
 	_PLAYER_TEXTBOXES.make_visible()
 	

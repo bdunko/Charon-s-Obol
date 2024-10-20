@@ -671,8 +671,12 @@ func on_toss_complete() -> void:
 	if not is_stone():
 		reset_power_uses()
 
+func before_payoff() -> void:
+	_disabled = true
+
 func after_payoff() -> void:
 	_blank = false
+	_disabled = false
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()
