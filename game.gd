@@ -315,9 +315,25 @@ func _on_accept_button_pressed():
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.before_payoff()
-	
+
+	var resolved_ignite = false
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		# $HACK$ - this is an extremely lazy way to make ignites happen
+		# after all player coins but before all enemy coins, but I don't care
+		if not resolved_ignite and payoff_coin in _ENEMY_COIN_ROW.get_children():
+			# resolve ignites
+			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+				if possibly_ignited_coin.is_ignited():
+					possibly_ignited_coin.payoff_move_up()
+					Global.lives -= 3
+					await Global.delay(0.15)
+					possibly_ignited_coin.payoff_move_down()
+					await Global.delay(0.15)
+					if Global.lives < 0:
+						return
+			resolved_ignite = true
+		
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
@@ -338,6 +354,29 @@ func _on_accept_button_pressed():
 						Global.lives -= charges * 3
 					else:
 						Global.lives -= charges
+				Global.MONSTER_POWER_FAMILY_HELLHOUND:
+					payoff_coin.ignite()
+				Global.MONSTER_POWER_FAMILY_KOBALOS:
+					_COIN_ROW.get_randomized()[0].make_unlucky()
+				Global.MONSTER_POWER_FAMILY_ARAE:
+					_COIN_ROW.get_randomized()[0].curse()
+				Global.MONSTER_POWER_FAMILY_HARPY:
+					_COIN_ROW.get_randomized()[0].blank()
+				Global.MONSTER_POWER_FAMILY_CENTAUR_HEADS:
+					_COIN_ROW.get_randomized()[0].make_lucky()
+				Global.MONSTER_POWER_FAMILY_CENTAUR_TAILS:
+					_COIN_ROW.get_randomized()[0].make_unlucky()
+				Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
+					Global.arrows += 1
+				Global.MONSTER_POWER_FAMILY_SIREN:
+					for coin in _COIN_ROW.get_tails():
+						coin.freeze()
+				Global.MONSTER_POWER_FAMILY_BASILISK:
+					Global.lives -= int(Global.lives / 2.0)
+				Global.MONSTER_POWER_FAMILY_GORGON:
+					_COIN_ROW.get_randomized()[0].stone()
+				Global.MONSTER_POWER_FAMILY_CHIMERA:
+					_COIN_ROW.get_randomized()[0].ignite()
 				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
 					var possible_coins = []
 					for coin in _COIN_ROW.get_highest_to_lowest_value():
@@ -379,17 +418,6 @@ func _on_accept_button_pressed():
 				return
 		# unblank when it would payoff
 		payoff_coin.unblank()
-		
-	# resolve ignites
-	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		if payoff_coin.is_ignited():
-			payoff_coin.payoff_move_up()
-			Global.lives -= 3
-			await Global.delay(0.15)
-			payoff_coin.payoff_move_down()
-			await Global.delay(0.15)
-			if Global.lives < 0:
-				return
 	
 	# post payoff actions
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
@@ -529,8 +557,9 @@ func _on_voyage_continue_button_clicked():
 		Global.state = Global.State.BEFORE_FLIP #shows trial row
 		_PLAYER_TEXTBOXES.make_invisible()
 		
-		for coin in _ENEMY_COIN_ROW.get_children():
-			coin.hide_price() # bit of a $HACK$ to prevent nemesis price from being shown...
+		if Global.current_round_type() == Global.RoundType.NEMESIS:
+			for coin in _ENEMY_COIN_ROW.get_children():
+				coin.hide_price() # bit of a $HACK$ to prevent nemesis price from being shown...
 		
 		for coin in _ENEMY_COIN_ROW.get_children():
 			if coin.is_passive():
@@ -559,7 +588,7 @@ func _on_voyage_continue_button_clicked():
 						await _wait_for_dialogue("Your Blood shall boil!")
 					Global.TRIAL_EQUIVALENCE_FAMILY:
 						await _wait_for_dialogue("Each flip will be one of Equivalence!")
-					Global.TRIAL_EQUIVALENCE_FAMILY:
+					Global.TRIAL_FAMINE_FAMILY:
 						await _wait_for_dialogue("Feel the hunger of Famine!")
 					Global.TRIAL_TORTURE_FAMILY:
 						await _wait_for_dialogue("Can you withstand this Torture?")
@@ -599,8 +628,9 @@ func _on_voyage_continue_button_clicked():
 		
 		_END_ROUND_TEXTBOX.disable() if Global.current_round_type() == Global.RoundType.NEMESIS else _END_ROUND_TEXTBOX.enable()
 		
-		for coin in _ENEMY_COIN_ROW.get_children():
-			coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
+		if Global.current_round_type() == Global.RoundType.NEMESIS:
+			for coin in _ENEMY_COIN_ROW.get_children():
+				coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
 		
 		_PLAYER_TEXTBOXES.make_visible()
 		_DIALOGUE.show_dialogue("Will you toss...?")

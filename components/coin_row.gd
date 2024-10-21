@@ -9,6 +9,24 @@ func _on_child_exiting_tree(_node) -> void:
 	# update 1 frame later once child is gone
 	call_deferred("_update_coins")
 
+# returns array of all coins on tails
+func get_tails() -> Array:
+	assert(get_child_count() != 0)
+	var tails = []
+	for coin in get_children():
+		if coin.get_tails():
+			tails.append(coin)
+	return tails
+
+# returns array of all coins on heads
+func get_heads() -> Array:
+	assert(get_child_count() != 0)
+	var heads = []
+	for coin in get_children():
+		if coin.get_heads():
+			heads.append(coin)
+	return heads
+
 # returns an array containing all coins of the highest denomination amongst coins in this row
 func get_highest_valued() -> Array:
 	assert(get_child_count() != 0)

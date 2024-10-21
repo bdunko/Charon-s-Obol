@@ -282,24 +282,22 @@ func current_round_enemy_coin_data() -> Array:
 		for nemesisFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([nemesisFamily, Denomination.TETROBOL])
 	else:
+		# TODO - better monster generation
+		# for testing, just have an equal chance of all...
+		var STANDARD_MONSTERS = [MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY]
+		var WANDERING_MONSTERS = [MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY]
+		var ELITE_MONSTERS = [MONSTER_SIREN_FAMILY, MONSTER_CHIMERA_FAMILY, MONSTER_GORGON_FAMILY, MONSTER_BASILISK_FAMILY]
+		
+		var MONSTERS = STANDARD_MONSTERS + WANDERING_MONSTERS + ELITE_MONSTERS
+		
 		var monsterDenoms = Global.choose_one(_VOYAGE[round_count-1].monsterWaveDenoms)
 		for denom in monsterDenoms:
-			# TODO - more detailed monster generation here
-			coin_data.append([MONSTER_FAMILY, denom])
+			coin_data.append([Global.choose_one(MONSTERS), denom])
 	
 	return coin_data
 
 func current_round_price_multiplier() -> float:
 	return _VOYAGE[round_count-1].shopPriceMultiplier
-
-func current_round_monster_wave() -> Array:
-	var monsterDenoms = Global.choose_one(_VOYAGE[round_count-1].monsterWaveDenoms)
-	
-	var monster_wave = []
-	for denom in monsterDenoms:
-		monster_wave.append([MONSTER_FAMILY, denom])
-	
-	return monster_wave
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
@@ -415,6 +413,7 @@ class PowerFamily:
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [5, 8, 11, 14], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
 var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [3, 4, 5, 6], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
 
 var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
@@ -433,11 +432,25 @@ var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [im
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], PowerType.POWER, "")
 
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn the most valuable non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/medusa_icon.png")
+var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("This coin Ignites.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make a coin Unlucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("Curse a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("Blank a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make a coin Lucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make a coin Unlucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+
+var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1 Arrow.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+
+var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("Ignite a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("Freeze each tails coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/medusa_icon.png")
 var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/downgrade_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn the leftmost non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 random coins Unlucky.", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn the rightmost non-Stoned coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 coins Unlucky.", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to Stone", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
 var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy coins until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
@@ -456,7 +469,6 @@ var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=
 
 var CHARON_POWER_DEATH = PowerFamily.new("Die.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_death_icon.png")
 var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_life_icon.png")
-
 
 # todo - refactor this into Util
 signal any_input
@@ -708,6 +720,18 @@ var HADES_FAMILY = CoinFamily.new("(DENOM) of Hades", "[color=slateblue]Beyond t
 
 # monsters
 var MONSTER_FAMILY = CoinFamily.new("[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_HELLHOUND_FAMILY = CoinFamily.new("[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_KOBALOS_FAMILY = CoinFamily.new("[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_ARAE_FAMILY = CoinFamily.new("[color=gray]Arae[/color]", "[color=purple]Encumbered by Guilt[/color]", NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_HARPY_FAMILY = CoinFamily.new("[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_CENTAUR_FAMILY = CoinFamily.new("[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new("[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+# elite monsters
+var MONSTER_SIREN_FAMILY = CoinFamily.new("[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_BASILISK_FAMILY = CoinFamily.new("[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_GORGON_FAMILY = CoinFamily.new("[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_CHIMERA_FAMILY = CoinFamily.new("[color=gray]Chimera[/color]", "[color=purple]Great Blaze[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+
 
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new("[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
