@@ -73,7 +73,8 @@ uniform float gray_correct: hint_range(0.0, 1.0) = 0.0;
 // SCANLINES
 //LR
 //UD
-//DIAG
+//DIAG TL->BR
+//DIAG TR->BL
 
 // DISINTEGRATE
 

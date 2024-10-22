@@ -203,7 +203,7 @@ class Round:
 	var shopDenoms: Array
 	var tollCost: int
 	var shopPriceMultiplier: float
-	var monsterWaveDenoms: Array
+	var monsterWaves: Array
 	
 	var trialData: TrialData
 	
@@ -213,24 +213,66 @@ class Round:
 		self.shopDenoms = shopDenms
 		self.tollCost = tollCst
 		self.shopPriceMultiplier = priceMult
-		self.monsterWaveDenoms = mWaveDenoms
+		self.monsterWaves = mWaveDenoms
 		
 		self.trialData = null
+
+class Monster:
+	enum Archetype {
+		STANDARD,
+		ELITE
+	}
+	var archetype: Archetype
+	var denom: Denomination
+	
+	func _init(arc: Archetype, dnm: Denomination):
+		self.archetype = arc
+		self.denom = dnm
+
+var MONSTER_WAVE1 = [
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
+]
+var MONSTER_WAVE2 = [
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # lieutenant
+]
+var MONSTER_WAVE3 = [ 
+	[Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL)], # juggernaut
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # lieutenant
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # brothers in arms
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
+]
+var MONSTER_WAVE4 = [
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
+	[Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # commander
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # marauders
+]
+var MONSTER_WAVE5 = [
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # commander
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # marauders
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # brothers in arms
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # taskmaster
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # lieutenant
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # swarm
+]
+var MONSTER_WAVE6 = [
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
+]
 
 var _VOYAGE = [
 	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.5, [[Denomination.OBOL, Denomination.OBOL]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0, [[Denomination.OBOL, Denomination.OBOL]]),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.5, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.25, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 1.5, MONSTER_WAVE2),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 1.75, [[]]),
 	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 3.0, [[Denomination.DIOBOL, Denomination.DIOBOL]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 3.5, [[Denomination.DIOBOL, Denomination.DIOBOL]]),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0, MONSTER_WAVE3),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 2.25, MONSTER_WAVE4),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 2.5, [[]]),
 	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 4.5, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.0, [[Denomination.TRIOBOL, Denomination.TRIOBOL]]),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 5.5, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 2.75, MONSTER_WAVE5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.0, MONSTER_WAVE6),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.25, [[]]),
 	Round.new(RoundType.TOLLGATE, 0, [], 0, 0, [[]]),
 	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
@@ -240,7 +282,15 @@ var _VOYAGE = [
 #11 normal 12 normal 13 nemesis
 #14 end
 
+const NUM_STANDARD_MONSTERS = 4
+const NUM_ELITE_MONSTERS = 2
+@onready var STANDARD_MONSTERS = [MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY] + [MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY]
+@onready var ELITE_MONSTERS = [MONSTER_SIREN_FAMILY, MONSTER_CHIMERA_FAMILY, MONSTER_GORGON_FAMILY, MONSTER_BASILISK_FAMILY]
+var _standard_monster_pool = []
+var _elite_monster_pool = []
+
 func randomize_voyage() -> void:
+	# randomize trials & nemesis
 	for rnd in _VOYAGE:
 		# debug - seed trial
 		match(rnd.roundType):
@@ -251,7 +301,13 @@ func randomize_voyage() -> void:
 				rnd.trialData = Global.choose_one(LV2_TRIALS)
 			RoundType.NEMESIS:
 				rnd.trialData = Global.choose_one(NEMESES)
-			
+	
+	# randomize the monster pool
+	STANDARD_MONSTERS.shuffle()
+	_standard_monster_pool = STANDARD_MONSTERS.slice(0, NUM_STANDARD_MONSTERS)
+	_elite_monster_pool = ELITE_MONSTERS.slice(0, NUM_ELITE_MONSTERS)
+	assert(_standard_monster_pool.size() == NUM_STANDARD_MONSTERS)
+	assert(_elite_monster_pool.size() == NUM_ELITE_MONSTERS)
 
 func voyage_length() -> int:
 	return _VOYAGE.size()
@@ -282,18 +338,20 @@ func current_round_enemy_coin_data() -> Array:
 		for nemesisFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([nemesisFamily, Denomination.TETROBOL])
 	else:
-		# TODO - better monster generation
-		# for testing, just have an equal chance of all...
-		var STANDARD_MONSTERS = [MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY]
-		var WANDERING_MONSTERS = [MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY]
-		var ELITE_MONSTERS = [MONSTER_SIREN_FAMILY, MONSTER_CHIMERA_FAMILY, MONSTER_GORGON_FAMILY, MONSTER_BASILISK_FAMILY]
-		
-		var MONSTERS = STANDARD_MONSTERS + WANDERING_MONSTERS + ELITE_MONSTERS
-		
-		var monsterDenoms = Global.choose_one(_VOYAGE[round_count-1].monsterWaveDenoms)
-		for denom in monsterDenoms:
-			coin_data.append([Global.choose_one(MONSTERS), denom])
-	
+		var monsters = Global.choose_one(_VOYAGE[round_count-1].monsterWaves)
+		# elite_index just used to assure the final round has 2 different elites
+		# but for standard monsters, duplicates are permitted
+		var elite_index = 0
+		_elite_monster_pool.shuffle()
+		for monster in monsters:
+			var denom = monster.denom
+			match monster.archetype:
+				Monster.Archetype.STANDARD:
+					coin_data.append([Global.choose_one(_standard_monster_pool), denom])
+				Monster.Archetype.ELITE:
+					coin_data.append([_elite_monster_pool[elite_index], denom])
+					elite_index += 1
+			
 	return coin_data
 
 func current_round_price_multiplier() -> float:

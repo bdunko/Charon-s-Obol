@@ -207,11 +207,11 @@ func on_start() -> void:
 	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
 	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
-	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
-	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL)
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TRIOBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
 	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
 	
 	Global.state = Global.State.BOARDING
