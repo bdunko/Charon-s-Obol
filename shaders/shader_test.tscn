@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=20 format=3 uid="uid://358hx2cun580"]
 
 [ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
@@ -9,62 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://di6ewinnoex3n" path="res://shaders/test_coin.png" id="7_ccctr"]
 [ext_resource type="Texture2D" uid="uid://4ievnrt5nh4v" path="res://shaders/test_coin2.png" id="9_gc8jb"]
 [ext_resource type="Shader" path="res://shaders/shader_test.gdshader" id="9_yc3uv"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pgqnn"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5j6xx"]
-width = 320
-height = 180
-seamless = true
-seamless_blend_skirt = 0.75
-noise = SubResource("FastNoiseLite_pgqnn")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
-shader = ExtResource("1_j17hv")
-shader_parameter/use_exclude_colors = true
-shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/displace_x = 0
-shader_parameter/displace_y = 0
-shader_parameter/pan_speed = Vector2(0, 0)
-shader_parameter/repeat = true
-shader_parameter/replace_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
-shader_parameter/tint_color = Color(0, 0, 0, 1)
-shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash_speed = 0.0
-shader_parameter/flash_color = Color(0, 0, 0, 1)
-shader_parameter/flash_strength = null
-shader_parameter/red_correct = 0.974
-shader_parameter/green_correct = -0.824
-shader_parameter/blue_correct = 0.0
-shader_parameter/gray_correct = 0.828
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_thickness = 0
-shader_parameter/outline_diagonals = false
-shader_parameter/outline_start_time = 0.0
-shader_parameter/outline_glow_speed = 1.0
-shader_parameter/outline_glow_min = 0.2
-shader_parameter/outline_glow_max = 1.0
-shader_parameter/fog_enabled = false
-shader_parameter/fog_opacity = 0.5
-shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(0.02, 0.01)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_5j6xx")
-shader_parameter/transparency = 1.0
-shader_parameter/transparency_glow = false
-shader_parameter/transparency_glow_min = 1.0
-shader_parameter/transparency_glow_speed = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
@@ -158,7 +102,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ikkxv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uewk7"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/use_exclude_colors = true
@@ -308,17 +252,36 @@ shader_parameter/transparency_glow_speed = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_muoux"]
 shader = ExtResource("9_yc3uv")
-shader_parameter/blend_strength = 0.0
-shader_parameter/displace_x = 10
-shader_parameter/displace_y = 0
+shader_parameter/MOUSE = Vector2(160, 100)
+shader_parameter/vertical_colorline_color = Color(1.5, 0.8, 1.25, 1)
+shader_parameter/vertical_colorline_spacing = 3
+shader_parameter/vertical_colorline_mode = 1
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 5
+shader_parameter/horizontal_colorline_mode = 1
+shader_parameter/checkerboard_color = Color(1, 1, 1, 1)
+shader_parameter/checkerboard_mode = 3
+shader_parameter/checkerboard_mouselight_on = true
+shader_parameter/checkerboard_mouselight_color = Color(1, 0, 0, 1)
+shader_parameter/checkerboard_mouselight_size = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
+shader = ExtResource("9_yc3uv")
+shader_parameter/MOUSE = Vector2(160, 100)
+shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/vertical_colorline_spacing = 2
+shader_parameter/vertical_colorline_mode = 1
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 2
+shader_parameter/horizontal_colorline_mode = 1
+shader_parameter/checkerboard_color = Color(0.2, 0.2, 0.2, 0)
+shader_parameter/checkerboard_mode = 3
+shader_parameter/checkerboard_mouselight_on = true
+shader_parameter/checkerboard_mouselight_color = Color(0.2, 0.2, 0.2, 0.2)
+shader_parameter/checkerboard_mouselight_size = 25
 
 [node name="shader_test" type="Node2D"]
 script = ExtResource("1_1a6s1")
-
-[node name="Peaceful" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_ut0i6")
-texture = ExtResource("4_wabw4")
-centered = false
 
 [node name="CloudBack" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1cgal")
@@ -331,7 +294,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_ikkxv")
+material = SubResource("ShaderMaterial_uewk7")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
@@ -358,6 +321,11 @@ offset_bottom = 180.0
 material = SubResource("ShaderMaterial_muoux")
 position = Vector2(227, 94)
 texture = ExtResource("7_ccctr")
+centered = false
+
+[node name="Peaceful" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ut0i6")
+texture = ExtResource("4_wabw4")
 centered = false
 
 [editable path="Textbox"]
