@@ -107,8 +107,11 @@ uniform float fog_opacity: hint_range(0.0, 1.0) = 0.5;
 uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
 uniform vec2 fog_speed = vec2(0.02, 0.01);
 
-// DITHER
-// DITHERLIGHT
+// COLORLINES
+
+// CHECKERBOARD
+
+// CUT
 
 // TRANSPARENCY
 // Controls transparency of the texture.

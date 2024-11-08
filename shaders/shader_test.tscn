@@ -102,7 +102,7 @@ shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uewk7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sfdbc"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/use_exclude_colors = true
@@ -150,50 +150,32 @@ shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ijj8"]
-shader = ExtResource("1_j17hv")
-shader_parameter/use_exclude_colors = true
-shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/displace_x = 0
-shader_parameter/displace_y = 0
-shader_parameter/pan_speed = Vector2(0, 0)
-shader_parameter/repeat = false
-shader_parameter/replace_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
-shader_parameter/tint_color = Color(0, 0, 0, 1)
-shader_parameter/tint_strength = 0.0
-shader_parameter/tint_auto_flash_speed = 0.5
-shader_parameter/flash_color = Color(0, 0, 0, 1)
-shader_parameter/flash_strength = null
-shader_parameter/red_correct = 0.0
-shader_parameter/green_correct = 0.0
-shader_parameter/blue_correct = 0.0
-shader_parameter/gray_correct = 0.0
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_thickness = 1
-shader_parameter/outline_diagonals = true
-shader_parameter/outline_start_time = 0.0
-shader_parameter/outline_glow_speed = 1.0
-shader_parameter/outline_glow_min = 0.5
-shader_parameter/outline_glow_max = 1.0
-shader_parameter/fog_enabled = false
-shader_parameter/fog_opacity = 0.5
-shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(0.02, 0.01)
-shader_parameter/transparency = 1.0
-shader_parameter/transparency_glow = false
-shader_parameter/transparency_glow_min = 0.0
-shader_parameter/transparency_glow_speed = 2.0
+shader = ExtResource("9_yc3uv")
+shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/vertical_colorline_spacing = 2
+shader_parameter/vertical_colorline_mode = 1
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 2
+shader_parameter/horizontal_colorline_mode = 1
+shader_parameter/checkerboard_color = Color(0.2, 0.2, 0.2, 0)
+shader_parameter/checkerboard_strength = 0.2
+shader_parameter/checkerboard_mode = 3
+shader_parameter/checkerboard_mouselight_on = false
+shader_parameter/checkerboard_mouselight_color = Color(0.2, 0.2, 0.2, 0)
+shader_parameter/checkerboard_mouselight_strength = 0.5
+shader_parameter/checkerboard_mouselight_size = 8
+shader_parameter/checkerboard_flicker_size = 3.0
+shader_parameter/checkerboard_flicker_speed = 10.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
+shader_parameter/scanline_left_to_right = -0.001
+shader_parameter/scanline_top_to_bottom = -0.001
+shader_parameter/scanline_topleft_to_bottomright = -0.001
+shader_parameter/scanline_topright_to_bottomleft = -0.001
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pk8pl"]
 
@@ -260,14 +242,27 @@ shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/horizontal_colorline_spacing = 5
 shader_parameter/horizontal_colorline_mode = 1
 shader_parameter/checkerboard_color = Color(1, 1, 1, 1)
+shader_parameter/checkerboard_strength = 1.0
 shader_parameter/checkerboard_mode = 3
 shader_parameter/checkerboard_mouselight_on = true
 shader_parameter/checkerboard_mouselight_color = Color(1, 0, 0, 1)
+shader_parameter/checkerboard_mouselight_strength = 0.5
 shader_parameter/checkerboard_mouselight_size = 10
+shader_parameter/checkerboard_flicker_size = 5.0
+shader_parameter/checkerboard_flicker_speed = 5.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/scanline_color = Color(0.5, 0.5, 0, 1)
+shader_parameter/scanline_left_to_right = -0.001
+shader_parameter/scanline_top_to_bottom = -0.001
+shader_parameter/scanline_topleft_to_bottomright = -0.001
+shader_parameter/scanline_topright_to_bottomleft = -0.001
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
 shader = ExtResource("9_yc3uv")
-shader_parameter/MOUSE = Vector2(160, 100)
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_mode = 1
@@ -275,10 +270,23 @@ shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/horizontal_colorline_spacing = 2
 shader_parameter/horizontal_colorline_mode = 1
 shader_parameter/checkerboard_color = Color(0.2, 0.2, 0.2, 0)
+shader_parameter/checkerboard_strength = 0.3
 shader_parameter/checkerboard_mode = 3
 shader_parameter/checkerboard_mouselight_on = true
-shader_parameter/checkerboard_mouselight_color = Color(0.2, 0.2, 0.2, 0.2)
-shader_parameter/checkerboard_mouselight_size = 25
+shader_parameter/checkerboard_mouselight_color = Color(0.2, 0.2, 0.2, 0)
+shader_parameter/checkerboard_mouselight_strength = 0.5
+shader_parameter/checkerboard_mouselight_size = 8
+shader_parameter/checkerboard_flicker_size = 3.0
+shader_parameter/checkerboard_flicker_speed = 10.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
+shader_parameter/scanline_left_to_right = 0.15
+shader_parameter/scanline_top_to_bottom = 0.181
+shader_parameter/scanline_topleft_to_bottomright = 0.462
+shader_parameter/scanline_topright_to_bottomleft = 0.398
 
 [node name="shader_test" type="Node2D"]
 script = ExtResource("1_1a6s1")
@@ -294,7 +302,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_uewk7")
+material = SubResource("ShaderMaterial_sfdbc")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
