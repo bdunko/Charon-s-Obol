@@ -110,7 +110,6 @@ void fragment() {
 	if (PX % vertical_colorline_spacing == 0) {
 		COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
 	}
-	
 	if (PY % horizontal_colorline_spacing == 0) {
 		COLOR.rgb = mix(COLOR.rgb, horizontal_colorline_color, horizontal_colorline_strength);
 	}
