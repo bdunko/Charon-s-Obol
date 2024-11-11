@@ -4,15 +4,21 @@
 shader_type canvas_item;
 
 // --- Utilty Functions --- //
+const bool DEBUG = true;
 // checks if two values are 'equal' (within EPSILON of each other)
 // necessary when doing float calculations since it's not perfectly precise
 const float EPSILON = 0.001;
 bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
+
 float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
+
 // unused but may be useful someday
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+// pass in the mouse position here
+uniform vec2 MOUSE = vec2(20, 20);
 
 
 // --- Effects --- //
@@ -65,10 +71,11 @@ uniform float flash_strength: hint_range(0.0, 1.0);
 
 // COLOR CORRECTION
 group_uniforms ColorCorrection;
-uniform float red_correct: hint_range(-1.0, 1.0) = 0.0;
-uniform float green_correct: hint_range(-1.0, 1.0) = 0.0;
-uniform float blue_correct: hint_range(-1.0, 1.0) = 0.0;
-uniform float gray_correct: hint_range(0.0, 1.0) = 0.0;
+// these values can actually go higher or lower, if you want a more extreme effect
+uniform float red_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
+uniform float green_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
+uniform float blue_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
+uniform float gray_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
 
 // SCANLINES
 //LR
@@ -160,11 +167,14 @@ void fragment()
 	}
 	
 	// COLOR CORRECTION
-	COLOR.r = mix(COLOR.r, 1.0, red_correct);
-	COLOR.g = mix(COLOR.g, 1.0, green_correct);
-	COLOR.b = mix(COLOR.b, 1.0, blue_correct);
-	COLOR.rgb = mix(COLOR.rgb, vec3(0.2126 * COLOR.r + 0.7152 * COLOR.g + 0.0722 * COLOR.b), gray_correct);
-	
+	// todo - can use this if just once for both tint and correct probably
+	// or maybe make separate bool for each? 
+	if (!use_exclude_colors || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || !vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4)) {
+		COLOR.r = mix(COLOR.r, 1.0, red_correct);
+		COLOR.g = mix(COLOR.g, 1.0, green_correct);
+		COLOR.b = mix(COLOR.b, 1.0, blue_correct);
+		COLOR.rgb = mix(COLOR.rgb, vec3(0.2126 * COLOR.r + 0.7152 * COLOR.g + 0.0722 * COLOR.b), gray_correct);
+	}
 	
 	// OUTLINE
 	if (outline_thickness != 0) {

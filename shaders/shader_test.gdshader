@@ -6,6 +6,7 @@ shader_type canvas_item;
 const float EPSILON = 0.001;
 bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
+
 float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
 
@@ -14,7 +15,18 @@ const bool DEBUG = true;
 // pass in the mouse position here
 uniform vec2 MOUSE = vec2(20, 20);
 
-// lines
+group_uniforms SCANLINE;
+uniform vec3 scanline_color: source_color = vec3(0.98, 0.69, 0.23);
+uniform float scanline_strength: hint_range(0.0, 1.0, 0.01) = 1.0;
+uniform float scanline_left_to_right: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_top_to_bottom: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_topleft_to_bottomright: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_topright_to_bottomleft: hint_range(-0.001, 1.0, 0.001) = -0.001;
+
+group_uniforms DISINTEGRATE;
+uniform sampler2D disintegrate_noise_texture: repeat_enable, filter_nearest;
+uniform float disintegrate_strength: hint_range(0.0, 1.0) = 0.0;
+
 group_uniforms COLORLINES;
 uniform vec3 vertical_colorline_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform int vertical_colorline_spacing = 2;
@@ -36,28 +48,24 @@ uniform int mouselight_size = 8;
 uniform float mouselight_flicker_size = 3;
 uniform float mouselight_flicker_speed = 10;
 
+// add this to the color correction section
+group_uniforms ADJ;
+uniform float brightness: hint_range(0.0, 5.0, 0.01) = 1.0;
+uniform float contrast: hint_range(0.0, 5.0, 0.01) = 1.0;
+uniform float saturation: hint_range(0.0, 2.0, 0.01) = 1.0;
+
 group_uniforms CUT;
 uniform float cut_left: hint_range(0.0, 1.0, 0.001) = 0.0;
 uniform float cut_right: hint_range(0.0, 1.0, 0.001) = 0.0;
 uniform float cut_top: hint_range(0.0, 1.0, 0.001) = 0.0;
 uniform float cut_bottom: hint_range(0.0, 1.0, 0.001) = 0.0;
 
-group_uniforms SCANLINE;
-uniform vec3 scanline_color: source_color = vec3(0.98, 0.69, 0.23);
-uniform float scanline_strength: hint_range(0.0, 1.0, 0.01) = 1.0;
-uniform float scanline_left_to_right: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_top_to_bottom: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_topleft_to_bottomright: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_topright_to_bottomleft: hint_range(-0.001, 1.0, 0.001) = -0.001;
+group_uniforms VIGNETTE;
+uniform bool vignette_on = false;
+uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
+uniform float vignette_radius: hint_range(0.001, 5.0, 0.01) = 1.0;
 
-// sat - figure out how to handle colormodes - it's pretty messy;
-// maybe use the mix function?
-// switch to using vec3 instead of vec4 and provide an int param for 'strength'
-
-// sat - Disintegrate
-// provide a noise texture and delete from?
-
-// sat - Vignette - base off of https://www.shadertoy.com/view/lsKSWR
+// sun - merge into main shader
 
 // later - 
 // neat ripple https://godotshaders.com/shader/ripple-shader/
@@ -91,6 +99,13 @@ void fragment() {
 			COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
 	}
 	
+	// DISINTEGRATE
+	if (COLOR.a != 0.0) {
+		float disintegrate_alpha = texture(disintegrate_noise_texture, UV).r;
+		if (disintegrate_alpha < disintegrate_strength)
+			COLOR.a = 0.0;
+	}
+	
 	// COLORLINES
 	if (PX % vertical_colorline_spacing == 0) {
 		COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
@@ -110,6 +125,7 @@ void fragment() {
 		COLOR.rgb = mix(COLOR.rgb, adj_cbcolor, checker_strength);
 	}
 	
+	// MOUSELIGHT
 	if (mouselight_on && (!mouselight_checker || PX % 2 == PY % 2)) {
 		float mouse_with_flicker = float(mouselight_size + int(mouselight_flicker_size * sin0to1(TIME * mouselight_flicker_speed)));
 		float dist_from_mouse = sqrt(pow(float(SX - int(MOUSE.x)), 2.0) + pow(float(SY - int(MOUSE.y)), 2.0));
@@ -118,6 +134,10 @@ void fragment() {
 			COLOR.rgb = mix(COLOR.rgb, mouselight_color, distance_mod * mouselight_strength);
 		}
 	}
+	
+	COLOR.rgb = mix(vec3(0.0), COLOR.rgb, brightness);
+	COLOR.rgb = mix(vec3(0.5), COLOR.rgb, contrast);
+	COLOR.rgb = mix(vec3(dot(vec3(1.0), COLOR.rbg)), COLOR.rgb, saturation);
 	
 	// CUT
 	if (UV.x < cut_left)
@@ -128,6 +148,14 @@ void fragment() {
 		COLOR.a = 0.0;
 	if (UV.y > 1.0-cut_bottom)
 		COLOR.a = 0.0;
+		
+	// VIGNETTE
+	if (vignette_on) {
+		float x = abs(UV.x-.5)*2.0;
+		float y = abs(UV.y-.5)*2.0;
+		float v = (sqrt((x*x)+(y*y))/vignette_radius);
+		COLOR = mix(COLOR, vec4(vignette_color.r, vignette_color.g, vignette_color.b, 1.0), v);
+	}
 	
 	// screen stuff
 	//if (SSIZE_X == 320 && SSIZE_Y == 180 || DEBUG)

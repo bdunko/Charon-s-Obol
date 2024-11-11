@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=22 format=3 uid="uid://358hx2cun580"]
 
 [ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
@@ -12,6 +12,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -58,6 +59,7 @@ shader_parameter/transparency_glow_speed = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k065"]
 shader = ExtResource("1_j17hv")
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -105,6 +107,7 @@ shader_parameter/transparency_glow_speed = 2.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sfdbc"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -152,6 +155,13 @@ shader_parameter/transparency_glow_speed = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ijj8"]
 shader = ExtResource("9_yc3uv")
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
+shader_parameter/scanline_strength = 1.0
+shader_parameter/scanline_left_to_right = -0.001
+shader_parameter/scanline_top_to_bottom = -0.001
+shader_parameter/scanline_topleft_to_bottomright = -0.001
+shader_parameter/scanline_topright_to_bottomleft = -0.001
+shader_parameter/disintegrate_strength = 0.0
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.5
@@ -167,16 +177,96 @@ shader_parameter/mouselight_strength = 0.5
 shader_parameter/mouselight_size = 8
 shader_parameter/mouselight_flicker_size = 3.0
 shader_parameter/mouselight_flicker_speed = 10.0
+shader_parameter/brightness = 1.0
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
 shader_parameter/cut_left = 0.0
 shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
+shader_parameter/vignette_on = false
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+shader_parameter/vignette_radius = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ch6v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
+shader = ExtResource("9_yc3uv")
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
 shader_parameter/scanline_strength = 1.0
 shader_parameter/scanline_left_to_right = -0.001
 shader_parameter/scanline_top_to_bottom = -0.001
 shader_parameter/scanline_topleft_to_bottomright = -0.001
 shader_parameter/scanline_topright_to_bottomleft = -0.001
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/vertical_colorline_spacing = 2
+shader_parameter/vertical_colorline_strength = 0.0
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 2
+shader_parameter/horizontal_colorline_strength = 0.0
+shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/checker_strength = 0.26
+shader_parameter/mouselight_on = true
+shader_parameter/mouselight_checker = true
+shader_parameter/mouselight_color = Color(1, 1, 1, 1)
+shader_parameter/mouselight_strength = 0.5
+shader_parameter/mouselight_size = 8
+shader_parameter/mouselight_flicker_size = 3.0
+shader_parameter/mouselight_flicker_speed = 0.2
+shader_parameter/brightness = 1.0
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/vignette_on = false
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+shader_parameter/vignette_radius = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rn6cx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_toplr"]
+noise = SubResource("FastNoiseLite_rn6cx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_muoux"]
+shader = ExtResource("9_yc3uv")
+shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
+shader_parameter/scanline_strength = 1.0
+shader_parameter/scanline_left_to_right = -0.001
+shader_parameter/scanline_top_to_bottom = -0.001
+shader_parameter/scanline_topleft_to_bottomright = -0.001
+shader_parameter/scanline_topright_to_bottomleft = -0.001
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_noise_texture = SubResource("NoiseTexture2D_toplr")
+shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/vertical_colorline_spacing = 2
+shader_parameter/vertical_colorline_strength = 0.0
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 2
+shader_parameter/horizontal_colorline_strength = 0.0
+shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/checker_strength = 0.0
+shader_parameter/mouselight_on = false
+shader_parameter/mouselight_checker = false
+shader_parameter/mouselight_color = Color(1, 1, 1, 1)
+shader_parameter/mouselight_strength = 0.5
+shader_parameter/mouselight_size = 8
+shader_parameter/mouselight_flicker_size = 3.0
+shader_parameter/mouselight_flicker_speed = 10.0
+shader_parameter/brightness = 1.0
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/vignette_on = false
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+shader_parameter/vignette_radius = 1.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pk8pl"]
 
@@ -186,6 +276,7 @@ noise = SubResource("FastNoiseLite_pk8pl")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oi8e2"]
 shader = ExtResource("1_j17hv")
+shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -205,91 +296,31 @@ shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/tint_color = Color(1, 0.588235, 0.211765, 1)
-shader_parameter/tint_strength = 0.469
-shader_parameter/tint_auto_flash_speed = 0.5
-shader_parameter/flash_color = Color(1, 0.454902, 0.384314, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/tint_auto_flash_speed = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
 shader_parameter/blue_correct = 0.0
 shader_parameter/gray_correct = 0.0
-shader_parameter/outline_color = Color(1, 0.85098, 0.596078, 1)
-shader_parameter/outline_thickness = 1
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/outline_start_time = 0.0
-shader_parameter/outline_glow_speed = 1.0
-shader_parameter/outline_glow_min = 0.7
+shader_parameter/outline_glow_speed = 2.5
+shader_parameter/outline_glow_min = 1.0
 shader_parameter/outline_glow_max = 1.0
-shader_parameter/fog_enabled = true
+shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(0.5, 0.01)
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_eavw0")
 shader_parameter/transparency = 1.0
 shader_parameter/transparency_glow = false
 shader_parameter/transparency_glow_min = 0.0
 shader_parameter/transparency_glow_speed = 2.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ch6v"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_muoux"]
-shader = ExtResource("9_yc3uv")
-shader_parameter/MOUSE = Vector2(160, 100)
-shader_parameter/vertical_colorline_color = Color(1.5, 0.8, 1.25, 1)
-shader_parameter/vertical_colorline_spacing = 3
-shader_parameter/vertical_colorline_strength = 0.5
-shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
-shader_parameter/horizontal_colorline_spacing = 5
-shader_parameter/horizontal_colorline_strength = 0.5
-shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
-shader_parameter/checker_strength = 0.0
-shader_parameter/mouselight_on = false
-shader_parameter/mouselight_checker = false
-shader_parameter/mouselight_color = Color(1, 1, 1, 1)
-shader_parameter/mouselight_strength = 0.5
-shader_parameter/mouselight_size = 8
-shader_parameter/mouselight_flicker_size = 3.0
-shader_parameter/mouselight_flicker_speed = 10.0
-shader_parameter/cut_left = 0.0
-shader_parameter/cut_right = 0.0
-shader_parameter/cut_top = 0.0
-shader_parameter/cut_bottom = 0.0
-shader_parameter/scanline_color = Color(0.5, 0.5, 0, 1)
-shader_parameter/scanline_strength = 1.0
-shader_parameter/scanline_left_to_right = -0.001
-shader_parameter/scanline_top_to_bottom = -0.001
-shader_parameter/scanline_topleft_to_bottomright = -0.001
-shader_parameter/scanline_topright_to_bottomleft = -0.001
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ut0i6"]
-shader = ExtResource("9_yc3uv")
-shader_parameter/MOUSE = Vector2(20, 20)
-shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
-shader_parameter/vertical_colorline_spacing = 2
-shader_parameter/vertical_colorline_strength = 0.0
-shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
-shader_parameter/horizontal_colorline_spacing = 2
-shader_parameter/horizontal_colorline_strength = 0.0
-shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
-shader_parameter/checker_strength = 0.26
-shader_parameter/mouselight_on = true
-shader_parameter/mouselight_checker = true
-shader_parameter/mouselight_color = Color(1, 1, 1, 1)
-shader_parameter/mouselight_strength = 0.5
-shader_parameter/mouselight_size = 8
-shader_parameter/mouselight_flicker_size = 3.0
-shader_parameter/mouselight_flicker_speed = 0.2
-shader_parameter/cut_left = 0.0
-shader_parameter/cut_right = 0.0
-shader_parameter/cut_top = 0.0
-shader_parameter/cut_bottom = 0.0
-shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
-shader_parameter/scanline_strength = 1.0
-shader_parameter/scanline_left_to_right = -0.001
-shader_parameter/scanline_top_to_bottom = -0.001
-shader_parameter/scanline_topleft_to_bottomright = -0.001
-shader_parameter/scanline_topright_to_bottomleft = -0.001
 
 [node name="shader_test" type="Node2D"]
 script = ExtResource("1_1a6s1")
@@ -316,27 +347,28 @@ position = Vector2(104, 96)
 texture = ExtResource("7_ccctr")
 centered = false
 
-[node name="Coin" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_oi8e2")
-position = Vector2(152, 95)
-texture = ExtResource("9_gc8jb")
-centered = false
-
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 material = SubResource("ShaderMaterial_7ch6v")
 offset_right = 320.0
 offset_bottom = 180.0
 
-[node name="TestCoin" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_muoux")
-position = Vector2(227, 94)
-texture = ExtResource("7_ccctr")
-centered = false
-
 [node name="Peaceful" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ut0i6")
 texture = ExtResource("4_wabw4")
+centered = false
+
+[node name="TestCoin" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_muoux")
+position = Vector2(134, 109)
+texture = ExtResource("7_ccctr")
+centered = false
+
+[node name="Coin" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oi8e2")
+position = Vector2(152, 95)
+texture = ExtResource("9_gc8jb")
 centered = false
 
 [editable path="Textbox"]
