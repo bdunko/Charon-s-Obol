@@ -1,6 +1,31 @@
 class_name FX
 extends AnimationPlayer
 
+# api for general effects
+# enum for each possible shader parameter "uniform"
+# set(enum, value)
+# clear(enum, value)
+# tween(enum, value_from, value_to, time) <- awaitable; emits signal tween_completed(enum) as well
+# oscillate(enum, value_from, value_to, time)
+# stop(enum) <- kills any tweens or oscillations
+
+# prebaked effects -
+# flash <- need start time
+# slow_flash
+# recolor (renamed replace_color)
+# recolor_outline
+# set_tint / clear_tint
+# set_glow / clear_glow
+# fade_out
+# fade_in
+# alpha (REMOVE - replaced by flicker mostly)
+
+# - added -
+# scan (pass scan direction as enum)
+# disintegrate
+# flicker <- needs start time
+
+
 const OUTLINE_COLOR = Color(20.0/255.0, 16.0/255.0, 19.0/255.0)
 
 func _ready() -> void:
@@ -15,7 +40,7 @@ func slow_flash(color: Color) -> void:
 	get_parent().material.set_shader_parameter("flash_color", color)
 	play("slow_flash")
 
-func replace_color(i: int, color: Color, with: Color, ) -> void:
+func replace_color(i: int, color: Color, with: Color) -> void:
 	assert(i >= 1 and i <= 5, "We only support replacing up to 5 colors.")
 	if i < 1 or i > 5:
 		return

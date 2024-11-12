@@ -67,7 +67,9 @@ uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 group_uniforms Flash;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0) = 0.0;
-uniform float flash_speed: hint_range(0.0, 20.0) = 0.0;
+uniform float auto_flash_speed: hint_range(0.0, 20.0) = 0.0;
+uniform float auto_flash_bound: hint_range(0.0, 1.0) = 0.0;
+uniform float auto_flash_start_time = 0.0;
 
 // COLOR CORRECTION
 group_uniforms ColorCorrection;
@@ -104,10 +106,9 @@ group_uniforms OutlineAndGlow;
 uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
-uniform float outline_start_time = 0;
-uniform float outline_glow_speed = 2.5;
-uniform float outline_glow_min = 1.0;
-uniform float outline_glow_max = 1.0;
+uniform float auto_glow_speed: hint_range(0.0, 30.0) = 0.0;
+uniform float auto_glow_bound: hint_range(0.0, 1.0) = 1.0;
+uniform float auto_glow_start_time = 0.0;
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
@@ -134,6 +135,12 @@ uniform float horizontal_colorline_strength: hint_range(0.0, 1.0, 0.01) = 0.0;
 group_uniforms CHECKER;
 uniform vec3 checker_color: source_color = vec3(0.2, 0.2, 0.2);
 uniform float checker_strength: hint_range(0.0, 1.0, 0.01) = 0.0; //0.3 is a good one
+uniform int checker_x_size: hint_range(1, 64, 1) = 1;
+uniform int checker_y_size: hint_range(1, 64, 1) = 1;
+uniform int checker_x_pattern: hint_range(1, 32, 1) = 2;
+uniform int checker_y_pattern: hint_range(1, 32, 1) = 2;
+uniform float checker_contrast_amount: hint_range(-10.0, 10.0, 0.1) = 1.0;
+uniform float checker_contrast_ratio: hint_range(0.0, 10.0, 0.01) = 0.5;
 
 // MOUSELIGHT
 group_uniforms Mouselight;
@@ -164,9 +171,9 @@ uniform float vignette_radius: hint_range(0.001, 5.0, 0.01) = 1.0;
 // If transparency_flicker, modulates between the given transparency and transparency_flicker_min at transparency_flicker_speed
 group_uniforms Transparency;
 uniform float transparency: hint_range(0.0, 1.0) = 1.0;
-uniform bool flicker_on = false;
-uniform float flicker_min: hint_range(0.0, 1.0) = 0.0;
-uniform float flicker_speed: hint_range(0.0, 20.0) = 2.0;
+uniform float auto_flicker_speed: hint_range(0.0, 20.0) = 0.0;
+uniform float auto_flicker_bound: hint_range(0.0, 1.0) = 0.0;
+uniform float auto_flicker_start_time = 0.0;
 
 // --- Fragment Shader --- //
 void fragment() 
@@ -221,7 +228,8 @@ void fragment()
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
 		
 		// FLASH
-		COLOR.rgb = mix(COLOR.rgb, flash_color, cos0to1(TIME * flash_speed) * flash_strength);
+		float flash_mix = mix(auto_flash_bound, flash_strength, abs(cos0to1((TIME-auto_flash_start_time) * auto_flash_speed)));
+		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_mix);
 	
 		// COLOR CORRECTION
 		COLOR.r = mix(COLOR.r, 1.0, red_correct);
@@ -267,9 +275,9 @@ void fragment()
 			}
 		}
 		outline = min(outline, 1.0);
-		
-		float glow_alpha = mix(outline_glow_min, outline_glow_max, abs(cos0to1((TIME - outline_start_time) * outline_glow_speed)));
-		COLOR = mix(COLOR, outline_color * glow_alpha, outline - COLOR.a);
+		// this is a bit of a coding $HACK$ to make auto_glow_bound do nothing if auto_glow_speed is 0, but it definitely works
+		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(outline_color.a, auto_glow_bound, abs(cos0to1((TIME - auto_glow_start_time) * auto_glow_speed)));
+		COLOR = mix(COLOR, outline_color * alp, outline - COLOR.a);
 	}
 	
 	// FOG
@@ -290,13 +298,10 @@ void fragment()
 	}
 	
 	// CHECKER
-	if (PX % 2 != PY % 2) {
-		float strength = (COLOR.r + COLOR.g + COLOR.b) / 3.0;
-		vec3 adj_cbcolor = checker_color.rgb;
-		adj_cbcolor.r *= strength;
-		adj_cbcolor.g *= strength;
-		adj_cbcolor.b *= strength;
-		COLOR.rgb = mix(COLOR.rgb, adj_cbcolor, checker_strength);
+	if (PX/checker_x_size % checker_x_pattern != PY/checker_y_size % checker_y_pattern) {
+		float pixel_darkness = (3.0 - (COLOR.r + COLOR.g + COLOR.b)) * checker_contrast_ratio; // calculates 0.0 to 1.0 where 1.0 is pure black and 0.0 is pure white
+		vec3 cbcolor = mix(checker_color.rgb, vec3(0.0), pixel_darkness * checker_contrast_amount);
+		COLOR.rgb = mix(COLOR.rgb, cbcolor, checker_strength);
 	}
 	
 	// MOUSELIGHT
@@ -329,10 +334,7 @@ void fragment()
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0) {
-		float transparency_actual = transparency;
-		if (flicker_on)
-			transparency_actual = mix(transparency, flicker_min, sin0to1(TIME * flicker_speed));
-		COLOR.a = mix(COLOR.a, 0.0, 1.0 - transparency_actual);
+		COLOR.a = mix(COLOR.a, 0.0, 1.0 - mix(auto_flicker_bound, transparency, abs(cos0to1((TIME - auto_flicker_start_time) * auto_flicker_speed))));
 	}
 }
 
