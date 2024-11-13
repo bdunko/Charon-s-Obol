@@ -11,7 +11,8 @@ const float EPSILON = 0.001;
 bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
 
-float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
+// REMINDER - sin(0) = 0 and cos(0) = 1
+float sin0to1(float time) { return (sin(time)+1.0)/2.0; } 
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
 
 // unused but may be useful someday
@@ -23,24 +24,24 @@ uniform vec2 MOUSE = vec2(20, 20);
 
 // --- Effects --- //
 // EXCLUDE
-// Pixels of these colors are excluded from tint, color correction, scanline, and vignette effects
+// If use_exclude_colors, pixels of these colors are excluded from tint, color correction, scanline, and vignette effects.
 uniform bool use_exclude_colors = true;
-uniform vec3 exclude_color: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color1: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 
 // PAN/DISPLACE
-// Displaces all pixels by (displace_x, displace_y)
-// Controls texture left/right/up/down panning (the texture will be repeated if repeat)
-// Set to a positive number for left/up panning; negative number for right/down panning
+// Displaces all pixels by (displace_x, displace_y). Texture repeats if displace_repeat.
+// Texture will automatically scroll if auto_pan_speed is nonzero.
+// Set auto_pan_speed to a positive number for left/up panning; negative number for right/down panning
 // WARNING - Offsetting beyond the bounds of the texture will result in the texture being cut off
-// WARNING - Repeat must be true for pan_speed to work, otherwise it will immediately pan off screen
+// WARNING - Repeat generally should be true for auto_pan_speed, otherwise it will immediately pan out of view
 group_uniforms PanAndDisplacement;
 uniform int displace_x = 0;
 uniform int displace_y = 0;
-uniform vec2 pan_speed = vec2(0, 0);
-uniform bool repeat = true;
+uniform bool displace_repeat = true;
+uniform vec2 auto_pan_speed = vec2(0, 0);
 
 // RECOLOR
 // Replaces replace_colorN with replace_with_colorN.
@@ -57,13 +58,18 @@ uniform vec3 replace_color5: source_color = vec3(0.07843137254, 0.06274509803, 0
 uniform vec3 replace_with_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392);
 
 // TINT
-// Tint the texture with tint_color (rbg) 
-// The strength of the tint is controlled by tint_strength (0-1)
+// Tint the texture with tint_color.
+// The strength of the tint is controlled by tint_strength.
 group_uniforms Tint;
 uniform vec3 tint_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 
 // FLASH
+// Flash the texture with flash_color. Essentially, this is a second layer of tint.
+// flash_strength controls how much color is the original and how much is the flash_color.
+// auto_flash_speed will cause infinite and repeated flashing if nonzero and controls the speed of this flashing.
+// auto_flash_bound provides the second bound (alongside flash_strength) for the auto flash effect.
+// To prevent the auto flash from starting in the middle of the animation, set auto_flash_start_time to the global time when enabling auto flash.
 group_uniforms Flash;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0) = 0.0;
@@ -73,6 +79,9 @@ uniform float auto_flash_start_time = 0.0;
 
 // COLOR CORRECTION
 group_uniforms ColorCorrection;
+// Applies red, green, or blue color correction with red_correct, green_correct, and blue_correct. 
+// Applies grayscale with gray_correct.
+// Modify brightness, contrast, or saturation with brightness_correct, contrast_correct, and saturation_correct.
 // TIP - these values can actually go higher or lower, if you want a more extreme effect
 uniform float red_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
 uniform float green_correct: hint_range(-1.0, 1.0, 0.01) = 0.0;
@@ -83,15 +92,24 @@ uniform float contrast_correct: hint_range(0.0, 5.0, 0.01) = 1.0;
 uniform float saturation_correct: hint_range(0.0, 2.0, 0.01) = 1.0;
 
 // SCANLINES
+// Create a line across the canvas of scanline_color. scanline_strength controls the alpha of the line.
+// Define the position of the line with scanline_left_to_right_position, scanline_top_to_bottom_position,
+// scanline_topleft_to_bottomright_position, and scanline_topright_to_bottomleft_position.
+// The line is vertical if going left to right, horizontal if going top to bottom, and diagonal for the other two.
 group_uniforms Scanline;
 uniform vec3 scanline_color: source_color = vec3(0.98, 0.69, 0.23);
 uniform float scanline_strength: hint_range(0.0, 1.0, 0.01) = 1.0;
-uniform float scanline_left_to_right: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_top_to_bottom: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_topleft_to_bottomright: hint_range(-0.001, 1.0, 0.001) = -0.001;
-uniform float scanline_topright_to_bottomleft: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_left_to_right_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_top_to_bottom_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_topleft_to_bottomright_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
+uniform float scanline_topright_to_bottomleft_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
+// TODO - auto scanlines?
+//uniform float auto_scanline_left_to_right_speed <- speed of scans
+//uniform float auto_scanline_left_to_right_delay <- wait time between scans
 
 // DISINTEGRATE
+// Sets 'random' pixels in the canvas to transparent using disintegrate_noise_texture.
+// disintegrate_strength controls the amount of pixels removed, from none (0) to all of them (1).
 group_uniforms Disintegrate;
 uniform sampler2D disintegrate_noise_texture: repeat_enable, filter_nearest;
 uniform float disintegrate_strength: hint_range(0.0, 1.0) = 0.0;
@@ -99,7 +117,8 @@ uniform float disintegrate_strength: hint_range(0.0, 1.0) = 0.0;
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
 // outline_dialgonals controls if we also create this outline diagonally, which makes it thicker.
-// Can also be used to create glowing effects which fluctuate alpha between outline_glow_min to outline_glow_max.
+// auto_glow_speed defines the speed of a glow fluctuating alpha between the outline's alpha and auto_glow_bound at auto_glow_speed.
+// To prevent the auto glow from starting in the middle of the animation, set auto_glow_start_time to the global time when enabling auto glow.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
 // WARNING - Can have some odd effects with sprites containing partial transparency.
 group_uniforms OutlineAndGlow;
@@ -107,13 +126,13 @@ uniform vec4 outline_color: source_color = vec4(1.0);
 uniform int outline_thickness: hint_range(0, 10) = 0;
 uniform bool outline_diagonals = false;
 uniform float auto_glow_speed: hint_range(0.0, 30.0) = 0.0;
-uniform float auto_glow_bound: hint_range(0.0, 1.0) = 1.0;
+uniform float auto_glow_bound: hint_range(0.0, 1.0) = 0.75;
 uniform float auto_glow_start_time = 0.0;
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
 // FOG
-// Applies a fog_noise_texture filter over the texture with modifiable opacity and density, moving at speed
+// Applies a fog_noise_texture filter over the texture with modifiable fog_opacity and fog_density, moving at fog_speed
 // Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
 group_uniforms Fog;
 uniform bool fog_enabled = false;
@@ -123,6 +142,8 @@ uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
 uniform vec2 fog_speed = vec2(0.02, 0.01);
 
 // COLORLINES
+// Creates vertical/horizontal lines of colorline_color spaced colorline_spacing pixels apart 
+// with colorline_strength alpha across the texture.
 group_uniforms Colorlines;
 uniform vec3 vertical_colorline_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform int vertical_colorline_spacing = 2;
@@ -132,6 +153,13 @@ uniform int horizontal_colorline_spacing = 2;
 uniform float horizontal_colorline_strength: hint_range(0.0, 1.0, 0.01) = 0.0;
 
 // CHECKER
+// Creates a checkerboard pattern across the texture of checker_color with checker_strength alpha.
+// checker_x_size and checker_y_size defines the size of each rectangular checker
+// checker_x_pattern and checker_y_pattern affect the pattern of the checker pattern (which
+// can stop looking checkered with different values).
+// checker_contrast_amount applies a darkening effect to pixels of the checkerboard that are already dark.
+// checker_contrast_ratio increases the contrast of the darkening effect between light and dark colored pixels,
+// ie dark pixels become even darker.
 group_uniforms CHECKER;
 uniform vec3 checker_color: source_color = vec3(0.2, 0.2, 0.2);
 uniform float checker_strength: hint_range(0.0, 1.0, 0.01) = 0.0; //0.3 is a good one
@@ -141,18 +169,26 @@ uniform int checker_x_pattern: hint_range(1, 32, 1) = 2;
 uniform int checker_y_pattern: hint_range(1, 32, 1) = 2;
 uniform float checker_contrast_amount: hint_range(-10.0, 10.0, 0.1) = 1.0;
 uniform float checker_contrast_ratio: hint_range(0.0, 10.0, 0.01) = 0.5;
+// TODO - experiment a bit more with the contrast calculation here - maybe subtract 0.5 and LIGHTEN lighter areas?
 
 // MOUSELIGHT
+// Creates a circular lighting effect at the mouse's position if mouselight_on, of mouselight_color and mouselight_strength alpha.
+// Mouselight size defines the radius of the light effect.
+// If mouselight_soften_edges, pixels further from the center of the light are more transparent.
+// If mouselight_checker, the effect will be checkered in a way that interacts with the CHECKER effect.
+// If auto_mouselight_flicker_speed is non-zero, the light will oscillate in size between mouselight_size and auto_mouselight_flicker_speed
 group_uniforms Mouselight;
 uniform bool mouselight_on = false;
-uniform bool mouselight_checker = false;
 uniform vec3 mouselight_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float mouselight_strength = 0.5;
 uniform int mouselight_size = 8;
-uniform float mouselight_flicker_size = 3;
-uniform float mouselight_flicker_speed: hint_range(0.0, 20.0) = 10;
+uniform bool mouselight_soften_edges = true;
+uniform bool mouselight_checker = false;
+uniform float auto_mouselight_flicker_speed: hint_range(0.0, 20.0) = 8;
+uniform float auto_mouselight_flicker_bound = 10;
 
 // CUT
+// Cuts off all pixels of the texture from left/right/top/bottom.
 group_uniforms Cut;
 uniform float cut_left: hint_range(0.0, 1.0, 0.001) = 0.0;
 uniform float cut_right: hint_range(0.0, 1.0, 0.001) = 0.0;
@@ -160,6 +196,10 @@ uniform float cut_top: hint_range(0.0, 1.0, 0.001) = 0.0;
 uniform float cut_bottom: hint_range(0.0, 1.0, 0.001) = 0.0;
 
 // VIGNETTE
+// Applies a circular vignette effect on the canvas if vignette_on.
+// The vignette has a vignette_radius and a vignette_color.
+// If vignette_ignore_transparent, transparent pixels will not have the vignette applied.
+// This is generally useful if you want to apply a vignette on something besides the entire screen.
 group_uniforms Vignette;
 uniform bool vignette_on = false;
 uniform bool vignette_ignore_transparent = false;
@@ -168,7 +208,8 @@ uniform float vignette_radius: hint_range(0.001, 5.0, 0.01) = 1.0;
 
 // TRANSPARENCY
 // Controls transparency of the texture.
-// If transparency_flicker, modulates between the given transparency and transparency_flicker_min at transparency_flicker_speed
+// If auto_flicker_speed is not zero, oscillates between transparency and auto_flicker_bounds at auto_flicker_speed.
+// To prevent the auto flicker from starting in the middle of the animation, set auto_flicker_start_time to the global time when enabling auto flicker.
 group_uniforms Transparency;
 uniform float transparency: hint_range(0.0, 1.0) = 1.0;
 uniform float auto_flicker_speed: hint_range(0.0, 20.0) = 0.0;
@@ -200,15 +241,15 @@ void fragment()
 	
 	float displaceUVX = UV.x + (TEXTURE_PIXEL_SIZE.x * float(displace_x));
 	float displaceUVY = UV.y + (TEXTURE_PIXEL_SIZE.y * float(displace_y));
-	if (repeat) {
-		adjUV = mod(vec2(displaceUVX, displaceUVY) + TIME * pan_speed, 1.0);
+	if (displace_repeat) {
+		adjUV = mod(vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed, 1.0);
 	} else {
-		adjUV = vec2(displaceUVX, displaceUVY) + TIME * pan_speed;
+		adjUV = vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed;
 	}
 	
 	COLOR = texture(TEXTURE, adjUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
 	
-	bool is_exclude_color = use_exclude_colors && (vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4));
+	bool is_exclude_color = use_exclude_colors && (vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color1) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4));
 	
 	// RECOLOR
 	if (vec3eq(COLOR.rgb, replace_color1)) 
@@ -242,12 +283,12 @@ void fragment()
 	
 		// SCANLINE
 		if (COLOR.a != 0.0) {
-			if (PX == int(floor(scanline_left_to_right / TEXTURE_PIXEL_SIZE.x)))
+			if (PX == int(floor(scanline_left_to_right_position / TEXTURE_PIXEL_SIZE.x)))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			if (PY == int(floor(scanline_top_to_bottom / TEXTURE_PIXEL_SIZE.y)))
+			if (PY == int(floor(scanline_top_to_bottom_position / TEXTURE_PIXEL_SIZE.y)))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			int scanline_target_tlbr = int(floor(scanline_topleft_to_bottomright * float(PSIZE_X + PSIZE_Y)));
-			int scanline_target_trbl = int(floor(scanline_topright_to_bottomleft * float(PSIZE_X + PSIZE_Y))) - PSIZE_Y;
+			int scanline_target_tlbr = int(floor(scanline_topleft_to_bottomright_position * float(PSIZE_X + PSIZE_Y)));
+			int scanline_target_trbl = int(floor(scanline_topright_to_bottomleft_position * float(PSIZE_X + PSIZE_Y))) - PSIZE_Y;
 			if (PX+PY == scanline_target_tlbr)
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
 			if (PX-PY == scanline_target_trbl)
@@ -276,7 +317,7 @@ void fragment()
 		}
 		outline = min(outline, 1.0);
 		// this is a bit of a coding $HACK$ to make auto_glow_bound do nothing if auto_glow_speed is 0, but it definitely works
-		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(outline_color.a, auto_glow_bound, abs(cos0to1((TIME - auto_glow_start_time) * auto_glow_speed)));
+		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(outline_color.a, auto_glow_bound, cos0to1((TIME - auto_glow_start_time) * auto_glow_speed));
 		COLOR = mix(COLOR, outline_color * alp, outline - COLOR.a);
 	}
 	
@@ -306,9 +347,10 @@ void fragment()
 	
 	// MOUSELIGHT
 	if (mouselight_on && (!mouselight_checker || PX % 2 == PY % 2)) {
-		float mouse_with_flicker = float(mouselight_size + int(mouselight_flicker_size * sin0to1(TIME * mouselight_flicker_speed)));
+		float mouse_with_flicker = mix(auto_mouselight_flicker_bound, float(mouselight_size), cos0to1(TIME * auto_mouselight_flicker_speed));
 		float dist_from_mouse = sqrt(pow(float(SX - int(MOUSE.x)), 2.0) + pow(float(SY - int(MOUSE.y)), 2.0));
 		if (dist_from_mouse <= float(mouse_with_flicker)) {
+			//todo - make softening with distance optional as uniform
 			float distance_mod = clamp((mouse_with_flicker - dist_from_mouse) / mouse_with_flicker, 0.0, 1.0);
 			COLOR.rgb = mix(COLOR.rgb, mouselight_color, distance_mod * mouselight_strength);
 		}
@@ -334,7 +376,7 @@ void fragment()
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0) {
-		COLOR.a = mix(COLOR.a, 0.0, 1.0 - mix(auto_flicker_bound, transparency, abs(cos0to1((TIME - auto_flicker_start_time) * auto_flicker_speed))));
+		COLOR.a = mix(COLOR.a, 0.0, 1.0 - mix(auto_flicker_bound, transparency, cos0to1((TIME - auto_flicker_start_time) * auto_flicker_speed)));
 	}
 }
 
