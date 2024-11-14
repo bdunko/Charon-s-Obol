@@ -70,13 +70,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -116,7 +122,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mglri"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bo4i4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -159,13 +165,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -205,7 +217,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gnygm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tgw0p"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -248,13 +260,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -294,7 +312,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tfu0b"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wss0r"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -337,13 +355,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -383,7 +407,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pghh7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bh1h"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -426,13 +450,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -472,7 +502,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tajqx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1415k"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -515,13 +545,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -561,7 +597,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0llci"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_61r74"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -604,13 +640,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -650,7 +692,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_267vs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcimd"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -693,13 +735,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -739,7 +787,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_10jh8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5dppm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -782,13 +830,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -828,7 +882,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t0s6k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ag4yv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -871,13 +925,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -966,13 +1026,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
 shader_parameter/fog_opacity = 0.073
 shader_parameter/fog_density = 0.0
@@ -1063,13 +1129,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
 shader_parameter/fog_opacity = 0.103
 shader_parameter/fog_density = 0.095
@@ -1142,7 +1214,7 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_mglri")
+material = SubResource("ShaderMaterial_bo4i4")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -1156,7 +1228,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gnygm")
+material = SubResource("ShaderMaterial_tgw0p")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -1165,7 +1237,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_tfu0b")
+material = SubResource("ShaderMaterial_wss0r")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -1174,7 +1246,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_pghh7")
+material = SubResource("ShaderMaterial_2bh1h")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -1182,7 +1254,7 @@ script = ExtResource("9_cd2hg")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_tajqx")
+material = SubResource("ShaderMaterial_1415k")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -1191,7 +1263,7 @@ text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_0llci")
+material = SubResource("ShaderMaterial_61r74")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -1200,7 +1272,7 @@ text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_267vs")
+material = SubResource("ShaderMaterial_fcimd")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -1209,7 +1281,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_10jh8")
+material = SubResource("ShaderMaterial_5dppm")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -1218,7 +1290,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_t0s6k")
+material = SubResource("ShaderMaterial_ag4yv")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 

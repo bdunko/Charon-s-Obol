@@ -27,7 +27,9 @@ enum Uniform {
 	FLOAT_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_POSITION,
 	FLOAT_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_POSITION,
 	
-	SAMPLER2D_DISINTEGRATE_NOISE_TEXTURE, FLOAT_DISINTEGRATE_STRENGTH,
+	INT_DISINTEGRATE_SEED, VEC3_DISINTEGRATE_COLOR, FLOAT_DISINTEGRATE_STRENGTH, FLOAT_DISINTEGRATE_ALPHA_BOUND1, FLOAT_DISINTEGRATE_ALPHA_BOUND2,
+	BOOL_DISINTEGRATE_AS_STATIC, 
+	FLOAT_AUTO_DISINTEGRATE_RANDOM_SEED_SPEED,
 	
 	VEC4_OUTLINE_COLOR, INT_OUTLINE_THICKNESS, BOOL_OUTLINE_DIAGONALS,
 	FLOAT_AUTO_GLOW_SPEED, FLOAT_AUTO_GLOW_BOUND, FLOAT_AUTO_GLOW_START_TIME,
@@ -61,7 +63,7 @@ var _UNIFORM_TO_STR = {
 	Uniform.VEC3_FLASH_COLOR : "flash_color", Uniform.FLOAT_FLASH_STRENGTH : "flash_strength", Uniform.FLOAT_AUTO_FLASH_SPEED : "auto_flash_speed", Uniform.FLOAT_AUTO_FLASH_BOUND : "auto_flash_bound", Uniform.FLOAT_AUTO_FLASH_START_TIME : "auto_flash_start_time",
 	Uniform.FLOAT_RED_CORRECT : "red_correct", Uniform.FLOAT_GREEN_CORRECT : "green_correct", Uniform.FLOAT_BLUE_CORRECT : "blue_correct", Uniform.FLOAT_GRAY_CORRECT : "gray_correct", Uniform.FLOAT_BRIGHTNESS_CORRECT : "brightness_correct", Uniform.FLOAT_CONTRAST_CORRECT : "contrast_correct", Uniform.FLOAT_SATURATION_CORRECT : "saturation_correct",
 	Uniform.VEC3_SCANLINE_COLOR : "scanline_color", Uniform.FLOAT_SCANLINE_STRENGTH : "scanline_strength", Uniform.FLOAT_SCANLINE_LEFT_TO_RIGHT_POSITION : "scanline_left_to_right_position", Uniform.FLOAT_SCANLINE_TOP_TO_BOTTOM_POSITION : "scanline_top_to_bottom_position", Uniform.FLOAT_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_POSITION : "scanline_topleft_to_bottomright_position", Uniform.FLOAT_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_POSITION : "scanline_topright_to_bottomleft_position",
-	Uniform.SAMPLER2D_DISINTEGRATE_NOISE_TEXTURE : "disintegrate_noise_texture", Uniform.FLOAT_DISINTEGRATE_STRENGTH : "disintegrate_strength",
+	Uniform.INT_DISINTEGRATE_SEED : "disintegrate_seed", Uniform.VEC3_DISINTEGRATE_COLOR : "disintegrate_color",  Uniform.FLOAT_DISINTEGRATE_STRENGTH : "disintegrate_strength", Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1 : "disintegrate_alpha_bound1",Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2 : "disintegrate_alpha_bound2", Uniform.BOOL_DISINTEGRATE_AS_STATIC : "disintegrate_as_static",  Uniform.FLOAT_AUTO_DISINTEGRATE_RANDOM_SEED_SPEED : "auto_disintegrate_random_seed_speed",
 	Uniform.VEC4_OUTLINE_COLOR : "outline_color", Uniform.INT_OUTLINE_THICKNESS : "outline_thickness", Uniform.BOOL_OUTLINE_DIAGONALS : "outline_diagonals", Uniform.FLOAT_AUTO_GLOW_SPEED : "auto_glow_speed", Uniform.FLOAT_AUTO_GLOW_BOUND : "auto_glow_bound", Uniform.FLOAT_AUTO_GLOW_START_TIME : "auto_glow_start_time", 
 	Uniform.BOOL_FOG_ENABLED : "fog_enabled", Uniform.SAMPLER2D_FOG_NOISE_TEXTURE : "fog_noise_texture", Uniform.FLOAT_FOG_OPACITY : "fog_opacity", Uniform.FLOAT_FOG_DENSITY : "fog_density", Uniform.VEC2_FOG_SPEED : "fog_speed",
 	Uniform.VEC3_VERTICAL_COLORLINE_COLOR : "vertical_colorline_color", Uniform.INT_VERTICAL_COLORLINE_SPACING : "vertical_colorline_spacing", Uniform.FLOAT_VERTICAL_COLORLINE_STRENGTH : "vertical_colorline_strength", Uniform.VEC3_HORIZONTAL_COLORLINE_COLOR : "horizontal_colorline_color", Uniform.INT_HORIZONTAL_COLORLINE_SPACING : "horizontal_colorline_spacing", Uniform.FLOAT_HORIZONTAL_COLORLINE_STRENGTH : "horizontal_colorline_strength",
@@ -110,10 +112,10 @@ func _ready() -> void:
 	
 	# check uniform dictionary - 
 	# debug check; but for some reasons this fails in the game, so commented out
-	# it does correctly verify though (check output)
+#	# it does correctly verify though (check output)
 #	for uniform in Uniform.values():
 #		assert(_UNIFORM_TO_STR.has(uniform))
-#		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE, Uniform.SAMPLER2D_DISINTEGRATE_NOISE_TEXTURE]:
+#		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE]:
 #			print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
 #			assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
 

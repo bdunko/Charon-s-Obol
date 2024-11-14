@@ -11,6 +11,13 @@ const float EPSILON = 0.001;
 bool floateq(float val1, float val2) { return val1 >= val2 - EPSILON && val1 <= val2 + EPSILON; }
 bool vec3eq(vec3 val1, vec3 val2) { return floateq(val1.r, val2.r) && floateq(val1.g, val2.g) && floateq(val1.b, val2.b); }
 
+// Author: Michael Pohoreski https://stackoverflow.com/questions/5149544/can-i-generate-a-random-number-inside-a-pixel-shader
+float random(vec2 seed){ return fract(cos(dot(seed, vec2(23.14069263277926, 2.665144142690225))) * 12345.6789); }
+float snoise3(vec2 seed) { return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453); }
+float randf_range(vec2 seed, float b1, float b2) { return mix(b1, b2, random(seed)); }
+int randi_range(vec2 seed, int b1, int b2) { return int(randf_range(seed, float(b1), float(b2))); }
+
+
 // REMINDER - sin(0) = 0 and cos(0) = 1
 float sin0to1(float time) { return (sin(time)+1.0)/2.0; } 
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
@@ -107,13 +114,6 @@ uniform float scanline_topright_to_bottomleft_position: hint_range(-0.001, 1.0, 
 //uniform float auto_scanline_left_to_right_speed <- speed of scans
 //uniform float auto_scanline_left_to_right_delay <- wait time between scans
 
-// DISINTEGRATE
-// Sets 'random' pixels in the canvas to transparent using disintegrate_noise_texture.
-// disintegrate_strength controls the amount of pixels removed, from none (0) to all of them (1).
-group_uniforms Disintegrate;
-uniform sampler2D disintegrate_noise_texture: repeat_enable, filter_nearest;
-uniform float disintegrate_strength: hint_range(0.0, 1.0) = 0.0;
-
 // OUTLINE
 // Adds a pixel outline to the texture, with outline_color and outline_thickness.
 // outline_dialgonals controls if we also create this outline diagonally, which makes it thicker.
@@ -130,6 +130,28 @@ uniform float auto_glow_bound: hint_range(0.0, 1.0) = 0.75;
 uniform float auto_glow_start_time = 0.0;
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
+
+// DISINTEGRATE
+// Sets 'random' pixels in the canvas to disintegrate_color with alpha between disintegrate_alpha_bound1 and disintegrate_alpha_bound2.
+// By default, since these bounds are 0, the pixels will be made fully transparent and therefore disintegrate_color is unused.
+// disintegrate_strength controls the amount of pixels affected, from none (0) to all of them (1).
+// Change the pattern via disintegrate_seed.
+// disintegrate_as_static changes the purpose of disintegrate to not affect the alpha of the texture.
+// Instead, it layers a static-looking pattern on top using disintegrate_color, where the color is based on disintegrate_color
+// and the alpha of the static pattern ranges randomly between disintegrate_alpha_bound1 and disintegrate_alpha_bound2 per pixel.
+// Note that with the default bounds of 0 and 0, this setting creates no effect whatsoever.
+// If auto_disintegrate_random_seed_speed is nonzero, applies randomization to the seed over time based on speed.
+// In this case, disintegrate_seed has no effect.
+group_uniforms Disintegrate;
+uniform int disintegrate_seed = 1;
+uniform vec3 disintegrate_color : source_color = vec3(0.0, 0.0, 0.0);
+uniform float disintegrate_strength: hint_range(0.0, 1.0) = 0.0;
+uniform float disintegrate_alpha_bound1 = 0.0;
+uniform float disintegrate_alpha_bound2 = 0.0;
+uniform bool disintegrate_as_static = false;
+uniform float auto_disintegrate_random_seed_speed: hint_range(0.0, 1.0) = 0.0;
+
+
 
 // FOG
 // Applies a fog_noise_texture filter over the texture with modifiable fog_opacity and fog_density, moving at fog_speed
@@ -296,13 +318,6 @@ void fragment()
 		}
 	}
 	
-	// DISINTEGRATE
-	if (COLOR.a != 0.0) {
-		float disintegrate_alpha = texture(disintegrate_noise_texture, UV).r;
-		if (disintegrate_alpha < disintegrate_strength)
-			COLOR.a = 0.0;
-	}
-	
 	// OUTLINE
 	if (outline_thickness != 0) {
 		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
@@ -319,6 +334,19 @@ void fragment()
 		// this is a bit of a coding $HACK$ to make auto_glow_bound do nothing if auto_glow_speed is 0, but it definitely works
 		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(outline_color.a, auto_glow_bound, cos0to1((TIME - auto_glow_start_time) * auto_glow_speed));
 		COLOR = mix(COLOR, outline_color * alp, outline - COLOR.a);
+	}
+	
+	// DISINTEGRATE
+	if (COLOR.a != 0.0) {
+		vec2 s = UV * vec2(float(disintegrate_seed));
+		s *= auto_disintegrate_random_seed_speed != 0.0 ? float(int(TIME / mix(1.0, 0.001, auto_disintegrate_random_seed_speed))) : 1.0;
+		float r = random(s);
+		if (r < disintegrate_strength) {
+			float r_alpha = randf_range(s, disintegrate_alpha_bound1, disintegrate_alpha_bound2);
+			COLOR.rgb = mix(COLOR.rgb, disintegrate_color, r_alpha);
+			if (!disintegrate_as_static)
+				COLOR.a = r_alpha;
+		}
 	}
 	
 	// FOG

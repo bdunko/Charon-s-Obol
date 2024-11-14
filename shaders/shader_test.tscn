@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=22 format=3 uid="uid://358hx2cun580"]
 
 [ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
@@ -52,13 +52,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 0.7
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -140,13 +146,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 0.7
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -186,7 +198,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n0fca"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tl24b"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -229,13 +241,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 0.7
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -355,13 +373,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_thickness = 0
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.589
+shader_parameter/disintegrate_alpha_bound1 = 0.5
+shader_parameter/disintegrate_alpha_bound2 = 1.0
+shader_parameter/disintegrate_as_static = true
+shader_parameter/auto_disintegrate_random_seed_speed = 0.447
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -443,11 +467,6 @@ shader_parameter/vignette_on = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_7nwfr"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5snik"]
-noise = SubResource("FastNoiseLite_7nwfr")
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pk8pl"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_eavw0"]
@@ -496,14 +515,19 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/disintegrate_strength = 0.0
-shader_parameter/disintegrate_noise_texture = SubResource("NoiseTexture2D_5snik")
 shader_parameter/outline_color = Color(0.419608, 1, 1, 1)
 shader_parameter/outline_thickness = 1
 shader_parameter/outline_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
 shader_parameter/auto_glow_bound = 0.75
 shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
@@ -558,7 +582,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_n0fca")
+material = SubResource("ShaderMaterial_tl24b")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
