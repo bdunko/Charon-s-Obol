@@ -61,8 +61,12 @@ uniform vec3 replace_color3: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color3: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_color4: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color4: source_color = vec3(0.0, 0.0, 0.0);
-uniform vec3 replace_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
-uniform vec3 replace_with_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392);
+uniform vec3 replace_color5: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 replace_with_color5: source_color = vec3(0.0, 0.0, 0.0);
+
+// special extra uniform specifically intended to recolor outlines
+uniform vec3 replace_color_outline: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 replace_with_color_outline: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392);
 
 // TINT
 // Tint the texture with tint_color.
@@ -127,16 +131,17 @@ uniform float scanline_topright_to_bottomleft_position: hint_range(-0.001, 1.0, 
 //uniform float auto_scanline_left_to_right_delay <- wait time between scans
 
 // OUTLINE
-// Adds a pixel outline to the texture, with outline_color and outline_thickness.
-// outline_dialgonals controls if we also create this outline diagonally, which makes it thicker.
+// Adds a pixel outline to the texture, with glow_color and glow_thickness.
+// glow_dialgonals controls if we also create this outline diagonally, which makes it thicker.
+// This can be used to create a solid outline if auto_glow_speed is left at 0.
 // auto_glow_speed defines the speed of a glow fluctuating alpha between the outline's alpha and auto_glow_bound at auto_glow_speed.
 // To prevent the auto glow from starting in the middle of the animation, set auto_glow_start_time to the global time when enabling auto glow.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
 // WARNING - Can have some odd effects with sprites containing partial transparency.
-group_uniforms OutlineAndGlow;
-uniform vec4 outline_color: source_color = vec4(1.0);
-uniform int outline_thickness: hint_range(0, 10) = 0;
-uniform bool outline_diagonals = false;
+group_uniforms Glow;
+uniform vec4 glow_color: source_color = vec4(1.0);
+uniform int glow_thickness: hint_range(0, 10) = 0;
+uniform bool glow_diagonals = false;
 uniform float auto_glow_speed: hint_range(0.0, 30.0) = 0.0;
 uniform float auto_glow_bound: hint_range(0.0, 1.0) = 0.75;
 uniform float auto_glow_start_time = 0.0;
@@ -296,6 +301,8 @@ void fragment()
 		COLOR.rgb = replace_with_color4;
 	if (vec3eq(COLOR.rgb, replace_color5)) 
 		COLOR.rgb = replace_with_color5;
+	if (vec3eq(COLOR.rgb, replace_color_outline))
+		COLOR.rgb = replace_with_color_outline;
 	
 	// TINT, COLOR CORRECTION, and SCANLINE ignore excluded colors
 	if (!is_exclude_color) {
@@ -330,22 +337,22 @@ void fragment()
 		}
 	}
 	
-	// OUTLINE
-	if (outline_thickness != 0) {
-		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(outline_thickness);
+	// GLOW
+	if (glow_thickness != 0) {
+		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(glow_thickness);
 		float outline = 0.0;
 		for (int i = 0; i < HORIZONTAL_VERTICAL_OFFSETS.length(); i++) {
 			outline += texture(TEXTURE, adjUV + outline_size * HORIZONTAL_VERTICAL_OFFSETS[i]).a;
 		}
-		if (outline_diagonals) {
+		if (glow_diagonals) {
 			for (int i = 0; i < DIAGONAL_OUTLINE_OFFSETS.length(); i++) {
 				outline += texture(TEXTURE, adjUV + outline_size * DIAGONAL_OUTLINE_OFFSETS[i]).a;
 			}
 		}
 		outline = min(outline, 1.0);
 		// this is a bit of a coding $HACK$ to make auto_glow_bound do nothing if auto_glow_speed is 0, but it definitely works
-		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(outline_color.a, auto_glow_bound, cos0to1((TIME - auto_glow_start_time) * auto_glow_speed));
-		COLOR = mix(COLOR, outline_color * alp, outline - COLOR.a);
+		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(glow_color.a, auto_glow_bound, cos0to1((TIME - auto_glow_start_time) * auto_glow_speed));
+		COLOR = mix(COLOR, glow_color * alp, outline - COLOR.a);
 	}
 	
 	// DISINTEGRATE
