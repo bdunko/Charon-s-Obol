@@ -98,6 +98,18 @@ uniform float brightness_correct: hint_range(0.0, 5.0, 0.01) = 1.0;
 uniform float contrast_correct: hint_range(0.0, 5.0, 0.01) = 1.0;
 uniform float saturation_correct: hint_range(0.0, 2.0, 0.01) = 1.0;
 
+// rg swap - swaps the original (before any other swaps) value of r and g
+// gb swap
+// br swap
+// r_eq_g - sets r = g
+// r_eq_b
+// g_eq_r
+// g_eq_b
+// b_eq_r
+// b_eq_g
+
+// ROUGHEN - applies randomized brightness modifications across the texture (both positive and negative) to 'roughen' it up
+
 // SCANLINES
 // Create a line across the canvas of scanline_color. scanline_strength controls the alpha of the line.
 // Define the position of the line with scanline_left_to_right_position, scanline_top_to_bottom_position,

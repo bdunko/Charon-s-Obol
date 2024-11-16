@@ -1,6 +1,10 @@
 class_name FX
 extends AnimationPlayer
 
+signal tween_finished
+
+const OUTLINE_COLOR = Color(20.0/255.0, 16.0/255.0, 19.0/255.0)
+
 enum Uniform {
 	BOOL_USE_EXCLUDE_COLORS, VEC3_EXCLUDE_COLOR1, VEC3_EXCLUDE_COLOR2, VEC3_EXCLUDE_COLOR3, VEC3_EXCLUDE_COLOR4,
 	
@@ -77,14 +81,8 @@ var _UNIFORM_TO_STR = {
 var _UNIFORM_MOUSE := "MOUSE"
 
 # include a ready to check assertions on every uniform and string here
-# note that fog and disintegrate noise textures specifically are fine to be null (but this should be checked if using those uniforms ever)
+# note that fog noise textures specifically are fine to be null (but this should be checked if using those uniforms ever)
 
-# api for general effects
-# tween(enum, value_from, value_to, time) <- awaitable; emits signal tween_completed(enum) as well
-# oscillate(enum, value_from, value_to, time)
-# stop(enum) <- kills any tweens or oscillations
-
-# process - update MOUSE param
 
 # prebaked effects -
 # flash <- need start time
@@ -103,7 +101,7 @@ var _UNIFORM_MOUSE := "MOUSE"
 # flicker <- needs start time
 
 
-const OUTLINE_COLOR = Color(20.0/255.0, 16.0/255.0, 19.0/255.0)
+var _active_tweens = {}
 
 func _ready() -> void:
 	assert(get_parent() is CanvasItem)
@@ -119,14 +117,39 @@ func _ready() -> void:
 #			print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
 #			assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
 
+## DIRECT API ##
+
 func set_uniform(uniform: Uniform, value) -> void:
 	get_parent().material.set_shader_parameter(_UNIFORM_TO_STR[uniform], value)
 
 func get_uniform(uniform: Uniform):
 	return get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])
 
+func tween_uniform(uniform: Uniform, to, duration, tween = create_tween(), trans = Tween.TRANS_LINEAR, loops = 1):
+	tween.tween_property(get_parent(), "material:shader_parameter/%s" % _UNIFORM_TO_STR[uniform], to, duration).set_trans(trans)
+	tween.set_loops(loops)
+	_add_tween(uniform, tween)
+	await tween.finished
+	emit_signal("tween_finished", uniform)
+
+func oscillate_uniform(uniform: Uniform, to, duration, trans = Tween.TRANS_LINEAR):
+	tween_uniform(uniform, to, duration, create_tween(), trans, 0) # use loops = 0 for infinite
+
+func kill_tweens(uniform: Uniform):
+	if _active_tweens.has(uniform):
+		for tween in _active_tweens[uniform]:
+			tween.kill()
+
+func _add_tween(uniform: Uniform, tween: Tween) -> void:
+	if not _active_tweens.has(uniform):
+		_active_tweens[uniform] = []
+	_active_tweens[uniform].append(tween)
+
 func _process(_delta) -> void:
 	get_parent().material.set_shader_parameter(_UNIFORM_MOUSE, get_parent().get_global_mouse_position())
+
+
+## PREBAKED EFFECTS ##
 
 # OLD CODE BELOW #
 

@@ -22,8 +22,10 @@ func _ready():
 	print($Textbox.material.get_shader_parameter("replace_with_color3"))
 	print($Textbox.material.get_shader_parameter("disintegrate_noise_texture"))
 	
+	
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	$Peaceful.material.set_shader_parameter("MOUSE", get_global_mouse_position())
+	$Peaceful2.material.set_shader_parameter("MOUSE", get_global_mouse_position())
