@@ -5,6 +5,9 @@ shader_type canvas_item;
 
 // --- Utilty Functions --- //
 const bool DEBUG = true;
+const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
+const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
+
 // checks if two values are 'equal' (within EPSILON of each other)
 // necessary when doing float calculations since it's not perfectly precise
 const float EPSILON = 0.001;
@@ -16,11 +19,8 @@ float random(vec2 seed){ return fract(cos(dot(seed, vec2(23.14069263277926, 2.66
 float snoise3(vec2 seed) { return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453); }
 float randf_range(vec2 seed, float b1, float b2) { return mix(b1, b2, random(seed)); }
 int randi_range(vec2 seed, int b1, int b2) { return int(randf_range(seed, float(b1), float(b2))); }
-
-
-// REMINDER - sin(0) = 0 and cos(0) = 1
-float sin0to1(float time) { return (sin(time)+1.0)/2.0; } 
-float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
+float sin0to1(float time) { return (sin(time)+1.0)/2.0; } // REMINDER - sin(0) = 0
+float cos0to1(float time) { return (cos(time)+1.0)/2.0; } // REMINDER - cos(0) = 1
 
 // unused but may be useful someday
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
@@ -40,14 +40,14 @@ uniform vec3 exclude_color4: source_color = vec3(0.07843137254, 0.06274509803, 0
 
 // PAN/DISPLACE
 // Displaces all pixels by (displace_x, displace_y). Texture repeats if displace_repeat.
-// Texture will automatically scroll if auto_pan_speed is nonzero.
-// Set auto_pan_speed to a positive number for left/up panning; negative number for right/down panning
 // WARNING - Offsetting beyond the bounds of the texture will result in the texture being cut off
-// WARNING - Repeat generally should be true for auto_pan_speed, otherwise it will immediately pan out of view
 group_uniforms PanAndDisplacement;
 uniform int displace_x = 0;
 uniform int displace_y = 0;
 uniform bool displace_repeat = true;
+// Texture will automatically scroll if auto_pan_speed is nonzero.
+// Set auto_pan_speed to a positive number for left/up panning; negative number for right/down panning
+// WARNING - Repeat generally should be true for auto_pan_speed, otherwise it will immediately pan out of view
 uniform vec2 auto_pan_speed = vec2(0, 0);
 
 // RECOLOR
@@ -78,12 +78,12 @@ uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 // FLASH
 // Flash the texture with flash_color. Essentially, this is a second layer of tint.
 // flash_strength controls how much color is the original and how much is the flash_color.
-// auto_flash_speed will cause infinite and repeated flashing if nonzero and controls the speed of this flashing.
-// auto_flash_bound provides the second bound (alongside flash_strength) for the auto flash effect.
-// To prevent the auto flash from starting in the middle of the animation, set auto_flash_start_time to the global time when enabling auto flash.
 group_uniforms Flash;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0) = 0.0;
+// auto_flash_speed will cause infinite and repeated flashing if nonzero and controls the speed of this flashing.
+// auto_flash_bound provides the second bound (alongside flash_strength) for the auto flash effect.
+// To prevent the auto flash from starting in the middle of the animation, set auto_flash_start_time to the global time when enabling auto flash.
 uniform float auto_flash_speed: hint_range(0.0, 20.0) = 0.0;
 uniform float auto_flash_bound: hint_range(0.0, 1.0) = 0.0;
 uniform float auto_flash_start_time = 0.0;
@@ -102,6 +102,7 @@ uniform float brightness_correct: hint_range(0.0, 5.0, 0.01) = 1.0;
 uniform float contrast_correct: hint_range(0.0, 5.0, 0.01) = 1.0;
 uniform float saturation_correct: hint_range(0.0, 2.0, 0.01) = 1.0;
 
+// TODO - more funky color options
 // rg swap - swaps the original (before any other swaps) value of r and g
 // gb swap
 // br swap
@@ -112,7 +113,7 @@ uniform float saturation_correct: hint_range(0.0, 2.0, 0.01) = 1.0;
 // b_eq_r
 // b_eq_g
 
-// ROUGHEN - applies randomized brightness modifications across the texture (both positive and negative) to 'roughen' it up
+// TODO - ROUGHEN - applies randomized brightness modifications across the texture (both positive and negative) to 'roughen' it up
 
 // SCANLINES
 // Create a line across the canvas of scanline_color. scanline_strength controls the alpha of the line.
@@ -126,27 +127,47 @@ uniform float scanline_left_to_right_position: hint_range(-0.001, 1.0, 0.001) = 
 uniform float scanline_top_to_bottom_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
 uniform float scanline_topleft_to_bottomright_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
 uniform float scanline_topright_to_bottomleft_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
-// TODO - auto scanlines?
-//uniform float auto_scanline_left_to_right_speed <- speed of scans
-//uniform float auto_scanline_left_to_right_delay <- wait time between scans
+// auto_scanline_DIRECTION_on will enable automatic repeating scanlines in that direction.
+// auto_scanline_DIRECTION_reverse will flip the direction.
+// The scan will be visible for auto_scanline_DIRECTION_scan_duration, with a delay of 
+// auto_scanline_DIRECTION_scan_duration before the next scan begins.
+// To prevent the scanline from starting in the middle of the texture, provide the global time to auto_scanline_DIRECTION_start_time.
+uniform bool auto_scanline_left_to_right_on = false;
+uniform bool auto_scanline_left_to_right_reverse = false;
+uniform float auto_scanline_left_to_right_start_time = 0.0;
+uniform float auto_scanline_left_to_right_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
+uniform float auto_scanline_left_to_right_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform bool auto_scanline_top_to_bottom_on = false;
+uniform bool auto_scanline_top_to_bottom_reverse = false;
+uniform float auto_scanline_top_to_bottom_start_time = 0.0;
+uniform float auto_scanline_top_to_bottom_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
+uniform float auto_scanline_top_to_bottom_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform bool auto_scanline_topleft_to_bottomright_on = false;
+uniform bool auto_scanline_topleft_to_bottomright_reverse = false;
+uniform float auto_scanline_topleft_to_bottomright_start_time = 0.0;
+uniform float auto_scanline_topleft_to_bottomright_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
+uniform float auto_scanline_topleft_to_bottomright_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform bool auto_scanline_topright_to_bottomleft_on = false;
+uniform bool auto_scanline_topright_to_bottomleft_reverse = false;
+uniform float auto_scanline_topright_to_bottomleft_start_time = 0.0;
+uniform float auto_scanline_topright_to_bottomleft_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
+uniform float auto_scanline_topright_to_bottomleft_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
 
 // OUTLINE
 // Adds a pixel outline to the texture, with glow_color and glow_thickness.
 // glow_dialgonals controls if we also create this outline diagonally, which makes it thicker.
 // This can be used to create a solid outline if auto_glow_speed is left at 0.
-// auto_glow_speed defines the speed of a glow fluctuating alpha between the outline's alpha and auto_glow_bound at auto_glow_speed.
-// To prevent the auto glow from starting in the middle of the animation, set auto_glow_start_time to the global time when enabling auto glow.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
 // WARNING - Can have some odd effects with sprites containing partial transparency.
 group_uniforms Glow;
 uniform vec4 glow_color: source_color = vec4(1.0);
 uniform int glow_thickness: hint_range(0, 10) = 0;
 uniform bool glow_diagonals = false;
+// auto_glow_speed defines the speed of a glow fluctuating alpha between the outline's alpha and auto_glow_bound at auto_glow_speed.
+// To prevent the auto glow from starting in the middle of the animation, set auto_glow_start_time to the global time when enabling auto glow.
 uniform float auto_glow_speed: hint_range(0.0, 30.0) = 0.0;
 uniform float auto_glow_bound: hint_range(0.0, 1.0) = 0.75;
 uniform float auto_glow_start_time = 0.0;
-const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
-const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
 // DISINTEGRATE
 // Sets 'random' pixels in the canvas to disintegrate_color with alpha between disintegrate_alpha_bound1 and disintegrate_alpha_bound2.
@@ -168,8 +189,6 @@ uniform float disintegrate_alpha_bound2 = 0.0;
 uniform bool disintegrate_as_static = false;
 uniform float auto_disintegrate_random_seed_speed: hint_range(0.0, 1.0) = 0.0;
 
-
-
 // FOG
 // Applies a fog_noise_texture filter over the texture with modifiable fog_opacity and fog_density, moving at fog_speed
 // Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
@@ -178,7 +197,7 @@ uniform bool fog_enabled = false;
 uniform sampler2D fog_noise_texture: repeat_enable, filter_nearest;
 uniform float fog_opacity: hint_range(0.0, 1.0) = 0.5;
 uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
-uniform vec2 fog_speed = vec2(0.02, 0.01);
+uniform vec2 fog_speed = vec2(-0.02, 0.0);
 
 // COLORLINES
 // Creates vertical/horizontal lines of colorline_color spaced colorline_spacing pixels apart 
@@ -243,7 +262,7 @@ group_uniforms Vignette;
 uniform bool vignette_on = false;
 uniform bool vignette_ignore_transparent = false;
 uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
-uniform float vignette_radius: hint_range(0.001, 5.0, 0.01) = 1.0;
+uniform float vignette_radius: hint_range(0.001, 10.0, 0.01) = 1.0;
 
 // TRANSPARENCY
 // Controls transparency of the texture.
@@ -288,6 +307,7 @@ void fragment()
 	
 	COLOR = texture(TEXTURE, adjUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
 	
+	// EXCLUDE COLORS
 	bool is_exclude_color = use_exclude_colors && (vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color1) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4));
 	
 	// RECOLOR
@@ -324,12 +344,17 @@ void fragment()
 	
 		// SCANLINE
 		if (COLOR.a != 0.0) {
-			if (PX == int(floor(scanline_left_to_right_position / TEXTURE_PIXEL_SIZE.x)))
+			float l_to_r_pos = !auto_scanline_left_to_right_on ? scanline_left_to_right_position : abs((auto_scanline_left_to_right_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_left_to_right_start_time, auto_scanline_left_to_right_delay + auto_scanline_left_to_right_scan_duration), 0.0, auto_scanline_left_to_right_scan_duration)/auto_scanline_left_to_right_scan_duration)));
+			float t_to_b_pos = !auto_scanline_top_to_bottom_on ? scanline_top_to_bottom_position : abs((auto_scanline_top_to_bottom_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_top_to_bottom_start_time, auto_scanline_top_to_bottom_delay + auto_scanline_top_to_bottom_scan_duration), 0.0, auto_scanline_top_to_bottom_scan_duration)/auto_scanline_top_to_bottom_scan_duration)));
+			float tl_to_br_pos = !auto_scanline_topleft_to_bottomright_on ? scanline_topleft_to_bottomright_position : abs((auto_scanline_topleft_to_bottomright_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topleft_to_bottomright_start_time, auto_scanline_topleft_to_bottomright_delay + auto_scanline_topleft_to_bottomright_scan_duration), 0.0, auto_scanline_topleft_to_bottomright_scan_duration)/auto_scanline_topleft_to_bottomright_scan_duration)));
+			float tr_to_bl_pos = !auto_scanline_topright_to_bottomleft_on ? scanline_topright_to_bottomleft_position : abs((auto_scanline_topright_to_bottomleft_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topright_to_bottomleft_start_time, auto_scanline_topright_to_bottomleft_delay + auto_scanline_topright_to_bottomleft_scan_duration), 0.0, auto_scanline_topright_to_bottomleft_scan_duration)/auto_scanline_topright_to_bottomleft_scan_duration)));
+			
+			if (PX == int(floor(l_to_r_pos / TEXTURE_PIXEL_SIZE.x)))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			if (PY == int(floor(scanline_top_to_bottom_position / TEXTURE_PIXEL_SIZE.y)))
+			if (PY == int(floor(t_to_b_pos / TEXTURE_PIXEL_SIZE.y)))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			int scanline_target_tlbr = int(floor(scanline_topleft_to_bottomright_position * float(PSIZE_X + PSIZE_Y)));
-			int scanline_target_trbl = int(floor(scanline_topright_to_bottomleft_position * float(PSIZE_X + PSIZE_Y))) - PSIZE_Y;
+			int scanline_target_tlbr = int(floor(tl_to_br_pos * float(PSIZE_X + PSIZE_Y)));
+			int scanline_target_trbl = int(floor(tr_to_bl_pos * float(PSIZE_X + PSIZE_Y))) - PSIZE_Y;
 			if (PX+PY == scanline_target_tlbr)
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
 			if (PX-PY == scanline_target_trbl)
@@ -357,7 +382,7 @@ void fragment()
 	
 	// DISINTEGRATE
 	if (COLOR.a != 0.0) {
-		vec2 s = UV * vec2(float(disintegrate_seed));
+		vec2 s = adjUV * vec2(float(disintegrate_seed));
 		s *= auto_disintegrate_random_seed_speed != 0.0 ? float(int(TIME / mix(1.0, 0.001, auto_disintegrate_random_seed_speed))) : 1.0;
 		float r = random(s);
 		if (r < disintegrate_strength) {
@@ -415,8 +440,8 @@ void fragment()
 		
 	// VIGNETTE
 	if (vignette_on && ((!vignette_ignore_transparent || COLOR.a != 0.0)) && !is_exclude_color) {
-		float x = abs(UV.x-.5)*2.0;
-		float y = abs(UV.y-.5)*2.0;
+		float x = abs(adjUV.x-.5)*2.0;
+		float y = abs(adjUV.y-.5)*2.0;
 		float v = (sqrt((x*x)+(y*y))/vignette_radius);
 		COLOR = mix(COLOR, vec4(vignette_color.r, vignette_color.g, vignette_color.b, 1.0), v);
 	}
