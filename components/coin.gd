@@ -44,7 +44,7 @@ enum _MaterialState {
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Price
 
-@onready var _FX = $Sprite/FX
+@onready var _FX : FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
@@ -118,11 +118,11 @@ var _bless_curse_state: _BlessCurseState:
 		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
 		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 		if _bless_curse_state == _BlessCurseState.BLESSED:
-			_FX.outline(Color.BISQUE)
+			_FX.recolor_outline(Color.BISQUE)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
-			_FX.outline(Color.PALE_VIOLET_RED)
+			_FX.recolor_outline(Color.PALE_VIOLET_RED)
 		else:
-			_FX.clear_outline()
+			_FX.recolor_outline_to_default()
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -150,12 +150,12 @@ var _luck_state: _LuckState:
 		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
 		if _luck_state == _LuckState.LUCKY:
 			_FX.flash(Color.GOLD)
-			_FX.glow(Color.GOLD)
+			_FX.start_glowing(Color.GOLD)
 		elif _luck_state == _LuckState.UNLUCKY:
 			_FX.flash(Color.MEDIUM_PURPLE)
-			_FX.glow(Color.MEDIUM_PURPLE)
+			_FX.start_glowing(Color.MEDIUM_PURPLE)
 		else:
-			_FX.clear_glow()
+			_FX.stop_glowing()
 
 var _material_state: _MaterialState:
 	set(val):

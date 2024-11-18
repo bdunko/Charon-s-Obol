@@ -26,7 +26,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 					_mouse_down = true
 				if not event.pressed and _mouse_down:  
 					_mouse_down = false
-					_FX.glow(Color.GOLD, 2, false)
+					_FX.start_glowing(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 					emit_signal("clicked", self) 
 					if patron_enum == Global.PatronEnum.GODLESS:
 						UITooltip.clear_tooltips()
@@ -37,17 +37,19 @@ func _on_clickable_area_mouse_entered():
 	var desc = patron.description if patron_enum != Global.PatronEnum.GODLESS else "???"
 		
 	if not _disabled:
-		_FX.glow(Color.GHOST_WHITE, 2)
+		_FX.start_glowing(Color.GHOST_WHITE, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM)
 	if _show_tooltip:
 		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
 
 func apply_spectral_fx() -> void:
-	_FX.glow(Color.GOLD, 2, false)
+	_FX.start_glowing(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 	_FX.tint(Color.AQUA, 0.8)
-	_FX.alpha(0.8, true, 0.3, 2.0)
+	_FX.start_flickering(2.0, 0.3, 0.8)
 
 func clear_fx() -> void:
-	_FX.clear_all()
+	_FX.stop_glowing()
+	_FX.clear_tint()
+	_FX.stop_flickering()
 
 func disable() -> void:
 	_disabled = true
@@ -60,4 +62,4 @@ func disable_except_tooltip() -> void:
 func _on_clickable_area_mouse_exited():
 	_mouse_down = false
 	if not _disabled:
-		_FX.clear_glow()
+		_FX.stop_glowing()

@@ -29,11 +29,11 @@ func _on_mouse_entered():
 	if not _activated:
 		UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
 		if Global.patron_uses != 0 and not _disabled:
-			_FX.glow(Color.GOLD, 1, false)
+			_FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, true)
 
 func _on_mouse_exited():
 	if Global.patron_uses != 0 and not _activated:
-		_FX.glow(Color.WHITE, 1, false)
+		_FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, true)
 
 func activate() -> void:
 	create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
@@ -50,13 +50,13 @@ func is_activated() -> bool:
 
 func _on_patron_uses_changed() -> void:
 	if Global.patron_uses == 0:
-		_FX.clear_glow()
+		_FX.stop_glowing()
 		_FX.clear_tint()
 	else:
 		_FX.tint(Color.GOLD, 0.4)
 		_FX.slow_flash(Color.WHITE)
 		if not _activated:
-			_FX.glow(Color.WHITE, 1)
+			_FX.start_glowing(Color.WHITE)
 
 func _process(delta) -> void:
 	var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
@@ -64,7 +64,7 @@ func _process(delta) -> void:
 
 func _on_state_changed() -> void:
 	if Global.state != Global.State.AFTER_FLIP and Global.state != Global.State.BEFORE_FLIP:
-		_FX.clear_glow()
+		_FX.stop_glowing()
 		_FX.clear_tint()
 	if Global.state != Global.State.AFTER_FLIP:
 		_disabled = true

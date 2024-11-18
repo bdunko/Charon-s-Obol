@@ -242,7 +242,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_371lb"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl8q"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -576,7 +576,7 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/displace_x = 20
+shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
 shader_parameter/auto_pan_speed = Vector2(0, 0)
@@ -612,10 +612,10 @@ shader_parameter/scanline_left_to_right_position = -0.001
 shader_parameter/scanline_top_to_bottom_position = -0.001
 shader_parameter/scanline_topleft_to_bottomright_position = -0.001
 shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/auto_scanline_left_to_right_on = false
+shader_parameter/auto_scanline_left_to_right_on = true
 shader_parameter/auto_scanline_left_to_right_reverse = false
 shader_parameter/auto_scanline_left_to_right_start_time = 0.0
-shader_parameter/auto_scanline_left_to_right_scan_duration = 0.5
+shader_parameter/auto_scanline_left_to_right_scan_duration = 0.75
 shader_parameter/auto_scanline_left_to_right_delay = 1.0
 shader_parameter/auto_scanline_top_to_bottom_on = false
 shader_parameter/auto_scanline_top_to_bottom_reverse = false
@@ -699,7 +699,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_371lb")
+material = SubResource("ShaderMaterial_8cl8q")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"

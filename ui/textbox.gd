@@ -70,21 +70,25 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 		
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
-@onready var _FX = $FX
+@onready var _FX : FX = $FX
 @onready var _MOUSE = $Mouse
 
 func _ready():
 	assert(_TEXT)
 	assert(_FX)
 	assert(_MOUSE)
+	_update_style()
 
 func _update_style() -> void:
-	material.set_shader_parameter("replace_color1", _DEFAULT_TEXT_COLOR)
-	material.set_shader_parameter("replace_with_color1", disabled_text_color if disabled else (text_hover_color if (_mouse_over and click_enabled) else text_color))
-	material.set_shader_parameter("replace_color2", _DEFAULT_BACKGROUND_COLOR)
-	material.set_shader_parameter("replace_with_color2", disabled_background_color if disabled else background_color)
-	material.set_shader_parameter("replace_color3", _DEFAULT_BORDER_COLOR)
-	material.set_shader_parameter("replace_with_color3", disabled_border_color if disabled else border_color)
+	if _FX:
+		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_mouse_over and click_enabled) else text_color))
+		_FX.recolor(2, _DEFAULT_BACKGROUND_COLOR, disabled_background_color if disabled else background_color)
+		_FX.recolor(3, _DEFAULT_BORDER_COLOR, disabled_border_color if disabled else border_color)
+
+func _reset_colors() -> void:
+	_FX.recolor(1, _DEFAULT_TEXT_COLOR, _DEFAULT_TEXT_COLOR)
+	_FX.recolor(2, _DEFAULT_BACKGROUND_COLOR, _DEFAULT_BACKGROUND_COLOR)
+	_FX.recolor(3, _DEFAULT_BORDER_COLOR, _DEFAULT_BORDER_COLOR)
 
 func disable() -> void:
 	disabled = true
@@ -138,7 +142,7 @@ func _gui_input(event):
 			else:
 				_mouse_down = false
 				emit_signal("clicked")
-				_FX.clear_replace_color()
+				_reset_colors()
 
 func _on_mouse_entered():
 	_mouse_over = true

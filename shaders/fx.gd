@@ -215,6 +215,9 @@ func recolor_outline(color: Color, base_outline_color = _outline_color) -> void:
 	set_uniform(Uniform.VEC3_REPLACE_COLOR_OUTLINE, _outline_color) 
 	set_uniform(Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE, color)
 
+func recolor_outline_to_default() -> void:
+	set_uniform(Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE, _outline_color)
+
 func tint(color: Color, strength: float) -> void:
 	assert(strength >= 0.0 and strength <= 1.0)
 	
@@ -224,11 +227,17 @@ func tint(color: Color, strength: float) -> void:
 func clear_tint() -> void:
 	set_uniform(Uniform.FLOAT_TINT_STRENGTH, 0.0)
 
-func start_glowing(color: Color, speed: float = 0, thickness: int = 1, minimum: float = 0.75) -> void:
+
+static var DEFAULT_GLOW_SPEED := 0.0
+static var DEFAULT_GLOW_THICKNESS := 1
+static var DEFAULT_GLOW_MINIMUM := 0.75
+static var DEFAULT_GLOW_RESTART := true
+func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
 	assert(thickness > 0, "Thickness must be larger than 0.")
 	assert(minimum >= 0.0 and minimum <= 1.0, "Minimum must be between 0 and 1.")
 	
-	set_uniform(Uniform.FLOAT_AUTO_GLOW_START_TIME, START_TIME())
+	if restart:
+		set_uniform(Uniform.FLOAT_AUTO_GLOW_START_TIME, START_TIME())
 	set_uniform(Uniform.VEC4_GLOW_COLOR, color)
 	set_uniform(Uniform.INT_GLOW_THICKNESS, thickness)
 	set_uniform(Uniform.FLOAT_AUTO_GLOW_SPEED, speed)
@@ -280,7 +289,7 @@ func disintegrate(time: float) -> void:
 	
 	await tween_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 1.0, time)
 
-func start_flickering(speed: float, alpha_bound1: float, alpha_bound2: float) -> void:
+func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: float = 1.0) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(alpha_bound1 >= 0 and alpha_bound1 <= 1, "Bounds must be between 0 and 1.")
 	assert(alpha_bound2 >= 0 and alpha_bound2 <= 1, "Bounds must be between 0 and 1.")
@@ -330,13 +339,3 @@ func start_scanning(direction: ScanDirection, scan_duration: float, delay: float
 func stop_scanning(direction: ScanDirection) -> void: 
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]
 	set_uniform(uniform_on, false)
-
-# prebaked effects -
-# - added -
-# TODO - search for replace_color (renamed to recolor)
-# TODO - search for outline (renamed to recolor_outline)
-# TODO _ removed clear_replace_color
-# TODO - renamed glow and clear_glow to start_glowing/stop_glowing
-# TODO - alpha -> flicker
-# TODO - clear_all removed
-
