@@ -532,16 +532,28 @@ var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], Po
 signal any_input
 
 var debug = true # utility flag for debugging mode
-var breakpoint_on_space = true
+const _BREAKPOINT_ON_SPACE = true
 
 var RNG = RandomNumberGenerator.new()
+
+const _SCREENSHOT_ENABLED = true
+const _SCREENSHOT_KEY = KEY_EQUAL
+const _SCREENSHOT_PATH_FORMAT = "res://screenshots/Obol_%s_%s.png"
+func take_screenshot(): # Function for taking screenshots and saving them
+	var date: String = Time.get_date_string_from_system().replace(".","_") 
+	var time: String = Time.get_time_string_from_system().replace(":","")
+	var screenshot_path = _SCREENSHOT_PATH_FORMAT % [date, time] # the path for our screenshot.
+	var image = get_viewport().get_texture().get_image() # We get what our player sees
+	image.save_png(screenshot_path)
 
 var _is_depressed = false
 var _last_any_input_time = 0.0
 const _MIN_TIME_BETWEEN_ANY_INPUT_MS = 100 #0.2 sec
 func _input(_event: InputEvent) -> void:
-	if breakpoint_on_space and Input.is_key_pressed(KEY_SPACE):
+	if _BREAKPOINT_ON_SPACE and Input.is_key_pressed(KEY_SPACE):
 		breakpoint
+	if _SCREENSHOT_ENABLED and Input.is_key_pressed(_SCREENSHOT_KEY):
+		take_screenshot()
 	elif Input.is_anything_pressed() and not _is_depressed:
 		_is_depressed = true
 		
