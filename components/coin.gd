@@ -31,14 +31,15 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
-@onready var LUCKY_ICON = $LuckyIcon
-@onready var UNLUCKY_ICON = $UnluckyIcon
-@onready var FROZEN_ICON = $FrozenIcon
-@onready var IGNITE_ICON = $IgniteIcon
-@onready var BLESSED_ICON = $BlessedIcon
-@onready var CURSED_ICON = $CursedIcon
-@onready var SUPERCHARGE_ICON = $SuperchargeIcon
-@onready var STONE_ICON = $StoneIcon
+@onready var LUCKY_ICON = $StatusBar/Flow/Lucky
+@onready var UNLUCKY_ICON = $StatusBar/Flow/Unlucky
+@onready var FROZEN_ICON = $StatusBar/Flow/Freeze
+@onready var IGNITE_ICON = $StatusBar/Flow/Ignite
+@onready var BLESS_ICON = $StatusBar/Flow/Bless
+@onready var CURSE_ICON = $StatusBar/Flow/Curse
+@onready var SUPERCHARGE_ICON = $StatusBar/Flow/Supercharge
+@onready var STONE_ICON = $StatusBar/Flow/Stone
+@onready var BLANK_ICON = $StatusBar/Flow/Blank
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -108,6 +109,7 @@ func _update_face_label() -> void:
 var _blank: bool = false:
 	set(val):
 		_blank = val
+		BLANK_ICON.visible = _blank
 		if _blank:
 			_FX.flash(Color.BISQUE)
 		_update_face_label()
@@ -115,8 +117,8 @@ var _blank: bool = false:
 var _bless_curse_state: _BlessCurseState:
 	set(val):
 		_bless_curse_state = val
-		BLESSED_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
-		CURSED_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
+		BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
+		CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			_FX.recolor_outline(Color.BISQUE)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
@@ -229,6 +231,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_owner = owned_by
 	_blank = false
 	_luck_state = _LuckState.NONE
+	_bless_curse_state = _BlessCurseState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_material_state = _MaterialState.NONE
 	_supercharged = false

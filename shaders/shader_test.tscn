@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://358hx2cun580"]
+[gd_scene load_steps=25 format=3 uid="uid://358hx2cun580"]
 
 [ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://di6ewinnoex3n" path="res://shaders/test_coin.png" id="7_ccctr"]
 [ext_resource type="Texture2D" uid="uid://4ievnrt5nh4v" path="res://shaders/test_coin2.png" id="9_gc8jb"]
 [ext_resource type="Shader" path="res://shaders/shader_test.gdshader" id="9_yc3uv"]
+[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="10_l1joy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
@@ -242,7 +243,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0vm5d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ln47f"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -699,7 +700,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_0vm5d")
+material = SubResource("ShaderMaterial_ln47f")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
@@ -733,5 +734,12 @@ material = SubResource("ShaderMaterial_oi8e2")
 position = Vector2(152, 95)
 texture = ExtResource("9_gc8jb")
 centered = false
+
+[node name="Blank" type="Control" parent="."]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("10_l1joy")
+_tooltip = "Stone"
 
 [editable path="Textbox"]

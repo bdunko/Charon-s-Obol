@@ -45,10 +45,8 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_en8g6")
 bbcode_enabled = true
-text = "[center]Title
-[color=sienna]Subtitle[/color]
-[img=12x13]res://assets/icons/heads_icon.png[/img] Power
-[img=12x13]res://assets/icons/tails_icon.png[/img] -1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+text = "[center][color=slategray]Stone[/color]
+This coin does not flip and its powers cannot be activated.[/center]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 2

@@ -14,7 +14,12 @@ const _MAX_WIDTH_THRESHOLD := 140
 
 const _FORMAT := "[center]%s[/center]"
 
+enum Style {
+	CLEAR, OPAQUE
+}
+
 var source_control
+var style: Style
 
 func get_label() -> RichTextLabel:
 	var label = find_child("TooltipText")
@@ -39,7 +44,7 @@ static func clear_tooltips():
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(source, text: String, global_mouse_position: Vector2, scene_root: Node) -> void:
+static func create(source, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
 	assert(source is Control or source is Area2D)
 	
 	# if there is already a tooltip for this control, update that tooltip's text instead
@@ -60,13 +65,13 @@ static func create(source, text: String, global_mouse_position: Vector2, scene_r
 			tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip)
 			return
 	
-	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root)
+	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root, tooltip_style)
 	tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
 	tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip) # destroy tooltip when parent exits tree (ie parent is deleted)
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func create_manual(source, text: String, global_mouse_position: Vector2, scene_root: Node) -> UITooltip:
+static func create_manual(source, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
 	assert(source is Control or source is Area2D)
 	
 	
@@ -74,6 +79,7 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	assert(tooltip.get_child_count())
 	
 	tooltip.source_control = source
+	tooltip.style = tooltip_style
 	
 	var label = tooltip.get_label()
 	
@@ -119,6 +125,7 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	
 	tooltip.position = global_mouse_position + _TOOLTIP_OFFSET
 	scene_root.add_child(tooltip)
+	
 	_ALL_TOOLTIPS.append(tooltip)
 	
 	# pivot offset controls where we scale from
@@ -127,7 +134,7 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	tooltip.create_tween().tween_property(tooltip, "scale", Vector2(1.0, 1.0), 0.1)
 	
 	tooltip.modulate.a = 0.0
-	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85, 0.1)
+	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85 if tooltip.style == Style.CLEAR else 1.0, 0.1)
 	
 	tooltip._force_position_onto_screen()
 	

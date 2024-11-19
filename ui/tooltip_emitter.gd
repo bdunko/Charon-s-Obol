@@ -1,16 +1,23 @@
 class_name TooltipEmitter
 extends Control
 
-@export var _tooltip: String = ""
+@export_multiline var _tooltip: String = ""
 @export var _enabled: bool = true
+@export var style: UITooltip.Style = UITooltip.Style.CLEAR
 var _tooltip_visible = false
 
 func set_tooltip(new_tooltip: String) -> void:
 	_tooltip = new_tooltip
+	_tooltip = Global.replace_placeholders(_tooltip)
 	
 	# if a tooltip is currently active, update its text
 	if _tooltip_visible:
 		_show_tooltip()
+
+func _ready() -> void:
+	connect("mouse_entered", _on_mouse_entered)
+	connect("mouse_exited", _on_mouse_exited)
+	set_tooltip(_tooltip)
 
 func enable() -> void:
 	_enabled = true
@@ -26,5 +33,5 @@ func _on_mouse_exited():
 
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root)
+		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root, style)
 		_tooltip_visible = true
