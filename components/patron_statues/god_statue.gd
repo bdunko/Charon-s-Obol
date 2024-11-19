@@ -39,7 +39,7 @@ func _on_clickable_area_mouse_entered():
 	if not _disabled:
 		_FX.start_glowing(Color.GHOST_WHITE, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM)
 	if _show_tooltip:
-		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
+		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, Global.replace_placeholders(desc)], get_global_mouse_position(), get_tree().root)
 
 func apply_spectral_fx() -> void:
 	_FX.start_glowing(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)

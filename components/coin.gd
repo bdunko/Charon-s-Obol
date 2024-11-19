@@ -614,6 +614,8 @@ func enable_input() -> void:
 	_disabled = false
 
 func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charges: int = -1) -> String:
+	txt = Global.replace_placeholders(txt)
+	
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -1:
 		txt = txt.replace("(MAX_CHARGES)", str(max_charges))
@@ -622,6 +624,7 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 	txt = txt.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
 	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
+	
 	
 	var heph_str = func(denom_as_int: int) -> String:
 		match(denom_as_int):

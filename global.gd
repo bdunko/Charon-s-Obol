@@ -468,65 +468,88 @@ class PowerFamily:
 		return powerType == PowerType.PASSIVE
 
 # Coin Powers
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [5, 8, 11, 14], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]", [3, 4, 5, 6], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
-var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 8, 11, 14], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS)", [3, 4, 5, 6], PowerType.PAYOFF, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 3, 4, 5], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/soul_fragment_red_icon.png")
 
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)(HEAL)", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
-var POWER_FAMILY_FREEZE = PowerFamily.new("Freeze another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
+var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) Arrow(s).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's [img=12x13]res://assets/icons/heads_icon.png[/img], Curse it, if [img=12x13]res://assets/icons/tails_icon.png[/img] Bless it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) (ARROW).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if (TAILS) (BLESS) it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalty this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
-var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and Ignite it.", [1, 1, 1, 2], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's (LIFE) penalty for this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
+var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
 var POWER_FAMILY_RECHARGE = PowerFamily.new("Recharge another coin's power.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/aphrodite_icon.png")
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hermes_icon.png")
-var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin Lucky.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hestia_icon.png")
+var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin (LUCKY).", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hestia_icon.png")
 var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/dionysus_icon.png")
 var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] equal to (HADES_MULTIPLIER)x that coin's value.", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/hades_icon.png")
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], PowerType.POWER, "")
 
-var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("This coin Ignites.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make a coin Unlucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("Curse a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("Blank a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make a coin Lucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make a coin Unlucky.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("(IGNITE) this coin..", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make a coin (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("(CURSE) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make a coin (LUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make a coin (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
-var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1 Arrow.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1 [ARROW].", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
-var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("Ignite a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("Freeze each tails coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each tails coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your (LIFE).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/medusa_icon.png")
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/medusa_icon.png")
 var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/downgrade_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn a coin to Stone.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 coins Unlucky.", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to Stone", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 coins (UNLUCKY).", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to (STONE)", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
 var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy coins until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
-var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, all your coins become Unlucky.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
-var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Your Diobols are Blank.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png")
-var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from tails [img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png")
-var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img].", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
-var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on heads, it becomes Unlucky. After a coin lands on tails, it becomes Lucky.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
+var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, all your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
+var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Your Diobols are (BLANK).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png")
+var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png")
+var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1 (LIFE).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
+var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on (HEADS), it becomes (UNLUCKY). After a coin lands on (TAILS), it becomes (LUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png")
 
-var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
+var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish (HEAL) at the start of the trial.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png")
 var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value coin is downgraded.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png")
-var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 10 [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to 0.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
-var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, each coin on trails becomes Cursed and Frozen.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png")
+var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 10 (SOULS) to 0.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png")
+var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, (CURSE) and (FREEZE) each coin on (TAILS).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png")
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single charge each toss.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png")
-var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
+var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1 (LIFE) for each unused power charge on a heads coin.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png")
 
 var CHARON_POWER_DEATH = PowerFamily.new("Die.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_death_icon.png")
 var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/charon_life_icon.png")
+
+func replace_placeholders(tooltip: String) -> String:
+	# images
+	tooltip = tooltip.replace("(HEADS)", "[img=10x13]res://assets/icons/heads_icon.png[/img]")
+	tooltip = tooltip.replace("(TAILS)", "[img=10x13]res://assets/icons/tails_icon.png[/img]")
+	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
+	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
+	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")	
+	tooltip = tooltip.replace("(SOULS)", "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]")
+	
+	# statuses
+	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
+	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % ["red", "Ignite", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
+	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
+	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % ["palegoldenrod", "Bless", "res://assets/icons/status/bless_icon.png"])
+	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % ["mediumorchid", "Curse", "res://assets/icons/status/curse_icon.png"])
+	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % ["ghostwhite", "Blank", "res://assets/icons/status/blank_icon.png"])
+	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
+	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
+	
+	return tooltip
 
 # todo - refactor this into Util
 signal any_input
@@ -655,17 +678,17 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Recharge all your coins.", PatronEnum.APHRODITE, PATRON_POWER_FAMILY_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn"), [APHRODITE_FAMILY]),
 	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Turn all coins to their other face.", PatronEnum.APOLLO, PATRON_POWER_FAMILY_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn"), [APOLLO_FAMILY]),
 	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Reflip all coins, shuffle their positions, and remove all their statuses.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
-	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to tails, then gain 1 Arrow for each.", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
-	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's tails penalty by 1.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
-	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on tails, heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] equal to its tails penalty. ", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
-	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "Gain a random Obol and make it Lucky.", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
-	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain [img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] and heal [img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img] based on its value.", PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
+	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to (TAILS), then gain 1 (ARROW) for each.", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
+	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's (LIFE) penalty by 1.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
+	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on (TAILS), heal (LIFE) equal to its (LIFE) penalty. ", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
+	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "Gain a random Obol and make it (LUCKY).", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
+	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy a coin, then gain (SOULS) and heal (LIFE) based on its value.", PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
 	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Choose a coin. Downgrade it, then upgrade its neighbors.", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
 	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Turn a coin and its neighbors to their other face.", PatronEnum.HERA, PATRON_POWER_FAMILY_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn"), [HERA_FAMILY]),
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal or [color=lightgray](25% of the time)[/color] greater value.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
-	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin Lucky and Blessed.", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
-	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "Freeze a coin and its neighbors.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
-	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Supercharge a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY])
+	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "(BLESS) a coin and make it (LUCKY).", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
+	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "(FREEZE) a coin and its neighbors.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "(SUPERCHARGE) a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY])
 ]
 
 func statue_scene_for_patron_enum(enm: PatronEnum) -> PackedScene:

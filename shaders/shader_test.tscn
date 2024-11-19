@@ -242,7 +242,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl8q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0vm5d"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -699,7 +699,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_8cl8q")
+material = SubResource("ShaderMaterial_0vm5d")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
