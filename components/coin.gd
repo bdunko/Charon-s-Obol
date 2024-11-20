@@ -31,19 +31,21 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
-@onready var LUCKY_ICON = $StatusBar/Flow/Lucky
-@onready var UNLUCKY_ICON = $StatusBar/Flow/Unlucky
-@onready var FROZEN_ICON = $StatusBar/Flow/Freeze
-@onready var IGNITE_ICON = $StatusBar/Flow/Ignite
-@onready var BLESS_ICON = $StatusBar/Flow/Bless
-@onready var CURSE_ICON = $StatusBar/Flow/Curse
-@onready var SUPERCHARGE_ICON = $StatusBar/Flow/Supercharge
-@onready var STONE_ICON = $StatusBar/Flow/Stone
-@onready var BLANK_ICON = $StatusBar/Flow/Blank
+@onready var _LUCKY_ICON = $Sprite/StatusBar/Flow/Lucky
+@onready var _UNLUCKY_ICON = $Sprite/StatusBar/Flow/Unlucky
+@onready var _FREEZE_ICON = $Sprite/StatusBar/Flow/Freeze
+@onready var _IGNITE_ICON = $Sprite/StatusBar/Flow/Ignite
+@onready var _BLESS_ICON = $Sprite/StatusBar/Flow/Bless
+@onready var _CURSE_ICON = $Sprite/StatusBar/Flow/Curse
+@onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Flow/Supercharge
+@onready var _STONE_ICON = $Sprite/StatusBar/Flow/Stone
+@onready var _BLANK_ICON = $Sprite/StatusBar/Flow/Blank
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
-@onready var _PRICE = $Price
+@onready var _PRICE = $Sprite/Price
+
+@onready var _CLICKABLE_AREA = $ClickableArea
 
 @onready var _FX : FX = $Sprite/FX
 
@@ -109,7 +111,7 @@ func _update_face_label() -> void:
 var _blank: bool = false:
 	set(val):
 		_blank = val
-		BLANK_ICON.visible = _blank
+		_BLANK_ICON.visible = _blank
 		if _blank:
 			_FX.flash(Color.BISQUE)
 		_update_face_label()
@@ -117,8 +119,8 @@ var _blank: bool = false:
 var _bless_curse_state: _BlessCurseState:
 	set(val):
 		_bless_curse_state = val
-		BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
-		CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
+		_BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
+		_CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			_FX.recolor_outline(Color.BISQUE)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
@@ -129,8 +131,8 @@ var _bless_curse_state: _BlessCurseState:
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
 		_freeze_ignite_state = val
-		FROZEN_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
-		IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
+		_FREEZE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
+		_IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
 			_FX.tint(Color.CYAN, 0.5)
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
@@ -141,15 +143,15 @@ var _freeze_ignite_state: _FreezeIgniteState:
 var _supercharged: bool:
 	set(val):
 		_supercharged = val
-		SUPERCHARGE_ICON.visible = _supercharged
+		_SUPERCHARGE_ICON.visible = _supercharged
 		if _supercharged:
 			_FX.flash(Color.YELLOW)
 
 var _luck_state: _LuckState:
 	set(val):
 		_luck_state = val
-		LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
-		UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
+		_LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
+		_UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
 		if _luck_state == _LuckState.LUCKY:
 			_FX.flash(Color.GOLD)
 			_FX.start_glowing(Color.GOLD)
@@ -162,7 +164,7 @@ var _luck_state: _LuckState:
 var _material_state: _MaterialState:
 	set(val):
 		_material_state = val
-		STONE_ICON.visible = _material_state == _MaterialState.STONE
+		_STONE_ICON.visible = _material_state == _MaterialState.STONE
 		if _material_state == _MaterialState.STONE:
 			_FX.tint(Color.SLATE_GRAY, 0.7)
 		elif _material_state == _MaterialState.NONE and not is_ignited():
@@ -176,7 +178,17 @@ func _ready():
 	assert(_SPRITE)
 	assert(_FACE_LABEL)
 	assert(_FX)
-	_SPRITE.find_child("ClickableArea").show() # just in case I hide it in editor...
+	assert(_LUCKY_ICON)
+	assert(_UNLUCKY_ICON)
+	assert(_BLANK_ICON)
+	assert(_STONE_ICON)
+	assert(_FREEZE_ICON)
+	assert(_IGNITE_ICON)
+	assert(_BLESS_ICON)
+	assert(_CURSE_ICON)
+	assert(_SUPERCHARGE_ICON)
+	assert(_CLICKABLE_AREA)
+	_CLICKABLE_AREA.show() # just in case I hide it in editor...
 	
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 
@@ -417,8 +429,9 @@ func flip(bonus: int = 0) -> void:
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
 	var tween = _new_movement_tween()
-	tween.tween_property(self, "position:y", -50, 0.20)
-	tween.tween_property(self, "position:y", 0, 0.20).set_delay(0.1)
+	tween.tween_property(_SPRITE, "position:y", -50, 0.20)
+	tween.tween_interval(0.1)
+	tween.tween_property(_SPRITE, "position:y", 0, 0.20)
 	await tween.finished
 	set_animation(_Animation.FLAT)
 	
@@ -713,10 +726,10 @@ func _new_movement_tween() -> Tween:
 	return _movement_tween
 
 func payoff_move_up() -> void:
-	await _new_movement_tween().tween_property(self, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _new_movement_tween().tween_property(_SPRITE, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func payoff_move_down() -> void:
-	await _new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_mouse_clicked():
 	if not _disabled:
@@ -724,11 +737,11 @@ func _on_mouse_clicked():
 
 func _on_mouse_entered():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
-		_new_movement_tween().tween_property(self, "position:y", -3, 0.15).set_trans(Tween.TRANS_CIRC)
+		_new_movement_tween().tween_property(_SPRITE, "position:y", -3, 0.15).set_trans(Tween.TRANS_CIRC)
 
 func _on_mouse_exited():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
-		_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+		_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 
 var _was_active_power_coin = false
 func _on_active_coin_power_coin_changed() -> void:
@@ -738,10 +751,10 @@ func _on_active_coin_power_coin_changed() -> void:
 	# if this is the active power coin, move it up a bit.
 	if not _disabled and Global.active_coin_power_coin == self:
 		_was_active_power_coin = true
-		_new_movement_tween().tween_property(self, "position:y", -6, 0.15).set_trans(Tween.TRANS_CIRC)
+		_new_movement_tween().tween_property(_SPRITE, "position:y", -6, 0.15).set_trans(Tween.TRANS_CIRC)
 	else:
 		if not _disabled and _was_active_power_coin:
-			_new_movement_tween().tween_property(self, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+			_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 
 @onready var _MOUSE = $Mouse
 
