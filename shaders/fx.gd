@@ -227,10 +227,9 @@ func tint(color: Color, strength: float) -> void:
 func clear_tint() -> void:
 	set_uniform(Uniform.FLOAT_TINT_STRENGTH, 0.0)
 
-
-static var DEFAULT_GLOW_SPEED := 0.0
+static var DEFAULT_GLOW_SPEED := 2.0
 static var DEFAULT_GLOW_THICKNESS := 1
-static var DEFAULT_GLOW_MINIMUM := 0.75
+static var DEFAULT_GLOW_MINIMUM := 0.7
 static var DEFAULT_GLOW_RESTART := true
 func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
 	assert(thickness > 0, "Thickness must be larger than 0.")
@@ -242,6 +241,9 @@ func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: i
 	set_uniform(Uniform.INT_GLOW_THICKNESS, thickness)
 	set_uniform(Uniform.FLOAT_AUTO_GLOW_SPEED, speed)
 	set_uniform(Uniform.FLOAT_AUTO_GLOW_BOUND, minimum)
+
+func start_glowing_solid(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, restart: bool = true) -> void:
+	start_glowing(color, speed, thickness, 1.0, restart)
 
 func stop_glowing() -> void:
 	set_uniform(Uniform.INT_GLOW_THICKNESS, 0)
@@ -319,9 +321,13 @@ func stop_flashing() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_SPEED, 0.0)
 	set_uniform(Uniform.FLOAT_FLASH_STRENGTH, 0.0) # reset flash quickly
 
-func start_scanning(direction: ScanDirection, scan_duration: float, delay: float) -> void:
+func start_scanning(direction: ScanDirection, color: Color, strength: float = 1.0, scan_duration: float = 1.0, delay: float = 2.0) -> void:
 	assert(scan_duration >= 0, "Scan duration must be non-negative.")
 	assert(delay >= 0, "Delay must be non-negative.")
+	assert(strength >= 0 and strength <= 1, "Strength must be between 1 and 0.")
+	
+	set_uniform(Uniform.VEC3_SCANLINE_COLOR, color)
+	set_uniform(Uniform.FLOAT_SCANLINE_STRENGTH, strength)
 	
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]
 	var uniform_reverse: Uniform = _SCAN_LOOKUP[direction][3][1]

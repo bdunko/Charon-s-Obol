@@ -26,7 +26,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 					_mouse_down = true
 				if not event.pressed and _mouse_down:  
 					_mouse_down = false
-					_FX.start_glowing(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+					_FX.start_glowing_solid(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, false)
 					emit_signal("clicked", self) 
 					if patron_enum == Global.PatronEnum.GODLESS:
 						UITooltip.clear_tooltips()
@@ -39,10 +39,10 @@ func _on_clickable_area_mouse_entered():
 	if not _disabled:
 		_FX.start_glowing(Color.GHOST_WHITE, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM)
 	if _show_tooltip:
-		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, Global.replace_placeholders(desc)], get_global_mouse_position(), get_tree().root)
+		UITooltip.create(_HITBOX, "Altar to %s\n%s" % [nme, desc], get_global_mouse_position(), get_tree().root)
 
 func apply_spectral_fx() -> void:
-	_FX.start_glowing(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+	_FX.start_glowing_solid(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, false)
 	_FX.tint(Color.AQUA, 0.8)
 	_FX.start_flickering(2.0, 0.3, 0.8)
 

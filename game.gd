@@ -207,12 +207,18 @@ func on_start() -> void:
 	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
 	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
-	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
-	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.APOLLO_FAMILY, Global.Denomination.DIOBOL)
+	
+	
+	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
 	
 	Global.state = Global.State.BOARDING
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -315,25 +321,11 @@ func _on_accept_button_pressed():
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.before_payoff()
+		
 
 	var resolved_ignite = false
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		# $HACK$ - this is an extremely lazy way to make ignites happen
-		# after all player coins but before all enemy coins, but I don't care
-		if not resolved_ignite and payoff_coin in _ENEMY_COIN_ROW.get_children():
-			# resolve ignites
-			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				if possibly_ignited_coin.is_ignited():
-					possibly_ignited_coin.payoff_move_up()
-					Global.lives -= 3
-					await Global.delay(0.15)
-					possibly_ignited_coin.payoff_move_down()
-					await Global.delay(0.15)
-					if Global.lives < 0:
-						return
-			resolved_ignite = true
-		
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
@@ -344,40 +336,54 @@ func _on_accept_button_pressed():
 					var payoff = charges
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
 						payoff = 0 if charges <= 10 else charges
-					#if Global.is_current_round_trial():
-					#	payoff *= 2
-					Global.souls += payoff
+					if payoff > 0:
+						payoff_coin.FX.flash(Color.AQUA)
+						Global.souls += payoff
 				Global.POWER_FAMILY_LOSE_SOULS:
+					payoff_coin.FX.flash(Color.DARK_BLUE)
 					Global.souls = max(0, Global.souls - charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # limitation pain - 3x loss from tails penalties
+					if charges > 0:
+						payoff_coin.FX.flash(Color.RED)
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # trial pain - 3x loss from tails penalties
 						Global.lives -= charges * 3
 					else:
 						Global.lives -= charges
 				Global.MONSTER_POWER_FAMILY_HELLHOUND:
 					payoff_coin.ignite()
 				Global.MONSTER_POWER_FAMILY_KOBALOS:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].make_unlucky()
 				Global.MONSTER_POWER_FAMILY_ARAE:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].curse()
 				Global.MONSTER_POWER_FAMILY_HARPY:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].blank()
 				Global.MONSTER_POWER_FAMILY_CENTAUR_HEADS:
+					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					_COIN_ROW.get_randomized()[0].make_lucky()
 				Global.MONSTER_POWER_FAMILY_CENTAUR_TAILS:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].make_unlucky()
 				Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
+					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					Global.arrows += 1
 				Global.MONSTER_POWER_FAMILY_SIREN:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_tails():
 						coin.freeze()
 				Global.MONSTER_POWER_FAMILY_BASILISK:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.lives -= int(Global.lives / 2.0)
 				Global.MONSTER_POWER_FAMILY_GORGON:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].stone()
 				Global.MONSTER_POWER_FAMILY_CHIMERA:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					_COIN_ROW.get_randomized()[0].ignite()
 				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var possible_coins = []
 					for coin in _COIN_ROW.get_highest_to_lowest_value():
 						if not coin.is_stone():
@@ -386,16 +392,19 @@ func _on_accept_button_pressed():
 					if not possible_coins.is_empty():
 						Global.choose_one(possible_coins).stone()
 				Global.NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE: # downgrade highest value coin
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var highest = _COIN_ROW.get_highest_valued()
 					highest.shuffle()
 					if highest[0].get_denomination() != Global.Denomination.OBOL:
 						highest[0].downgrade()
 				Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_leftmost_to_rightmost():
 						if not coin.is_stone():
 							coin.stone()
 							break
 				Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var num_unluckied = 0
 					for coin in _COIN_ROW.get_randomized():
 						if coin.is_unlucky():
@@ -405,19 +414,38 @@ func _on_accept_button_pressed():
 						if num_unluckied == 2:
 							break
 				Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_rightmost_to_leftmost():
 						if not coin.is_stone():
 							coin.stone()
 							break
 				Global.NEMESIS_POWER_FAMILY_STHENO_STRAIN:
+					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.strain_modifier += 1
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
 			if Global.lives < 0:
 				return
+		
 		# unblank when it would payoff
 		payoff_coin.unblank()
+		
+		# $HACK$ - this is an extremely lazy way to make ignites happen
+		# after all player coins but before all enemy coins, but I don't care
+		if not resolved_ignite and _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin:
+			# resolve ignites
+			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+				if possibly_ignited_coin.is_ignited():
+					possibly_ignited_coin.FX.flash(Color.RED)
+					possibly_ignited_coin.payoff_move_up()
+					Global.lives -= 3
+					await Global.delay(0.15)
+					possibly_ignited_coin.payoff_move_down()
+					await Global.delay(0.15)
+					if Global.lives < 0:
+						return
+			resolved_ignite = true
 	
 	# post payoff actions
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
@@ -434,6 +462,7 @@ func _on_accept_button_pressed():
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
 			if coin.is_power():
+				coin.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():

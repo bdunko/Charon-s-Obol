@@ -47,17 +47,20 @@ enum _MaterialState {
 
 @onready var _CLICKABLE_AREA = $ClickableArea
 
-@onready var _FX : FX = $Sprite/FX
+@onready var FX : FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
 
-var _disabled := false
+var _disabled := false:
+	set(val):
+		_disabled = val
+		_update_appearance()
 
 var _owner: Owner:
 	set(val):
 		_owner = val
-		_update_price_label()
+		_update_appearance()
 
 var _coin_family: Global.CoinFamily:
 	set(val):
@@ -71,7 +74,7 @@ var _denomination: Global.Denomination:
 var _heads:
 	set(val):
 		_heads = val
-		_update_face_label()
+		_update_appearance()
 
 class FacePower:
 	var charges: int = 0
@@ -83,6 +86,12 @@ class FacePower:
 
 var _heads_power: FacePower
 var _tails_power: FacePower
+
+# updates face label, glow, and price label
+func _update_appearance() -> void:
+	_update_face_label()
+	_update_price_label()
+	_update_glow()
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#e12f3b"
@@ -108,90 +117,6 @@ func _update_face_label() -> void:
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION
 
-var _blank: bool = false:
-	set(val):
-		_blank = val
-		_BLANK_ICON.visible = _blank
-		if _blank:
-			_FX.flash(Color.BISQUE)
-		_update_face_label()
-
-var _bless_curse_state: _BlessCurseState:
-	set(val):
-		_bless_curse_state = val
-		_BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
-		_CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
-		if _bless_curse_state == _BlessCurseState.BLESSED:
-			_FX.recolor_outline(Color.BISQUE)
-		elif _bless_curse_state == _BlessCurseState.CURSED:
-			_FX.recolor_outline(Color.PALE_VIOLET_RED)
-		else:
-			_FX.recolor_outline_to_default()
-
-var _freeze_ignite_state: _FreezeIgniteState:
-	set(val):
-		_freeze_ignite_state = val
-		_FREEZE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
-		_IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
-		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
-			_FX.tint(Color.CYAN, 0.5)
-		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
-			_FX.tint(Color.RED, 0.5)
-		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
-			_FX.clear_tint()
-
-var _supercharged: bool:
-	set(val):
-		_supercharged = val
-		_SUPERCHARGE_ICON.visible = _supercharged
-		if _supercharged:
-			_FX.flash(Color.YELLOW)
-
-var _luck_state: _LuckState:
-	set(val):
-		_luck_state = val
-		_LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
-		_UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
-		if _luck_state == _LuckState.LUCKY:
-			_FX.flash(Color.GOLD)
-			_FX.start_glowing(Color.GOLD)
-		elif _luck_state == _LuckState.UNLUCKY:
-			_FX.flash(Color.MEDIUM_PURPLE)
-			_FX.start_glowing(Color.MEDIUM_PURPLE)
-		else:
-			_FX.stop_glowing()
-
-var _material_state: _MaterialState:
-	set(val):
-		_material_state = val
-		_STONE_ICON.visible = _material_state == _MaterialState.STONE
-		if _material_state == _MaterialState.STONE:
-			_FX.tint(Color.SLATE_GRAY, 0.7)
-		elif _material_state == _MaterialState.NONE and not is_ignited():
-			_FX.clear_tint()
-
-# stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
-var _round_tails_penalty_reduction = 0
-var _permanent_tails_penalty_reduction = 0
-
-func _ready():
-	assert(_SPRITE)
-	assert(_FACE_LABEL)
-	assert(_FX)
-	assert(_LUCKY_ICON)
-	assert(_UNLUCKY_ICON)
-	assert(_BLANK_ICON)
-	assert(_STONE_ICON)
-	assert(_FREEZE_ICON)
-	assert(_IGNITE_ICON)
-	assert(_BLESS_ICON)
-	assert(_CURSE_ICON)
-	assert(_SUPERCHARGE_ICON)
-	assert(_CLICKABLE_AREA)
-	_CLICKABLE_AREA.show() # just in case I hide it in editor...
-	
-	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
-
 const _BUY_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
@@ -216,6 +141,131 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = _APPEASE_FORMAT % [color, price]
 
+func _update_glow():
+	# if this coin is an enemy coin, glow purple at all times
+	if _owner == Owner.NEMESIS:
+		FX.start_glowing(Color.MEDIUM_PURPLE)
+		return
+	
+	# if the coin is disabled (ie in the middle of a flip or turn) we don't want it to glow at all.
+	if _disabled:
+		FX.stop_glowing()
+		return
+	
+	# if this is the active power coin, glow gold
+	if Global.active_coin_power_coin == self:
+		FX.start_glowing_solid(Color.GOLD)
+		return
+		
+	# if this coin can be activated, glow white
+	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
+		FX.start_glowing(Color.AZURE)
+		return
+	
+	# if this coin is on a lose life side, glow red
+	if Global.state == Global.State.AFTER_FLIP and get_active_power_family() in Global.LIFE_LOSS_POWERS:
+		FX.start_glowing(Color.RED)
+		return
+	
+	if Global.state == Global.State.AFTER_FLIP and get_active_power_family() in Global.SOUL_GAIN_POWERS:
+		FX.start_glowing(Color.CYAN)
+		return
+	
+	FX.stop_glowing()
+
+var _blank: bool = false:
+	set(val):
+		_blank = val
+		_BLANK_ICON.visible = _blank
+		if _blank:
+			FX.flash(Color.BISQUE)
+		_update_appearance()
+
+var _bless_curse_state: _BlessCurseState:
+	set(val):
+		_bless_curse_state = val
+		_BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
+		_CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
+			
+		if _bless_curse_state == _BlessCurseState.BLESSED:
+			FX.flash(Color.PALE_GOLDENROD)
+			FX.recolor_outline(Color.PALE_GOLDENROD)
+		elif _bless_curse_state == _BlessCurseState.CURSED:
+			FX.flash(Color.MEDIUM_ORCHID)
+			FX.recolor_outline(Color.MEDIUM_ORCHID)
+		else:
+			FX.recolor_outline_to_default()
+
+var _freeze_ignite_state: _FreezeIgniteState:
+	set(val):
+		_freeze_ignite_state = val
+		_FREEZE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
+		_IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
+		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
+			FX.flash(Color.CYAN)
+			FX.tint(Color.CYAN, 0.5)
+		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
+			FX.flash(Color.RED)
+			FX.tint(Color.RED, 0.5)
+		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
+			FX.clear_tint()
+
+var _supercharged: bool:
+	set(val):
+		_supercharged = val
+		_SUPERCHARGE_ICON.visible = _supercharged
+		if _supercharged:
+			FX.flash(Color.YELLOW)
+			# TODO - add particles here
+
+var _luck_state: _LuckState:
+	set(val):
+		_luck_state = val
+		_LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
+		_UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
+		
+		if _luck_state == _LuckState.LUCKY:
+			FX.flash(Color.LAWN_GREEN)
+			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.LAWN_GREEN, 1, 0.4, 1.0)
+		elif _luck_state == _LuckState.UNLUCKY:
+			FX.flash(Color.ORANGE_RED)
+			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.ORANGE_RED, 1, 0.4, 1.0)
+		else:
+			FX.stop_scanning(FX.ScanDirection.BOTTOM_TO_TOP)
+			FX.stop_scanning(FX.ScanDirection.TOP_TO_BOTTOM)
+
+var _material_state: _MaterialState:
+	set(val):
+		_material_state = val
+		_STONE_ICON.visible = _material_state == _MaterialState.STONE
+		if _material_state == _MaterialState.STONE:
+			FX.flash(Color.SLATE_GRAY)
+			FX.tint(Color.SLATE_GRAY, 0.7)
+		elif _material_state == _MaterialState.NONE and not is_ignited():
+			FX.clear_tint()
+
+# stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
+var _round_tails_penalty_reduction = 0
+var _permanent_tails_penalty_reduction = 0
+
+func _ready():
+	assert(_SPRITE)
+	assert(_FACE_LABEL)
+	assert(FX)
+	assert(_LUCKY_ICON)
+	assert(_UNLUCKY_ICON)
+	assert(_BLANK_ICON)
+	assert(_STONE_ICON)
+	assert(_FREEZE_ICON)
+	assert(_IGNITE_ICON)
+	assert(_BLESS_ICON)
+	assert(_CURSE_ICON)
+	assert(_SUPERCHARGE_ICON)
+	assert(_CLICKABLE_AREA)
+	_CLICKABLE_AREA.show() # just in case I hide it in editor...
+	
+	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
+
 func show_price() -> void:
 	_PRICE.show()
 
@@ -223,8 +273,8 @@ func hide_price() -> void:
 	_PRICE.hide()
 
 func _on_state_changed() -> void:
+	_update_appearance()
 	if Global.state == Global.State.SHOP or Global.state == Global.State.TOLLGATE or (is_appeaseable() and (Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP)):
-		_update_price_label()
 		_PRICE.show()
 	else:
 		_PRICE.hide()
@@ -356,10 +406,9 @@ func upgrade() -> void:
 		if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
 			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	
-	_update_face_label()
-	_update_price_label()
+	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
-	_FX.flash(Color.GOLDENROD)
+	FX.flash(Color.GOLDENROD)
 
 func downgrade() -> void:
 	match(_denomination):
@@ -369,10 +418,9 @@ func downgrade() -> void:
 			_denomination = Global.Denomination.DIOBOL
 		Global.Denomination.TETROBOL:
 			_denomination = Global.Denomination.TRIOBOL
-	_update_face_label()
-	_update_price_label()
+	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
-	_FX.flash(Color.DARK_GRAY)
+	FX.flash(Color.DARK_GRAY)
 
 func is_passive() -> bool:
 	return get_active_power_family().is_passive()
@@ -393,7 +441,7 @@ func flip(bonus: int = 0) -> void:
 		return
 	
 	if is_frozen(): #don't flip if frozen
-		# todo - animation for unfreezing
+		FX.flash(Color.AQUAMARINE)
 		_freeze_ignite_state = _FreezeIgniteState.NONE
 		emit_signal("flip_complete")
 		return
@@ -409,9 +457,11 @@ func flip(bonus: int = 0) -> void:
 	_PRICE.hide() # hide appease cost
 	
 	if is_blessed():
+		FX.flash(Color.PALE_GOLDENROD)
 		_heads = true
 		_bless_curse_state = _BlessCurseState.NONE
 	elif is_cursed():
+		FX.flash(Color.MEDIUM_ORCHID)
 		_heads = false
 		_bless_curse_state = _BlessCurseState.NONE
 	else:
@@ -441,6 +491,7 @@ func flip(bonus: int = 0) -> void:
 	
 	# if supercharged and we landed on tails, flip again.
 	if _supercharged and not _heads:
+		FX.flash(Color.YELLOW)
 		_supercharged = false
 		await flip()
 		return
@@ -486,8 +537,8 @@ func spend_power_use() -> void:
 		_tails_power.charges -= 1
 	assert(_heads_power.charges >= 0)
 	assert(_tails_power.charges >= 0)
-	_update_face_label()
-	_FX.flash(Color.WHITE)
+	_update_appearance()
+	FX.flash(Color.WHITE)
 
 func reset_power_uses() -> void:
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and is_power(): # sapping trial - recharge only by 1
@@ -497,15 +548,12 @@ func reset_power_uses() -> void:
 		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
 		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
 	
-	# pain trial - lose life penalties are tripled
-	
-	
 	if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
 		_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
 		_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	
-	_update_face_label()
+	_update_appearance()
 
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
@@ -513,8 +561,8 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 		_heads_power.charges += recharge_amount
 	else:
 		_tails_power.charges += recharge_amount
-	_update_face_label()
-	_FX.flash(Color.LIGHT_PINK)
+	_update_appearance()
+	FX.flash(Color.LIGHT_PINK)
 
 func make_lucky() -> void:
 	_luck_state = _LuckState.LUCKY
@@ -526,6 +574,8 @@ func blank() -> void:
 	_blank = true
 
 func unblank() -> void:
+	if _blank:
+		FX.flash(Color.BISQUE)
 	_blank = false
 
 func supercharge() -> void:
@@ -538,12 +588,12 @@ func curse() -> void:
 	_bless_curse_state = _BlessCurseState.CURSED
 
 func freeze() -> void:
-	_FX.flash(Color.CYAN)
+	FX.flash(Color.CYAN) # flash ahead of time, even if effect fails
 	# if stoned, don't freeze
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.FROZEN
 
 func ignite() -> void:
-	_FX.flash(Color.RED)
+	FX.flash(Color.RED) # flash ahead of time, even if effect fails
 	# if stoned, don't ignite
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.IGNITED
 
@@ -610,18 +660,18 @@ func reduce_life_penalty_permanently() -> void:
 	_permanent_tails_penalty_reduction += 1
 	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	reduced_power.charges -= 1
-	_update_face_label()
+	_update_appearance()
 	_generate_tooltip()
-	_FX.flash(Color.SEA_GREEN)
+	FX.flash(Color.SEA_GREEN)
 
 func reduce_life_penalty_for_round() -> void:
 	assert(can_reduce_life_penalty())
 	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	_round_tails_penalty_reduction += 1
 	reduced_power.charges -= 1
-	_update_face_label()
+	_update_appearance()
 	_generate_tooltip()
-	_FX.flash(Color.SEA_GREEN)
+	FX.flash(Color.SEA_GREEN)
 
 func disable_input() -> void:
 	_disabled = true
@@ -630,8 +680,6 @@ func enable_input() -> void:
 	_disabled = false
 
 func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charges: int = -1) -> String:
-	txt = Global.replace_placeholders(txt)
-	
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -1:
 		txt = txt.replace("(MAX_CHARGES)", str(max_charges))
@@ -696,14 +744,15 @@ func on_round_end() -> void:
 	clear_statuses()
 
 func on_toss_complete() -> void:
-	if not is_stone():
-		reset_power_uses()
+	pass
 
 func before_payoff() -> void:
 	_disabled = true
 
 func after_payoff() -> void:
 	_disabled = false
+	reset_power_uses()
+	FX.flash(Color.LIGHT_PINK)
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()
@@ -747,6 +796,8 @@ var _was_active_power_coin = false
 func _on_active_coin_power_coin_changed() -> void:
 	if not is_inside_tree(): #bit of a $HACK$ since this gets called before we're in tree to make tween; could also check tween return value but meh
 		return
+	
+	_update_appearance()
 	
 	# if this is the active power coin, move it up a bit.
 	if not _disabled and Global.active_coin_power_coin == self:

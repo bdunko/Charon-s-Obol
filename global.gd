@@ -19,7 +19,9 @@ var character: CharacterData
 class CharacterData:
 	var character: Global.Character
 	var name: String
-	var description: String
+	var description: String:
+		get:
+			return Global.replace_placeholders(description)
 	var victoryDialogue: Array #[String]
 	var victoryClosingLine: String
 	
@@ -445,7 +447,9 @@ enum PowerType {
 }
 
 class PowerFamily:
-	var description: String
+	var description: String:
+		get:
+			return Global.replace_placeholders(description)
 	var uses_for_denom: Array[int]
 	var powerType: PowerType
 	var icon_path: String
@@ -477,7 +481,7 @@ var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)(HEAL)", [1, 1, 1,
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, "res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM) (ARROW).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if (TAILS) (BLESS) it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
 var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's (LIFE) penalty for this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
@@ -497,7 +501,7 @@ var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) a coin.", [1, 1, 1, 1]
 var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make a coin (LUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make a coin (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
-var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1 [ARROW].", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1(ARROW).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
 var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each tails coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
@@ -530,8 +534,8 @@ var CHARON_POWER_LIFE = PowerFamily.new("Live. End the round.", [0, 0, 0, 0], Po
 
 func replace_placeholders(tooltip: String) -> String:
 	# images
-	tooltip = tooltip.replace("(HEADS)", "[img=10x13]res://assets/icons/heads_icon.png[/img]")
-	tooltip = tooltip.replace("(TAILS)", "[img=10x13]res://assets/icons/tails_icon.png[/img]")
+	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
+	tooltip = tooltip.replace("(TAILS)", "[img=12x13]res://assets/icons/tails_icon.png[/img]")
 	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
 	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
 	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")	
@@ -628,7 +632,9 @@ func delay(delay_in_secs: float):
 class Patron:
 	var god_name: String
 	var token_name: String
-	var description: String
+	var description: String:
+		get:
+			return Global.replace_placeholders(description)
 	var patron_enum: PatronEnum
 	var power_family: PowerFamily
 	var patron_statue: PackedScene
@@ -795,6 +801,11 @@ class CoinFamily:
 				return "charons"
 		breakpoint
 		return ""
+
+# coins with a power giving souls
+@onready var SOUL_GAIN_POWERS = [POWER_FAMILY_GAIN_SOULS]
+# coins with a power costing life
+@onready var LIFE_LOSS_POWERS = [POWER_FAMILY_LOSE_LIFE]
 
 const NO_PRICE = [0, 0, 0, 0]
 const CHEAP = [3, 11, 22, 35] # 3 + 8 + 11 + 13
