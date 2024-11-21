@@ -762,7 +762,7 @@ func _generate_tooltip() -> void:
 		
 		txt = TOOLTIP_FORMAT % [coin_name, subtitle, appease_hint, heads_power, tails_power]
 	
-	UITooltip.create(self, txt, get_global_mouse_position(), get_tree().root)
+	UITooltip.create(_MOUSE, txt, get_global_mouse_position(), get_tree().root)
 
 func on_round_end() -> void:
 	_round_tails_penalty_reduction = 0

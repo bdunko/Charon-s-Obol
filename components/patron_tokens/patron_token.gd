@@ -19,6 +19,10 @@ func _ready():
 	assert(_MOUSE)
 	Global.state_changed.connect(_on_state_changed)
 	Global.patron_uses_changed.connect(_on_patron_uses_changed)
+	
+	_MOUSE.clicked.connect(_on_mouse_clicked)
+	_MOUSE.mouse_entered.connect(_on_mouse_entered)
+	_MOUSE.mouse_exited.connect(_on_mouse_exited)
 
 func _on_mouse_clicked():
 	if not _disabled and not _activated and position == _START_POSITION:

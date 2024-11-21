@@ -4,8 +4,8 @@ class_name MouseWatcher
 extends Node2D
 
 signal clicked
-signal entered
-signal exited
+signal mouse_entered
+signal mouse_exited
 signal changed
 
 @export var watched: Node = null
@@ -37,7 +37,7 @@ func _process(_delta) -> void:
 	# if we aren't visible in tree, make it clear the mouse exited and early return
 	if not is_visible_in_tree():
 		if _mouse_over:
-			emit_signal("exited")
+			emit_signal("mouse_exited")
 			_mouse_over = false
 		return
 	
@@ -45,7 +45,7 @@ func _process(_delta) -> void:
 	_update_mouse_over()
 	
 	if prev_mouse_over != _mouse_over:
-		emit_signal("entered") if _mouse_over else emit_signal("exited")
+		emit_signal("mouse_entered") if _mouse_over else emit_signal("mouse_exited")
 		emit_signal("changed")
 	
 func _input(event):

@@ -1094,5 +1094,3 @@ position = Vector2(0, 40)
 position = Vector2(0, 42)
 
 [connection signal="clicked" from="Mouse" to="." method="_on_mouse_clicked"]
-[connection signal="entered" from="Mouse" to="." method="_on_mouse_entered"]
-[connection signal="exited" from="Mouse" to="." method="_on_mouse_exited"]

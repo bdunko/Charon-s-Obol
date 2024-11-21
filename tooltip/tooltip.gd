@@ -18,7 +18,7 @@ enum Style {
 	CLEAR, OPAQUE
 }
 
-var source_control
+var source # must be either Control, Area2D, or MouseWatcher
 var style: Style
 
 func get_label() -> RichTextLabel:
@@ -44,41 +44,48 @@ static func clear_tooltips():
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(source, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
-	assert(source is Control or source is Area2D)
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
+	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
-		if tooltip.source_control == source:
+		if tooltip.source == src:
 			tooltip.find_child("TooltipText").text = _FORMAT % text
 			return
+	
+	var disconnect_source = func(tooltip: UITooltip):
+		assert(tooltip.source != null)
+		tooltip.source.mouse_exited.disconnect(tooltip.destroy_tooltip)
+		tooltip.source.tree_exited.disconnect(tooltip.destroy_tooltip)
+	
+	var connect_source = func(tooltip: UITooltip):
+		assert(tooltip.source != null)
+		tooltip.source.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
+		tooltip.source.tree_exiting.connect(tooltip.destroy_tooltip)# destroy tooltip when parent exits tree (ie parent is deleted)
 	
 	# if there is already a tooltip with identical text, change its source to this new control but don't generate a new one
 	for tooltip in _ALL_TOOLTIPS:
 		var label = tooltip.get_label()
 		if label.text == text:
 			# redo connects
-			tooltip.source_control.mouse_exited.disconnect(tooltip.destroy_tooltip)
-			tooltip.source_control.tree_exited.disconnect(tooltip.destroy_tooltip)
-			tooltip.source_control = source
-			tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip)
-			tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip)
+			disconnect_source.call(tooltip)
+			tooltip.source = src
+			connect_source.call(tooltip)
 			return
 	
-	var tooltip: UITooltip = create_manual(source, text, global_mouse_position, scene_root, tooltip_style)
-	tooltip.source_control.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
-	tooltip.source_control.tree_exiting.connect(tooltip.destroy_tooltip) # destroy tooltip when parent exits tree (ie parent is deleted)
+	var tooltip: UITooltip = create_manual(src, text, global_mouse_position, scene_root, tooltip_style)
+	
+	connect_source.call(tooltip)
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func create_manual(source, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
-	assert(source is Control or source is Area2D)
-	
+static func create_manual(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
+	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
-	tooltip.source_control = source
+	tooltip.source = src
 	tooltip.style = tooltip_style
 	
 	var label = tooltip.get_label()
@@ -144,7 +151,7 @@ static func create_manual(source, text: String, global_mouse_position: Vector2, 
 	return tooltip
 
 func _process(_delta):
-	if not is_instance_valid(source_control):
+	if not is_instance_valid(source):
 		destroy_tooltip()
 		return
 	
@@ -152,12 +159,12 @@ func _process(_delta):
 	
 	# HINT - common problem if tooltip appears but immediately vanishes; check size of the control carefully!
 	var mouse_position = get_global_mouse_position()
-	if source_control is Control:
-		if not Rect2(source_control.global_position, source_control.size).has_point(mouse_position):
-			destroy_tooltip() # if the source_control has moved away from mouse, destroy the tooltip
-	# $HACK$ - I guess we don't need this Area2D case - dunno, seems to work without it...
-	#elif source_control is Area2D:
-	#	var area = source_control as Area2D
+	if source is Control:
+		if not Rect2(source.global_position, source.size).has_point(mouse_position):
+			destroy_tooltip() # if the source has moved away from mouse, destroy the tooltip
+	# $HACK$? - I guess we don't need this Area2D case - dunno, seems to work without it...
+	#elif source is Area2D:
+	#	var area = source as Area2D
 	#	area.get_size
 	position = Vector2(int(mouse_position.x), int(mouse_position.y)) + _TOOLTIP_OFFSET
 	pivot_offset = size/2.0

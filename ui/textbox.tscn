@@ -170,6 +170,3 @@ shortcut_keys_enabled = false
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("6_cck7s")]
 watched = NodePath("..")
-
-[connection signal="entered" from="Mouse" to="." method="_on_mouse_entered"]
-[connection signal="exited" from="Mouse" to="." method="_on_mouse_exited"]
