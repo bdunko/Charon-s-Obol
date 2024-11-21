@@ -31,6 +31,8 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
+
+
 @onready var _LUCKY_ICON = $Sprite/StatusBar/Flow/Lucky
 @onready var _UNLUCKY_ICON = $Sprite/StatusBar/Flow/Unlucky
 @onready var _FREEZE_ICON = $Sprite/StatusBar/Flow/Freeze
@@ -44,8 +46,16 @@ enum _MaterialState {
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Sprite/Price
+@onready var _STATUS_BAR = $Sprite/StatusBar
 
-@onready var _CLICKABLE_AREA = $ClickableArea
+@onready var _OBOL_CLICKBOX = $ObolClickbox
+@onready var _DIOBOL_CLICKBOX = $DiobolClickbox
+@onready var _TRIOBOL_CLICKBOX = $TriobolClickbox
+@onready var _TETROBOL_CLICKBOX = $TetrobolClickbox
+@onready var _OBOL_STATUS_ANCHOR = $ObolStatusAnchor
+@onready var _DIOBOL_STATUS_ANCHOR = $DiobolStatusAnchor
+@onready var _TRIOBOL_STATUS_ANCHOR = $TriobolStatusAnchor
+@onready var _TETROBOL_STATUS_ANCHOR = $TetrobolStatusAnchor
 
 @onready var FX : FX = $Sprite/FX
 
@@ -70,6 +80,19 @@ var _denomination: Global.Denomination:
 	set(val):
 		_denomination = val
 		set_animation(_Animation.FLAT) #update denom
+		match(_denomination): # update clickbox & status bar position
+			Global.Denomination.OBOL:
+				_MOUSE.watched = _OBOL_CLICKBOX
+				_STATUS_BAR.position = _OBOL_STATUS_ANCHOR.position
+			Global.Denomination.DIOBOL:
+				_MOUSE.watched = _DIOBOL_CLICKBOX
+				_STATUS_BAR.position = _DIOBOL_STATUS_ANCHOR.position
+			Global.Denomination.TRIOBOL:
+				_MOUSE.watched = _TRIOBOL_CLICKBOX
+				_STATUS_BAR.position = _TRIOBOL_STATUS_ANCHOR.position
+			Global.Denomination.TETROBOL:
+				_MOUSE.watched = _TETROBOL_CLICKBOX
+				_STATUS_BAR.position = _TETROBOL_STATUS_ANCHOR.position
 
 var _heads:
 	set(val):
@@ -261,9 +284,15 @@ func _ready():
 	assert(_BLESS_ICON)
 	assert(_CURSE_ICON)
 	assert(_SUPERCHARGE_ICON)
-	assert(_CLICKABLE_AREA)
-	_CLICKABLE_AREA.show() # just in case I hide it in editor...
-	
+	assert(_STATUS_BAR)
+	assert(_OBOL_CLICKBOX)
+	assert(_OBOL_STATUS_ANCHOR)
+	assert(_DIOBOL_CLICKBOX)
+	assert(_DIOBOL_STATUS_ANCHOR)
+	assert(_TRIOBOL_CLICKBOX)
+	assert(_TRIOBOL_STATUS_ANCHOR)
+	assert(_TETROBOL_CLICKBOX)
+	assert(_TETROBOL_STATUS_ANCHOR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 
 func show_price() -> void:

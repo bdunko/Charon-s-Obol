@@ -403,7 +403,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x7bv7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ms5ee"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -520,7 +520,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sw3fq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnuwn"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -907,7 +907,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_x7bv7")
+material = SubResource("ShaderMaterial_ms5ee")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -919,7 +919,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_sw3fq")
+material = SubResource("ShaderMaterial_cnuwn")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 

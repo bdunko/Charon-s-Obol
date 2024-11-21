@@ -5,6 +5,7 @@ shader_type canvas_item;
 
 // --- Utilty Functions --- //
 const bool DEBUG = true;
+const float TIME_OFFSET = 10.0; //offset all start times by this... for some reason things line up better with expectations
 const vec2 HORIZONTAL_VERTICAL_OFFSETS[4] = {vec2(0, 1), vec2(-1, 0), vec2(1, 0), vec2(0, -1)};
 const vec2 DIAGONAL_OUTLINE_OFFSETS[4] = {vec2(1, 1), vec2(-1, 1), vec2(1, -1), vec2(-1, -1)};
 
@@ -19,8 +20,9 @@ float random(vec2 seed){ return fract(cos(dot(seed, vec2(23.14069263277926, 2.66
 float snoise3(vec2 seed) { return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453); }
 float randf_range(vec2 seed, float b1, float b2) { return mix(b1, b2, random(seed)); }
 int randi_range(vec2 seed, int b1, int b2) { return int(randf_range(seed, float(b1), float(b2))); }
-float sin0to1(float time) { return (sin(time)+1.0)/2.0; } // REMINDER - sin(0) = 0
-float cos0to1(float time) { return (cos(time)+1.0)/2.0; } // REMINDER - cos(0) = 1
+float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
+float cos0to1(float time) { return (cos(time)+1.0)/2.0; } 
+float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed cos function that varies from 0 to 1. f(0) = 0, f(pi) = 1, f(2pi) = 0. 
 
 // unused but may be useful someday
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
@@ -330,7 +332,9 @@ void fragment()
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
 		
 		// FLASH
-		float flash_mix = mix(auto_flash_bound, flash_strength, abs(cos0to1((TIME-auto_flash_start_time) * auto_flash_speed)));
+		float flash_mix = flash_strength;
+		if (auto_flash_speed != 0.0)
+			flash_mix = mix(auto_flash_bound, flash_strength, abs(vary0to1((TIME-auto_flash_start_time + TIME_OFFSET) * auto_flash_speed)));
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_mix);
 	
 		// COLOR CORRECTION
@@ -344,10 +348,10 @@ void fragment()
 	
 		// SCANLINE
 		if (COLOR.a != 0.0) {
-			float l_to_r_pos = !auto_scanline_left_to_right_on ? scanline_left_to_right_position : abs((auto_scanline_left_to_right_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_left_to_right_start_time, auto_scanline_left_to_right_delay + auto_scanline_left_to_right_scan_duration), 0.0, auto_scanline_left_to_right_scan_duration)/auto_scanline_left_to_right_scan_duration)));
-			float t_to_b_pos = !auto_scanline_top_to_bottom_on ? scanline_top_to_bottom_position : abs((auto_scanline_top_to_bottom_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_top_to_bottom_start_time, auto_scanline_top_to_bottom_delay + auto_scanline_top_to_bottom_scan_duration), 0.0, auto_scanline_top_to_bottom_scan_duration)/auto_scanline_top_to_bottom_scan_duration)));
-			float tl_to_br_pos = !auto_scanline_topleft_to_bottomright_on ? scanline_topleft_to_bottomright_position : abs((auto_scanline_topleft_to_bottomright_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topleft_to_bottomright_start_time, auto_scanline_topleft_to_bottomright_delay + auto_scanline_topleft_to_bottomright_scan_duration), 0.0, auto_scanline_topleft_to_bottomright_scan_duration)/auto_scanline_topleft_to_bottomright_scan_duration)));
-			float tr_to_bl_pos = !auto_scanline_topright_to_bottomleft_on ? scanline_topright_to_bottomleft_position : abs((auto_scanline_topright_to_bottomleft_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topright_to_bottomleft_start_time, auto_scanline_topright_to_bottomleft_delay + auto_scanline_topright_to_bottomleft_scan_duration), 0.0, auto_scanline_topright_to_bottomleft_scan_duration)/auto_scanline_topright_to_bottomleft_scan_duration)));
+			float l_to_r_pos = !auto_scanline_left_to_right_on ? scanline_left_to_right_position : abs((auto_scanline_left_to_right_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_left_to_right_start_time + TIME_OFFSET, auto_scanline_left_to_right_delay + auto_scanline_left_to_right_scan_duration), 0.0, auto_scanline_left_to_right_scan_duration)/auto_scanline_left_to_right_scan_duration)));
+			float t_to_b_pos = !auto_scanline_top_to_bottom_on ? scanline_top_to_bottom_position : abs((auto_scanline_top_to_bottom_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_top_to_bottom_start_time + TIME_OFFSET, auto_scanline_top_to_bottom_delay + auto_scanline_top_to_bottom_scan_duration), 0.0, auto_scanline_top_to_bottom_scan_duration)/auto_scanline_top_to_bottom_scan_duration)));
+			float tl_to_br_pos = !auto_scanline_topleft_to_bottomright_on ? scanline_topleft_to_bottomright_position : abs((auto_scanline_topleft_to_bottomright_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topleft_to_bottomright_start_time + TIME_OFFSET, auto_scanline_topleft_to_bottomright_delay + auto_scanline_topleft_to_bottomright_scan_duration), 0.0, auto_scanline_topleft_to_bottomright_scan_duration)/auto_scanline_topleft_to_bottomright_scan_duration)));
+			float tr_to_bl_pos = !auto_scanline_topright_to_bottomleft_on ? scanline_topright_to_bottomleft_position : abs((auto_scanline_topright_to_bottomleft_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topright_to_bottomleft_start_time + TIME_OFFSET, auto_scanline_topright_to_bottomleft_delay + auto_scanline_topright_to_bottomleft_scan_duration), 0.0, auto_scanline_topright_to_bottomleft_scan_duration)/auto_scanline_topright_to_bottomleft_scan_duration)));
 			
 			if (PX == int(floor(l_to_r_pos / TEXTURE_PIXEL_SIZE.x)))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
@@ -376,7 +380,7 @@ void fragment()
 		}
 		outline = min(outline, 1.0);
 		// this is a bit of a coding $HACK$ to make auto_glow_bound do nothing if auto_glow_speed is 0, but it definitely works
-		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(glow_color.a, auto_glow_bound, cos0to1((TIME - auto_glow_start_time) * auto_glow_speed));
+		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(auto_glow_bound, glow_color.a, vary0to1((TIME - auto_glow_start_time + TIME_OFFSET) * auto_glow_speed));
 		COLOR = mix(COLOR, glow_color * alp, outline - COLOR.a);
 	}
 	
@@ -419,7 +423,7 @@ void fragment()
 	
 	// MOUSELIGHT
 	if (mouselight_on && (!mouselight_checker || PX % 2 == PY % 2)) {
-		float mouse_with_flicker = mix(auto_mouselight_flicker_bound, float(mouselight_size), cos0to1(TIME * auto_mouselight_flicker_speed));
+		float mouse_with_flicker = mix(auto_mouselight_flicker_bound, float(mouselight_size), vary0to1(TIME * auto_mouselight_flicker_speed));
 		float dist_from_mouse = sqrt(pow(float(SX - int(MOUSE.x)), 2.0) + pow(float(SY - int(MOUSE.y)), 2.0));
 		if (dist_from_mouse <= float(mouse_with_flicker)) {
 			//todo - make softening with distance optional as uniform
@@ -448,7 +452,7 @@ void fragment()
 	
 	// TRANSPARENCY
 	if (COLOR.a != 0.0) {
-		COLOR.a = mix(COLOR.a, 0.0, 1.0 - mix(auto_flicker_bound, transparency, cos0to1((TIME - auto_flicker_start_time) * auto_flicker_speed)));
+		COLOR.a = mix(COLOR.a * transparency, auto_flicker_bound, vary0to1((TIME-auto_flicker_start_time + TIME_OFFSET) * auto_flicker_speed));
 	}
 }
 
