@@ -77,11 +77,13 @@ func _ready():
 	assert(_TEXT)
 	assert(_FX)
 	assert(_MOUSE)
+	_MOUSE.mouse_entered.connect(_on_mouse_entered)
+	_MOUSE.mouse_exited.connect(_on_mouse_exited)
 	_update_style()
 
 func _update_style() -> void:
 	if _FX:
-		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_mouse_over and click_enabled) else text_color))
+		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else text_color))
 		_FX.recolor(2, _DEFAULT_BACKGROUND_COLOR, disabled_background_color if disabled else background_color)
 		_FX.recolor(3, _DEFAULT_BORDER_COLOR, disabled_border_color if disabled else border_color)
 
@@ -124,11 +126,6 @@ func _process(delta) -> void:
 		position.y += (4 * delta * sin(_time))
 	else:
 		position.y = _STARTING_Y
-
-var _mouse_over = false:
-	set(val):
-		_mouse_over = val
-		_update_style()
 	
 var _mouse_down = false
 func _gui_input(event):
@@ -145,8 +142,8 @@ func _gui_input(event):
 				_reset_colors()
 
 func _on_mouse_entered():
-	_mouse_over = true
+	_update_style()
 
 func _on_mouse_exited():
-	_mouse_over = false
+	_update_style()
 	_mouse_down = false

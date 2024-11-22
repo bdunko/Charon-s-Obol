@@ -628,6 +628,36 @@ func choose_one_excluding(arr: Array, exclude: Array):
 func delay(delay_in_secs: float):
 	await get_tree().create_timer(delay_in_secs).timeout
 
+# dictionary of global timers; String -> Timer
+var _timers = {}
+
+# creates a new timer with the given wait_time. 
+# if a timer with this key already exists, returns it instead and update the wait_time.
+func create_timer(key: String, wait_time: float, autostart: bool = true) -> Timer:
+	if _timers.has(key):
+		_timers[key].wait_time = wait_time
+		return _timers[key]
+	var timer = Timer.new()
+	timer.autostart = autostart
+	timer.wait_time = wait_time
+	_timers[key] = timer
+	add_child(timer)
+	if autostart:
+		timer.start()
+	return timer
+
+func get_timer(key: String) -> Timer:
+	if not _timers.has(key):
+		return null
+	return _timers[key]
+
+func delete_timer(key: String) -> bool:
+	if not _timers.has(key):
+		return false
+	_timers[key].queue_free()
+	_timers.erase(key)
+	return true
+
 # todo - this should be in another file, PatronData I think?
 class Patron:
 	var god_name: String

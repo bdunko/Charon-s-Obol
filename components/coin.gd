@@ -31,22 +31,20 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
-
-
-@onready var _LUCKY_ICON = $Sprite/StatusBar/Flow/Lucky
-@onready var _UNLUCKY_ICON = $Sprite/StatusBar/Flow/Unlucky
-@onready var _FREEZE_ICON = $Sprite/StatusBar/Flow/Freeze
-@onready var _IGNITE_ICON = $Sprite/StatusBar/Flow/Ignite
-@onready var _BLESS_ICON = $Sprite/StatusBar/Flow/Bless
-@onready var _CURSE_ICON = $Sprite/StatusBar/Flow/Curse
-@onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Flow/Supercharge
-@onready var _STONE_ICON = $Sprite/StatusBar/Flow/Stone
-@onready var _BLANK_ICON = $Sprite/StatusBar/Flow/Blank
+@onready var _STATUS_BAR = $Sprite/StatusBar
+@onready var _LUCKY_ICON = $Sprite/StatusBar/Lucky
+@onready var _UNLUCKY_ICON = $Sprite/StatusBar/Unlucky
+@onready var _FREEZE_ICON = $Sprite/StatusBar/Freeze
+@onready var _IGNITE_ICON = $Sprite/StatusBar/Ignite
+@onready var _BLESS_ICON = $Sprite/StatusBar/Bless
+@onready var _CURSE_ICON = $Sprite/StatusBar/Curse
+@onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Supercharge
+@onready var _STONE_ICON = $Sprite/StatusBar/Stone
+@onready var _BLANK_ICON = $Sprite/StatusBar/Blank
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Sprite/Price
-@onready var _STATUS_BAR = $Sprite/StatusBar
 
 @onready var _OBOL_CLICKBOX = $ObolClickbox
 @onready var _DIOBOL_CLICKBOX = $DiobolClickbox
@@ -199,7 +197,7 @@ func _update_glow():
 var _blank: bool = false:
 	set(val):
 		_blank = val
-		_BLANK_ICON.visible = _blank
+		_STATUS_BAR.update_icon(_BLANK_ICON, _blank)
 		if _blank:
 			FX.flash(Color.BISQUE)
 		_update_appearance()
@@ -207,9 +205,9 @@ var _blank: bool = false:
 var _bless_curse_state: _BlessCurseState:
 	set(val):
 		_bless_curse_state = val
-		_BLESS_ICON.visible = _bless_curse_state == _BlessCurseState.BLESSED
-		_CURSE_ICON.visible = _bless_curse_state == _BlessCurseState.CURSED
-			
+		_STATUS_BAR.update_icon(_BLESS_ICON, _bless_curse_state == _BlessCurseState.BLESSED)
+		_STATUS_BAR.update_icon(_CURSE_ICON, _bless_curse_state == _BlessCurseState.CURSED)
+		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.PALE_GOLDENROD)
 			FX.recolor_outline(Color.PALE_GOLDENROD)
@@ -222,8 +220,9 @@ var _bless_curse_state: _BlessCurseState:
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
 		_freeze_ignite_state = val
-		_FREEZE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.FROZEN
-		_IGNITE_ICON.visible = _freeze_ignite_state == _FreezeIgniteState.IGNITED
+		_STATUS_BAR.update_icon(_FREEZE_ICON, _freeze_ignite_state == _FreezeIgniteState.FROZEN)
+		_STATUS_BAR.update_icon(_IGNITE_ICON, _freeze_ignite_state == _FreezeIgniteState.IGNITED)
+		
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
 			FX.flash(Color.CYAN)
 			FX.tint(Color.CYAN, 0.5)
@@ -236,7 +235,7 @@ var _freeze_ignite_state: _FreezeIgniteState:
 var _supercharged: bool:
 	set(val):
 		_supercharged = val
-		_SUPERCHARGE_ICON.visible = _supercharged
+		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _supercharged)
 		if _supercharged:
 			FX.flash(Color.YELLOW)
 			# TODO - add particles here
@@ -244,8 +243,8 @@ var _supercharged: bool:
 var _luck_state: _LuckState:
 	set(val):
 		_luck_state = val
-		_LUCKY_ICON.visible = _luck_state == _LuckState.LUCKY
-		_UNLUCKY_ICON.visible = _luck_state == _LuckState.UNLUCKY
+		_STATUS_BAR.update_icon(_LUCKY_ICON, _luck_state == _LuckState.LUCKY)
+		_STATUS_BAR.update_icon(_UNLUCKY_ICON, _luck_state == _LuckState.UNLUCKY)
 		
 		if _luck_state == _LuckState.LUCKY:
 			FX.flash(Color.LAWN_GREEN)
@@ -260,7 +259,8 @@ var _luck_state: _LuckState:
 var _material_state: _MaterialState:
 	set(val):
 		_material_state = val
-		_STONE_ICON.visible = _material_state == _MaterialState.STONE
+		_STATUS_BAR.update_icon(_STONE_ICON, _material_state == _MaterialState.STONE)
+		
 		if _material_state == _MaterialState.STONE:
 			FX.flash(Color.SLATE_GRAY)
 			FX.tint(Color.SLATE_GRAY, 0.7)
@@ -810,6 +810,14 @@ func payoff_move_down() -> void:
 	await _new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_mouse_clicked():
+	# DEBUG - inflict a ton of statuses
+	ignite()
+	blank()
+	supercharge()
+	make_lucky()
+	curse()
+	print("statuses!")
+	
 	if not _disabled:
 		emit_signal("clicked", self)
 

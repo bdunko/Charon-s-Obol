@@ -1,6 +1,9 @@
 class_name TooltipEmitter
 extends Control
 
+signal tooltip_created
+signal tooltip_removed
+
 @export_multiline var _tooltip: String = ""
 @export var _enabled: bool = true
 @export var style: UITooltip.Style = UITooltip.Style.CLEAR
@@ -30,8 +33,10 @@ func _on_mouse_entered():
 
 func _on_mouse_exited():
 	_tooltip_visible = false
+	emit_signal("tooltip_removed")
 
 func _show_tooltip() -> void:
 	if _tooltip != "":
 		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root, style)
 		_tooltip_visible = true
+		emit_signal("tooltip_created")
