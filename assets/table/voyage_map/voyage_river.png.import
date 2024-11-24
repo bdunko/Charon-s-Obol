@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fjrkwngxhq1o"
-path="res://.godot/imported/scroll.png-d1145e5fda28a6dc6342d1b019f552b5.ctex"
+uid="uid://b0mdmdt17jqo5"
+path="res://.godot/imported/voyage_river.png-8a20c608d8e47ca63d943681f6acff47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/table/scroll.png"
-dest_files=["res://.godot/imported/scroll.png-d1145e5fda28a6dc6342d1b019f552b5.ctex"]
+source_file="res://assets/table/voyage_map/voyage_river.png"
+dest_files=["res://.godot/imported/voyage_river.png-8a20c608d8e47ca63d943681f6acff47.ctex"]
 
 [params]
 

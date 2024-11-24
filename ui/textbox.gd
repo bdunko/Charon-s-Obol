@@ -142,8 +142,10 @@ func _gui_input(event):
 				_reset_colors()
 
 func _on_mouse_entered():
+	print("mouse entered")
 	_update_style()
 
 func _on_mouse_exited():
+	print("mouse exited")
 	_update_style()
 	_mouse_down = false

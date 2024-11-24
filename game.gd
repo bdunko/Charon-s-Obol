@@ -25,15 +25,22 @@ signal game_ended
 @onready var _LIFE_FRAGMENT_PILE_POINT: Vector2 = $Points/LifeFragmentPile.position
 @onready var _SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/SoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
+@onready var _MAP_SHOWN_POINT = $Points/MapShown.position
+@onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
+@onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
-@onready var _VOYAGE: Voyage = $UI/Voyage
+@onready var _VOYAGE_MAP: VoyageMap = $UI/VoyageMap
+@onready var _MAP_BLOCKER = $UI/MapBlocker
+var _map_active = false
+var _map_is_disabled = false
 
-@onready var _PATRON_TOKEN_POSITION: Vector2 = $PatronToken.position
+@onready var _PATRON_TOKEN_POSITION: Vector2 = $Table/PatronToken.position
 
+@onready var _TABLE = $Table
 @onready var _DIALOGUE: DialogueSystem = $UI/DialogueSystem
 @onready var _CAMERA: Camera2D = $Camera
 
-@onready var _patron_token: PatronToken = $PatronToken
+@onready var _patron_token: PatronToken = $Table/PatronToken
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -52,8 +59,16 @@ func _ready() -> void:
 	assert(_ARROW_PILE_POINT)
 	assert(_ARROWS)
 	
-	assert(_VOYAGE)
 	assert(_DIALOGUE)
+	assert(_TABLE)
+	
+	assert(_VOYAGE_MAP)
+	assert(_MAP_BLOCKER)
+	assert(_MAP_SHOWN_POINT)
+	assert(_MAP_HIDDEN_POINT)
+	assert(_MAP_INITIAL_POINT)
+	_VOYAGE_MAP.position = _MAP_INITIAL_POINT #offscreen
+	_VOYAGE_MAP.rotation_degrees = -90
 	
 	Global.COIN_ROWS = [_COIN_ROW, _ENEMY_COIN_ROW]
 	
@@ -109,7 +124,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		var fragment = scene.instantiate()
 		
 		fragment.position = give_pos
-		var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-16, 16), Global.RNG.randi_range(-9, 9))
+		var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-14, 14), Global.RNG.randi_range(-8, 8))
 		
 		# move from player to pile
 		var tween = create_tween()
@@ -173,14 +188,14 @@ func on_start() -> void:
 	
 	# randomize and set up the nemesis & trials
 	Global.randomize_voyage()
-	_VOYAGE.update_tooltips()
+	_VOYAGE_MAP.update_tooltips()
 	
 	# delete any old patron token and create a new one
 	_patron_token.queue_free()
 	_patron_token = Global.patron.patron_token.instantiate()
 	_patron_token.position = _PATRON_TOKEN_POSITION
 	_patron_token.clicked.connect(_on_patron_token_clicked)
-	add_child(_patron_token)
+	_TABLE.add_child(_patron_token)
 	
 	victory = false
 	Global.round_count = 1
@@ -474,16 +489,54 @@ func _on_accept_button_pressed():
 	_DIALOGUE.show_dialogue("Will you toss the coins...?")
 
 func _wait_for_dialogue(dialogue: String) -> void:
+	_map_is_disabled = true
 	_PLAYER_TEXTBOXES.make_invisible()
 	await _DIALOGUE.show_dialogue_and_wait(dialogue)
 	_PLAYER_TEXTBOXES.make_visible()
+	_map_is_disabled = false
+	
+func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
+	Global.active_coin_power_coin = null
+	Global.active_coin_power_family = null
+	_map_active = true
+	_map_is_disabled = true
+	var map_display_tween = create_tween()
+	map_display_tween.tween_property(_VOYAGE_MAP, "position", _MAP_SHOWN_POINT, 0.25) # tween position
+	map_display_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", 0, 0.25)
+	if include_blocker:
+		map_display_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.6, 0.25)
+		_MAP_BLOCKER.show()
+	_VOYAGE_MAP.set_closeable(closeable)
+	await map_display_tween.finished
+	_map_is_disabled = false
+
+func _hide_voyage_map() -> void:
+	_map_active = false
+	_map_is_disabled = true
+	var map_hide_tween = create_tween()
+	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "position", _MAP_HIDDEN_POINT, 0.25) # tween position
+	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", -90, 0.25)
+	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.5)
+	_MAP_BLOCKER.hide()
+	await map_hide_tween.finished
+	_map_is_disabled = false
+
+func _on_voyage_map_clicked():
+	if _map_is_disabled or _map_active:
+		return
+	_show_voyage_map(true, true)
+
+func _on_voyage_map_closed():
+	if _map_is_disabled or not _map_active:
+		return
+	_hide_voyage_map()
 
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
-	_VOYAGE.show()
 	_DIALOGUE.show_dialogue("Now let us sail...")
 	_PLAYER_TEXTBOXES.make_invisible()
-	await _VOYAGE.move_boat(Global.round_count)
+	await _show_voyage_map(true, false)
+	await _VOYAGE_MAP.move_boat(Global.round_count)
 	Global.round_count += 1
 	
 	# setup the enemy row
@@ -545,7 +598,7 @@ func _show_toll_dialogue() -> void:
 		_DIALOGUE.show_dialogue("%d[img=12x13]res://assets/icons/coin_icon.png[/img] more..." % toll_price_remaining)
 
 func _on_voyage_continue_button_clicked():
-	_VOYAGE.hide()
+	_hide_voyage_map()
 	var first_round = Global.round_count == 2
 	
 	# if this is the first round, give an obol and explain the rules a bit
@@ -1040,6 +1093,8 @@ func _input(event):
 			Global.active_coin_power_coin = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
+			if _map_active:
+				_hide_voyage_map()
 
 func _on_shop_reroll_button_clicked():
 	if Global.souls <= Global.reroll_cost():

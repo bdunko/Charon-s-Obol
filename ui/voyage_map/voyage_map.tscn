@@ -1,13 +1,17 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgds4d2p6hdb6"]
+[gd_scene load_steps=22 format=3 uid="uid://dgds4d2p6hdb6"]
 
-[ext_resource type="Script" path="res://ui/voyage/voyage.gd" id="1_5qb4k"]
-[ext_resource type="Texture2D" uid="uid://ni8luuna6wp3" path="res://assets/table/voyage.png" id="2_7p6d8"]
-[ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_ship.png" id="3_xhs1r"]
-[ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/table/voyage_river.png" id="4_d6uqt"]
+[ext_resource type="Script" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
+[ext_resource type="Texture2D" uid="uid://ni8luuna6wp3" path="res://assets/table/voyage_map/voyage.png" id="2_7p6d8"]
+[ext_resource type="Texture2D" uid="uid://fjrkwngxhq1o" path="res://assets/table/voyage_map/scroll.png" id="2_hf6u5"]
+[ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_map/voyage_ship.png" id="3_xhs1r"]
+[ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/table/voyage_map/voyage_river.png" id="4_d6uqt"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="4_qfjp8"]
-[ext_resource type="Texture2D" uid="uid://b4vcjstucr4wq" path="res://assets/table/voyage_trial.png" id="5_0byhk"]
+[ext_resource type="Texture2D" uid="uid://b4vcjstucr4wq" path="res://assets/table/voyage_map/voyage_trial.png" id="5_0byhk"]
 [ext_resource type="PackedScene" uid="uid://b68ccb5fvw5is" path="res://ui/tooltip_emitter.tscn" id="6_ghygi"]
-[ext_resource type="Texture2D" uid="uid://cpmrsed2g2wu2" path="res://assets/table/voyage_nemesis.png" id="7_gw4gm"]
+[ext_resource type="Texture2D" uid="uid://cpmrsed2g2wu2" path="res://assets/table/voyage_map/voyage_nemesis.png" id="7_gw4gm"]
+[ext_resource type="Texture2D" uid="uid://2pxf10ev6f5n" path="res://assets/table/voyage_map/voyage_x.png" id="10_igmxh"]
+[ext_resource type="Texture2D" uid="uid://cq2hx5dttl12u" path="res://assets/table/voyage_map/voyage_x_pressed.png" id="11_jxgs3"]
+[ext_resource type="Texture2D" uid="uid://c0qtq8p5ssg5o" path="res://assets/table/voyage_map/voyage_x_hover.png" id="12_d5gro"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yrc8f"]
 shader = ExtResource("4_qfjp8")
@@ -125,27 +129,6 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="Animation" id="Animation_bgtnn"]
-resource_name = "boat"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Ship:position:y")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [19.0, 20.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_g6o5y"]
-_data = {
-"boat": SubResource("Animation_bgtnn")
-}
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_x8w0s"]
 atlas = ExtResource("5_0byhk")
 region = Rect2(0, 0, 7, 7)
@@ -190,37 +173,124 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="Voyage" type="Node2D"]
+[sub_resource type="Animation" id="Animation_bgtnn"]
+resource_name = "boat"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Map/Ship:offset:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g6o5y"]
+_data = {
+"boat": SubResource("Animation_bgtnn")
+}
+
+[node name="VoyageMap" type="Node2D"]
 script = ExtResource("1_5qb4k")
 
-[node name="UI" type="Sprite2D" parent="."]
+[node name="Map" type="Sprite2D" parent="."]
+texture = ExtResource("2_hf6u5")
+centered = false
+
+[node name="UI" type="Sprite2D" parent="Map"]
+position = Vector2(3, 10)
 texture = ExtResource("2_7p6d8")
 centered = false
 
-[node name="Ship" type="Sprite2D" parent="."]
-position = Vector2(8, 20)
+[node name="Ship" type="Sprite2D" parent="Map"]
+position = Vector2(11, 30)
 texture = ExtResource("3_xhs1r")
 centered = false
 
-[node name="River" type="Sprite2D" parent="."]
+[node name="River" type="Sprite2D" parent="Map"]
 material = SubResource("ShaderMaterial_yrc8f")
-position = Vector2(5, 26)
+position = Vector2(8, 36)
 texture = ExtResource("4_d6uqt")
 centered = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_g6o5y")
-}
+[node name="ClickDetector" type="Button" parent="Map"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 197.0
+offset_bottom = 78.0
 
-[node name="Price" type="RichTextLabel" parent="."]
+[node name="Trial1" type="AnimatedSprite2D" parent="Map"]
+position = Vector2(69, 47)
+sprite_frames = SubResource("SpriteFrames_iwdj2")
+autoplay = "default"
+centered = false
+
+[node name="TooltipEmitter" parent="Map/Trial1" instance=ExtResource("6_ghygi")]
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+_tooltip = "Trial 1"
+metadata/_edit_use_anchors_ = true
+
+[node name="Trial2" type="AnimatedSprite2D" parent="Map"]
+position = Vector2(115, 47)
+sprite_frames = SubResource("SpriteFrames_iwdj2")
+autoplay = "default"
+centered = false
+
+[node name="TooltipEmitter" parent="Map/Trial2" instance=ExtResource("6_ghygi")]
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+_tooltip = "Trial 2"
+
+[node name="Nemesis" type="AnimatedSprite2D" parent="Map"]
+position = Vector2(161, 46)
+sprite_frames = SubResource("SpriteFrames_dr41f")
+autoplay = "default"
+centered = false
+
+[node name="TooltipEmitter" parent="Map/Nemesis" instance=ExtResource("6_ghygi")]
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+_tooltip = "Trial 3"
+
+[node name="TollgateTooltip1" parent="Map" instance=ExtResource("6_ghygi")]
+offset_left = 79.0
+offset_top = 42.0
+offset_right = -109.0
+offset_bottom = -25.0
+_tooltip = "Trial 3"
+
+[node name="TollgateTooltip2" parent="Map" instance=ExtResource("6_ghygi")]
+offset_left = 125.0
+offset_top = 42.0
+offset_right = -63.0
+offset_bottom = -25.0
+_tooltip = "Trial 3"
+
+[node name="TollgateTooltip3" parent="Map" instance=ExtResource("6_ghygi")]
+offset_left = 172.0
+offset_top = 42.0
+offset_right = -16.0
+offset_bottom = -25.0
+_tooltip = "Trial 3"
+
+[node name="Price" type="RichTextLabel" parent="Map"]
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 56.0
-offset_top = 44.0
-offset_right = 106.0
-offset_bottom = 58.0
+offset_left = 59.0
+offset_top = 52.0
+offset_right = 109.0
+offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
@@ -228,14 +298,14 @@ text = "[center][color=#e12f3b]-5[/color][img=12x13]res://assets/icons/coin_icon
 scroll_active = false
 autowrap_mode = 2
 
-[node name="Price2" type="RichTextLabel" parent="."]
+[node name="Price2" type="RichTextLabel" parent="Map"]
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 104.0
-offset_top = 44.0
-offset_right = 154.0
-offset_bottom = 58.0
+offset_left = 107.0
+offset_top = 52.0
+offset_right = 157.0
+offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
@@ -243,14 +313,14 @@ text = "[center][color=#e12f3b]-10[/color][img=12x13]res://assets/icons/coin_ico
 scroll_active = false
 autowrap_mode = 2
 
-[node name="Price3" type="RichTextLabel" parent="."]
+[node name="Price3" type="RichTextLabel" parent="Map"]
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
-offset_left = 151.0
-offset_top = 44.0
-offset_right = 201.0
-offset_bottom = 58.0
+offset_left = 154.0
+offset_top = 52.0
+offset_right = 204.0
+offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
@@ -258,109 +328,66 @@ text = "[center][color=#e12f3b]-25[/color][img=12x13]res://assets/icons/coin_ico
 scroll_active = false
 autowrap_mode = 2
 
+[node name="XButton" type="TextureButton" parent="Map"]
+offset_left = 183.0
+offset_top = 10.0
+offset_right = 194.0
+offset_bottom = 21.0
+texture_normal = ExtResource("10_igmxh")
+texture_pressed = ExtResource("11_jxgs3")
+texture_hover = ExtResource("12_d5gro")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_g6o5y")
+}
+
 [node name="ShipPositions" type="Node" parent="."]
 
 [node name="Dock" type="Node2D" parent="ShipPositions"]
-position = Vector2(8, 20)
+position = Vector2(11, 29)
 
 [node name="Round1" type="Node2D" parent="ShipPositions"]
-position = Vector2(22, 20)
+position = Vector2(25, 29)
 
 [node name="Round2" type="Node2D" parent="ShipPositions"]
-position = Vector2(34, 20)
+position = Vector2(37, 29)
 
 [node name="Round3" type="Node2D" parent="ShipPositions"]
-position = Vector2(46, 20)
+position = Vector2(49, 29)
 
 [node name="TrialRound4" type="Node2D" parent="ShipPositions"]
-position = Vector2(59, 20)
+position = Vector2(62, 29)
 
 [node name="Gate1" type="Node2D" parent="ShipPositions"]
-position = Vector2(70, 20)
+position = Vector2(73, 29)
 
 [node name="Round5" type="Node2D" parent="ShipPositions"]
-position = Vector2(80, 20)
+position = Vector2(83, 29)
 
 [node name="Round6" type="Node2D" parent="ShipPositions"]
-position = Vector2(92, 20)
+position = Vector2(95, 29)
 
 [node name="TrialRound7" type="Node2D" parent="ShipPositions"]
-position = Vector2(105, 20)
+position = Vector2(108, 29)
 
 [node name="Gate2" type="Node2D" parent="ShipPositions"]
-position = Vector2(116, 20)
+position = Vector2(119, 29)
 
 [node name="Round8" type="Node2D" parent="ShipPositions"]
-position = Vector2(126, 20)
+position = Vector2(129, 29)
 
 [node name="Round9" type="Node2D" parent="ShipPositions"]
-position = Vector2(138, 20)
+position = Vector2(141, 29)
 
 [node name="BossRound10" type="Node2D" parent="ShipPositions"]
-position = Vector2(151, 20)
+position = Vector2(154, 29)
 
 [node name="Gate3" type="Node2D" parent="ShipPositions"]
-position = Vector2(163, 20)
+position = Vector2(166, 29)
 
 [node name="Win" type="Node2D" parent="ShipPositions"]
-position = Vector2(174, 20)
+position = Vector2(177, 29)
 
-[node name="Trial1" type="AnimatedSprite2D" parent="."]
-position = Vector2(66, 37)
-sprite_frames = SubResource("SpriteFrames_iwdj2")
-autoplay = "default"
-centered = false
-
-[node name="TooltipEmitter" parent="Trial1" instance=ExtResource("6_ghygi")]
-offset_left = -1.0
-offset_top = -1.0
-offset_right = 1.0
-offset_bottom = 1.0
-_tooltip = "Trial 1"
-
-[node name="Trial2" type="AnimatedSprite2D" parent="."]
-position = Vector2(112, 37)
-sprite_frames = SubResource("SpriteFrames_iwdj2")
-autoplay = "default"
-centered = false
-
-[node name="TooltipEmitter" parent="Trial2" instance=ExtResource("6_ghygi")]
-offset_left = -1.0
-offset_top = -1.0
-offset_right = 1.0
-offset_bottom = 1.0
-_tooltip = "Trial 2"
-
-[node name="Nemesis" type="AnimatedSprite2D" parent="."]
-position = Vector2(158, 36)
-sprite_frames = SubResource("SpriteFrames_dr41f")
-autoplay = "default"
-centered = false
-
-[node name="TooltipEmitter" parent="Nemesis" instance=ExtResource("6_ghygi")]
-offset_left = -1.0
-offset_top = -1.0
-offset_right = 1.0
-offset_bottom = 1.0
-_tooltip = "Trial 3"
-
-[node name="TollgateTooltip1" parent="." instance=ExtResource("6_ghygi")]
-offset_left = 76.0
-offset_top = 32.0
-offset_right = 85.0
-offset_bottom = 42.0
-_tooltip = "Trial 3"
-
-[node name="TollgateTooltip2" parent="." instance=ExtResource("6_ghygi")]
-offset_left = 122.0
-offset_top = 32.0
-offset_right = 131.0
-offset_bottom = 42.0
-_tooltip = "Trial 3"
-
-[node name="TollgateTooltip3" parent="." instance=ExtResource("6_ghygi")]
-offset_left = 169.0
-offset_top = 32.0
-offset_right = 178.0
-offset_bottom = 42.0
-_tooltip = "Trial 3"
+[connection signal="pressed" from="Map/ClickDetector" to="." method="_on_click_detector_pressed"]
+[connection signal="pressed" from="Map/XButton" to="." method="_on_x_button_pressed"]

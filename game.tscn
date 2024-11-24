@@ -14,13 +14,13 @@
 [ext_resource type="Script" path="res://ui/end_round_button.gd" id="9_d50av"]
 [ext_resource type="Script" path="res://ui/die_button.gd" id="10_oe7lm"]
 [ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="11_mcnia"]
-[ext_resource type="Script" path="res://ui/voyage/voyage_continue_button.gd" id="12_dxqog"]
+[ext_resource type="Script" path="res://ui/voyage_map/voyage_continue_button.gd" id="12_dxqog"]
 [ext_resource type="Script" path="res://ui/board_button.gd" id="13_6rw3p"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="14_om374"]
 [ext_resource type="Script" path="res://ui/lives_label.gd" id="15_wj7tb"]
 [ext_resource type="Script" path="res://ui/fragments_label.gd" id="16_ee6yk"]
 [ext_resource type="Script" path="res://active_power_label.gd" id="17_uno8g"]
-[ext_resource type="PackedScene" uid="uid://dgds4d2p6hdb6" path="res://ui/voyage/voyage.tscn" id="18_vo2di"]
+[ext_resource type="PackedScene" uid="uid://dgds4d2p6hdb6" path="res://ui/voyage_map/voyage_map.tscn" id="18_vo2di"]
 [ext_resource type="PackedScene" uid="uid://kw0850n3cqvo" path="res://components/coin_row.tscn" id="19_ym3ga"]
 [ext_resource type="Script" path="res://ui/shop.gd" id="20_xqqdj"]
 [ext_resource type="Script" path="res://components/coin_row.gd" id="21_60gfb"]
@@ -144,7 +144,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksoqk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2wig"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -261,7 +261,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekp0t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b5es3"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -378,7 +378,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jg5wg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pxnky"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -495,7 +495,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c7m8r"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d5dmp"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -612,7 +612,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldvrd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_avghw"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -729,7 +729,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6rsto"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0wmvg"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -846,7 +846,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lo6yd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kp0x2"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -963,7 +963,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_42lj7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4prc"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -1080,7 +1080,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oufek"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kyrb6"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -1458,152 +1458,6 @@ centered = false
 texture = ExtResource("3_uvdwv")
 centered = false
 
-[node name="UI" type="Node2D" parent="."]
-
-[node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
-z_index = 100
-position = Vector2(0, 2)
-text_color = Color(0.737255, 0.290196, 0.607843, 1)
-border_color = Color(0.909804, 0.415686, 0.45098, 1)
-textbox_float = true
-
-[node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
-z_index = 1
-offset_left = 6.0
-offset_top = 160.0
-offset_right = 314.0
-offset_bottom = 176.0
-pivot_offset = Vector2(154, 8)
-alignment = 1
-script = ExtResource("5_6g64w")
-
-[node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_ksoqk")
-custom_minimum_size = Vector2(41, 0)
-layout_mode = 2
-script = ExtResource("6_rf73a")
-
-[node name="TextMargin" parent="UI/PlayerTextboxes/TossButton" index="1"]
-size_flags_horizontal = 1
-
-[node name="Text" parent="UI/PlayerTextboxes/TossButton/TextMargin" index="0"]
-size_flags_horizontal = 1
-text = "[center]Toss[/center]"
-
-[node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_ekp0t")
-layout_mode = 2
-script = ExtResource("7_2acd8")
-
-[node name="Text" parent="UI/PlayerTextboxes/AcceptButton/TextMargin" index="0"]
-text = "Accept"
-
-[node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_jg5wg")
-layout_mode = 2
-script = ExtResource("8_leu43")
-
-[node name="Text" parent="UI/PlayerTextboxes/ShopContinueButton/TextMargin" index="0"]
-text = "Continue"
-
-[node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_c7m8r")
-layout_mode = 2
-script = ExtResource("9_cd2hg")
-
-[node name="Text" parent="UI/PlayerTextboxes/ShopRerollButton/TextMargin" index="0"]
-text = "Continue"
-
-[node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_ldvrd")
-layout_mode = 2
-script = ExtResource("9_d50av")
-
-[node name="Text" parent="UI/PlayerTextboxes/EndRoundButton/TextMargin" index="0"]
-text = "End Round"
-
-[node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_6rsto")
-layout_mode = 2
-script = ExtResource("10_oe7lm")
-
-[node name="Text" parent="UI/PlayerTextboxes/DieButton/TextMargin" index="0"]
-text = "Die, Forgotten"
-
-[node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_lo6yd")
-layout_mode = 2
-script = ExtResource("11_mcnia")
-
-[node name="Text" parent="UI/PlayerTextboxes/PayTollButton/TextMargin" index="0"]
-text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]"
-
-[node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_42lj7")
-layout_mode = 2
-script = ExtResource("12_dxqog")
-
-[node name="Text" parent="UI/PlayerTextboxes/VoyageContinueButton/TextMargin" index="0"]
-text = "Continue"
-
-[node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-visible = false
-material = SubResource("ShaderMaterial_oufek")
-layout_mode = 2
-script = ExtResource("13_6rw3p")
-
-[node name="Text" parent="UI/PlayerTextboxes/BoardButton/TextMargin" index="0"]
-text = "Board"
-
-[node name="LivesLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 2.0
-offset_top = 71.0
-offset_right = 70.0
-offset_bottom = 90.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("14_om374")
-theme_override_font_sizes/font_size = 16
-text = "3"
-horizontal_alignment = 1
-script = ExtResource("15_wj7tb")
-
-[node name="FragmentsLabel" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 250.0
-offset_top = 71.0
-offset_right = 318.0
-offset_bottom = 90.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("14_om374")
-text = "5"
-horizontal_alignment = 1
-script = ExtResource("16_ee6yk")
-
-[node name="ActivePowerLabel" type="RichTextLabel" parent="UI"]
-visible = false
-texture_filter = 1
-offset_left = 76.0
-offset_top = 32.0
-offset_right = 248.0
-offset_bottom = 82.0
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("14_om374")
-bbcode_enabled = true
-text = "[center]Power[/center]"
-autowrap_mode = 2
-script = ExtResource("17_uno8g")
-
-[node name="Voyage" parent="UI" instance=ExtResource("18_vo2di")]
-visible = false
-position = Vector2(65, 26)
-
 [node name="Table" type="Node2D" parent="."]
 
 [node name="CharonObolRow" type="Control" parent="Table"]
@@ -1686,11 +1540,172 @@ offset_right = 195.0
 offset_left = 197.0
 offset_right = 235.0
 
+[node name="PatronToken" parent="Table" instance=ExtResource("24_k7xdm")]
+offset_left = 255.0
+offset_top = 152.0
+offset_right = 299.0
+offset_bottom = 180.0
+
 [node name="Arrows" type="Node2D" parent="."]
 
 [node name="LifeFragments" type="Node2D" parent="."]
 
 [node name="SoulFragments" type="Node2D" parent="."]
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
+z_index = 100
+position = Vector2(0, 2)
+text_color = Color(0.737255, 0.290196, 0.607843, 1)
+border_color = Color(0.909804, 0.415686, 0.45098, 1)
+textbox_float = true
+
+[node name="MapBlocker" type="ColorRect" parent="UI"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+z_index = 2
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 1)
+
+[node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
+z_index = 1
+offset_left = 6.0
+offset_top = 160.0
+offset_right = 314.0
+offset_bottom = 176.0
+pivot_offset = Vector2(154, 8)
+alignment = 1
+script = ExtResource("5_6g64w")
+
+[node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+material = SubResource("ShaderMaterial_g2wig")
+custom_minimum_size = Vector2(41, 0)
+layout_mode = 2
+script = ExtResource("6_rf73a")
+
+[node name="TextMargin" parent="UI/PlayerTextboxes/TossButton" index="1"]
+size_flags_horizontal = 1
+
+[node name="Text" parent="UI/PlayerTextboxes/TossButton/TextMargin" index="0"]
+size_flags_horizontal = 1
+text = "[center]Toss[/center]"
+
+[node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_b5es3")
+layout_mode = 2
+script = ExtResource("7_2acd8")
+
+[node name="Text" parent="UI/PlayerTextboxes/AcceptButton/TextMargin" index="0"]
+text = "Accept"
+
+[node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_pxnky")
+layout_mode = 2
+script = ExtResource("8_leu43")
+
+[node name="Text" parent="UI/PlayerTextboxes/ShopContinueButton/TextMargin" index="0"]
+text = "Continue"
+
+[node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_d5dmp")
+layout_mode = 2
+script = ExtResource("9_cd2hg")
+
+[node name="Text" parent="UI/PlayerTextboxes/ShopRerollButton/TextMargin" index="0"]
+text = "Continue"
+
+[node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+material = SubResource("ShaderMaterial_avghw")
+layout_mode = 2
+script = ExtResource("9_d50av")
+
+[node name="Text" parent="UI/PlayerTextboxes/EndRoundButton/TextMargin" index="0"]
+text = "End Round"
+
+[node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_0wmvg")
+layout_mode = 2
+script = ExtResource("10_oe7lm")
+
+[node name="Text" parent="UI/PlayerTextboxes/DieButton/TextMargin" index="0"]
+text = "Die, Forgotten"
+
+[node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_kp0x2")
+layout_mode = 2
+script = ExtResource("11_mcnia")
+
+[node name="Text" parent="UI/PlayerTextboxes/PayTollButton/TextMargin" index="0"]
+text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]"
+
+[node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+z_index = 5
+material = SubResource("ShaderMaterial_e4prc")
+layout_mode = 2
+script = ExtResource("12_dxqog")
+
+[node name="Text" parent="UI/PlayerTextboxes/VoyageContinueButton/TextMargin" index="0"]
+text = "Continue"
+
+[node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
+visible = false
+material = SubResource("ShaderMaterial_kyrb6")
+layout_mode = 2
+script = ExtResource("13_6rw3p")
+
+[node name="Text" parent="UI/PlayerTextboxes/BoardButton/TextMargin" index="0"]
+text = "Board"
+
+[node name="LivesLabel" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = -1.0
+offset_top = 78.0
+offset_right = 67.0
+offset_bottom = 97.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_om374")
+theme_override_font_sizes/font_size = 16
+text = "3"
+horizontal_alignment = 1
+script = ExtResource("15_wj7tb")
+
+[node name="FragmentsLabel" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 253.0
+offset_top = 79.0
+offset_right = 321.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_om374")
+text = "5"
+horizontal_alignment = 1
+script = ExtResource("16_ee6yk")
+
+[node name="ActivePowerLabel" type="RichTextLabel" parent="UI"]
+visible = false
+texture_filter = 1
+offset_left = 76.0
+offset_top = 32.0
+offset_right = 248.0
+offset_bottom = 82.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("14_om374")
+bbcode_enabled = true
+text = "[center]Power[/center]"
+autowrap_mode = 2
+script = ExtResource("17_uno8g")
+
+[node name="VoyageMap" parent="UI" instance=ExtResource("18_vo2di")]
+z_index = 3
+position = Vector2(61, 20)
 
 [node name="Points" type="Node2D" parent="."]
 
@@ -1698,22 +1713,25 @@ offset_right = 235.0
 position = Vector2(160, -99)
 
 [node name="SoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(273, 23)
+position = Vector2(276, 38)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(160, 210)
 
 [node name="LifeFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(24, 31)
+position = Vector2(21, 46)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(16, 158)
 
-[node name="PatronToken" parent="." instance=ExtResource("24_k7xdm")]
-offset_left = 255.0
-offset_top = 152.0
-offset_right = 299.0
-offset_bottom = 180.0
+[node name="MapInitial" type="Node2D" parent="Points"]
+position = Vector2(123, 0)
+
+[node name="MapHidden" type="Node2D" parent="Points"]
+position = Vector2(231, 14)
+
+[node name="MapShown" type="Node2D" parent="Points"]
+position = Vector2(61, 20)
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -1734,6 +1752,13 @@ offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
 
+[connection signal="child_entered_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_exiting_tree"]
+[connection signal="child_entered_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_exiting_tree"]
+[connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
+[connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
 [connection signal="clicked" from="UI/PlayerTextboxes/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxes/ShopContinueButton" to="." method="_on_continue_button_pressed"]
@@ -1743,13 +1768,8 @@ mouse_filter = 2
 [connection signal="clicked" from="UI/PlayerTextboxes/PayTollButton" to="." method="_on_pay_toll_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/VoyageContinueButton" to="." method="_on_voyage_continue_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/BoardButton" to="." method="_on_board_button_clicked"]
-[connection signal="child_entered_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/CharonObolRow" to="Table/CharonObolRow" method="_on_child_exiting_tree"]
-[connection signal="child_entered_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/EnemyRow/CoinRow" to="Table/EnemyRow/CoinRow" method="_on_child_exiting_tree"]
-[connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
-[connection signal="child_entered_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Table/Shop/ShopRow" to="Table/Shop/ShopRow" method="_on_child_exiting_tree"]
+[connection signal="clicked" from="UI/VoyageMap" to="." method="_on_voyage_map_clicked"]
+[connection signal="closed" from="UI/VoyageMap" to="." method="_on_voyage_map_closed"]
 
 [editable path="UI/PlayerTextboxes/TossButton"]
 [editable path="UI/PlayerTextboxes/AcceptButton"]

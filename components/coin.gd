@@ -810,14 +810,6 @@ func payoff_move_down() -> void:
 	await _new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_mouse_clicked():
-	# DEBUG - inflict a ton of statuses
-	ignite()
-	blank()
-	supercharge()
-	make_lucky()
-	curse()
-	print("statuses!")
-	
 	if not _disabled:
 		emit_signal("clicked", self)
 

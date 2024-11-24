@@ -1,13 +1,16 @@
 # A helper class to help with various mouse uses.
 # Can monitor for mouse entry/exit/click on CollisionPolygon2D or Control nodes.
+# LIMITATION - Doesn't work with rotations.
 class_name MouseWatcher
 extends Node2D
 
 signal clicked
+signal clicked_elsewhere
 signal mouse_entered
 signal mouse_exited
 signal changed
 
+# should be a Control or CollisionPolygon2D
 @export var watched: Node = null
 
 var _mouse_over = false
@@ -49,11 +52,12 @@ func _process(_delta) -> void:
 		emit_signal("changed")
 	
 func _input(event):
-	if _mouse_over:
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT:
-				if event.pressed:
-					emit_signal("clicked")
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if _mouse_over:
+				emit_signal("clicked")
+			else:
+				emit_signal("clicked_elsewhere")
 
 func is_over() -> bool:
 	return _mouse_over
