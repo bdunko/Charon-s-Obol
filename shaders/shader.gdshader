@@ -263,11 +263,12 @@ uniform float cut_bottom: hint_range(0.0, 1.0, 0.001) = 0.0;
 // The vignette has a vignette_radius and a vignette_color.
 // If vignette_ignore_transparent, transparent pixels will not have the vignette applied.
 // This is generally useful if you want to apply a vignette on something besides the entire screen.
+// Radius -> 0 tends to do some crazy effects
 group_uniforms Vignette;
 uniform bool vignette_on = false;
 uniform bool vignette_ignore_transparent = false;
 uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
-uniform float vignette_radius: hint_range(0.001, 10.0, 0.01) = 1.0;
+uniform float vignette_radius: hint_range(0.001, 20.0, 0.01) = 1.0;
 
 // TRANSPARENCY
 // Controls transparency of the texture.

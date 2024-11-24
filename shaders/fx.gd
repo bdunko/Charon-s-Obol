@@ -248,11 +248,11 @@ func start_glowing_solid(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickn
 func stop_glowing() -> void:
 	set_uniform(Uniform.INT_GLOW_THICKNESS, 0)
 
-func fade_out(time: float) -> void:
+func fade_out(time: float = 1.0) -> void:
 	assert(time >= 0.0)
 	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0, time)
 
-func fade_in(time: float) -> void:
+func fade_in(time: float = 1.0) -> void:
 	assert(time >= 0.0)
 	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0, time)
 
