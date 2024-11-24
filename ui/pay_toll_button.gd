@@ -1,6 +1,7 @@
 extends Textbox
 
 func _ready() -> void:
+	super._ready()
 	Global.state_changed.connect(_on_state_changed)
 	Global.toll_coins_changed.connect(_update_text)
 

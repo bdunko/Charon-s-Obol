@@ -15,15 +15,6 @@ func _ready():
 	$Textbox.material.set_shader_parameter("replace_with_color2", Color(0, 255, 0))
 	$Textbox.material.set_shader_parameter("replace_color3", Color(230, 255, 255))
 	$Textbox.material.set_shader_parameter("replace_with_color3", Color(0, 0, 255))
-	print("ready!")
-	
-	
-	print($Textbox.material.get_shader_parameter("replace_with_cofdafadlor3"))
-	print($Textbox.material.get_shader_parameter("replace_with_color3"))
-	print($Textbox.material.get_shader_parameter("disintegrate_noise_texture"))
-	
-	
-	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

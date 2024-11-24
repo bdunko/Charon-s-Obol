@@ -1,6 +1,7 @@
 extends Textbox
 
 func _ready() -> void:
+	super._ready()
 	Global.state_changed.connect(_on_state_changed)
 	Global.strain_changed.connect(_on_strain_changed)
 

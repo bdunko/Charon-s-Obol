@@ -482,7 +482,7 @@ var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], 
 var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) another coin.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/hera_icon.png")
 var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1], PowerType.POWER, "res://assets/icons/artemis_icon.png")
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if (TAILS) (BLESS) it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/ares_icon.png")
 var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's (LIFE) penalty for this round.", [1, 2, 3, 4], PowerType.POWER, "res://assets/icons/athena_icon.png")
 var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2], PowerType.POWER, "res://assets/icons/hephaestus_icon.png")
@@ -494,12 +494,12 @@ var POWER_FAMILY_DESTROY_FOR_LIFE = PowerFamily.new("Destroy a coin and heal [im
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [1, 1, 1, 1], PowerType.POWER, "")
 
-var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("(IGNITE) this coin..", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make a coin (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("(IGNITE) this coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("A coin becomes (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("(CURSE) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make a coin (LUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
-var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make a coin (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("A coin becomes (LUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
+var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("A coin becomes (UNLUCKY).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 
 var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1(ARROW).", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/todo_icon.png")
 

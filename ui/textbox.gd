@@ -67,7 +67,7 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 	set(val):
 		click_enabled = val
 		_update_style()
-		
+
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
 @onready var _FX : FX = $FX
@@ -116,8 +116,6 @@ func fade_and_free() -> void:
 # make it drift up and down a bit
 var _time = 0
 func _process(delta) -> void:
-	#print(position)
-	
 	#can improve this a bit...
 	#calculate a float_offset and change _STARTING_Y by that
 	#instead of adding
@@ -142,10 +140,8 @@ func _gui_input(event):
 				_reset_colors()
 
 func _on_mouse_entered():
-	print("mouse entered")
 	_update_style()
 
 func _on_mouse_exited():
-	print("mouse exited")
 	_update_style()
 	_mouse_down = false

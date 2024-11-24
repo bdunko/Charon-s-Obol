@@ -161,7 +161,7 @@ uniform float auto_scanline_topright_to_bottomleft_delay: hint_range(0.0, 10.0, 
 // This can be used to create a solid outline if auto_glow_speed is left at 0.
 // WARNING - Shaders cannot draw outside of the bounds of the canvas, so the canvas may need extra transparent space on the sides.
 // WARNING - Can have some odd effects with sprites containing partial transparency.
-group_uniforms Glow;
+group_uniforms GlowAndOutline;
 uniform vec4 glow_color: source_color = vec4(1.0);
 uniform int glow_thickness: hint_range(0, 10) = 0;
 uniform bool glow_diagonals = false;

@@ -501,10 +501,10 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 	_map_active = true
 	_map_is_disabled = true
 	var map_display_tween = create_tween()
-	map_display_tween.tween_property(_VOYAGE_MAP, "position", _MAP_SHOWN_POINT, 0.25) # tween position
-	map_display_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", 0, 0.25)
+	map_display_tween.tween_property(_VOYAGE_MAP, "position", _MAP_SHOWN_POINT, 0.2) # tween position
+	map_display_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", 0, 0.2)
 	if include_blocker:
-		map_display_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.6, 0.25)
+		map_display_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.6, 0.2)
 		_MAP_BLOCKER.show()
 	_VOYAGE_MAP.set_closeable(closeable)
 	await map_display_tween.finished
@@ -514,9 +514,9 @@ func _hide_voyage_map() -> void:
 	_map_active = false
 	_map_is_disabled = true
 	var map_hide_tween = create_tween()
-	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "position", _MAP_HIDDEN_POINT, 0.25) # tween position
-	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", -90, 0.25)
-	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.5)
+	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "position", _MAP_HIDDEN_POINT, 0.2) # tween position
+	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "rotation_degrees", -90, 0.2)
+	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.2)
 	_MAP_BLOCKER.hide()
 	await map_hide_tween.finished
 	_map_is_disabled = false
