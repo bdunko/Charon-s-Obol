@@ -385,7 +385,7 @@ void fragment()
 	}
 	
 	// DISINTEGRATE
-	if (COLOR.a != 0.0) {
+	if (!is_exclude_color && COLOR.a != 0.0) {
 		vec2 s = adjUV * vec2(float(disintegrate_seed));
 		s *= auto_disintegrate_random_seed_speed != 0.0 ? float(int(TIME / mix(1.0, 0.001, auto_disintegrate_random_seed_speed))) : 1.0;
 		float r = random(s);
@@ -406,19 +406,23 @@ void fragment()
 		COLOR.a *= fog * fog_opacity;
 	}
 	
-	// COLORLINES
-	if (PX % vertical_colorline_spacing == 0) {
-		COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
-	}
-	if (PY % horizontal_colorline_spacing == 0) {
-		COLOR.rgb = mix(COLOR.rgb, horizontal_colorline_color, horizontal_colorline_strength);
+	// COLORLINES	
+	if (!is_exclude_color) {
+		if (PX % vertical_colorline_spacing == 0) {
+			COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
+		}
+		if (PY % horizontal_colorline_spacing == 0) {
+			COLOR.rgb = mix(COLOR.rgb, horizontal_colorline_color, horizontal_colorline_strength);
+		}
 	}
 	
 	// CHECKER
-	if (PX/checker_x_size % checker_x_pattern != PY/checker_y_size % checker_y_pattern) {
-		float pixel_darkness = (3.0 - (COLOR.r + COLOR.g + COLOR.b)) * checker_contrast_ratio; // calculates 0.0 to 1.0 where 1.0 is pure black and 0.0 is pure white
-		vec3 cbcolor = mix(checker_color.rgb, vec3(0.0), pixel_darkness * checker_contrast_amount);
-		COLOR.rgb = mix(COLOR.rgb, cbcolor, checker_strength);
+	if (!is_exclude_color) {	
+		if (PX/checker_x_size % checker_x_pattern != PY/checker_y_size % checker_y_pattern) {
+			float pixel_darkness = (3.0 - (COLOR.r + COLOR.g + COLOR.b)) * checker_contrast_ratio; // calculates 0.0 to 1.0 where 1.0 is pure black and 0.0 is pure white
+			vec3 cbcolor = mix(checker_color.rgb, vec3(0.0), pixel_darkness * checker_contrast_amount);
+			COLOR.rgb = mix(COLOR.rgb, cbcolor, checker_strength);
+		}
 	}
 	
 	// MOUSELIGHT
