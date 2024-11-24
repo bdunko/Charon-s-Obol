@@ -24,8 +24,9 @@ float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
 float cos0to1(float time) { return (cos(time)+1.0)/2.0; } 
 float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed cos function that varies from 0 to 1. f(0) = 0, f(pi) = 1, f(2pi) = 0. 
 
-// unused but may be useful someday
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+uniform bool POST_PROCESSING = false;
 
 // pass in the mouse position here
 uniform vec2 MOUSE = vec2(20, 20);
@@ -34,6 +35,7 @@ uniform vec2 MOUSE = vec2(20, 20);
 // --- Effects --- //
 // EXCLUDE
 // If use_exclude_colors, pixels of these colors are excluded from tint, color correction, scanline, and vignette effects.
+group_uniforms Exclude;
 uniform bool use_exclude_colors = true;
 uniform vec3 exclude_color1: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
@@ -194,6 +196,7 @@ uniform float auto_disintegrate_random_seed_speed: hint_range(0.0, 1.0) = 0.0;
 // FOG
 // Applies a fog_noise_texture filter over the texture with modifiable fog_opacity and fog_density, moving at fog_speed
 // Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
+// NOTE - Don't use this as a post processing shader. 
 group_uniforms Fog;
 uniform bool fog_enabled = false;
 uniform sampler2D fog_noise_texture: repeat_enable, filter_nearest;
@@ -280,37 +283,55 @@ uniform float auto_flicker_start_time = 0.0;
 void fragment() 
 {
 	// --- CALCULATE CONSTANTS ---
-	// the size of this canvas in pixels
-	int PSIZE_X = int(floor(1.0 / TEXTURE_PIXEL_SIZE.x));
-	int PSIZE_Y = int(floor(1.0 / TEXTURE_PIXEL_SIZE.y));
+	// WARNING - Don't use the ones with _ directly. 
+	// the size of this canvas in pixels (ex 10x10)
+	int _SIZE_IN_PIXELS_X = int(floor(1.0 / TEXTURE_PIXEL_SIZE.x));
+	int _SIZE_IN_PIXELS_Y = int(floor(1.0 / TEXTURE_PIXEL_SIZE.y));
+	// the size of the screen in pixels (ex 320x180)
+	int _SCREEN_SIZE_IN_PIXELS_X = int(floor(1.0 / SCREEN_PIXEL_SIZE.x));
+	int _SCREEN_SIZE_IN_PIXELS_Y = int(floor(1.0 / SCREEN_PIXEL_SIZE.y));
 	
-	// the specific x and y pixel coordinates
-	int PX = int(floor(UV.x / TEXTURE_PIXEL_SIZE.x));
-	int PY = int(floor(UV.y / TEXTURE_PIXEL_SIZE.y));
+	// the specific x and y pixel coordinates within texture
+	int _PIXEL_X = int(floor(UV.x / TEXTURE_PIXEL_SIZE.x));
+	int _PIXEL_Y = int(floor(UV.y / TEXTURE_PIXEL_SIZE.y));
+	// the specific x and y pixel coordinates within screen
+	int _SCREEN_PIXEL_X = int(floor(SCREEN_UV.x / SCREEN_PIXEL_SIZE.x));
+	int _SCREEN_PIXEL_Y = int(floor(SCREEN_UV.y / SCREEN_PIXEL_SIZE.y));
 	
-	// screen size (ex 320x180)
-	int SSIZE_X = int(floor(1.0 / SCREEN_PIXEL_SIZE.x));
-	int SSIZE_Y = int(floor(1.0 / SCREEN_PIXEL_SIZE.y));
-	int SX = int(floor(SCREEN_UV.x / SCREEN_PIXEL_SIZE.x));
-	int SY = int(floor(SCREEN_UV.y / SCREEN_PIXEL_SIZE.y));
+	// WARNING - Use these instead. This accounts for if this is a normal or post processing shader.
+	// Size of a pixel for this canvas (ie 1/320x1/180)
+	float PIXEL_SIZE_X = POST_PROCESSING ? SCREEN_PIXEL_SIZE.x : TEXTURE_PIXEL_SIZE.x;
+	float PIXEL_SIZE_Y = POST_PROCESSING ? SCREEN_PIXEL_SIZE.y : TEXTURE_PIXEL_SIZE.y;
+	// Size of the canvas in pixels. (ex 320x180)
+	int SIZE_IN_PIXELS_X = POST_PROCESSING ? _SCREEN_SIZE_IN_PIXELS_X : _SIZE_IN_PIXELS_X;
+	int SIZE_IN_PIXELS_Y = POST_PROCESSING ? _SCREEN_SIZE_IN_PIXELS_Y : _SIZE_IN_PIXELS_Y;
+	// The specific XY coordinates of the current pixel.
+	int X = POST_PROCESSING ? _SCREEN_PIXEL_X : _PIXEL_X;
+	int Y = POST_PROCESSING ? _SCREEN_PIXEL_Y : _PIXEL_Y;
+	// UV coordinates of the current pixel.
+	vec2 MUV = POST_PROCESSING ? SCREEN_UV : UV;
 	// ---
 	
 	
 	// DISPLACE & PAN
 	vec2 adjUV = vec2(0, 0); // WARNING - Use this instead of UV below, otherwise effects break with panning & displace
 	
-	float displaceUVX = UV.x + (TEXTURE_PIXEL_SIZE.x * float(displace_x));
-	float displaceUVY = UV.y + (TEXTURE_PIXEL_SIZE.y * float(displace_y));
+	float displaceUVX = MUV.x + (SCREEN_PIXEL_SIZE.x * float(displace_x));
+	float displaceUVY = MUV.y + (SCREEN_PIXEL_SIZE.y * float(displace_y));
 	if (displace_repeat) {
-		adjUV = mod(vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed, 1.0);
+		adjUV = mod(vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed, 1.00000);
 	} else {
 		adjUV = vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed;
 	}
 	
-	COLOR = texture(TEXTURE, adjUV); //since this reads from texture, it has to go first; otherwise we rewrite changes
+	// $HACK$ doing this as a ternary breaks the preview, for some reason
+	if (POST_PROCESSING) 
+		COLOR = texture(SCREEN_TEXTURE, adjUV);
+	else 
+		COLOR = texture(TEXTURE, adjUV);
 	
 	// EXCLUDE COLORS
-	bool is_exclude_color = use_exclude_colors && (vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color1) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color2) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color3) || vec3eq(texture(TEXTURE, adjUV).rgb, exclude_color4));
+	bool is_exclude_color = use_exclude_colors && (vec3eq(COLOR.rgb, exclude_color1) || vec3eq(COLOR.rgb, exclude_color2) || vec3eq(COLOR.rgb, exclude_color3) || vec3eq(COLOR.rgb, exclude_color4));
 	
 	// RECOLOR
 	if (vec3eq(COLOR.rgb, replace_color1)) 
@@ -330,13 +351,13 @@ void fragment()
 	if (!is_exclude_color) {
 		// TINT
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
-		
+
 		// FLASH
 		float flash_mix = flash_strength;
 		if (auto_flash_speed != 0.0)
 			flash_mix = mix(auto_flash_bound, flash_strength, abs(vary0to1((TIME-auto_flash_start_time + TIME_OFFSET) * auto_flash_speed)));
 		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_mix);
-	
+
 		// COLOR CORRECTION
 		COLOR.r = mix(COLOR.r, 1.0, red_correct);
 		COLOR.g = mix(COLOR.g, 1.0, green_correct);
@@ -345,27 +366,28 @@ void fragment()
 		COLOR.rgb = mix(vec3(0.0), COLOR.rgb, brightness_correct);
 		COLOR.rgb = mix(vec3(0.5), COLOR.rgb, contrast_correct);
 		COLOR.rgb = mix(vec3(dot(vec3(1.0), COLOR.rbg)), COLOR.rgb, saturation_correct);
-	
+
 		// SCANLINE
+		// FIX
 		if (COLOR.a != 0.0) {
 			float l_to_r_pos = !auto_scanline_left_to_right_on ? scanline_left_to_right_position : abs((auto_scanline_left_to_right_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_left_to_right_start_time + TIME_OFFSET, auto_scanline_left_to_right_delay + auto_scanline_left_to_right_scan_duration), 0.0, auto_scanline_left_to_right_scan_duration)/auto_scanline_left_to_right_scan_duration)));
 			float t_to_b_pos = !auto_scanline_top_to_bottom_on ? scanline_top_to_bottom_position : abs((auto_scanline_top_to_bottom_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_top_to_bottom_start_time + TIME_OFFSET, auto_scanline_top_to_bottom_delay + auto_scanline_top_to_bottom_scan_duration), 0.0, auto_scanline_top_to_bottom_scan_duration)/auto_scanline_top_to_bottom_scan_duration)));
 			float tl_to_br_pos = !auto_scanline_topleft_to_bottomright_on ? scanline_topleft_to_bottomright_position : abs((auto_scanline_topleft_to_bottomright_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topleft_to_bottomright_start_time + TIME_OFFSET, auto_scanline_topleft_to_bottomright_delay + auto_scanline_topleft_to_bottomright_scan_duration), 0.0, auto_scanline_topleft_to_bottomright_scan_duration)/auto_scanline_topleft_to_bottomright_scan_duration)));
 			float tr_to_bl_pos = !auto_scanline_topright_to_bottomleft_on ? scanline_topright_to_bottomleft_position : abs((auto_scanline_topright_to_bottomleft_reverse ? 1.0 : 0.0) - mix(0.0, 1.0, float(clamp(mod(TIME - auto_scanline_topright_to_bottomleft_start_time + TIME_OFFSET, auto_scanline_topright_to_bottomleft_delay + auto_scanline_topright_to_bottomleft_scan_duration), 0.0, auto_scanline_topright_to_bottomleft_scan_duration)/auto_scanline_topright_to_bottomleft_scan_duration)));
-			
-			if (PX == int(floor(l_to_r_pos / TEXTURE_PIXEL_SIZE.x)))
+
+			if (X == int(floor(l_to_r_pos / float(PIXEL_SIZE_X))))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			if (PY == int(floor(t_to_b_pos / TEXTURE_PIXEL_SIZE.y)))
+			if (Y == int(floor(t_to_b_pos / float(PIXEL_SIZE_Y))))
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			int scanline_target_tlbr = int(floor(tl_to_br_pos * float(PSIZE_X + PSIZE_Y)));
-			int scanline_target_trbl = int(floor(tr_to_bl_pos * float(PSIZE_X + PSIZE_Y))) - PSIZE_Y;
-			if (PX+PY == scanline_target_tlbr)
+			int scanline_target_tlbr = int(floor(tl_to_br_pos * float(SIZE_IN_PIXELS_X + SIZE_IN_PIXELS_Y)));
+			int scanline_target_trbl = int(floor(tr_to_bl_pos * float(SIZE_IN_PIXELS_X + SIZE_IN_PIXELS_Y))) - SIZE_IN_PIXELS_Y;
+			if (X+Y == scanline_target_tlbr)
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
-			if (PX-PY == scanline_target_trbl)
+			if (X-Y == scanline_target_trbl)
 				COLOR.rgb = mix(COLOR.rgb, scanline_color, scanline_strength);
 		}
 	}
-	
+
 	// GLOW
 	if (glow_thickness != 0) {
 		vec2 outline_size = TEXTURE_PIXEL_SIZE * float(glow_thickness);
@@ -383,7 +405,7 @@ void fragment()
 		float alp = auto_glow_speed == 0.0 ? 1.0 : mix(auto_glow_bound, glow_color.a, vary0to1((TIME - auto_glow_start_time + TIME_OFFSET) * auto_glow_speed));
 		COLOR = mix(COLOR, glow_color * alp, outline - COLOR.a);
 	}
-	
+
 	// DISINTEGRATE
 	if (!is_exclude_color && COLOR.a != 0.0) {
 		vec2 s = adjUV * vec2(float(disintegrate_seed));
@@ -396,56 +418,56 @@ void fragment()
 				COLOR.a = r_alpha;
 		}
 	}
-	
+
 	// FOG
 	if (fog_enabled) {
-		vec2 fog_uv = UV + fog_speed * TIME;
+		vec2 fog_uv = MUV + fog_speed * TIME;
 		float noise_alpha = texture(fog_noise_texture, fog_uv).r;
 		// Convert noise from (0.0, 1.0) to (-1.0, 1.0)
 		float fog = clamp((noise_alpha * 2.0 - 1.0) + (fog_density * 2.0), 0.0, 1.0);
 		COLOR.a *= fog * fog_opacity;
 	}
-	
+
 	// COLORLINES	
 	if (!is_exclude_color) {
-		if (PX % vertical_colorline_spacing == 0) {
+		if (X % vertical_colorline_spacing == 0) {
 			COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
 		}
-		if (PY % horizontal_colorline_spacing == 0) {
+		if (Y % horizontal_colorline_spacing == 0) {
 			COLOR.rgb = mix(COLOR.rgb, horizontal_colorline_color, horizontal_colorline_strength);
 		}
 	}
-	
+
 	// CHECKER
 	if (!is_exclude_color) {	
-		if (PX/checker_x_size % checker_x_pattern != PY/checker_y_size % checker_y_pattern) {
+		if (X/checker_x_size % checker_x_pattern != Y/checker_y_size % checker_y_pattern) {
 			float pixel_darkness = (3.0 - (COLOR.r + COLOR.g + COLOR.b)) * checker_contrast_ratio; // calculates 0.0 to 1.0 where 1.0 is pure black and 0.0 is pure white
 			vec3 cbcolor = mix(checker_color.rgb, vec3(0.0), pixel_darkness * checker_contrast_amount);
 			COLOR.rgb = mix(COLOR.rgb, cbcolor, checker_strength);
 		}
 	}
-	
+
 	// MOUSELIGHT
-	if (mouselight_on && (!mouselight_checker || PX % 2 == PY % 2)) {
+	if (mouselight_on && (!mouselight_checker || X % 2 == Y % 2)) {
 		float mouse_with_flicker = mix(auto_mouselight_flicker_bound, float(mouselight_size), vary0to1(TIME * auto_mouselight_flicker_speed));
-		float dist_from_mouse = sqrt(pow(float(SX - int(MOUSE.x)), 2.0) + pow(float(SY - int(MOUSE.y)), 2.0));
+		float dist_from_mouse = sqrt(pow(float(_SCREEN_PIXEL_X - int(MOUSE.x)), 2.0) + pow(float(_SCREEN_PIXEL_Y - int(MOUSE.y)), 2.0));
 		if (dist_from_mouse <= float(mouse_with_flicker)) {
 			//todo - make softening with distance optional as uniform
 			float distance_mod = clamp((mouse_with_flicker - dist_from_mouse) / mouse_with_flicker, 0.0, 1.0);
 			COLOR.rgb = mix(COLOR.rgb, mouselight_color, distance_mod * mouselight_strength);
 		}
 	}
-	
+
 	// CUT
-	if (UV.x < cut_left)
+	if (MUV.x < cut_left)
 		COLOR.a = 0.0;
-	if (UV.x > 1.0-cut_right)
+	if (MUV.x > 1.0-cut_right)
 		COLOR.a = 0.0;
-	if (UV.y < cut_top)
+	if (MUV.y < cut_top)
 		COLOR.a = 0.0;
-	if (UV.y > 1.0-cut_bottom)
+	if (MUV.y > 1.0-cut_bottom)
 		COLOR.a = 0.0;
-		
+
 	// VIGNETTE
 	if (vignette_on && ((!vignette_ignore_transparent || COLOR.a != 0.0)) && !is_exclude_color) {
 		float x = abs(adjUV.x-.5)*2.0;
@@ -453,7 +475,7 @@ void fragment()
 		float v = (sqrt((x*x)+(y*y))/vignette_radius);
 		COLOR = mix(COLOR, vec4(vignette_color.r, vignette_color.g, vignette_color.b, 1.0), v);
 	}
-	
+
 	// TRANSPARENCY
 	if (COLOR.a != 0.0) {
 		COLOR.a = mix(COLOR.a * transparency, auto_flicker_bound, vary0to1((TIME-auto_flicker_start_time + TIME_OFFSET) * auto_flicker_speed));

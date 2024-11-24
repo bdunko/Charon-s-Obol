@@ -14,6 +14,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -130,6 +131,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k065"]
 shader = ExtResource("1_j17hv")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -247,6 +249,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w1f01"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -376,6 +379,7 @@ noise = SubResource("FastNoiseLite_l00lw")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kwh1p"]
 shader = ExtResource("1_j17hv")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -504,6 +508,7 @@ noise = SubResource("FastNoiseLite_pk8pl")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oi8e2"]
 shader = ExtResource("1_j17hv")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -549,7 +554,7 @@ shader_parameter/scanline_topright_to_bottomleft_position = -0.001
 shader_parameter/auto_scanline_left_to_right_on = true
 shader_parameter/auto_scanline_left_to_right_reverse = false
 shader_parameter/auto_scanline_left_to_right_start_time = 0.0
-shader_parameter/auto_scanline_left_to_right_scan_duration = 0.75
+shader_parameter/auto_scanline_left_to_right_scan_duration = 0.5
 shader_parameter/auto_scanline_left_to_right_delay = 1.0
 shader_parameter/auto_scanline_top_to_bottom_on = false
 shader_parameter/auto_scanline_top_to_bottom_reverse = false
@@ -564,8 +569,8 @@ shader_parameter/auto_scanline_topleft_to_bottomright_delay = 1.0
 shader_parameter/auto_scanline_topright_to_bottomleft_on = false
 shader_parameter/auto_scanline_topright_to_bottomleft_reverse = false
 shader_parameter/auto_scanline_topright_to_bottomleft_start_time = 0.0
-shader_parameter/auto_scanline_topright_to_bottomleft_scan_duration = 0.4
-shader_parameter/auto_scanline_topright_to_bottomleft_delay = 0.0
+shader_parameter/auto_scanline_topright_to_bottomleft_scan_duration = 0.5
+shader_parameter/auto_scanline_topright_to_bottomleft_delay = 1.0
 shader_parameter/glow_color = Color(1, 1, 1, 1)
 shader_parameter/glow_thickness = 0
 shader_parameter/glow_diagonals = false
@@ -582,7 +587,7 @@ shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(0.02, 0.01)
+shader_parameter/fog_speed = Vector2(-0.02, 0)
 shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_eavw0")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
@@ -641,11 +646,11 @@ shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
 shader_parameter/auto_pan_speed = Vector2(0, 0)
-shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color1 = Color(0.363281, 0.683594, 0.550781, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0.15625, 0.359375, 0.765625, 1)
 shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0.195313, 0.515625, 0.390625, 1)
 shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
 shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
@@ -737,13 +742,13 @@ shader_parameter/cut_left = 0.0
 shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
-shader_parameter/vignette_on = true
+shader_parameter/vignette_on = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
-shader_parameter/vignette_radius = 1.691
-shader_parameter/transparency = 0.7
-shader_parameter/auto_flicker_speed = 7.282
-shader_parameter/auto_flicker_bound = 0.084
+shader_parameter/vignette_radius = 1.0
+shader_parameter/transparency = 1.0
+shader_parameter/auto_flicker_speed = 0.0
+shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
 [node name="shader_test" type="Node2D"]

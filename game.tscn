@@ -30,6 +30,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6bih8"]
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -147,6 +148,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bhhi4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -264,6 +266,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i1ua5"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -381,6 +384,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_463ij"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -498,6 +502,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pxhac"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -615,6 +620,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kuf15"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -732,6 +738,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oxj3d"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -849,6 +856,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tjmw4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -966,6 +974,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2yxms"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -1083,6 +1092,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xx6wy"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -1206,6 +1216,7 @@ noise = SubResource("FastNoiseLite_o6jch")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a7o28"]
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -1331,6 +1342,7 @@ noise = SubResource("FastNoiseLite_uy8ym")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ruuci"]
 shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
