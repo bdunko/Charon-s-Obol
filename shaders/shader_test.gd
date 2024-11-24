@@ -19,4 +19,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	$Peaceful2.material.set_shader_parameter("MOUSE", get_global_mouse_position())
+	$CanvasLayer/ColorRect.material.set_shader_parameter("MOUSE", get_global_mouse_position())
