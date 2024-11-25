@@ -85,11 +85,14 @@ uniform float tint_strength: hint_range(0.0, 1.0) = 0.0;
 group_uniforms Flash;
 uniform vec3 flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float flash_strength: hint_range(0.0, 1.0) = 0.0;
-// auto_flash_speed will cause infinite and repeated flashing if nonzero and controls the speed of this flashing.
-// auto_flash_bound provides the second bound (alongside flash_strength) for the auto flash effect.
+// auto_flash_speed will cause infinite and repeated flashing in auto_flash_color if nonzero and controls the speed of this flashing.
+// auto_flash_bound1 and auto_flash_bound2 provide the bounds of the flashing effect.
 // To prevent the auto flash from starting in the middle of the animation, set auto_flash_start_time to the global time when enabling auto flash.
+// TIP - auto flash and regular ('manual') flash stack, which is why they have two separate colors.
+uniform vec3 auto_flash_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform float auto_flash_speed: hint_range(0.0, 20.0) = 0.0;
-uniform float auto_flash_bound: hint_range(0.0, 1.0) = 0.0;
+uniform float auto_flash_bound1: hint_range(0.0, 1.0) = 0.0;
+uniform float auto_flash_bound2: hint_range(0.0, 1.0) = 1.0;
 uniform float auto_flash_start_time = 0.0;
 
 // COLOR CORRECTION
@@ -354,10 +357,13 @@ void fragment()
 		COLOR.rgb = mix(COLOR.rgb, tint_color, tint_strength);
 
 		// FLASH
-		float flash_mix = flash_strength;
-		if (auto_flash_speed != 0.0)
-			flash_mix = mix(auto_flash_bound, flash_strength, abs(vary0to1((TIME-auto_flash_start_time + TIME_OFFSET) * auto_flash_speed)));
-		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_mix);
+		// apply automatic flash
+		if (auto_flash_speed != 0.0) {
+			float auto_strength = mix(auto_flash_bound1, auto_flash_bound2, abs(vary0to1((TIME-auto_flash_start_time + TIME_OFFSET) * auto_flash_speed)));
+			COLOR.rgb = mix(COLOR.rgb, auto_flash_color, auto_strength);
+		}
+		// apply manual flash
+		COLOR.rgb = mix(COLOR.rgb, flash_color, flash_strength);
 
 		// COLOR CORRECTION
 		COLOR.r = mix(COLOR.r, 1.0, red_correct);

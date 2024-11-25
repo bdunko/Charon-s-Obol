@@ -41,8 +41,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -158,8 +160,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -246,7 +250,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_w1f01"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_426kv"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
@@ -276,8 +280,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -406,8 +412,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -535,8 +543,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
-shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
+shader_parameter/auto_flash_speed = 10.0
+shader_parameter/auto_flash_bound1 = 0.025
+shader_parameter/auto_flash_bound2 = 0.15
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -765,7 +775,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_w1f01")
+material = SubResource("ShaderMaterial_426kv")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
@@ -810,6 +820,7 @@ _tooltip = "Stone"
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 material = SubResource("ShaderMaterial_prrug")
 anchors_preset = 15
 anchor_right = 1.0

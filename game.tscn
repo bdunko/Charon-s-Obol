@@ -57,8 +57,10 @@ shader_parameter/tint_color = Color(0.533333, 0.768627, 0.94902, 1)
 shader_parameter/tint_strength = 0.1
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -145,7 +147,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kpepm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8h11"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -175,8 +177,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -263,7 +267,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d020h"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8t3fu"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -293,8 +297,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -381,7 +387,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gm0pc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jph3v"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -411,8 +417,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -499,7 +507,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ansib"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x10pv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -529,8 +537,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -617,7 +627,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ibk1a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wiwus"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -647,8 +657,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -735,7 +747,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rbe4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nbmtt"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -765,8 +777,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -853,7 +867,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3udq5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pi1vg"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -883,8 +897,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -971,7 +987,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ryi7g"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4m0qm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1001,8 +1017,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -1089,7 +1107,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_88fm7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mqy2s"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1119,8 +1137,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -1243,8 +1263,10 @@ shader_parameter/tint_color = Color(0.933333, 0.690196, 0.815686, 1)
 shader_parameter/tint_strength = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -1369,8 +1391,10 @@ shader_parameter/tint_color = Color(0.517647, 0.827451, 0.92549, 1)
 shader_parameter/tint_strength = 0.3
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -1592,7 +1616,7 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_kpepm")
+material = SubResource("ShaderMaterial_p8h11")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -1606,7 +1630,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_d020h")
+material = SubResource("ShaderMaterial_8t3fu")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -1615,7 +1639,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gm0pc")
+material = SubResource("ShaderMaterial_jph3v")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -1624,7 +1648,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ansib")
+material = SubResource("ShaderMaterial_x10pv")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -1632,7 +1656,7 @@ script = ExtResource("9_cd2hg")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_ibk1a")
+material = SubResource("ShaderMaterial_wiwus")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -1641,7 +1665,7 @@ text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_0rbe4")
+material = SubResource("ShaderMaterial_nbmtt")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -1650,7 +1674,7 @@ text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_3udq5")
+material = SubResource("ShaderMaterial_pi1vg")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -1660,7 +1684,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_ryi7g")
+material = SubResource("ShaderMaterial_4m0qm")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -1669,7 +1693,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_88fm7")
+material = SubResource("ShaderMaterial_mqy2s")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 

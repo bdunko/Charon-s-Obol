@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://btdousdmcb6d3" path="res://game.tscn" id="1_bpd8x"]
 [ext_resource type="PackedScene" uid="uid://bbn2sfo5vap1h" path="res://main_menu.tscn" id="2_o16h6"]
 [ext_resource type="PackedScene" uid="uid://08gavqs15dvr" path="res://patron_selection.tscn" id="3_8a40o"]
-[ext_resource type="Shader" path="res://shaders/post.gdshader" id="5_ov47o"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="5_h5rp5"]
 [ext_resource type="Script" path="res://shaders/fx.gd" id="6_8jepi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bgj84"]
-shader = ExtResource("5_ov47o")
+shader = ExtResource("5_h5rp5")
 shader_parameter/POST_PROCESSING = true
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
@@ -36,8 +36,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0

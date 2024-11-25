@@ -21,7 +21,7 @@ enum Uniform {
 	VEC3_TINT_COLOR, FLOAT_TINT_STRENGTH,
 	
 	VEC3_FLASH_COLOR, FLOAT_FLASH_STRENGTH,
-	FLOAT_AUTO_FLASH_SPEED, FLOAT_AUTO_FLASH_BOUND, FLOAT_AUTO_FLASH_START_TIME,
+	VEC3_AUTO_FLASH_COLOR, FLOAT_AUTO_FLASH_SPEED, FLOAT_AUTO_FLASH_BOUND1, FLOAT_AUTO_FLASH_BOUND2, FLOAT_AUTO_FLASH_START_TIME,
 	
 	FLOAT_RED_CORRECT, FLOAT_GREEN_CORRECT, FLOAT_BLUE_CORRECT, FLOAT_GRAY_CORRECT, 
 	FLOAT_BRIGHTNESS_CORRECT, FLOAT_CONTRAST_CORRECT, FLOAT_SATURATION_CORRECT,
@@ -69,26 +69,133 @@ enum Uniform {
 }
 
 const _UNIFORM_TO_STR = {
-	Uniform.BOOL_USE_EXCLUDE_COLORS : "use_exclude_colors", Uniform.VEC3_EXCLUDE_COLOR1 : "exclude_color1", Uniform.VEC3_EXCLUDE_COLOR2 : "exclude_color2", Uniform.VEC3_EXCLUDE_COLOR3 : "exclude_color3", Uniform.VEC3_EXCLUDE_COLOR4 : "exclude_color4",
-	Uniform.INT_DISPLACE_X : "displace_x", Uniform.INT_DISPLACE_Y : "displace_y", Uniform.BOOL_DISPLACE_REPEAT : "displace_repeat", Uniform.VEC2_AUTO_PAN_SPEED : "auto_pan_speed",
-	Uniform.VEC3_REPLACE_COLOR1 : "replace_color1", Uniform.VEC3_REPLACE_WITH_COLOR1 : "replace_with_color1", Uniform.VEC3_REPLACE_COLOR2: "replace_color2", Uniform.VEC3_REPLACE_WITH_COLOR2 : "replace_with_color2", Uniform.VEC3_REPLACE_COLOR3 : "replace_color3", Uniform.VEC3_REPLACE_WITH_COLOR3 : "replace_with_color3", Uniform.VEC3_REPLACE_COLOR4 : "replace_color4", Uniform.VEC3_REPLACE_WITH_COLOR4 : "replace_with_color4", Uniform.VEC3_REPLACE_COLOR5 : "replace_color5", Uniform.VEC3_REPLACE_WITH_COLOR5 : "replace_with_color5", Uniform.VEC3_REPLACE_COLOR_OUTLINE : "replace_color_outline", Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE : "replace_with_color_outline",
-	Uniform.VEC3_TINT_COLOR : "tint_color", Uniform.FLOAT_TINT_STRENGTH : "tint_strength",
-	Uniform.VEC3_FLASH_COLOR : "flash_color", Uniform.FLOAT_FLASH_STRENGTH : "flash_strength", Uniform.FLOAT_AUTO_FLASH_SPEED : "auto_flash_speed", Uniform.FLOAT_AUTO_FLASH_BOUND : "auto_flash_bound", Uniform.FLOAT_AUTO_FLASH_START_TIME : "auto_flash_start_time",
-	Uniform.FLOAT_RED_CORRECT : "red_correct", Uniform.FLOAT_GREEN_CORRECT : "green_correct", Uniform.FLOAT_BLUE_CORRECT : "blue_correct", Uniform.FLOAT_GRAY_CORRECT : "gray_correct", Uniform.FLOAT_BRIGHTNESS_CORRECT : "brightness_correct", Uniform.FLOAT_CONTRAST_CORRECT : "contrast_correct", Uniform.FLOAT_SATURATION_CORRECT : "saturation_correct",
-	Uniform.VEC3_SCANLINE_COLOR : "scanline_color", Uniform.FLOAT_SCANLINE_STRENGTH : "scanline_strength", Uniform.FLOAT_SCANLINE_LEFT_TO_RIGHT_POSITION : "scanline_left_to_right_position", Uniform.FLOAT_SCANLINE_TOP_TO_BOTTOM_POSITION : "scanline_top_to_bottom_position", Uniform.FLOAT_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_POSITION : "scanline_topleft_to_bottomright_position", Uniform.FLOAT_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_POSITION : "scanline_topright_to_bottomleft_position",
-	Uniform.BOOL_AUTO_SCANLINE_LEFT_TO_RIGHT_ON : "auto_scanline_left_to_right_on", Uniform.BOOL_AUTO_SCANLINE_LEFT_TO_RIGHT_REVERSE : "auto_scanline_left_to_right_reverse", Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_START_TIME : "auto_scanline_left_to_right_start_time", Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_SCAN_DURATION : "auto_scanline_left_to_right_scan_duration", Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_DELAY : "auto_scanline_left_to_right_delay",
-	Uniform.BOOL_AUTO_SCANLINE_TOP_TO_BOTTOM_ON : "auto_scanline_top_to_bottom_on", Uniform.BOOL_AUTO_SCANLINE_TOP_TO_BOTTOM_REVERSE : "auto_scanline_top_to_bottom_reverse", Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_START_TIME : "auto_scanline_top_to_bottom_start_time", Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_SCAN_DURATION : "auto_scanline_top_to_bottom_scan_duration", Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_DELAY : "auto_scanline_top_to_bottom_delay",
-	Uniform.BOOL_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_ON : "auto_scanline_topleft_to_bottomright_on", Uniform.BOOL_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_REVERSE : "auto_scanline_topleft_to_bottomright_reverse", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_START_TIME : "auto_scanline_topleft_to_bottomright_start_time", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_SCAN_DURATION : "auto_scanline_topleft_to_bottomright_scan_duration", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_DELAY : "auto_scanline_topleft_to_bottomright_delay",
-	Uniform.BOOL_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_ON : "auto_scanline_topright_to_bottomleft_on", Uniform.BOOL_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_REVERSE : "auto_scanline_topright_to_bottomleft_reverse", Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_START_TIME : "auto_scanline_topright_to_bottomleft_start_time", Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_SCAN_DURATION : "auto_scanline_topright_to_bottomleft_scan_duration", Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_DELAY : "auto_scanline_topright_to_bottomleft_delay",
-	Uniform.INT_DISINTEGRATE_SEED : "disintegrate_seed", Uniform.VEC3_DISINTEGRATE_COLOR : "disintegrate_color",  Uniform.FLOAT_DISINTEGRATE_STRENGTH : "disintegrate_strength", Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1 : "disintegrate_alpha_bound1",Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2 : "disintegrate_alpha_bound2", Uniform.BOOL_DISINTEGRATE_AS_STATIC : "disintegrate_as_static",  Uniform.FLOAT_AUTO_DISINTEGRATE_RANDOM_SEED_SPEED : "auto_disintegrate_random_seed_speed",
-	Uniform.VEC4_GLOW_COLOR : "glow_color", Uniform.INT_GLOW_THICKNESS : "glow_thickness", Uniform.BOOL_GLOW_DIAGONALS : "glow_diagonals", Uniform.FLOAT_AUTO_GLOW_SPEED : "auto_glow_speed", Uniform.FLOAT_AUTO_GLOW_BOUND : "auto_glow_bound", Uniform.FLOAT_AUTO_GLOW_START_TIME : "auto_glow_start_time", 
-	Uniform.BOOL_FOG_ENABLED : "fog_enabled", Uniform.SAMPLER2D_FOG_NOISE_TEXTURE : "fog_noise_texture", Uniform.FLOAT_FOG_OPACITY : "fog_opacity", Uniform.FLOAT_FOG_DENSITY : "fog_density", Uniform.VEC2_FOG_SPEED : "fog_speed",
-	Uniform.VEC3_VERTICAL_COLORLINE_COLOR : "vertical_colorline_color", Uniform.INT_VERTICAL_COLORLINE_SPACING : "vertical_colorline_spacing", Uniform.FLOAT_VERTICAL_COLORLINE_STRENGTH : "vertical_colorline_strength", Uniform.VEC3_HORIZONTAL_COLORLINE_COLOR : "horizontal_colorline_color", Uniform.INT_HORIZONTAL_COLORLINE_SPACING : "horizontal_colorline_spacing", Uniform.FLOAT_HORIZONTAL_COLORLINE_STRENGTH : "horizontal_colorline_strength",
-	Uniform.VEC3_CHECKER_COLOR : "checker_color", Uniform.FLOAT_CHECKER_STRENGTH : "checker_strength", Uniform.INT_CHECKER_X_SIZE : "checker_x_size", Uniform.INT_CHECKER_Y_SIZE : "checker_y_size", Uniform.INT_CHECKER_X_PATTERN : "checker_x_pattern", Uniform.INT_CHECKER_Y_PATTERN : "checker_y_pattern", Uniform.FLOAT_CHECKER_CONTRAST_AMOUNT : "checker_contrast_amount", Uniform.FLOAT_CHECKER_CONTRAST_RATIO : "checker_contrast_ratio",
-	Uniform.BOOL_MOUSELIGHT_ON : "mouselight_on", Uniform.VEC3_MOUSELIGHT_COLOR : "mouselight_color", Uniform.FLOAT_MOUSELIGHT_STRENGTH : "mouselight_strength", Uniform.INT_MOUSELIGHT_SIZE : "mouselight_size", Uniform.BOOL_MOUSELIGHT_SOFTEN_EDGES : "mouselight_soften_edges", Uniform.BOOL_MOUSELIGHT_CHECKER : "mouselight_checker", Uniform.FLOAT_AUTO_MOUSELIGHT_FLICKER_SPEED : "auto_mouselight_flicker_speed", Uniform.FLOAT_AUTO_MOUSELIGHT_FLICKER_BOUND : "auto_mouselight_flicker_bound",
-	Uniform.FLOAT_CUT_LEFT : "cut_left", Uniform.FLOAT_CUT_RIGHT : "cut_right", Uniform.FLOAT_CUT_TOP : "cut_top", Uniform.FLOAT_CUT_BOTTOM : "cut_bottom",
-	Uniform.BOOL_VIGNETTE_ON : "vignette_on", Uniform.BOOL_VIGNETTE_IGNORE_TRANSPARENT : "vignette_ignore_transparent", Uniform.VEC3_VIGNETTE_COLOR : "vignette_color", Uniform.FLOAT_VIGNETTE_RADIUS : "vignette_radius",
-	Uniform.FLOAT_TRANSPARENCY : "transparency", Uniform.FLOAT_AUTO_FLICKER_SPEED : "auto_flicker_speed", Uniform.FLOAT_AUTO_FLICKER_BOUND : "auto_flicker_bound", Uniform.FLOAT_AUTO_FLICKER_START_TIME : "auto_flicker_start_time"
+	Uniform.BOOL_USE_EXCLUDE_COLORS : "use_exclude_colors", 
+	Uniform.VEC3_EXCLUDE_COLOR1 : "exclude_color1", 
+	Uniform.VEC3_EXCLUDE_COLOR2 : "exclude_color2", 
+	Uniform.VEC3_EXCLUDE_COLOR3 : "exclude_color3", 
+	Uniform.VEC3_EXCLUDE_COLOR4 : "exclude_color4",
+	
+	Uniform.INT_DISPLACE_X : "displace_x", 
+	Uniform.INT_DISPLACE_Y : "displace_y", 
+	Uniform.BOOL_DISPLACE_REPEAT : "displace_repeat", 
+	Uniform.VEC2_AUTO_PAN_SPEED : "auto_pan_speed",
+	
+	Uniform.VEC3_REPLACE_COLOR1 : "replace_color1", 
+	Uniform.VEC3_REPLACE_WITH_COLOR1 : "replace_with_color1", 
+	Uniform.VEC3_REPLACE_COLOR2: "replace_color2", 
+	Uniform.VEC3_REPLACE_WITH_COLOR2 : "replace_with_color2", 
+	Uniform.VEC3_REPLACE_COLOR3 : "replace_color3", 
+	Uniform.VEC3_REPLACE_WITH_COLOR3 : "replace_with_color3", 
+	Uniform.VEC3_REPLACE_COLOR4 : "replace_color4", 
+	Uniform.VEC3_REPLACE_WITH_COLOR4 : "replace_with_color4", 
+	Uniform.VEC3_REPLACE_COLOR5 : "replace_color5", 
+	Uniform.VEC3_REPLACE_WITH_COLOR5 : "replace_with_color5", 
+	Uniform.VEC3_REPLACE_COLOR_OUTLINE : "replace_color_outline", 
+	Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE : "replace_with_color_outline",
+	
+	Uniform.VEC3_TINT_COLOR : "tint_color", 
+	Uniform.FLOAT_TINT_STRENGTH : "tint_strength",
+	
+	Uniform.VEC3_FLASH_COLOR : "flash_color", 
+	Uniform.FLOAT_FLASH_STRENGTH : "flash_strength", 
+	Uniform.VEC3_AUTO_FLASH_COLOR : "auto_flash_color", 
+	Uniform.FLOAT_AUTO_FLASH_SPEED : "auto_flash_speed", 
+	Uniform.FLOAT_AUTO_FLASH_BOUND1 : "auto_flash_bound1", 
+	Uniform.FLOAT_AUTO_FLASH_BOUND2 : "auto_flash_bound2", 
+	Uniform.FLOAT_AUTO_FLASH_START_TIME : "auto_flash_start_time",
+	
+	Uniform.FLOAT_RED_CORRECT : "red_correct", 
+	Uniform.FLOAT_GREEN_CORRECT : "green_correct", 
+	Uniform.FLOAT_BLUE_CORRECT : "blue_correct", 
+	Uniform.FLOAT_GRAY_CORRECT : "gray_correct", 
+	Uniform.FLOAT_BRIGHTNESS_CORRECT : "brightness_correct", 
+	Uniform.FLOAT_CONTRAST_CORRECT : "contrast_correct", 
+	Uniform.FLOAT_SATURATION_CORRECT : "saturation_correct",
+	
+	Uniform.VEC3_SCANLINE_COLOR : "scanline_color", 
+	Uniform.FLOAT_SCANLINE_STRENGTH : "scanline_strength", 
+	Uniform.FLOAT_SCANLINE_LEFT_TO_RIGHT_POSITION : "scanline_left_to_right_position", 
+	Uniform.FLOAT_SCANLINE_TOP_TO_BOTTOM_POSITION : "scanline_top_to_bottom_position", 
+	Uniform.FLOAT_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_POSITION : "scanline_topleft_to_bottomright_position", 
+	Uniform.FLOAT_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_POSITION : "scanline_topright_to_bottomleft_position",
+	Uniform.BOOL_AUTO_SCANLINE_LEFT_TO_RIGHT_ON : "auto_scanline_left_to_right_on", 
+	Uniform.BOOL_AUTO_SCANLINE_LEFT_TO_RIGHT_REVERSE : "auto_scanline_left_to_right_reverse", 
+	Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_START_TIME : "auto_scanline_left_to_right_start_time", 
+	Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_SCAN_DURATION : "auto_scanline_left_to_right_scan_duration", 
+	Uniform.FLOAT_AUTO_SCANLINE_LEFT_TO_RIGHT_DELAY : "auto_scanline_left_to_right_delay",
+	Uniform.BOOL_AUTO_SCANLINE_TOP_TO_BOTTOM_ON : "auto_scanline_top_to_bottom_on", 
+	Uniform.BOOL_AUTO_SCANLINE_TOP_TO_BOTTOM_REVERSE : "auto_scanline_top_to_bottom_reverse", 
+	Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_START_TIME : "auto_scanline_top_to_bottom_start_time",
+	Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_SCAN_DURATION : "auto_scanline_top_to_bottom_scan_duration", 
+	Uniform.FLOAT_AUTO_SCANLINE_TOP_TO_BOTTOM_DELAY : "auto_scanline_top_to_bottom_delay",
+	Uniform.BOOL_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_ON : "auto_scanline_topleft_to_bottomright_on", 
+	Uniform.BOOL_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_REVERSE : "auto_scanline_topleft_to_bottomright_reverse", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_START_TIME : "auto_scanline_topleft_to_bottomright_start_time", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_SCAN_DURATION : "auto_scanline_topleft_to_bottomright_scan_duration", Uniform.FLOAT_AUTO_SCANLINE_TOPLEFT_TO_BOTTOMRIGHT_DELAY : "auto_scanline_topleft_to_bottomright_delay",
+	Uniform.BOOL_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_ON : "auto_scanline_topright_to_bottomleft_on", 
+	Uniform.BOOL_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_REVERSE : "auto_scanline_topright_to_bottomleft_reverse", 
+	Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_START_TIME : "auto_scanline_topright_to_bottomleft_start_time", 
+	Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_SCAN_DURATION : "auto_scanline_topright_to_bottomleft_scan_duration", 
+	Uniform.FLOAT_AUTO_SCANLINE_TOPRIGHT_TO_BOTTOMLEFT_DELAY : "auto_scanline_topright_to_bottomleft_delay",
+	
+	Uniform.INT_DISINTEGRATE_SEED : "disintegrate_seed", 
+	Uniform.VEC3_DISINTEGRATE_COLOR : "disintegrate_color",  
+	Uniform.FLOAT_DISINTEGRATE_STRENGTH : "disintegrate_strength", 
+	Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1 : "disintegrate_alpha_bound1",
+	Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2 : "disintegrate_alpha_bound2", 
+	Uniform.BOOL_DISINTEGRATE_AS_STATIC : "disintegrate_as_static",  
+	Uniform.FLOAT_AUTO_DISINTEGRATE_RANDOM_SEED_SPEED : "auto_disintegrate_random_seed_speed",
+	
+	Uniform.VEC4_GLOW_COLOR : "glow_color", 
+	Uniform.INT_GLOW_THICKNESS : "glow_thickness", 
+	Uniform.BOOL_GLOW_DIAGONALS : "glow_diagonals", 
+	Uniform.FLOAT_AUTO_GLOW_SPEED : "auto_glow_speed", 
+	Uniform.FLOAT_AUTO_GLOW_BOUND : "auto_glow_bound", 
+	Uniform.FLOAT_AUTO_GLOW_START_TIME : "auto_glow_start_time", 
+	
+	Uniform.BOOL_FOG_ENABLED : "fog_enabled", 
+	Uniform.SAMPLER2D_FOG_NOISE_TEXTURE : "fog_noise_texture", 
+	Uniform.FLOAT_FOG_OPACITY : "fog_opacity", 
+	Uniform.FLOAT_FOG_DENSITY : "fog_density", 
+	Uniform.VEC2_FOG_SPEED : "fog_speed",
+	
+	Uniform.VEC3_VERTICAL_COLORLINE_COLOR : "vertical_colorline_color", 
+	Uniform.INT_VERTICAL_COLORLINE_SPACING : "vertical_colorline_spacing", 
+	Uniform.FLOAT_VERTICAL_COLORLINE_STRENGTH : "vertical_colorline_strength",
+	Uniform.VEC3_HORIZONTAL_COLORLINE_COLOR : "horizontal_colorline_color", 
+	Uniform.INT_HORIZONTAL_COLORLINE_SPACING : "horizontal_colorline_spacing", 
+	Uniform.FLOAT_HORIZONTAL_COLORLINE_STRENGTH : "horizontal_colorline_strength",
+	
+	Uniform.VEC3_CHECKER_COLOR : "checker_color", 
+	Uniform.FLOAT_CHECKER_STRENGTH : "checker_strength", 
+	Uniform.INT_CHECKER_X_SIZE : "checker_x_size", 
+	Uniform.INT_CHECKER_Y_SIZE : "checker_y_size", 
+	Uniform.INT_CHECKER_X_PATTERN : "checker_x_pattern", 
+	Uniform.INT_CHECKER_Y_PATTERN : "checker_y_pattern", 
+	Uniform.FLOAT_CHECKER_CONTRAST_AMOUNT : "checker_contrast_amount", 
+	Uniform.FLOAT_CHECKER_CONTRAST_RATIO : "checker_contrast_ratio",
+	
+	Uniform.BOOL_MOUSELIGHT_ON : "mouselight_on", 
+	Uniform.VEC3_MOUSELIGHT_COLOR : "mouselight_color", 
+	Uniform.FLOAT_MOUSELIGHT_STRENGTH : "mouselight_strength", 
+	Uniform.INT_MOUSELIGHT_SIZE : "mouselight_size", 
+	Uniform.BOOL_MOUSELIGHT_SOFTEN_EDGES : "mouselight_soften_edges", 
+	Uniform.BOOL_MOUSELIGHT_CHECKER : "mouselight_checker", 
+	Uniform.FLOAT_AUTO_MOUSELIGHT_FLICKER_SPEED : "auto_mouselight_flicker_speed", 
+	Uniform.FLOAT_AUTO_MOUSELIGHT_FLICKER_BOUND : "auto_mouselight_flicker_bound",
+	
+	Uniform.FLOAT_CUT_LEFT : "cut_left", 
+	Uniform.FLOAT_CUT_RIGHT : "cut_right", 
+	Uniform.FLOAT_CUT_TOP : "cut_top", 
+	Uniform.FLOAT_CUT_BOTTOM : "cut_bottom",
+	
+	Uniform.BOOL_VIGNETTE_ON : "vignette_on", 
+	Uniform.BOOL_VIGNETTE_IGNORE_TRANSPARENT : "vignette_ignore_transparent", 
+	Uniform.VEC3_VIGNETTE_COLOR : "vignette_color", 
+	Uniform.FLOAT_VIGNETTE_RADIUS : "vignette_radius",
+	
+	Uniform.FLOAT_TRANSPARENCY : "transparency", 
+	Uniform.FLOAT_AUTO_FLICKER_SPEED : "auto_flicker_speed", 
+	Uniform.FLOAT_AUTO_FLICKER_BOUND : "auto_flicker_bound", 
+	Uniform.FLOAT_AUTO_FLICKER_START_TIME : "auto_flicker_start_time"
 }
 
 # Pass this under the START_TIME uniforms for effects that use it, when starting that effect.
@@ -103,17 +210,18 @@ func _ready() -> void:
 	assert(get_parent().material) # precondition - parent's material is shader.gdshader
 	assert(get_parent().material is ShaderMaterial)
 	
-	# check uniform dictionary - 
-	# debug check; but for some reasons this fails in the game, so commented out
-#	# it does correctly verify though (check output)
-#	for uniform in Uniform.values():
-#		assert(_UNIFORM_TO_STR.has(uniform))
-#		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE]:
-#			print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
-#			assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
+	# debug check for uniform dictionary - 
+	# however note that assertions here can fail if new uniforms are added, causing scenes using this shader to need a refresh.
+	# in the case of unexpected assertion failure, open the scene containing the printed path and resave it.
+	for uniform in Uniform.values():
+		assert(_UNIFORM_TO_STR.has(uniform))
+		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE]:
+			if get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) == null:
+				print(self.get_path())
+				print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
+				assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
 
 ## DIRECT API ##
-
 func set_uniform(uniform: Uniform, value) -> void:
 	get_parent().material.set_shader_parameter(_UNIFORM_TO_STR[uniform], value)
 
@@ -188,7 +296,6 @@ func flash(color: Color, time: float = 0.1) -> void:
 	
 	set_uniform(Uniform.VEC3_FLASH_COLOR, color)
 	set_uniform(Uniform.FLOAT_FLASH_STRENGTH, 0.0) 
-	set_uniform(Uniform.FLOAT_AUTO_FLASH_START_TIME, START_TIME())
 	
 	# play the flash in/out
 	await tween_uniform(Uniform.FLOAT_FLASH_STRENGTH, 1.0, time)
@@ -307,19 +414,19 @@ func stop_flickering(ending_alpha: float = 1.0) -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLICKER_SPEED, 0.0)
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, ending_alpha)
 
-func start_flashing(speed: float, strength_bound1: float, strength_bound2: float) -> void:
+func start_flashing(color: Color, speed: float, strength_bound1: float, strength_bound2: float) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(strength_bound1 >= 0 and strength_bound1 <= 1, "Bounds must be between 0 and 1.")
 	assert(strength_bound2 >= 0 and strength_bound2 <= 1, "Bounds must be between 0 and 1.")
 	
-	set_uniform(Uniform.FLOAT_FLASH_STRENGTH, strength_bound1)
-	set_uniform(Uniform.FLOAT_AUTO_FLASH_BOUND, strength_bound2)
+	set_uniform(Uniform.VEC3_AUTO_FLASH_COLOR, color)
+	set_uniform(Uniform.FLOAT_AUTO_FLASH_BOUND1, strength_bound1)
+	set_uniform(Uniform.FLOAT_AUTO_FLASH_BOUND2, strength_bound2)
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_SPEED, speed)
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_START_TIME, START_TIME())
 
 func stop_flashing() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_SPEED, 0.0)
-	set_uniform(Uniform.FLOAT_FLASH_STRENGTH, 0.0) # reset flash quickly
 
 func start_scanning(direction: ScanDirection, color: Color, strength: float = 1.0, scan_duration: float = 1.0, delay: float = 2.0) -> void:
 	assert(scan_duration >= 0, "Scan duration must be non-negative.")
