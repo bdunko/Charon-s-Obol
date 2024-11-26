@@ -422,7 +422,10 @@ func stop_flickering(ending_alpha: float = 1.0) -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLICKER_SPEED, 0.0)
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, ending_alpha)
 
-func start_flashing(color: Color, speed: float, strength_bound1: float, strength_bound2: float, restart: bool = true) -> void:
+static var DEFAULT_FLASH_SPEED = 10
+static var DEFAULT_FLASH_BOUND1 = 0.2
+static var DEFAULT_FLASH_BOUND2 = 0.4
+func start_flashing(color: Color, speed: float = DEFAULT_FLASH_SPEED, strength_bound1: float = DEFAULT_FLASH_BOUND1, strength_bound2: float = DEFAULT_FLASH_BOUND2, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(strength_bound1 >= 0 and strength_bound1 <= 1, "Bounds must be between 0 and 1.")
 	assert(strength_bound2 >= 0 and strength_bound2 <= 1, "Bounds must be between 0 and 1.")

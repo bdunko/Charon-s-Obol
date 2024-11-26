@@ -177,12 +177,12 @@ func _update_flash():
 	
 	# if this is the active power coin, flash gold
 	if Global.active_coin_power_coin == self:
-		FX.start_flashing(Color.GOLD, 10, 0.3, 0.5, false)
+		FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 		return
 		
 	# if this coin can be activated, flash white
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
-		FX.start_flashing(Color.AZURE, 10, 0.3, 0.5, false)
+		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 		return
 	
 	FX.stop_flashing()
@@ -203,10 +203,10 @@ var _bless_curse_state: _BlessCurseState:
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.PALE_GOLDENROD)
-			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.PALE_GOLDENROD, 0.75, 0.3, 0.5)
+			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.PALE_GOLDENROD, 1.0, 0.5, 0.75)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
 			FX.flash(Color.ORCHID)
-			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.DARK_ORCHID, 0.75, 0.3, 0.5)
+			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.DARK_ORCHID, 1.0, 0.5, 0.75)
 		else:
 			FX.stop_scanning(FX.ScanDirection.TOP_TO_BOTTOM)
 			FX.stop_scanning(FX.ScanDirection.BOTTOM_TO_TOP)
@@ -843,7 +843,6 @@ func _on_active_coin_power_coin_changed() -> void:
 	
 	_update_appearance()
 	
-	# if this is the active power coin, move it up a bit.
 	if not _disable_interaction:
 		if Global.active_coin_power_coin == self:
 			_was_active_power_coin = true

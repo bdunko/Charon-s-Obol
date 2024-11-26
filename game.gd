@@ -216,7 +216,7 @@ func on_start() -> void:
 	#debug
 	Global.souls = 100
 	#Global.lives = 100
-	#Global.arrows = 10
+	Global.arrows = 5
 	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
 	#_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
 	#_make_and_gain_coin(Global.ARES_FAMILY, Global.Denomination.TETROBOL)
@@ -808,11 +808,15 @@ func _disable_interaction_coins_and_patron() -> void:
 	for row in [_COIN_ROW, _ENEMY_COIN_ROW, _CHARON_COIN_ROW, _SHOP_COIN_ROW]:
 		row.disable_interaction()
 	_patron_token.disable_interaction()
+	for arrow in _ARROWS.get_children():
+		arrow.disable_interaction()
 
 func _enable_interaction_coins_and_patron() -> void:
 	for row in [_COIN_ROW, _ENEMY_COIN_ROW, _CHARON_COIN_ROW, _SHOP_COIN_ROW]:
 		row.enable_interaction()
 	_patron_token.enable_interaction()
+	for arrow in _ARROWS.get_children():
+		arrow.enable_interaction()
 
 func _on_coin_clicked(coin: Coin):
 	# if we're in the shop, sell this coin
