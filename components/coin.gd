@@ -175,12 +175,12 @@ func _update_flash():
 	
 	# if this is the active power coin, flash gold
 	if Global.active_coin_power_coin == self:
-		FX.start_flashing(Color.GOLD, 10, 0.25, 0.45, false)
+		FX.start_flashing(Color.GOLD, 10, 0.3, 0.5, false)
 		return
 		
 	# if this coin can be activated, flash white
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
-		FX.start_flashing(Color.AZURE, 10, 0.2, 0.4, false)
+		FX.start_flashing(Color.AZURE, 10, 0.3, 0.5, false)
 		return
 	
 	FX.stop_flashing()
@@ -201,12 +201,13 @@ var _bless_curse_state: _BlessCurseState:
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.PALE_GOLDENROD)
-			FX.start_glowing(Color.PALE_GOLDENROD)
+			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.PALE_GOLDENROD, 0.75, 0.3, 0.5)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
 			FX.flash(Color.ORCHID)
-			FX.start_glowing(Color.ORCHID) 
+			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.DARK_ORCHID, 0.75, 0.3, 0.5)
 		else:
-			FX.stop_glowing()
+			FX.stop_scanning(FX.ScanDirection.TOP_TO_BOTTOM)
+			FX.stop_scanning(FX.ScanDirection.BOTTOM_TO_TOP)
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -239,10 +240,10 @@ var _luck_state: _LuckState:
 		
 		if _luck_state == _LuckState.LUCKY:
 			FX.flash(Color.LAWN_GREEN)
-			FX.recolor_outline(Color("#1f7122")) #lucky
+			FX.recolor_outline(Color("#59c035")) #lucky
 		elif _luck_state == _LuckState.UNLUCKY:
 			FX.flash(Color.ORANGE_RED)
-			FX.recolor_outline(Color("#6b1f1a")) #unlucky
+			FX.recolor_outline(Color("#b3202a")) #unlucky
 		else:
 			FX.recolor_outline_to_default()
 
@@ -497,10 +498,10 @@ func flip(bonus: int = 0) -> void:
 		var roll = Global.RNG.randi_range(1, 100)
 		var success = percentage_success >= roll 
 		if success and _luck_state == _LuckState.LUCKY and percentage_success - roll < LUCKY_MODIFIER:
-			print("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
+			#prnt("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
 			FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
 		elif not success and _luck_state == _LuckState.UNLUCKY and percentage_success - roll >= UNLUCKY_MODIFIER:
-			print("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
+			#prnt("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
 			FX.flash(Color.ORANGE_RED) # failed because of unlucky
 		
 		_heads = success
@@ -818,11 +819,13 @@ func _on_mouse_clicked():
 
 func _on_mouse_entered():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
-		_new_movement_tween().tween_property(_SPRITE, "position:y", -3, 0.15).set_trans(Tween.TRANS_CIRC)
+		#_new_movement_tween().tween_property(_SPRITE, "position:y", -2, 0.15).set_trans(Tween.TRANS_CIRC)
+		FX.start_glowing(Color.WHITE)
 
 func _on_mouse_exited():
 	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
-		_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+		#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+		FX.stop_glowing()
 
 var _was_active_power_coin = false
 func _on_active_coin_power_coin_changed() -> void:
@@ -832,12 +835,22 @@ func _on_active_coin_power_coin_changed() -> void:
 	_update_appearance()
 	
 	# if this is the active power coin, move it up a bit.
-	if not _disabled and Global.active_coin_power_coin == self:
-		_was_active_power_coin = true
-		_new_movement_tween().tween_property(_SPRITE, "position:y", -6, 0.15).set_trans(Tween.TRANS_CIRC)
-	else:
-		if not _disabled and _was_active_power_coin:
-			_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+	if not _disabled: #not totally sure what this if does, so removing it for now?
+		if Global.active_coin_power_coin == self:
+			_was_active_power_coin = true
+			FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+		else:
+			# if this coin was active and the mouse is not over it anymore, we need to remember stop its glow
+			# if this coin wasn't active, make sure it stops glowing
+			var was_active_and_mouse_no_longer_over = _was_active_power_coin and not _MOUSE.is_over()
+			var wasnt_active_and_cant_be_activated = get_active_power_charges() == 0 or not can_activate_power()
+			if was_active_and_mouse_no_longer_over or wasnt_active_and_cant_be_activated:
+				#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
+				FX.stop_glowing()
+			
+			# lastly if this was the active power and we're still over it, glow white instead of gold again
+			if _was_active_power_coin and _MOUSE.is_over():
+				FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 
 @onready var _MOUSE = $Mouse
 

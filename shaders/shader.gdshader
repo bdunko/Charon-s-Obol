@@ -143,22 +143,22 @@ uniform bool auto_scanline_left_to_right_on = false;
 uniform bool auto_scanline_left_to_right_reverse = false;
 uniform float auto_scanline_left_to_right_start_time = 0.0;
 uniform float auto_scanline_left_to_right_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
-uniform float auto_scanline_left_to_right_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform float auto_scanline_left_to_right_delay: hint_range(0.0, 10.0, 0.01) = 1.0;
 uniform bool auto_scanline_top_to_bottom_on = false;
 uniform bool auto_scanline_top_to_bottom_reverse = false;
 uniform float auto_scanline_top_to_bottom_start_time = 0.0;
 uniform float auto_scanline_top_to_bottom_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
-uniform float auto_scanline_top_to_bottom_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform float auto_scanline_top_to_bottom_delay: hint_range(0.0, 10.0, 0.01) = 1.0;
 uniform bool auto_scanline_topleft_to_bottomright_on = false;
 uniform bool auto_scanline_topleft_to_bottomright_reverse = false;
 uniform float auto_scanline_topleft_to_bottomright_start_time = 0.0;
 uniform float auto_scanline_topleft_to_bottomright_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
-uniform float auto_scanline_topleft_to_bottomright_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform float auto_scanline_topleft_to_bottomright_delay: hint_range(0.0, 10.0, 0.01) = 1.0;
 uniform bool auto_scanline_topright_to_bottomleft_on = false;
 uniform bool auto_scanline_topright_to_bottomleft_reverse = false;
 uniform float auto_scanline_topright_to_bottomleft_start_time = 0.0;
 uniform float auto_scanline_topright_to_bottomleft_scan_duration: hint_range(0.1, 5.0, 0.01) = 0.5;
-uniform float auto_scanline_topright_to_bottomleft_delay: hint_range(0.0, 10.0, 0.1) = 1.0;
+uniform float auto_scanline_topright_to_bottomleft_delay: hint_range(0.0, 10.0, 0.01) = 1.0;
 
 // OUTLINE
 // Adds a pixel outline to the texture, with glow_color and glow_thickness.

@@ -336,7 +336,7 @@ func clear_tint() -> void:
 
 static var DEFAULT_GLOW_SPEED := 2.0
 static var DEFAULT_GLOW_THICKNESS := 1
-static var DEFAULT_GLOW_MINIMUM := 0.7
+static var DEFAULT_GLOW_MINIMUM := 0.8
 static var DEFAULT_GLOW_RESTART := true
 # FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM
 func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
