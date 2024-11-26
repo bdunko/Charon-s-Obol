@@ -13,7 +13,7 @@ func play_animation() -> void:
 	position = _INITIAL_POSITION + ANIMATION_OFFSET
 	modulate.a = 0.0
 	var tween = create_tween()
-	tween.tween_property(self, "position", _INITIAL_POSITION, 0.08)
+	tween.tween_property(self, "position", _INITIAL_POSITION, 0.07)
 	tween.parallel().tween_property(self, "modulate:a", 1.0, 0.04)
 	for textbox in get_children():
 		tween.tween_callback(textbox.enable_clicks)

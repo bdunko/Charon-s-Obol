@@ -38,8 +38,14 @@ static func disable_tooltips():
 
 static func clear_tooltips():
 	for tooltip in _ALL_TOOLTIPS:
-		tooltip.queue_free() #not sure this is safe; keep an eye on this
+		tooltip.destroy_tooltip()
 	_ALL_TOOLTIPS.clear()
+
+static func clear_tooltip_for(src):
+	for tooltip in _ALL_TOOLTIPS:
+		if tooltip.source == src:
+			tooltip.destroy_tooltip()
+			_ALL_TOOLTIPS.erase(tooltip)
 
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself

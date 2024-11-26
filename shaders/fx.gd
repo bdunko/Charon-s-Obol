@@ -291,6 +291,12 @@ enum ScanDirection {
 	DIAGONAL_TOPRIGHT_TO_BOTTOMLEFT, DIAGONAL_BOTTOMLEFT_TO_TOPRIGHT
 }
 
+func disable_exclude_colors() -> void:
+	set_uniform(Uniform.BOOL_USE_EXCLUDE_COLORS, false)
+
+func enable_exclude_colors() -> void:
+	set_uniform(Uniform.BOOL_USE_EXCLUDE_COLORS, true)
+
 func flash(color: Color, time: float = 0.1) -> void:
 	assert(time >= 0.0, "Time must be non-negative.")
 	
@@ -459,3 +465,10 @@ func start_scanning(direction: ScanDirection, color: Color, strength: float = DE
 func stop_scanning(direction: ScanDirection) -> void: 
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]
 	set_uniform(uniform_on, false)
+
+func stop_all() -> void:
+	stop_flashing()
+	stop_flickering()
+	stop_glowing()
+	for direction in ScanDirection.values():
+		stop_scanning(direction)

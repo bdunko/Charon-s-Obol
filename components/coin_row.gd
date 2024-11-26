@@ -157,4 +157,11 @@ func _update_coins() -> void:
 	for i in get_child_count():
 		var coin = get_child(i)
 		coin.position.x = start + (i*coin_width) - 3
-		
+
+func disable_interaction() -> void:
+	for coin in get_children():
+		coin.disable_interaction()
+
+func enable_interaction() -> void:
+	for coin in get_children():
+		coin.enable_interaction()

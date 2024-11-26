@@ -60,10 +60,12 @@ enum _MaterialState {
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
 
-var _disabled := false:
+var _disable_interaction := false:
 	set(val):
-		_disabled = val
+		_disable_interaction = val
 		_update_appearance()
+		if _disable_interaction:
+			UITooltip.clear_tooltip_for(self)
 
 var _owner: Owner:
 	set(val):
@@ -169,7 +171,7 @@ func _update_flash():
 		return
 	
 	# if coin is disabled or another coin is activated right now, don't flash at all
-	if _disabled or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
+	if _disable_interaction or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
 		FX.stop_flashing()
 		return
 	
@@ -471,7 +473,7 @@ func flip(bonus: int = 0) -> void:
 		emit_signal("flip_complete")
 		return
 		
-	_disabled = true # ignore input while flipping
+	_disable_interaction = true # ignore input while flipping
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
@@ -531,20 +533,20 @@ func flip(bonus: int = 0) -> void:
 	
 	emit_signal("flip_complete")
 	
-	_disabled = false
+	_disable_interaction = false
 
 # turn a coin to its other side
 func turn() -> void:
 	if is_stone():
 		return
-	_disabled = true
+	_disable_interaction = true
 	_heads = not _heads
 	_FACE_LABEL.hide()
 	set_animation(_Animation.FLIP)
 	await _SPRITE.animation_looped
 	set_animation(_Animation.FLAT)
 	_FACE_LABEL.show()
-	_disabled = false
+	_disable_interaction = false
 
 # sets to heads without an animation
 func set_heads_no_anim() -> void:
@@ -553,6 +555,19 @@ func set_heads_no_anim() -> void:
 # sets to tails without an animation
 func set_tails_no_anim() -> void:
 	_heads = false
+
+func destroy() -> void:
+	_disable_interaction = true # disable all interaction while destroying
+	FX.stop_all() # disable all effects
+	_FACE_LABEL.hide() # hide the text
+	_STATUS_BAR.hide() # hide the status icons
+	hide_price() # hide price (for monsters)
+	FX.disable_exclude_colors() # don't exclude border when disintegrating
+	
+	# fade and disintegrate quickly
+	FX.fade_out(0.2)
+	await FX.disintegrate(0.2)
+	queue_free() # and free when done
 
 func get_active_power_family() -> Global.PowerFamily:
 	return _heads_power.power_family if is_heads() else _tails_power.power_family
@@ -706,12 +721,6 @@ func reduce_life_penalty_for_round() -> void:
 	_generate_tooltip()
 	FX.flash(Color.SEA_GREEN)
 
-func disable_input() -> void:
-	_disabled = true
-
-func enable_input() -> void:
-	_disabled = false
-
 func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charges: int = -1) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -1:
@@ -780,10 +789,10 @@ func on_toss_complete() -> void:
 	pass
 
 func before_payoff() -> void:
-	_disabled = true
+	_disable_interaction = true
 
 func after_payoff() -> void:
-	_disabled = false
+	_disable_interaction = false
 	reset_power_uses()
 	FX.flash(Color.LIGHT_PINK)
 
@@ -814,16 +823,16 @@ func payoff_move_down() -> void:
 	await _new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
 
 func _on_mouse_clicked():
-	if not _disabled:
+	if not _disable_interaction:
 		emit_signal("clicked", self)
 
 func _on_mouse_entered():
-	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
+	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
 		#_new_movement_tween().tween_property(_SPRITE, "position:y", -2, 0.15).set_trans(Tween.TRANS_CIRC)
 		FX.start_glowing(Color.WHITE)
 
 func _on_mouse_exited():
-	if not _disabled and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
+	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
 		#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 		FX.stop_glowing()
 
@@ -835,7 +844,7 @@ func _on_active_coin_power_coin_changed() -> void:
 	_update_appearance()
 	
 	# if this is the active power coin, move it up a bit.
-	if not _disabled: #not totally sure what this if does, so removing it for now?
+	if not _disable_interaction:
 		if Global.active_coin_power_coin == self:
 			_was_active_power_coin = true
 			FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
@@ -852,13 +861,19 @@ func _on_active_coin_power_coin_changed() -> void:
 			if _was_active_power_coin and _MOUSE.is_over():
 				FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 
+func disable_interaction() -> void:
+	_disable_interaction = true
+
+func enable_interaction() -> void:
+	_disable_interaction = false
+
 @onready var _MOUSE = $Mouse
 
 var _time_mouse_hover = 0
 const _DELAY_BEFORE_TOOLTIP = 0.1 # not sure if we really want this?
 
 func _physics_process(delta):
-	if _MOUSE.is_over():
+	if _MOUSE.is_over() and not _disable_interaction:
 		_time_mouse_hover += delta
 	else:
 		_time_mouse_hover = 0

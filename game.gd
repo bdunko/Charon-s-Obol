@@ -4,13 +4,14 @@ signal game_ended
 
 @onready var _COIN_ROW: CoinRow = $Table/CoinRow
 @onready var _SHOP: Shop = $Table/Shop
+@onready var _SHOP_COIN_ROW: CoinRow = $Table/Shop/ShopRow
 @onready var _ENEMY_ROW: EnemyRow = $Table/EnemyRow
 @onready var _ENEMY_COIN_ROW: CoinRow = $Table/EnemyRow/CoinRow
-@onready var _CHARON_ROW: CoinRow = $Table/CharonObolRow
+@onready var _CHARON_COIN_ROW: CoinRow = $Table/CharonObolRow
 
-@onready var _LIFE_FRAGMENTS = $LifeFragments
-@onready var _SOUL_FRAGMENTS = $SoulFragments
-@onready var _ARROWS = $Arrows
+@onready var _LIFE_FRAGMENTS = $Table/LifeFragments
+@onready var _SOUL_FRAGMENTS = $Table/SoulFragments
+@onready var _ARROWS = $Table/Arrows
 
 @onready var _COIN_SCENE = preload("res://components/coin.tscn")
 @onready var _LIFE_FRAGMENT_SCENE = preload("res://components/life_fragment.tscn")
@@ -29,10 +30,10 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
-@onready var _VOYAGE_MAP: VoyageMap = $UI/VoyageMap
+@onready var _VOYAGE_MAP: VoyageMap = $Table/VoyageMap
 @onready var _MAP_BLOCKER = $UI/MapBlocker
-var _map_active = false
-var _map_is_disabled = false
+var _map_open = false # if the map is currently open
+var _map_is_disabled = false # if the map can be clicked on (ie, disabled during waiting dialogues and if the map is mid transition)
 
 @onready var _PATRON_TOKEN_POSITION: Vector2 = $Table/PatronToken.position
 
@@ -45,9 +46,10 @@ var _map_is_disabled = false
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
+	assert(_SHOP_COIN_ROW)
 	assert(_ENEMY_ROW)
 	assert(_ENEMY_COIN_ROW)
-	assert(_CHARON_ROW)
+	assert(_CHARON_COIN_ROW)
 	
 	assert(_PLAYER_TEXTBOXES)
 	assert(_END_ROUND_TEXTBOX)
@@ -138,13 +140,13 @@ func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
-	_CHARON_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
+	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	_COIN_ROW.visible = Global.state != Global.State.CHARON_OBOL_FLIP and Global.state != Global.State.GAME_OVER
 	_patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce strain to 0 for display purposes
-		_CHARON_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
+		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _wait_for_dialogue("Yet, I will grant you one final opportunity.")
 		await _wait_for_dialogue("We will flip this single obol.")
@@ -177,14 +179,14 @@ func on_start() -> void:
 		coin.get_parent().remove_child(coin)
 	
 	# make charon's obol
-	for coin in _CHARON_ROW.get_children():
-		_CHARON_ROW.remove_child(coin)
+	for coin in _CHARON_COIN_ROW.get_children():
+		_CHARON_COIN_ROW.remove_child(coin)
 		coin.queue_free()
 	var charons_obol = _COIN_SCENE.instantiate()
-	_CHARON_ROW.add_child(charons_obol)
+	_CHARON_COIN_ROW.add_child(charons_obol)
 	charons_obol.flip_complete.connect(_on_flip_complete)
 	charons_obol.init_coin(Global.CHARON_OBOL_FAMILY, Global.Denomination.OBOL, Coin.Owner.NEMESIS)
-	_CHARON_ROW.hide()
+	_CHARON_COIN_ROW.hide()
 	
 	# randomize and set up the nemesis & trials
 	Global.randomize_voyage()
@@ -226,6 +228,8 @@ func on_start() -> void:
 	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DIOBOL)
 	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.DIOBOL)
 	_make_and_gain_coin(Global.APOLLO_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
 	
 	
 	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
@@ -260,7 +264,7 @@ func _on_flip_complete() -> void:
 	
 	# if this is after the last chance flip, resolve payoff
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		var charons_obol = _CHARON_ROW.get_child(0) as Coin
+		var charons_obol = _CHARON_COIN_ROW.get_child(0) as Coin
 		match charons_obol.get_active_power_family():
 			Global.CHARON_POWER_DEATH:
 				await _wait_for_dialogue("Fate is cruel indeed.")
@@ -292,7 +296,7 @@ func _on_flip_complete() -> void:
 
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		for coin in _CHARON_ROW.get_children():
+		for coin in _CHARON_COIN_ROW.get_children():
 			_safe_flip(coin)
 		return
 	
@@ -496,9 +500,13 @@ func _wait_for_dialogue(dialogue: String) -> void:
 	_map_is_disabled = false
 	
 func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
+	_PLAYER_TEXTBOXES.make_invisible()
+	_disable_interaction_coins_and_patron()
+	_VOYAGE_MAP.z_index = 2001 # move on top of blocker
+	_map_open = true
 	Global.active_coin_power_coin = null
 	Global.active_coin_power_family = null
-	_map_active = true
+	_patron_token.deactivate()
 	_map_is_disabled = true
 	var map_display_tween = create_tween()
 	map_display_tween.tween_property(_VOYAGE_MAP, "position", _MAP_SHOWN_POINT, 0.2) # tween position
@@ -511,7 +519,7 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 	_map_is_disabled = false
 
 func _hide_voyage_map() -> void:
-	_map_active = false
+	_map_open = false
 	_map_is_disabled = true
 	var map_hide_tween = create_tween()
 	map_hide_tween.parallel().tween_property(_VOYAGE_MAP, "position", _MAP_HIDDEN_POINT, 0.2) # tween position
@@ -519,15 +527,18 @@ func _hide_voyage_map() -> void:
 	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.2)
 	_MAP_BLOCKER.hide()
 	await map_hide_tween.finished
+	_VOYAGE_MAP.z_index = 0
 	_map_is_disabled = false
+	_enable_interaction_coins_and_patron()
+	_PLAYER_TEXTBOXES.make_visible()
 
 func _on_voyage_map_clicked():
-	if _map_is_disabled or _map_active:
+	if _map_is_disabled or _map_open:
 		return
 	_show_voyage_map(true, true)
 
 func _on_voyage_map_closed():
-	if _map_is_disabled or not _map_active:
+	if _map_is_disabled or not _map_open:
 		return
 	_hide_voyage_map()
 
@@ -722,8 +733,7 @@ func _on_pay_toll_button_clicked():
 	if _toll_price_remaining() == 0 or true:
 		# delete each of the coins used to pay the toll
 		for coin in Global.toll_coins_offered:
-			_COIN_ROW.remove_child(coin)
-			coin.queue_free()
+			destroy_coin(coin)
 		Global.toll_coins_offered.clear()
 		
 		# advance the toll
@@ -774,9 +784,17 @@ func _gain_coin_entity(coin: Coin):
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 
-func _remove_coin(coin: Coin):
-	_COIN_ROW.remove_child(coin)
-	coin.queue_free()
+func destroy_coin(coin: Coin):
+	assert(coin.get_parent() is CoinRow)
+	# store the coin's global position, so we can restore it after removing from row
+	var destroyed_global_pos = coin.global_position
+	# remove from row and add to scene root
+	coin.get_parent().remove_child(coin)
+	add_child(coin)
+	coin.position = destroyed_global_pos
+	# play destruction animation (coin will free itself after finishing)
+	coin.destroy()
+	
 
 func _get_row_for(coin: Coin) -> CoinRow:
 	if _COIN_ROW.has_coin(coin):
@@ -786,6 +804,16 @@ func _get_row_for(coin: Coin) -> CoinRow:
 	assert(false, "Not in either row!")
 	return null
 
+func _disable_interaction_coins_and_patron() -> void:
+	for row in [_COIN_ROW, _ENEMY_COIN_ROW, _CHARON_COIN_ROW, _SHOP_COIN_ROW]:
+		row.disable_interaction()
+	_patron_token.disable_interaction()
+
+func _enable_interaction_coins_and_patron() -> void:
+	for row in [_COIN_ROW, _ENEMY_COIN_ROW, _CHARON_COIN_ROW, _SHOP_COIN_ROW]:
+		row.enable_interaction()
+	_patron_token.enable_interaction()
+
 func _on_coin_clicked(coin: Coin):
 	# if we're in the shop, sell this coin
 	# if Global.state == Global.State.SHOP:
@@ -794,7 +822,8 @@ func _on_coin_clicked(coin: Coin):
 	#		_DIALOGUE.show_dialogue("Can't sell last coin!")
 	#		return
 	#	Global.souls += coin.get_sell_price()
-	#	_remove_coin(coin)
+	#	_COIN_ROW.remove_child(coin)
+	#	coin.queue_free()
 	#	return
 
 	if Global.state == Global.State.TOLLGATE:
@@ -831,8 +860,7 @@ func _on_coin_clicked(coin: Coin):
 	# try to appease a coin in enemy row
 	if coin.is_appeaseable() and Global.active_coin_power_family == null:
 		if Global.souls >= coin.get_appeasal_price():
-			coin.queue_free()
-			_ENEMY_COIN_ROW.remove_child(coin)
+			destroy_coin(coin)
 			Global.souls -= coin.get_appeasal_price()
 			_DIALOGUE.show_dialogue("Very good...")
 			
@@ -914,7 +942,7 @@ func _on_coin_clicked(coin: Coin):
 					# gain life & souls
 					Global.lives += 5 * coin.get_value()
 					Global.souls += 5 * coin.get_value()
-					coin.queue_free()
+					destroy_coin(coin)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
 				_patron_token.deactivate()
@@ -996,7 +1024,7 @@ func _on_coin_clicked(coin: Coin):
 					return
 				# gain life equal to (2 * hades_value) * destroyed_value
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
-				coin.queue_free()
+				destroy_coin(coin)
 			Global.POWER_FAMILY_ARROW_REFLIP:
 				_safe_flip(coin)
 				Global.arrows -= 1
@@ -1093,7 +1121,7 @@ func _input(event):
 			Global.active_coin_power_coin = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
-			if _map_active and not Global.state == Global.State.VOYAGE:
+			if _map_open and not Global.state == Global.State.VOYAGE:
 				_hide_voyage_map()
 
 func _on_shop_reroll_button_clicked():
