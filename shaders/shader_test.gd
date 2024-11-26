@@ -16,7 +16,6 @@ func _ready():
 	$Textbox.material.set_shader_parameter("replace_color3", Color(230, 255, 255))
 	$Textbox.material.set_shader_parameter("replace_with_color3", Color(0, 0, 255))
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	$CanvasLayer/ColorRect.material.set_shader_parameter("MOUSE", get_global_mouse_position())

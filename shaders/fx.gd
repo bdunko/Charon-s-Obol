@@ -213,13 +213,13 @@ func _ready() -> void:
 	# debug check for uniform dictionary - 
 	# however note that assertions here can fail if new uniforms are added, causing scenes using this shader to need a refresh.
 	# in the case of unexpected assertion failure, open the scene containing the printed path and resave it.
-	for uniform in Uniform.values():
-		assert(_UNIFORM_TO_STR.has(uniform))
-		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE]:
-			if get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) == null:
-				print(self.get_path())
-				print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
-				assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
+#	for uniform in Uniform.values():
+#		assert(_UNIFORM_TO_STR.has(uniform))
+#		if not uniform in [Uniform.SAMPLER2D_FOG_NOISE_TEXTURE]:
+#			if get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) == null:
+#				print(self.get_path())
+#				print(("%s = " % _UNIFORM_TO_STR[uniform]) + str(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])))
+#				assert(get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform]) != null)
 
 ## DIRECT API ##
 func set_uniform(uniform: Uniform, value) -> void:
@@ -338,6 +338,7 @@ static var DEFAULT_GLOW_SPEED := 2.0
 static var DEFAULT_GLOW_THICKNESS := 1
 static var DEFAULT_GLOW_MINIMUM := 0.7
 static var DEFAULT_GLOW_RESTART := true
+# FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM
 func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
 	assert(thickness > 0, "Thickness must be larger than 0.")
 	assert(minimum >= 0.0 and minimum <= 1.0, "Minimum must be between 0 and 1.")
@@ -398,7 +399,7 @@ func disintegrate(time: float) -> void:
 	
 	await tween_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 1.0, time)
 
-func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: float = 1.0) -> void:
+func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: float = 1.0, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(alpha_bound1 >= 0 and alpha_bound1 <= 1, "Bounds must be between 0 and 1.")
 	assert(alpha_bound2 >= 0 and alpha_bound2 <= 1, "Bounds must be between 0 and 1.")
@@ -406,7 +407,8 @@ func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: flo
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, alpha_bound1)
 	set_uniform(Uniform.FLOAT_AUTO_FLICKER_BOUND, alpha_bound2)
 	set_uniform(Uniform.FLOAT_AUTO_FLICKER_SPEED, speed)
-	set_uniform(Uniform.FLOAT_AUTO_FLICKER_START_TIME, START_TIME())
+	if restart:
+		set_uniform(Uniform.FLOAT_AUTO_FLICKER_START_TIME, START_TIME())
 
 func stop_flickering(ending_alpha: float = 1.0) -> void:
 	assert(ending_alpha >= 0 and ending_alpha <= 1, "Alpha must be between 0 and 1.")
@@ -414,7 +416,7 @@ func stop_flickering(ending_alpha: float = 1.0) -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLICKER_SPEED, 0.0)
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, ending_alpha)
 
-func start_flashing(color: Color, speed: float, strength_bound1: float, strength_bound2: float) -> void:
+func start_flashing(color: Color, speed: float, strength_bound1: float, strength_bound2: float, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(strength_bound1 >= 0 and strength_bound1 <= 1, "Bounds must be between 0 and 1.")
 	assert(strength_bound2 >= 0 and strength_bound2 <= 1, "Bounds must be between 0 and 1.")
@@ -423,12 +425,16 @@ func start_flashing(color: Color, speed: float, strength_bound1: float, strength
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_BOUND1, strength_bound1)
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_BOUND2, strength_bound2)
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_SPEED, speed)
-	set_uniform(Uniform.FLOAT_AUTO_FLASH_START_TIME, START_TIME())
+	if restart:
+		set_uniform(Uniform.FLOAT_AUTO_FLASH_START_TIME, START_TIME())
 
 func stop_flashing() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_FLASH_SPEED, 0.0)
 
-func start_scanning(direction: ScanDirection, color: Color, strength: float = 1.0, scan_duration: float = 1.0, delay: float = 2.0) -> void:
+static var DEFAULT_SCAN_STRENGTH = 1.0
+static var DEFAULT_SCAN_DURATION = 1.0
+static var DEFAULT_SCAN_DELAY = 2.0
+func start_scanning(direction: ScanDirection, color: Color, strength: float = DEFAULT_SCAN_STRENGTH, scan_duration: float = DEFAULT_SCAN_DURATION, delay: float = DEFAULT_SCAN_DELAY, restart: bool = true) -> void:
 	assert(scan_duration >= 0, "Scan duration must be non-negative.")
 	assert(delay >= 0, "Delay must be non-negative.")
 	assert(strength >= 0 and strength <= 1, "Strength must be between 1 and 0.")
@@ -445,7 +451,8 @@ func start_scanning(direction: ScanDirection, color: Color, strength: float = 1.
 	
 	set_uniform(uniform_on, true)
 	set_uniform(uniform_reverse, reverse)
-	set_uniform(uniform_start_time, START_TIME())
+	if restart:
+		set_uniform(uniform_start_time, START_TIME())
 	set_uniform(uniform_scan_duration, scan_duration)
 	set_uniform(uniform_delay, delay)
 

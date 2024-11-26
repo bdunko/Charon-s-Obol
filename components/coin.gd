@@ -112,7 +112,7 @@ var _tails_power: FacePower
 func _update_appearance() -> void:
 	_update_face_label()
 	_update_price_label()
-	_update_glow()
+	_update_flash()
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#e12f3b"
@@ -162,37 +162,28 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = _APPEASE_FORMAT % [color, price]
 
-func _update_glow():
-	# if this coin is an enemy coin, glow purple at all times
+func _update_flash():
+	# if this coin is an enemy coin, flash purple at all times
 	if _owner == Owner.NEMESIS:
-		FX.start_glowing(Color.MEDIUM_PURPLE)
+		FX.start_flashing(Color.MEDIUM_PURPLE, 10, 0.25, 0.5, false)
 		return
 	
-	# if the coin is disabled (ie in the middle of a flip or turn) we don't want it to glow at all.
-	if _disabled:
-		FX.stop_glowing()
+	# if coin is disabled or another coin is activated right now, don't flash at all
+	if _disabled or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
+		FX.stop_flashing()
 		return
 	
-	# if this is the active power coin, glow gold
+	# if this is the active power coin, flash gold
 	if Global.active_coin_power_coin == self:
-		FX.start_glowing_solid(Color.GOLD)
+		FX.start_flashing(Color.GOLD, 10, 0.25, 0.45, false)
 		return
 		
-	# if this coin can be activated, glow white
+	# if this coin can be activated, flash white
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
-		FX.start_glowing(Color.AZURE)
+		FX.start_flashing(Color.AZURE, 10, 0.2, 0.4, false)
 		return
 	
-	# if this coin is on a lose life side, glow red
-	if Global.state == Global.State.AFTER_FLIP and get_active_power_family() in Global.LIFE_LOSS_POWERS:
-		FX.start_glowing(Color.RED)
-		return
-	
-	if Global.state == Global.State.AFTER_FLIP and get_active_power_family() in Global.SOUL_GAIN_POWERS:
-		FX.start_glowing(Color.CYAN)
-		return
-	
-	FX.stop_glowing()
+	FX.stop_flashing()
 
 var _blank: bool = false:
 	set(val):
@@ -210,12 +201,12 @@ var _bless_curse_state: _BlessCurseState:
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.PALE_GOLDENROD)
-			FX.recolor_outline(Color.PALE_GOLDENROD)
+			FX.start_glowing(Color.PALE_GOLDENROD)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
-			FX.flash(Color.MEDIUM_ORCHID)
-			FX.recolor_outline(Color.MEDIUM_ORCHID)
+			FX.flash(Color.ORCHID)
+			FX.start_glowing(Color.ORCHID) 
 		else:
-			FX.recolor_outline_to_default()
+			FX.stop_glowing()
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -248,13 +239,12 @@ var _luck_state: _LuckState:
 		
 		if _luck_state == _LuckState.LUCKY:
 			FX.flash(Color.LAWN_GREEN)
-			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.LAWN_GREEN, 1, 0.4, 1.0)
+			FX.recolor_outline(Color("#1f7122")) #lucky
 		elif _luck_state == _LuckState.UNLUCKY:
 			FX.flash(Color.ORANGE_RED)
-			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.ORANGE_RED, 1, 0.4, 1.0)
+			FX.recolor_outline(Color("#6b1f1a")) #unlucky
 		else:
-			FX.stop_scanning(FX.ScanDirection.BOTTOM_TO_TOP)
-			FX.stop_scanning(FX.ScanDirection.TOP_TO_BOTTOM)
+			FX.recolor_outline_to_default()
 
 var _material_state: _MaterialState:
 	set(val):
@@ -294,6 +284,7 @@ func _ready():
 	assert(_TETROBOL_CLICKBOX)
 	assert(_TETROBOL_STATUS_ANCHOR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
+	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
 
 func show_price() -> void:
 	_PRICE.show()
@@ -490,17 +481,29 @@ func flip(bonus: int = 0) -> void:
 		_heads = true
 		_bless_curse_state = _BlessCurseState.NONE
 	elif is_cursed():
-		FX.flash(Color.MEDIUM_ORCHID)
+		FX.flash(Color.ORCHID)
 		_heads = false
 		_bless_curse_state = _BlessCurseState.NONE
 	else:
-		var success_roll_min = 50 + bonus
+		const LUCKY_MODIFIER = 20
+		const UNLUCKY_MODIFIER = -20
+		# the % value to succeed
+		var percentage_success = 50 + bonus
 		match(_luck_state):
 			_LuckState.LUCKY:
-				success_roll_min += 20
+				percentage_success += LUCKY_MODIFIER
 			_LuckState.UNLUCKY:
-				success_roll_min -= 20
-		_heads = success_roll_min >= Global.RNG.randi_range(1, 100)
+				percentage_success += UNLUCKY_MODIFIER
+		var roll = Global.RNG.randi_range(1, 100)
+		var success = percentage_success >= roll 
+		if success and _luck_state == _LuckState.LUCKY and percentage_success - roll < LUCKY_MODIFIER:
+			print("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
+			FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
+		elif not success and _luck_state == _LuckState.UNLUCKY and percentage_success - roll >= UNLUCKY_MODIFIER:
+			print("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
+			FX.flash(Color.ORANGE_RED) # failed because of unlucky
+		
+		_heads = success
 	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
 		_luck_state = _LuckState.UNLUCKY if _heads else _LuckState.LUCKY
