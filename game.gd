@@ -1093,7 +1093,7 @@ func _input(event):
 			Global.active_coin_power_coin = null
 			if _patron_token.is_activated():
 				_patron_token.deactivate()
-			if _map_active:
+			if _map_active and not Global.state == Global.State.VOYAGE:
 				_hide_voyage_map()
 
 func _on_shop_reroll_button_clicked():
