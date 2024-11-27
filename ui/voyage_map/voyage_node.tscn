@@ -1,0 +1,167 @@
+[gd_scene load_steps=20 format=3 uid="uid://bqfaj14sdjdpo"]
+
+[ext_resource type="Script" path="res://ui/voyage_map/voyage_node.gd" id="1_0aijh"]
+[ext_resource type="Texture2D" uid="uid://cjhxmaumlkkeb" path="res://assets/table/voyage_map/node/path_full.png" id="1_ej6my"]
+[ext_resource type="Texture2D" uid="uid://dffkewydym05w" path="res://assets/table/voyage_map/node/trial.png" id="1_qbcvo"]
+[ext_resource type="Texture2D" uid="uid://ch8erjvvcx1lo" path="res://assets/table/voyage_map/node/path_left.png" id="2_46jub"]
+[ext_resource type="Texture2D" uid="uid://c1gsx1e8fv46h" path="res://assets/table/voyage_map/node/path_right.png" id="3_dddar"]
+[ext_resource type="Texture2D" uid="uid://bnv7v6wu8lya1" path="res://assets/table/voyage_map/node/nemesis.png" id="4_b3uto"]
+[ext_resource type="Texture2D" uid="uid://br7elaabsv65l" path="res://assets/table/voyage_map/node/dock.png" id="4_pwpl5"]
+[ext_resource type="Texture2D" uid="uid://bflf70leptke3" path="res://assets/table/voyage_map/node/node.png" id="5_35ab6"]
+[ext_resource type="Texture2D" uid="uid://boitdkgowm5l0" path="res://assets/table/voyage_map/node/none.png" id="6_t0ddw"]
+[ext_resource type="Texture2D" uid="uid://cg6adekv6r53e" path="res://assets/table/voyage_map/node/tollgate.png" id="8_stfbt"]
+[ext_resource type="PackedScene" uid="uid://b68ccb5fvw5is" path="res://ui/tooltip_emitter.tscn" id="10_h4dkl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j346g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ej6my")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_46jub")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dddar")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2k7u"]
+atlas = ExtResource("4_b3uto")
+region = Rect2(0, 0, 11, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cux4u"]
+atlas = ExtResource("4_b3uto")
+region = Rect2(11, 0, 11, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fts3e"]
+atlas = ExtResource("8_stfbt")
+region = Rect2(0, 0, 11, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36wts"]
+atlas = ExtResource("8_stfbt")
+region = Rect2(11, 0, 11, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy2e3"]
+atlas = ExtResource("1_qbcvo")
+region = Rect2(0, 0, 11, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikcpe"]
+atlas = ExtResource("1_qbcvo")
+region = Rect2(11, 0, 11, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o6fe2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_pwpl5")
+}],
+"loop": true,
+"name": &"dock",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2k7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cux4u")
+}],
+"loop": true,
+"name": &"nemesis",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_35ab6")
+}],
+"loop": true,
+"name": &"node",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_t0ddw")
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fts3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36wts")
+}],
+"loop": true,
+"name": &"tollgate",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy2e3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ikcpe")
+}],
+"loop": true,
+"name": &"trial",
+"speed": 2.0
+}]
+
+[node name="VoyageNode" type="Control"]
+custom_minimum_size = Vector2(11, 21)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 11.0
+offset_bottom = 21.0
+mouse_filter = 2
+script = ExtResource("1_0aijh")
+
+[node name="Path" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j346g")
+animation = &"full"
+centered = false
+
+[node name="Type" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o6fe2")
+animation = &"node"
+frame_progress = 0.460192
+centered = false
+
+[node name="TooltipEmitter" parent="." instance=ExtResource("10_h4dkl")]
+layout_mode = 1
+offset_left = 1.0
+offset_top = 3.0
+offset_right = -1.0
+offset_bottom = -5.0
+
+[node name="Price" type="RichTextLabel" parent="."]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(0, 10)
+offset_left = -19.0
+offset_top = 12.0
+offset_right = 31.0
+offset_bottom = 26.0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#e12f3b]-5[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
+scroll_active = false
+autowrap_mode = 2

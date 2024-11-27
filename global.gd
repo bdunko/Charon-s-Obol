@@ -216,7 +216,6 @@ class Round:
 		self.tollCost = tollCst
 		self.shopPriceMultiplier = priceMult
 		self.monsterWaves = mWaveDenoms
-		
 		self.trialData = null
 
 class Monster:
@@ -261,7 +260,7 @@ var MONSTER_WAVE6 = [
 	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
 ]
 
-var _VOYAGE = [
+var VOYAGE = [
 	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0, [[]]),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.25, MONSTER_WAVE1),
@@ -275,7 +274,6 @@ var _VOYAGE = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 2.75, MONSTER_WAVE5),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.0, MONSTER_WAVE6),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.25, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 0, 0, [[]]),
 	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
 #1 board
@@ -293,7 +291,7 @@ var _elite_monster_pool = []
 
 func randomize_voyage() -> void:
 	# randomize trials & nemesis
-	for rnd in _VOYAGE:
+	for rnd in VOYAGE:
 		# debug - seed trial
 		match(rnd.roundType):
 			RoundType.TRIAL1:
@@ -312,35 +310,35 @@ func randomize_voyage() -> void:
 	assert(_elite_monster_pool.size() == NUM_ELITE_MONSTERS)
 
 func voyage_length() -> int:
-	return _VOYAGE.size()
+	return VOYAGE.size()
 
 func current_round_type() -> RoundType:
-	return _VOYAGE[round_count-1].roundType
+	return VOYAGE[round_count-1].roundType
 
 func current_round_life_regen() -> int:
-	return _VOYAGE[round_count-1].lifeRegen
+	return VOYAGE[round_count-1].lifeRegen
 
 func current_round_toll() -> int:
-	return _VOYAGE[round_count-1].tollCost
+	return VOYAGE[round_count-1].tollCost
 
 func _current_round_shop_denoms() -> Array:
-	return _VOYAGE[round_count-1].shopDenoms
+	return VOYAGE[round_count-1].shopDenoms
 
 # returns an array of [monster_family, denom] pairs for current round
 func current_round_enemy_coin_data() -> Array:
 	var coin_data = []
 	
 	if current_round_type() == RoundType.TRIAL1:
-		for trialFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([trialFamily, Denomination.OBOL])
 	elif current_round_type() == RoundType.TRIAL2:
-		for trialFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([trialFamily, Denomination.DIOBOL])
 	elif current_round_type() == RoundType.NEMESIS:
-		for nemesisFamily in _VOYAGE[round_count-1].trialData.coinFamilies:
+		for nemesisFamily in VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([nemesisFamily, Denomination.TETROBOL])
 	else:
-		var monsters = Global.choose_one(_VOYAGE[round_count-1].monsterWaves)
+		var monsters = Global.choose_one(VOYAGE[round_count-1].monsterWaves)
 		# elite_index just used to assure the final round has 2 different elites
 		# but for standard monsters, duplicates are permitted
 		var elite_index = 0
@@ -357,7 +355,7 @@ func current_round_enemy_coin_data() -> Array:
 	return coin_data
 
 func current_round_price_multiplier() -> float:
-	return _VOYAGE[round_count-1].shopPriceMultiplier
+	return VOYAGE[round_count-1].shopPriceMultiplier
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
@@ -374,7 +372,7 @@ func get_nemesis() -> TrialData:
 
 func get_tollgate_cost(tollgateIndex: int) -> int:
 	var tollgates = 0
-	for rnd in _VOYAGE:
+	for rnd in VOYAGE:
 		if rnd.roundType == RoundType.TOLLGATE:
 			tollgates += 1
 			if tollgates == tollgateIndex:
@@ -382,7 +380,7 @@ func get_tollgate_cost(tollgateIndex: int) -> int:
 	return 0
 
 func _get_first_round_of_type(roundType: RoundType) -> TrialData:
-	for rnd in _VOYAGE:
+	for rnd in VOYAGE:
 		if rnd.roundType == roundType:
 			return rnd.trialData
 	return null
@@ -622,6 +620,12 @@ func choose_one_excluding(arr: Array, exclude: Array):
 	while exclude.has(rand_element):
 		rand_element = choose_one(arr)
 	return rand_element
+
+# Removes and frees each child of the given node
+func free_children(node: Node) -> void:
+	for child in node.get_children():
+		node.remove_child(child)
+		child.queue_free()
 
 # creates a delay of a given time
 # await on this function call

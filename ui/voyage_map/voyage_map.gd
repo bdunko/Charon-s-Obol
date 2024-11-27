@@ -4,31 +4,18 @@ extends Node2D
 signal clicked
 signal closed
 
+@onready var _NODES = $Map/Nodes
 @onready var _SHIP = $Map/Ship
-@onready var _SHIP_POSITIONS = $ShipPositions
-@onready var _TRIAL1_TOOLTIP = $Map/Trial1/TooltipEmitter
-@onready var _TRIAL2_TOOLTIP = $Map/Trial2/TooltipEmitter
-@onready var _NEMESIS_TOOLTIP = $Map/Nemesis/TooltipEmitter
-@onready var _TOLLGATE1_TOOLTIP = $Map/TollgateTooltip1
-@onready var _TOLLGATE2_TOOLTIP = $Map/TollgateTooltip2
-@onready var _TOLLGATE3_TOOLTIP = $Map/TollgateTooltip3
-
 @onready var _CLICK_DETECTOR = $Map/ClickDetector
 @onready var _X_BUTTON = $Map/XButton
-
 @onready var _ANIMATION_PLAYER = $AnimationPlayer
 
+static var _NODE_SCENE = preload("res://ui/voyage_map/voyage_node.tscn")
+
 func _ready() -> void:
-	assert(_SHIP_POSITIONS.get_children().size() == Global.voyage_length())
+	assert(_NODES)
 	assert(_ANIMATION_PLAYER)
 	assert(_SHIP)
-	assert(_SHIP_POSITIONS)
-	assert(_TRIAL1_TOOLTIP)
-	assert(_TRIAL2_TOOLTIP)
-	assert(_NEMESIS_TOOLTIP)
-	assert(_TOLLGATE1_TOOLTIP)
-	assert(_TOLLGATE2_TOOLTIP)
-	assert(_TOLLGATE3_TOOLTIP)
 	assert(_CLICK_DETECTOR)
 	assert(_X_BUTTON)
 	
@@ -37,32 +24,53 @@ func _ready() -> void:
 	_ANIMATION_PLAYER.play("boat")
 
 func _get_x_for_round(round_count: int) -> float:
-	return _SHIP_POSITIONS.get_child(round_count).position.x
+	return _NODES.get_child(round_count+1).ship_position().x
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
 		_SHIP.position.x = _get_x_for_round(0) #reset boat position
 
+func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int = 0):
+	var node: VoyageNode = _NODE_SCENE.instantiate()
+	_NODES.add_child(node)
+	node.init_node(vnt, tooltip, price)
+
+const _TRIAL_FORMAT = "%s\n%s"
+const _NEMESIS_FORMAT = "%s\n%s"
+const _TOLLGATE_FORMAT = "Tollgate\nCost: %d[img=12x13]res://assets/icons/coin_icon.png[/img]"
+
 func update_tooltips() -> void:
-	const _TRIAL_FORMAT = "%s\n%s"
-	var trial1 = Global.get_trial1()
-	_TRIAL1_TOOLTIP.set_tooltip(_TRIAL_FORMAT % [trial1.name, trial1.description])
-	var trial2 = Global.get_trial2()
-	_TRIAL2_TOOLTIP.set_tooltip(_TRIAL_FORMAT % [trial2.name, trial2.description])
+	Global.free_children(_NODES)
 	
-	const _NEMESIS_FORMAT = "%s\n%s"
-	var nemesis = Global.get_nemesis()
-	_NEMESIS_TOOLTIP.set_tooltip(_NEMESIS_FORMAT % [nemesis.name, nemesis.description])
+	# create the left end
+	_add_node(VoyageNode.VoyageNodeType.LEFT_END)
 	
-	const _TOLLGATE_FORMAT = "Tollgate %d\nCost: %d[img=12x13]res://assets/icons/coin_icon.png[/img]"
-	_TOLLGATE1_TOOLTIP.set_tooltip(_TOLLGATE_FORMAT % [1, Global.get_tollgate_cost(1)])
-	_TOLLGATE2_TOOLTIP.set_tooltip(_TOLLGATE_FORMAT % [2, Global.get_tollgate_cost(2)])
-	_TOLLGATE3_TOOLTIP.set_tooltip(_TOLLGATE_FORMAT % [3, Global.get_tollgate_cost(3)])
+	for rnd in Global.VOYAGE:
+		match(rnd.roundType):
+			Global.RoundType.BOARDING:
+				_add_node(VoyageNode.VoyageNodeType.DOCK)
+			Global.RoundType.NORMAL:
+				_add_node(VoyageNode.VoyageNodeType.NODE)
+			Global.RoundType.TOLLGATE:
+				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, _TOLLGATE_FORMAT % rnd.tollCost, rnd.tollCost)
+			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
+				_add_node(VoyageNode.VoyageNodeType.TRIAL, _TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description])
+			Global.RoundType.NEMESIS:
+				var nemesis = Global.get_nemesis()
+				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [nemesis.name, nemesis.description])
+			Global.RoundType.END:
+				_add_node(VoyageNode.VoyageNodeType.RIGHT_END)
+	
+	# move ship to initial position...
+	call_deferred("_set_boat_start")
+
+func _set_boat_start() -> void:
+	_SHIP.position.x = _get_x_for_round(0)
 
 func move_boat(round_count: int) -> void:
 	await Global.delay(0.3)
 	var tween = create_tween()
-	tween.tween_property(_SHIP, "position:x", _get_x_for_round(round_count), 1.0).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(_SHIP, "position:x", _get_x_for_round(round_count), 0.8).set_trans(Tween.TRANS_LINEAR)
 	await tween.finished
 
 func set_closeable(closeable: bool) -> void:

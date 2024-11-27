@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpmrsed2g2wu2"
-path="res://.godot/imported/voyage_nemesis.png-2995a1d3a625c7fa30c58b44b9d1d26e.ctex"
+uid="uid://cjhxmaumlkkeb"
+path="res://.godot/imported/path_full.png-c81a4d5bda3132f9a10d35ac76fd96ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/table/voyage_map/voyage_nemesis.png"
-dest_files=["res://.godot/imported/voyage_nemesis.png-2995a1d3a625c7fa30c58b44b9d1d26e.ctex"]
+source_file="res://assets/table/voyage_map/node/path_full.png"
+dest_files=["res://.godot/imported/path_full.png-c81a4d5bda3132f9a10d35ac76fd96ca.ctex"]
 
 [params]
 
