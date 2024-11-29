@@ -35,9 +35,9 @@ func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int 
 	_NODES.add_child(node)
 	node.init_node(vnt, tooltip, price)
 
-const _TRIAL_FORMAT = "%s\n%s"
+const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]. "
 const _NEMESIS_FORMAT = "%s\n%s"
-const _TOLLGATE_FORMAT = "Tollgate\nCost: %d[img=12x13]res://assets/icons/coin_icon.png[/img]"
+const _TOLLGATE_FORMAT = "Tollgate\n\nYou must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]."
 
 func update_tooltips() -> void:
 	Global.free_children(_NODES)
@@ -54,10 +54,9 @@ func update_tooltips() -> void:
 			Global.RoundType.TOLLGATE:
 				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, _TOLLGATE_FORMAT % rnd.tollCost, rnd.tollCost)
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
-				_add_node(VoyageNode.VoyageNodeType.TRIAL, _TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description])
+				_add_node(VoyageNode.VoyageNodeType.TRIAL, _TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota])
 			Global.RoundType.NEMESIS:
-				var nemesis = Global.get_nemesis()
-				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [nemesis.name, nemesis.description])
+				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [rnd.trialData.name, rnd.trialData.description])
 			Global.RoundType.END:
 				_add_node(VoyageNode.VoyageNodeType.RIGHT_END)
 	

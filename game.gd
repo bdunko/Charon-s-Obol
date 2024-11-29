@@ -43,6 +43,8 @@ var _map_is_disabled = false # if the map can be clicked on (ie, disabled during
 
 @onready var _patron_token: PatronToken = $Table/PatronToken
 
+var souls_earned_this_round = 0
+
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
@@ -200,6 +202,7 @@ func on_start() -> void:
 	_TABLE.add_child(_patron_token)
 	
 	victory = false
+	souls_earned_this_round = 0
 	Global.round_count = 1
 	Global.lives = Global.current_round_life_regen()
 	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
@@ -212,6 +215,7 @@ func on_start() -> void:
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
+	Global.shop_price_multiplier = Global.DEFAULT_SHOP_PRICE_MULTIPLIER
 	
 	#debug
 	Global.souls = 100
@@ -330,6 +334,11 @@ func _safe_flip(coin: Coin) -> void:
 	_PLAYER_TEXTBOXES.make_invisible()
 	coin.flip()
 
+func _earn_souls(soul_amt: int) -> void:
+	Global.souls += soul_amt
+	souls_earned_this_round += soul_amt
+	
+
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
 	Global.active_coin_power_family = null
@@ -357,7 +366,7 @@ func _on_accept_button_pressed():
 						payoff = 0 if charges <= 10 else charges
 					if payoff > 0:
 						payoff_coin.FX.flash(Color.AQUA)
-						Global.souls += payoff
+						_earn_souls(payoff)
 				Global.POWER_FAMILY_LOSE_SOULS:
 					payoff_coin.FX.flash(Color.DARK_BLUE)
 					Global.souls = max(0, Global.souls - charges)
@@ -549,6 +558,7 @@ func _advance_round() -> void:
 	await _show_voyage_map(true, false)
 	await _VOYAGE_MAP.move_boat(Global.round_count)
 	Global.round_count += 1
+	souls_earned_this_round = 0
 	
 	# setup the enemy row
 	_ENEMY_ROW.current_round_setup()
@@ -566,13 +576,15 @@ func _on_board_button_clicked():
 func _on_continue_button_pressed():
 	assert(Global.state == Global.State.SHOP)
 	_advance_round()
+	
+	# increase the shop multiplier cost
+	Global.shop_price_multiplier += Global.SHOP_MULTIPLIER_INCREASE
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
 	_PLAYER_TEXTBOXES.make_invisible()
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
-	
 	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == 2
@@ -719,7 +731,8 @@ func _on_voyage_continue_button_clicked():
 			for coin in _ENEMY_COIN_ROW.get_children():
 				coin.payoff_move_down()
 		
-		_END_ROUND_TEXTBOX.disable() if Global.current_round_type() == Global.RoundType.NEMESIS else _END_ROUND_TEXTBOX.enable()
+		var disable_end = Global.current_round_type() == Global.RoundType.NEMESIS or (souls_earned_this_round < Global.current_round_quota())
+		_END_ROUND_TEXTBOX.disable() if disable_end else _END_ROUND_TEXTBOX.enable()
 		
 		if Global.current_round_type() == Global.RoundType.NEMESIS:
 			for coin in _ENEMY_COIN_ROW.get_children():
@@ -945,7 +958,7 @@ func _on_coin_clicked(coin: Coin):
 						return
 					# gain life & souls
 					Global.lives += 5 * coin.get_value()
-					Global.souls += 5 * coin.get_value()
+					_earn_souls(5 * coin.get_value())
 					destroy_coin(coin)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:

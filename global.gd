@@ -142,6 +142,10 @@ var strain_modifier: int:
 		strain_modifier = val
 		emit_signal("strain_changed")
 
+const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
+var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
+var SHOP_MULTIPLIER_INCREASE := 0.25
+
 var patron: Patron:
 	set(val):
 		patron = val
@@ -204,18 +208,18 @@ class Round:
 	var lifeRegen: int
 	var shopDenoms: Array
 	var tollCost: int
-	var shopPriceMultiplier: float
 	var monsterWaves: Array
+	var quota: float
 	
 	var trialData: TrialData
 	
-	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, priceMult: float, mWaveDenoms: Array):
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, tollCst: int, rndQuota: int, mWaveDenoms: Array):
 		self.roundType = roundTyp
 		self.lifeRegen = lifeRegn
 		self.shopDenoms = shopDenms
 		self.tollCost = tollCst
-		self.shopPriceMultiplier = priceMult
 		self.monsterWaves = mWaveDenoms
+		self.quota = rndQuota
 		self.trialData = null
 
 class Monster:
@@ -260,27 +264,121 @@ var MONSTER_WAVE6 = [
 	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
 ]
 
-var VOYAGE = [
+var VOYAGE
+
+# STANDARD (2 Gate - 2 Trial [12])
+# NNN1GNN2GNNB
+var _VOYAGE_STANDARD = [
 	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 1.25, MONSTER_WAVE1),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 1.5, MONSTER_WAVE2),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 1.75, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, [[]]),
 	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 2.0, MONSTER_WAVE3),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 2.25, MONSTER_WAVE4),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 2.5, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, [[]]),
 	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, [[]]),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 2.75, MONSTER_WAVE5),
-	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.0, MONSTER_WAVE6),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 3.25, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
 	Round.new(RoundType.END, 0, [], 0, 0, [[]])
 ]
-#1 board
-#2 normal 3 normal 4 normal 5 trial1 6 toll1
-#7 normal 8 normal 9 trial2 10 toll2
-#11 normal 12 normal 13 nemesis
-#14 end
+ 
+# VARIANT (2 Gate - 2 Trial [12])
+# NNNGNN1GNN2B
+var _VOYAGE_VARIANT = [ 
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.TOLLGATE, 0, [], 4, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 100, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, [[]]),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+]
+	
+# BACKLOADED (2 Gate - 3 Trial [111])
+# NNNN1GN1GN1B 
+var _VOYAGE_BACKLOADED = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE5),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, [[]]),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+]
+
+# PARTITION (1 Gate - 2 Trial [22])
+# NNNN2GNNN2B
+var _VOYAGE_PARTITION = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, [[]]),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0,  [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+]
+
+# FRONTLOAD - (1 Gate - 3 Trial [112])
+# NN1NN1GNN2B
+var _VOYAGE_FRONTLOAD = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 90, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 16, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, [[]]),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+]
+
+# INTERSPERSED - (3 Gate - 2 Trial [12)
+# NNGN1NGN2NGNB
+var _VOYAGE_INTERSPERSED = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.TOLLGATE, 0, [], 3, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
+	Round.new(RoundType.TOLLGATE, 0, [], 6, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
+	Round.new(RoundType.TOLLGATE, 0, [], 9, 0, [[]]),
+	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
+	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+]
+
 
 const NUM_STANDARD_MONSTERS = 4
 const NUM_ELITE_MONSTERS = 2
@@ -289,7 +387,29 @@ const NUM_ELITE_MONSTERS = 2
 var _standard_monster_pool = []
 var _elite_monster_pool = []
 
+func choose_one_weighted(options, weights):
+	assert(options.size() == weights.size())
+	var sum = 0
+	for w in weights:
+		sum += w
+
+	var r = Global.RNG.randi_range(1, sum)
+	for i in range(0, options.size()):
+		r -= weights[i]
+		if r <= 0:
+			return options[i]
+
 func randomize_voyage() -> void:
+	# choose a voyage
+	VOYAGE = choose_one_weighted(
+		[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
+		[300, 200, 125, 125, 125, 125])
+	
+	var t = [0, 0, 0]
+	for i in range(0, 40000):
+		t[choose_one_weighted([0, 1, 2], [1, 2, 1])] += 1
+	print(t)
+	
 	# randomize trials & nemesis
 	for rnd in VOYAGE:
 		# debug - seed trial
@@ -320,6 +440,9 @@ func current_round_life_regen() -> int:
 
 func current_round_toll() -> int:
 	return VOYAGE[round_count-1].tollCost
+
+func current_round_quota() -> int:
+	return VOYAGE[round_count-1].quota
 
 func _current_round_shop_denoms() -> Array:
 	return VOYAGE[round_count-1].shopDenoms
@@ -354,21 +477,9 @@ func current_round_enemy_coin_data() -> Array:
 			
 	return coin_data
 
-func current_round_price_multiplier() -> float:
-	return VOYAGE[round_count-1].shopPriceMultiplier
-
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
 	return rtype == RoundType.TRIAL1 or rtype == RoundType.TRIAL2 or rtype == RoundType.NEMESIS
-
-func get_trial1() -> TrialData:
-	return _get_first_round_of_type(RoundType.TRIAL1)
-
-func get_trial2() -> TrialData:
-	return _get_first_round_of_type(RoundType.TRIAL2)
-
-func get_nemesis() -> TrialData:
-	return _get_first_round_of_type(RoundType.NEMESIS)
 
 func get_tollgate_cost(tollgateIndex: int) -> int:
 	var tollgates = 0
@@ -386,11 +497,11 @@ func _get_first_round_of_type(roundType: RoundType) -> TrialData:
 	return null
 
 class TrialData:
-	var coinFamilies
-	var name
-	var description
+	var name: String
+	var coinFamilies: Array
+	var description: String
 	
-	func _init(trialName, trialCoinFamilies, trialDescription):
+	func _init(trialName: String, trialCoinFamilies: Array, trialDescription: String):
 		self.name = trialName
 		self.coinFamilies = trialCoinFamilies
 		self.description = trialDescription
@@ -514,7 +625,7 @@ var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to (STONE)"
 var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy coins until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
-var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, all your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
+var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
 var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Your Diobols are (BLANK).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png")
 var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png")
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs 1 (LIFE).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png")
@@ -899,7 +1010,7 @@ var TRIAL_FAMINE_FAMILY = CoinFamily.new("[color=burlywood]Trial of Famine[/colo
 var TRIAL_TORTURE_FAMILY = CoinFamily.new("[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", NO_PRICE, TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE)
 var TRIAL_LIMITATION_FAMILY = CoinFamily.new("[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
 var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
-var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping[]/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
+var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping[/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
 var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)

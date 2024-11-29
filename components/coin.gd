@@ -338,7 +338,7 @@ func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
 
 func get_store_price() -> int:
-	return _coin_family.store_price_for_denom[_denomination] * Global.current_round_price_multiplier()
+	return _coin_family.store_price_for_denom[_denomination] * Global.shop_price_multiplier
 
 func get_upgrade_price() -> int:
 	match(_denomination):

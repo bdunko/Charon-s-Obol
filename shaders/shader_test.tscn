@@ -250,7 +250,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_21cfk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0qbe6"]
 resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
@@ -775,7 +775,7 @@ texture = ExtResource("3_36qem")
 centered = false
 
 [node name="Textbox" parent="." instance=ExtResource("6_tt4g1")]
-material = SubResource("ShaderMaterial_21cfk")
+material = SubResource("ShaderMaterial_0qbe6")
 
 [node name="Text" parent="Textbox/TextMargin" index="0"]
 text = "Hello World"
