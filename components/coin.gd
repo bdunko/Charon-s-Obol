@@ -343,11 +343,11 @@ func get_store_price() -> int:
 func get_upgrade_price() -> int:
 	match(_denomination):
 		Global.Denomination.OBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL]) * Global.current_round_price_multiplier()
+			return (_coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL]) * Global.shop_price_multiplier
 		Global.Denomination.DIOBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL]) * Global.current_round_price_multiplier()
+			return (_coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL]) * Global.shop_price_multiplier
 		Global.Denomination.TRIOBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL]) * Global.current_round_price_multiplier()
+			return (_coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL]) * Global.shop_price_multiplier
 		Global.Denomination.TETROBOL:
 			return 10000000 #error case really
 	breakpoint

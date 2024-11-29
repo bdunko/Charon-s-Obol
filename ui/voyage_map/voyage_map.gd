@@ -28,16 +28,16 @@ func _get_x_for_round(round_count: int) -> float:
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
-		_SHIP.position.x = _get_x_for_round(0) #reset boat position
+		_set_boat_start() # reset boat position
 
 func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int = 0):
 	var node: VoyageNode = _NODE_SCENE.instantiate()
 	_NODES.add_child(node)
 	node.init_node(vnt, tooltip, price)
 
-const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]. "
-const _NEMESIS_FORMAT = "%s\n%s"
-const _TOLLGATE_FORMAT = "Tollgate\n\nYou must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]."
+const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]."
+const _NEMESIS_FORMAT = "%s\n%s\nYou must be victorious."
+const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]."
 
 func update_tooltips() -> void:
 	Global.free_children(_NODES)

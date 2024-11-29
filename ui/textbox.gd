@@ -107,6 +107,9 @@ func enable_clicks() -> void:
 func set_text(txt: String) -> void:
 	_TEXT.text = txt
 
+func get_text() -> String:
+	return _TEXT.text
+
 func fade_and_free() -> void:
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.1)

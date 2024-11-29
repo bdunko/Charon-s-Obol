@@ -13,6 +13,7 @@ signal strain_changed
 signal patron_changed
 signal patron_uses_changed
 signal rerolls_changed
+signal souls_earned_this_round_changed
 
 var character: CharacterData
 
@@ -81,13 +82,13 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 		Difficulty.INDIFFERENT:
 			return "Charon is Indifferent\nThe base difficulty."
 		Difficulty.HOSTILE:
-			return "Charon is Hostile\nMonsters shall bar your path..."
+			return "Charon is Hostile\nCharon shall unleash his Malice."
 		Difficulty.VENGEFUL:
-			return "Charon is Malicious\nCharon shall occasionally unleash his Malice..."
+			return "Charon is Malicious\nTrials shall have two modifiers and require more souls to pass."
 		Difficulty.CRUEL:
-			return "Charon is Cruel\nTrials shall have two modifiers..."
+			return "Charon is Cruel\nThe Nemesis is more powerful and Tollgates are more expensive."
 		Difficulty.UNFAIR:
-			return "Charon is Unfair\nYour coins shall land on tails 10% more often..."
+			return "Charon is Unfair\nYour coins shall land on tails 10% more often."
 	assert(false, "shouldn't happen..")
 	return ""
 
@@ -109,6 +110,12 @@ var souls: int:
 		souls = val
 		assert(souls >= 0)
 		emit_signal("souls_count_changed")
+
+var souls_earned_this_round: int:
+	set(val):
+		souls_earned_this_round = val
+		assert(souls_earned_this_round >= 0)
+		emit_signal("souls_earned_this_round_changed")
 
 var arrows: int:
 	set(val):
@@ -387,28 +394,11 @@ const NUM_ELITE_MONSTERS = 2
 var _standard_monster_pool = []
 var _elite_monster_pool = []
 
-func choose_one_weighted(options, weights):
-	assert(options.size() == weights.size())
-	var sum = 0
-	for w in weights:
-		sum += w
-
-	var r = Global.RNG.randi_range(1, sum)
-	for i in range(0, options.size()):
-		r -= weights[i]
-		if r <= 0:
-			return options[i]
-
 func randomize_voyage() -> void:
 	# choose a voyage
 	VOYAGE = choose_one_weighted(
 		[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
 		[300, 200, 125, 125, 125, 125])
-	
-	var t = [0, 0, 0]
-	for i in range(0, 40000):
-		t[choose_one_weighted([0, 1, 2], [1, 2, 1])] += 1
-	print(t)
 	
 	# randomize trials & nemesis
 	for rnd in VOYAGE:
@@ -724,13 +714,29 @@ func choose_one_excluding(arr: Array, exclude: Array):
 			all_excluded = false
 			break
 	if all_excluded:
-		#assert(false, "excluding all elements in choose_on_excluding...")
+		assert(false, "excluding all elements in choose_on_excluding...")
 		return null
 	
 	var rand_element = choose_one(arr)
 	while exclude.has(rand_element):
 		rand_element = choose_one(arr)
 	return rand_element
+
+# Randomly return 1 element of options, with the corresponding index of weight determining likelihood
+func choose_one_weighted(options, weights):
+	if options.size() != weights.size():
+		assert(options.size() == weights.size(), "options and weights should be same size.")
+		return choose_one(options)
+	
+	var sum = 0
+	for w in weights:
+		sum += w
+
+	var r = Global.RNG.randi_range(1, sum)
+	for i in range(0, options.size()):
+		r -= weights[i]
+		if r <= 0:
+			return options[i]
 
 # Removes and frees each child of the given node
 func free_children(node: Node) -> void:

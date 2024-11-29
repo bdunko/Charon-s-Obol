@@ -21,7 +21,7 @@ func _ready():
 	_PRICE_LABEL.hide()
 
 func ship_position() -> Vector2:
-	return Vector2(position.x + 2, 29)
+	return Vector2(position.x - 4, 29)
 
 func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0) -> void:
 	assert(tooltip == "" or (vnt == VoyageNodeType.NEMESIS or vnt == VoyageNodeType.TRIAL or vnt == VoyageNodeType.TOLLGATE))

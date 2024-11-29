@@ -43,8 +43,6 @@ var _map_is_disabled = false # if the map can be clicked on (ie, disabled during
 
 @onready var _patron_token: PatronToken = $Table/PatronToken
 
-var souls_earned_this_round = 0
-
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
@@ -199,11 +197,12 @@ func on_start() -> void:
 	_patron_token = Global.patron.patron_token.instantiate()
 	_patron_token.position = _PATRON_TOKEN_POSITION
 	_patron_token.clicked.connect(_on_patron_token_clicked)
+	_patron_token.name = "PatronToken"
 	_TABLE.add_child(_patron_token)
 	
 	victory = false
-	souls_earned_this_round = 0
 	Global.round_count = 1
+	Global.souls_earned_this_round = 0
 	Global.lives = Global.current_round_life_regen()
 	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
 	Global.souls = 0
@@ -336,8 +335,7 @@ func _safe_flip(coin: Coin) -> void:
 
 func _earn_souls(soul_amt: int) -> void:
 	Global.souls += soul_amt
-	souls_earned_this_round += soul_amt
-	
+	Global.souls_earned_this_round += soul_amt
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
@@ -558,7 +556,7 @@ func _advance_round() -> void:
 	await _show_voyage_map(true, false)
 	await _VOYAGE_MAP.move_boat(Global.round_count)
 	Global.round_count += 1
-	souls_earned_this_round = 0
+	Global.souls_earned_this_round = 0
 	
 	# setup the enemy row
 	_ENEMY_ROW.current_round_setup()
@@ -731,7 +729,7 @@ func _on_voyage_continue_button_clicked():
 			for coin in _ENEMY_COIN_ROW.get_children():
 				coin.payoff_move_down()
 		
-		var disable_end = Global.current_round_type() == Global.RoundType.NEMESIS or (souls_earned_this_round < Global.current_round_quota())
+		var disable_end = Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota())
 		_END_ROUND_TEXTBOX.disable() if disable_end else _END_ROUND_TEXTBOX.enable()
 		
 		if Global.current_round_type() == Global.RoundType.NEMESIS:

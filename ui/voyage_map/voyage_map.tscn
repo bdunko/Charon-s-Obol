@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgds4d2p6hdb6"]
+[gd_scene load_steps=14 format=3 uid="uid://dgds4d2p6hdb6"]
 
 [ext_resource type="Script" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
 [ext_resource type="Texture2D" uid="uid://fjrkwngxhq1o" path="res://assets/table/voyage_map/scroll.png" id="2_hf6u5"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_map/voyage_ship.png" id="3_xhs1r"]
 [ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/table/voyage_map/voyage_river.png" id="4_d6uqt"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="4_qfjp8"]
+[ext_resource type="PackedScene" uid="uid://bqfaj14sdjdpo" path="res://ui/voyage_map/voyage_node.tscn" id="7_qdi6m"]
 [ext_resource type="Texture2D" uid="uid://2pxf10ev6f5n" path="res://assets/table/voyage_map/voyage_x.png" id="10_igmxh"]
 [ext_resource type="Texture2D" uid="uid://cq2hx5dttl12u" path="res://assets/table/voyage_map/voyage_x_pressed.png" id="11_jxgs3"]
 [ext_resource type="Texture2D" uid="uid://c0qtq8p5ssg5o" path="res://assets/table/voyage_map/voyage_x_hover.png" id="12_d5gro"]
@@ -162,7 +163,7 @@ position = Vector2(13, 21)
 texture = ExtResource("3_ep1xb")
 
 [node name="Ship" type="Sprite2D" parent="Map"]
-position = Vector2(11, 30)
+position = Vector2(31, 30)
 texture = ExtResource("3_xhs1r")
 centered = false
 
@@ -185,6 +186,51 @@ offset_bottom = 61.0
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
+
+[node name="VoyageNode" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode2" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode3" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode4" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode5" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode6" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode7" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode8" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode9" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode10" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode11" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode12" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode13" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode14" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
+
+[node name="VoyageNode15" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
+layout_mode = 2
 
 [node name="XButton" type="TextureButton" parent="Map"]
 offset_left = 183.0
