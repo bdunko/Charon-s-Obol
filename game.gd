@@ -161,11 +161,10 @@ func _on_state_changed() -> void:
 func _on_game_end() -> void:
 	if victory:
 		await _wait_for_dialogue("And we've reached the other shore...")
-		await _wait_for_dialogue("It appears that you have been victorious.")
 		await _wait_for_dialogue("I wish you luck on the rest of your journey...")
 	else:
 		await _wait_for_dialogue("You were a fool to come here.")
-		await _wait_for_dialogue("And now...")
+		await _wait_for_dialogue("And now!")
 		await _wait_for_dialogue("Your soul shall be mine!")
 	emit_signal("game_ended", victory)
 
@@ -217,7 +216,7 @@ func on_start() -> void:
 	Global.shop_price_multiplier = Global.DEFAULT_SHOP_PRICE_MULTIPLIER
 	
 	#debug
-	Global.souls = 100
+	Global.souls = 2000
 	#Global.lives = 100
 	Global.arrows = 5
 	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
@@ -227,12 +226,12 @@ func on_start() -> void:
 	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
 	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
 	
-	_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.APOLLO_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
-	_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+	_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
 	
 	
 	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
@@ -310,7 +309,7 @@ func _on_toss_button_clicked() -> void:
 	# take life from player
 	var strain = Global.strain_cost()
 	
-	# don't allow player to kill themselves here if continue isn't disabled (ie, if this isn't the final round)
+	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
 	if Global.lives < strain and not _END_ROUND_TEXTBOX.disabled: 
 		_DIALOGUE.show_dialogue("Not... enough... life...!")
 		return
@@ -348,7 +347,6 @@ func _on_accept_button_pressed():
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.before_payoff()
 		
-
 	var resolved_ignite = false
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
@@ -494,6 +492,9 @@ func _on_accept_button_pressed():
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.after_payoff()
 	
+	var disable_textbox = Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota())
+	_END_ROUND_TEXTBOX.disable() if disable_textbox else _END_ROUND_TEXTBOX.enable()
+	
 	_PLAYER_TEXTBOXES.make_visible()
 	
 	Global.state = Global.State.BEFORE_FLIP
@@ -600,6 +601,15 @@ func _on_end_round_button_pressed():
 		Global.lives = 0
 		await _wait_for_dialogue("And I'll take those...")
 		await _wait_for_dialogue("Now us continue.")
+	
+	# if we just won by defeating the nemesis
+	if Global.current_round_type() == Global.RoundType.NEMESIS:
+		await _wait_for_dialogue("So, you have triumphed.")
+		await _wait_for_dialogue("This outcome is most surprising.")
+		await _wait_for_dialogue("Well done.")
+		await _wait_for_dialogue("And it seems our voyage is nearing its end...")
+		_advance_round()
+		return
 	
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
@@ -708,8 +718,8 @@ func _on_voyage_continue_button_clicked():
 		# Nemesis introduction
 		if Global.current_round_type() == Global.RoundType.NEMESIS:
 			if Global.souls != 0:
-					await _wait_for_dialogue("First, I will take your remaining souls...")
-					Global.souls = 0
+				await _wait_for_dialogue("First, I will take your remaining souls...")
+				#Global.souls = 0
 			
 			await _wait_for_dialogue("And now...")
 			
@@ -729,12 +739,12 @@ func _on_voyage_continue_button_clicked():
 			for coin in _ENEMY_COIN_ROW.get_children():
 				coin.payoff_move_down()
 		
-		var disable_end = Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota())
-		_END_ROUND_TEXTBOX.disable() if disable_end else _END_ROUND_TEXTBOX.enable()
-		
 		if Global.current_round_type() == Global.RoundType.NEMESIS:
 			for coin in _ENEMY_COIN_ROW.get_children():
 				coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
+		
+		var disable_textbox = Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota())
+		_END_ROUND_TEXTBOX.disable() if disable_textbox else _END_ROUND_TEXTBOX.enable()
 		
 		_PLAYER_TEXTBOXES.make_visible()
 		_DIALOGUE.show_dialogue("Will you toss...?")
