@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmc1jbioa2xwp"]
+
+[ext_resource type="Texture2D" uid="uid://d3yf6cq0ycjqe" path="res://assets/table/charon_hand.png" id="1_khmkg"]
+[ext_resource type="Script" path="res://components/charon_hand.gd" id="1_ldden"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_me4yd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7r3ip"]
+atlas = ExtResource("1_khmkg")
+region = Rect2(0, 0, 58, 105)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vlpw"]
+atlas = ExtResource("1_khmkg")
+region = Rect2(58, 0, 58, 105)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2e7w4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7r3ip")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vlpw")
+}],
+"loop": true,
+"name": &"pointing",
+"speed": 5.0
+}]
+
+[node name="CharonHand" type="Node2D"]
+script = ExtResource("1_ldden")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2e7w4")
+animation = &"normal"
+centered = false
+
+[node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("2_me4yd")]
+watched = NodePath("../CollisionPolygon2D")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(28, 8, 22, 8, 18, 12, 16, 46, 8, 58, 7, 86, 20, 94, 29, 98, 40, 93, 50, 86, 51, 76, 50, 55, 42, 48, 41, 31, 41, 8)
+
+[node name="PointingOffset" type="Node2D" parent="."]
+position = Vector2(29, 98)
