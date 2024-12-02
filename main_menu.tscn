@@ -37,6 +37,7 @@ noise = SubResource("FastNoiseLite_ct364")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_016i3"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -63,8 +64,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -163,6 +166,7 @@ noise = SubResource("FastNoiseLite_wtgcp")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_16yc5"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -189,8 +193,10 @@ shader_parameter/tint_color = Color(0.537255, 0.290196, 0.870588, 1)
 shader_parameter/tint_strength = 0.605
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -288,6 +294,7 @@ noise = SubResource("FastNoiseLite_xyuc4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev3x1"]
 shader = ExtResource("27_x0p8j")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -314,8 +321,10 @@ shader_parameter/tint_color = Color(0.0470588, 0.552941, 1, 1)
 shader_parameter/tint_strength = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -403,9 +412,10 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ms5ee"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qijto"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -432,8 +442,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -520,9 +532,10 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnuwn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7xoog"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -549,8 +562,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -907,7 +922,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ms5ee")
+material = SubResource("ShaderMaterial_qijto")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -919,7 +934,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_cnuwn")
+material = SubResource("ShaderMaterial_7xoog")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -929,6 +944,14 @@ size_flags_horizontal = 1
 [node name="Text" parent="Textboxes/QuitButton/TextMargin" index="0"]
 size_flags_horizontal = 1
 text = "[center]Quit[/center]"
+
+[node name="Version" type="Label" parent="."]
+offset_left = 281.0
+offset_top = 163.0
+offset_right = 319.0
+offset_bottom = 179.0
+theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
+text = "Alpha 3"
 
 [connection signal="changed" from="Selector/Character" to="." method="_on_character_changed"]
 [connection signal="clicked" from="Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]

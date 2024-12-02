@@ -43,6 +43,9 @@ var _map_is_disabled = false # if the map can be clicked on (ie, disabled during
 
 @onready var _patron_token: PatronToken = $Table/PatronToken
 
+@onready var _LEFT_HAND: CharonHand = $Table/CharonHandLeft
+@onready var _RIGHT_HAND: CharonHand = $Table/CharonHandRight
+
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
@@ -168,7 +171,7 @@ func _on_game_end() -> void:
 		await _wait_for_dialogue("Your soul shall be mine!")
 	emit_signal("game_ended", victory)
 
-func on_start() -> void:
+func on_start() -> void: #reset
 	_CAMERA.make_current()
 	_DIALOGUE.instant_clear_dialogue()
 	
@@ -242,6 +245,13 @@ func on_start() -> void:
 	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
 	
 	Global.state = Global.State.BOARDING
+	
+	# pull back the hands, and have them move in
+	_LEFT_HAND.move_offscreen(true)
+	_RIGHT_HAND.move_offscreen(true)
+	_LEFT_HAND.move_to_default_position()
+	_RIGHT_HAND.move_to_default_position()
+	
 	_PLAYER_TEXTBOXES.make_invisible()
 	await Global.delay(0.1)
 	await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead.")
@@ -574,6 +584,10 @@ func _on_board_button_clicked():
 
 func _on_continue_button_pressed():
 	assert(Global.state == Global.State.SHOP)
+	_RIGHT_HAND.move_to_default_position()
+	_LEFT_HAND.move_to_default_position()
+	_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
+	
 	_advance_round()
 	
 	# increase the shop multiplier cost
@@ -613,10 +627,28 @@ func _on_end_round_button_pressed():
 	
 	Global.flips_this_round = 0
 	Global.strain_modifier = 0
+	
 	_SHOP.randomize_shop()
+	
+	# connect each shop coin to charon hand for hovering...
+	for coin in _SHOP_COIN_ROW.get_children():
+		coin.hovered.connect(_on_shop_coin_hovered)
+		coin.unhovered.connect(_on_shop_coin_unhovered)
+	_RIGHT_HAND.move_offscreen()
+	_LEFT_HAND.move_to_retracted_position()
+	
 	Global.state = Global.State.SHOP
 	_DIALOGUE.show_dialogue("Buying or upgrading...?")
 	_PLAYER_TEXTBOXES.make_visible()
+
+func _hand_point_for_coin(coin: Coin) -> Vector2:
+	return coin.global_position + Vector2(20, 0)
+
+func _on_shop_coin_hovered(coin: Coin) -> void:
+	_LEFT_HAND.point_at(_hand_point_for_coin(coin))
+
+func _on_shop_coin_unhovered(_coin: Coin) -> void:
+	_LEFT_HAND.move_to_retracted_position()
 
 func _toll_price_remaining() -> int:
 	return max(0, Global.current_round_toll() - Global.calculate_toll_coin_value())
@@ -788,6 +820,11 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		return
 	
 	_SHOP.purchase_coin(coin)
+	
+	# disconnect charon hand signals
+	coin.hovered.disconnect(_on_shop_coin_hovered)
+	coin.unhovered.disconnect(_on_shop_coin_unhovered)
+	_on_shop_coin_unhovered(coin)
 	
 	_gain_coin_entity(coin)
 

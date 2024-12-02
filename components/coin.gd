@@ -2,6 +2,8 @@ class_name Coin
 extends Control
 
 signal flip_complete
+signal hovered
+signal unhovered
 signal clicked
 
 const UNAFFORDABLE_COLOR = "#e12f3b"
@@ -830,11 +832,13 @@ func _on_mouse_entered():
 	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
 		#_new_movement_tween().tween_property(_SPRITE, "position:y", -2, 0.15).set_trans(Tween.TRANS_CIRC)
 		FX.start_glowing(Color.WHITE)
+	emit_signal("hovered", self)
 
 func _on_mouse_exited():
 	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
 		#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
 		FX.stop_glowing()
+	emit_signal("unhovered", self)
 
 var _was_active_power_coin = false
 func _on_active_coin_power_coin_changed() -> void:

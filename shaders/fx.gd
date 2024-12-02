@@ -283,7 +283,7 @@ func _process(_delta) -> void:
 	get_parent().material.set_shader_parameter(_UNIFORM_MOUSE, get_parent().get_global_mouse_position())
 
 
-## PREBAKED EFFECTS ##
+## PREBAKED SHADER EFFECTS ##
 enum ScanDirection {
 	LEFT_TO_RIGHT, RIGHT_TO_LEFT,
 	BOTTOM_TO_TOP, TOP_TO_BOTTOM,
