@@ -73,7 +73,7 @@ func move_to_retracted_position() -> void:
 	_movementTween.tween(_RETRACTED_POSITION, clamp(position.distance_to(_RETRACTED_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_offscreen(instant: bool = false) -> void:
-	var target = _BASE_POSITION - Vector2(0, 80)
+	var target = _OFFSCREEN_POSITION
 	
 	if instant:
 		_movementTween.kill()

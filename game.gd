@@ -145,7 +145,7 @@ func _on_state_changed() -> void:
 	
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	_COIN_ROW.visible = Global.state != Global.State.CHARON_OBOL_FLIP and Global.state != Global.State.GAME_OVER
-	_patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
+	# _patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce strain to 0 for display purposes
@@ -195,12 +195,15 @@ func on_start() -> void: #reset
 	_VOYAGE_MAP.update_tooltips()
 	
 	# delete any old patron token and create a new one
-	_patron_token.queue_free()
-	_patron_token = Global.patron.patron_token.instantiate()
-	_patron_token.position = _PATRON_TOKEN_POSITION
-	_patron_token.clicked.connect(_on_patron_token_clicked)
-	_patron_token.name = "PatronToken"
-	_TABLE.add_child(_patron_token)
+	if Global.patron == null:
+		_patron_token.hide()
+	else:
+		_patron_token.queue_free()
+		_patron_token = Global.patron.patron_token.instantiate()
+		_patron_token.position = _PATRON_TOKEN_POSITION
+		_patron_token.clicked.connect(_on_patron_token_clicked)
+		_patron_token.name = "PatronToken"
+		_TABLE.add_child(_patron_token)
 	
 	victory = false
 	Global.round_count = 1
@@ -609,7 +612,7 @@ func _on_end_round_button_pressed():
 			await _wait_for_dialogue("Only %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]...?" % Global.souls)
 			await _wait_for_dialogue("You are a rather misfortunate one.")
 			await _wait_for_dialogue("We wouldn't want the game ending prematurely...")
-		await _wait_for_dialogue("Just this once, I will take pity on you.")
+			await _wait_for_dialogue("Just this once, I will take pity on you.")
 		Global.souls = min_souls_first_round
 		await _wait_for_dialogue("You take these...")
 		Global.lives = 0

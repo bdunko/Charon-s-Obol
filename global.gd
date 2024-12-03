@@ -17,18 +17,23 @@ signal souls_earned_this_round_changed
 
 var character: CharacterData
 
+func is_character(chara: Global.Character) -> bool:
+	return character.character == chara
+
 class CharacterData:
 	var character: Global.Character
 	var name: String
 	var description: String:
 		get:
 			return Global.replace_placeholders(description)
+	var introText: String
 	var victoryDialogue: Array #[String]
 	var victoryClosingLine: String
 	
-	func _init(characterEnum: Global.Character, nameStr: String, descriptionStr: String, victoryDlg: Array, victoryClosingLn: String):
+	func _init(characterEnum: Global.Character, nameStr: String, introTxt: String, descriptionStr: String, victoryDlg: Array, victoryClosingLn: String):
 		self.character = characterEnum
 		self.name = nameStr
+		self.introText = introTxt
 		self.description = descriptionStr
 		self.victoryDialogue = victoryDlg
 		self.victoryClosingLine = victoryClosingLn
@@ -39,13 +44,15 @@ enum Character {
 
 var CHARACTERS = [
 	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
+		"\"...Yet [color=springgreen]she[/color] was bound to return, with will or without it, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks before their renewal.\"\n-Homeric Hymn to Demeter",
 		"Learn the rules of Charon's game.", 
 		["So you've returned to me once more.",
 		"You always were one to keep me waiting.",
 		"Regardless, welcome back home."],
 		"...Persephone."),
 	
-	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", 
+	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
+		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
 		"The standard game.\n10 Rounds, 3 Tollgates, 2 Trials, 1 Nemesis.",
 		["The birds are singing.", 
 		"The sun is shining.",

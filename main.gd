@@ -18,13 +18,19 @@ func _on_main_menu_start_game():
 		MAIN_MENU_SCENE.hide()
 		MAIN_MENU_POST_PROCESSING_FX.fade_out(1.0)
 		await Global.delay(0.3)
+		TransitionPlayer.set_text(Global.character.introText)
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.any_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
 		await Global.delay(0.3)
-		GOD_SELECTION_SCENE.on_start_god_selection()
-		GOD_SELECTION_SCENE.show()
-		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
+		if Global.is_character(Global.Character.LADY):
+			# skip god selection during tutorial
+			Global.patron = null
+			_on_god_selection_patron_selected(true)
+		else:
+			GOD_SELECTION_SCENE.on_start_god_selection()
+			GOD_SELECTION_SCENE.show()
+			await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
 	if victory:
@@ -44,10 +50,13 @@ func _on_game_game_ended(victory: bool):
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 	TransitionPlayer.reset_color()
 
-func _on_god_selection_patron_selected():
-	TransitionPlayer.set_color(Color("793a80"))
-	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-	await Global.delay(1.0)
+func _on_god_selection_patron_selected(lady: bool = false):
+	if lady:
+		await TransitionPlayer.play(TransitionPlayer.Effect.FADE_OUT)
+	else:
+		TransitionPlayer.set_color(Color("793a80"))
+		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+		await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	GAME_SCENE.on_start()
 	GAME_SCENE.show()
