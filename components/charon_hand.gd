@@ -20,6 +20,8 @@ enum HandType {
 const _ANIM_NORMAL = "normal"
 const _ANIM_POINTING = "pointing"
 
+var _lock := false
+
 # helper class for managing a tween which may be interrupted by another tween on the same property
 class InterruptableTween:
 	var _object: Object
@@ -62,17 +64,29 @@ func _ready():
 const MOVEMENT_SPEED = 100
 
 func point_at(point: Vector2) -> void:
+	if _lock:
+		return
+	
 	_SPRITE.play(_ANIM_POINTING)
 	var target = point - _POINTING_OFFSET
 	_movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_to_default_position() -> void:
+	if _lock:
+		return
+	
 	_movementTween.tween(_BASE_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_to_retracted_position() -> void:
+	if _lock:
+		return
+	
 	_movementTween.tween(_RETRACTED_POSITION, clamp(position.distance_to(_RETRACTED_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_offscreen(instant: bool = false) -> void:
+	if _lock:
+		return
+	
 	var target = _OFFSCREEN_POSITION
 	
 	if instant:
@@ -101,3 +115,9 @@ func _on_mouse_exited() -> void:
 func _process(_delta) -> void:
 	# constant 'up and down' oscillation
 	_SPRITE.position.y = _SPRITE_BASE_Y + (2 * sin(Time.get_ticks_msec()/1000.0 * 2.0))
+
+func lock() -> void:
+	_lock = true
+
+func unlock() -> void:
+	_lock = false

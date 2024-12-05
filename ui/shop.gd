@@ -28,6 +28,13 @@ func randomize_shop() -> void:
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
 	
+	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
+		var coin = _COIN_SCENE.instantiate()
+		_SHOP_ROW.add_child(coin)
+		coin.init_coin(Global.ZEUS_FAMILY, Global.Denomination.OBOL, Coin.Owner.SHOP)
+		coin.clicked.connect(_on_try_coin_purchased)
+		return
+	
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
 		_SHOP_ROW.add_child(coin)

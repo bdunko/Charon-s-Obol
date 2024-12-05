@@ -42,6 +42,47 @@ enum Character {
 	ELEUSINIAN, LADY
 }
 
+enum TutorialState {
+	INACTIVE,
+	
+	PROLOGUE_BEFORE_BOARDING, # set the scene and ask to board
+	PROLOGUE_AFTER_BOARDING, # after the map animation plays, introduce the game
+	
+	ROUND1_OBOL_INTRODUCTION, # give an Obol, show the sides
+	ROUND1_FIRST_HEADS, # after the first toss lands on heads
+	ROUND1_FIRST_HEADS_ACCEPTED, # after the first toss is accepted
+	ROUND1_FIRST_TAILS, # after the second toss lands on tails
+	ROUND1_FIRST_TAILS_ACCEPTED, # after the second toss is accepted
+	ROUND1_SHOP_BEFORE_BUYING_COIN, # introducing the shop
+	ROUND1_SHOP_AFTER_BUYING_COIN, # after the player buys a coin
+	ROUND1_VOYAGE, # explain the trials and tollgates
+	
+	ROUND2_POWER_INTRO, # explain powers
+	ROUND2_POWER_ACTIVATED, # after activating a power
+	ROUND2_POWER_USED, # after the power has been used
+	ROUND2_POWER_UNUSABLE, # if a coin is on tails, it can't be used
+	ROUND2_SHOP_BEFORE_UPGRADE, # explain upgrades
+	ROUND2_SHOP_AFTER_UPGRADE, # some more text after upgrades
+	
+	ROUND3_PATRON_INTRO, # introduce the idea of the patron token
+	ROUND3_PATRON_ACTIVATED, # after activating the token
+	ROUND3_PATRON_USED, # after the token is used
+	
+	ROUND4_MONSTER_INTRO, #introduce monsters
+	ROUND4_MONSTER_AFTER_TOSS, # after the monster tosses for first time
+	
+	ROUND5_INTRO, # flavor text
+	
+	ROUND6_TRIAL_INTRO, # explain the trial
+	ROUND6_TRIAL_COMPLETED, # congrats/admonish
+	
+	ROUND7_TOLLGATE_INTRO, # explain the tollgate
+	
+	ENDING # ending text
+}
+
+var tutorialState: TutorialState
+
 var CHARACTERS = [
 	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
 		"\"...Yet [color=springgreen]she[/color] was bound to return, with will or without it, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks before their renewal.\"\n-Homeric Hymn to Demeter",
