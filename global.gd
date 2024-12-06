@@ -869,6 +869,9 @@ var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [1, 2, 3, 4], PowerTy
 var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [1, 2, 3, 4], PowerType.POWER, "");
 var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [1, 2, 3, 4], PowerType.POWER, "");
 
+var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [1, 2, 3, 4], PowerType.POWER, "");
+
+
 # exists so I can define a value for the Patron in the editor for patron statues
 enum PatronEnum {
 	NONE, #used as default for debugging purposes
@@ -887,6 +890,8 @@ enum PatronEnum {
 	POSEIDON,
 	ZEUS,
 	GODLESS, # used as a placeholder for the godless statue, not a real power
+	
+	CHARON # used for tutorial
 }
 
 var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
@@ -904,7 +909,9 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal or [color=lightgray](25% of the time)[/color] greater value.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
 	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "(BLESS) a coin and make it (LUCKY).", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
 	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "(FREEZE) a coin and its neighbors.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
-	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "(SUPERCHARGE) a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY])
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "(SUPERCHARGE) a coin, then reflip it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY]),
+
+	Patron.new("[color=mediumorchid]Charon[/color]", "[color=mediumorchid]Charon's Oar[/color]", "Turn a coin to its other face and make it (LUCKY).", PatronEnum.CHARON, PATRON_POWER_FAMILY_CHARON, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/charon.tscn"), [HADES_FAMILY])
 ]
 
 func statue_scene_for_patron_enum(enm: PatronEnum) -> PackedScene:
