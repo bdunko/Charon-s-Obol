@@ -865,7 +865,8 @@ func _hand_point_for_coin(coin: Coin) -> Vector2:
 	return coin.global_position + Vector2(20, 0)
 
 func _on_shop_coin_hovered(coin: Coin) -> void:
-	_LEFT_HAND.point_at(_hand_point_for_coin(coin))
+	if not _map_open:
+		_LEFT_HAND.point_at(_hand_point_for_coin(coin))
 
 func _on_shop_coin_unhovered(_coin: Coin) -> void:
 	_LEFT_HAND.move_to_retracted_position()

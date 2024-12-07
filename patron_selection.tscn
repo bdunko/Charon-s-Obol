@@ -585,7 +585,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f5dbi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b7u58"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
@@ -824,7 +824,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_f5dbi")
+material = SubResource("ShaderMaterial_b7u58")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
