@@ -229,8 +229,8 @@ func on_start() -> void: #reset
 	_patron_token.position = _PATRON_TOKEN_POSITION
 	_patron_token.clicked.connect(_on_patron_token_clicked)
 	_patron_token.name = "PatronToken"
-	if Global.patron == null: # tutorial - use Charon
-		_patron_token.hide()
+	if Global.patron == Global.patron_for_enum(Global.PatronEnum.CHARON): # tutorial - use Charon
+		_patron_token.position = _CHARON_POINT
 	_TABLE.add_child(_patron_token)
 	
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
