@@ -94,18 +94,23 @@ func _enable_and_reset_camera() -> void:
 
 func on_victory() -> void:
 	_enable_and_reset_camera()
-	_make_background_peaceful()
 	
-	assert(_PATRON_STATUES.get_child_count() == 3 or _PATRON_STATUES.get_child_count() == 4, "Impossible # statues?")
-	for i in range(0, _PATRON_STATUES.get_child_count()):
-		var statue: PatronStatue = _PATRON_STATUES.get_child(i)
-		
-		# hide the godless statue IFF it was selected (the 'true' statue is the fourth and will be shown instead)
-		if _PATRON_STATUES.get_child_count() == 4 and statue.patron_enum == Global.PatronEnum.GODLESS:
+	if Global.is_character(Global.Character.LADY):
+		_make_background_withered()
+		for statue in _PATRON_STATUES.get_children():
 			statue.hide()
-		
-		statue.disable()
-		statue.clear_fx()
+	else:
+		_make_background_peaceful()
+		assert(_PATRON_STATUES.get_child_count() == 3 or _PATRON_STATUES.get_child_count() == 4, "Impossible # statues?")
+		for i in range(0, _PATRON_STATUES.get_child_count()):
+			var statue: PatronStatue = _PATRON_STATUES.get_child(i)
+			
+			# hide the godless statue IFF it was selected (the 'true' statue is the fourth and will be shown instead)
+			if _PATRON_STATUES.get_child_count() == 4 and statue.patron_enum == Global.PatronEnum.GODLESS:
+				statue.hide()
+			
+			statue.disable()
+			statue.clear_fx()
 	
 	for line in Global.character.victoryDialogue:
 		await _VICTORY_DIALOGUE.show_dialogue_and_wait(line)

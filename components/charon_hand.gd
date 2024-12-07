@@ -11,7 +11,7 @@ enum HandType {
 @onready var _SPRITE_BASE_Y = $Sprite.position.y
 @onready var _MOUSE: MouseWatcher = $Mouse
 @onready var _POINTING_OFFSET: Vector2 = $PointingOffset.position
-@onready var _movementTween := InterruptableTween.new(self, "position")
+@onready var _movementTween: Global.ManagedTween = Global.ManagedTween.new(self, "position")
 
 @onready var _BASE_POSITION = position
 @onready var _RETRACTED_POSITION = position - Vector2(0, 30)
@@ -21,32 +21,6 @@ const _ANIM_NORMAL = "normal"
 const _ANIM_POINTING = "pointing"
 
 var _lock := false
-
-# helper class for managing a tween which may be interrupted by another tween on the same property
-class InterruptableTween:
-	var _object: Object
-	var _property: NodePath
-	var _tween: Tween = null
-	var _tween_final_val: Variant = null
-	var _tween_duration: float = 0.0
-	
-	func _init(obj: Object, prop: NodePath):
-		_object = obj
-		_property = prop
-	
-	func tween(final_val: Variant, duration: float, trans := Tween.TransitionType.TRANS_LINEAR, easing := Tween.EaseType.EASE_IN_OUT):
-		if _tween:
-			if _tween_final_val == final_val and _tween_duration == duration:
-				return
-			_tween.kill()
-		_tween = _object.create_tween()
-		_tween.tween_property(_object, _property, final_val, duration).set_trans(trans).set_ease(easing)
-		_tween_final_val = final_val
-		_tween_duration = duration
-	
-	func kill() -> void:
-		if _tween:
-			_tween.kill()
 
 func _ready():
 	assert(_SPRITE)

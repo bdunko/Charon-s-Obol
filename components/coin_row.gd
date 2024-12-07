@@ -68,6 +68,13 @@ func get_highest_to_lowest_value() -> Array:
 	high_to_low.reverse()
 	return high_to_low
 
+# returns the total value of coins in this row
+func calculate_total_value() -> int:
+	var sum = 0
+	for coin in get_children():
+		sum += coin.get_value()
+	return sum
+
 # returns an array of the coins from left to right
 func get_leftmost_to_rightmost() -> Array:
 	assert(get_child_count() != 0)

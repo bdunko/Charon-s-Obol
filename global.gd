@@ -87,10 +87,10 @@ var CHARACTERS = [
 	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
 		"\"...Yet [color=springgreen]she[/color] was bound to return, with will or without it, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks before their renewal.\"\n-Homeric Hymn to Demeter",
 		"Learn the rules of Charon's game.", 
-		["So you've returned to me once more.",
+		["You've finally returned to me once more.",
 		"You always were one to keep me waiting.",
 		"Regardless, welcome back home."],
-		"...Persephone."),
+		"Persephone."),
 	
 	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
@@ -100,7 +100,7 @@ var CHARACTERS = [
 		"People parade through the streets.",
 		"All is well in the world.",
 		"Spring has come again."], 
-		"...Thank you."),
+		"Thank you."),
 ]
 
 var difficulty: Difficulty
@@ -289,6 +289,8 @@ class Monster:
 		self.archetype = arc
 		self.denom = dnm
 
+var NO_MONSTERS = [[]]
+
 var MONSTER_WAVE1 = [
 	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
 ]
@@ -319,121 +321,138 @@ var MONSTER_WAVE6 = [
 	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
 ]
 
+var MONSTER_WAVE_TUTORIAL = [
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]
+]
+
 var VOYAGE
 
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
 var _VOYAGE_STANDARD = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, [[]]),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
  
 # VARIANT (2 Gate - 2 Trial [12])
 # NNNGNN1GNN2B
 var _VOYAGE_VARIANT = [ 
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
-	Round.new(RoundType.TOLLGATE, 0, [], 4, 0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 4, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 100, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 100, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, [[]]),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 	
 # BACKLOADED (2 Gate - 3 Trial [111])
 # NNNN1GN1GN1B 
 var _VOYAGE_BACKLOADED = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE5),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, [[]]),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.TRIAL1, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 
 # PARTITION (1 Gate - 2 Trial [22])
 # NNNN2GNNN2B
 var _VOYAGE_PARTITION = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, [[]]),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, [[]]),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0,  [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0,  NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 
 # FRONTLOAD - (1 Gate - 3 Trial [112])
 # NN1NN1GNN2B
 var _VOYAGE_FRONTLOAD = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 90, [[]]),
-	Round.new(RoundType.TOLLGATE, 0, [], 16, 0, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 90, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 16, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, [[]]),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS),
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 
 # INTERSPERSED - (3 Gate - 2 Trial [12)
 # NNGN1NGN2NGNB
 var _VOYAGE_INTERSPERSED = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, [[]]), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, [[]]),
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1),
-	Round.new(RoundType.TOLLGATE, 0, [], 3, 0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 3, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, [[]]),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3),
-	Round.new(RoundType.TOLLGATE, 0, [], 6, 0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 6, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, [[]]),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5),
-	Round.new(RoundType.TOLLGATE, 0, [], 9, 0, [[]]),
+	Round.new(RoundType.TOLLGATE, 0, [], 9, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, [[]]),
-	Round.new(RoundType.END, 0, [], 0, 0, [[]])
+	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 
+# TUTORIAL (2 Gate - 2 Trial [12])
+# NNN1GNN2GNNB
+var _VOYAGE_TUTORIAL = [
+	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 100, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS),
+	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
+]
 
 const NUM_STANDARD_MONSTERS = 4
 const NUM_ELITE_MONSTERS = 2
@@ -443,6 +462,17 @@ var _standard_monster_pool = []
 var _elite_monster_pool = []
 
 func randomize_voyage() -> void:
+	# special case - hardcoded setup for tutorial
+	if is_character(Character.LADY):
+		VOYAGE = _VOYAGE_TUTORIAL
+		for rnd in VOYAGE:
+			match(rnd.roundType):
+				RoundType.TRIAL1:
+					rnd.trialData = _PAIN_TRIAL
+		_standard_monster_pool = [MONSTER_KOBALOS_FAMILY]
+		_elite_monster_pool = [MONSTER_KOBALOS_FAMILY] # unused, but just in case...
+		return
+	
 	# choose a voyage
 	VOYAGE = choose_one_weighted(
 		[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
@@ -548,6 +578,8 @@ class TrialData:
 	TrialData.new("[color=lightgreen]The Gorgon Sisters[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "These three sisters will render you helpless with their petrifying gaze.")
 ]
 
+# extra reference to this for use in tutorial
+@onready var _PAIN_TRIAL = TrialData.new(TRIAL_PAIN_FAMILY.coin_name, [TRIAL_PAIN_FAMILY], TRIAL_POWER_FAMILY_PAIN.description)
 @onready var LV1_TRIALS = [
 	TrialData.new(TRIAL_IRON_FAMILY.coin_name, [TRIAL_IRON_FAMILY], TRIAL_POWER_FAMILY_IRON.description),
 	TrialData.new(TRIAL_MISFORTUNE_FAMILY.coin_name, [TRIAL_MISFORTUNE_FAMILY], TRIAL_POWER_FAMILY_MISFORTUNE.description),
@@ -557,7 +589,7 @@ class TrialData:
 	#TrialData.new("Silence", [GENERIC_FAMILY], "Your rightmost 2 coins are Blank."),
 	#TrialData.new("Exhaustion", [GENERIC_FAMILY], "Every 3 payoffs, your lowest value coin is destroyed."),
 	TrialData.new(TRIAL_EQUIVALENCE_FAMILY.coin_name, [TRIAL_EQUIVALENCE_FAMILY], TRIAL_POWER_FAMILY_EQUIVALENCE.description),
-	TrialData.new(TRIAL_PAIN_FAMILY.coin_name, [TRIAL_PAIN_FAMILY], TRIAL_POWER_FAMILY_PAIN.description),
+	_PAIN_TRIAL,
 	TrialData.new(TRIAL_BLOOD_FAMILY.coin_name, [TRIAL_BLOOD_FAMILY], TRIAL_POWER_FAMILY_BLOOD.description),
 	#TrialData.new("Draining", [GENERIC_FAMILY], "Using a power also drains a charge from each adjacent coin."),
 	#TrialData.new("Suffering", [GENERIC_FAMILY], "Strain starts at 4."),
@@ -826,6 +858,33 @@ func delete_timer(key: String) -> bool:
 	_timers[key].queue_free()
 	_timers.erase(key)
 	return true
+
+# helper class for managing a tween which may be interrupted by another tween on the same property
+class ManagedTween:
+	var _object: Object
+	var _property: NodePath
+	var _tween: Tween = null
+	var _tween_final_val: Variant = null
+	var _tween_duration: float = 0.0
+	
+	func _init(obj: Object, prop: NodePath):
+		_object = obj
+		_property = prop
+	
+	func tween(final_val: Variant, duration: float, trans := Tween.TransitionType.TRANS_LINEAR, easing := Tween.EaseType.EASE_IN_OUT):
+		if _tween:
+			if _tween_final_val == final_val and _tween_duration == duration:
+				return
+			_tween.kill()
+		_tween = _object.create_tween()
+		_tween.tween_property(_object, _property, final_val, duration).set_trans(trans).set_ease(easing)
+		_tween_final_val = final_val
+		_tween_duration = duration
+	
+	func kill() -> void:
+		if _tween:
+			_tween.kill()
+
 
 # todo - this should be in another file, PatronData I think?
 class Patron:
