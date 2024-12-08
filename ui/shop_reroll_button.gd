@@ -18,6 +18,10 @@ func _on_rerolls_changed() -> void:
 	pass
 
 func _on_state_changed() -> void:
+	if Global.tutorialState != Global.TutorialState.INACTIVE:
+		hide()
+		return
+	
 	if Global.state == Global.State.SHOP:
 		show()
 	else:

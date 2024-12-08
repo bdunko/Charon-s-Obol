@@ -155,6 +155,11 @@ func _update_price_label() -> void:
 		var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
+		
+		# hide upgrade label during some parts of tutorial
+		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE]
+		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
+			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
 		# if the coin cannot be offered at a tollgate, show nothing
 		if _coin_family in Global.TOLL_EXCLUDE_COIN_FAMILIES:

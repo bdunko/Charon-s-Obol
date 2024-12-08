@@ -715,6 +715,7 @@ func replace_placeholders(tooltip: String) -> String:
 	# images
 	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
 	tooltip = tooltip.replace("(TAILS)", "[img=12x13]res://assets/icons/tails_icon.png[/img]")
+	tooltip = tooltip.replace("(COIN)", "[img=12x13]res://assets/icons/coin_icon.png[/img]")
 	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
 	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
 	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")	
@@ -880,10 +881,23 @@ class ManagedTween:
 		_tween.tween_property(_object, _property, final_val, duration).set_trans(trans).set_ease(easing)
 		_tween_final_val = final_val
 		_tween_duration = duration
+		await _tween.finished
 	
 	func kill() -> void:
 		if _tween:
 			_tween.kill()
+
+# helpers for moving something to a specific z index while remembering its previous z-index
+# mostly useful for tutorials and the like
+var _z_map = {}
+func temporary_set_z(node: Node2D, z: int) -> void:
+	_z_map[node] = node.z_index
+	node.z_index = z
+
+func restore_z(node: Node2D) -> void:
+	assert(_z_map.has_key(node))
+	node.z_index = _z_map[node]
+	_z_map.erase(node)
 
 
 # todo - this should be in another file, PatronData I think?

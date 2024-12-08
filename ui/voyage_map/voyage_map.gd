@@ -80,3 +80,8 @@ func _on_click_detector_pressed() -> void:
 
 func _on_x_button_pressed() -> void:
 	emit_signal("closed")
+
+func node_position(i: int) -> Vector2:
+	if i >= _NODES.get_child_count():
+		return Vector2(-1, -1)
+	return _NODES.get_child(i).get_global_position()
