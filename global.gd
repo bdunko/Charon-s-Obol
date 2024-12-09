@@ -446,9 +446,9 @@ var _VOYAGE_TUTORIAL = [
 	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS), 
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, NO_MONSTERS),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 100, NO_MONSTERS),
 	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS),
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
@@ -895,7 +895,7 @@ func temporary_set_z(node: Node2D, z: int) -> void:
 	node.z_index = z
 
 func restore_z(node: Node2D) -> void:
-	assert(_z_map.has_key(node))
+	assert(_z_map.has(node))
 	node.z_index = _z_map[node]
 	_z_map.erase(node)
 

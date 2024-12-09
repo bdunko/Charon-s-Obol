@@ -27,17 +27,23 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 @onready var _INITIAL_POSITION = position
 @export var ANIMATION_OFFSET = Vector2(0, -20)
 var _current_textbox = null
+var _waiting = false
 
 func _ready() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
  
+func is_waiting() -> bool:
+	return _waiting
+
 func show_dialogue_and_wait(dialogue: String) -> void:
+	_waiting = true
 	show_dialogue(dialogue)
 	await Global.any_input
 	await Global.delay(0.04) #small delay after
-
+	_waiting = false
+	
 func show_dialogue(dialogue: String) -> void:
 	# remove the previous dialogue
 	clear_dialogue()

@@ -157,7 +157,7 @@ func _update_price_label() -> void:
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
 		
 		# hide upgrade label during some parts of tutorial
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE]
+		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
 		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
@@ -596,17 +596,26 @@ func spend_power_use() -> void:
 	FX.flash(Color.WHITE)
 
 func reset_power_uses() -> void:
+	var new_heads_charges = -1
+	var new_tails_charges = -1
+	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and is_power(): # sapping trial - recharge only by 1
-		_heads_power.charges = max(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
+		new_heads_charges = max(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
 		_tails_power.charges = max(_tails_power.charges + 1, _tails_power.power_family.uses_for_denom[_denomination])
 	else:
-		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
-		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
+		new_heads_charges = _heads_power.power_family.uses_for_denom[_denomination]
+		new_tails_charges = _tails_power.power_family.uses_for_denom[_denomination]
 	
 	if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-		_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+		new_heads_charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-		_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+		new_tails_charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	
+	if _heads_power.charges > new_heads_charges or _tails_power.charges > new_tails_charges:
+		FX.flash(Color.LIGHT_PINK)
+	
+	_heads_power.charges = new_heads_charges
+	_tails_power.charges = new_tails_charges
 	
 	_update_appearance()
 
@@ -801,7 +810,6 @@ func before_payoff() -> void:
 func after_payoff() -> void:
 	_disable_interaction = false
 	reset_power_uses()
-	FX.flash(Color.LIGHT_PINK)
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()
@@ -868,6 +876,8 @@ func _on_active_coin_power_coin_changed() -> void:
 			# lastly if this was the active power and we're still over it, glow white instead of gold again
 			if _was_active_power_coin and _MOUSE.is_over():
 				FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+	else:
+		FX.stop_glowing()
 
 func disable_interaction() -> void:
 	_disable_interaction = true

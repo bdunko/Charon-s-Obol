@@ -73,7 +73,7 @@ func move_offscreen(instant: bool = false) -> void:
 		_movementTween.kill()
 		position = target
 	else:
-		_movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+		await _movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 enum Appearance {
 	NORMAL, POINTING

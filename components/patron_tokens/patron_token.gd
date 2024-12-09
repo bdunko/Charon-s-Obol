@@ -74,17 +74,13 @@ func _on_mouse_clicked():
 	if _disable_interaction:
 		return
 	
-	if _can_activate and not _activated and position == _START_POSITION:
-		UITooltip.clear_tooltip_for(self)
-		emit_signal("clicked")
-		FX.flash(Color.GOLD)
+	emit_signal("clicked")
 
 func _on_mouse_entered():
 	if _disable_interaction:
 		return
 	
-	if not _activated:
-		UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
 	
 	_update_effects()
 
@@ -92,12 +88,13 @@ func _on_mouse_exited():
 	_update_effects()
 
 func activate() -> void:
-	create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
+	#create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
+	FX.flash(Color.GOLD)
 	Global.active_coin_power_family = Global.patron.power_family
 	_activated = true
 
 func deactivate() -> void:
-	create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
+	#create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
 	Global.active_coin_power_family = null
 	_activated = false
 
@@ -108,8 +105,9 @@ func _on_patron_uses_changed() -> void:
 	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0
 
 func _process(delta) -> void:
-	var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
-	position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
+	#var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
+	#position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
+	pass
 
 func _on_state_changed() -> void:
 	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0
