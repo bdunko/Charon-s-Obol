@@ -206,7 +206,6 @@ var patron: Patron:
 		patron = val
 		emit_signal("patron_changed")
 
-const PATRON_USES_PER_ROUND = [-1, 0, 1, 1, 1, 2, 0, 2, 2, 3, 0, 3, 3, 5, 0]
 var patron_uses: int:
 	set(val):
 		patron_uses = val
@@ -514,6 +513,10 @@ func current_round_quota() -> int:
 
 func _current_round_shop_denoms() -> Array:
 	return VOYAGE[round_count-1].shopDenoms
+
+# will be obsoleted eventually
+func current_round_patron_uses() -> int:
+	return 2
 
 # returns an array of [monster_family, denom] pairs for current round
 func current_round_enemy_coin_data() -> Array:

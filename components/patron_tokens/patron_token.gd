@@ -6,7 +6,7 @@ signal clicked
 @onready var FX: FX = $Sprite2D/FX
 @onready var _MOUSE: MouseWatcher = $Mouse
 
-@onready var _START_POSITION = position
+#@onready var _START_POSITION = position
 const _SPEED = 5000
 const _RETURN_SPEED = 500
 const _ROTATION_TIME = 0.15
@@ -80,7 +80,7 @@ func _on_mouse_entered():
 	if _disable_interaction:
 		return
 	
-	UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.PATRON_USES_PER_ROUND[Global.round_count], Global.patron.description], get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.current_round_patron_uses(), Global.patron.description], get_global_mouse_position(), get_tree().root)
 	
 	_update_effects()
 
@@ -104,7 +104,7 @@ func is_activated() -> bool:
 func _on_patron_uses_changed() -> void:
 	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	#var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
 	#position = position.move_toward(target, (_SPEED if _activated else _RETURN_SPEED) * delta)
 	pass

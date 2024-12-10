@@ -157,7 +157,7 @@ func _update_price_label() -> void:
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
 		
 		# hide upgrade label during some parts of tutorial
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
+		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_VOYAGE]
 		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
@@ -482,6 +482,9 @@ func flip(bonus: int = 0) -> void:
 		
 	_disable_interaction = true # ignore input while flipping
 	
+	# hide the glow
+	FX.stop_glowing()
+	
 	# animate
 	_FACE_LABEL.hide() # hide text
 	_PRICE.hide() # hide appease cost
@@ -537,6 +540,10 @@ func flip(bonus: int = 0) -> void:
 		_supercharged = false
 		await flip()
 		return
+	
+	# if the mouse is still over after the flip, start glowing again
+	if _MOUSE.is_over():
+		FX.start_glowing(Color.WHITE)
 	
 	emit_signal("flip_complete")
 	

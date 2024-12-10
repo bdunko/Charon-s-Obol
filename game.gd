@@ -238,7 +238,7 @@ func on_start() -> void: #reset
 	Global.round_count = 1
 	Global.souls_earned_this_round = 0
 	Global.lives = Global.current_round_life_regen()
-	Global.patron_uses = Global.PATRON_USES_PER_ROUND[1]
+	Global.patron_uses = Global.current_round_patron_uses()
 	Global.souls = 0
 	Global.arrows = 0
 	Global.active_coin_power_family = null
@@ -403,7 +403,7 @@ func _on_flip_complete() -> void:
 			tween.tween_property(_patron_token, "position", _PATRON_TOKEN_POSITION, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 			await _wait_for_dialogue("Take this...")
 			await _wait_for_dialogue("This is a patron token.")
-			await _wait_for_dialogue("It permits you to call upon the power of a higher being.")
+			await _wait_for_dialogue("It calls upon the power of a higher being.")
 			await _wait_for_dialogue("Unlike power coins...")
 			await _wait_for_dialogue("Patron tokens are always available.")
 			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
@@ -708,7 +708,7 @@ func _hide_voyage_map() -> void:
 	_enable_interaction_coins_and_patron()
 
 func _on_voyage_map_clicked():
-	var no_map_states = [Global.TutorialState.ROUND2_POWER_USED, Global.TutorialState.ROUND2_POWER_UNUSABLE, Global.TutorialState.ROUND3_PATRON_USED, Global.TutorialState.ROUND4_MONSTER_INTRO]
+	var no_map_states = [Global.TutorialState.ROUND2_POWER_USED, Global.TutorialState.ROUND2_POWER_UNUSABLE, Global.TutorialState.ROUND3_PATRON_USED]
 	if Global.tutorialState in no_map_states:
 		return
 	if _map_is_disabled or _map_open:
@@ -866,12 +866,13 @@ func _on_end_round_button_pressed():
 		_SHOP_CONTINUE_TEXTBOX.disable()
 	elif Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:
 		_SHOP_CONTINUE_TEXTBOX.disable()
+		_LEFT_HAND.lock()
 		await _wait_for_dialogue("We return to the shop once more.")
 		await _wait_for_dialogue("In addition to purchasing new coins...")
 		await _wait_for_dialogue("You can also upgrade your current coins.")
-		await _wait_for_dialogue("There are four coin denominations of increasing value...")
+		await _wait_for_dialogue("There are four denominations of increasing value...")
 		await _wait_for_dialogue("Obol, Diobol, Triobol, and Tetrobol.")
-		await _wait_for_dialogue("Coins of higher denomination are more powerful.")
+		await _wait_for_dialogue("Coins of higher denominations are more powerful.")
 		var upgrade_price = _COIN_ROW.get_child(0).get_upgrade_price()
 		if Global.souls < upgrade_price:
 			await _wait_for_dialogue("Hmm...")
@@ -880,6 +881,7 @@ func _on_end_round_button_pressed():
 			await _wait_for_dialogue("Take these.")
 		_DIALOGUE.show_dialogue("Upgrade this coin by clicking on it.")
 		Global.temporary_set_z(_LEFT_HAND, 1)
+		_LEFT_HAND.unlock()
 		_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
 		Global.tutorialState = Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE
@@ -975,7 +977,7 @@ func _on_voyage_continue_button_clicked():
 			Global.lives += Global.current_round_life_regen()
 	
 	# refresh patron powers
-	Global.patron_uses = Global.PATRON_USES_PER_ROUND[Global.round_count]
+	Global.patron_uses = Global.current_round_patron_uses()
 		
 	if first_round and not Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
 		await _wait_for_dialogue("...Let's begin the game...")
@@ -1160,6 +1162,9 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 	# and during upgrade sequence...
 	var no_buy_states = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE, Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE]
 	if Global.tutorialState in no_buy_states:
+		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE:
+			_DIALOGUE.show_dialogue("Click this coin.")
+			return
 		return
 	
 	# make sure we can afford this coin
@@ -1343,31 +1348,28 @@ func _on_coin_clicked(coin: Coin):
 			return
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
-			# clicking Zeus a second time when you've been told to use on obol
-			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
-				_DIALOGUE.show_dialogue("Click the other coin.")
-				return
 			_deactivate_active_power()
 			return
 		if Global.is_patron_power(Global.active_coin_power_family):
 			match(Global.active_coin_power_family):
 				Global.PATRON_POWER_FAMILY_CHARON:
 					coin.turn()
+					coin.make_lucky()
 					if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
 						_map_is_disabled = false
 						await _wait_for_dialogue("Useful, isn't it?")
 						await _wait_for_dialogue("This token doesn't flip coins...")
 						await _wait_for_dialogue("It simply turns them to their other side.")
-						await _wait_for_dialogue("It also bestows the (LUCKY) condition.")
+						await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) condition."))
 						await _wait_for_dialogue("Coins can be affected by many conditions...")
-						await _wait_for_dialogue("(LUCKY) makes a coin land on heads(HEADS) more often.")
-						await _wait_for_dialogue("One more note about patron tokens...")
+						await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
 						await _wait_for_dialogue("Patrons have a limited number of uses.")
 						await _wait_for_dialogue("But, they recharge over time as you toss coins.")
 						await _wait_for_dialogue("Manage your use of patrons wisely.")
 						await _wait_for_dialogue("Lastly, deactivate the token by clicking it.")
 						await _wait_for_dialogue("And with that, I will leave you to it.")
 						await _wait_for_dialogue("Good luck...")
+						_ACCEPT_TEXTBOX.enable()
 						Global.tutorialState = Global.TutorialState.ROUND4_MONSTER_INTRO
 				Global.PATRON_POWER_FAMILY_ZEUS:
 					coin.supercharge()
@@ -1531,8 +1533,10 @@ func _on_coin_clicked(coin: Coin):
 				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
 				coin.spend_power_use()
 			_: # otherwise, make this the active coin and coin power and await click on target
+				# prevent reactivating the coin after deactivating
 				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
 					_DIALOGUE.show_dialogue("Accept the result.")
+					return
 				
 				Global.active_coin_power_coin = coin
 				Global.active_coin_power_family = coin.get_active_power_family()
@@ -1551,11 +1555,18 @@ func _on_arrow_pressed():
 	Global.active_coin_power_family = Global.POWER_FAMILY_ARROW_REFLIP
 
 func _on_patron_token_clicked():
+	if _DIALOGUE.is_waiting():
+		return
+	
 	if Global.patron_uses == 0:
 		_DIALOGUE.show_dialogue("No... more... gods...")
 		return
 	
 	if _patron_token.is_activated():
+		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
+			_DIALOGUE.show_dialogue("Click on a coin.")
+			return
+		
 		_patron_token.deactivate()
 		return
 	
@@ -1601,8 +1612,8 @@ func _on_patron_token_clicked():
 		_: # if not immediate, activate the token
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_ACTIVATED:
 				_DIALOGUE.show_dialogue("Now click a coin to use the patron's power.")
-				_LEFT_HAND.move_to_default_position()
 				_LEFT_HAND.unlock()
+				_LEFT_HAND.unpoint()
 				Global.tutorialState = Global.TutorialState.ROUND3_PATRON_USED
 			_patron_token.activate()
 
@@ -1611,11 +1622,17 @@ func _input(event):
 	# right click with the map open closes it
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
-			_deactivate_active_power()
+			if Global.active_coin_power_family != null:
+				_deactivate_active_power()
 			if _map_open and not Global.state == Global.State.VOYAGE:
 				_hide_voyage_map()
 
 func _deactivate_active_power() -> void:
+	# clicking Zeus a second time when you've been told to use on obol
+	if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
+		_DIALOGUE.show_dialogue("Click the other coin.")
+		return
+	
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
 	if _patron_token.is_activated():
