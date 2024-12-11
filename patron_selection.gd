@@ -95,6 +95,8 @@ func _enable_and_reset_camera() -> void:
 func on_victory() -> void:
 	_enable_and_reset_camera()
 	
+	_VICTORY_TEXTBOXES.make_invisible()
+	
 	if Global.is_character(Global.Character.LADY):
 		_make_background_withered()
 		for statue in _PATRON_STATUES.get_children():

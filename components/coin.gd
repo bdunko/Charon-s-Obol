@@ -170,6 +170,11 @@ func _update_price_label() -> void:
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = _APPEASE_FORMAT % [color, price]
+		
+		# hide appease label during some parts of tutorial
+		var no_appease_states = [Global.TutorialState.ROUND4_MONSTER_INTRO, Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS]
+		if Global.tutorialState in no_appease_states:
+			_PRICE.text = ""
 
 func _update_flash():
 	# if this coin is an enemy coin, flash purple at all times
@@ -294,6 +299,7 @@ func _ready():
 	assert(_TETROBOL_CLICKBOX)
 	assert(_TETROBOL_STATUS_ANCHOR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
+	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
 
 func show_price() -> void:
@@ -331,6 +337,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_permanent_tails_penalty_reduction = 0
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
 	reset_power_uses()
+	_on_state_changed() # a bit of a hack but it is a good catchall...
 
 func get_appeasal_price() -> int:
 	return _coin_family.appeasal_price_for_denom[_denomination]
@@ -885,6 +892,11 @@ func _on_active_coin_power_coin_changed() -> void:
 				FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 	else:
 		FX.stop_glowing()
+
+func _on_tutorial_state_changed() -> void:
+	if not is_inside_tree(): # a bit of a hack for startup, but whatever
+		return
+	_update_appearance()
 
 func disable_interaction() -> void:
 	_disable_interaction = true

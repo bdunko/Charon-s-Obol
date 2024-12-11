@@ -14,6 +14,7 @@ signal patron_changed
 signal patron_uses_changed
 signal rerolls_changed
 signal souls_earned_this_round_changed
+signal tutorial_state_changed
 
 var character: CharacterData
 
@@ -81,16 +82,19 @@ enum TutorialState {
 	ENDING # ending text
 }
 
-var tutorialState: TutorialState
+var tutorialState: TutorialState:
+	set(val):
+		tutorialState = val
+		emit_signal("tutorial_state_changed")
 
 var CHARACTERS = [
 	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
-		"\"...Yet [color=springgreen]she[/color] was bound to return, with will or without it, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks before their renewal.\"\n-Homeric Hymn to Demeter",
+		"\"Yet [color=springgreen]she[/color] was bound to return, willing or not, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks until their renewal.\"\n-Homeric Hymn to Demeter",
 		"Learn the rules of Charon's game.", 
-		["You've finally returned to me once more.",
-		"You always were one to keep me waiting.",
+		["So [color=springgreen]you've[/color] returned to [color=purple]me[/color] once more.",
+		"[color=springgreen]You[/color] always were one to keep [color=purple]me[/color] waiting.",
 		"Regardless, welcome back home."],
-		"Persephone."),
+		"[color=springgreen]Persephone[/color]..."),
 	
 	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
@@ -98,8 +102,9 @@ var CHARACTERS = [
 		["The birds are singing.", 
 		"The sun is shining.",
 		"People parade through the streets.",
-		"All is well in the world.",
-		"Spring has come again."], 
+		"All is at peace in the world.",
+		"For with [color=springgreen]her[/color] return...",
+		"...[color=springgreen]spring[/color] has come again."], 
 		"Thank you."),
 ]
 
@@ -449,7 +454,7 @@ var _VOYAGE_TUTORIAL = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE1),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 100, NO_MONSTERS),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS), #8 is intentional to prevent possible bugs, don't increase
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)
 ]
 
@@ -551,6 +556,11 @@ func current_round_enemy_coin_data() -> Array:
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
 	return rtype == RoundType.TRIAL1 or rtype == RoundType.TRIAL2 or rtype == RoundType.NEMESIS
+
+func is_next_round_end() -> bool:
+	if VOYAGE.size() == round_count:
+		return false #next round is null lol - this should never happen though
+	return VOYAGE[round_count].roundType == RoundType.END
 
 func get_tollgate_cost(tollgateIndex: int) -> int:
 	var tollgates = 0

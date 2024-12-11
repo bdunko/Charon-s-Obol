@@ -1523,6 +1523,7 @@ script = ExtResource("16_ee6yk")
 
 [node name="CharonHandRight" parent="Table" instance=ExtResource("16_32esb")]
 position = Vector2(182, -35)
+HAND_TYPE = 1
 
 [node name="CharonHandLeft" parent="Table" instance=ExtResource("16_32esb")]
 position = Vector2(76, -35)
