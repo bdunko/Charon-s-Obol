@@ -782,7 +782,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("You must pass all the trials...")
 		await _wait_for_dialogue("And pay all the tolls.")
 		await _wait_for_dialogue("I shall speak more about them upon arrival.")
-		_DIALOGUE.show_dialogue("But for now, let's continue to the second round.")
+		_DIALOGUE.show_dialogue("For now, let's continue to the second round.")
 		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
 	
 	_PLAYER_TEXTBOXES.make_visible()
@@ -863,7 +863,7 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue("This is a power coin.")
 		await _wait_for_dialogue("These coins have the ability to manipulate fate.")
 		await _wait_for_dialogue("Currently, you own merely a single payoff coin.")
-		await _wait_for_dialogue(Global.replace_placeholders("When it lands on tails(TAILS), there is nothing to be done..."))
+		await _wait_for_dialogue(Global.replace_placeholders("If it is on tails(TAILS), there is nothing to be done."))
 		await _wait_for_dialogue("Using powers allows you to change that.")
 		await _wait_for_dialogue("This particular coin can reflip other coins.")
 		await _wait_for_dialogue(Global.replace_placeholders("So, you could reflip a coin on tails(TAILS)..."))
