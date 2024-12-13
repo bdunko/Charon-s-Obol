@@ -2,16 +2,22 @@ extends Node2D
 
 signal start_game
 
-@onready var _CHARACTER_SELECTOR: ArrowSelector = $Selector/Character
-@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $DescriptionContainer/CharacterDescription
-@onready var _DIFFICULTY_SELECTOR = $Selector/Difficulty
+@onready var _CHARACTER_SELECTOR: ArrowSelector = $MainUI/Selector/Character
+@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $MainUI/DescriptionContainer/CharacterDescription
+@onready var _DIFFICULTY_SELECTOR = $MainUI/Selector/Difficulty
 @onready var _TEXTBOXES = $Textboxes
+@onready var _MAIN_UI = $MainUI
+
+enum MenuState {
+	NORMAL, UNLOCK_CHARACTER, UNLOCK_COIN
+}
 
 func _ready() -> void:
 	assert(_CHARACTER_SELECTOR)
 	assert(_CHARACTER_DESCRIPTION)
 	assert(_DIFFICULTY_SELECTOR)
 	assert(_TEXTBOXES)
+	assert(_MAIN_UI)
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 	
 	var names = []

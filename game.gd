@@ -438,7 +438,10 @@ func _on_flip_complete() -> void:
 			_LEFT_HAND.unlock()
 			_LEFT_HAND.unpoint()
 		else:
-			_DIALOGUE.show_dialogue("The coins fall...")
+			if _COIN_ROW.has_a_power_coin():
+				_DIALOGUE.show_dialogue("Change your fate...")
+			else:
+				_DIALOGUE.show_dialogue("The coins fall...")
 		_PLAYER_TEXTBOXES.make_visible()
 
 func _on_toss_button_clicked() -> void:
@@ -448,16 +451,16 @@ func _on_toss_button_clicked() -> void:
 		return
 	
 	if _COIN_ROW.get_child_count() == 0:
-		_DIALOGUE.show_dialogue("No... coins...")
+		_DIALOGUE.show_dialogue("No coins...")
 		return
 	
 	# take life from player
 	var strain = Global.strain_cost()
 	
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	#if Global.lives < strain and not _END_ROUND_TEXTBOX.disabled: 
-	#	_DIALOGUE.show_dialogue("Not... enough... life...!")
-	#	return
+	if Global.lives < strain and not _END_ROUND_TEXTBOX.disabled: 
+		_DIALOGUE.show_dialogue("Not enough life!")
+		return
 	
 	Global.lives -= strain
 	
@@ -952,14 +955,15 @@ func _on_voyage_continue_button_clicked():
 		
 		if Global.tutorialState == Global.TutorialState.ROUND7_TOLLGATE_INTRO:
 			await _wait_for_dialogue("We have reached the ending tollgate...")
-			await _wait_for_dialogue("To pass, you must sacrifice some of your coins...")
-			await _wait_for_dialogue("Select a coin for payment by clicking on it.")
+			await _wait_for_dialogue("To pass, you must pay %d(COIN)." % Global.current_round_toll())
+			await _wait_for_dialogue("Obols are worth 1(COIN), Diobols 2(COIN)...")
+			await _wait_for_dialogue("Triobols are worth 3(COIN), and Tetrobols 4(COIN).")
+			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
 			Global.tutorialState = Global.TutorialState.ENDING
 		elif Global.toll_index == 0:
 			await _wait_for_dialogue("First tollgate...")
 			await _wait_for_dialogue(Global.replace_placeholders("You must pay %d(COIN)..." % Global.current_round_toll()))
-		
-		_show_toll_dialogue()
+			_show_toll_dialogue()
 		return
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_OBOL_INTRODUCTION:
@@ -1018,7 +1022,7 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("Each time you toss your coins...")
 		await _wait_for_dialogue("The monsters will be tossed as well.")
 		await _wait_for_dialogue("And during each payoff...")
-		await _wait_for_dialogue("They will attempt to hinder you as well.")
+		await _wait_for_dialogue("They will attempt to hinder you.")
 		await _wait_for_dialogue("Let me show you...")
 		_DIALOGUE.show_dialogue("Try tossing now.")
 		_LEFT_HAND.unlock()
@@ -1079,7 +1083,7 @@ func _on_voyage_continue_button_clicked():
 		_LEFT_HAND.lock()
 		await _wait_for_dialogue("During a trial, an additional challenge is active.")
 		await _wait_for_dialogue(Global.replace_placeholders("For this trial, life(LIFE) penalties are tripled."))
-		await _wait_for_dialogue(Global.replace_placeholders("To proceed, you must earn at least %s souls (SOULS)." % Global.current_round_quota()))
+		await _wait_for_dialogue(Global.replace_placeholders("To proceed, you must earn at least %s souls(SOULS)." % Global.current_round_quota()))
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("Now, your final test begins!")
@@ -1154,7 +1158,7 @@ func _on_pay_toll_button_clicked():
 		# now move the boat forward...
 		_advance_round()
 	else:
-		_DIALOGUE.show_dialogue("Not... enough...")
+		_DIALOGUE.show_dialogue("Not enough...")
 
 func _on_die_button_clicked() -> void:
 	if Global.tutorialState == Global.TutorialState.ENDING:
@@ -1186,11 +1190,11 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 	
 	# make sure we can afford this coin
 	if Global.souls < price:
-		_DIALOGUE.show_dialogue("Not... enough... souls...")
+		_DIALOGUE.show_dialogue("Not enough souls...")
 		return 
 	
 	if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-		_DIALOGUE.show_dialogue("Too... many... coins...")
+		_DIALOGUE.show_dialogue("Too many coins...")
 		return
 	
 	_SHOP.purchase_coin(coin)
@@ -1276,7 +1280,7 @@ func _on_coin_clicked(coin: Coin):
 	if Global.state == Global.State.TOLLGATE:
 		# if this coin cannot be offered at a toll, error message and return
 		if coin.get_coin_family() in Global.TOLL_EXCLUDE_COIN_FAMILIES:
-			_DIALOGUE.show_dialogue("Don't... want... that...")
+			_DIALOGUE.show_dialogue("Don't want that...")
 			return
 		# if this coin is in the toll offering, remove it
 		if Global.toll_coins_offered.has(coin):
@@ -1394,18 +1398,18 @@ func _on_coin_clicked(coin: Coin):
 						right.freeze()
 				Global.PATRON_POWER_FAMILY_ATHENA:
 					if not coin.can_reduce_life_penalty():
-						_DIALOGUE.show_dialogue("No... need...")
+						_DIALOGUE.show_dialogue("No need...")
 						return
 					coin.reduce_life_penalty_permanently()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
 					if row == _ENEMY_COIN_ROW:
-						_DIALOGUE.show_dialogue("Can't... upgrade... that...")
+						_DIALOGUE.show_dialogue("Can't upgrade that...")
 						return
 					if coin.get_denomination() == Global.Denomination.OBOL:
-						_DIALOGUE.show_dialogue("Can't... downgrade... that one...")
+						_DIALOGUE.show_dialogue("Can't downgrade that one...")
 						return
 					if left and left.get_denomination() == Global.Denomination.TETROBOL and right and right.get_denomination() == Global.Denomination.TETROBOL:
-						_DIALOGUE.show_dialogue("Can't... upgrade... further...")
+						_DIALOGUE.show_dialogue("Can't upgrade further...")
 						return
 					coin.downgrade()
 					if left and left.can_upgrade():
@@ -1414,7 +1418,7 @@ func _on_coin_clicked(coin: Coin):
 						right.upgrade()
 				Global.PATRON_POWER_FAMILY_HERMES:
 					if row == _ENEMY_COIN_ROW:
-						_DIALOGUE.show_dialogue("Can't... trade... that...")
+						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
 					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 					if Global.RNG.randi_range(1, 4) == 1 and coin.can_upgrade():
@@ -1425,10 +1429,10 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_HADES:
 					if row == _ENEMY_COIN_ROW:
 						#todo - will need to revisit for Echidna; make exception for monster coins
-						_DIALOGUE.show_dialogue("Can't... destroy... that...")
+						_DIALOGUE.show_dialogue("Can't destroy that...")
 						return
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
-						_DIALOGUE.show_dialogue("Can't destroy... last coin...")
+						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
 					# gain life & souls
 					Global.lives += 5 * coin.get_value()
@@ -1445,8 +1449,8 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) condition."))
 				await _wait_for_dialogue("Coins can be affected by many conditions...")
 				await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
-				await _wait_for_dialogue("Patrons have a limited number of uses.")
-				await _wait_for_dialogue("But, they recharge over time as you toss coins.")
+				await _wait_for_dialogue("A patron token has a limited number of uses.")
+				await _wait_for_dialogue("But, it recharges each round.")
 				await _wait_for_dialogue("Manage your use of patrons wisely.")
 				await _wait_for_dialogue("Lastly, deactivate the token by clicking it.")
 				await _wait_for_dialogue("And with that, I will leave you to it.")
@@ -1480,43 +1484,43 @@ func _on_coin_clicked(coin: Coin):
 				coin.curse() if coin.is_heads() else coin.bless()
 			Global.POWER_FAMILY_REDUCE_PENALTY:
 				if not coin.can_reduce_life_penalty():
-					_DIALOGUE.show_dialogue("No... need...")
+					_DIALOGUE.show_dialogue("No need...")
 					return
 				coin.reduce_life_penalty_for_round()
 			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
 				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't... upgrade... that...")
+					_DIALOGUE.show_dialogue("Can't upgrade that...")
 					return
 				if not coin.can_upgrade():
 					if coin.get_denomination() == Global.Denomination.TETROBOL:
-						_DIALOGUE.show_dialogue("Can't... upgrade... more...")
+						_DIALOGUE.show_dialogue("Can't upgrade more...")
 					else:
-						_DIALOGUE.show_dialogue("Can't... upgrade.... that...")
+						_DIALOGUE.show_dialogue("Can't upgrade that...")
 					return
 				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
 				if Global.active_coin_power_coin.get_denomination_as_int() < coin.get_denomination_as_int():
-					_DIALOGUE.show_dialogue("Can't... upgrade... %ss..." % Global.denom_to_string(coin.get_denomination()))
+					_DIALOGUE.show_dialogue("Can't upgrade %ss..." % Global.denom_to_string(coin.get_denomination()))
 					return
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_RECHARGE:
 				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't... love... that...")
+					_DIALOGUE.show_dialogue("Can't love that...")
 					return
 				if not coin.can_activate_power():
-					_DIALOGUE.show_dialogue("Can't... recharge... that...")
+					_DIALOGUE.show_dialogue("Can't recharge that...")
 					return
 				coin.recharge_power_uses_by(1)
 			Global.POWER_FAMILY_EXCHANGE:
 				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't... trade... that...")
+					_DIALOGUE.show_dialogue("Can't trade that...")
 					return
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				coin.make_lucky()
 			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
 				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't... destroy...")
+					_DIALOGUE.show_dialogue("Can't destroy...")
 					return
 				# gain life equal to (2 * hades_value) * destroyed_value
 				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
@@ -1550,7 +1554,7 @@ func _on_coin_clicked(coin: Coin):
 					_safe_flip(c)
 			Global.POWER_FAMILY_GAIN_COIN:
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-					_DIALOGUE.show_dialogue("Too... many... coins...")
+					_DIALOGUE.show_dialogue("Too many coins...")
 					return
 				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
 				coin.spend_power_use()
@@ -1581,7 +1585,7 @@ func _on_patron_token_clicked():
 		return
 	
 	if Global.patron_uses == 0:
-		_DIALOGUE.show_dialogue("No... more... gods...")
+		_DIALOGUE.show_dialogue("No more gods!")
 		return
 	
 	if _patron_token.is_activated():
@@ -1626,7 +1630,7 @@ func _on_patron_token_clicked():
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_DIONYSUS:
 			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-				_DIALOGUE.show_dialogue("Too... many... coins...")
+				_DIALOGUE.show_dialogue("Too many coins...")
 				return
 			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
 			new_coin.make_lucky()
@@ -1667,7 +1671,7 @@ func _deactivate_active_power() -> void:
 
 func _on_shop_reroll_button_clicked():
 	if Global.souls <= Global.reroll_cost():
-		_DIALOGUE.show_dialogue("Not... enough... souls...")
+		_DIALOGUE.show_dialogue("Not enough souls...")
 		return
 	Global.souls -= Global.reroll_cost()
 	_SHOP.randomize_shop()

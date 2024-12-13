@@ -1,10 +1,11 @@
-[gd_scene load_steps=39 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=40 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
 [ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/main_menu/arrow_selector.tscn" id="3_trmuq"]
 [ext_resource type="Script" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="4_xe0ox"]
 [ext_resource type="Texture2D" uid="uid://dgst44vhjr2p8" path="res://assets/main_menu/difficulty_skulls/skull2.png" id="5_j10ut"]
 [ext_resource type="Texture2D" uid="uid://cm3se406p72ah" path="res://assets/main_menu/difficulty_skulls/skull1_hover.png" id="5_rjkur"]
 [ext_resource type="Texture2D" uid="uid://dnfj4cic18gct" path="res://assets/main_menu/difficulty_skulls/skull1_vanquished.png" id="6_0c7wk"]
@@ -412,7 +413,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tj8ya"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g6ltd"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -532,7 +533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ehuu1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y8omg"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -680,7 +681,67 @@ offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
 
-[node name="Title" type="RichTextLabel" parent="."]
+[node name="UnlockUI" type="Node2D" parent="."]
+
+[node name="Title" type="RichTextLabel" parent="UnlockUI"]
+offset_top = 16.0
+offset_right = 319.0
+offset_bottom = 31.0
+theme_override_colors/font_shadow_color = Color(0.772549, 0.227451, 0.74902, 0.262745)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/normal_font = ExtResource("1_jpqrs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center]New Character Unlocked![/center]"
+fit_content = true
+
+[node name="Character" type="RichTextLabel" parent="UnlockUI"]
+offset_top = 40.0
+offset_right = 320.0
+offset_bottom = 53.0
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+text = "[center][color=green]The Eleusinian[/color][/center]"
+fit_content = true
+scroll_active = false
+
+[node name="CharacterDescription" type="RichTextLabel" parent="UnlockUI"]
+visible = false
+offset_top = 54.0
+offset_right = 320.0
+offset_bottom = 144.0
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[center]This is an unlock description.[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="Coins" type="HBoxContainer" parent="UnlockUI"]
+offset_top = 73.0
+offset_right = 320.0
+offset_bottom = 113.0
+alignment = 1
+
+[node name="Obol" parent="UnlockUI/Coins" instance=ExtResource("4_xe0ox")]
+layout_mode = 2
+
+[node name="Diobol" parent="UnlockUI/Coins" instance=ExtResource("4_xe0ox")]
+layout_mode = 2
+
+[node name="Triobol" parent="UnlockUI/Coins" instance=ExtResource("4_xe0ox")]
+layout_mode = 2
+
+[node name="Tetrobol" parent="UnlockUI/Coins" instance=ExtResource("4_xe0ox")]
+layout_mode = 2
+
+[node name="MainUI" type="Node2D" parent="."]
+visible = false
+
+[node name="Title" type="RichTextLabel" parent="MainUI"]
 offset_top = 16.0
 offset_right = 319.0
 offset_bottom = 31.0
@@ -692,13 +753,13 @@ bbcode_enabled = true
 text = "[center]Charon's Obol[/center]"
 fit_content = true
 
-[node name="DescriptionContainer" type="VBoxContainer" parent="."]
+[node name="DescriptionContainer" type="VBoxContainer" parent="MainUI"]
 offset_top = 57.0
 offset_right = 320.0
 offset_bottom = 116.0
 alignment = 2
 
-[node name="CharacterDescription" type="RichTextLabel" parent="DescriptionContainer"]
+[node name="CharacterDescription" type="RichTextLabel" parent="MainUI/DescriptionContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 bbcode_enabled = true
@@ -706,96 +767,96 @@ text = "[center]This is a character description.[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Selector" type="VBoxContainer" parent="."]
+[node name="Selector" type="VBoxContainer" parent="MainUI"]
 offset_top = 118.0
 offset_right = 320.0
 offset_bottom = 154.0
 mouse_filter = 2
 theme_override_constants/separation = -1
 
-[node name="Character" parent="Selector" instance=ExtResource("3_trmuq")]
+[node name="Character" parent="MainUI/Selector" instance=ExtResource("3_trmuq")]
 layout_mode = 2
 
-[node name="Difficulty" type="HBoxContainer" parent="Selector"]
+[node name="Difficulty" type="HBoxContainer" parent="MainUI/Selector"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 1
 
-[node name="Skull1" type="BoxContainer" parent="Selector/Difficulty"]
+[node name="Skull1" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 
-[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull1"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull1"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull1/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("4_vorie")
 texture_hover = ExtResource("5_rjkur")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull1/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("5_rjkur")
 
-[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull1"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull1"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull1/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("6_0c7wk")
 texture_hover = ExtResource("7_yehu3")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull1/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("7_yehu3")
 
-[node name="Skull2" type="BoxContainer" parent="Selector/Difficulty"]
+[node name="Skull2" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 
-[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull2"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull2/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 layout_mode = 2
 texture_normal = ExtResource("5_j10ut")
 texture_hover = ExtResource("7_72k32")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull2/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("7_72k32")
 
-[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull2"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull2/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("10_1fs3h")
 texture_hover = ExtResource("11_j5kxn")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull2/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("11_j5kxn")
 
-[node name="Skull3" type="BoxContainer" parent="Selector/Difficulty"]
+[node name="Skull3" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -803,38 +864,38 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 2
 
-[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull3"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull3/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("13_cm17n")
 texture_hover = ExtResource("14_7daqw")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull3/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("14_7daqw")
 
-[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull3"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull3/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("15_bobj0")
 texture_hover = ExtResource("16_85eo4")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull3/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("16_85eo4")
 
-[node name="Skull4" type="BoxContainer" parent="Selector/Difficulty"]
+[node name="Skull4" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -842,38 +903,38 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 3
 
-[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull4"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull4/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("17_04co6")
 texture_hover = ExtResource("18_gsexb")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull4/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("18_gsexb")
 
-[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull4"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull4/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("19_8cqw2")
 texture_hover = ExtResource("20_7ie8d")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull4/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("20_7ie8d")
 
-[node name="Skull5" type="BoxContainer" parent="Selector/Difficulty"]
+[node name="Skull5" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -881,36 +942,44 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 4
 
-[node name="Unvanquished" type="BoxContainer" parent="Selector/Difficulty/Skull5"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull5/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("21_xvp1m")
 texture_hover = ExtResource("22_uhdo5")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull5/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("22_uhdo5")
 
-[node name="Vanquished" type="BoxContainer" parent="Selector/Difficulty/Skull5"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="Selector/Difficulty/Skull5/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("23_1dh72")
 texture_hover = ExtResource("24_yeah1")
 
-[node name="Selected" type="TextureButton" parent="Selector/Difficulty/Skull5/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("24_yeah1")
+
+[node name="Version" type="Label" parent="MainUI"]
+offset_left = 281.0
+offset_top = 163.0
+offset_right = 319.0
+offset_bottom = 179.0
+theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
+text = "Alpha 3"
 
 [node name="Textboxes" type="HBoxContainer" parent="."]
 z_index = 1
@@ -922,7 +991,8 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_tj8ya")
+visible = false
+material = SubResource("ShaderMaterial_g6ltd")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -934,7 +1004,8 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ehuu1")
+visible = false
+material = SubResource("ShaderMaterial_y8omg")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -945,17 +1016,25 @@ size_flags_horizontal = 1
 size_flags_horizontal = 1
 text = "[center]Quit[/center]"
 
-[node name="Version" type="Label" parent="."]
-offset_left = 281.0
-offset_top = 163.0
-offset_right = 319.0
-offset_bottom = 179.0
-theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
-text = "Alpha 3"
+[node name="ContinueButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_y8omg")
+custom_minimum_size = Vector2(41, 0)
+layout_mode = 2
 
-[connection signal="changed" from="Selector/Character" to="." method="_on_character_changed"]
+[node name="TextMargin" parent="Textboxes/ContinueButton" index="1"]
+size_flags_horizontal = 1
+
+[node name="Text" parent="Textboxes/ContinueButton/TextMargin" index="0"]
+size_flags_horizontal = 1
+text = "[center]Continue[/center]"
+
+[node name="Mouse" parent="Textboxes/ContinueButton" index="3" node_paths=PackedStringArray("watched")]
+watched = NodePath("../../QuitButton")
+
+[connection signal="changed" from="MainUI/Selector/Character" to="." method="_on_character_changed"]
 [connection signal="clicked" from="Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]
 [connection signal="clicked" from="Textboxes/QuitButton" to="." method="_on_quit_button_clicked"]
 
 [editable path="Textboxes/EmbarkButton"]
 [editable path="Textboxes/QuitButton"]
+[editable path="Textboxes/ContinueButton"]

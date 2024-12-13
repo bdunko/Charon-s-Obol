@@ -41,7 +41,7 @@ func show_dialogue_and_wait(dialogue: String) -> void:
 	_waiting = true
 	show_dialogue(dialogue)
 	await Global.any_input
-	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.1) #small delay after
+	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
 	
 func show_dialogue(dialogue: String) -> void:

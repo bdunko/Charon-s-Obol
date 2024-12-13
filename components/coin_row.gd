@@ -143,6 +143,12 @@ func destroy_lowest_value() -> void:
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
 
+func has_a_power_coin() -> bool:
+	for c in get_children():
+		if c.is_power():
+			return true
+	return false
+
 func shuffle() -> void:
 	var all_coins = []
 	for c in get_children():

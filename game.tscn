@@ -147,7 +147,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbl0e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nm5j1"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -267,7 +267,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ddpdt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_duuqa"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -387,7 +387,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cjk7e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yijsj"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -507,7 +507,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aji61"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_elpan"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -627,7 +627,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eoqti"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yappv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -747,7 +747,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yf3vq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1qvxv"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -867,7 +867,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_k0bnc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4i12"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -987,7 +987,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3j81m"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgfyk"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1107,7 +1107,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nunb6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2d4qn"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1649,7 +1649,7 @@ offset_left = 1.0
 offset_top = 137.0
 offset_right = 106.0
 offset_bottom = 180.0
-color = Color(1, 1, 1, 0)
+color = Color(0.0234375, 0.144531, 0.167969, 1)
 
 [node name="SoulBlockerHack" type="ColorRect" parent="UI/MapBlocker"]
 layout_mode = 0
@@ -1669,7 +1669,7 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_bbl0e")
+material = SubResource("ShaderMaterial_nm5j1")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -1683,7 +1683,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ddpdt")
+material = SubResource("ShaderMaterial_duuqa")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -1692,7 +1692,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_cjk7e")
+material = SubResource("ShaderMaterial_yijsj")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -1701,7 +1701,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_aji61")
+material = SubResource("ShaderMaterial_elpan")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -1709,7 +1709,7 @@ script = ExtResource("9_cd2hg")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_eoqti")
+material = SubResource("ShaderMaterial_yappv")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -1718,7 +1718,7 @@ text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_yf3vq")
+material = SubResource("ShaderMaterial_1qvxv")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -1727,7 +1727,7 @@ text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_k0bnc")
+material = SubResource("ShaderMaterial_w4i12")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -1737,7 +1737,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_3j81m")
+material = SubResource("ShaderMaterial_lgfyk")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -1746,7 +1746,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_nunb6")
+material = SubResource("ShaderMaterial_2d4qn")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 

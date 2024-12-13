@@ -92,11 +92,13 @@ func activate() -> void:
 	FX.flash(Color.GOLD)
 	Global.active_coin_power_family = Global.patron.power_family
 	_activated = true
+	_update_effects()
 
 func deactivate() -> void:
 	#create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
 	Global.active_coin_power_family = null
 	_activated = false
+	_update_effects()
 
 func is_activated() -> bool:
 	return _activated
