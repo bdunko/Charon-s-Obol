@@ -45,16 +45,28 @@ func _ready() -> void:
 	
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 	
-	var names = []
-	for character in Global.CHARACTERS.values():
-		names.append(character.name)
-	_CHARACTER_SELECTOR.init(names)
+	_UNLOCK_OBOL.init_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, Coin.Owner.PLAYER)
+	_UNLOCK_DIOBOL.init_coin(Global.GENERIC_FAMILY, Global.Denomination.DIOBOL, Coin.Owner.PLAYER)
+	_UNLOCK_TRIOBOL.init_coin(Global.GENERIC_FAMILY, Global.Denomination.TRIOBOL, Coin.Owner.PLAYER)
+	_UNLOCK_TETROBOL.init_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL, Coin.Owner.PLAYER)
+	
+	setup_character_selector()
 	
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		difficultySkull.selected.connect(_on_difficulty_changed)
 	_DIFFICULTY_SELECTOR.get_child(0).select()
 	
 	switch_to_main_ui()
+	
+	Global.game_loaded.connect(setup_character_selector)
+
+func setup_character_selector() -> void:
+	var names = []
+	for character in Global.CHARACTERS.values():
+		if Global.is_character_unlocked(character.character):
+			names.append(character.name)
+	assert(names.size() != 0)
+	_CHARACTER_SELECTOR.init(names)
 
 func set_character(chara: Global.Character) -> void:
 	_CHARACTER_SELECTOR.set_to(Global.CHARACTERS[chara].name)
@@ -71,6 +83,7 @@ func _on_character_changed(characterName: String) -> void:
 		if character.name == characterName:
 			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
 			Global.character = character
+			_DIFFICULTY_SELECTOR.visible = not Global.is_character(Global.Character.LADY) # no difficulties for LADY
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
 
@@ -114,6 +127,7 @@ func do_unlock() -> void:
 		_UNLOCK_CHARACTER_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].name
 		_UNLOCK_CHARACTER_DESCRIPTION_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].description
 		Global.unlock_character(unlocked)
+		setup_character_selector()
 		
 		if unlocked == Global.Character.ELEUSINIAN: # Move the selector over to Eleusinian right away after finishing Lady
 			set_character(Global.Character.ELEUSINIAN)
@@ -145,3 +159,7 @@ func switch_to_unlock_ui() -> void:
 	# todo - cleaner transition here
 	_UNLOCK_UI.show()
 	_MAIN_UI.hide()
+
+func _on_debug_unlock_everything_pressed():
+	Global.unlock_all()
+	setup_character_selector()

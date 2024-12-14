@@ -218,13 +218,16 @@ func on_start() -> void: #reset
 	
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		coin.queue_free()
 		coin.get_parent().remove_child(coin)
+		coin.free()
 	
 	# make charon's obol
 	for coin in _CHARON_COIN_ROW.get_children():
 		_CHARON_COIN_ROW.remove_child(coin)
-		coin.queue_free()
+		coin.free()
+	
+	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
+	
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_COIN_ROW.add_child(charons_obol)
 	charons_obol.flip_complete.connect(_on_flip_complete)
@@ -233,6 +236,7 @@ func on_start() -> void: #reset
 	
 	# randomize and set up the nemesis & trials
 	Global.randomize_voyage()
+	Global.generate_coinpool()
 	_VOYAGE_MAP.update_tooltips()
 	
 	# delete any old patron token and create a new one
@@ -247,7 +251,6 @@ func on_start() -> void: #reset
 		_patron_token.position = _CHARON_POINT
 	_TABLE.add_child(_patron_token)
 	
-	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
 	victory = false
 	Global.round_count = 1
 	Global.souls_earned_this_round = 0

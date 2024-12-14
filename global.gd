@@ -15,6 +15,7 @@ signal patron_uses_changed
 signal rerolls_changed
 signal souls_earned_this_round_changed
 signal tutorial_state_changed
+signal game_loaded
 
 var character: CharacterData
 
@@ -100,7 +101,7 @@ var CHARACTERS = {
 	
 	Character.ELEUSINIAN : CharacterData.new(1, Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
-		"The standard game.\n10 Rounds, 3 Tollgates, 2 Trials, 1 Nemesis.",
+		"The standard game.\nSurvive Trials, Tollgates, and a Nemesis to win.",
 		["The birds are singing.", 
 		"The sun is shining.",
 		"People parade through the streets.",
@@ -1111,6 +1112,11 @@ const PRICY = [8, 19, 33, 51] # 8 + 11 + 14 + 18
 const RICH = [12, 25, 40, 60] # 12 + 13 + 15 + 20
 
 # Coin Families
+# stores a list of all player coins (coins that can be bought in shop)
+@onready var _ALL_PLAYER_COINS = [GENERIC_FAMILY, 
+	ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
+	ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
+
 # payoff coins
 var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
@@ -1167,14 +1173,32 @@ var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(3011, "[color=steelblue]Trial of Over
 
 var CHARON_OBOL_FAMILY = CoinFamily.new(10000, "[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
 
-var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
-		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
+# stores the active pool of coins for this run
+# updated via generate_coinpool at the start of each run
+var _COINPOOL = []
+
+func generate_coinpool() -> void:
+	_COINPOOL.clear()
+	
+	# generate based on unlocks
+	for coin_family in _ALL_PLAYER_COINS:
+		if is_coin_unlocked(coin_family):
+			_COINPOOL.append(coin_family)
+	
+	assert(_COINPOOL.size() != 0)
+	# in the future, character specific coinpools can be set here
+	
+	for coin in _COINPOOL:
+		print(coin.coin_name)
 
 func random_family() -> CoinFamily:
-	return choose_one([GENERIC_FAMILY] + _GOD_FAMILIES)
+	return choose_one(_COINPOOL)
 
 func random_god_family() -> CoinFamily:
-	return choose_one(_GOD_FAMILIES)
+	var coin = random_family()
+	if coin.heads_power_family.is_power():
+		return coin
+	return random_god_family()
 
 func random_shop_denomination_for_round() -> Denomination:
 	return choose_one(_current_round_shop_denoms())
@@ -1192,6 +1216,7 @@ const _SAVE_COIN_KEY = "coin"
 const _SAVE_CHAR_KEY = "character"
 var _save_dict = {
 	_SAVE_COIN_KEY : {
+		GENERIC_FAMILY.id : true,
 		ZEUS_FAMILY.id : true,
 		HERA_FAMILY.id : true,
 		POSEIDON_FAMILY.id : true,
@@ -1221,6 +1246,12 @@ func unlock_character(chara: Character) -> void:
 	_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id] = true
 	Global.write_save()
 
+func unlock_all() -> void:
+	for family in _ALL_PLAYER_COINS:
+		unlock_coin(family)
+	for chara in Character.values():
+		unlock_character(chara)
+
 func is_coin_unlocked(coin: CoinFamily) -> bool:
 	return _save_dict[_SAVE_COIN_KEY][coin.id]
 
@@ -1228,17 +1259,50 @@ func is_character_unlocked(chara: Character) -> bool:
 	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id]
 
 func load_save() -> void:
+	# some sanity asserts
+	for family in _ALL_PLAYER_COINS:
+		assert(_save_dict[_SAVE_COIN_KEY][family.id] != null)
+	for chara in Character.values():
+		assert(_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id] != null)
+	
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.READ)
 	
 	if file != null:
 		var saved = file.get_var()
 		if saved != null:
-			_save_dict = saved
-	print("loaded: ")
-	print(_save_dict)
+			# overwrite all values in the _save_dict with the loaded save file
+			# we do it this way for two reasons -
+			# 1) if we add a new key into the default _save_dict, we don't want to remove it by replacing the whole _save_dict with saved
+			# 2) if we remove a key from _save_dict, we want to also 'remove' it from the saved by skipping over it
+			_recursive_overwrite_dictionary(saved, _save_dict)
+	#print("load")
+	#print(_save_dict)
+	emit_signal("game_loaded")
+
+func _recursive_overwrite_dictionary(dict: Dictionary, dict_to_overwrite: Dictionary) -> void:
+	for key in dict.keys():
+		# if the dict to overwrite doesn't have this key, skip
+		if not dict_to_overwrite.has(key):
+			continue
+		
+		var dict_subdictionary = dict[key] is Dictionary
+		var dict_overwrite_subdictionary = dict_to_overwrite[key] is Dictionary
+		
+		# if one is a dictionary and other isn't, complain...
+		if dict_subdictionary != dict_overwrite_subdictionary:
+			assert(false, "don't do this")
+			continue
+		
+		# if both are dictionaries have a subdictionary, recur
+		if dict_subdictionary and dict_overwrite_subdictionary:
+			_recursive_overwrite_dictionary(dict[key], dict_to_overwrite[key])
+			continue
+			
+		# otherwise, overwrite dict_to_overwrite with dict's value
+		dict_to_overwrite[key] = dict[key]
 
 func write_save() -> void:
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.WRITE)
 	file.store_var(_save_dict)
-	print("saved: ")
-	print(_save_dict)
+	#print("save")
+	#print(_save_dict)
