@@ -700,6 +700,8 @@ func clear_material() -> void:
 	_material_state = _MaterialState.NONE
 
 func is_heads() -> bool:
+	if _heads == null:
+		return true
 	return _heads
 
 func is_tails() -> bool:

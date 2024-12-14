@@ -22,6 +22,7 @@ func is_character(chara: Global.Character) -> bool:
 	return character.character == chara
 
 class CharacterData:
+	var id: int
 	var character: Global.Character
 	var name: String
 	var description: String:
@@ -31,7 +32,8 @@ class CharacterData:
 	var victoryDialogue: Array #[String]
 	var victoryClosingLine: String
 	
-	func _init(characterEnum: Global.Character, nameStr: String, introTxt: String, descriptionStr: String, victoryDlg: Array, victoryClosingLn: String):
+	func _init(ide: int, characterEnum: Global.Character, nameStr: String, introTxt: String, descriptionStr: String, victoryDlg: Array, victoryClosingLn: String):
+		self.id = ide
 		self.character = characterEnum
 		self.name = nameStr
 		self.introText = introTxt
@@ -87,8 +89,8 @@ var tutorialState: TutorialState:
 		tutorialState = val
 		emit_signal("tutorial_state_changed")
 
-var CHARACTERS = [
-	CharacterData.new(Global.Character.LADY, "[color=brown]The Lady[/color]", 
+var CHARACTERS = {
+	Character.LADY : CharacterData.new(0, Global.Character.LADY, "[color=brown]The Lady[/color]", 
 		"\"Yet [color=springgreen]she[/color] was bound to return, willing or not, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks until their renewal.\"\n-Homeric Hymn to Demeter",
 		"Learn the rules of Charon's game.", 
 		["So [color=springgreen]you've[/color] returned to [color=purple]me[/color] once more.",
@@ -96,7 +98,7 @@ var CHARACTERS = [
 		"Regardless, welcome back home."],
 		"[color=springgreen]Persephone[/color]..."),
 	
-	CharacterData.new(Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
+	Character.ELEUSINIAN : CharacterData.new(1, Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
 		"The standard game.\n10 Rounds, 3 Tollgates, 2 Trials, 1 Nemesis.",
 		["The birds are singing.", 
@@ -105,8 +107,8 @@ var CHARACTERS = [
 		"All is at peace in the world.",
 		"For with [color=springgreen]her[/color] return...",
 		"...[color=springgreen]spring[/color] has come again."], 
-		"Thank you."),
-]
+		"Thank you.")
+}
 
 var difficulty: Difficulty
 
@@ -1052,6 +1054,8 @@ enum _SpriteStyle {
 const NOT_APPEASEABLE_PRICE = -888
 
 class CoinFamily:
+	var id: int
+	
 	var coin_name: String
 	var subtitle: String
 	
@@ -1063,10 +1067,11 @@ class CoinFamily:
 	
 	var _sprite_style: _SpriteStyle
 	
-	func _init(nme: String, 
+	func _init(ide: int, nme: String, 
 			sub_title: String, prices: Array,
 			heads_pwr: PowerFamily, tails_pwr: PowerFamily,
 			style: _SpriteStyle, app_price := [NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE]) -> void:
+		id = ide
 		coin_name = nme
 		subtitle = sub_title
 		store_price_for_denom = prices
@@ -1107,60 +1112,60 @@ const RICH = [12, 25, 40, 60] # 12 + 13 + 15 + 20
 
 # Coin Families
 # payoff coins
-var GENERIC_FAMILY = CoinFamily.new("(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
 # power coins
-var ZEUS_FAMILY = CoinFamily.new("(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", STANDARD, POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HERA_FAMILY = CoinFamily.new("(DENOM) of Hera", "[color=silver]Envious Wrath[/color]", STANDARD, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var POSEIDON_FAMILY = CoinFamily.new("(DENOM) of Poseidon", "[color=lightblue]Wave of Ice[/color]", STANDARD, POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DEMETER_FAMILY = CoinFamily.new("(DENOM) of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", STANDARD, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var APOLLO_FAMILY = CoinFamily.new("(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", STANDARD, POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ARTEMIS_FAMILY = CoinFamily.new("(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ARES_FAMILY = CoinFamily.new("(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", STANDARD, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ATHENA_FAMILY = CoinFamily.new("(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", RICH, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HEPHAESTUS_FAMILY = CoinFamily.new("(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var APHRODITE_FAMILY = CoinFamily.new("(DENOM) of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", STANDARD, POWER_FAMILY_RECHARGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HERMES_FAMILY = CoinFamily.new("(DENOM) of Hermes", "[color=lightskyblue]From Lands Distant[/color]", PRICY, POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HESTIA_FAMILY = CoinFamily.new("(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", STANDARD,  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DIONYSUS_FAMILY = CoinFamily.new("(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", STANDARD, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HADES_FAMILY = CoinFamily.new("(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DESTROY_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ZEUS_FAMILY = CoinFamily.new(1, "(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", STANDARD, POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var HERA_FAMILY = CoinFamily.new(2, "(DENOM) of Hera", "[color=silver]Envious Wrath[/color]", STANDARD, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var POSEIDON_FAMILY = CoinFamily.new(3, "(DENOM) of Poseidon", "[color=lightblue]Wave of Ice[/color]", STANDARD, POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var DEMETER_FAMILY = CoinFamily.new(4, "(DENOM) of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", STANDARD, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var APOLLO_FAMILY = CoinFamily.new(5, "(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", STANDARD, POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ARES_FAMILY = CoinFamily.new(7, "(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", STANDARD, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ATHENA_FAMILY = CoinFamily.new(8, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", RICH, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var HEPHAESTUS_FAMILY = CoinFamily.new(9, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var APHRODITE_FAMILY = CoinFamily.new(10, "(DENOM) of Aphrodite", "[color=lightpink]A Moment of Warmth[/color]", STANDARD, POWER_FAMILY_RECHARGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var HERMES_FAMILY = CoinFamily.new(11, "(DENOM) of Hermes", "[color=lightskyblue]From Lands Distant[/color]", PRICY, POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var HESTIA_FAMILY = CoinFamily.new(12, "(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", STANDARD,  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var DIONYSUS_FAMILY = CoinFamily.new(13, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", STANDARD, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DESTROY_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
-var MONSTER_FAMILY = CoinFamily.new("[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_HELLHOUND_FAMILY = CoinFamily.new("[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_KOBALOS_FAMILY = CoinFamily.new("[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_ARAE_FAMILY = CoinFamily.new("[color=gray]Arae[/color]", "[color=purple]Encumber With Guilt[/color]", NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_HARPY_FAMILY = CoinFamily.new("[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_CENTAUR_FAMILY = CoinFamily.new("[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
-var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new("[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_FAMILY = CoinFamily.new(1000, "[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(1001, "[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_ARAE_FAMILY = CoinFamily.new(1003, "[color=gray]Arae[/color]", "[color=purple]Encumber With Guilt[/color]", NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [10, 20, 30, 40])
 # elite monsters
-var MONSTER_SIREN_FAMILY = CoinFamily.new("[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
-var MONSTER_BASILISK_FAMILY = CoinFamily.new("[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
-var MONSTER_GORGON_FAMILY = CoinFamily.new("[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
-var MONSTER_CHIMERA_FAMILY = CoinFamily.new("[color=gray]Chimera[/color]", "[color=purple]Great Blaze[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_GORGON_FAMILY = CoinFamily.new(1009, "[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
+var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera[/color]", "[color=purple]Great Blaze[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [25, 35, 45, 55])
 
 
 # nemesis
-var MEDUSA_FAMILY = CoinFamily.new("[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
-var EURYALE_FAMILY = CoinFamily.new("[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
-var STHENO_FAMILY = CoinFamily.new("[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
+var MEDUSA_FAMILY = CoinFamily.new(2000, "[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
+var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
+var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
 
 # trials
-var TRIAL_IRON_FAMILY = CoinFamily.new("[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
-var THORNS_FAMILY = CoinFamily.new("(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", NO_PRICE, POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.THORNS)
-var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new("[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", NO_PRICE, TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE)
-var TRIAL_POLARIZATION_FAMILY = CoinFamily.new("[color=skyblue]Trial of Polarization[/color]", "[color=lightgray]One or Another[/color]", NO_PRICE, TRIAL_POWER_FAMILY_POLARIZATION, TRIAL_POWER_FAMILY_POLARIZATION, _SpriteStyle.PASSIVE)
-var TRIAL_PAIN_FAMILY = CoinFamily.new("[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", NO_PRICE, TRIAL_POWER_FAMILY_PAIN, TRIAL_POWER_FAMILY_PAIN, _SpriteStyle.PASSIVE)
-var TRIAL_BLOOD_FAMILY = CoinFamily.new("[color=crimson]Trial of Blood[/color]", "[color=lightgray]Paid in Crimson[/color]", NO_PRICE, TRIAL_POWER_FAMILY_BLOOD, TRIAL_POWER_FAMILY_BLOOD, _SpriteStyle.PASSIVE)
-var TRIAL_EQUIVALENCE_FAMILY = CoinFamily.new("[color=gold]Trial of Equivalence[/color]", "[color=lightgray]Fair, in a Way[/color]", NO_PRICE, TRIAL_POWER_FAMILY_EQUIVALENCE, TRIAL_POWER_FAMILY_EQUIVALENCE, _SpriteStyle.PASSIVE)
-var TRIAL_FAMINE_FAMILY = CoinFamily.new("[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", NO_PRICE, TRIAL_POWER_FAMILY_FAMINE, TRIAL_POWER_FAMILY_FAMINE, _SpriteStyle.PASSIVE)
-var TRIAL_TORTURE_FAMILY = CoinFamily.new("[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", NO_PRICE, TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE)
-var TRIAL_LIMITATION_FAMILY = CoinFamily.new("[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
-var TRIAL_COLLAPSE_FAMILY = CoinFamily.new("[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
-var TRIAL_SAPPING_FAMILY = CoinFamily.new("[color=paleturquoise]Trial of Sapping[/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
-var TRIAL_OVERLOAD_FAMILY = CoinFamily.new("[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
+var TRIAL_IRON_FAMILY = CoinFamily.new(3000, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
+var THORNS_FAMILY = CoinFamily.new(9000, "(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", NO_PRICE, POWER_FAMILY_LOSE_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.THORNS)
+var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new(3001, "[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", NO_PRICE, TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE)
+var TRIAL_POLARIZATION_FAMILY = CoinFamily.new(3002, "[color=skyblue]Trial of Polarization[/color]", "[color=lightgray]One or Another[/color]", NO_PRICE, TRIAL_POWER_FAMILY_POLARIZATION, TRIAL_POWER_FAMILY_POLARIZATION, _SpriteStyle.PASSIVE)
+var TRIAL_PAIN_FAMILY = CoinFamily.new(3003, "[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", NO_PRICE, TRIAL_POWER_FAMILY_PAIN, TRIAL_POWER_FAMILY_PAIN, _SpriteStyle.PASSIVE)
+var TRIAL_BLOOD_FAMILY = CoinFamily.new(3004, "[color=crimson]Trial of Blood[/color]", "[color=lightgray]Paid in Crimson[/color]", NO_PRICE, TRIAL_POWER_FAMILY_BLOOD, TRIAL_POWER_FAMILY_BLOOD, _SpriteStyle.PASSIVE)
+var TRIAL_EQUIVALENCE_FAMILY = CoinFamily.new(3005, "[color=gold]Trial of Equivalence[/color]", "[color=lightgray]Fair, in a Way[/color]", NO_PRICE, TRIAL_POWER_FAMILY_EQUIVALENCE, TRIAL_POWER_FAMILY_EQUIVALENCE, _SpriteStyle.PASSIVE)
+var TRIAL_FAMINE_FAMILY = CoinFamily.new(3006, "[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", NO_PRICE, TRIAL_POWER_FAMILY_FAMINE, TRIAL_POWER_FAMILY_FAMINE, _SpriteStyle.PASSIVE)
+var TRIAL_TORTURE_FAMILY = CoinFamily.new(3007, "[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", NO_PRICE, TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE)
+var TRIAL_LIMITATION_FAMILY = CoinFamily.new(3008, "[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE)
+var TRIAL_COLLAPSE_FAMILY = CoinFamily.new(3009, "[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE)
+var TRIAL_SAPPING_FAMILY = CoinFamily.new(3010, "[color=paleturquoise]Trial of Sapping[/color]", "[color=lightgray]Unnatural... fatigue...[/color]", NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE)
+var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(3011, "[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
-var CHARON_OBOL_FAMILY = CoinFamily.new("[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
+var CHARON_OBOL_FAMILY = CoinFamily.new(10000, "[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
 
 var _GOD_FAMILIES = [ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
@@ -1181,3 +1186,59 @@ func is_passive_active(passivePower: PowerFamily) -> bool:
 			if coin.is_passive() and coin.get_active_power_family() == passivePower:
 				return true
 	return false
+
+const _SAVE_PATH = "user://save.charonsobol"
+const _SAVE_COIN_KEY = "coin"
+const _SAVE_CHAR_KEY = "character"
+var _save_dict = {
+	_SAVE_COIN_KEY : {
+		ZEUS_FAMILY.id : true,
+		HERA_FAMILY.id : true,
+		POSEIDON_FAMILY.id : true,
+		DEMETER_FAMILY.id : true,
+		APOLLO_FAMILY.id : false,
+		ARTEMIS_FAMILY.id : false,
+		ARES_FAMILY.id : true,
+		ATHENA_FAMILY.id : true,
+		HEPHAESTUS_FAMILY.id : true, 
+		APHRODITE_FAMILY.id : true,
+		HERMES_FAMILY.id : true,
+		HESTIA_FAMILY.id : true,
+		DIONYSUS_FAMILY.id : true,
+		HADES_FAMILY.id : false
+	},
+	_SAVE_CHAR_KEY : {
+		CHARACTERS[Character.LADY].id : true,
+		CHARACTERS[Character.ELEUSINIAN].id : false
+	}
+}
+
+func unlock_coin(coin: CoinFamily) -> void:
+	_save_dict[_SAVE_COIN_KEY][coin.id] = true
+	Global.write_save()
+
+func unlock_character(chara: Character) -> void:
+	_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id] = true
+	Global.write_save()
+
+func is_coin_unlocked(coin: CoinFamily) -> bool:
+	return _save_dict[_SAVE_COIN_KEY][coin.id]
+
+func is_character_unlocked(chara: Character) -> bool:
+	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id]
+
+func load_save() -> void:
+	var file = FileAccess.open(_SAVE_PATH, FileAccess.READ)
+	
+	if file != null:
+		var saved = file.get_var()
+		if saved != null:
+			_save_dict = saved
+	print("loaded: ")
+	print(_save_dict)
+
+func write_save() -> void:
+	var file = FileAccess.open(_SAVE_PATH, FileAccess.WRITE)
+	file.store_var(_save_dict)
+	print("saved: ")
+	print(_save_dict)

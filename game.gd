@@ -77,6 +77,10 @@ func _ready() -> void:
 	_VOYAGE_MAP.position = _MAP_INITIAL_POINT #offscreen
 	_VOYAGE_MAP.rotation_degrees = -90
 	
+	# delete all existing coins
+	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		coin.queue_free()
+		coin.get_parent().remove_child(coin)
 	Global.COIN_ROWS = [_COIN_ROW, _ENEMY_COIN_ROW]
 	
 	Global.state_changed.connect(_on_state_changed)

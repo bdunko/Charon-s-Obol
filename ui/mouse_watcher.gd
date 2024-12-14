@@ -15,6 +15,8 @@ signal changed
 
 var _mouse_over = false
 
+@export var DEBUG = false
+
 func _ready() -> void:
 	assert(watched)
 	assert(watched is Control or watched is CollisionPolygon2D)
@@ -23,6 +25,8 @@ func _ready() -> void:
 func _update_mouse_over() -> void:
 	assert(watched is CollisionPolygon2D or watched is Control)
 	if not is_visible_in_tree():
+		if DEBUG:
+			print("not in tree")
 		_mouse_over = false
 		return
 	
@@ -35,10 +39,17 @@ func _update_mouse_over() -> void:
 	else:
 		var as_control = watched as Control
 		_mouse_over = as_control.get_global_rect().has_point(get_global_mouse_position())
+		if DEBUG:
+			print("checking control")
+			print(as_control.get_global_rect())
+			print(get_global_mouse_position)
+			print(_mouse_over)
 
 func _process(_delta) -> void:
 	# if we aren't visible in tree, make it clear the mouse exited and early return
 	if not is_visible_in_tree():
+		if DEBUG:
+			print("not vis in tree")
 		if _mouse_over:
 			emit_signal("mouse_exited")
 			_mouse_over = false
@@ -48,6 +59,8 @@ func _process(_delta) -> void:
 	_update_mouse_over()
 	
 	if prev_mouse_over != _mouse_over:
+		if DEBUG:
+			print("changed mouse over state")
 		emit_signal("mouse_entered") if _mouse_over else emit_signal("mouse_exited")
 		emit_signal("changed")
 	
@@ -55,8 +68,12 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if _mouse_over:
+				if DEBUG:
+					print("emit clicked")
 				emit_signal("clicked")
 			else:
+				if DEBUG:
+					print("emit clicked elsewhere")
 				emit_signal("clicked_elsewhere")
 
 func is_over() -> bool:

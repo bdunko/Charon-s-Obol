@@ -2,32 +2,62 @@ extends Node2D
 
 signal start_game
 
+@onready var _MAIN_UI = $MainUI
 @onready var _CHARACTER_SELECTOR: ArrowSelector = $MainUI/Selector/Character
 @onready var _CHARACTER_DESCRIPTION: RichTextLabel = $MainUI/DescriptionContainer/CharacterDescription
 @onready var _DIFFICULTY_SELECTOR = $MainUI/Selector/Difficulty
-@onready var _TEXTBOXES = $Textboxes
-@onready var _MAIN_UI = $MainUI
 
-enum MenuState {
-	NORMAL, UNLOCK_CHARACTER, UNLOCK_COIN
-}
+@onready var _UNLOCK_UI = $UnlockUI
+
+@onready var _UNLOCK_CHARACTER_UI = $UnlockUI/CharacterUI
+@onready var _UNLOCK_CHARACTER_LABEL = $UnlockUI/CharacterUI/Character
+@onready var _UNLOCK_CHARACTER_DESCRIPTION_LABEL = $UnlockUI/CharacterUI/CharacterDescription
+
+@onready var _UNLOCK_COIN_UI = $UnlockUI/CoinUI
+@onready var _UNLOCK_COIN_FAMILY_LABEL = $UnlockUI/CoinUI/Family
+@onready var _UNLOCK_COIN_SUBTITLE_LABEL = $UnlockUI/CoinUI/Subtitle
+@onready var _UNLOCK_OBOL = $UnlockUI/CoinUI/Coins/Obol
+@onready var _UNLOCK_DIOBOL = $UnlockUI/CoinUI/Coins/Diobol
+@onready var _UNLOCK_TRIOBOL = $UnlockUI/CoinUI/Coins/Triobol
+@onready var _UNLOCK_TETROBOL = $UnlockUI/CoinUI/Coins/Tetrobol
+
+var _queued_unlocks = []
 
 func _ready() -> void:
+	assert(_MAIN_UI)
 	assert(_CHARACTER_SELECTOR)
 	assert(_CHARACTER_DESCRIPTION)
 	assert(_DIFFICULTY_SELECTOR)
-	assert(_TEXTBOXES)
-	assert(_MAIN_UI)
+	
+	assert(_UNLOCK_UI)
+	
+	assert(_UNLOCK_CHARACTER_UI)
+	assert(_UNLOCK_CHARACTER_LABEL)
+	assert(_UNLOCK_CHARACTER_DESCRIPTION_LABEL)
+	
+	assert(_UNLOCK_COIN_UI)
+	assert(_UNLOCK_COIN_FAMILY_LABEL)
+	assert(_UNLOCK_COIN_SUBTITLE_LABEL)
+	assert(_UNLOCK_OBOL)
+	assert(_UNLOCK_DIOBOL)
+	assert(_UNLOCK_TRIOBOL)
+	assert(_UNLOCK_TETROBOL)
+	
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 	
 	var names = []
-	for character in Global.CHARACTERS:
+	for character in Global.CHARACTERS.values():
 		names.append(character.name)
 	_CHARACTER_SELECTOR.init(names)
 	
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		difficultySkull.selected.connect(_on_difficulty_changed)
 	_DIFFICULTY_SELECTOR.get_child(0).select()
+	
+	switch_to_main_ui()
+
+func set_character(chara: Global.Character) -> void:
+	_CHARACTER_SELECTOR.set_to(Global.CHARACTERS[chara].name)
 
 func _on_embark_button_clicked():
 	emit_signal("start_game")
@@ -36,10 +66,10 @@ func _on_quit_button_clicked():
 	get_tree().quit()
 
 func _on_character_changed(characterName: String) -> void:
-	const FORMAT = "[center]%s[/center]"
-	for character in Global.CHARACTERS:
+	const CHARACTER_FORMAT = "[center]%s[/center]"
+	for character in Global.CHARACTERS.values():
 		if character.name == characterName:
-			_CHARACTER_DESCRIPTION.text = FORMAT % character.description
+			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
 			Global.character = character
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
@@ -51,3 +81,67 @@ func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		if difficultySkull != changed:
 			difficultySkull.unselect()
+
+func queue_unlocks(unlocks) -> void:
+	# remove any unlocks that are already unlocked
+	var true_unlocks = []
+	for unlock in unlocks:
+		assert(unlock is Global.Character or unlock is Global.CoinFamily)
+		if unlock is Global.Character and Global.is_character_unlocked(unlock):
+			continue
+		elif unlock is Global.CoinFamily and Global.is_coin_unlocked(unlock):
+			continue
+		true_unlocks.append(unlock)
+	if true_unlocks.size() == 0:
+		return
+	
+	_queued_unlocks = true_unlocks
+	switch_to_unlock_ui()
+	do_unlock()
+
+func do_unlock() -> void:
+	if _queued_unlocks.size() == 0:
+		return
+	
+	var unlocked = _queued_unlocks.pop_front()
+	assert(unlocked is Global.Character or unlocked is Global.CoinFamily)
+	
+	if unlocked is Global.Character:
+		# todo - cleaner transition here
+		_UNLOCK_CHARACTER_UI.show()
+		_UNLOCK_COIN_UI.hide()
+		
+		_UNLOCK_CHARACTER_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].name
+		_UNLOCK_CHARACTER_DESCRIPTION_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].description
+		Global.unlock_character(unlocked)
+		
+		if unlocked == Global.Character.ELEUSINIAN: # Move the selector over to Eleusinian right away after finishing Lady
+			set_character(Global.Character.ELEUSINIAN)
+	elif unlocked is Global.CoinFamily:
+		# todo - cleaner transition here
+		_UNLOCK_COIN_UI.show()
+		_UNLOCK_CHARACTER_UI.hide()
+		
+		_UNLOCK_COIN_FAMILY_LABEL.text = "[center]%s[/center]" % unlocked.coin_name.replace("(DENOM)", "Obol")
+		_UNLOCK_COIN_SUBTITLE_LABEL.text = "[center]%s[/center]" % unlocked.subtitle
+		_UNLOCK_OBOL.init_coin(unlocked, Global.Denomination.OBOL, Coin.Owner.PLAYER)
+		_UNLOCK_DIOBOL.init_coin(unlocked, Global.Denomination.DIOBOL, Coin.Owner.PLAYER)
+		_UNLOCK_TRIOBOL.init_coin(unlocked, Global.Denomination.TRIOBOL, Coin.Owner.PLAYER)
+		_UNLOCK_TETROBOL.init_coin(unlocked, Global.Denomination.TETROBOL, Coin.Owner.PLAYER)
+		Global.unlock_coin(unlocked)
+
+func _on_unlock_continue_button_clicked():
+	if _queued_unlocks.size() != 0:
+		do_unlock()
+	else:
+		switch_to_main_ui()
+
+func switch_to_main_ui() -> void:
+	# todo - cleaner transition here
+	_MAIN_UI.show()
+	_UNLOCK_UI.hide()
+
+func switch_to_unlock_ui() -> void:
+	# todo - cleaner transition here
+	_UNLOCK_UI.show()
+	_MAIN_UI.hide()

@@ -33,3 +33,10 @@ func _on_left_arrow_pressed():
 func _on_right_arrow_pressed():
 	_index = _index + 1 if _index != _options.size() - 1 else 0
 	_update_text()
+
+func set_to(option: String) -> void:
+	for i in _options.size():
+		if _options[i] == option:
+			_index = i
+			_update_text()
+			return

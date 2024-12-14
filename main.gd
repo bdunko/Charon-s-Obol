@@ -11,6 +11,11 @@ func _ready() -> void:
 	assert(GOD_SELECTION_SCENE)
 	assert(MAIN_MENU_POST_PROCESSING_FX)
 	
+	Global.load_save() # load save file
+	
+	if Global.is_character_unlocked(Global.Character.ELEUSINIAN):
+		MAIN_MENU_SCENE.set_character(Global.Character.ELEUSINIAN)
+
 func _on_main_menu_start_game():
 	# bit of a $HACK$ to prevent double clicking on the start button
 	if not TransitionPlayer.is_playing():
@@ -39,6 +44,12 @@ func _on_game_game_ended(victory: bool):
 	await Global.delay(2.0)
 	GAME_SCENE.hide()
 	UITooltip.clear_tooltips() # fixes a small visual bug if you end with a tooltip up
+	
+	# perform any coin unlock logic here based on the results of the game
+	# queue any unlocks for the main menu
+	if victory and Global.is_character(Global.Character.LADY):
+		MAIN_MENU_SCENE.queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HADES_FAMILY, Global.Character.ELEUSINIAN])
+	
 	# if we won, show the victory screen
 	if victory:
 		GOD_SELECTION_SCENE.show()
