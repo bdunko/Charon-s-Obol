@@ -133,7 +133,7 @@ func _update_face_label() -> void:
 			color = _BLUE
 		Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_LOSE_SOULS:
 			color = _RED
-	var charges_str = "%d" % get_active_power_charges() if get_max_active_power_charges() != 0 else ""
+	var charges_str = "%d" % get_active_power_charges() if get_active_power_family().show_uses else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
 	# this is a $HACK$ to center the icon better
@@ -343,13 +343,19 @@ func get_appeasal_price() -> int:
 	return _coin_family.appeasal_price_for_denom[_denomination]
 
 func is_appeaseable() -> bool:
-	return get_appeasal_price() != Global.NOT_APPEASEABLE_PRICE and _owner == Coin.Owner.NEMESIS
+	return get_appeasal_price() != Global.NOT_APPEASEABLE_PRICE and _owner == Owner.NEMESIS
 
 func get_coin_family() -> Global.CoinFamily:
 	return _coin_family
 
 func mark_owned_by_player() -> void:
 	_owner = Owner.PLAYER
+
+func is_owned_by_player() -> bool:
+	return _owner == Owner.PLAYER
+
+func is_monster() -> bool:
+	return _owner == Owner.NEMESIS
 
 func get_store_price() -> int:
 	return _coin_family.store_price_for_denom[_denomination] * Global.shop_price_multiplier
@@ -759,7 +765,9 @@ func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charg
 		txt = txt.replace("(MAX_CHARGES)", str(max_charges))
 	if current_charges != -1:
 		txt = txt.replace("(CURRENT_CHARGES)", str(current_charges))
-	txt = txt.replace("(HADES_MULTIPLIER)", str(get_value() * 2))
+	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
+	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
+	
 	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
 	

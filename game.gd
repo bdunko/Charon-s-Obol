@@ -271,7 +271,11 @@ func on_start() -> void: #reset
 	#Global.souls = 2000
 	#Global.lives = 100
 	#Global.arrows = 5
-	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.OBOL)
+	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.OBOL)
+	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
+	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.TRIOBOL)
+	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.TETROBOL)
+	
 	#_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
 	#_make_and_gain_coin(Global.ARES_FAMILY, Global.Denomination.TETROBOL)
 	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
@@ -590,7 +594,7 @@ func _on_accept_button_pressed():
 					var highest = _COIN_ROW.get_highest_valued()
 					highest.shuffle()
 					if highest[0].get_denomination() != Global.Denomination.OBOL:
-						highest[0].downgrade()
+						downgrade_coin(highest[0])
 				Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_leftmost_to_rightmost():
@@ -1229,13 +1233,13 @@ func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.De
 	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
 	return new_coin
 
-func _gain_coin_entity(coin: Coin):
+func _gain_coin_entity(coin: Coin) -> void:
 	_COIN_ROW.add_child(coin)
 	coin.mark_owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 
-func destroy_coin(coin: Coin):
+func destroy_coin(coin: Coin) -> void:
 	assert(coin.get_parent() is CoinRow)
 	# store the coin's global position, so we can restore it after removing from row
 	var destroyed_global_pos = coin.global_position
@@ -1245,7 +1249,12 @@ func destroy_coin(coin: Coin):
 	coin.position = destroyed_global_pos
 	# play destruction animation (coin will free itself after finishing)
 	coin.destroy()
-	
+
+func downgrade_coin(coin: Coin) -> void:
+	if coin.get_denomination() == Global.Denomination.OBOL:
+		destroy_coin(coin)
+	else:
+		coin.downgrade()
 
 func _get_row_for(coin: Coin) -> CoinRow:
 	if _COIN_ROW.has_coin(coin):
@@ -1412,13 +1421,10 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't upgrade that...")
 						return
-					if coin.get_denomination() == Global.Denomination.OBOL:
-						_DIALOGUE.show_dialogue("Can't downgrade that one...")
-						return
 					if left and left.get_denomination() == Global.Denomination.TETROBOL and right and right.get_denomination() == Global.Denomination.TETROBOL:
 						_DIALOGUE.show_dialogue("Can't upgrade further...")
 						return
-					coin.downgrade()
+					downgrade_coin(coin)
 					if left and left.can_upgrade():
 						left.upgrade()
 					if right and right.can_upgrade():
@@ -1525,13 +1531,16 @@ func _on_coin_clicked(coin: Coin):
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				coin.make_lucky()
-			Global.POWER_FAMILY_DESTROY_FOR_LIFE:
-				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't destroy...")
+			Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
+				if coin.is_monster():
+					downgrade_coin(coin)
+					Global.lives -= Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
+				elif coin.is_owned_by_player():
+					downgrade_coin(coin)
+					Global.lives += Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1]
+				else:
+					_DIALOGUE.show_dialogue("Can't downgrade that...")
 					return
-				# gain life equal to (2 * hades_value) * destroyed_value
-				Global.lives += (2 * Global.active_coin_power_coin.get_value()) * coin.get_value()
-				destroy_coin(coin)
 			Global.POWER_FAMILY_ARROW_REFLIP:
 				_safe_flip(coin)
 				Global.arrows -= 1
@@ -1627,7 +1636,7 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				_safe_flip(coin)
 				coin.clear_statuses()
-			_COIN_ROW.shuffle()
+			#_COIN_ROW.shuffle()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
