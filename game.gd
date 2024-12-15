@@ -1440,10 +1440,6 @@ func _on_coin_clicked(coin: Coin):
 					coin.make_lucky()
 					coin.bless()
 				Global.PATRON_POWER_FAMILY_HADES:
-					if row == _ENEMY_COIN_ROW:
-						#todo - will need to revisit for Echidna; make exception for monster coins
-						_DIALOGUE.show_dialogue("Can't destroy that...")
-						return
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return

@@ -62,6 +62,9 @@ enum _MaterialState {
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
 
+@onready var _coin_movement_tween: Global.ManagedTween = Global.ManagedTween.new(self, "position")
+@onready var _sprite_movement_tween: Global.ManagedTween = Global.ManagedTween.new(_SPRITE, "position")
+
 var _disable_interaction := false:
 	set(val):
 		_disable_interaction = val
@@ -536,11 +539,11 @@ func flip(bonus: int = 0) -> void:
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
-	var tween = _new_movement_tween()
-	tween.tween_property(_SPRITE, "position:y", -50, 0.20)
-	tween.tween_interval(0.1)
-	tween.tween_property(_SPRITE, "position:y", 0, 0.20)
-	await tween.finished
+
+	await _sprite_movement_tween.tween(Vector2(0, -50), 0.20)
+	await Global.delay(0.1)
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.20)
+	
 	set_animation(_Animation.FLAT)
 	
 	_FACE_LABEL.show()
@@ -856,18 +859,11 @@ func set_animation(anim: _Animation) -> void:
 	
 	_SPRITE.play("%s_%s_%s" % [get_style_string(), denom_str, anim_str])
 
-var _movement_tween: Tween = null
-func _new_movement_tween() -> Tween:
-	if _movement_tween:
-		_movement_tween.kill()
-	_movement_tween = create_tween()
-	return _movement_tween
-
 func payoff_move_up() -> void:
-	await _new_movement_tween().tween_property(_SPRITE, "position:y", -20, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _sprite_movement_tween.tween(Vector2(0, -20), 0.15, Tween.TRANS_CIRC)
 
 func payoff_move_down() -> void:
-	await _new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC).finished
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.15, Tween.TRANS_CIRC)
 
 func _on_mouse_clicked():
 	if not _disable_interaction:
