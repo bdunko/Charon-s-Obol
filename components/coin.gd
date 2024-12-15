@@ -793,12 +793,20 @@ func _generate_tooltip() -> void:
 		var appease_hint = "Spend %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to appease.\n" % get_appeasal_price() if is_appeaseable() else ""
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img]: " % _heads_power.power_family.icon_path
-		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img]: " % _tails_power.power_family.icon_path
+		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img][img=12x13]res://assets/icons/white_arrow.png[/img]" % _heads_power.power_family.icon_path
+		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img][img=12x13]res://assets/icons/white_arrow.png[/img]" % _tails_power.power_family.icon_path
 		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var max_heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var max_tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		
+		# use nothing instead of showing 0/0
+		if _heads_power.power_family.uses_for_denom[_denomination] == 0:
+			heads_charges = ""
+			max_heads_charges = ""
+		if _tails_power.power_family.uses_for_denom[_denomination] == 0:
+			tails_charges = ""
+			max_tails_charges = ""
 		
 		#(currcharges)/(maxcharges)[icon]:description
 		const POWER_FORMAT = "%s%s%s%s"
