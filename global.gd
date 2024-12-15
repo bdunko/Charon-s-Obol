@@ -9,7 +9,7 @@ signal active_coin_power_coin_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
 signal flips_this_round_changed
-signal strain_changed
+signal ante_changed
 signal patron_changed
 signal patron_uses_changed
 signal rerolls_changed
@@ -198,12 +198,12 @@ var flips_this_round: int:
 	set(val):
 		flips_this_round = val
 		emit_signal("flips_this_round_changed")
-		emit_signal("strain_changed")
+		emit_signal("ante_changed")
 
-var strain_modifier: int:
+var ante_modifier: int:
 	set(val):
-		strain_modifier = val
-		emit_signal("strain_changed")
+		ante_modifier = val
+		emit_signal("ante_changed")
 
 const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
@@ -258,8 +258,8 @@ const COIN_LIMIT = 8
 var COIN_ROWS: Array
 
 # returns the life cost of a toss; min 0
-func strain_cost() -> int:
-	return max(0, (flips_this_round * 3) + strain_modifier)
+func ante_cost() -> int:
+	return max(0, (flips_this_round * 3) + ante_modifier)
 
 enum RoundType {
 	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
@@ -608,7 +608,7 @@ class TrialData:
 	_PAIN_TRIAL,
 	TrialData.new(TRIAL_BLOOD_FAMILY.coin_name, [TRIAL_BLOOD_FAMILY], TRIAL_POWER_FAMILY_BLOOD.description),
 	#TrialData.new("Draining", [GENERIC_FAMILY], "Using a power also drains a charge from each adjacent coin."),
-	#TrialData.new("Suffering", [GENERIC_FAMILY], "Strain starts at 4."),
+	#TrialData.new("Suffering", [GENERIC_FAMILY], "Ante starts at 4."),
 	#TrialData.new("Restraint", [GENERIC_FAMILY], "After using a coin's power, that coin becomes Locked."),
 ]
 
@@ -708,7 +708,7 @@ var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most 
 var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn a coin to (STONE).", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/nemesis/euryale_icon.png")
 var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 coins (UNLUCKY).", [2, 2, 2, 2], PowerType.PAYOFF, "res://assets/icons/nemesis/unlucky_icon.png")
 var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to (STONE)", [0, 0, 0, 0], PowerType.PAYOFF, "res://assets/icons/nemesis/stheno_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_STRAIN = PowerFamily.new("Increase Strain by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/strain_icon.png")
+var NEMESIS_POWER_FAMILY_STHENO_ANTE = PowerFamily.new("Raise the Ante by 1.", [1, 1, 1, 1], PowerType.PAYOFF, "res://assets/icons/nemesis/ante_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy coins until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png")
 var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins, your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png")
@@ -1154,7 +1154,7 @@ var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera[/color]",
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new(2000, "[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
 var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
-var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_STRAIN, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
+var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_ANTE, _SpriteStyle.NEMESIS, [80, 80, 80, 80])
 
 # trials
 var TRIAL_IRON_FAMILY = CoinFamily.new(3000, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)

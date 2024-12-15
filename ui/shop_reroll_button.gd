@@ -8,9 +8,9 @@ func _ready():
 
 const _FORMAT = "[center][color=#e12f3b]-%d[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] Reroll[/center]"
 const _FORMAT_0 = "[center]Reroll Stock[/center]"
-func _on_strain_changed() -> void:
-	var strain_cost = Global.strain_cost()
-	_TEXT.text = _FORMAT_0 if strain_cost == 0 else _FORMAT % strain_cost
+func _on_ante_changed() -> void:
+	var ante_cost = Global.ante_cost()
+	_TEXT.text = _FORMAT_0 if ante_cost == 0 else _FORMAT % ante_cost
 
 func _on_rerolls_changed() -> void:
 	var reroll_cost = Global.reroll_cost()

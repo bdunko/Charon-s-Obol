@@ -178,7 +178,7 @@ func _on_state_changed() -> void:
 	# _patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		Global.flips_this_round = 0 # reduce strain to 0 for display purposes
+		Global.flips_this_round = 0 # reduce ante to 0 for display purposes
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _wait_for_dialogue("Yet, I will grant you one final opportunity.")
@@ -261,7 +261,7 @@ func on_start() -> void: #reset
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
 	Global.flips_this_round = 0
-	Global.strain_modifier = 0
+	Global.ante_modifier = 0
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
@@ -462,14 +462,14 @@ func _on_toss_button_clicked() -> void:
 		return
 	
 	# take life from player
-	var strain = Global.strain_cost()
+	var ante = Global.ante_cost()
 	
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < strain and not _END_ROUND_TEXTBOX.disabled: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: 
 		_DIALOGUE.show_dialogue("Not enough life!")
 		return
 	
-	Global.lives -= strain
+	Global.lives -= ante
 	
 	if Global.lives <= 0:
 		return
@@ -613,9 +613,9 @@ func _on_accept_button_pressed():
 						if not coin.is_stone():
 							coin.stone()
 							break
-				Global.NEMESIS_POWER_FAMILY_STHENO_STRAIN:
+				Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.strain_modifier += 1
+					Global.ante_modifier += 1
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -845,7 +845,7 @@ func _on_end_round_button_pressed():
 		return
 	
 	Global.flips_this_round = 0
-	Global.strain_modifier = 0
+	Global.ante_modifier = 0
 	
 	_SHOP.randomize_shop()
 	

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1j7cxkbydg1l"
-path="res://.godot/imported/strain_icon.png-f76b9008743dc79047f436cca0795d47.ctex"
+path="res://.godot/imported/ante_icon.png-4105dd1f381d22ac8ac3c268547fee46.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/nemesis/strain_icon.png"
-dest_files=["res://.godot/imported/strain_icon.png-f76b9008743dc79047f436cca0795d47.ctex"]
+source_file="res://assets/icons/nemesis/ante_icon.png"
+dest_files=["res://.godot/imported/ante_icon.png-4105dd1f381d22ac8ac3c268547fee46.ctex"]
 
 [params]
 
