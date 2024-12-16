@@ -25,6 +25,10 @@ signal game_ended
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
+@onready var _PLAYER_NEW_COIN_POSITION: Vector2 = _PLAYER_POINT - Vector2(22, 0)
+@onready var _PLAYER_FLIP_POSITION: Vector2 = _PLAYER_NEW_COIN_POSITION - Vector2(0, 25)
+@onready var _CHARON_NEW_COIN_POSITION: Vector2 = _CHARON_POINT - Vector2(22, 0)
+@onready var _CHARON_FLIP_POSITION: Vector2 = _CHARON_NEW_COIN_POSITION + Vector2(0, 25)
 @onready var _LIFE_FRAGMENT_PILE_POINT: Vector2 = $Points/LifeFragmentPile.position
 @onready var _SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/SoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
@@ -74,6 +78,10 @@ func _ready() -> void:
 	assert(_MAP_SHOWN_POINT)
 	assert(_MAP_HIDDEN_POINT)
 	assert(_MAP_INITIAL_POINT)
+	
+	_SHOP.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
+	_ENEMY_ROW.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
+	
 	_VOYAGE_MAP.position = _MAP_INITIAL_POINT #offscreen
 	_VOYAGE_MAP.rotation_degrees = -90
 	
@@ -173,18 +181,26 @@ func _on_state_changed() -> void:
 			_on_end_round_button_pressed()
 			return
 	
+	if Global.state != Global.State.CHARON_OBOL_FLIP:
+		_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
+	else:
+		_COIN_ROW.retract(_PLAYER_NEW_COIN_POSITION)
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
-	_COIN_ROW.visible = Global.state != Global.State.CHARON_OBOL_FLIP and Global.state != Global.State.GAME_OVER
-	# _patron_token.visible = Global.state != Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce ante to 0 for display purposes
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
-		await _wait_for_dialogue("Yet, I will grant you one final opportunity.")
+		await _wait_for_dialogue("Yet I will grant you one final opportunity.")
+		_PLAYER_TEXTBOXES.make_invisible()
+		await _CHARON_COIN_ROW.expand()
 		await _wait_for_dialogue("We will flip this single obol.")
+		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
 		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
+		_CHARON_COIN_ROW.get_child(0).turn()
 		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
+		_CHARON_COIN_ROW.get_child(0).turn()
+		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("And now, on the edge of life and death...")
 		_DIALOGUE.show_dialogue("You must flip!")
 		_PLAYER_TEXTBOXES.make_visible()
@@ -210,6 +226,8 @@ func _on_game_end() -> void:
 	_LEFT_HAND.move_offscreen()
 	_RIGHT_HAND.unlock()
 	_RIGHT_HAND.move_offscreen()
+	Global.souls = 0
+	Global.lives = 0
 	emit_signal("game_ended", victory)
 
 func on_start() -> void: #reset
@@ -225,6 +243,10 @@ func on_start() -> void: #reset
 	for coin in _CHARON_COIN_ROW.get_children():
 		_CHARON_COIN_ROW.remove_child(coin)
 		coin.free()
+	
+	# move map to offscreen starting position and rotation
+	_VOYAGE_MAP.position = _MAP_INITIAL_POINT #offscreen
+	_VOYAGE_MAP.rotation_degrees = -90
 	
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
 	
@@ -271,31 +293,7 @@ func on_start() -> void: #reset
 	#Global.souls = 2000
 	#Global.lives = 100
 	#Global.arrows = 5
-	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.OBOL)
-	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DIOBOL)
-	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.TRIOBOL)
-	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.TETROBOL)
-	
-	#_make_and_gain_coin(Global.POSEIDON_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.ARES_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.HESTIA_FAMILY, Global.Denomination.TRIOBOL)
-	#_make_and_gain_coin(Global.DIONYSUS_FAMILY, Global.Denomination.DIOBOL)
-	
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	
-	
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.ATHENA_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
-	#_make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.TETROBOL)
+	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.OBOL, _PLAYER_NEW_COIN_POSITION)
 	
 	Global.state = Global.State.BOARDING
 	
@@ -365,12 +363,14 @@ func _on_flip_complete() -> void:
 				Global.state = Global.State.GAME_OVER
 			Global.CHARON_POWER_LIFE:
 				await _wait_for_dialogue("Fate smiles upon you...")
-				await _wait_for_dialogue("It seems you have dodged death, for a time.")
+				await _wait_for_dialogue("You have dodged death, for a time.")
 				await _wait_for_dialogue("But your journey has not yet concluded...")
 				Global.lives = 0
 				_on_end_round_button_pressed()
 			_:
 				assert(false, "Charon's obol has an incorrect power?")
+		_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
+		_COIN_ROW.expand()
 		return
 	
 	# if every flip is done
@@ -469,7 +469,7 @@ func _on_toss_button_clicked() -> void:
 	var ante = Global.ante_cost()
 	
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled and false: 
 		_DIALOGUE.show_dialogue("Not enough life!")
 		return
 	
@@ -477,6 +477,13 @@ func _on_toss_button_clicked() -> void:
 	
 	if Global.lives <= 0:
 		return
+	
+	_PLAYER_TEXTBOXES.make_invisible()
+	if not Global.is_current_round_trial(): #obviously don't move trial coins up, we only want that for enemy coins
+		_ENEMY_COIN_ROW.retract(_CHARON_FLIP_POSITION)
+	await _COIN_ROW.retract(_PLAYER_FLIP_POSITION)
+	_COIN_ROW.expand()
+	_ENEMY_COIN_ROW.expand()
 	
 	# flip all the coins
 	for coin in _COIN_ROW.get_children():
@@ -636,10 +643,10 @@ func _on_accept_button_pressed():
 			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
-					possibly_ignited_coin.payoff_move_up()
+					#possibly_ignited_coin.payoff_move_up()
 					Global.lives -= 3
 					await Global.delay(0.15)
-					possibly_ignited_coin.payoff_move_down()
+					#possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
 					if Global.lives < 0:
 						return
@@ -851,12 +858,8 @@ func _on_end_round_button_pressed():
 	Global.flips_this_round = 0
 	Global.ante_modifier = 0
 	
-	_SHOP.randomize_shop()
+	randomize_shop()
 	
-	# connect each shop coin to charon hand for hovering...
-	for coin in _SHOP_COIN_ROW.get_children():
-		coin.hovered.connect(_on_shop_coin_hovered)
-		coin.unhovered.connect(_on_shop_coin_unhovered)
 	_RIGHT_HAND.move_offscreen()
 	_LEFT_HAND.move_to_retracted_position()
 	
@@ -950,7 +953,7 @@ func _on_voyage_continue_button_clicked():
 	if first_round:
 		if Global.tutorialState != Global.TutorialState.ROUND1_OBOL_INTRODUCTION:
 			await _wait_for_dialogue("Now place your payment on the table...")
-			_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
+			_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, _PLAYER_NEW_COIN_POSITION) # make a single starting coin
 		
 			# removed, but kept potentially for later - generate a random bonus starting coin from patron
 			#_make_and_gain_coin(Global.patron.get_random_starting_coin_family(), Global.Denomination.OBOL)
@@ -981,7 +984,7 @@ func _on_voyage_continue_button_clicked():
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _wait_for_dialogue("Let's begin.")
 		await _wait_for_dialogue("The rules are simple.")
-		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL) # make a single starting coin
+		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION) # make a single starting coin
 		await _wait_for_dialogue("Take this coin...")
 		await _wait_for_dialogue("This is a game about tossing coins.")
 		await _wait_for_dialogue("Each round will consist of a number of coin tosses.")
@@ -1057,8 +1060,8 @@ func _on_voyage_continue_button_clicked():
 				Global.TRIAL_IRON_FAMILY:
 					while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-2: # make space for thorns obols
 						_COIN_ROW.destroy_lowest_value()
-					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
-					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL)
+					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
+					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
 					await _wait_for_dialogue("You shall be bound in Iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
 					for c in _COIN_ROW.get_children():
@@ -1176,7 +1179,7 @@ func _on_die_button_clicked() -> void:
 		if _COIN_ROW.calculate_total_value() < Global.current_round_toll():
 			await _wait_for_dialogue("Ah... you don't have enough to pay the toll.")
 			while _COIN_ROW.get_child_count() < Global.COIN_LIMIT and _COIN_ROW.calculate_total_value() < Global.current_round_toll():
-				_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL)
+				_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.TETROBOL, _CHARON_NEW_COIN_POSITION)
 			assert(_COIN_ROW.calculate_total_value() >= Global.current_round_toll())
 			await _wait_for_dialogue("Here...")
 			_DIALOGUE.show_dialogue("Now pay the toll.")
@@ -1208,15 +1211,13 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		_DIALOGUE.show_dialogue("Too many coins...")
 		return
 	
-	_SHOP.purchase_coin(coin)
-	
 	# disconnect charon hand signals
 	coin.hovered.disconnect(_on_shop_coin_hovered)
 	coin.unhovered.disconnect(_on_shop_coin_unhovered)
-	
 	_on_shop_coin_unhovered(coin)
 	
-	_gain_coin_entity(coin)
+	_gain_coin_from_shop(coin) # move coin to player row
+	_SHOP.purchase_coin(coin) # charge the shop
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN:
 		_LEFT_HAND.unlock()
@@ -1225,16 +1226,20 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		_SHOP_CONTINUE_TEXTBOX.enable()
 		Global.tutorialState = Global.TutorialState.ROUND1_VOYAGE
 
-func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination) -> Coin:
+func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, initial_position: Vector2) -> Coin:
 	var new_coin: Coin = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
+	new_coin.global_position = initial_position
 	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
 	return new_coin
 
-func _gain_coin_entity(coin: Coin) -> void:
+func _gain_coin_from_shop(coin: Coin) -> void:
+	var cur_pos = coin.global_position
+	_SHOP_COIN_ROW.remove_child(coin)
 	_COIN_ROW.add_child(coin)
+	coin.global_position = cur_pos
 	coin.mark_owned_by_player()
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
@@ -1418,6 +1423,9 @@ func _on_coin_clicked(coin: Coin):
 						return
 					coin.reduce_life_penalty_permanently()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
+					if _COIN_ROW.get_child_count() == 1:
+						_DIALOGUE.show_dialogue("No point...")
+						return
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't upgrade that...")
 						return
@@ -1568,7 +1576,7 @@ func _on_coin_clicked(coin: Coin):
 				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 					_DIALOGUE.show_dialogue("Too many coins...")
 					return
-				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
+				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position)
 				coin.spend_power_use()
 			_: # otherwise, make this the active coin and coin power and await click on target
 				# prevent reactivating the coin after deactivating
@@ -1644,7 +1652,7 @@ func _on_patron_token_clicked():
 			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 				_DIALOGUE.show_dialogue("Too many coins...")
 				return
-			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL)
+			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
 			new_coin.make_lucky()
 			Global.patron_uses -= 1
 		_: # if not immediate, activate the token
@@ -1685,6 +1693,17 @@ func _on_shop_reroll_button_clicked():
 	if Global.souls <= Global.reroll_cost():
 		_DIALOGUE.show_dialogue("Not enough souls...")
 		return
+	_PLAYER_TEXTBOXES.make_invisible()
 	Global.souls -= Global.reroll_cost()
-	_SHOP.randomize_shop()
+	await _SHOP.retract()
+	randomize_shop()
 	Global.shop_rerolls += 1
+	_PLAYER_TEXTBOXES.make_visible()
+	
+func randomize_shop() -> void:
+	_SHOP.randomize_shop()
+	
+	# connect each shop coin to charon hand for hovering...
+	for coin in _SHOP_COIN_ROW.get_children():
+		coin.hovered.connect(_on_shop_coin_hovered)
+		coin.unhovered.connect(_on_shop_coin_unhovered)

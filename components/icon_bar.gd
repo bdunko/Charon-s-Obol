@@ -37,9 +37,11 @@ func update_icon(icon, is_active: bool) -> void:
 
 func disable_paging() -> void:
 	_paging_enabled = false
+	update_page()
 
 func enable_paging() -> void:
 	_paging_enabled = true
+	update_page()
 
 func _on_timeout() -> void:
 	# if paging has been disabled, just exit

@@ -62,7 +62,7 @@ enum _MaterialState {
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
 
-@onready var _coin_movement_tween: Global.ManagedTween = Global.ManagedTween.new(self, "position")
+@onready var _coin_movement_tween: Global.ManagedTween = Global.ManagedTween.new(self, "global_position")
 @onready var _sprite_movement_tween: Global.ManagedTween = Global.ManagedTween.new(_SPRITE, "position")
 
 var _disable_interaction := false:
@@ -117,6 +117,9 @@ var _tails_power: FacePower
 
 # updates face label, glow, and price label
 func _update_appearance() -> void:
+	# a bit of a hack, to prevent scanline on Trial coins
+	if is_passive():
+		FX.stop_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT)
 	_update_face_label()
 	_update_price_label()
 	_update_flash()
@@ -139,11 +142,11 @@ func _update_face_label() -> void:
 	var charges_str = "%d" % get_active_power_charges() if get_active_power_family().show_uses else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
-	# this is a $HACK$ to center the icon better
-	if get_max_active_power_charges() == 0:
-		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
-	else:
+	# this is a $HACK$ to center the icon better when no charges are shown
+	if get_active_power_family().show_uses:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION
+	else:
+		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 
 const _BUY_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
@@ -217,14 +220,13 @@ var _bless_curse_state: _BlessCurseState:
 		_STATUS_BAR.update_icon(_CURSE_ICON, _bless_curse_state == _BlessCurseState.CURSED)
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
-			FX.flash(Color.PALE_GOLDENROD)
-			FX.start_scanning(FX.ScanDirection.BOTTOM_TO_TOP, Color.PALE_GOLDENROD, 1.0, 0.5, 0.75)
+			FX.flash(Color.YELLOW)
+			FX.set_scan_color(Color.YELLOW)
 		elif _bless_curse_state == _BlessCurseState.CURSED:
-			FX.flash(Color.ORCHID)
-			FX.start_scanning(FX.ScanDirection.TOP_TO_BOTTOM, Color.DARK_ORCHID, 1.0, 0.5, 0.75)
+			FX.flash(Color.PURPLE)
+			FX.set_scan_color(Color.PURPLE)
 		else:
-			FX.stop_scanning(FX.ScanDirection.TOP_TO_BOTTOM)
-			FX.stop_scanning(FX.ScanDirection.BOTTOM_TO_TOP)
+			FX.set_scan_color(Color.WHITE)
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -870,7 +872,7 @@ func _on_mouse_clicked():
 		emit_signal("clicked", self)
 
 func _on_mouse_entered():
-	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null):
+	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null) and not is_passive():
 		#_new_movement_tween().tween_property(_SPRITE, "position:y", -2, 0.15).set_trans(Tween.TRANS_CIRC)
 		FX.start_glowing(Color.WHITE)
 	emit_signal("hovered", self)
@@ -931,3 +933,8 @@ func _physics_process(delta):
 	
 	if _time_mouse_hover >= _DELAY_BEFORE_TOOLTIP:
 		_generate_tooltip()
+
+func move_to(pos: Vector2, time: float) -> void:
+	#await _coin_movement_tween.tween(pos, time, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	await _coin_movement_tween.tween(pos, time, Tween.TRANS_CUBIC)
+	

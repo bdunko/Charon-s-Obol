@@ -423,8 +423,8 @@ func stop_flickering(ending_alpha: float = 1.0) -> void:
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, ending_alpha)
 
 static var DEFAULT_FLASH_SPEED = 10
-static var DEFAULT_FLASH_BOUND1 = 0.2
-static var DEFAULT_FLASH_BOUND2 = 0.4
+static var DEFAULT_FLASH_BOUND1 = 0.4
+static var DEFAULT_FLASH_BOUND2 = 0.7
 func start_flashing(color: Color, speed: float = DEFAULT_FLASH_SPEED, strength_bound1: float = DEFAULT_FLASH_BOUND1, strength_bound2: float = DEFAULT_FLASH_BOUND2, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(strength_bound1 >= 0 and strength_bound1 <= 1, "Bounds must be between 0 and 1.")
@@ -464,6 +464,9 @@ func start_scanning(direction: ScanDirection, color: Color, strength: float = DE
 		set_uniform(uniform_start_time, START_TIME())
 	set_uniform(uniform_scan_duration, scan_duration)
 	set_uniform(uniform_delay, delay)
+
+func set_scan_color(color: Color) -> void:
+	set_uniform(Uniform.VEC3_SCANLINE_COLOR, color)
 
 func stop_scanning(direction: ScanDirection) -> void: 
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]

@@ -147,7 +147,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v6td3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_43jvm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -267,7 +267,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iv472"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s0lm6"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -387,7 +387,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gmapn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sjg7f"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -507,7 +507,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4yhmq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1h3qp"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -627,7 +627,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y5s6p"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tqsjq"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -747,7 +747,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wvyhx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_radqr"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -867,7 +867,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvrd3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6dhme"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -987,7 +987,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_efauw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6357"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1107,7 +1107,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqlqd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4frb"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -1521,19 +1521,19 @@ text = "5"
 horizontal_alignment = 1
 script = ExtResource("16_ee6yk")
 
-[node name="CharonHandRight" parent="Table" instance=ExtResource("16_32esb")]
-position = Vector2(182, -35)
-HAND_TYPE = 1
-
-[node name="CharonHandLeft" parent="Table" instance=ExtResource("16_32esb")]
-position = Vector2(76, -35)
-
 [node name="VoyageMap" parent="Table" instance=ExtResource("18_vo2di")]
 position = Vector2(61, 19)
 
 [node name="LifeFragments" type="Node2D" parent="Table"]
 
 [node name="SoulFragments" type="Node2D" parent="Table"]
+
+[node name="CharonHandRight" parent="Table" instance=ExtResource("16_32esb")]
+position = Vector2(184, -38)
+HAND_TYPE = 1
+
+[node name="CharonHandLeft" parent="Table" instance=ExtResource("16_32esb")]
+position = Vector2(74, -38)
 
 [node name="CharonObolRow" type="Control" parent="Table"]
 custom_minimum_size = Vector2(116, 39)
@@ -1551,7 +1551,6 @@ offset_left = 136.0
 offset_right = 174.0
 
 [node name="EnemyRow" type="Node2D" parent="Table"]
-position = Vector2(0, 5)
 script = ExtResource("24_cds23")
 
 [node name="CoinRow" type="Control" parent="Table/EnemyRow"]
@@ -1559,9 +1558,9 @@ custom_minimum_size = Vector2(116, 39)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 5.0
-offset_top = 45.0
+offset_top = 55.0
 offset_right = 315.0
-offset_bottom = 84.0
+offset_bottom = 94.0
 mouse_filter = 2
 script = ExtResource("21_60gfb")
 
@@ -1669,7 +1668,7 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_v6td3")
+material = SubResource("ShaderMaterial_43jvm")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 script = ExtResource("6_rf73a")
@@ -1683,7 +1682,7 @@ text = "[center]Toss[/center]"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_iv472")
+material = SubResource("ShaderMaterial_s0lm6")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 
@@ -1692,7 +1691,7 @@ text = "Accept"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gmapn")
+material = SubResource("ShaderMaterial_sjg7f")
 layout_mode = 2
 script = ExtResource("8_leu43")
 
@@ -1701,7 +1700,7 @@ text = "Continue"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_4yhmq")
+material = SubResource("ShaderMaterial_1h3qp")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 
@@ -1709,7 +1708,7 @@ script = ExtResource("9_cd2hg")
 text = "Continue"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_y5s6p")
+material = SubResource("ShaderMaterial_tqsjq")
 layout_mode = 2
 script = ExtResource("9_d50av")
 
@@ -1718,7 +1717,7 @@ text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_wvyhx")
+material = SubResource("ShaderMaterial_radqr")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 
@@ -1727,7 +1726,7 @@ text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_hvrd3")
+material = SubResource("ShaderMaterial_6dhme")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 
@@ -1737,7 +1736,7 @@ text = "Pay Toll (1/20[img=12x13]res://assets/icons/coin_icon.png[/img])[center]
 [node name="VoyageContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_efauw")
+material = SubResource("ShaderMaterial_i6357")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 
@@ -1746,7 +1745,7 @@ text = "Continue"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_cqlqd")
+material = SubResource("ShaderMaterial_w4frb")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 
@@ -1763,13 +1762,13 @@ textbox_float = true
 [node name="Points" type="Node2D" parent="."]
 
 [node name="Charon" type="Node2D" parent="Points"]
-position = Vector2(160, -99)
+position = Vector2(160, -44)
 
 [node name="SoulFragmentPile" type="Node2D" parent="Points"]
 position = Vector2(276, 33)
 
 [node name="Player" type="Node2D" parent="Points"]
-position = Vector2(160, 210)
+position = Vector2(160, 200)
 
 [node name="LifeFragmentPile" type="Node2D" parent="Points"]
 position = Vector2(21, 42)

@@ -9,6 +9,8 @@ signal coin_purchased
 const _NUM_GENERIC_SHOP_ITEMS = 1
 const _NUM_GOD_SHOP_ITEMS = 3
 
+var _coin_spawn_point: Vector2
+
 func _ready() -> void:
 	for coin in _SHOP_ROW.get_children():
 		_SHOP_ROW.remove_child(coin)
@@ -18,18 +20,22 @@ func _ready() -> void:
 	Global.state_changed.connect(_on_state_changed)
 	
 func _on_state_changed() -> void:
-	if Global.state == Global.State.SHOP:
-		show()
-	else:
-		hide()
+	if Global.state != Global.State.SHOP:
+		retract() # move all the coins offscreen to 'hide' the shop
+
+func set_coin_spawn_point(spawn_point: Vector2) -> void:
+	_coin_spawn_point = spawn_point
 
 func randomize_shop() -> void:
 	for coin in _SHOP_ROW.get_children():
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
 	
+	_SHOP_ROW.expand()
+	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		var coin = _COIN_SCENE.instantiate()
+		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
 		coin.init_coin(Global.ZEUS_FAMILY, Global.Denomination.OBOL, Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
@@ -37,12 +43,14 @@ func randomize_shop() -> void:
 	
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
+		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
 		coin.init_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 	
 	for _i in _NUM_GOD_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
+		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
 		coin.init_coin(Global.random_god_family(), Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
@@ -57,6 +65,9 @@ func randomize_shop() -> void:
 	if dup:
 		randomize_shop()
 
+func retract() -> void:
+	await _SHOP_ROW.retract(_coin_spawn_point)
+
 func _on_try_coin_purchased(coin: Coin) -> void:
 	emit_signal("coin_purchased", coin, coin.get_store_price())
 
@@ -64,4 +75,3 @@ func _on_try_coin_purchased(coin: Coin) -> void:
 func purchase_coin(coin: Coin) -> void:
 	Global.souls -= coin.get_store_price()
 	coin.clicked.disconnect(_on_try_coin_purchased)
-	coin.get_parent().remove_child(coin)

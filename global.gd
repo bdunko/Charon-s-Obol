@@ -205,6 +205,7 @@ var ante_modifier: int:
 		ante_modifier = val
 		emit_signal("ante_changed")
 
+const COIN_TWEEN_TIME := 0.3
 const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
 var SHOP_MULTIPLIER_INCREASE := 0.25
@@ -1195,8 +1196,8 @@ func generate_coinpool() -> void:
 	assert(_COINPOOL.size() != 0)
 	# in the future, character specific coinpools can be set here
 	
-	for coin in _COINPOOL:
-		print(coin.coin_name)
+	#for coin in _COINPOOL:
+	#	print(coin.coin_name)
 
 func random_family() -> CoinFamily:
 	return choose_one(_COINPOOL)

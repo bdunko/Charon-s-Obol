@@ -3,11 +3,18 @@ extends Control
 
 func _on_child_entered_tree(_node) -> void:
 	assert(_node is Coin, "Coin Row cannot contain non-Coins!")
-	_update_coins()
+	if _state == _State.EXPANDED:
+		call_deferred("expand")
 
 func _on_child_exiting_tree(_node) -> void:
 	# update 1 frame later once child is gone
-	call_deferred("_update_coins")
+	if _state == _State.EXPANDED:
+		call_deferred("expand")
+
+enum _State {
+	EXPANDED, RETRACTED
+}
+var _state = _State.EXPANDED
 
 # returns array of all coins on tails
 func get_tails() -> Array:
@@ -158,7 +165,18 @@ func shuffle() -> void:
 	for c in all_coins:
 		add_child(c)
 
-func _update_coins() -> void:
+func retract(retract_point: Vector2) -> void:
+	_state = _State.RETRACTED
+	if get_child_count() == 0:
+		return
+	
+	for i in get_child_count():
+		var coin = get_child(i)
+		coin.move_to(retract_point, Global.COIN_TWEEN_TIME)
+	await Global.delay(Global.COIN_TWEEN_TIME)
+
+func expand() -> void:
+	_state = _State.EXPANDED
 	if get_child_count() == 0:
 		return
 	
@@ -169,7 +187,10 @@ func _update_coins() -> void:
 	# position all the coins
 	for i in get_child_count():
 		var coin = get_child(i)
-		coin.position.x = start + (i*coin_width) - 3
+		coin.move_to(Vector2(start + (i*coin_width) - 3, position.y), Global.COIN_TWEEN_TIME)
+		#coin.position.x = start + (i*coin_width) - 3
+	
+	await Global.delay(Global.COIN_TWEEN_TIME)
 
 func disable_interaction() -> void:
 	for coin in get_children():
