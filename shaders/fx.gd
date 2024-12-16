@@ -297,7 +297,7 @@ func disable_exclude_colors() -> void:
 func enable_exclude_colors() -> void:
 	set_uniform(Uniform.BOOL_USE_EXCLUDE_COLORS, true)
 
-func flash(color: Color, time: float = 0.1) -> void:
+func flash(color: Color, time: float = 0.15) -> void:
 	assert(time >= 0.0, "Time must be non-negative.")
 	
 	set_uniform(Uniform.VEC3_FLASH_COLOR, color)
@@ -369,6 +369,12 @@ func fade_out(time: float = 1.0) -> void:
 func fade_in(time: float = 1.0) -> void:
 	assert(time >= 0.0)
 	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0, time)
+
+func hide() -> void:
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+
+func show() -> void:
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
 const _SCAN_LOOKUP = {
 	# direction: [uniform, start, end, [auto_on, auto_reverse, auto_start_time, auto_duration, auto_delay], auto_reverse]

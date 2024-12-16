@@ -1,18 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dgds4d2p6hdb6"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dyehfk77abkc0"]
 
-[ext_resource type="Script" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
-[ext_resource type="Texture2D" uid="uid://fjrkwngxhq1o" path="res://assets/table/voyage_map/scroll.png" id="2_hf6u5"]
-[ext_resource type="Texture2D" uid="uid://c2f812jn0jyma" path="res://assets/table/voyage_map/voyage_sun.png" id="3_ep1xb"]
-[ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_map/voyage_ship.png" id="3_xhs1r"]
-[ext_resource type="Texture2D" uid="uid://b0mdmdt17jqo5" path="res://assets/table/voyage_map/voyage_river.png" id="4_d6uqt"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="4_qfjp8"]
-[ext_resource type="PackedScene" uid="uid://bqfaj14sdjdpo" path="res://ui/voyage_map/voyage_node.tscn" id="7_qdi6m"]
-[ext_resource type="Texture2D" uid="uid://2pxf10ev6f5n" path="res://assets/table/voyage_map/voyage_x.png" id="10_igmxh"]
-[ext_resource type="Texture2D" uid="uid://cq2hx5dttl12u" path="res://assets/table/voyage_map/voyage_x_pressed.png" id="11_jxgs3"]
-[ext_resource type="Texture2D" uid="uid://c0qtq8p5ssg5o" path="res://assets/table/voyage_map/voyage_x_hover.png" id="12_d5gro"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_lkyit"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yrc8f"]
-shader = ExtResource("4_qfjp8")
+[resource]
+shader = ExtResource("1_lkyit")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
@@ -23,7 +14,7 @@ shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0.025, 0)
+shader_parameter/auto_pan_speed = Vector2(0, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -82,7 +73,7 @@ shader_parameter/glow_color = Color(1, 1, 1, 1)
 shader_parameter/glow_thickness = 0
 shader_parameter/glow_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
-shader_parameter/auto_glow_bound = 0.75
+shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
 shader_parameter/disintegrate_seed = 1
 shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
@@ -94,7 +85,7 @@ shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(-0.02, 0)
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -115,8 +106,8 @@ shader_parameter/mouselight_strength = 0.5
 shader_parameter/mouselight_size = 8
 shader_parameter/mouselight_soften_edges = true
 shader_parameter/mouselight_checker = false
-shader_parameter/auto_mouselight_flicker_speed = 8.0
-shader_parameter/auto_mouselight_flicker_bound = 10.0
+shader_parameter/auto_mouselight_flicker_speed = 10.0
+shader_parameter/auto_mouselight_flicker_bound = 3.0
 shader_parameter/cut_left = 0.0
 shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
@@ -129,122 +120,3 @@ shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
-
-[sub_resource type="Animation" id="Animation_bgtnn"]
-resource_name = "boat"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Map/Ship:offset:y")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0.0, 1.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_g6o5y"]
-_data = {
-"boat": SubResource("Animation_bgtnn")
-}
-
-[node name="VoyageMap" type="Node2D"]
-script = ExtResource("1_5qb4k")
-
-[node name="Map" type="Sprite2D" parent="."]
-texture = ExtResource("2_hf6u5")
-centered = false
-
-[node name="VoyageSun" type="Sprite2D" parent="Map"]
-position = Vector2(13, 21)
-texture = ExtResource("3_ep1xb")
-
-[node name="Ship" type="Sprite2D" parent="Map"]
-position = Vector2(31, 30)
-texture = ExtResource("3_xhs1r")
-centered = false
-
-[node name="River" type="Sprite2D" parent="Map"]
-material = SubResource("ShaderMaterial_yrc8f")
-position = Vector2(8, 36)
-texture = ExtResource("4_d6uqt")
-centered = false
-
-[node name="ClickDetector" type="Button" parent="Map"]
-modulate = Color(1, 1, 1, 0)
-offset_right = 197.0
-offset_bottom = 78.0
-
-[node name="Nodes" type="HBoxContainer" parent="Map"]
-offset_left = 2.0
-offset_top = 40.0
-offset_right = 193.0
-offset_bottom = 61.0
-mouse_filter = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="VoyageNode" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode2" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode3" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode4" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode5" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode6" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode7" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode8" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode9" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode10" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode11" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode12" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode13" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode14" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="VoyageNode15" parent="Map/Nodes" instance=ExtResource("7_qdi6m")]
-layout_mode = 2
-
-[node name="XButton" type="TextureButton" parent="Map"]
-offset_left = 183.0
-offset_top = 10.0
-offset_right = 194.0
-offset_bottom = 21.0
-texture_normal = ExtResource("10_igmxh")
-texture_pressed = ExtResource("11_jxgs3")
-texture_hover = ExtResource("12_d5gro")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_g6o5y")
-}
-
-[connection signal="pressed" from="Map/ClickDetector" to="." method="_on_click_detector_pressed"]
-[connection signal="pressed" from="Map/XButton" to="." method="_on_x_button_pressed"]
