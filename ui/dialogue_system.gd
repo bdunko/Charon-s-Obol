@@ -29,6 +29,7 @@ const _DEFAULT_FLASH_COLOR = Color("#e86a73")
 		if _current_textbox:
 			_current_textbox.flash_color = val
 
+@export var textbox_flash_while_waiting = false
 @export var textbox_float: bool = false
 
 @onready var _INITIAL_POSITION = position
@@ -46,7 +47,7 @@ func is_waiting() -> bool:
 
 func show_dialogue_and_wait(dialogue: String) -> void:
 	_waiting = true
-	show_dialogue(dialogue, true)
+	show_dialogue(dialogue, textbox_flash_while_waiting)
 	await Global.any_input
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
