@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="2_r1ciw"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_u014s"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_km0b2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j6fxe"]
 resource_local_to_scene = true
 shader = ExtResource("3_u014s")
 shader_parameter/POST_PROCESSING = false
@@ -128,6 +128,6 @@ shader_parameter/auto_flicker_start_time = 0.0
 script = ExtResource("1_1cyir")
 
 [node name="Textbox" parent="." instance=ExtResource("2_r1ciw")]
-material = SubResource("ShaderMaterial_km0b2")
+material = SubResource("ShaderMaterial_j6fxe")
 offset_left = 144.0
 offset_right = 177.0

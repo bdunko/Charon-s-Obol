@@ -22,6 +22,13 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 		if _current_textbox:
 			_current_textbox.border_color = val
 
+const _DEFAULT_FLASH_COLOR = Color("#e86a73")
+@export var flash_color = _DEFAULT_FLASH_COLOR:
+	set(val):
+		flash_color = val
+		if _current_textbox:
+			_current_textbox.flash_color = val
+
 @export var textbox_float: bool = false
 
 @onready var _INITIAL_POSITION = position
@@ -39,16 +46,16 @@ func is_waiting() -> bool:
 
 func show_dialogue_and_wait(dialogue: String) -> void:
 	_waiting = true
-	show_dialogue(dialogue)
+	show_dialogue(dialogue, true)
 	await Global.any_input
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
 	
-func show_dialogue(dialogue: String) -> void:
+func show_dialogue(dialogue: String, flashing: bool = false) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
 	
-	_current_textbox = Textbox.create(text_color, background_color, border_color, textbox_float, false)
+	_current_textbox = Textbox.create(text_color, background_color, border_color, flash_color, textbox_float, false, flashing)
 	add_child(_current_textbox)
 	_current_textbox.set_text(dialogue)
 	

@@ -2,11 +2,13 @@ class_name Textbox
 extends MarginContainer
 
 # factory method
-static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, shldFloat: bool = false, clickable: bool = true) -> Textbox:
+static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, flashClr: Color = _DEFAULT_FLASH_COLOR, shldFloat: bool = false, clickable: bool = true, shldFlash: bool = false) -> Textbox:
 	var textbox = load("res://ui/textbox.tscn").instantiate()
+	textbox.flashing = shldFlash
 	textbox.text_color = txtColor
 	textbox.background_color = bgColor
 	textbox.border_color = brdrColor
+	textbox.flash_color = flashClr
 	textbox.should_float = shldFloat
 	textbox.click_enabled = clickable
 	return textbox
@@ -29,6 +31,12 @@ const _DEFAULT_BORDER_COLOR = Color("#feffff")
 @export var border_color = _DEFAULT_BORDER_COLOR:
 	set(val):
 		border_color = val
+		_update_style()
+
+const _DEFAULT_FLASH_COLOR = Color("#e86a73")
+@export var flash_color = _DEFAULT_FLASH_COLOR:
+	set(val):
+		flash_color = val
 		_update_style()
 
 const _DEFAULT_DISABLED_TEXT_COLOR = Color("#747474")
@@ -55,6 +63,7 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 		text_hover_color = val
 		_update_style()
 
+@export var flashing = false
 @export var should_float = false
 
 @export var disabled = false:
@@ -83,7 +92,7 @@ func _ready():
 
 func _update_style() -> void:
 	if _FX:
-		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else text_color))
+		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else (flash_color if flashing else text_color)))
 		_FX.recolor(2, _DEFAULT_BACKGROUND_COLOR, disabled_background_color if disabled else background_color)
 		_FX.recolor(3, _DEFAULT_BORDER_COLOR, disabled_border_color if disabled else border_color)
 
@@ -127,6 +136,16 @@ func _process(delta) -> void:
 		position.y += (4 * delta * sin(_time))
 	else:
 		position.y = _STARTING_Y
+
+var _flash_on = false
+func _on_flash_timer_timeout():
+	if flashing and _FX != null:
+		#var clr = disabled_border_color if disabled else (border_color if _flash_on else flash_color)
+		#_FX.recolor(3, _DEFAULT_BORDER_COLOR, clr)
+		
+		var clr = disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else (text_color if _flash_on else flash_color))
+		_flash_on = not _flash_on
+		_FX.recolor(1, _DEFAULT_TEXT_COLOR, clr)
 	
 var _mouse_down = false
 func _gui_input(event):
