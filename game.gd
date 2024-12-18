@@ -1456,9 +1456,12 @@ func _on_coin_clicked(coin: Coin):
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
+					if row == _ENEMY_COIN_ROW:
+						_DIALOGUE.show_dialogue("Can't destroy enemies...")
+						return
 					# gain life & souls
-					Global.lives += 5 * coin.get_value()
-					_earn_souls(5 * coin.get_value())
+					Global.lives += 7 * coin.get_value()
+					_earn_souls(7 * coin.get_value())
 					destroy_coin(coin)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
