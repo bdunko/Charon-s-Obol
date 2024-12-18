@@ -187,8 +187,12 @@ func expand() -> void:
 	# position all the coins
 	for i in get_child_count():
 		var coin = get_child(i)
-		coin.move_to(Vector2(start + (i*coin_width) - 3, position.y), Global.COIN_TWEEN_TIME)
-		#coin.position.x = start + (i*coin_width) - 3
+		
+		# $HACK$ I can't get this to center properly so screw it, hardcode 1st coin
+		#if get_child_count() == 1:
+		#	coin.move_to(Vector2(position.x + 125, position.y), Global.COIN_TWEEN_TIME)
+		
+		coin.move_to(Vector2(start + (i*coin_width)+2, position.y), Global.COIN_TWEEN_TIME)
 	
 	await Global.delay(Global.COIN_TWEEN_TIME)
 

@@ -24,9 +24,10 @@ func _ready():
 	timer.timeout.connect(_on_timeout)
 
 func activate_icon(icon) -> void:
-	_active_icons.append(icon)
-	_page = 0
-	update_page()
+	if not _active_icons.has(icon):
+		_active_icons.append(icon)
+		_page = 0
+		update_page()
 
 func deactivate_icon(icon) -> void:
 	_active_icons.erase(icon)
@@ -58,6 +59,16 @@ func _on_timeout() -> void:
 	update_page()
 	
 func update_page() -> void:
+	# not sure if this line is necessary - but I guess it can't hurt.
+	for icon in _active_icons: 
+		icon.hide()
+
+# this was a 'fix' but mabye not needed after fixing activate_icon to not have duplicates.
+#	for i in range(_page * MAX_ICONS_VISIBLE, _page * MAX_ICONS_VISIBLE + MAX_ICONS_VISIBLE):
+#		print(i)
+#		if _active_icons.size() - 1 >= i:
+#			_active_icons[i].show()
+	
 	var active_icon_index = 0
 	for i in range(0, _ICONS.size()):
 		if _ICONS[i] in _active_icons:

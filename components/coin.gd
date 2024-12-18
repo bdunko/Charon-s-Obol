@@ -542,9 +542,9 @@ func flip(bonus: int = 0) -> void:
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
 
-	await _sprite_movement_tween.tween(Vector2(0, -50), 0.20)
+	await _sprite_movement_tween.tween(Vector2(0, -50), 0.225)
 	await Global.delay(0.1)
-	await _sprite_movement_tween.tween(Vector2(0, 0), 0.20)
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2)
 	
 	set_animation(_Animation.FLAT)
 	

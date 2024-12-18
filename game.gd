@@ -283,7 +283,7 @@ func on_start() -> void: #reset
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
 	Global.flips_this_round = 0
-	Global.ante_modifier = 0
+	Global.ante_modifier_this_round = 0
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
@@ -468,8 +468,9 @@ func _on_toss_button_clicked() -> void:
 	# take life from player
 	var ante = Global.ante_cost()
 	
+	# DEBUG - allow self kill
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled and false: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: # and false: 
 		_DIALOGUE.show_dialogue("Not enough life!")
 		return
 	
@@ -626,7 +627,7 @@ func _on_accept_button_pressed():
 							break
 				Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.ante_modifier += 1
+					Global.ante_modifier_this_round += 1
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -831,7 +832,7 @@ func _on_end_round_button_pressed():
 	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == 2
-	var min_souls_first_round = 20
+	var min_souls_first_round = 1000
 	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < min_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
 		if Global.flips_this_round == 0:
 			await _wait_for_dialogue("Refusal to play is not an option!")
@@ -856,7 +857,7 @@ func _on_end_round_button_pressed():
 		return
 	
 	Global.flips_this_round = 0
-	Global.ante_modifier = 0
+	Global.ante_modifier_this_round = 0
 	
 	randomize_shop()
 	

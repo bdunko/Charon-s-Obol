@@ -200,9 +200,9 @@ var flips_this_round: int:
 		emit_signal("flips_this_round_changed")
 		emit_signal("ante_changed")
 
-var ante_modifier: int:
+var ante_modifier_this_round: int:
 	set(val):
-		ante_modifier = val
+		ante_modifier_this_round = val
 		emit_signal("ante_changed")
 
 const COIN_TWEEN_TIME := 0.3
@@ -258,9 +258,13 @@ const COIN_LIMIT = 8
 
 var COIN_ROWS: Array
 
+func triangular(i: int) -> int:
+	@warning_ignore("integer_division")
+	return i*(i+1)/2
+
 # returns the life cost of a toss; min 0
 func ante_cost() -> int:
-	return max(0, (flips_this_round * 3) + ante_modifier)
+	return max(0, (flips_this_round * 4) + ante_modifier_this_round)
 
 enum RoundType {
 	BOARDING, NORMAL, TRIAL1, TRIAL2, NEMESIS, TOLLGATE, END
@@ -782,7 +786,7 @@ const _SCREENSHOT_PATH_FORMAT = "res://screenshots/Obol_%s_%s.png"
 func take_screenshot(): # Function for taking screenshots and saving them
 	var date: String = Time.get_date_string_from_system().replace(".","_") 
 	var time: String = Time.get_time_string_from_system().replace(":","")
-	var screenshot_path = _SCREENSHOT_PATH_FORMAT % [date, time] # the path for our screenshot.
+	var screenshot_path = _SCREENSHOT_PATH_FORMAT % [date, time] # the path for our scree"Game/Table/CoinRow"nshot.
 	var image = get_viewport().get_texture().get_image() # We get what our player sees
 	image.save_png(screenshot_path)
 

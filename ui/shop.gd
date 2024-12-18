@@ -35,23 +35,23 @@ func randomize_shop() -> void:
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		var coin = _COIN_SCENE.instantiate()
-		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
+		coin.global_position = _coin_spawn_point
 		coin.init_coin(Global.ZEUS_FAMILY, Global.Denomination.OBOL, Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 		return
 	
 	for _i in _NUM_GENERIC_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
-		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
+		coin.global_position = _coin_spawn_point
 		coin.init_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 	
 	for _i in _NUM_GOD_SHOP_ITEMS:
 		var coin = _COIN_SCENE.instantiate()
-		coin.global_position = _coin_spawn_point
 		_SHOP_ROW.add_child(coin)
+		coin.global_position = _coin_spawn_point
 		coin.init_coin(Global.random_god_family(), Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 	
