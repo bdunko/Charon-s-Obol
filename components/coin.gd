@@ -613,11 +613,11 @@ func get_max_active_power_charges() -> int:
 
 func spend_power_use() -> void:
 	if is_heads():
+		assert(_heads_power.charges >= 0)
 		_heads_power.charges -= 1
 	else:
+		assert(_tails_power.charges >= 0)
 		_tails_power.charges -= 1
-	assert(_heads_power.charges >= 0)
-	assert(_tails_power.charges >= 0)
 	_update_appearance()
 	FX.flash(Color.WHITE)
 

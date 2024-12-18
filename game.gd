@@ -628,7 +628,7 @@ func _on_accept_button_pressed():
 							break
 				Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.ante_modifier_this_round += 1
+					Global.ante_modifier_this_round += 2
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -668,7 +668,7 @@ func _on_accept_button_pressed():
 				coin.freeze()
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
-			if coin.is_power():
+			if coin.is_power() and coin.is_heads():
 				coin.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
 	
@@ -931,10 +931,12 @@ func _hand_point_for_coin(coin: Coin) -> Vector2:
 	return coin.global_position + Vector2(20, 0)
 
 func _on_shop_coin_hovered(coin: Coin) -> void:
+	assert(Global.state == Global.State.SHOP)
 	if not _map_open:
 		_LEFT_HAND.point_at(_hand_point_for_coin(coin))
 
 func _on_shop_coin_unhovered(_coin: Coin) -> void:
+	assert(Global.state == Global.State.SHOP)
 	_LEFT_HAND.move_to_retracted_position()
 
 func _toll_price_remaining() -> int:
@@ -976,8 +978,9 @@ func _on_voyage_continue_button_clicked():
 			await _wait_for_dialogue("Triobols are worth 3(COIN), and Tetrobols 4(COIN).")
 			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
 			Global.tutorialState = Global.TutorialState.ENDING
-		elif Global.toll_index == 0:
-			await _wait_for_dialogue("First tollgate...")
+		else:
+			if Global.toll_index == 0:
+				await _wait_for_dialogue("First tollgate...")
 			await _wait_for_dialogue(Global.replace_placeholders("You must pay %d(COIN)..." % Global.current_round_toll()))
 			_show_toll_dialogue()
 		return
