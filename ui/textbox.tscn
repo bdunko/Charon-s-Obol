@@ -173,9 +173,3 @@ shortcut_keys_enabled = false
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("6_cck7s")]
 watched = NodePath("..")
-
-[node name="FlashTimer" type="Timer" parent="."]
-wait_time = 0.3
-autostart = true
-
-[connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]

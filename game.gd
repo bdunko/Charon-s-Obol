@@ -520,6 +520,7 @@ func _earn_souls(soul_amt: int) -> void:
 
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
+	_patron_token.deactivate()
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
 	
@@ -535,7 +536,7 @@ func _on_accept_button_pressed():
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		
-		if payoff_power_family.is_payoff() and not payoff_coin.is_stone() and charges > 0:
+		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
 			payoff_coin.payoff_move_up()
 			match(payoff_power_family):
 				Global.POWER_FAMILY_GAIN_SOULS:
@@ -644,10 +645,10 @@ func _on_accept_button_pressed():
 			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
-					#possibly_ignited_coin.payoff_move_up()
+					possibly_ignited_coin.payoff_move_up()
 					Global.lives -= 3
 					await Global.delay(0.15)
-					#possibly_ignited_coin.payoff_move_down()
+					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
 					if Global.lives < 0:
 						return
@@ -832,7 +833,7 @@ func _on_end_round_button_pressed():
 	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == 2
-	var min_souls_first_round = 1000
+	var min_souls_first_round = 15
 	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < min_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
 		if Global.flips_this_round == 0:
 			await _wait_for_dialogue("Refusal to play is not an option!")
@@ -1108,7 +1109,7 @@ func _on_voyage_continue_button_clicked():
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
 		if Global.souls != 0:
 			await _wait_for_dialogue("First, I will take your remaining souls...")
-			#Global.souls = 0
+			Global.souls = 0
 		
 		await _wait_for_dialogue("And now...")
 		

@@ -21,7 +21,7 @@ func get_tails() -> Array:
 	assert(get_child_count() != 0)
 	var tails = []
 	for coin in get_children():
-		if coin.get_tails():
+		if coin.is_tails():
 			tails.append(coin)
 	return tails
 
