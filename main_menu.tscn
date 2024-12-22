@@ -413,7 +413,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2k8ox"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0yek"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -533,7 +533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0g1iv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dp55i"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -653,7 +653,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hch1i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkyuk"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -901,8 +901,7 @@ text = "[center]This is an unlock description.[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Textboxes" type="HBoxContainer" parent="."]
-visible = false
+[node name="Textboxes" type="HBoxContainer" parent="UnlockUI"]
 z_index = 1
 offset_top = 157.0
 offset_right = 320.0
@@ -912,15 +911,15 @@ mouse_filter = 2
 alignment = 1
 script = ExtResource("25_r145h")
 
-[node name="UnlockContinueButton" parent="Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_2k8ox")
+[node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_j0yek")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
-[node name="TextMargin" parent="Textboxes/UnlockContinueButton" index="1"]
+[node name="TextMargin" parent="UnlockUI/Textboxes/UnlockContinueButton" index="1"]
 size_flags_horizontal = 1
 
-[node name="Text" parent="Textboxes/UnlockContinueButton/TextMargin" index="0"]
+[node name="Text" parent="UnlockUI/Textboxes/UnlockContinueButton/TextMargin" index="0"]
 size_flags_horizontal = 1
 text = "[center]Continue[/center]"
 
@@ -1176,7 +1175,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_0g1iv")
+material = SubResource("ShaderMaterial_dp55i")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -1188,7 +1187,7 @@ size_flags_horizontal = 1
 text = "[center]Embark[/center]"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_hch1i")
+material = SubResource("ShaderMaterial_fkyuk")
 custom_minimum_size = Vector2(41, 0)
 layout_mode = 2
 
@@ -1206,12 +1205,12 @@ offset_top = 162.0
 offset_right = 320.0
 offset_bottom = 180.0
 
-[connection signal="clicked" from="Textboxes/UnlockContinueButton" to="." method="_on_unlock_continue_button_clicked"]
+[connection signal="clicked" from="UnlockUI/Textboxes/UnlockContinueButton" to="." method="_on_unlock_continue_button_clicked"]
 [connection signal="changed" from="MainUI/Selector/Character" to="." method="_on_character_changed"]
 [connection signal="clicked" from="MainUI/Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]
 [connection signal="clicked" from="MainUI/Textboxes/QuitButton" to="." method="_on_quit_button_clicked"]
 [connection signal="pressed" from="MainUI/DebugUnlockEverything" to="." method="_on_debug_unlock_everything_pressed"]
 
-[editable path="Textboxes/UnlockContinueButton"]
+[editable path="UnlockUI/Textboxes/UnlockContinueButton"]
 [editable path="MainUI/Textboxes/EmbarkButton"]
 [editable path="MainUI/Textboxes/QuitButton"]

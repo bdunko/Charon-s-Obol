@@ -470,7 +470,7 @@ func _on_toss_button_clicked() -> void:
 	
 	# DEBUG - allow self kill
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: # and false: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled and false: # and false: 
 		_DIALOGUE.show_dialogue("Not enough life!")
 		return
 	
@@ -678,7 +678,7 @@ func _on_accept_button_pressed():
 	if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED:
 		await _wait_for_dialogue("Now, let's move on to the next toss.")
 		await _wait_for_dialogue("Each toss after the first demands a price...")
-		await _wait_for_dialogue(Global.replace_placeholders("You must pay the ante of 3(LIFE) for this toss."))
+		await _wait_for_dialogue(Global.replace_placeholders("You must pay the ante of %d(LIFE) for this toss." % Global.ante_cost()))
 		await _wait_for_dialogue("Shall we try your luck again?")
 		Global.tutorialState = Global.TutorialState.ROUND1_FIRST_TAILS
 	elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED:
@@ -931,13 +931,12 @@ func _hand_point_for_coin(coin: Coin) -> Vector2:
 	return coin.global_position + Vector2(20, 0)
 
 func _on_shop_coin_hovered(coin: Coin) -> void:
-	assert(Global.state == Global.State.SHOP)
-	if not _map_open:
+	if not _map_open and Global.state == Global.State.SHOP:
 		_LEFT_HAND.point_at(_hand_point_for_coin(coin))
 
 func _on_shop_coin_unhovered(_coin: Coin) -> void:
-	assert(Global.state == Global.State.SHOP)
-	_LEFT_HAND.move_to_retracted_position()
+	if Global.state == Global.State.SHOP:
+		_LEFT_HAND.move_to_retracted_position()
 
 func _toll_price_remaining() -> int:
 	return max(0, Global.current_round_toll() - Global.calculate_toll_coin_value())
@@ -973,9 +972,9 @@ func _on_voyage_continue_button_clicked():
 		
 		if Global.tutorialState == Global.TutorialState.ROUND7_TOLLGATE_INTRO:
 			await _wait_for_dialogue("We have reached the ending tollgate...")
-			await _wait_for_dialogue("To pass, you must pay %d(COIN)." % Global.current_round_toll())
-			await _wait_for_dialogue("Obols are worth 1(COIN), Diobols 2(COIN)...")
-			await _wait_for_dialogue("Triobols are worth 3(COIN), and Tetrobols 4(COIN).")
+			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay %d(COIN)." % Global.current_round_toll()))
+			await _wait_for_dialogue(Global.replace_placeholders("Obols are worth 1(COIN), Diobols 2(COIN)..."))
+			await _wait_for_dialogue(Global.replace_placeholders("Triobols are worth 3(COIN), and Tetrobols 4(COIN)."))
 			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
 			Global.tutorialState = Global.TutorialState.ENDING
 		else:
@@ -1035,6 +1034,7 @@ func _on_voyage_continue_button_clicked():
 	_PLAYER_TEXTBOXES.make_invisible()
 	
 	if Global.tutorialState == Global.TutorialState.ROUND4_MONSTER_INTRO:
+		await Global.delay(Global.COIN_TWEEN_TIME)
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
 		await _wait_for_dialogue("This is a monster coin.")
@@ -1060,7 +1060,6 @@ func _on_voyage_continue_button_clicked():
 		if coin.is_passive():
 			if _ENEMY_COIN_ROW.get_child_count():
 				await Global.delay(0.2)
-			await coin.payoff_move_up()
 			match coin.get_coin_family():
 				Global.TRIAL_IRON_FAMILY:
 					while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-2: # make space for thorns obols
@@ -1095,7 +1094,6 @@ func _on_voyage_continue_button_clicked():
 					await _wait_for_dialogue("Your energy shall be Sapping.")
 				Global.TRIAL_OVERLOAD_FAMILY:
 					await _wait_for_dialogue("You may have power, but beware the Overload!")
-			coin.payoff_move_down()
 	
 	if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_INTRO and Global.is_current_round_trial():
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
@@ -1117,9 +1115,6 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("And now...")
 		
 		for coin in _ENEMY_COIN_ROW.get_children():
-			coin.payoff_move_up()
-		
-		for coin in _ENEMY_COIN_ROW.get_children():
 			match coin.get_coin_family():
 				Global.MEDUSA_FAMILY:
 					await _wait_for_dialogue("Behold! The grim visage of the Gorgon Sisters!")
@@ -1128,9 +1123,6 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("You must appease the gatekeeper!")
 		await _wait_for_dialogue("Your fate lies with the coins now.")
 		await _wait_for_dialogue("Let the final trial commence!")
-		
-		for coin in _ENEMY_COIN_ROW.get_children():
-			coin.payoff_move_down()
 	
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
 		for coin in _ENEMY_COIN_ROW.get_children():

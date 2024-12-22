@@ -344,6 +344,8 @@ static var DEFAULT_GLOW_SPEED := 2.0
 static var DEFAULT_GLOW_THICKNESS := 1
 static var DEFAULT_GLOW_MINIMUM := 0.8
 static var DEFAULT_GLOW_RESTART := true
+static var FAST_GLOW_SPEED := 5.0
+static var FAST_GLOW_MINIMUM := 0.6
 # FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM
 func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
 	assert(thickness > 0, "Thickness must be larger than 0.")

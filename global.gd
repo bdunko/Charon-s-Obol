@@ -205,7 +205,7 @@ var ante_modifier_this_round: int:
 		ante_modifier_this_round = val
 		emit_signal("ante_changed")
 
-const COIN_TWEEN_TIME := 0.3
+const COIN_TWEEN_TIME := 0.22
 const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
 var SHOP_MULTIPLIER_INCREASE := 0.33
@@ -1116,10 +1116,10 @@ class CoinFamily:
 @onready var LIFE_LOSS_POWERS = [POWER_FAMILY_LOSE_LIFE]
 
 const NO_PRICE = [0, 0, 0, 0]
-const CHEAP = [3, 8, 19, 37]
-const STANDARD = [5, 11, 24, 42] 
-const PRICY = [6, 13, 28, 47] 
-const RICH = [10, 18, 35, 55]
+const CHEAP = [3, 9, 20, 38]
+const STANDARD = [5, 12, 25, 43] 
+const PRICY = [6, 14, 29, 48] 
+const RICH = [10, 19, 36, 56]
 
 # Coin Families
 # stores a list of all player coins (coins that can be bought in shop)

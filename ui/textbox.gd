@@ -91,7 +91,7 @@ func _ready():
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
 	_update_style()
-	var timer = Global.create_timer(_TIMER_KEY, 0.25)
+	var timer = Global.create_timer(_TIMER_KEY, 0.33)
 	timer.timeout.connect(_on_flash_timer_timeout)
 
 func _update_style() -> void:

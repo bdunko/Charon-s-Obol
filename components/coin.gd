@@ -191,7 +191,7 @@ func _update_flash():
 	
 	# if coin is disabled or another coin is activated right now, don't flash at all
 	if _disable_interaction or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
-		FX.stop_flashing()
+		FX.stop_glowing()
 		return
 	
 	# if this is the active power coin, flash gold
@@ -201,10 +201,10 @@ func _update_flash():
 		
 	# if this coin can be activated, flash white
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
-		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+		FX.start_glowing(Color.WHITE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		return
 	
-	FX.stop_flashing()
+	FX.stop_glowing()
 
 var _blank: bool = false:
 	set(val):
@@ -501,8 +501,8 @@ func flip(bonus: int = 0) -> void:
 		
 	_disable_interaction = true # ignore input while flipping
 	
-	# hide the glow
-	FX.stop_glowing()
+	# hide the flash
+	FX.stop_flashing()
 	
 	# animate
 	_FACE_LABEL.hide() # hide text
@@ -543,7 +543,7 @@ func flip(bonus: int = 0) -> void:
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
 
-	await _sprite_movement_tween.tween(Vector2(0, -50), 0.225)
+	await _sprite_movement_tween.tween(Vector2(0, -50), 0.2)
 	await Global.delay(0.1)
 	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2)
 	
@@ -562,7 +562,7 @@ func flip(bonus: int = 0) -> void:
 	
 	# if the mouse is still over after the flip, start glowing again
 	if _MOUSE.is_over():
-		FX.start_glowing(Color.WHITE)
+		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	
 	emit_signal("flip_complete")
 	
@@ -874,14 +874,12 @@ func _on_mouse_clicked():
 
 func _on_mouse_entered():
 	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null) and not is_passive():
-		#_new_movement_tween().tween_property(_SPRITE, "position:y", -2, 0.15).set_trans(Tween.TRANS_CIRC)
-		FX.start_glowing(Color.WHITE)
+		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	emit_signal("hovered", self)
 
 func _on_mouse_exited():
 	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
-		#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
-		FX.stop_glowing()
+		FX.stop_flashing()
 	emit_signal("unhovered", self)
 
 var _was_active_power_coin = false
@@ -894,21 +892,21 @@ func _on_active_coin_power_coin_changed() -> void:
 	if not _disable_interaction:
 		if Global.active_coin_power_coin == self:
 			_was_active_power_coin = true
-			FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+			FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		else:
 			# if this coin was active and the mouse is not over it anymore, we need to remember stop its glow
 			# if this coin wasn't active, make sure it stops glowing
 			var was_active_and_mouse_no_longer_over = _was_active_power_coin and not _MOUSE.is_over()
 			var wasnt_active_and_cant_be_activated = get_active_power_charges() == 0 or not can_activate_power()
+			
 			if was_active_and_mouse_no_longer_over or wasnt_active_and_cant_be_activated:
-				#_new_movement_tween().tween_property(_SPRITE, "position:y", 0, 0.15).set_trans(Tween.TRANS_CIRC)
-				FX.stop_glowing()
+				FX.stop_flashing()
 			
 			# lastly if this was the active power and we're still over it, glow white instead of gold again
 			if _was_active_power_coin and _MOUSE.is_over():
-				FX.start_glowing(Color.WHITE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+				FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	else:
-		FX.stop_glowing()
+		FX.stop_flashing()
 
 func _on_tutorial_state_changed() -> void:
 	if not is_inside_tree(): # a bit of a hack for startup, but whatever
