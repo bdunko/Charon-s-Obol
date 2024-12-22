@@ -184,22 +184,23 @@ func _update_price_label() -> void:
 			_PRICE.text = ""
 
 func _update_flash():
-	# if this coin is an enemy coin, flash purple at all times
+	# if this coin is an enemy coin, glow purple at all times
 	if _owner == Owner.NEMESIS:
-		FX.start_flashing(Color.MEDIUM_PURPLE, 10, 0.25, 0.5, false)
+		#FX.start_flashing(Color.MEDIUM_PURPLE, 10, 0.25, 0.5, false)
+		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		return
 	
-	# if coin is disabled or another coin is activated right now, don't flash at all
+	# if coin is disabled or another coin is activated right now, don't glow at all
 	if _disable_interaction or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
 		FX.stop_glowing()
 		return
 	
-	# if this is the active power coin, flash gold
+	# if this is the active power coin, glow gold
 	if Global.active_coin_power_coin == self:
 		FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 		return
 		
-	# if this coin can be activated, flash white
+	# if this coin can be activated, glow white
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
 		FX.start_glowing(Color.WHITE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		return
@@ -765,12 +766,12 @@ func reduce_life_penalty_for_round() -> void:
 	_generate_tooltip()
 	FX.flash(Color.SEA_GREEN)
 
-func _replace_placeholder_text(txt: String, max_charges: int = -1, current_charges: int = -1) -> String:
+func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_charges: int = -100000) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
-	if max_charges != -1:
-		txt = txt.replace("(MAX_CHARGES)", str(max_charges))
-	if current_charges != -1:
-		txt = txt.replace("(CURRENT_CHARGES)", str(current_charges))
+	if max_charges != -100000:
+		txt = txt.replace("(MAX_CHARGES)", str(max(0, max_charges)))
+	if current_charges != -100000:
+		txt = txt.replace("(CURRENT_CHARGES)", str(max(0, current_charges)))
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
 	

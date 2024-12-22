@@ -304,7 +304,7 @@ class Monster:
 var NO_MONSTERS = [[]]
 
 var MONSTER_WAVE1 = [
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
 ]
 var MONSTER_WAVE2 = [
 	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
@@ -969,6 +969,8 @@ var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [1, 2, 3, 4], Pow
 var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [1, 2, 3, 4], PowerType.POWER, ONLY_SHOW_ICON, "");
 
 var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [1, 2, 3, 4], PowerType.POWER, ONLY_SHOW_ICON, "");
+
+var immediate_patron_powers = [PATRON_POWER_FAMILY_DEMETER, PATRON_POWER_FAMILY_APOLLO, PATRON_POWER_FAMILY_ARTEMIS, PATRON_POWER_FAMILY_ARES, PATRON_POWER_FAMILY_APHRODITE, PATRON_POWER_FAMILY_DIONYSUS]
 
 
 # exists so I can define a value for the Patron in the editor for patron statues

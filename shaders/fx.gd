@@ -344,8 +344,8 @@ static var DEFAULT_GLOW_SPEED := 2.0
 static var DEFAULT_GLOW_THICKNESS := 1
 static var DEFAULT_GLOW_MINIMUM := 0.8
 static var DEFAULT_GLOW_RESTART := true
-static var FAST_GLOW_SPEED := 5.0
-static var FAST_GLOW_MINIMUM := 0.6
+static var FAST_GLOW_SPEED := 8.0
+static var FAST_GLOW_MINIMUM := 0.7
 # FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM
 func start_glowing(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickness: int = DEFAULT_GLOW_THICKNESS, minimum: float = DEFAULT_GLOW_MINIMUM, restart: bool = DEFAULT_GLOW_RESTART) -> void:
 	assert(thickness > 0, "Thickness must be larger than 0.")
@@ -431,8 +431,8 @@ func stop_flickering(ending_alpha: float = 1.0) -> void:
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, ending_alpha)
 
 static var DEFAULT_FLASH_SPEED = 10
-static var DEFAULT_FLASH_BOUND1 = 0.4
-static var DEFAULT_FLASH_BOUND2 = 0.7
+static var DEFAULT_FLASH_BOUND1 = 0.2
+static var DEFAULT_FLASH_BOUND2 = 0.4
 func start_flashing(color: Color, speed: float = DEFAULT_FLASH_SPEED, strength_bound1: float = DEFAULT_FLASH_BOUND1, strength_bound2: float = DEFAULT_FLASH_BOUND2, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(strength_bound1 >= 0 and strength_bound1 <= 1, "Bounds must be between 0 and 1.")

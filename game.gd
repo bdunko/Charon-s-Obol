@@ -341,12 +341,13 @@ func _on_flip_complete() -> void:
 				_LEFT_HAND.unpoint()
 				await _wait_for_dialogue(Global.replace_placeholders("This time, your coin landed on heads(HEADS)!"))
 				await _wait_for_dialogue("This is the strength of power coins.")
-				await _wait_for_dialogue("Using a power costs one of that coin's charges.")
-				await _wait_for_dialogue("But don't worry - charges are replenished each toss.")
+				await _wait_for_dialogue("Using a power costs one of that coin's [color=white]charges[/color].")
+				await _wait_for_dialogue("But don't worry - [color=white]charges are replenished each toss[/color].")
+				await _wait_for_dialogue("So there is no need to hold back on using powers.")
 				await _wait_for_dialogue("If you had more coins to reflip...")
 				await _wait_for_dialogue("You could click them to keep using this power...")
 				await _wait_for_dialogue("...until you run out of charges, of course.")
-				await _wait_for_dialogue("To deactivate the power coin, click on it.")
+				await _wait_for_dialogue("To deactivate the power coin, [color=white]click on it[/color].")
 				_DIALOGUE.show_dialogue("Deactivate this power, then accept the result.")
 				Global.tutorialState = Global.TutorialState.ROUND2_POWER_UNUSABLE
 		return #ignore reflips such as Zeus
@@ -386,22 +387,22 @@ func _on_flip_complete() -> void:
 			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 			await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS)... how fortunate for you."))
 			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You may claim your prize.")
+			_DIALOGUE.show_dialogue("You may [color=white]accept[/color] your prize.")
 			Global.tutorialState = Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED
 		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
 			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 			await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS)... unlucky."))
 			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You must accept your fate.")
+			_DIALOGUE.show_dialogue("You must [color=white]accept[/color] your fate.")
 			Global.tutorialState = Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED
 		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO:
 			await _wait_for_dialogue("Hmm...")
 			await _wait_for_dialogue(Global.replace_placeholders("Your payoff coin has landed on tails(TAILS)..."))
 			await _wait_for_dialogue(Global.replace_placeholders("But your power coin has landed on heads(HEADS)!"))
-			await _wait_for_dialogue("You can use its power before accepting payoff.")
+			await _wait_for_dialogue("You can [color=white]use its power before accepting payoff[/color].")
 			await _wait_for_dialogue("In other words...")
 			await _wait_for_dialogue("Powers can change your destiny!")
-			_DIALOGUE.show_dialogue("Activate the power coin by clicking on it.")
+			_DIALOGUE.show_dialogue("Activate the power coin by [color=white]clicking[/color] on it.")
 			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
 			_LEFT_HAND.lock()
 			_ACCEPT_TEXTBOX.disable()
@@ -410,10 +411,10 @@ func _on_flip_complete() -> void:
 			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
 			await _wait_for_dialogue("Unfortunate...")
 			await _wait_for_dialogue(Global.replace_placeholders("Both coins landed on tails(TAILS)..."))
-			await _wait_for_dialogue(Global.replace_placeholders("A power can only be activated if it lands on heads(HEADS)..."))
+			await _wait_for_dialogue(Global.replace_placeholders("[color=white]A power can only be activated if it lands on heads(HEADS)[/color]..."))
 			await _wait_for_dialogue("So even power coins have their limitations...")
 			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You have no choice but to accept this outcome.")
+			_DIALOGUE.show_dialogue("You have no choice but to [color=white]accept[/color] this outcome.")
 			Global.tutorialState = Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE
 		elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			_ACCEPT_TEXTBOX.disable()
@@ -424,24 +425,29 @@ func _on_flip_complete() -> void:
 			var tween = create_tween()
 			tween.tween_property(_patron_token, "position", _PATRON_TOKEN_POSITION, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 			await _wait_for_dialogue("Take this...")
-			await _wait_for_dialogue("This is a patron token.")
+			await _wait_for_dialogue("This is a [color=white]patron token[/color].")
 			await _wait_for_dialogue("It calls upon the power of a higher being.")
 			await _wait_for_dialogue("Unlike power coins...")
-			await _wait_for_dialogue("Patron tokens are always available.")
+			await _wait_for_dialogue("Patron tokens are [color=white]always available[/color].")
 			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
 			_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
 			_LEFT_HAND.lock()
-			_DIALOGUE.show_dialogue("Activate this token by clicking on it.")
+			_DIALOGUE.show_dialogue("Activate this token by [color=white]clicking[/color] on it.")
 			Global.tutorialState = Global.TutorialState.ROUND3_PATRON_ACTIVATED
 		elif Global.tutorialState == Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS:
 			_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 			_LEFT_HAND.lock()
-			await _wait_for_dialogue("The monster shows what it will do during payoff.")
-			await _wait_for_dialogue("Your powers may change this outcome, if you wish.")
+			await _wait_for_dialogue("The monster [color=white]shows what it will do during payoff[/color].")
+			await _wait_for_dialogue("In this case...")
+			if _ENEMY_COIN_ROW.get_child(0).is_heads():
+				await _wait_for_dialogue(Global.replace_placeholders("It will make one of your coins (UNLUCKY)."))
+			else:
+				await _wait_for_dialogue(Global.replace_placeholders("It is going to deal damage to your (LIFE)."))
+			await _wait_for_dialogue("Your [color=white]powers may change this outcome[/color], if you wish.")
 			await _wait_for_dialogue("Lastly...")
 			Global.tutorialState = Global.TutorialState.ROUND5_INTRO
-			await _wait_for_dialogue(Global.replace_placeholders("You may use souls(SOULS) to defeat monsters."))
-			await _wait_for_dialogue("Simply click on the monster to banish it.")
+			await _wait_for_dialogue(Global.replace_placeholders("You may [color=white]use souls(SOULS) to defeat monsters[/color]."))
+			await _wait_for_dialogue("[color=white]Click on the monster to banish[/color] it.")
 			await _wait_for_dialogue("You need not banish every monster...")
 			await _wait_for_dialogue("But banishing them may make your journey easier.")
 			await _wait_for_dialogue("Now...")
@@ -470,13 +476,13 @@ func _on_toss_button_clicked() -> void:
 	
 	# DEBUG - allow self kill
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled and false: # and false: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: # and false: 
 		_DIALOGUE.show_dialogue("Not enough life!")
 		return
 	
 	Global.lives -= ante
 	
-	if Global.lives <= 0:
+	if Global.lives < 0:
 		return
 	
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -677,8 +683,8 @@ func _on_accept_button_pressed():
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED:
 		await _wait_for_dialogue("Now, let's move on to the next toss.")
-		await _wait_for_dialogue("Each toss after the first demands a price...")
-		await _wait_for_dialogue(Global.replace_placeholders("You must pay the ante of %d(LIFE) for this toss." % Global.ante_cost()))
+		await _wait_for_dialogue("Each toss after the first [color=white]demands a price[/color]...")
+		await _wait_for_dialogue(Global.replace_placeholders("You must pay the [color=white]ante[/color] of %d(LIFE) for this toss." % Global.ante_cost()))
 		await _wait_for_dialogue("Shall we try your luck again?")
 		Global.tutorialState = Global.TutorialState.ROUND1_FIRST_TAILS
 	elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED:
@@ -688,7 +694,7 @@ func _on_accept_button_pressed():
 		await _wait_for_dialogue(Global.replace_placeholders("Each toss, you may earn souls(SOULS), or lose life(LIFE)."))
 		await _wait_for_dialogue("Such is the fickleness of fate...")
 		await _wait_for_dialogue(Global.replace_placeholders("I will teach you the use of souls(SOULS) soon."))
-		await _wait_for_dialogue(Global.replace_placeholders("For now, know that acquiring souls(SOULS) will help you..."))
+		await _wait_for_dialogue(Global.replace_placeholders("For now, know that [color=white]acquiring souls(SOULS) will help you[/color]..."))
 		await _wait_for_dialogue(Global.replace_placeholders("I advise tossing until you are low on life(LIFE)."))
 		await _wait_for_dialogue("But ultimately, it is your choice.")
 		await _wait_for_dialogue("You may end the round whenever you are done.")
@@ -779,22 +785,23 @@ func _advance_round() -> void:
 	elif Global.tutorialState == Global.TutorialState.ROUND1_VOYAGE:
 		await _wait_for_dialogue("We still have a ways to go...")
 		await _wait_for_dialogue("Let me explain further your goal in this game.")
-		await _wait_for_dialogue("The map shows what you must endure to win.")
+		await _wait_for_dialogue("The [color=white]map[/color] shows what you must endure to win.")
 		_PLAYER_TEXTBOXES.make_invisible() # necessary since wait for dialogue makes em visible...
 		await _LEFT_HAND.move_offscreen()
 		Global.temporary_set_z(_LEFT_HAND, _MAP_ACTIVE_Z_INDEX + 1)
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(3) + Vector2(6, 5))
-		await _wait_for_dialogue("Black dots are normal rounds...")
+		await _wait_for_dialogue("Black dots are [color=white]normal[/color] rounds...")
 		await _wait_for_dialogue("You just completed a normal round.")
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(7) + Vector2(6, 4))
-		await _wait_for_dialogue("Red dots are trial rounds.")
-		await _wait_for_dialogue("A trial presents additional challenges to overcome...")
+		await _wait_for_dialogue("Red dots are [color=white]trial[/color] rounds.")
+		await _wait_for_dialogue("A trial presents [color=white]additional challenges[/color] to overcome...")
+		await _wait_for_dialogue("[color=white]Mouse over[/color] the red dot to see what is to come...")
 		await _wait_for_dialogue("To pass a trial...")
-		await _wait_for_dialogue("You must earn a minimum quota of souls that round.")
+		await _wait_for_dialogue("You must earn a [color=white]minimum quota of souls[/color] that round.")
 		await _wait_for_dialogue("And if you fail, you will perish.")
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(8) + Vector2(6, 1))
-		await _wait_for_dialogue("Lastly, this is a tollgate...")
-		await _wait_for_dialogue("You must spend your coins to pass the gate.")
+		await _wait_for_dialogue("Lastly, this is a [color=white]tollgate[/color]...")
+		await _wait_for_dialogue("You must [color=white]pay coins[/color] to pass the gate.")
 		await _wait_for_dialogue("If you cannot, you will perish.")
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_PLAYER_TEXTBOXES.make_invisible()
@@ -805,6 +812,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("You must pass all the trials...")
 		await _wait_for_dialogue("And pay all the tolls.")
 		await _wait_for_dialogue("I shall speak more about them upon arrival.")
+		await _wait_for_dialogue("You may view the map during a round by [color=white]clicking[/color] it.")
 		_DIALOGUE.show_dialogue("For now, let's continue to the second round.")
 		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
 	
@@ -871,17 +879,17 @@ func _on_end_round_button_pressed():
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_LEFT_HAND.lock()
 		await _wait_for_dialogue("Now we move to the next part of the game...")
-		await _wait_for_dialogue("This is the shop.")
+		await _wait_for_dialogue("This is the [color=white]shop[/color].")
 		await _wait_for_dialogue("Between each round of tosses...")
-		await _wait_for_dialogue("You may purchase new coins here.")
+		await _wait_for_dialogue("You may [color=white]purchase new coins[/color] here.")
 		await _wait_for_dialogue(Global.replace_placeholders("I shall accept souls(SOULS) in exchange."))
 		await _wait_for_dialogue("Permit me to introduce you to a new type of coin.")
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.point_at(_hand_point_for_coin(_SHOP_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
-		await _wait_for_dialogue("This is a power coin.")
+		await _wait_for_dialogue("This is a [color=white]power coin[/color].")
 		await _wait_for_dialogue("These coins have the ability to manipulate fate.")
-		await _wait_for_dialogue("Currently, you own merely a single payoff coin.")
+		await _wait_for_dialogue("Currently, you own merely a single [color=white]payoff coin[/color].")
 		await _wait_for_dialogue(Global.replace_placeholders("If it is on tails(TAILS), there is nothing to be done."))
 		await _wait_for_dialogue("Using powers allows you to change that.")
 		await _wait_for_dialogue("This particular coin can reflip other coins.")
@@ -900,9 +908,9 @@ func _on_end_round_button_pressed():
 		_LEFT_HAND.lock()
 		await _wait_for_dialogue("We return to the shop once more.")
 		await _wait_for_dialogue("In addition to purchasing new coins...")
-		await _wait_for_dialogue("You can also upgrade your current coins.")
+		await _wait_for_dialogue("You can also [color=white]upgrade[/color] your current coins.")
 		await _wait_for_dialogue("There are four denominations of increasing value...")
-		await _wait_for_dialogue("Obol, Diobol, Triobol, and Tetrobol.")
+		await _wait_for_dialogue("[color=white]Obol, Diobol, Triobol, and Tetrobol.[/color]")
 		await _wait_for_dialogue("Coins of higher denominations are more powerful.")
 		var upgrade_price = _COIN_ROW.get_child(0).get_upgrade_price()
 		if Global.souls < upgrade_price:
@@ -972,10 +980,10 @@ func _on_voyage_continue_button_clicked():
 		
 		if Global.tutorialState == Global.TutorialState.ROUND7_TOLLGATE_INTRO:
 			await _wait_for_dialogue("We have reached the ending tollgate...")
-			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay %d(COIN)." % Global.current_round_toll()))
-			await _wait_for_dialogue(Global.replace_placeholders("Obols are worth 1(COIN), Diobols 2(COIN)..."))
-			await _wait_for_dialogue(Global.replace_placeholders("Triobols are worth 3(COIN), and Tetrobols 4(COIN)."))
-			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
+			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must [color=white]pay[/color] %d(COIN)." % Global.current_round_toll()))
+			await _wait_for_dialogue(Global.replace_placeholders("[color=white]Obols are worth 1(COIN), Diobols 2(COIN)[/color]..."))
+			await _wait_for_dialogue(Global.replace_placeholders("[color=white]Triobols are worth 3(COIN), and Tetrobols 4(COIN)[/color]."))
+			_DIALOGUE.show_dialogue("Add a coin to your payment by [color=white]clicking[/color] it.")
 			Global.tutorialState = Global.TutorialState.ENDING
 		else:
 			if Global.toll_index == 0:
@@ -990,17 +998,17 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("The rules are simple.")
 		_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION) # make a single starting coin
 		await _wait_for_dialogue("Take this coin...")
-		await _wait_for_dialogue("This is a game about tossing coins.")
-		await _wait_for_dialogue("Each round will consist of a number of coin tosses.")
+		await _wait_for_dialogue("This is a game about [color=white]tossing coins[/color].")
+		await _wait_for_dialogue("Each [color=white]round[/color] will consist of a number of coin [color=white]tosses[/color].")
 		_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-		await _wait_for_dialogue(Global.replace_placeholders("When the coin lands on heads(HEADS), you earn souls(SOULS)..."))
+		await _wait_for_dialogue(Global.replace_placeholders("When the coin [color=white]lands on heads(HEADS), you earn souls(SOULS)[/color]..."))
 		_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("...if it lands on tails(TAILS), you lose life(LIFE) instead."))
+		await _wait_for_dialogue(Global.replace_placeholders("...if it [color=white]lands on tails(TAILS), you lose life(LIFE)[/color] instead."))
 		Global.lives += Global.current_round_life_regen()
 		_LEFT_HAND.unpoint()
 		_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("You start with 100 life(HEAL), which replenishes each round."))
-		await _wait_for_dialogue("To win, survive until the end of the voyage.")
+		await _wait_for_dialogue(Global.replace_placeholders("You [color=white]start with 100 life(HEAL)[/color], which [color=white]replenishes each round[/color]."))
+		await _wait_for_dialogue("To win, [color=white]survive[/color] until the end of the voyage.")
 		await _wait_for_dialogue(Global.replace_placeholders("Earning souls(SOULS) will help you do this."))
 		await _wait_for_dialogue(Global.replace_placeholders("But, if you ever run out of life(LIFE)..."))
 		await _wait_for_dialogue("Then I am the victor.")
@@ -1037,11 +1045,11 @@ func _on_voyage_continue_button_clicked():
 		await Global.delay(Global.COIN_TWEEN_TIME)
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
-		await _wait_for_dialogue("This is a monster coin.")
+		await _wait_for_dialogue("This is a [color=white]monster coin[/color].")
 		await _wait_for_dialogue("Each time you toss your coins...")
 		await _wait_for_dialogue("The monsters will be tossed as well.")
 		await _wait_for_dialogue("And during each payoff...")
-		await _wait_for_dialogue("They will attempt to hinder you.")
+		await _wait_for_dialogue("They will [color=white]activate[/color] to hinder you.")
 		await _wait_for_dialogue("Let me show you...")
 		_DIALOGUE.show_dialogue("Try tossing now.")
 		_LEFT_HAND.unlock()
@@ -1098,9 +1106,9 @@ func _on_voyage_continue_button_clicked():
 	if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_INTRO and Global.is_current_round_trial():
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
-		await _wait_for_dialogue("During a trial, an additional challenge is active.")
+		await _wait_for_dialogue("During a trial, an [color=white]additional challenge[/color] is active.")
 		await _wait_for_dialogue(Global.replace_placeholders("For this trial, life(LIFE) penalties are tripled."))
-		await _wait_for_dialogue(Global.replace_placeholders("To proceed, you must earn at least %s souls(SOULS)." % Global.current_round_quota()))
+		await _wait_for_dialogue(Global.replace_placeholders("To proceed, you must [color=white]earn at least %s souls(SOULS)[/color]." % Global.current_round_quota()))
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("Now, your final test begins!")
@@ -1162,7 +1170,7 @@ func _on_pay_toll_button_clicked():
 		if _COIN_ROW.get_child_count() == 0 and not Global.is_next_round_end():
 			await _wait_for_dialogue("...Ah, no more coins?")
 			await _wait_for_dialogue("...So you've lost the game...")
-			await _wait_for_dialogue("...A shame... goodbye.")
+			await _wait_for_dialogue("A shame. Goodbye.")
 			_on_die_button_clicked()
 			return
 		
@@ -1333,9 +1341,9 @@ func _on_coin_clicked(coin: Coin):
 			
 			if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE:
 				await _wait_for_dialogue("The coin has been upgraded.")
-				await _wait_for_dialogue("Its payoff has been improved.")
+				await _wait_for_dialogue("Its [color=white]payoff has been improved[/color].")
 				await _COIN_ROW.get_child(0).turn()
-				await _wait_for_dialogue("But the downside has increased too...")
+				await _wait_for_dialogue("But the [color=white]downside has increased[/color] too...")
 				await _wait_for_dialogue("Risk, reward...")
 				await _COIN_ROW.get_child(0).turn()
 				_LEFT_HAND.unlock()
@@ -1466,10 +1474,11 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) condition."))
 				await _wait_for_dialogue("Coins can be affected by many conditions...")
 				await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
-				await _wait_for_dialogue("A patron token has a limited number of uses.")
-				await _wait_for_dialogue("But, it recharges each round.")
+				await _wait_for_dialogue("[color=white]Mouse over[/color] the icon below the coin for more information.")
+				await _wait_for_dialogue("A patron token has a [color=white]limited number of uses[/color].")
+				await _wait_for_dialogue("But, it will [color=white]recharge each round[/color].")
 				await _wait_for_dialogue("Manage your use of patrons wisely.")
-				await _wait_for_dialogue("Lastly, deactivate the token by clicking it.")
+				await _wait_for_dialogue("Lastly, deactivate the token by [color=white]clicking[/color] it.")
 				await _wait_for_dialogue("And with that, I will leave you to it.")
 				_DIALOGUE.show_dialogue("Good luck...")
 				_ACCEPT_TEXTBOX.enable()
@@ -1479,7 +1488,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.POWER_FAMILY_REFLIP:
 				# clicking obol when you've been told to click Zeus to deactivate it
 				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-					_DIALOGUE.show_dialogue("Click the power coin to deactivate it.")
+					_DIALOGUE.show_dialogue("[color=white]Click[/color] the power coin to deactivate it.")
 					return
 				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
 					_LEFT_HAND.unlock()
@@ -1588,9 +1597,9 @@ func _on_coin_clicked(coin: Coin):
 				Global.active_coin_power_family = coin.get_active_power_family()
 				
 				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_ACTIVATED:
-					await _wait_for_dialogue("Now, this coin's power is active.")
+					await _wait_for_dialogue("Now, this coin's power is [color=white]active[/color].")
 					await _wait_for_dialogue("This power can reflip other coins.")
-					_DIALOGUE.show_dialogue("Click on your other coin to use the power on it.")
+					_DIALOGUE.show_dialogue("[color=white]Click on your other coin[/color] to use the power on it.")
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 					_LEFT_HAND.lock()
@@ -1598,7 +1607,13 @@ func _on_coin_clicked(coin: Coin):
 
 func _on_arrow_pressed():
 	assert(Global.arrows >= 0)
+	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
+		Global.active_coin_power_family = null
+		return
+	if _patron_token.is_activated():
+		_patron_token.deactivate()
 	Global.active_coin_power_family = Global.POWER_FAMILY_ARROW_REFLIP
+	Global.active_coin_power_coin = null # if there is an active coin, unactivate it
 
 func _on_patron_token_clicked():
 	if _DIALOGUE.is_waiting():
@@ -1610,11 +1625,16 @@ func _on_patron_token_clicked():
 	
 	if _patron_token.is_activated():
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
-			_DIALOGUE.show_dialogue("Click on a coin.")
+			_DIALOGUE.show_dialogue("[color=white]Click[/color] on a coin.")
 			return
 		
 		_patron_token.deactivate()
 		return
+	
+	if Global.patron.power_family in Global.immediate_patron_powers:
+		_patron_token.FX.flash(Color.GOLD)
+		Global.active_coin_power_coin = null
+		Global.active_coin_power_family = null
 	
 	# immediate patron powers
 	match(Global.patron.power_family):
@@ -1640,7 +1660,6 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				_safe_flip(coin)
 				coin.clear_statuses()
-			#_COIN_ROW.shuffle()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
@@ -1657,7 +1676,7 @@ func _on_patron_token_clicked():
 			Global.patron_uses -= 1
 		_: # if not immediate, activate the token
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_ACTIVATED:
-				_DIALOGUE.show_dialogue("Now click a coin to use the patron's power.")
+				_DIALOGUE.show_dialogue("Now [color=white]click[/color] a coin to use the patron's power.")
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.unpoint()
 				Global.tutorialState = Global.TutorialState.ROUND3_PATRON_USED
@@ -1676,7 +1695,7 @@ func _input(event):
 func _deactivate_active_power() -> void:
 	# clicking Zeus a second time when you've been told to use on obol
 	if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
-		_DIALOGUE.show_dialogue("Click the other coin.")
+		_DIALOGUE.show_dialogue("[color=white]Click[/color] the other coin.")
 		return
 	
 	Global.active_coin_power_family = null
@@ -1686,7 +1705,7 @@ func _deactivate_active_power() -> void:
 	
 	# after deactivating the Zeus power
 	if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-		_DIALOGUE.show_dialogue("Now accept the result.")
+		_DIALOGUE.show_dialogue("Now [color=white]accept[/color] the result.")
 		_ACCEPT_TEXTBOX.enable()
 
 func _on_shop_reroll_button_clicked():

@@ -23,7 +23,7 @@ func _ready():
 func _can_be_activated() -> bool:
 	if _disable_interaction:
 		return true
-	return Global.state == Global.State.AFTER_FLIP and Global.active_coin_power_family == null
+	return Global.state == Global.State.AFTER_FLIP
 
 func _update_effects() -> void:
 	if _disable_interaction:
@@ -32,29 +32,34 @@ func _update_effects() -> void:
 		return
 	
 	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
-		_FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+		_FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 	elif _can_be_activated():
-		_FX.start_flashing(Color.AZURE, 10, 0.1, 0.2)
-	else:
-		_FX.stop_flashing()
-	
-	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
-		_FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
-	elif _mouse_over and _can_be_activated():
-		_FX.start_glowing(Color.AZURE)
+		_FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 	else:
 		_FX.stop_glowing()
+	
+	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
+		_FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+	elif _mouse_over and _can_be_activated():
+		_FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+	else:
+		_FX.stop_flashing()
 
+static var _once_per_frame = false
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 	if _disable_interaction:
+		return
+	if _once_per_frame:
 		return
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed and _can_be_activated():
 				assert(_mouse_over)
+				_once_per_frame = true
+				if Global.active_coin_power_family != Global.POWER_FAMILY_ARROW_REFLIP:
+					_FX.flash(Color.GOLD)
 				emit_signal("clicked")
-				_FX.flash(Color.GOLD)
 
 func _on_clickable_area_mouse_entered():
 	if not _disable_interaction:
@@ -69,3 +74,6 @@ func disable_interaction() -> void:
 
 func enable_interaction() -> void:
 	_disable_interaction = false
+
+func _process(_delta):
+	_once_per_frame = false

@@ -49,20 +49,20 @@ func _update_effects() -> void:
 	# if we can be activated, flash white
 	# otherwise disable flash
 	if _activated:
-		FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+		FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
 	elif _can_activate:
-		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 	else:
-		FX.stop_flashing()
+		FX.stop_glowing()
 	
 	# if we are hovered, and interactions aren't disabled, glow white
 	# if not, don't glow
 	if _activated:
-		FX.start_glowing(Color.GOLD, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+		FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	elif _MOUSE.is_over() and (_activated or _can_activate):
-		FX.start_glowing(Color.AZURE)
+		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	else:
-		FX.stop_glowing()
+		FX.stop_flashing()
 
 func disable_interaction() -> void:
 	_disable_interaction = true
@@ -91,6 +91,7 @@ func activate() -> void:
 	#create_tween().tween_property(self, "rotation_degrees", 90, _ROTATION_TIME)
 	FX.flash(Color.GOLD)
 	Global.active_coin_power_family = Global.patron.power_family
+	Global.active_coin_power_coin = null # if there is an active coin, unactivate it
 	_activated = true
 	_update_effects()
 
