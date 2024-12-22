@@ -773,7 +773,7 @@ func replace_placeholders(tooltip: String) -> String:
 	return tooltip
 
 # todo - refactor this into Util
-signal any_input
+signal left_click_input
 
 var debug = true # utility flag for debugging mode
 const _BREAKPOINT_ON_SPACE = true
@@ -790,23 +790,23 @@ func take_screenshot(): # Function for taking screenshots and saving them
 	var image = get_viewport().get_texture().get_image() # We get what our player sees
 	image.save_png(screenshot_path)
 
-var _is_depressed = false
+var _mouse_down = false
 var _last_any_input_time = 0.0
 const _MIN_TIME_BETWEEN_ANY_INPUT_MS = 100 #0.2 sec
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if _BREAKPOINT_ON_SPACE and Input.is_key_pressed(KEY_SPACE):
 		breakpoint
 	if _SCREENSHOT_ENABLED and Input.is_key_pressed(_SCREENSHOT_KEY):
 		take_screenshot()
-	elif Input.is_anything_pressed() and not _is_depressed:
-		_is_depressed = true
-		
-		# don't let the signal go faster than a set rate
-		if Time.get_ticks_msec()  - _last_any_input_time >= _MIN_TIME_BETWEEN_ANY_INPUT_MS:
-			_last_any_input_time = Time.get_ticks_msec()
-			emit_signal("any_input")
-	else:
-		_is_depressed = false
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_mouse_down = true
+				if Time.get_ticks_msec()  - _last_any_input_time >= _MIN_TIME_BETWEEN_ANY_INPUT_MS:
+					_last_any_input_time = Time.get_ticks_msec()
+					emit_signal("left_click_input")
+			else:
+				_mouse_down = false
 
 # Randomly return one element of the array
 func choose_one(arr: Array):

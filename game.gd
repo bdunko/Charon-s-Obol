@@ -348,6 +348,7 @@ func _on_flip_complete() -> void:
 				await _wait_for_dialogue("You could click them to keep using this power...")
 				await _wait_for_dialogue("...until you run out of charges, of course.")
 				await _wait_for_dialogue("To deactivate the power coin, [color=white]click on it[/color].")
+				await _wait_for_dialogue("[color=white]Right click[/color] will also deactivate any powers.")
 				_DIALOGUE.show_dialogue("Deactivate this power, then accept the result.")
 				Global.tutorialState = Global.TutorialState.ROUND2_POWER_UNUSABLE
 		return #ignore reflips such as Zeus
@@ -1474,7 +1475,7 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) condition."))
 				await _wait_for_dialogue("Coins can be affected by many conditions...")
 				await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
-				await _wait_for_dialogue("[color=white]Mouse over[/color] the icon below the coin for more information.")
+				await _wait_for_dialogue("[color=white]Mouse over[/color] the icon below the coin to learn more.")
 				await _wait_for_dialogue("A patron token has a [color=white]limited number of uses[/color].")
 				await _wait_for_dialogue("But, it will [color=white]recharge each round[/color].")
 				await _wait_for_dialogue("Manage your use of patrons wisely.")

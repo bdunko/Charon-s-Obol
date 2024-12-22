@@ -48,7 +48,7 @@ func is_waiting() -> bool:
 func show_dialogue_and_wait(dialogue: String) -> void:
 	_waiting = true
 	show_dialogue(dialogue, textbox_flash_while_waiting)
-	await Global.any_input
+	await Global.left_click_input
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
 	

@@ -25,7 +25,7 @@ func _on_main_menu_start_game():
 		await Global.delay(0.3)
 		TransitionPlayer.set_text(Global.character.introText)
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
-		await Global.any_input
+		await Global.left_click_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
 		await Global.delay(0.3)
 		if Global.is_character(Global.Character.LADY):
