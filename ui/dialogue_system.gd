@@ -29,7 +29,8 @@ const _DEFAULT_FLASH_COLOR = Color("#e86a73")
 		if _current_textbox:
 			_current_textbox.flash_color = val
 
-@export var textbox_flash_while_waiting = false
+@export var textbox_effects_while_waiting = false
+@export var textbox_arrow_style = Textbox.ArrowStyle.PURPLE
 @export var textbox_float: bool = false
 
 @onready var _INITIAL_POSITION = position
@@ -47,7 +48,7 @@ func is_waiting() -> bool:
 
 func show_dialogue_and_wait(dialogue: String) -> void:
 	_waiting = true
-	show_dialogue(dialogue, textbox_flash_while_waiting)
+	show_dialogue(dialogue, textbox_effects_while_waiting)
 	await Global.left_click_input
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
@@ -60,7 +61,7 @@ func show_dialogue(dialogue: String, waiting: bool = false) -> void:
 	var should_flash = waiting 
 	var should_arrow = waiting
 	
-	_current_textbox = Textbox.create(text_color, background_color, border_color, flash_color, textbox_float, false, should_flash, should_arrow)
+	_current_textbox = Textbox.create(text_color, background_color, border_color, flash_color, textbox_float, false, should_flash, should_arrow, textbox_arrow_style)
 	add_child(_current_textbox)
 	_current_textbox.set_text(dialogue)
 	

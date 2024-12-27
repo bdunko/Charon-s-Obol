@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bedblkbwue803"]
+[gd_scene load_steps=18 format=3 uid="uid://bedblkbwue803"]
 
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_dbfxe"]
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_hmwmk"]
 [ext_resource type="Script" path="res://ui/textbox.gd" id="2_5nlw7"]
 [ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_1cse8"]
-[ext_resource type="Texture2D" uid="uid://wy7fooip76nw" path="res://assets/ui/text_arrow.png" id="5_g8jdo"]
+[ext_resource type="Texture2D" uid="uid://djeits2vko5k" path="res://assets/ui/text_arrow_gold.png" id="5_6qp64"]
+[ext_resource type="Texture2D" uid="uid://wy7fooip76nw" path="res://assets/ui/text_arrow_purple.png" id="5_edlwh"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="5_yycq1"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="6_cck7s"]
 
@@ -130,20 +131,49 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wc5x1"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmnr3"]
+atlas = ExtResource("5_6qp64")
+region = Rect2(11, 0, 11, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4o2b"]
+atlas = ExtResource("5_6qp64")
+region = Rect2(22, 0, 11, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3k7b"]
+atlas = ExtResource("5_6qp64")
+region = Rect2(33, 0, 11, 13)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_m30n1"]
-atlas = ExtResource("5_g8jdo")
+atlas = ExtResource("5_edlwh")
 region = Rect2(11, 0, 11, 13)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ifrqx"]
-atlas = ExtResource("5_g8jdo")
+atlas = ExtResource("5_edlwh")
 region = Rect2(22, 0, 11, 13)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mccy2"]
-atlas = ExtResource("5_g8jdo")
+atlas = ExtResource("5_edlwh")
 region = Rect2(33, 0, 11, 13)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4gtbj"]
 animations = [{
+"frames": [{
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_pmnr3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4o2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3k7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4o2b")
+}],
+"loop": true,
+"name": &"golden",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 4.0,
 "texture": SubResource("AtlasTexture_m30n1")
@@ -158,7 +188,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ifrqx")
 }],
 "loop": true,
-"name": &"default",
+"name": &"purple",
 "speed": 10.0
 }]
 
@@ -169,7 +199,6 @@ offset_bottom = 16.0
 mouse_filter = 0
 theme = ExtResource("1_hmwmk")
 script = ExtResource("2_5nlw7")
-default_text = "TEST"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 use_parent_material = true
@@ -208,8 +237,8 @@ shortcut_keys_enabled = false
 visible = false
 position = Vector2(30, 0)
 sprite_frames = SubResource("SpriteFrames_4gtbj")
-autoplay = "default"
-frame_progress = 0.939016
+animation = &"golden"
+autoplay = "purple"
 centered = false
 
 [node name="FX" parent="." instance=ExtResource("5_yycq1")]

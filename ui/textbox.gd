@@ -1,8 +1,12 @@
 class_name Textbox
 extends MarginContainer
 
+enum ArrowStyle {
+	PURPLE, GOLDEN
+}
+
 # factory method
-static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, flashClr: Color = _DEFAULT_FLASH_COLOR, shldFloat: bool = false, clickable: bool = true, shldFlash: bool = false, shldArrow: bool = false) -> Textbox:
+static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, flashClr: Color = _DEFAULT_FLASH_COLOR, shldFloat: bool = false, clickable: bool = true, shldFlash: bool = false, shldArrow: bool = false, arrwStyle: ArrowStyle = ArrowStyle.PURPLE) -> Textbox:
 	var textbox = load("res://ui/textbox.tscn").instantiate()
 	textbox.flashing = shldFlash
 	textbox.text_color = txtColor
@@ -12,9 +16,15 @@ static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFA
 	textbox.should_float = shldFloat
 	textbox.click_enabled = clickable
 	textbox.show_arrow = shldArrow
+	textbox.arrow_style = arrwStyle
 	return textbox
 
 signal clicked
+
+@export var arrow_style = ArrowStyle.PURPLE:
+	set(val):
+		arrow_style = val
+		_update_style()
 
 @export var show_arrow = false:
 	set(val):
@@ -113,6 +123,7 @@ func _update_arrow() -> void:
 	if _ARROW:
 		_ARROW.visible = show_arrow
 		_ARROW.position.x = _TEXT.position.x + _TEXT.size.x + 2
+		_ARROW.play("purple" if arrow_style == ArrowStyle.PURPLE else "golden")
 
 func _update_style() -> void:
 	if _FX:

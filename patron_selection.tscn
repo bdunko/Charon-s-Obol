@@ -585,7 +585,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_getui"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jphow"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
@@ -714,7 +714,8 @@ position = Vector2(0, 2)
 text_color = Color(0.560784, 1, 0.407843, 1)
 border_color = Color(1, 0.8, 0.32549, 1)
 flash_color = Color(0.729412, 1, 0.647059, 1)
-textbox_flash_while_waiting = true
+textbox_effects_while_waiting = true
+textbox_arrow_style = 1
 
 [node name="PatronDialogueSystem" parent="." instance=ExtResource("2_uhgja")]
 z_index = 100
@@ -722,7 +723,8 @@ position = Vector2(0, 2)
 text_color = Color(0.560784, 1, 0.407843, 1)
 border_color = Color(1, 0.8, 0.32549, 1)
 flash_color = Color(0.729412, 1, 0.647059, 1)
-textbox_flash_while_waiting = true
+textbox_effects_while_waiting = true
+textbox_arrow_style = 1
 
 [node name="PlayerDialogueSystem" parent="." instance=ExtResource("2_uhgja")]
 z_index = 100
@@ -828,12 +830,9 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_getui")
+material = SubResource("ShaderMaterial_jphow")
 layout_mode = 2
 default_text = "Continue"
-
-[node name="TextMargin" parent="VictoryTextboxes/VictoryContinueButton" index="1"]
-size_flags_horizontal = 1
 
 [connection signal="clicked" from="VictoryTextboxes/VictoryContinueButton" to="." method="_on_victory_continue_button_clicked"]
 
