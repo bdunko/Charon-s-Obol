@@ -286,6 +286,8 @@ uniform float auto_flicker_start_time = 0.0;
 // --- Fragment Shader --- //
 void fragment() 
 {
+	COLOR = texture(TEXTURE, UV);
+	
 	// --- CALCULATE CONSTANTS ---
 	// WARNING - Don't use the ones with _ directly. 
 	// the size of this canvas in pixels (ex 10x10)

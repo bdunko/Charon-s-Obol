@@ -1072,7 +1072,7 @@ func _on_voyage_continue_button_clicked():
 			match coin.get_coin_family():
 				Global.TRIAL_IRON_FAMILY:
 					while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-2: # make space for thorns obols
-						_COIN_ROW.destroy_lowest_value()
+						destroy_coin(_COIN_ROW.get_rightmost_to_leftmost()[0])
 					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
 					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
 					await _wait_for_dialogue("You shall be bound in Iron!")

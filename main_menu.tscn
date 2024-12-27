@@ -413,7 +413,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0yek"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qrnfr"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -533,7 +533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dp55i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jal0p"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -653,7 +653,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkyuk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u4fj0"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -912,16 +912,9 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_j0yek")
-custom_minimum_size = Vector2(41, 0)
+material = SubResource("ShaderMaterial_qrnfr")
 layout_mode = 2
-
-[node name="TextMargin" parent="UnlockUI/Textboxes/UnlockContinueButton" index="1"]
-size_flags_horizontal = 1
-
-[node name="Text" parent="UnlockUI/Textboxes/UnlockContinueButton/TextMargin" index="0"]
-size_flags_horizontal = 1
-text = "[center]Continue[/center]"
+default_text = "Unlock"
 
 [node name="MainUI" type="Node2D" parent="."]
 
@@ -1158,12 +1151,12 @@ layout_mode = 2
 texture_normal = ExtResource("24_yeah1")
 
 [node name="Version" type="Label" parent="MainUI"]
-offset_left = 281.0
+offset_left = 265.0
 offset_top = 163.0
 offset_right = 319.0
 offset_bottom = 179.0
 theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
-text = "Alpha 3"
+text = "Alpha 3.0.1"
 
 [node name="Textboxes" type="HBoxContainer" parent="MainUI"]
 z_index = 1
@@ -1175,32 +1168,18 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_dp55i")
-custom_minimum_size = Vector2(41, 0)
+material = SubResource("ShaderMaterial_jal0p")
 layout_mode = 2
-
-[node name="TextMargin" parent="MainUI/Textboxes/EmbarkButton" index="1"]
-size_flags_horizontal = 1
-
-[node name="Text" parent="MainUI/Textboxes/EmbarkButton/TextMargin" index="0"]
-size_flags_horizontal = 1
-text = "[center]Embark[/center]"
+default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_fkyuk")
-custom_minimum_size = Vector2(41, 0)
+material = SubResource("ShaderMaterial_u4fj0")
 layout_mode = 2
-
-[node name="TextMargin" parent="MainUI/Textboxes/QuitButton" index="1"]
-size_flags_horizontal = 1
-
-[node name="Text" parent="MainUI/Textboxes/QuitButton/TextMargin" index="0"]
-size_flags_horizontal = 1
-text = "[center]Quit[/center]"
+default_text = " Quit "
 
 [node name="DebugUnlockEverything" type="Button" parent="MainUI"]
 self_modulate = Color(1, 1, 1, 0.00392157)
-offset_left = 276.0
+offset_left = 263.0
 offset_top = 162.0
 offset_right = 320.0
 offset_bottom = 180.0
@@ -1213,4 +1192,3 @@ offset_bottom = 180.0
 
 [editable path="UnlockUI/Textboxes/UnlockContinueButton"]
 [editable path="MainUI/Textboxes/EmbarkButton"]
-[editable path="MainUI/Textboxes/QuitButton"]

@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 screenshots/*
+notes/Obol/.obsidian/*
+notes/Obol/.trash/*

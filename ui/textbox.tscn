@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bedblkbwue803"]
+[gd_scene load_steps=14 format=3 uid="uid://bedblkbwue803"]
 
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_dbfxe"]
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_hmwmk"]
 [ext_resource type="Script" path="res://ui/textbox.gd" id="2_5nlw7"]
 [ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_1cse8"]
+[ext_resource type="Texture2D" uid="uid://wy7fooip76nw" path="res://assets/ui/text_arrow.png" id="5_g8jdo"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="5_yycq1"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="6_cck7s"]
 
@@ -127,6 +128,40 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wc5x1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m30n1"]
+atlas = ExtResource("5_g8jdo")
+region = Rect2(11, 0, 11, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifrqx"]
+atlas = ExtResource("5_g8jdo")
+region = Rect2(22, 0, 11, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mccy2"]
+atlas = ExtResource("5_g8jdo")
+region = Rect2(33, 0, 11, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4gtbj"]
+animations = [{
+"frames": [{
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_m30n1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ifrqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mccy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ifrqx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
 [node name="Textbox" type="MarginContainer"]
 material = SubResource("ShaderMaterial_kv6cx")
 offset_right = 33.0
@@ -134,6 +169,7 @@ offset_bottom = 16.0
 mouse_filter = 0
 theme = ExtResource("1_hmwmk")
 script = ExtResource("2_5nlw7")
+default_text = "TEST"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 use_parent_material = true
@@ -147,7 +183,6 @@ patch_margin_bottom = 1
 [node name="TextMargin" type="MarginContainer" parent="."]
 use_parent_material = true
 layout_mode = 2
-size_flags_horizontal = 0
 mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 0
@@ -156,10 +191,10 @@ theme_override_constants/margin_bottom = 3
 
 [node name="Text" type="RichTextLabel" parent="TextMargin"]
 texture_filter = 1
+material = SubResource("ShaderMaterial_wc5x1")
 use_parent_material = true
 clip_contents = false
 layout_mode = 2
-size_flags_horizontal = 0
 mouse_filter = 2
 theme = ExtResource("1_hmwmk")
 bbcode_enabled = true
@@ -168,6 +203,14 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
+
+[node name="ArrowSprite" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(30, 0)
+sprite_frames = SubResource("SpriteFrames_4gtbj")
+autoplay = "default"
+frame_progress = 0.939016
+centered = false
 
 [node name="FX" parent="." instance=ExtResource("5_yycq1")]
 

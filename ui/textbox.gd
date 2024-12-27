@@ -2,7 +2,7 @@ class_name Textbox
 extends MarginContainer
 
 # factory method
-static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, flashClr: Color = _DEFAULT_FLASH_COLOR, shldFloat: bool = false, clickable: bool = true, shldFlash: bool = false) -> Textbox:
+static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFAULT_BACKGROUND_COLOR, brdrColor: Color = _DEFAULT_BORDER_COLOR, flashClr: Color = _DEFAULT_FLASH_COLOR, shldFloat: bool = false, clickable: bool = true, shldFlash: bool = false, shldArrow: bool = false) -> Textbox:
 	var textbox = load("res://ui/textbox.tscn").instantiate()
 	textbox.flashing = shldFlash
 	textbox.text_color = txtColor
@@ -11,9 +11,17 @@ static func create(txtColor: Color = _DEFAULT_TEXT_COLOR, bgColor: Color = _DEFA
 	textbox.flash_color = flashClr
 	textbox.should_float = shldFloat
 	textbox.click_enabled = clickable
+	textbox.show_arrow = shldArrow
 	return textbox
 
 signal clicked
+
+@export var show_arrow = false:
+	set(val):
+		show_arrow = val
+		_update_style()
+
+@export var default_text := ""
 
 const _DEFAULT_TEXT_COLOR = Color.WHITE
 @export var text_color = _DEFAULT_TEXT_COLOR:
@@ -79,26 +87,41 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
+@onready var _TEXT_MARGIN = $TextMargin
+const _RIGHT_MARGIN_NO_ARROW = 4
+const _RIGHT_MARGIN_ARROW = 17
+@onready var _ARROW = $ArrowSprite
 @onready var _FX : FX = $FX
 @onready var _MOUSE = $Mouse
 
 const _TIMER_KEY = "TEXTBOX_FLASH_TIMER"
+const _FLASH_TIMER_TIME = 0.1
 
 func _ready():
 	assert(_TEXT)
+	assert(_ARROW)
 	assert(_FX)
 	assert(_MOUSE)
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
+	set_text(default_text)
 	_update_style()
-	var timer = Global.create_timer(_TIMER_KEY, 0.33)
+	var timer = Global.create_timer(_TIMER_KEY, _FLASH_TIMER_TIME)
 	timer.timeout.connect(_on_flash_timer_timeout)
+
+func _update_arrow() -> void:
+	if _ARROW:
+		_ARROW.visible = show_arrow
+		_ARROW.position.x = _TEXT.position.x + _TEXT.size.x + 2
 
 func _update_style() -> void:
 	if _FX:
-		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else (flash_color if flashing else text_color)))
+		_FX.recolor(1, _DEFAULT_TEXT_COLOR, disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else text_color))
 		_FX.recolor(2, _DEFAULT_BACKGROUND_COLOR, disabled_background_color if disabled else background_color)
-		_FX.recolor(3, _DEFAULT_BORDER_COLOR, disabled_border_color if disabled else border_color)
+		_FX.recolor(3, _DEFAULT_BORDER_COLOR, disabled_border_color if disabled else (flash_color if flashing else border_color))
+	if _TEXT_MARGIN:
+		_TEXT_MARGIN.add_theme_constant_override("margin_right", _RIGHT_MARGIN_ARROW if show_arrow else _RIGHT_MARGIN_NO_ARROW)
+	call_deferred("_update_arrow")
 
 func _reset_colors() -> void:
 	_FX.recolor(1, _DEFAULT_TEXT_COLOR, _DEFAULT_TEXT_COLOR)
@@ -119,6 +142,7 @@ func enable_clicks() -> void:
 
 func set_text(txt: String) -> void:
 	_TEXT.text = txt
+	_update_style()
 
 func get_text() -> String:
 	return _TEXT.text
@@ -144,12 +168,12 @@ func _process(delta) -> void:
 var _flash_on = false
 func _on_flash_timer_timeout():
 	if flashing and _FX != null:
-		#var clr = disabled_border_color if disabled else (border_color if _flash_on else flash_color)
-		#_FX.recolor(3, _DEFAULT_BORDER_COLOR, clr)
+		var clr = disabled_border_color if disabled else (border_color if _flash_on else flash_color)
+		_FX.recolor(3, _DEFAULT_BORDER_COLOR, clr)
 		
-		var clr = disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else (text_color if _flash_on else flash_color))
+		#var clr = disabled_text_color if disabled else (text_hover_color if (_MOUSE.is_over() and click_enabled) else (text_color if _flash_on else flash_color))
 		_flash_on = not _flash_on
-		_FX.recolor(1, _DEFAULT_TEXT_COLOR, clr)
+		#_FX.recolor(1, _DEFAULT_TEXT_COLOR, clr)
 	
 var _mouse_down = false
 func _gui_input(event):

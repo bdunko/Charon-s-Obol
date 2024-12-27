@@ -52,11 +52,15 @@ func show_dialogue_and_wait(dialogue: String) -> void:
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
 	
-func show_dialogue(dialogue: String, flashing: bool = false) -> void:
+func show_dialogue(dialogue: String, waiting: bool = false) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
 	
-	_current_textbox = Textbox.create(text_color, background_color, border_color, flash_color, textbox_float, false, flashing)
+	# sugar
+	var should_flash = waiting 
+	var should_arrow = waiting
+	
+	_current_textbox = Textbox.create(text_color, background_color, border_color, flash_color, textbox_float, false, should_flash, should_arrow)
 	add_child(_current_textbox)
 	_current_textbox.set_text(dialogue)
 	

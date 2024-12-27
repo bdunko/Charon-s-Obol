@@ -137,16 +137,6 @@ func get_right_of(coin: Coin) -> Coin:
 		return null
 	return get_child(coin.get_index() + 1)
 
-# randomly destroy one coin of the lowest denomination
-func destroy_lowest_value() -> void:
-	for denom in [Global.Denomination.OBOL, Global.Denomination.DIOBOL, Global.Denomination.TRIOBOL, Global.Denomination.TETROBOL]:
-		var destroyable_coins = get_all_of_denomination(denom)
-		if not destroyable_coins.is_empty():
-			var destroy = Global.choose_one(destroyable_coins)
-			destroy.queue_free()
-			remove_child(destroy)
-			return
-
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
 
