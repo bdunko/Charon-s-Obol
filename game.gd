@@ -1632,6 +1632,9 @@ func _on_patron_token_clicked():
 	if _DIALOGUE.is_waiting():
 		return
 	
+	if Global.state != Global.State.AFTER_FLIP:
+		return
+	
 	if Global.patron_uses == 0:
 		_DIALOGUE.show_dialogue("No more gods!")
 		return
@@ -1737,5 +1740,5 @@ func randomize_shop() -> void:
 	
 	# connect each shop coin to charon hand for hovering...
 	for coin in _SHOP_COIN_ROW.get_children():
-		coin.hovered.connect(_on_shop_coin_hovered)
 		coin.unhovered.connect(_on_shop_coin_unhovered)
+		coin.hovered.connect(_on_shop_coin_hovered)
