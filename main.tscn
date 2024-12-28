@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch5gprh6nqrtf"]
+[gd_scene load_steps=9 format=3 uid="uid://ch5gprh6nqrtf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1n3af"]
 [ext_resource type="PackedScene" uid="uid://btdousdmcb6d3" path="res://game.tscn" id="1_bpd8x"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://08gavqs15dvr" path="res://patron_selection.tscn" id="3_8a40o"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="5_h5rp5"]
 [ext_resource type="Script" path="res://shaders/fx.gd" id="6_8jepi"]
+[ext_resource type="PackedScene" uid="uid://coxrexwj3ljyb" path="res://debug/debug_console.tscn" id="7_01ylf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bgj84"]
 shader = ExtResource("5_h5rp5")
@@ -153,6 +154,10 @@ mouse_filter = 2
 
 [node name="FX" type="AnimationPlayer" parent="PostProcess/MainMenu"]
 script = ExtResource("6_8jepi")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugConsole" parent="CanvasLayer" instance=ExtResource("7_01ylf")]
 
 [connection signal="game_ended" from="Game" to="." method="_on_game_game_ended"]
 [connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]

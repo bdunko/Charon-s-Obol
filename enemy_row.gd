@@ -23,10 +23,13 @@ func current_round_setup() -> void:
 	
 	# generate new coins
 	for coinDataPair in Global.current_round_enemy_coin_data():
-		var coin = _COIN_SCENE.instantiate()
-		_ROW.add_child(coin)
-		coin.global_position = _coin_spawn_point
-		coin.init_coin(coinDataPair[0], coinDataPair[1], Coin.Owner.NEMESIS)
+		spawn_enemy(coinDataPair[0], coinDataPair[1])
+
+func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination) -> void:
+	var coin = _COIN_SCENE.instantiate()
+	_ROW.add_child(coin)
+	coin.global_position = _coin_spawn_point
+	coin.init_coin(family, denom, Coin.Owner.NEMESIS)
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.BEFORE_FLIP:

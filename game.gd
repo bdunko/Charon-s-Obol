@@ -261,17 +261,11 @@ func on_start() -> void: #reset
 	Global.generate_coinpool()
 	_VOYAGE_MAP.update_tooltips()
 	
-	# delete any old patron token and create a new one
-	_patron_token.queue_free()
 	if Global.patron == null: # tutorial - use Charon
 		Global.patron = Global.patron_for_enum(Global.PatronEnum.CHARON)
-	_patron_token = Global.patron.patron_token.instantiate()
-	_patron_token.position = _PATRON_TOKEN_POSITION
-	_patron_token.clicked.connect(_on_patron_token_clicked)
-	_patron_token.name = "PatronToken"
-	if Global.patron == Global.patron_for_enum(Global.PatronEnum.CHARON): # tutorial - use Charon
+	_make_patron_token()
+	if Global.patron == Global.patron_for_enum(Global.PatronEnum.CHARON): # tutorial - starts offscreen
 		_patron_token.position = _CHARON_POINT
-	_TABLE.add_child(_patron_token)
 	
 	victory = false
 	Global.round_count = 1
@@ -326,6 +320,15 @@ func on_start() -> void: #reset
 		await _wait_for_dialogue("Or your soul shall stay here with me, forevermore!")
 		_DIALOGUE.show_dialogue("Brave hero, will you board?")
 	_PLAYER_TEXTBOXES.make_visible()
+
+func _make_patron_token():
+	# delete any old patron token and create a new one
+	_patron_token.queue_free()
+	_patron_token = Global.patron.patron_token.instantiate()
+	_patron_token.position = _PATRON_TOKEN_POSITION
+	_patron_token.clicked.connect(_on_patron_token_clicked)
+	_patron_token.name = "PatronToken"
+	_TABLE.add_child(_patron_token)
 
 var flips_pending = 0
 func _on_flip_complete() -> void:
@@ -762,6 +765,18 @@ func _on_voyage_map_closed():
 		return
 	_hide_voyage_map()
 
+func connect_enemy_coins() -> void:
+	for c in _ENEMY_COIN_ROW.get_children():
+		var coin = c as Coin
+		if not coin.flip_complete.is_connected(_on_flip_complete):
+			coin.flip_complete.connect(_on_flip_complete)
+		if not coin.clicked.is_connected(_on_coin_clicked):
+			coin.clicked.connect(_on_coin_clicked)
+
+func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination) -> void:
+	_ENEMY_ROW.spawn_enemy(family, denom)
+	connect_enemy_coins()
+
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
 	_DIALOGUE.show_dialogue("Now let us sail...")
@@ -773,10 +788,7 @@ func _advance_round() -> void:
 	
 	# setup the enemy row
 	_ENEMY_ROW.current_round_setup()
-	for c in _ENEMY_COIN_ROW.get_children():
-		var coin = c as Coin
-		coin.flip_complete.connect(_on_flip_complete)
-		coin.clicked.connect(_on_coin_clicked)
+	connect_enemy_coins()
 	
 	if Global.tutorialState == Global.TutorialState.PROLOGUE_AFTER_BOARDING:
 		await _wait_for_dialogue("We have quite the voyage ahead of us.")

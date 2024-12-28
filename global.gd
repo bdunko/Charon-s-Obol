@@ -775,8 +775,7 @@ func replace_placeholders(tooltip: String) -> String:
 # todo - refactor this into Util
 signal left_click_input
 
-var debug = true # utility flag for debugging mode
-const _BREAKPOINT_ON_SPACE = true
+var DEBUG = true # utility flag for debugging mode
 
 var RNG = RandomNumberGenerator.new()
 
@@ -794,9 +793,9 @@ var _mouse_down = false
 var _last_any_input_time = 0.0
 const _MIN_TIME_BETWEEN_ANY_INPUT_MS = 100 #0.2 sec
 func _input(event: InputEvent) -> void:
-	if _BREAKPOINT_ON_SPACE and Input.is_key_pressed(KEY_SPACE):
+	if DEBUG and Input.is_key_pressed(KEY_SPACE):
 		breakpoint
-	if _SCREENSHOT_ENABLED and Input.is_key_pressed(_SCREENSHOT_KEY):
+	if DEBUG and Input.is_key_pressed(_SCREENSHOT_KEY):
 		take_screenshot()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -1155,6 +1154,15 @@ const STANDARD_APPEASE = [9, 18, 27, 35]
 const ELITE_APPEASE = [25, 35, 45, 60]
 const NEMESIS_MEDUSA_APPEASE = [70, 70, 70, 70]
 
+# stores a list of all monster coins and trial coins
+@warning_ignore("unused_private_class_variable")
+@onready var _ALL_MONSTER_AND_TRIAL_COINS = [MONSTER_FAMILY, 
+	MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY, MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY,
+	MONSTER_SIREN_FAMILY, MONSTER_BASILISK_FAMILY, MONSTER_CHIMERA_FAMILY,
+	MEDUSA_FAMILY, EURYALE_FAMILY, STHENO_FAMILY, 
+	TRIAL_IRON_FAMILY, TRIAL_MISFORTUNE_FAMILY, TRIAL_POLARIZATION_FAMILY, TRIAL_PAIN_FAMILY, TRIAL_BLOOD_FAMILY, TRIAL_EQUIVALENCE_FAMILY,
+	TRIAL_FAMINE_FAMILY, TRIAL_TORTURE_FAMILY, TRIAL_LIMITATION_FAMILY, TRIAL_COLLAPSE_FAMILY, TRIAL_SAPPING_FAMILY, TRIAL_OVERLOAD_FAMILY]
+
 var MONSTER_FAMILY = CoinFamily.new(1000, "[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(1001, "[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
@@ -1189,6 +1197,8 @@ var TRIAL_SAPPING_FAMILY = CoinFamily.new(3010, "[color=paleturquoise]Trial of S
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(3011, "[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE)
 
 var CHARON_OBOL_FAMILY = CoinFamily.new(10000, "[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
+
+
 
 # stores the active pool of coins for this run
 # updated via generate_coinpool at the start of each run
