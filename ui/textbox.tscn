@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bedblkbwue803"]
+[gd_scene load_steps=17 format=3 uid="uid://bedblkbwue803"]
 
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_dbfxe"]
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_hmwmk"]
@@ -129,8 +129,6 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wc5x1"]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmnr3"]
 atlas = ExtResource("5_6qp64")
 region = Rect2(11, 0, 11, 13)
@@ -220,7 +218,6 @@ theme_override_constants/margin_bottom = 3
 
 [node name="Text" type="RichTextLabel" parent="TextMargin"]
 texture_filter = 1
-material = SubResource("ShaderMaterial_wc5x1")
 use_parent_material = true
 clip_contents = false
 layout_mode = 2

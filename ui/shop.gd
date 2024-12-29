@@ -31,7 +31,8 @@ func randomize_shop() -> void:
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
 	
-	_SHOP_ROW.expand()
+	if Global.tutorialState != Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:
+		_SHOP_ROW.expand()
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		var coin = _COIN_SCENE.instantiate()
