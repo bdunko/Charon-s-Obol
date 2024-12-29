@@ -97,7 +97,7 @@ func _on_text_submitted(txt):
 		if not args.size() == 2:
 			success = false
 		else:
-			Global.arrows += int(args[0])
+			Global.arrows += int(args[1])
 	elif cmd == "kill":
 		Global.lives = -1
 	elif cmd == "clear" or cmd == "wipe" or cmd == "destroy" or cmd == "clearall" or cmd == "destroyall":
@@ -129,7 +129,7 @@ func _on_text_submitted(txt):
 						denom = clamp(int(args[2]), 0, 3)
 					game.spawn_enemy(monster_or_trial, denom)
 					break
-	elif cmd == "coin" or cmd == "gain" or cmd == "gaincoin":
+	elif cmd == "coin" or cmd == "gain" or cmd == "gaincoin" or cmd == "give" or cmd == "givecoin" or cmd == "get" or cmd == "getcoin":
 		if not (args.size() == 2 or args.size() == 3):
 			success = false
 		elif coin_row.get_child_count() == Global.COIN_LIMIT:

@@ -1410,6 +1410,19 @@ func _on_coin_clicked(coin: Coin):
 		if coin.is_passive(): 
 			_DIALOGUE.show_dialogue("Can't use a power on that...")
 			return
+		
+		# trial of blood - using powers costs 1 life (excluding arrows)
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP: 
+			var life_cost = Global.BLOOD_COST
+			# in the extremely rare case the power we're using itself has a life cost, factor that in before taking life...
+			if Global.active_coin_power_family == Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
+				if coin.is_monster():
+					life_cost += Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
+			if Global.lives - life_cost < 0:
+				_DIALOGUE.show_dialogue("Not enough life...")
+				return
+			Global.lives -= Global.BLOOD_COST
+		
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
 			_deactivate_active_power()
@@ -1581,42 +1594,54 @@ func _on_coin_clicked(coin: Coin):
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
-		match coin.get_active_power_family():
-			Global.POWER_FAMILY_GAIN_LIFE:
-				Global.lives += coin.get_denomination_as_int() + 1
-				coin.spend_power_use()
-			Global.POWER_FAMILY_GAIN_ARROW:
-				Global.arrows += coin.get_denomination_as_int()
-				coin.spend_power_use()
-			Global.POWER_FAMILY_REFLIP_ALL:
-				# reflip all coins
-				coin.spend_power_use()
-				for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-					c = c as Coin
-					_safe_flip(c)
-			Global.POWER_FAMILY_GAIN_COIN:
-				if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-					_DIALOGUE.show_dialogue("Too many coins...")
+		if coin in [Global.POWER_FAMILY_GAIN_LIFE, Global.POWER_FAMILY_GAIN_ARROW, Global.POWER_FAMILY_REFLIP_ALL, Global.POWER_FAMILY_GAIN_COIN]:
+			# trial of blood - using powers costs 1 life
+			if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD): 
+				var life_cost = Global.BLOOD_COST
+				if Global.lives - life_cost < 0:
+					_DIALOGUE.show_dialogue("Not enough life...")
 					return
-				_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position)
+				Global.lives -= Global.BLOOD_COST
+			
+			# resolve the power
+			var spent_use = false
+			match coin.get_active_power_family():
+				Global.POWER_FAMILY_GAIN_LIFE:
+					Global.lives += coin.get_denomination_as_int() + 1
+					coin.spend_power_use()
+				Global.POWER_FAMILY_GAIN_ARROW:
+					Global.arrows += coin.get_denomination_as_int()
+				Global.POWER_FAMILY_REFLIP_ALL:
+					# reflip all coins
+					coin.spend_power_use() # do this ahead of time here since it might get flipped over...
+					spent_use = true
+					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+						c = c as Coin
+						_safe_flip(c)
+				Global.POWER_FAMILY_GAIN_COIN:
+					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+						_DIALOGUE.show_dialogue("Too many coins...")
+						return
+					_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position)
+			if not spent_use:
 				coin.spend_power_use()
-			_: # otherwise, make this the active coin and coin power and await click on target
-				# prevent reactivating the coin after deactivating
-				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-					_DIALOGUE.show_dialogue("Accept the result.")
-					return
-				
-				Global.active_coin_power_coin = coin
-				Global.active_coin_power_family = coin.get_active_power_family()
-				
-				if Global.tutorialState == Global.TutorialState.ROUND2_POWER_ACTIVATED:
-					await _wait_for_dialogue("Now, this coin's power is [color=white]active[/color].")
-					await _wait_for_dialogue("This power can reflip other coins.")
-					_DIALOGUE.show_dialogue("[color=white]Click on your other coin[/color] to use the power on it.")
-					_LEFT_HAND.unlock()
-					_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-					_LEFT_HAND.lock()
-					Global.tutorialState = Global.TutorialState.ROUND2_POWER_USED
+		else: # otherwise, make this the active coin and coin power and await click on target
+			# prevent reactivating the coin after deactivating
+			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
+				_DIALOGUE.show_dialogue("Accept the result.")
+				return
+			
+			Global.active_coin_power_coin = coin
+			Global.active_coin_power_family = coin.get_active_power_family()
+			
+			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_ACTIVATED:
+				await _wait_for_dialogue("Now, this coin's power is [color=white]active[/color].")
+				await _wait_for_dialogue("This power can reflip other coins.")
+				_DIALOGUE.show_dialogue("[color=white]Click on your other coin[/color] to use the power on it.")
+				_LEFT_HAND.unlock()
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
+				_LEFT_HAND.lock()
+				Global.tutorialState = Global.TutorialState.ROUND2_POWER_USED
 
 func _on_arrow_pressed():
 	assert(Global.arrows >= 0)
