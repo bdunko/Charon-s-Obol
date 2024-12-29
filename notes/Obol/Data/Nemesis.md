@@ -1,0 +1,23 @@
+**Nemesis**
+- [ ] Gorgon Sisters Revamp
+	- [ ] Medusa: Stone/Curse 1 (or maybe Sap)
+	- [ ] Euryale: Stone/Unlucky 2
+	- [ ] the other one S: Stone/Drain Souls
+- [ ] Minotaur
+	- [ ] TBD
+	- [ ] Multiple (4?) "Labyrinth Halls" coins where you must get each to heads 5 times to defeat the minotaur?
+		- [ ] Or maybe every time a Labyrinth Hall is heads, make progress (displayed on a special coin), lose progress for tails - must reach X progress to advance.
+	- [ ] Minotaur disrupting you during all of this with direct attacks and unlucky+curse mostly.
+- [ ] Echidna & Typhoon
+	- [ ] Echidna/Typhoon - Spawn a monster/Spawn a monster
+- [ ] Cerberus
+	- [ ] Left head: Ignite a coin/5 damage
+	- [ ] Middle head: Increase damage of all heads by 3/5 damage
+	- [ ] Right head: Ignite a head/5 damage
+- [ ] https://en.wikipedia.org/wiki/Erinyes
+- [ ] Scylla & Charybdis
+- [ ] Hydra
+	- [ ] Hydra Heads - (some negative status) Tails - Take damage. Increase this damage by 3 permanently. When destroyed - split into two Small Hydra
+	- [ ] Small Hydra Heads - (some negative status) Tails - Take damage. Increase this damage by 2 permanently. When destroyed - split into three Tiny Hydra
+	- [ ] Tiny Hydra Heads - (some minor negative status) Tails - Take damage. Increase this damage by 1 permanently.
+- [ ] Furies - Curse, unlucky, increasing tails focus; can spend souls to blank for 1 toss.

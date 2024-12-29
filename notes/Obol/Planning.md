@@ -1,0 +1,218 @@
+**Charon's Obol v0.3 - Myths and Monsters**
+- [ ] **Current Goals**
+	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
+		- [ ] **Tutorial - Dec 29th**
+			- [ ] Don't splay out the shop during the upgrade section, until Charon is done talking about that.
+			- [ ] Look to move the Trial and Tollgate explanation to later in the tutorial. Reduce wordiness where possible. Explain recharging better.
+				- [ ] Remove the explaination from the first map part.
+				- [ ] Explain Trial on map view when we first arrive.
+				- [ ] Explain the Tollgate on map view when we first arrive.
+			- [ ] Add another part to round 2 showing the recharge.
+			- [ ] Add another round between 3 and 4 (extra round before monsters).
+		- [ ] **Balance - Jan 1st**
+			- [ ] Arrows cap at 10.
+				- [ ] Add a visual indicator 10/10
+			- [ ] Souls do not persist between rounds.
+			- [ ] Coins cost more life on tails.
+			- [ ] Coins are more expensive, particularly of higher denominations.
+			- [ ] Upgrading coins is more expensive than buying coins from the shop (for the same coin)
+			- [ ] Ante increases faster in later rounds. (river changes color)
+			- [ ] Monster have been buffed.
+				- [ ] Monsters that apply status effects will attempt to target coins that are not already affected with that status.
+				- [ ] Birds tails downside increased.
+			- [ ] Hades buffed to 10x value for both; additionally, tooltip is more informative.
+			- [ ] Trials have been rebalanced.
+				- [ ] Trial of Torture - changed to downgrade highest value coin each round. (instead of a random coin)
+				- [ ] Trial of Iron - Obol of Thorns changed to -1 soul/-1 life.
+				- [ ] Trial of Misfortune - After each toss, additionally makes a random coin Unlucky.
+				- [ ] Trial of Polarization - Reworked; now makes the lowest coin Blank at the end of each toss.
+				- [ ] The same Trial will not appear twice in a single run.
+			- [ ] Coins have been rebalanced
+				- [ ] Hermes has an animation to more clearly imply how it works.
+				- [ ] Hermes cannot trade for a coin of the exact same type.
+				- [ ] Aphrodite is now "copy another coin's power for this toss."
+			- [ ] Medusa has been slightly rebalanced.
+				- [ ] Medusa's tails result now downgrades two coins (up from one).
+				- [ ] Cost of defeating Gorgon is cheaper.
+				- [ ] Curses coins instead of increasing Ante.
+		- [ ] **Performance improvements Jan 2nd**
+			- [ ] Updated Godot engine version - should improve web performance.
+			- [ ] Run the profiler for a run and look for any obvious fixes.
+			- [x] Uploaded a desktop version of the game to itch - download and use this if you want better performance. It is MUCH, MUCH more performant.
+		- [ ] **Graphical Improvements Jan 3rd**
+			- [ ] FX - Filters for the patron selection and main scenes.
+				- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+			- [ ] Particle - Just for mouse following IFF an effect is active.
+
+**Charon's Obol Beta - Coalescence**
+- [ ] **Patron Revamp - Jan 19th**
+	- [ ] Recharge over time instead of at start of round (tosses). 
+	- [ ] Set max number of charges (does not increase over time), can differ by god. Recharge rate also differs by god.
+		- [ ] Maybe max is always 3, but recharge rate varies.
+		- [ ] Probably start at 1 charge.
+	- [ ] Different visual effects to show charge level.
+	- [ ] Always recharges up to half (rounded up) at start of trial or boss.
+	- [ ] Patron token should not change glow color when moused over. Patron token should have an effect when moused over (a fun one could be a bit of 'jittering' like it is quivering with power)
+	- [ ] Bug - hovering patron token in shop while it has charges causes it to start glowing (remove all charges when in shop)
+	- [ ] Update patron powers and add passives:
+		- [ ] Hades - Destroy a coin. If it was yours, heal life and gain souls equal to 10x its value. 1 max. Slow recharge. Can be used in the shop.
+			- [ ] Passive - Passive - Souls persist between rounds.
+		- [ ] Aphrodite - Permanently increase a coin's maximum charges by 1. 2 max. Slow recharge.
+			- [ ] Passive - During payoff, gain 1 soul for each unspent power charge.
+		- [ ] Hephaestus - Ignite a coin. If it's already ignited, upgrade it. 2 max. Slow recharge.
+			- [ ] Passive - Ignited coins heal you instead of hurt you.
+		- [ ] Artemis - Turn all your coins to their other face.  2 max. Slow recharge.
+			- [ ] Passive - You gain 3 free arrows at the start of each round.
+		- [ ] Poseidon - Freeze a coin and its neighbors. 2 max. Slow recharge. 
+			- [ ] Passive - Frozen coins have a 50% chance to remain frozen instead of thawing.
+		- [ ] Dionysus - Random behavior. 2 max. Fast recharge.
+			- [ ] Passive - Whenever you gain a coin, Bless it. The first reroll in each shop is free.
+		- [ ] Demeter - Clear all statuses from a coin. 3 max. Medium recharge.
+			- [ ] Passive - Statuses are not cleared between rounds.
+		- [ ] Hermes - Trade a coin for another of equal value. 3 max. Medium recharge.
+			- [ ] Passive - Whenever you trade or gain a coin, it has a 20% chance to upgrade.
+		- [ ] Ares - Reflip all coins. 3 max. Medium recharge.
+			- [ ] Passive - Monster coins on tails cost half as much to destroy.
+		- [ ] Athena - Permanently reduce a coin's life penalty by 1. 3 max. Medium recharge.
+			- [ ] Passive - Before the first toss of each round, randomly Bless 3 coins.
+		- [ ] Hera - Reflip a coin and its neighbors. 3 max. Medium recharge.
+			- [ ] Passive - When you reflip a coin, it always lands on its other side. 
+		- [ ] Apollo - Clear all negative statuses from a coin, then (if possible) apply the opposite of that status. - 3 max. Medium recharge.
+			- [ ] Passive - You can see what each coin will land on in its next flip. 
+		- [ ] Hestia - Make a coin Lucky. 4 max. Fast recharge.
+			- [ ] Passive - Lucky may be applied to a coin multiple times to increasing effect.
+		- [ ] Zeus - Reflip a coin. 5 max. Very fast recharge.
+			- [ ] Passive - When you reflip a coin, Supercharge it.
+		- [ ] spare ideas
+			- [ ] Active - Turn 2 random coins to heads. 2 max. Slow recharge.
+			- [ ] Active - Recharge all of your coins once. 2 max. Slow recharge.
+			- [ ] Passive - Frozen coins have a 33% chance to remain Frozen when flipped.
+			- [ ] Passive - Blessed coins have a 33% chance to remain Blessed when flipped.
+			- [ ] Passive - If you would ever die, destroy this token and heal 50 life. 
+			- [ ] Passive - If ever all coins are on tails, reflip all coins.
+			- [ ] Passive - Your rightmost coin always lands on heads.
+			- [ ] Passive - At the end of each round, upgrade your lowest valued coin.
+			- [ ] Passive - Whenever you destroy a coin, gain a random Obol.
+			- [ ] Passive - Upgrading coins is cheaper. Buying coins is more expensive.
+			- [ ] Passive - Buying coins is cheaper. Upgrading coins is more expensive.
+			- [ ] Passive - During payoff, heal 1 life for each power coin on heads with unspent charges.
+			- [ ] Underworld powers
+				- [ ] Active - Trade all your coins for other random coins of equal value and type. 1 max. Very slow recharge.
+				- [ ] Active - Destroy one of your coins. Gain life based on its value. 2 max. Slow recharge.
+				- [ ] Active - A random Patron power. Changes randomly each round.
+				- [ ] Passive - Your coins are permanently ignited and blessed.
+				- [ ] Passive - Your power coins have a random amount of charges from 1-5.
+				- [ ] Passive - After each payoff, increase each coin's payoff and penalty by 1.
+				- [ ] Passive - Your powers also affect both adjacent coins.
+				- [ ] Passive - Strain damage is reduced to 1. You start with 100 life and cannot gain more.
+				- [ ] Passive - Your coins have 2 additional charges. You lose 1 life for each unspent charge during payoff.
+				- [ ] Passive - Your coins have an infinite number of charges, but cost 1 life to use. 
+				- [ ] Passive - Your payoff coins are permanently Unlucky, but their payoff is doubled.
+- [ ] **Difficulty levels - Feb 2nd**
+	- [ ] Charon will unleash his Malice.
+	- [ ] Trials have 2 modifiers.  Tollgates are more expensive.
+	- [ ] Monsters are stronger. The Nemesis is more powerful.
+	- [ ] (infinite scaling) 5% more likely to land on tails (configurable with arrows; max increases by 2% on victory.)
+- [ ] **Charon's Malice - Feb 2nd**
+	- [ ] Hands hovering over board.
+	- [ ] Activates on a cycle every so foten.
+	- [ ] Graphical effects (glowing hands etc) to
+	- [ ] **Malice Effects**
+		- [ ] Turn all payoffs to tails
+		- [ ] Turn half powers to tails
+		- [ ] Reflip all coins
+		- [ ] Drain power charges
+		- [ ] Curse a coin
+		- [ ] Unlucky a coin
+		- [ ] Ignite a coin
+		- [ ] Freeze coins on tails
+		- [ ] Clear positive statuses
+		- [ ] Summon a monster
+		- [ ] Blank a coin
+		- [ ] Increase tails penalty
+		- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
+	- [ ] Sap - Coin does not naturally recharge each toss.
+	- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+	- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+- [ ] **Coin Effects - Feb 16th**
+- [ ] **Increase Coin Limit Feb 23rd**
+		- [ ] Goal - 10 coins.
+			- [ ] Coins need to cap at diobol size. 
+			- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
+				- [ ] Obol - keep
+				- [ ] Diobol - 1 larger on bottom?
+				- [ ] Triobol - replace with current diobol
+				- [ ] Tetrobol - triobol 1 larger on bottom?
+		- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
+		- [ ] Move price label down as well to make more space.
+		- [ ] Move shop, enemy row, and hands down with extra space.
+		- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
+		- [ ] Possibly remove a few pixels from the cloth playmat.
+		- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
+- [ ] **More Content - Mar 16th**
+	- [ ] **New bosses**
+	- [ ] **More Monsters**
+	- [ ] **More Coins**
+	- [ ] **More Characters**
+- [ ] **Basic Sound - March - Apr 31st**
+
+
+**Charon's Obol Release**
+- [ ] **Settings menu**
+- [ ] **Coin Gallery**
+- [ ] **More Content**
+- [ ] **Polish**
+- [ ] **Bugs**
+
+
+
+
+
+
+https://en.wikipedia.org/wiki/Apega_of_Nabis
+https://en.wikipedia.org/wiki/Macaria
+
+---
+**Expanded - Characters, Coins, Difficulties, Unlocks**
+- [ ] Charon dialogue implementation
+	- [ ] Malice
+		- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
+		- [ ] Increases whenever you...
+			- [ ] Land heads from a toss flip.
+			- [ ] Trigger a god power
+			- [ ] Payoff a coin on heads
+		- [ ] Decreases...
+			- [ ] At the end of the round (to 50%?)
+			- [ ] After Charon triggers.
+		- [ ] Visible graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc...
+		- [ ] The visual graphical effects imply what negative thing he is going to do.
+			- [ ] First indication at 50%.
+			- [ ] Becomes more fierce at 70%.
+			- [ ] Becomes more fierce at 90%
+		- [ ] At the start of each run, Charon rolls a set rotation of 3 abilities which he performs in order.
+		- [ ] Ending a toss reduces Malice somewhat and moves to the next ability.
+		- [ ] Ending a round reduces Malice to 0 and moves to the next ability.
+		- [ ] After an ability activates, Charon's Malice is reduced to 0.
+		- [ ] After each Trial, Charon adds a new ability to the rotation in a random position.
+		- [ ] Bad things:
+			- [ ] Reflip some heads coins.
+			- [ ] Curse some coins.
+			- [ ] Turn a coin to stone.
+			- [ ] Ignite a coin.
+			- [ ] Turn a coin to glass.
+			- [ ] Blank a coin for the rest of the round.
+			- [ ] Flip a heads coin to tails.
+			- [ ] Give an Obol of Thorns.
+			- [ ] Freeze a coin on tails.
+			- [ ] Summon a monster. (maybe do this instead of monster encounter rounds, just have Charon regularly summon monsters over time)
+			- [ ] Downgrade a coin.
+			- [ ] Deal some damage.
+			- [ ] Extinguish Prometheus flame. (maybe half the stacks)
+			- [ ] Tap a coin - whenever a power on that coin is used, lose life.
+			- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
+			- [ ] (at 20+ flips) forcibly end the round.
+			- [ ] Give Obol of Thorns
+		- [ ] Separately, and possibly as a different difficulty modifier, Charon may choose to summon monsters from a small pool rolled at the start of each run at the start of any given round. 
+- [ ] Add custom seed option in main menu eventually
+- [ ] Change RNG so that Trails/Boss/Charon, Shop, and coin RNG are all different.
+

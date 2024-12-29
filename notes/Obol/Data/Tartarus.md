@@ -1,0 +1,20 @@
+**Tartarus**
+- [ ] Collect 3 fragments of Cronus's Sickle (appears in specific shops; 4 total possible places - you need to buy 3; if you skip the first two they stop appearing since it's impossible). If you do so, after beating the final Trial, move to Tartarus. Charon makes some dialogue here and the map changes/extends to include an extra boss (Hecatonchieres) and the pit (Tartarus).
+	- [ ] Flesh of Cronus - Gateway to Tartarus - ??? (1/3)
+	- [ ] These fragments don't occupy a spot. 
+- [ ] Hecatoncheires
+	- [ ] Start - Lose all souls.
+	- [ ] Cottus - Lose 100 life. (-2 for each soul you gain this round). / Destroy a coin. 
+	- [ ] Briareus - Lose 100 life. (-2 for each soul you gain this round). / Unlucky 3 coins.
+	- [ ] Gyges - Lose 100 life. (-2 for each soul you gain this round). / Curse 3 coins.
+- [ ] Tartarus
+	- [ ] Start - Lose all souls. In their place, gain the Sickle of Cronus - which makes life = souls.
+		- [ ] Whenever you gain souls, gain life. Whenever you lose souls, lose life. 
+	- [ ] Scripted boss battle - oscillates between two 'attacks'.
+		- [ ] A 'random' (?) bad thing such as "3x ignite 3x curse" or similar. Or maybe this is fully scripted.
+		- [ ] Downgrade 3 coins.
+	- [ ] Donate 1000 life to win. You lose if you run out of coins first. Life lost != donated - you have to reach 1000 shards and hit the Donate button. 
+	- [ ] No strain. 
+- [ ] Change difficulty skulls so they become black AFTER you've beaten Cronus on that level or difficulty or below. (cosmetic)
+- [ ] Winning for the first time unlocks a new character - The Saturnian (or maybe the Poet (Pindar)) - which has the Cronus effect of "Souls = Life."
+- [ ] Another concept - going to Tartarus has TWO separate rounds - Hecatoncheires boss battle, then Tartarus itself.
