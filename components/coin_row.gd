@@ -16,6 +16,11 @@ enum _State {
 }
 var _state = _State.EXPANDED
 
+func clear() -> void:
+	for coin in get_children():
+		coin.queue_free()
+		remove_child(coin)
+
 # returns array of all coins on tails
 func get_tails() -> Array:
 	assert(get_child_count() != 0)

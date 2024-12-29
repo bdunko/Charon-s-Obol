@@ -209,11 +209,15 @@ func _force_position_onto_screen():
 	
 #	# but now we might be overlapping the mouse, so move up until we aren't
 	var shifted := false
+	var hit_top := false
 	while _get_real_rect().has_point(mouse_position):
 		shifted = true
 		position.y -= 1
+		if position.y <= 0:
+			hit_top = true
+			break
 
-	if shifted: # if we had to shift back up, go a bit more to match the same offset as normal
+	if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
 		position.y -= _TOOLTIP_OFFSET.y
 
 func destroy_tooltip():

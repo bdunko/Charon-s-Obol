@@ -189,6 +189,10 @@ func _on_state_changed() -> void:
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce ante to 0 for display purposes
+		Global.ante_modifier_this_round = 0
+		# behind the scenes - make each coin in the player row interactable; as they were disabled for payoff which may have been interrupted
+		_COIN_ROW.enable_interaction()
+		_ENEMY_COIN_ROW.clear()
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _wait_for_dialogue("Yet I will grant you one final opportunity.")
@@ -202,7 +206,7 @@ func _on_state_changed() -> void:
 		_CHARON_COIN_ROW.get_child(0).turn()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("And now, on the edge of life and death...")
-		_DIALOGUE.show_dialogue("You must flip!")
+		_DIALOGUE.show_dialogue("You must toss!")
 		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
@@ -220,7 +224,7 @@ func _on_game_end() -> void:
 		await _wait_for_dialogue("I wish you luck on the rest of your journey...")
 	else:
 		await _wait_for_dialogue("You were a fool to come here.")
-		await _wait_for_dialogue("And now!")
+		await _wait_for_dialogue("And now...")
 		await _wait_for_dialogue("Your soul shall be mine!")
 	_LEFT_HAND.unlock()
 	_LEFT_HAND.move_offscreen()
@@ -374,8 +378,8 @@ func _on_flip_complete() -> void:
 				_on_end_round_button_pressed()
 			_:
 				assert(false, "Charon's obol has an incorrect power?")
-		_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
 		_COIN_ROW.expand()
+		_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
 		return
 	
 	# if every flip is done
@@ -612,8 +616,10 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var highest = _COIN_ROW.get_highest_valued()
 					highest.shuffle()
-					if highest[0].get_denomination() != Global.Denomination.OBOL:
-						downgrade_coin(highest[0])
+					# don't downgrade if it's the last coin
+					if highest[0].get_denomination() == Global.Denomination.OBOL and _COIN_ROW.get_child_count() == 1:
+						return
+					downgrade_coin(highest[0])
 				Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_leftmost_to_rightmost():
@@ -1520,11 +1526,19 @@ func _on_coin_clicked(coin: Coin):
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
 					_safe_flip(coin, 1000000)
+				if coin.is_stone():
+					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+					return
 				else:
 					_safe_flip(coin)
 			Global.POWER_FAMILY_FREEZE:
+				if coin.is_frozen():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (FROZEN)..."))
 				coin.freeze()
 			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
+				if coin.is_stone() and left and left.is_stone() and right and right.is_stone():
+					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
+					return
 				# flip coin and neighbors
 				_safe_flip(coin)
 				if left:
@@ -1569,18 +1583,27 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 			Global.POWER_FAMILY_MAKE_LUCKY:
+				if coin.is_lucky():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (LUCKY)..."))
+					return
 				coin.make_lucky()
 			Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
 				if coin.is_monster():
 					downgrade_coin(coin)
 					Global.lives -= Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
 				elif coin.is_owned_by_player():
+					if _COIN_ROW.get_child_count() == 1 and coin.get_denomination() == Global.Denomination.OBOL:
+						_DIALOGUE.show_dialogue("Can't destroy last coin...")
+						return
 					downgrade_coin(coin)
 					Global.lives += Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1]
 				else:
 					_DIALOGUE.show_dialogue("Can't downgrade that...")
 					return
 			Global.POWER_FAMILY_ARROW_REFLIP:
+				if coin.is_stone():
+					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+					return
 				_safe_flip(coin)
 				Global.arrows -= 1
 				if Global.arrows == 0:
@@ -1594,7 +1617,7 @@ func _on_coin_clicked(coin: Coin):
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
-		if coin in [Global.POWER_FAMILY_GAIN_LIFE, Global.POWER_FAMILY_GAIN_ARROW, Global.POWER_FAMILY_REFLIP_ALL, Global.POWER_FAMILY_GAIN_COIN]:
+		if coin.get_active_power_family() in [Global.POWER_FAMILY_GAIN_LIFE, Global.POWER_FAMILY_GAIN_ARROW, Global.POWER_FAMILY_REFLIP_ALL, Global.POWER_FAMILY_GAIN_COIN]:
 			# trial of blood - using powers costs 1 life
 			if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD): 
 				var life_cost = Global.BLOOD_COST
@@ -1608,7 +1631,6 @@ func _on_coin_clicked(coin: Coin):
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
 					Global.lives += coin.get_denomination_as_int() + 1
-					coin.spend_power_use()
 				Global.POWER_FAMILY_GAIN_ARROW:
 					Global.arrows += coin.get_denomination_as_int()
 				Global.POWER_FAMILY_REFLIP_ALL:

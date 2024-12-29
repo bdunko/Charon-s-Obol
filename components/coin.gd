@@ -623,25 +623,21 @@ func spend_power_use() -> void:
 	_update_appearance()
 	FX.flash(Color.WHITE)
 
+func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int) -> int:
+	if power_family == Global.POWER_FAMILY_LOSE_LIFE:
+		return power_family.uses_for_denom[_denomination] - (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	elif is_stone():
+		return current_charges
+	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING): #recharge only by 1
+		return min(current_charges + 1, power_family.uses_for_denom[_denomination])
+	return power_family.uses_for_denom[_denomination]
+
 func reset_power_uses() -> void:
-	var new_heads_charges = -1
-	var new_tails_charges = -1
-	
-	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING): # sapping trial - recharge only by 1
-		new_heads_charges = min(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
-		new_tails_charges = min(_tails_power.charges + 1, _tails_power.power_family.uses_for_denom[_denomination])
-	else:
-		new_heads_charges = _heads_power.power_family.uses_for_denom[_denomination]
-		new_tails_charges = _tails_power.power_family.uses_for_denom[_denomination]
-	
-	if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-		new_heads_charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
-	if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-		new_tails_charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	var new_heads_charges = _calculate_charge_amount(_heads_power.power_family, _heads_power.charges)
+	var new_tails_charges = _calculate_charge_amount(_tails_power.power_family, _tails_power.charges)
 	
 	if _heads_power.charges < new_heads_charges or _tails_power.charges < new_tails_charges:
 		FX.flash(Color.LIGHT_PINK)
-	
 	_heads_power.charges = new_heads_charges
 	_tails_power.charges = new_tails_charges
 	
