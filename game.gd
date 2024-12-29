@@ -532,6 +532,10 @@ func _earn_souls(soul_amt: int) -> void:
 	Global.souls += soul_amt
 	Global.souls_earned_this_round += soul_amt
 
+func _lose_souls(soul_amt: int) -> void: 
+	Global.souls = max(0, Global.souls - soul_amt)
+	Global.souls_earned_this_round -= soul_amt
+
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
 	_patron_token.deactivate()
@@ -562,7 +566,7 @@ func _on_accept_button_pressed():
 						_earn_souls(payoff)
 				Global.POWER_FAMILY_LOSE_SOULS:
 					payoff_coin.FX.flash(Color.DARK_BLUE)
-					Global.souls = max(0, Global.souls - charges)
+					_lose_souls(charges)
 				Global.POWER_FAMILY_LOSE_LIFE:
 					if charges > 0:
 						payoff_coin.FX.flash(Color.RED)
@@ -853,7 +857,7 @@ func _on_continue_button_pressed():
 	Global.shop_price_multiplier += Global.SHOP_MULTIPLIER_INCREASE
 
 func _on_end_round_button_pressed():
-	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
+	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
 	_PLAYER_TEXTBOXES.make_invisible()
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
@@ -1278,6 +1282,11 @@ func destroy_coin(coin: Coin) -> void:
 	coin.position = destroyed_global_pos
 	# play destruction animation (coin will free itself after finishing)
 	coin.destroy()
+	
+	# if nemesis round and the row is now empty, go ahead and end the round
+	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
+		_on_end_round_button_pressed()
+		return
 
 func downgrade_coin(coin: Coin) -> void:
 	if coin.get_denomination() == Global.Denomination.OBOL:
@@ -1393,11 +1402,6 @@ func _on_coin_clicked(coin: Coin):
 			destroy_coin(coin)
 			Global.souls -= coin.get_appeasal_price()
 			_DIALOGUE.show_dialogue("Very good...")
-			
-			# if nemesis round and the row is now empty, go ahead and end the round
-			if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
-				_on_end_round_button_pressed()
-				return
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls...")
 		return

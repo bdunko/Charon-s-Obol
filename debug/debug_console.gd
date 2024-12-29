@@ -141,6 +141,8 @@ func _on_text_submitted(txt):
 			# special case thorns
 			if args[1].to_lower() == "thorn" or args[1].to_lower() == "thorns":
 				game._make_and_gain_coin(Global.THORNS_FAMILY, denom, game._PLAYER_NEW_COIN_POSITION)
+			elif args[1].to_lower() == "common" or args[1].to_lower() == "obol" or args[1].to_lower() == "generic" or args[1].to_lower() == "money" or args[1].to_lower() == "coin":
+				game._make_and_gain_coin(Global.GENERIC_FAMILY, denom, game._PLAYER_NEW_COIN_POSITION)
 			else:
 				# search all coins...
 				var made = false

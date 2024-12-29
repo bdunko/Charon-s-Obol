@@ -158,6 +158,7 @@ script = ExtResource("6_8jepi")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DebugConsole" parent="CanvasLayer" instance=ExtResource("7_01ylf")]
+visible = false
 
 [connection signal="game_ended" from="Game" to="." method="_on_game_game_ended"]
 [connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]
