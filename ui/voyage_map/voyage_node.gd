@@ -1,6 +1,8 @@
 class_name VoyageNode
 extends Control
 
+signal hovered
+
 enum VoyageNodeType {
 	LEFT_END, RIGHT_END,
 	DOCK, NODE, NEMESIS, TRIAL, TOLLGATE
@@ -19,6 +21,7 @@ func _ready():
 	assert(_PRICE_LABEL)
 	assert(_TOOLTIP)
 	_PRICE_LABEL.hide()
+	_TOOLTIP.tooltip_created.connect(_on_tooltip_created)
 
 func ship_position() -> Vector2:
 	return Vector2(position.x - 4, 29)
@@ -56,3 +59,6 @@ func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0) -> voi
 	
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
+
+func _on_tooltip_created():
+	emit_signal("hovered")

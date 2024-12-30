@@ -59,7 +59,6 @@ enum TutorialState {
 	ROUND1_FIRST_TAILS_ACCEPTED, # after the second toss is accepted
 	ROUND1_SHOP_BEFORE_BUYING_COIN, # introducing the shop
 	ROUND1_SHOP_AFTER_BUYING_COIN, # after the player buys a coin
-	ROUND1_VOYAGE, # explain the trials and tollgates
 	
 	ROUND2_POWER_INTRO, # explain powers
 	ROUND2_POWER_ACTIVATED, # after activating a power
@@ -74,6 +73,7 @@ enum TutorialState {
 	
 	ROUND4_MONSTER_INTRO, #introduce monsters
 	ROUND4_MONSTER_AFTER_TOSS, # after the monster tosses for first time
+	ROUND4_VOYAGE, # explain the trials and tollgates
 	
 	ROUND5_INTRO, # flavor text
 	
@@ -231,6 +231,10 @@ func remove_toll_coin(coin) -> void:
 	toll_coins_offered.erase(coin)
 	emit_signal("toll_coins_changed")
 
+func clear_toll_coins() -> void:
+	toll_coins_offered.clear()
+	emit_signal("toll_coins_changed")
+
 # coins that cannot be offered at tolls
 @onready var TOLL_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
 # coins that cannot be upgraded
@@ -335,6 +339,10 @@ var MONSTER_WAVE6 = [
 
 var MONSTER_WAVE_TUTORIAL = [
 	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]
+]
+
+var MONSTER_WAVE_TUTORIAL2 = [
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]
 ]
 
 var VOYAGE
@@ -460,7 +468,7 @@ var _VOYAGE_TUTORIAL = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, NO_MONSTERS),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE1),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL2),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 100, NO_MONSTERS),
 	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS), #8 is intentional to prevent possible bugs, don't increase
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS)

@@ -88,7 +88,7 @@ func _on_text_submitted(txt):
 			success = false
 		else:
 			Global.souls += int(args[1])
-	elif cmd == "life" or cmd == "lives":
+	elif cmd == "life" or cmd == "lives" or cmd == "live":
 		if not args.size() == 2:
 			success = false
 		else:

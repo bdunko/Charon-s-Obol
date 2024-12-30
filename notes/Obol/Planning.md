@@ -1,18 +1,12 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals**
 	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
-		- [ ] **Tutorial - Dec 29th**
-			- [ ] Don't splay out the shop during the upgrade section, until Charon is done talking about that.
-			- [ ] Look to move the Trial and Tollgate explanation to later in the tutorial. Reduce wordiness where possible. Explain recharging better.
-				- [ ] Remove the explaination from the first map part.
-				- [ ] Explain Trial on map view when we first arrive.
-				- [ ] Explain the Tollgate on map view when we first arrive.
-			- [ ] Add another part to round 2 showing the recharge.
-			- [ ] Add another round between 3 and 4 (extra round before monsters).
 		- [ ] **Balance - Jan 1st**
 			- [ ] Arrows cap at 10.
 				- [ ] Add a visual indicator 10/10
 			- [ ] Souls do not persist between rounds.
+				- [ ] Update tutorial to mention this, after leaving shop.
+					- [ ] possibly don't do it at the first shop, only do it after teaching about upgrades?
 			- [ ] Coins cost more life on tails.
 			- [ ] Coins are more expensive, particularly of higher denominations.
 			- [ ] Upgrading coins is more expensive than buying coins from the shop (for the same coin)

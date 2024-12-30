@@ -114,7 +114,7 @@ shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0, 0)
+shader_parameter/auto_pan_speed = Vector2(-0.01, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -233,7 +233,7 @@ shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0, 0)
+shader_parameter/auto_pan_speed = Vector2(-0.02, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -477,7 +477,7 @@ shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0, 0)
+shader_parameter/auto_pan_speed = Vector2(0, -0.05)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -585,7 +585,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d8sfq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tdslr"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
@@ -830,7 +830,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_d8sfq")
+material = SubResource("ShaderMaterial_tdslr")
 layout_mode = 2
 default_text = "Continue"
 

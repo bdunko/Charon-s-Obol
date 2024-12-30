@@ -1,6 +1,7 @@
 class_name VoyageMap
 extends Node2D
 
+signal trial_hovered #used for tutorial
 signal clicked
 signal closed
 
@@ -23,6 +24,9 @@ func _ready() -> void:
 	
 	_ANIMATION_PLAYER.play("boat")
 
+func _on_trial_hovered():
+	emit_signal("trial_hovered")
+
 func _get_x_for_round(round_count: int) -> float:
 	return _NODES.get_child(round_count+1).ship_position().x
 
@@ -34,6 +38,8 @@ func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int 
 	var node: VoyageNode = _NODE_SCENE.instantiate()
 	_NODES.add_child(node)
 	node.init_node(vnt, tooltip, price)
+	if vnt == VoyageNode.VoyageNodeType.TRIAL:
+		node.hovered.connect(_on_trial_hovered)
 
 const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]."
 const _NEMESIS_FORMAT = "%s\n%s\nYou must be victorious."

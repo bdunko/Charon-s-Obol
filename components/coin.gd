@@ -164,7 +164,7 @@ func _update_price_label() -> void:
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
 		
 		# hide upgrade label during some parts of tutorial
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_VOYAGE]
+		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN]
 		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
