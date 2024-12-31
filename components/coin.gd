@@ -135,11 +135,14 @@ func _update_face_label() -> void:
 		return
 	
 	var color = _YELLOW if get_active_power_charges() != 0 else _GRAY
-	match(get_active_power_family()):
-		Global.POWER_FAMILY_GAIN_SOULS:
-			color = _BLUE
-		Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_LOSE_SOULS:
+	if get_active_power_family() in Global.LOSE_LIFE_POWERS:
 			color = _RED
+	else:
+		match(get_active_power_family()):
+			Global.POWER_FAMILY_GAIN_SOULS:
+				color = _BLUE
+			Global.POWER_FAMILY_LOSE_SOULS_THORNS:
+				color = _RED
 	var charges_str = "%d" % get_active_power_charges() if get_active_power_family().show_uses else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
@@ -788,7 +791,7 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	return txt
 
 # icons which we don't show an icon and charge count for in tooltips at the front.
-var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_LOSE_LIFE, Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS, Global.CHARON_POWER_DEATH, Global.CHARON_POWER_LIFE]
+@onready var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS_THORNS, Global.CHARON_POWER_DEATH, Global.CHARON_POWER_LIFE] + Global.LOSE_LIFE_POWERS
 func _generate_tooltip() -> void:
 	var txt = ""
 	var coin_name = get_coin_name()

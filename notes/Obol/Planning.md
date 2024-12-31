@@ -2,25 +2,22 @@
 - [ ] **Current Goals**
 	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
 		- [ ] **Balance - Jan 1st**
-			- [ ] Arrows cap at 10.
-				- [ ] Add a visual indicator 10/10
-			- [ ] Souls do not persist between rounds.
-				- [ ] Update tutorial to mention this, after leaving shop.
-					- [ ] possibly don't do it at the first shop, only do it after teaching about upgrades?
-			- [ ] Coins cost more life on tails.
-			- [ ] Coins are more expensive, particularly of higher denominations.
-			- [ ] Upgrading coins is more expensive than buying coins from the shop (for the same coin)
-			- [ ] Ante increases faster in later rounds. (river changes color)
+			- [x] Arrows cap at 10.
+				- [x] Add a visual indicator 10/10
+			- [x] Souls do not persist between rounds.
+				- [x] Update tutorial to mention this, after leaving shop.
+					- [x] possibly don't do it at the first shop, only do it after teaching about upgrades?
+			- [x] Ante increases faster in later rounds. (river changes color too)
 			- [ ] Monster have been buffed.
 				- [ ] Monsters that apply status effects will attempt to target coins that are not already affected with that status.
 				- [ ] Birds tails downside increased.
-			- [ ] Hades buffed to 10x value for both; additionally, tooltip is more informative.
+			- [x] Hades buffed to 10x value for both; additionally, tooltip is more informative.
 			- [ ] Trials have been rebalanced.
-				- [ ] Trial of Torture - changed to downgrade highest value coin each round. (instead of a random coin)
-				- [ ] Trial of Iron - Obol of Thorns changed to -1 soul/-1 life.
+				- [ ] Trial of Torture - changed to downgrade highest value heads coin each round. (instead of a random coin)
+				- [x] Trial of Iron - Obol of Thorns changed to -1 soul/-1 life.
 				- [ ] Trial of Misfortune - After each toss, additionally makes a random coin Unlucky.
 				- [ ] Trial of Polarization - Reworked; now makes the lowest coin Blank at the end of each toss.
-				- [ ] The same Trial will not appear twice in a single run.
+				- [x] The same Trial will not appear twice in a single run.
 			- [ ] Coins have been rebalanced
 				- [ ] Hermes has an animation to more clearly imply how it works.
 				- [ ] Hermes cannot trade for a coin of the exact same type.

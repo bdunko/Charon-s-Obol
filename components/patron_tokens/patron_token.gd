@@ -80,7 +80,7 @@ func _on_mouse_entered():
 	if _disable_interaction:
 		return
 	
-	UITooltip.create(self, "%s ([color=yellow]%d/%d[/color])\n%s" % [Global.patron.token_name, Global.patron_uses, Global.current_round_patron_uses(), Global.patron.description], get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, "%s [color=yellow](%d/%d)[/color]\n%s" % [Global.patron.token_name, Global.patron_uses, Global.current_round_patron_uses(), Global.patron.description], get_global_mouse_position(), get_tree().root)
 	
 	_update_effects()
 

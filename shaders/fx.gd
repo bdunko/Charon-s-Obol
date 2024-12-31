@@ -366,17 +366,23 @@ func stop_glowing() -> void:
 
 func fade_out(time: float = 1.0) -> void:
 	assert(time >= 0.0)
+	if time == 0.0:
+		hide()
+		return
 	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0, time)
 
 func fade_in(time: float = 1.0) -> void:
 	assert(time >= 0.0)
+	if time == 0.0:
+		show()
+		return
 	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0, time)
 
 func hide() -> void:
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
 func show() -> void:
-	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
 
 const _SCAN_LOOKUP = {
 	# direction: [uniform, start, end, [auto_on, auto_reverse, auto_start_time, auto_duration, auto_delay], auto_reverse]

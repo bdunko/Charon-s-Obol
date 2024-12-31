@@ -5,6 +5,7 @@ signal trial_hovered #used for tutorial
 signal clicked
 signal closed
 
+@onready var _RIVER = $Map/River
 @onready var _NODES = $Map/Nodes
 @onready var _SHIP = $Map/Ship
 @onready var _CLICK_DETECTOR = $Map/ClickDetector
@@ -91,3 +92,6 @@ func node_position(i: int) -> Vector2:
 	if i >= _NODES.get_child_count():
 		return Vector2(-1, -1)
 	return _NODES.get_child(i).get_global_position()
+
+func change_river_color(colorStyle: River.ColorStyle, instant: bool) -> void:
+	_RIVER.change_color(colorStyle, instant)

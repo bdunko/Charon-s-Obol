@@ -1,12 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cr6fktifdg2pi"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://k4huugu5agd8"]
 
-[ext_resource type="Script" path="res://ui/dialogue_system.gd" id="1_1cyir"]
-[ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="2_r1ciw"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_u014s"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_ayb5i"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oluig"]
-resource_local_to_scene = true
-shader = ExtResource("3_u014s")
+[resource]
+shader = ExtResource("1_ayb5i")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
@@ -17,7 +14,7 @@ shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0, 0)
+shader_parameter/auto_pan_speed = Vector2(0.025, 0)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
 shader_parameter/replace_color2 = Color(0, 0, 0, 1)
@@ -34,10 +31,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
-shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
-shader_parameter/auto_flash_speed = 0.0
+shader_parameter/auto_flash_color = Color(0.360784, 0.552941, 0.741176, 1)
+shader_parameter/auto_flash_speed = 5.0
 shader_parameter/auto_flash_bound1 = 0.0
-shader_parameter/auto_flash_bound2 = 1.0
+shader_parameter/auto_flash_bound2 = 0.2
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -76,7 +73,7 @@ shader_parameter/glow_color = Color(1, 1, 1, 1)
 shader_parameter/glow_thickness = 0
 shader_parameter/glow_diagonals = false
 shader_parameter/auto_glow_speed = 0.0
-shader_parameter/auto_glow_bound = 0.75
+shader_parameter/auto_glow_bound = 1.0
 shader_parameter/auto_glow_start_time = 0.0
 shader_parameter/disintegrate_seed = 1
 shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
@@ -88,7 +85,7 @@ shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(-0.02, 0)
+shader_parameter/fog_speed = Vector2(0.02, 0.01)
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -109,8 +106,8 @@ shader_parameter/mouselight_strength = 0.5
 shader_parameter/mouselight_size = 8
 shader_parameter/mouselight_soften_edges = true
 shader_parameter/mouselight_checker = false
-shader_parameter/auto_mouselight_flicker_speed = 8.0
-shader_parameter/auto_mouselight_flicker_bound = 10.0
+shader_parameter/auto_mouselight_flicker_speed = 10.0
+shader_parameter/auto_mouselight_flicker_bound = 3.0
 shader_parameter/cut_left = 0.0
 shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
@@ -123,11 +120,3 @@ shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
-
-[node name="DialogueSystem" type="Node2D"]
-script = ExtResource("1_1cyir")
-
-[node name="Textbox" parent="." instance=ExtResource("2_r1ciw")]
-material = SubResource("ShaderMaterial_oluig")
-offset_left = 144.0
-offset_right = 177.0

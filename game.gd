@@ -36,6 +36,8 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
+@onready var _RIVER_LEFT: River = $RiverLeft
+@onready var _RIVER_RIGHT: River = $RiverRight
 @onready var _VOYAGE_MAP: VoyageMap = $Table/VoyageMap
 @onready var _MAP_BLOCKER = $UI/MapBlocker
 var _map_open = false # if the map is currently open
@@ -51,6 +53,9 @@ var _map_is_disabled = false # if the map can be clicked on (ie, disabled during
 
 @onready var _LEFT_HAND: CharonHand = $Table/CharonHandLeft
 @onready var _RIGHT_HAND: CharonHand = $Table/CharonHandRight
+
+var river_color_index = 0
+var _RIVER_COLORS = [River.ColorStyle.PURPLE, River.ColorStyle.GREEN, River.ColorStyle.RED]
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -72,6 +77,8 @@ func _ready() -> void:
 	
 	assert(_DIALOGUE)
 	assert(_TABLE)
+	assert(_RIVER_LEFT)
+	assert(_RIVER_RIGHT)
 	
 	assert(_VOYAGE_MAP)
 	assert(_MAP_BLOCKER)
@@ -109,7 +116,7 @@ func _on_arrow_count_changed() -> void:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
 		arrow.clicked.connect(_on_arrow_pressed)
-		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-4, 4), Global.RNG.randi_range(-3, 3))
+		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-3, 3), Global.RNG.randi_range(-3, 3))
 		_ARROWS.add_child(arrow)
 
 func _on_soul_count_changed() -> void:
@@ -237,6 +244,10 @@ func _on_game_end() -> void:
 func on_start() -> void: #reset
 	_CAMERA.make_current()
 	_DIALOGUE.instant_clear_dialogue()
+	
+	# reset color to purple...
+	river_color_index = 0
+	_recolor_river(_RIVER_COLORS[river_color_index], true)
 	
 	# delete all existing coins
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
@@ -543,99 +554,100 @@ func _on_accept_button_pressed():
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
 			payoff_coin.payoff_move_up()
-			match(payoff_power_family):
-				Global.POWER_FAMILY_GAIN_SOULS:
-					var payoff = charges
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
-						payoff = 0 if charges <= 10 else charges
-					if payoff > 0:
-						payoff_coin.FX.flash(Color.AQUA)
-						_earn_souls(payoff)
-				Global.POWER_FAMILY_LOSE_SOULS:
-					payoff_coin.FX.flash(Color.DARK_BLUE)
-					_lose_souls(charges)
-				Global.POWER_FAMILY_LOSE_LIFE:
+			if payoff_power_family in Global.LOSE_LIFE_POWERS:
 					if charges > 0:
 						payoff_coin.FX.flash(Color.RED)
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # trial pain - 3x loss from tails penalties
 						Global.lives -= charges * 3
 					else:
 						Global.lives -= charges
-				Global.MONSTER_POWER_FAMILY_HELLHOUND:
-					payoff_coin.ignite()
-				Global.MONSTER_POWER_FAMILY_KOBALOS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].make_unlucky()
-				Global.MONSTER_POWER_FAMILY_ARAE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].curse()
-				Global.MONSTER_POWER_FAMILY_HARPY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].blank()
-				Global.MONSTER_POWER_FAMILY_CENTAUR_HEADS:
-					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					_COIN_ROW.get_randomized()[0].make_lucky()
-				Global.MONSTER_POWER_FAMILY_CENTAUR_TAILS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].make_unlucky()
-				Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
-					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					Global.arrows += 1
-				Global.MONSTER_POWER_FAMILY_SIREN:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_tails():
-						coin.freeze()
-				Global.MONSTER_POWER_FAMILY_BASILISK:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.lives -= int(Global.lives / 2.0)
-				Global.MONSTER_POWER_FAMILY_GORGON:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].stone()
-				Global.MONSTER_POWER_FAMILY_CHIMERA:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.get_randomized()[0].ignite()
-				Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var possible_coins = []
-					for coin in _COIN_ROW.get_highest_to_lowest_value():
-						if not coin.is_stone():
-							if possible_coins.is_empty() or possible_coins[0].get_value() == coin.get_value():
-								possible_coins.append(coin)
-					if not possible_coins.is_empty():
-						Global.choose_one(possible_coins).stone()
-				Global.NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE: # downgrade highest value coin
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var highest = _COIN_ROW.get_highest_valued()
-					highest.shuffle()
-					# don't downgrade if it's the last coin
-					if highest[0].get_denomination() == Global.Denomination.OBOL and _COIN_ROW.get_child_count() == 1:
-						return
-					downgrade_coin(highest[0])
-				Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_leftmost_to_rightmost():
-						if not coin.is_stone():
-							coin.stone()
-							break
-				Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var num_unluckied = 0
-					for coin in _COIN_ROW.get_randomized():
-						if coin.is_unlucky():
-							continue
-						coin.make_unlucky()
-						num_unluckied += 1
-						if num_unluckied == 2:
-							break
-				Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_rightmost_to_leftmost():
-						if not coin.is_stone():
-							coin.stone()
-							break
-				Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.ante_modifier_this_round += 2
+			else:
+				match(payoff_power_family):
+					Global.POWER_FAMILY_GAIN_SOULS:
+						var payoff = charges
+						if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
+							payoff = 0 if charges <= 10 else charges
+						if payoff > 0:
+							payoff_coin.FX.flash(Color.AQUA)
+							_earn_souls(payoff)
+					Global.POWER_FAMILY_LOSE_SOULS_THORNS:
+						payoff_coin.FX.flash(Color.DARK_BLUE)
+						_lose_souls(charges)
+					Global.MONSTER_POWER_FAMILY_HELLHOUND:
+						payoff_coin.ignite()
+					Global.MONSTER_POWER_FAMILY_KOBALOS:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].make_unlucky()
+					Global.MONSTER_POWER_FAMILY_ARAE:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].curse()
+					Global.MONSTER_POWER_FAMILY_HARPY:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].blank()
+					Global.MONSTER_POWER_FAMILY_CENTAUR_HEADS:
+						payoff_coin.FX.flash(Color.GHOST_WHITE)
+						_COIN_ROW.get_randomized()[0].make_lucky()
+					Global.MONSTER_POWER_FAMILY_CENTAUR_TAILS:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].make_unlucky()
+					Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
+						payoff_coin.FX.flash(Color.GHOST_WHITE)
+						Global.arrows = min(Global.arrows + 1, Global.ARROWS_LIMIT)
+					Global.MONSTER_POWER_FAMILY_SIREN:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						for coin in _COIN_ROW.get_tails():
+							coin.freeze()
+					Global.MONSTER_POWER_FAMILY_BASILISK:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						Global.lives -= int(Global.lives / 2.0)
+					Global.MONSTER_POWER_FAMILY_GORGON:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].stone()
+					Global.MONSTER_POWER_FAMILY_CHIMERA:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						_COIN_ROW.get_randomized()[0].ignite()
+					Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						var possible_coins = []
+						for coin in _COIN_ROW.get_highest_to_lowest_value():
+							if not coin.is_stone():
+								if possible_coins.is_empty() or possible_coins[0].get_value() == coin.get_value():
+									possible_coins.append(coin)
+						if not possible_coins.is_empty():
+							Global.choose_one(possible_coins).stone()
+					Global.NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE: # downgrade highest value coin
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						var highest = _COIN_ROW.get_highest_valued()
+						highest.shuffle()
+						# don't downgrade if it's the last coin
+						if highest[0].get_denomination() == Global.Denomination.OBOL and _COIN_ROW.get_child_count() == 1:
+							return
+						downgrade_coin(highest[0])
+					Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						for coin in _COIN_ROW.get_leftmost_to_rightmost():
+							if not coin.is_stone():
+								coin.stone()
+								break
+					Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						var num_unluckied = 0
+						for coin in _COIN_ROW.get_randomized():
+							if coin.is_unlucky():
+								continue
+							coin.make_unlucky()
+							num_unluckied += 1
+							if num_unluckied == 2:
+								break
+					Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						for coin in _COIN_ROW.get_rightmost_to_leftmost():
+							if not coin.is_stone():
+								coin.stone()
+								break
+					Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						Global.ante_modifier_this_round += 2
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -691,7 +703,7 @@ func _on_accept_button_pressed():
 	elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED:
 		await _wait_for_dialogue("Perhaps the next toss will be more fortunate?")
 		await _wait_for_dialogue("You may toss as many times as you wish...")
-		await _wait_for_dialogue("...as long as you can pay the ante.")
+		await _wait_for_dialogue("...though the ante will continue to increase.")
 		await _wait_for_dialogue(Global.replace_placeholders("Each toss, you may earn souls(SOULS), or lose life(LIFE)."))
 		await _wait_for_dialogue(Global.replace_placeholders("For now, know that acquiring souls(SOULS) will help you..."))
 		await _wait_for_dialogue(Global.replace_placeholders("I advise tossing until you are low on life(LIFE)."))
@@ -824,7 +836,18 @@ func _advance_round() -> void:
 		_DIALOGUE.show_dialogue("For now, let's continue to the next round.")
 		Global.tutorialState = Global.TutorialState.ROUND5_INTRO
 	
+	if Global.did_ante_increase():
+		await _wait_for_dialogue("The river is deepening...")
+		river_color_index = min(river_color_index + 1, _RIVER_COLORS.size() - 1)
+		_recolor_river(_RIVER_COLORS[river_color_index], false)
+		_DIALOGUE.show_dialogue("Let's raise the Ante.") 
+	
 	_PLAYER_TEXTBOXES.make_visible()
+
+func _recolor_river(colorStyle: River.ColorStyle, instant: bool) -> void:
+	_RIVER_LEFT.change_color(colorStyle, instant)
+	_RIVER_RIGHT.change_color(colorStyle, instant)
+	_VOYAGE_MAP.change_river_color(colorStyle, instant)
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)
@@ -835,6 +858,17 @@ func _on_continue_button_pressed():
 	_RIGHT_HAND.move_to_default_position()
 	_LEFT_HAND.move_to_default_position()
 	_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
+	
+	var no_lose_souls_states = [Global.TutorialState.ROUND2_POWER_INTRO]
+	if not Global.tutorialState in no_lose_souls_states:
+		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
+			_SHOP_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
+			await _wait_for_dialogue(Global.replace_placeholders("As promised, I will take your remaining souls(SOULS)..."))
+		
+		Global.souls = 0
+		
+		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
+			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
 	
 	await _advance_round()
 	
@@ -868,7 +902,6 @@ func _on_end_round_button_pressed():
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
 		await _wait_for_dialogue("So, you have triumphed.")
 		await _wait_for_dialogue("This outcome is most surprising.")
-		await _wait_for_dialogue("Well done.")
 		await _wait_for_dialogue("And it seems our voyage is nearing its end...")
 		_advance_round()
 		return
@@ -1117,11 +1150,7 @@ func _on_voyage_continue_button_clicked():
 	
 	# Nemesis introduction
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
-		if Global.souls != 0:
-			await _wait_for_dialogue(Global.replace_placeholders("First, I will take your remaining souls(SOULS)..."))
-			Global.souls = 0
-		
-		await _wait_for_dialogue("And now...")
+		await _wait_for_dialogue("We have arrived at your final challenge...")
 		
 		for coin in _ENEMY_COIN_ROW.get_children():
 			match coin.get_coin_family():
@@ -1350,14 +1379,17 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue("The coin has been upgraded.")
 				await _wait_for_dialogue("Its payoff has increased.")
 				await _COIN_ROW.get_child(0).turn()
-				await _wait_for_dialogue("But the downside has increased.")
+				await _wait_for_dialogue("But the downside has increased as well.")
 				await _COIN_ROW.get_child(0).turn()
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.move_to_retracted_position()
 				_LEFT_HAND.lock()
+				await _wait_for_dialogue("Lastly, from now on...")
+				await _wait_for_dialogue(Global.replace_placeholders("I will take any leftover souls(SOULS) when you're done."))
+				await _wait_for_dialogue(Global.replace_placeholders("So I advise you to spend your souls(SOULS) wisely..."))
 				await _wait_for_dialogue("Will you purchase new coins...")
 				await _wait_for_dialogue("Or upgrading existing ones?")
-				await _wait_for_dialogue("From now on, the decision is yours.")
+				await _wait_for_dialogue("The decision is yours.")
 				_SHOP_COIN_ROW.expand()
 				_LEFT_HAND.unlock()
 				Global.restore_z(_LEFT_HAND)
@@ -1377,9 +1409,9 @@ func _on_coin_clicked(coin: Coin):
 			return
 		
 		if Global.souls >= coin.get_appeasal_price():
+			_DIALOGUE.show_dialogue("Very good...")
 			destroy_coin(coin)
 			Global.souls -= coin.get_appeasal_price()
-			_DIALOGUE.show_dialogue("Very good...")
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls...")
 		return
@@ -1474,8 +1506,8 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't destroy enemies...")
 						return
 					# gain life & souls
-					Global.lives += 7 * coin.get_value()
-					_earn_souls(7 * coin.get_value())
+					Global.lives += Global.HADES_PATRON_MULTIPLIER * coin.get_value()
+					_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 					destroy_coin(coin)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
@@ -1612,7 +1644,10 @@ func _on_coin_clicked(coin: Coin):
 				Global.POWER_FAMILY_GAIN_LIFE:
 					Global.lives += coin.get_denomination_as_int() + 1
 				Global.POWER_FAMILY_GAIN_ARROW:
-					Global.arrows += coin.get_denomination_as_int()
+					if Global.arrows == Global.ARROWS_LIMIT:
+						_DIALOGUE.show_dialogue("Too many arrows...")
+						return
+					Global.arrows = min(Global.arrows + coin.get_denomination_as_int(), Global.ARROWS_LIMIT)
 				Global.POWER_FAMILY_REFLIP_ALL:
 					# reflip all coins
 					coin.spend_power_use() # do this ahead of time here since it might get flipped over...
@@ -1684,7 +1719,7 @@ func _on_patron_token_clicked():
 		Global.PATRON_POWER_FAMILY_DEMETER:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				if as_coin.is_tails() and as_coin.get_active_power_family() == Global.POWER_FAMILY_LOSE_LIFE:
+				if as_coin.is_tails() and as_coin.get_active_power_family() in Global.LOSE_LIFE_POWERS:
 					Global.lives += as_coin.get_active_power_charges()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APOLLO:
@@ -1693,11 +1728,13 @@ func _on_patron_token_clicked():
 				as_coin.turn()
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
+			var arrows_earned = 0
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				Global.arrows += 1
+				arrows_earned += 1
 				if as_coin.is_heads():
 					as_coin.turn()
+			Global.arrows = min(Global.arrows + arrows_earned, Global.ARROWS_LIMIT)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
