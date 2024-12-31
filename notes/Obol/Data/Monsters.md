@@ -1,4 +1,21 @@
 **Monsters**
+**Added**
+- [ ] Standard
+	- [ ] Hellhound - Ignite self/damage
+	- [ ] Kobalos - Unlucky/damage
+	- [ ] Arae - Curse/no damage
+	- [ ] Harpy - Blank/damage
+- [ ] Helper
+	- [ ] Centaur - Lucky/Unlucky
+	- [ ] Stymphalian Birds - +Arrow/2x Damage
+- [ ] Elite
+	- [ ] Chimera - Ignite/2x damage
+	- [ ] Siren - Freeze tails/damage
+	- [ ] Basilisk - Half life/no damage
+	- [x] Gorgon (REMOVED) - Stone/damage
+
+---
+**Concepts**
 - [ ] Standard
 	- [ ] Daemon(?) - Damage + Damage
 	- [ ] Strix - Increase tails penalty + Damage

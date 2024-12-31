@@ -8,9 +8,9 @@
 				- [x] Update tutorial to mention this, after leaving shop.
 					- [x] possibly don't do it at the first shop, only do it after teaching about upgrades?
 			- [x] Ante increases faster in later rounds. (river changes color too)
-			- [ ] Monster have been buffed.
-				- [ ] Monsters that apply status effects will attempt to target coins that are not already affected with that status.
-				- [ ] Birds tails downside increased.
+			- [x] Monster have been buffed.
+				- [x] Monsters that apply status effects will attempt to target coins that are not already affected with that status.
+				- [x] Birds tails downside increased.
 			- [x] Hades buffed to 10x value for both; additionally, tooltip is more informative.
 			- [ ] Trials have been rebalanced.
 				- [ ] Trial of Torture - changed to downgrade highest value heads coin each round. (instead of a random coin)

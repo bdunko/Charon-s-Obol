@@ -142,6 +142,27 @@ func get_right_of(coin: Coin) -> Coin:
 		return null
 	return get_child(coin.get_index() + 1)
 
+static func FILTER_NOT_LUCKY(c: Coin) -> bool:
+	return not c.is_lucky()
+
+static func FILTER_NOT_UNLUCKY(c: Coin) -> bool:
+	return not c.is_unlucky()
+
+static func FILTER_NOT_BLANK(c: Coin) -> bool:
+	return not c.is_blank()
+
+static func FILTER_NOT_CURSED(c: Coin) -> bool:
+	return not c.is_cursed()
+
+static func FILTER_NOT_IGNITED(c: Coin) -> bool:
+	return not c.is_ignited()
+
+static func FILTER_NOT_STONE(c: Coin) -> bool:
+	return not c.is_stone()
+
+func get_filtered_randomized(filter_func) -> Array:
+	return get_randomized().filter(filter_func)
+
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
 

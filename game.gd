@@ -574,22 +574,32 @@ func _on_accept_button_pressed():
 						payoff_coin.FX.flash(Color.DARK_BLUE)
 						_lose_souls(charges)
 					Global.MONSTER_POWER_FAMILY_HELLHOUND:
-						payoff_coin.ignite()
+						payoff_coin.ignite() #ignite itself
 					Global.MONSTER_POWER_FAMILY_KOBALOS:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].make_unlucky()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+						if targets.size() != 0:
+							targets[0].make_unlucky()
 					Global.MONSTER_POWER_FAMILY_ARAE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].curse()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED)
+						if targets.size() != 0:
+							targets[0].curse()
 					Global.MONSTER_POWER_FAMILY_HARPY:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].blank()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLANK)
+						if targets.size() != 0:
+							targets[0].blank()
 					Global.MONSTER_POWER_FAMILY_CENTAUR_HEADS:
 						payoff_coin.FX.flash(Color.GHOST_WHITE)
-						_COIN_ROW.get_randomized()[0].make_lucky()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY)
+						if targets.size() != 0:
+							targets[0].make_lucky()
 					Global.MONSTER_POWER_FAMILY_CENTAUR_TAILS:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].make_unlucky()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+						if targets.size() != 0:
+							targets[0].make_unlucky()
 					Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
 						payoff_coin.FX.flash(Color.GHOST_WHITE)
 						Global.arrows = min(Global.arrows + 1, Global.ARROWS_LIMIT)
@@ -602,10 +612,14 @@ func _on_accept_button_pressed():
 						Global.lives -= int(Global.lives / 2.0)
 					Global.MONSTER_POWER_FAMILY_GORGON:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].stone()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_STONE)
+						if targets.size() != 0:
+							targets[0].stone()
 					Global.MONSTER_POWER_FAMILY_CHIMERA:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						_COIN_ROW.get_randomized()[0].ignite()
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_IGNITED)
+						if targets.size() != 0:
+							targets[0].ignite()
 					Global.NEMESIS_POWER_FAMILY_MEDUSA_STONE: # stone highest value non-Stoned coin
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						var possible_coins = []
@@ -620,9 +634,8 @@ func _on_accept_button_pressed():
 						var highest = _COIN_ROW.get_highest_valued()
 						highest.shuffle()
 						# don't downgrade if it's the last coin
-						if highest[0].get_denomination() == Global.Denomination.OBOL and _COIN_ROW.get_child_count() == 1:
-							return
-						downgrade_coin(highest[0])
+						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
+							downgrade_coin(highest[0])
 					Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						for coin in _COIN_ROW.get_leftmost_to_rightmost():
@@ -631,14 +644,11 @@ func _on_accept_button_pressed():
 								break
 					Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						var num_unluckied = 0
-						for coin in _COIN_ROW.get_randomized():
-							if coin.is_unlucky():
-								continue
-							coin.make_unlucky()
-							num_unluckied += 1
-							if num_unluckied == 2:
-								break
+						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+						if targets.size() != 0:
+							targets[0].make_unlucky()
+						if targets.size() != 1:
+							targets[1].make_unlucky()
 					Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						for coin in _COIN_ROW.get_rightmost_to_leftmost():
@@ -647,7 +657,7 @@ func _on_accept_button_pressed():
 								break
 					Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						Global.ante_modifier_this_round += 2
+						Global.ante_modifier_this_round += charges
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)

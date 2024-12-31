@@ -5,6 +5,11 @@ extends Control
 
 func _ready():
 	tween()
+	
+	# TEST
+	var ar = []
+	print(ar.filter(func(n): return n >= 5))
+	
 
 func tween() -> void:
 	pass
@@ -18,3 +23,4 @@ func _on_mouse_watcher_mouse_entered():
 
 func _on_mouse_watcher_mouse_exited():
 	poly.color = Color.BLUE
+
