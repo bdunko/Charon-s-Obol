@@ -631,33 +631,36 @@ func _on_accept_button_pressed():
 							Global.choose_one(possible_coins).stone()
 					Global.NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE: # downgrade highest value coin
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						var highest = _COIN_ROW.get_highest_valued()
-						highest.shuffle()
-						# don't downgrade if it's the last coin
-						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
-							downgrade_coin(highest[0])
+						for i in range(0, Global.MEDUSA_DOWNGRADE_AMOUNT):
+							var highest = _COIN_ROW.get_highest_valued()
+							highest.shuffle()
+							# don't downgrade if it's the last coin
+							if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
+								downgrade_coin(highest[0])
 					Global.NEMESIS_POWER_FAMILY_EURYALE_STONE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						for coin in _COIN_ROW.get_leftmost_to_rightmost():
 							if not coin.is_stone():
 								coin.stone()
 								break
-					Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2:
+					Global.NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
-						if targets.size() != 0:
-							targets[0].make_unlucky()
-						if targets.size() != 1:
-							targets[1].make_unlucky()
+						for i in range(0, Global.EURYALE_UNLUCKY_AMOUNT):
+							var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+							if targets.size() != 0:
+								targets[0].make_unlucky()
 					Global.NEMESIS_POWER_FAMILY_STHENO_STONE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						for coin in _COIN_ROW.get_rightmost_to_leftmost():
 							if not coin.is_stone():
 								coin.stone()
 								break
-					Global.NEMESIS_POWER_FAMILY_STHENO_ANTE:
+					Global.NEMESIS_POWER_FAMILY_STHENO_CURSE:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-						Global.ante_modifier_this_round += charges
+						for i in range(0, Global.STHENO_CURSE_AMOUNT):
+							var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED)
+							if targets.size() != 0:
+								targets[0].curse()
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -688,7 +691,7 @@ func _on_accept_button_pressed():
 		var coins = _COIN_ROW.get_highest_valued_heads()
 		if not coins.is_empty():
 			Global.choose_one(coins).downgrade()
-	if Global.is_passive_active(Global.TRIAL_MISFORTUNE_FAMILY): # every payoff, unlucky coins
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
 		_apply_misfortune_trial()
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
@@ -1291,13 +1294,8 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 	coin.flip_complete.connect(_on_flip_complete)
 
 func destroy_coin(coin: Coin) -> void:
-	assert(coin.get_parent() is CoinRow)
-	# store the coin's global position, so we can restore it after removing from row
-	var destroyed_global_pos = coin.global_position
-	# remove from row and add to scene root
-	coin.get_parent().remove_child(coin)
-	add_child(coin)
-	coin.position = destroyed_global_pos
+	if coin.get_parent() is CoinRow:
+		_remove_coin_from_row(coin)
 	# play destruction animation (coin will free itself after finishing)
 	coin.destroy()
 	
@@ -1305,6 +1303,20 @@ func destroy_coin(coin: Coin) -> void:
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
 		_on_end_round_button_pressed()
 		return
+
+func _remove_coin_from_row(coin: Coin) -> void:
+	assert(coin.get_parent() is CoinRow)
+	var destroyed_global_pos = coin.global_position # store the coin's global position, so we can restore it after removing from row
+	coin.get_parent().remove_child(coin) # remove from row and add to scene root
+	add_child(coin)
+	coin.position = destroyed_global_pos
+
+# remove a coin from its row, then move it to a specified point, then destroy it
+func _remove_coin_from_row_move_then_destroy(coin: Coin, point: Vector2) -> void:
+	_remove_coin_from_row(coin)
+	var tween = create_tween()
+	tween.tween_property(coin, "position", point, Global.COIN_TWEEN_TIME)
+	tween.tween_callback(destroy_coin.bind(coin)) 
 
 func downgrade_coin(coin: Coin) -> void:
 	if coin.get_denomination() == Global.Denomination.OBOL:
@@ -1502,9 +1514,11 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
-					coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
-					if Global.RNG.randi_range(1, 4) == 1 and coin.can_upgrade():
-						coin.upgrade()
+					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION)
+					new_coin.get_parent().move_child(new_coin, coin.get_index())
+					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
+					if Global.RNG.randi_range(1, 4) == 1 and new_coin.can_upgrade():
+						new_coin.upgrade()
 				Global.PATRON_POWER_FAMILY_HESTIA:
 					coin.make_lucky()
 					coin.bless()
@@ -1603,7 +1617,9 @@ func _on_coin_clicked(coin: Coin):
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
 					return
-				coin.init_coin(Global.random_family(), coin.get_denomination(), Coin.Owner.PLAYER)
+				var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION)
+				new_coin.get_parent().move_child(new_coin, coin.get_index())
+				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				if coin.is_lucky():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (LUCKY)..."))

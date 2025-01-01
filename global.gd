@@ -370,9 +370,9 @@ var MONSTER_WAVE_TUTORIAL2 = [
 
 var VOYAGE
 
-const _ANTE_LOW = AnteFormula.FOUR
-const _ANTE_MID = AnteFormula.FIVE
-const _ANTE_HIGH = AnteFormula.SIX
+const _ANTE_LOW = AnteFormula.THREE
+const _ANTE_MID = AnteFormula.FOUR
+const _ANTE_HIGH = AnteFormula.FIVE
 
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
@@ -770,11 +770,14 @@ var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your (LIFE).", [1
 var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/monster/gorgon_icon.png")
 
 var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/nemesis/medusa_icon.png")
-var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Downgrade the most valuable coin.", [1, 1, 1, 1], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/downgrade_icon.png")
+const MEDUSA_DOWNGRADE_AMOUNT = 2
+var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("Twice, downgrade the most valuable coin.", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/downgrade_icon.png")
 var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/nemesis/euryale_icon.png")
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2 = PowerFamily.new("Make 2 coins (UNLUCKY).", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/unlucky_icon.png")
+const EURYALE_UNLUCKY_AMOUNT = 2
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY = PowerFamily.new("Make 2 coins (UNLUCKY).", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/unlucky_icon.png")
 var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn a coin to (STONE)", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/nemesis/stheno_icon.png")
-var NEMESIS_POWER_FAMILY_STHENO_ANTE = PowerFamily.new("Raise the Ante by 2.", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/ante_icon.png")
+const STHENO_CURSE_AMOUNT = 2
+var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) 2 coins.", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/curse_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/iron_icon.png")
 const MISFORTUNE_QUANTITY = 3
@@ -1209,7 +1212,7 @@ var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyo
 # monsters
 const STANDARD_APPEASE = [9, 18, 27, 35]
 const ELITE_APPEASE = [25, 35, 45, 60]
-const NEMESIS_MEDUSA_APPEASE = [70, 70, 70, 70]
+const NEMESIS_MEDUSA_APPEASE = [50, 50, 50, 50]
 
 # stores a list of all monster coins and trial coins
 @warning_ignore("unused_private_class_variable")
@@ -1235,8 +1238,8 @@ var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera[/color]",
 
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new(2000, "[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
-var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY2, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
-var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_ANTE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
+var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
+var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
 
 # trials
 var TRIAL_IRON_FAMILY = CoinFamily.new(3000, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE)
@@ -1276,6 +1279,12 @@ func generate_coinpool() -> void:
 
 func random_family() -> CoinFamily:
 	return choose_one(_COINPOOL)
+
+func random_family_excluding(excluded: Array) -> CoinFamily:
+	var roll = random_family()
+	if roll in excluded:
+		return random_family_excluding(excluded)
+	return roll
 
 func random_god_family() -> CoinFamily:
 	var coin = random_family()

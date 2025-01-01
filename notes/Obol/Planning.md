@@ -19,13 +19,13 @@
 				- [x] Trial of Polarization - Reworked; now makes the lowest coin Blank at the end of each toss.
 				- [x] The same Trial will not appear twice in a single run.
 			- [ ] Coins have been rebalanced
-				- [ ] Hermes has an animation to more clearly imply how it works.
-				- [ ] Hermes cannot trade for a coin of the exact same type.
+				- [x] Hermes has an animation to more clearly imply how it works.
+				- [x] Hermes cannot trade for a coin of the exact same type.
 				- [ ] Aphrodite is now "copy another coin's power for this toss."
-			- [ ] Medusa has been slightly rebalanced.
-				- [ ] Medusa's tails result now downgrades two coins (up from one).
-				- [ ] Cost of defeating Gorgon is cheaper.
-				- [ ] Curses coins instead of increasing Ante.
+			- [x] Medusa has been slightly rebalanced.
+				- [x] Medusa's tails result now downgrades two coins (up from one).
+				- [x] Cost of defeating Gorgon is cheaper.
+				- [x] Curses coins instead of increasing Ante.
 		- [ ] **Performance improvements Jan 2nd**
 			- [ ] Updated Godot engine version - should improve web performance.
 			- [ ] Run the profiler for a run and look for any obvious fixes.
