@@ -112,8 +112,15 @@ class FacePower:
 		self.power_family = fam
 		self.charges = starting_charges
 
-var _heads_power: FacePower
-var _tails_power: FacePower
+var _heads_power: FacePower:
+	set(val):
+		_heads_power = val
+		_update_appearance()
+
+var _tails_power: FacePower:
+	set(val):
+		_tails_power = val
+		_update_appearance()
 
 # updates face label, glow, and price label
 func _update_appearance() -> void:
@@ -325,6 +332,12 @@ func _on_state_changed() -> void:
 	else:
 		_PRICE.hide()
 
+func _set_heads_power_to(power_family: Global.PowerFamily) -> void:
+	_heads_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
+
+func _set_tails_power_to(power_family: Global.PowerFamily) -> void:
+	_tails_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
+
 func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
 	_coin_family = family
 	_denomination = denomination
@@ -333,8 +346,8 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 		Global.souls_count_changed.connect(_update_price_label)
 	if not Global.state_changed.is_connected(_on_state_changed):
 		Global.state_changed.connect(_on_state_changed)
-	_heads_power = FacePower.new(_coin_family.heads_power_family, _coin_family.heads_power_family.uses_for_denom[_denomination])
-	_tails_power = FacePower.new(_coin_family.tails_power_family, _coin_family.tails_power_family.uses_for_denom[_denomination])
+	_set_heads_power_to(_coin_family.heads_power_family)
+	_set_tails_power_to(_coin_family.tails_power_family)
 	_heads = true
 	_owner = owned_by
 	_blank = false
@@ -483,6 +496,9 @@ func is_payoff() -> bool:
 
 func is_power() -> bool:
 	return get_active_power_family().is_power()
+
+func is_other_face_power() -> bool:
+	return get_inactive_power_family().is_power()
 	
 func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not _blank
@@ -608,6 +624,9 @@ func destroy() -> void:
 
 func get_active_power_family() -> Global.PowerFamily:
 	return _heads_power.power_family if is_heads() else _tails_power.power_family
+
+func get_inactive_power_family() -> Global.PowerFamily:
+	return _heads_power.power_family if is_tails() else _heads_power.power_family
 
 func get_active_power_charges() -> int:
 	return _heads_power.charges if is_heads() else _tails_power.charges
@@ -766,6 +785,17 @@ func reduce_life_penalty_for_round() -> void:
 	_generate_tooltip()
 	FX.flash(Color.SEA_GREEN)
 
+var _heads_power_overwritten = null
+var _tails_power_overwritten = null
+func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -> void:
+	FX.flash(Color.HOT_PINK)
+	if is_heads():
+		_heads_power_overwritten = _heads_power.power_family
+		_set_heads_power_to(temporary_power)
+	else:
+		_tails_power_overwritten = _tails_power.power_family
+		_set_tails_power_to(temporary_power)
+
 func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_charges: int = -100000) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -100000:
@@ -848,6 +878,17 @@ func before_payoff() -> void:
 
 func after_payoff() -> void:
 	_disable_interaction = false
+	
+	# if we have any temporary powers, reset them to original
+	if _heads_power_overwritten != null:
+		FX.flash(Color.HOT_PINK)
+		_set_heads_power_to(_heads_power_overwritten)
+		_heads_power_overwritten = null
+	if _tails_power_overwritten != null:
+		FX.flash(Color.HOT_PINK)
+		_set_tails_power_to(_tails_power_overwritten)
+		_tails_power_overwritten = null
+	
 	reset_power_uses()
 
 func set_animation(anim: _Animation) -> void:

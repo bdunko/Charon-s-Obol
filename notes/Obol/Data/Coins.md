@@ -276,7 +276,7 @@ Unlockable coins + more coins
 	- [ ] ??? - Lots of souls, but just 1 if you use a power this toss.
 	- [ ] ??? - Choose a coin. Reflip each coin to its left (or right, changes each toss).
 	- [ ] ??? - Increase the payoff of each of your other payoff coins this round.
-	- [ ] ??? - Increase the max charges of another coin this round. (this one seems kinda lame? not sure.)
+	- [ ] ??? - Increase the max charges of another coin this round. (this one seems kinda crazy? not sure.)
 	- [ ] ??? - Payoff; payoff increased for each copy of this coin you have. While you have this coin, it is more likely to show up in shops and random generation.
 	- [ ] ??? - Payoff. No tails penalty. If this coin lands on tails, make another random coin Lucky.
 	- [ ] ??? - Increased Payoff. Reversed heads & tails effect  (lose life on heads, gain souls on tails).
@@ -284,6 +284,8 @@ Unlockable coins + more coins
 	- [ ] ??? - (not sure how) Ignited coins heal you instead of hurting.
 	- [ ] ??? - Make a coin Unlucky. The next time it lands on heads, upgrade it (alternatively - Prime it. Primed coins automatically upgrade at the end of the round.)
 	- [ ] ??? - Recharge your Patron token.
+	- [ ] ??? - Choose a coin. Set both faces to the current side's power for this toss. (we accidentally did this while reworking Aphrodite - basically set another coin's tails to equal its heads)
+	- [ ] ??? - Daedalus - Copy another coin's power onto this coin's tails and give it +0/1/2/3 charges, but it does not recharge naturally.
 
 
 

@@ -1605,14 +1605,20 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.upgrade()
 				coin.ignite()
-			Global.POWER_FAMILY_RECHARGE:
+			Global.POWER_FAMILY_COPY_FOR_TOSS:
 				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't love that...")
+					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				if not coin.can_activate_power():
-					_DIALOGUE.show_dialogue("Can't recharge that...")
+				if coin.is_power(): # try to copy current face, if it's a power
+					Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_active_power_family())
+					Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power...
+				elif coin.is_other_face_power(): # otherwise if the other face is a power, copy that
+					Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_inactive_power_family())
+					Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power...
+				else:
+					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				coin.recharge_power_uses_by(1)
+				return #special case - we copied a copy and don't want to drain a charge, so just immediately exit (but keep this selected)
 			Global.POWER_FAMILY_EXCHANGE:
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
