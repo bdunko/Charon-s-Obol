@@ -685,11 +685,11 @@ func _on_accept_button_pressed():
 	
 	# post payoff actions
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
-		for denom in [Global.Denomination.TETROBOL, Global.Denomination.TRIOBOL, Global.Denomination.DIOBOL, Global.Denomination.OBOL]:
-			var coins = _COIN_ROW.get_all_of_denomination(denom)
-			if not coins.is_empty():
-				Global.choose_one(coins).downgrade()
-				break
+		var coins = _COIN_ROW.get_highest_valued_heads()
+		if not coins.is_empty():
+			Global.choose_one(coins).downgrade()
+	if Global.is_passive_active(Global.TRIAL_MISFORTUNE_FAMILY): # every payoff, unlucky coins
+		_apply_misfortune_trial()
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
 			if coin.is_tails():
@@ -1004,6 +1004,12 @@ func _show_toll_dialogue() -> void:
 	else:
 		_DIALOGUE.show_dialogue(Global.replace_placeholders("%d(COIN) more..." % toll_price_remaining))
 
+func _apply_misfortune_trial() -> void:
+	for i in Global.MISFORTUNE_QUANTITY:
+		var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+		if targets.size() != 0:
+			targets[0].make_unlucky()
+
 func _on_voyage_continue_button_clicked():
 	_hide_voyage_map()
 	var first_round = Global.round_count == 2
@@ -1120,14 +1126,8 @@ func _on_voyage_continue_button_clicked():
 					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
 					await _wait_for_dialogue("You shall be bound in Iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
-					for c in _COIN_ROW.get_children():
-						c.make_unlucky()
+					_apply_misfortune_trial()
 					await _wait_for_dialogue("You shall be shrouded in Misfortune!")
-				Global.TRIAL_POLARIZATION_FAMILY:
-					for c in _COIN_ROW.get_children():
-						if c.get_denomination() == Global.Denomination.DIOBOL:
-							c.blank()
-					await _wait_for_dialogue("Your coins must be Polarized...")
 				Global.TRIAL_PAIN_FAMILY:
 					await _wait_for_dialogue("You shall writhe in Pain!")
 				Global.TRIAL_BLOOD_FAMILY:

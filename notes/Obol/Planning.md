@@ -12,11 +12,11 @@
 				- [x] Monsters that apply status effects will attempt to target coins that are not already affected with that status.
 				- [x] Birds tails downside increased.
 			- [x] Hades buffed to 10x value for both; additionally, tooltip is more informative.
-			- [ ] Trials have been rebalanced.
-				- [ ] Trial of Torture - changed to downgrade highest value heads coin each round. (instead of a random coin)
+			- [x] Trials have been rebalanced.
+				- [x] Trial of Torture - changed to downgrade highest value heads coin each round. (instead of a random coin)
 				- [x] Trial of Iron - Obol of Thorns changed to -1 soul/-1 life.
-				- [ ] Trial of Misfortune - After each toss, additionally makes a random coin Unlucky.
-				- [ ] Trial of Polarization - Reworked; now makes the lowest coin Blank at the end of each toss.
+				- [x] Trial of Misfortune - After each toss, additionally makes a random coin Unlucky.
+				- [x] Trial of Polarization - Reworked; now makes the lowest coin Blank at the end of each toss.
 				- [x] The same Trial will not appear twice in a single run.
 			- [ ] Coins have been rebalanced
 				- [ ] Hermes has an animation to more clearly imply how it works.

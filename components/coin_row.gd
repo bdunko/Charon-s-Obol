@@ -51,6 +51,18 @@ func get_highest_valued() -> Array:
 			highestValues.append(coin)
 	return highestValues
 
+func get_highest_valued_heads() -> Array:
+	assert(get_child_count() != 0)
+	var highestValues = []
+	for coin in get_children():
+		if coin.is_heads():
+			if highestValues.is_empty() or highestValues[0].get_value() == coin.get_value():
+				highestValues.append(coin)
+			elif highestValues[0].get_value() < coin.get_value():
+				highestValues.clear()
+				highestValues.append(coin)
+	return highestValues
+
 # returns an array containing all coins of the highest denomination amongst coins in this row
 func get_lowest_valued() -> Array:
 	assert(get_child_count() != 0)	
