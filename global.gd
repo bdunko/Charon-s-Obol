@@ -208,7 +208,10 @@ var ante_modifier_this_round: int:
 const COIN_TWEEN_TIME := 0.22
 const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
-var SHOP_MULTIPLIER_INCREASE := 0.3
+const DEFAULT_SHOP_PRICE_FLAT_INCREASE := 0
+var shop_price_flat_increase := DEFAULT_SHOP_PRICE_FLAT_INCREASE
+var SHOP_MULTIPLIER_INCREASE := 0.33
+var SHOP_FLAT_INCREASE := 2
 
 var patron: Patron:
 	set(val):
@@ -269,13 +272,12 @@ func triangular(i: int) -> int:
 enum AnteFormula {
 	THREE, FOUR, FIVE, SIX, SEVEN
 }
-var ante_formula = AnteFormula.FOUR
 
 # returns the life cost of a toss; min 0
 func ante_cost() -> int:
 	var base_ante = 0
 	
-	match(ante_formula):
+	match(current_round_ante_formula()):
 		AnteFormula.THREE:
 			base_ante = flips_this_round * 3
 		AnteFormula.FOUR:
@@ -381,12 +383,12 @@ var _VOYAGE_STANDARD = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -401,11 +403,11 @@ var _VOYAGE_VARIANT = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.TOLLGATE, 0, [], 4, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 100, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -419,12 +421,12 @@ var _VOYAGE_BACKLOADED = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -439,11 +441,11 @@ var _VOYAGE_PARTITION = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_LOW),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0,  NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
@@ -456,11 +458,11 @@ var _VOYAGE_FRONTLOAD = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 90, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, [], 16, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -475,11 +477,11 @@ var _VOYAGE_INTERSPERSED = [
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.TOLLGATE, 0, [], 3, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, [], 6, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.TOLLGATE, 0, [], 9, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
@@ -728,10 +730,10 @@ class PowerFamily:
 const SHOW_USES = true
 const ONLY_SHOW_ICON = false
 
-@onready var LOSE_LIFE_POWERS = [POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE_DOUBLED, POWER_FAMILY_LOSE_LIFE_TRIPLED, POWER_FAMILY_LOSE_LIFE_THORNS]
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 3, 4, 5], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
-var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 6, 8, 10], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
-var POWER_FAMILY_LOSE_LIFE_TRIPLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [6, 9, 12, 15], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
+@onready var LOSE_LIFE_POWERS = [POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE_INCREASED, POWER_FAMILY_LOSE_LIFE_DOUBLED, POWER_FAMILY_LOSE_LIFE_THORNS]
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 4, 7, 10], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 6, 9, 12], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 8, 14, 20], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 2, 3, 4], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [0, 0, 0, 0], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 
@@ -745,7 +747,7 @@ var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its n
 var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1], PowerType.POWER, SHOW_USES,"res://assets/icons/artemis_icon.png")
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/apollo_icon.png")
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/ares_icon.png")
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's (LIFE) penalty for this round.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/athena_icon.png")
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce another coin's (LIFE) penalty for this round.", [2, 3, 4, 5], PowerType.POWER, SHOW_USES,"res://assets/icons/athena_icon.png")
 var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2], PowerType.POWER, SHOW_USES,"res://assets/icons/hephaestus_icon.png")
 var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Copy another coin's power for this toss.", [1, 1, 1, 1], PowerType.POWER, SHOW_USES,"res://assets/icons/aphrodite_icon.png")
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/hermes_icon.png")
@@ -1201,7 +1203,7 @@ var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arro
 var ARES_FAMILY = CoinFamily.new(7, "(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", STANDARD, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ATHENA_FAMILY = CoinFamily.new(8, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", RICH, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HEPHAESTUS_FAMILY = CoinFamily.new(9, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var APHRODITE_FAMILY = CoinFamily.new(10, "(DENOM) of Aphrodite", "[color=lightpink]Two Lovers, Unified[/color]", STANDARD, POWER_FAMILY_COPY_FOR_TOSS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var APHRODITE_FAMILY = CoinFamily.new(10, "(DENOM) of Aphrodite", "[color=lightpink]True Lovers, Unified[/color]", STANDARD, POWER_FAMILY_COPY_FOR_TOSS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HERMES_FAMILY = CoinFamily.new(11, "(DENOM) of Hermes", "[color=lightskyblue]From Lands Distant[/color]", PRICY, POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HESTIA_FAMILY = CoinFamily.new(12, "(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", STANDARD,  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var DIONYSUS_FAMILY = CoinFamily.new(13, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", STANDARD, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
@@ -1210,9 +1212,9 @@ const HADES_MONSTER_COST = [7, 5, 3, 1]
 var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
-const STANDARD_APPEASE = [9, 18, 27, 35]
-const ELITE_APPEASE = [25, 35, 45, 60]
-const NEMESIS_MEDUSA_APPEASE = [50, 50, 50, 50]
+const STANDARD_APPEASE = [8, 19, 30, 42]
+const ELITE_APPEASE = [30, 45, 60, 75]
+const NEMESIS_MEDUSA_APPEASE = [40, 45, 50, 55]
 
 # stores a list of all monster coins and trial coins
 @warning_ignore("unused_private_class_variable")
@@ -1229,7 +1231,7 @@ var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos[/color]",
 var MONSTER_ARAE_FAMILY = CoinFamily.new(1003, "[color=gray]Arae[/color]", "[color=purple]Encumber With Guilt[/color]", NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE_INCREASED, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 # elite monsters
 var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
@@ -1297,6 +1299,7 @@ func random_shop_denomination_for_round() -> Denomination:
 
 func is_passive_active(passivePower: PowerFamily) -> bool:
 	assert(passivePower.powerType == PowerType.PASSIVE)
+	
 	for row in COIN_ROWS:
 		for coin in row.get_children():
 			if coin.is_passive() and coin.get_active_power_family() == passivePower:

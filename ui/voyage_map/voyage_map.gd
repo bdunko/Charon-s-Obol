@@ -43,7 +43,7 @@ func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int 
 		node.hovered.connect(_on_trial_hovered)
 
 const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]."
-const _NEMESIS_FORMAT = "%s\n%s\nYou must be victorious."
+const _NEMESIS_FORMAT = "%s\n%s\n\nYou must be victorious."
 const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]."
 
 func update_tooltips() -> void:

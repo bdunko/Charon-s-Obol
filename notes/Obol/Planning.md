@@ -2,6 +2,21 @@
 - [ ] **Current Goals**
 	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
 		- [ ] **Balance - Jan 1st**
+			- [x] Bump life penalty to something like 3/5/7/10
+			- [x] Bump antes to 3/4/5 over time.
+			- [x] Athena +1 charge all levels.
+			- [ ] Play 5 runs. Adjust between.
+				- [ ] 1 - Overall felt pretty good. I felt too rich in the middle and ran out of things to buy. Endgame prices were apt, but prices were too cheap in the middle of the game. Enemies feel slightly too cheap, especially later in the game when you are making hundreds of souls per round.
+					- [x] Make enemies more expensive at higher denominations.
+					- [x] Increase Ante earlier. 
+					- [x] Coins get a bit more expensive each round (flat amount in addition to the multiplier)
+				- [ ] 2
+				- [ ] 3
+				- [ ] 4
+				- [ ] 5
+			- [ ] Play 3 runs. Don't adjust.
+			- [x] Bug - fully recharge coins when entering shop, in case of trial of sapping
+			- [ ] Graphical Bug - Nemesis row coins are not being pulled to charon before flip?
 		- [ ] **Performance improvements Jan 2nd**
 			- [ ] Updated Godot engine version - should improve web performance.
 			- [ ] Run the profiler for a run and look for any obvious fixes.

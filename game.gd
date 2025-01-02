@@ -297,6 +297,7 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	Global.shop_price_multiplier = Global.DEFAULT_SHOP_PRICE_MULTIPLIER
+	Global.shop_price_flat_increase = Global.DEFAULT_SHOP_PRICE_FLAT_INCREASE
 	
 	#debug
 	#Global.souls = 2000
@@ -853,7 +854,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("The river is deepening...")
 		river_color_index = min(river_color_index + 1, _RIVER_COLORS.size() - 1)
 		_recolor_river(_RIVER_COLORS[river_color_index], false)
-		_DIALOGUE.show_dialogue("Let's raise the Ante.") 
+		_DIALOGUE.show_dialogue("Let's raise the Ante...") 
 	
 	_PLAYER_TEXTBOXES.make_visible()
 
@@ -885,8 +886,9 @@ func _on_continue_button_pressed():
 	
 	await _advance_round()
 	
-	# increase the shop multiplier cost
+	# increase the shop costs
 	Global.shop_price_multiplier += Global.SHOP_MULTIPLIER_INCREASE
+	Global.shop_price_flat_increase += Global.SHOP_FLAT_INCREASE
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
@@ -896,16 +898,20 @@ func _on_end_round_button_pressed():
 	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == 2
-	var min_souls_first_round = 15
-	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < min_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
+	const bad_luck_souls_first_round = 15
+	const average_souls = 20
+	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < bad_luck_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
+		var souls_awarded = 0
 		if Global.flips_this_round == 0:
 			await _wait_for_dialogue("Refusal to play is not an option!")
+			souls_awarded = average_souls
 		else:
 			await _wait_for_dialogue(Global.replace_placeholders("Only %d(SOULS)...?" % Global.souls))
 			await _wait_for_dialogue("You are a rather misfortunate one.")
 			await _wait_for_dialogue("We wouldn't want the game ending prematurely...")
 			await _wait_for_dialogue("This time, I will take pity on you.")
-		Global.souls = min_souls_first_round
+			souls_awarded = bad_luck_souls_first_round
+		Global.souls = souls_awarded
 		await _wait_for_dialogue("Take these...")
 		Global.lives = 0
 		await _wait_for_dialogue("And I'll take those...")
@@ -1171,7 +1177,7 @@ func _on_voyage_continue_button_clicked():
 					await _wait_for_dialogue("Behold! The grim visage of the Gorgon Sisters!")
 		
 		await _wait_for_dialogue("To continue your voyage...")
-		await _wait_for_dialogue("You must appease the gatekeeper!")
+		await _wait_for_dialogue("You must defeat the gatekeeper!")
 		await _wait_for_dialogue("Your fate lies with the coins now.")
 		await _wait_for_dialogue("Let the final challenge commence!")
 	
