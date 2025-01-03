@@ -103,7 +103,7 @@
 - [ ] ??? - Skip the first round and start with 3 random Obols. After each tollgate, skip the next round and gain random Obols until your row is full.
 - [ ] Gardener - Your coins automatically upgrade after you've owned them for a certain number of tosses (Obols = 5, Diobols = 15, etc). Only coins in shop are Obols, but rerolls are cheaper. Alternatively, unspent souls become life and you do not regenerate life naturally.
 - [ ] ??? - Coin Prices are much more variable. Shop stock is a bit larger. No upgrading. Coins in shop may have statuses.
-- [ ] Lover - Every power coin has a random other power (of another gender) on the opposite side; "Obol of Zeus and Artemis". You have less life each round.
+- [ ] Lover - Every power coin has a random other power (of another gender) on the opposite side; "Obol of Zeus and Artemis". Coins powers only recharge a single charge each toss (both sides recharge by 1).
 - [ ] Charioteer - Game runs in real time. Each round has a time limit. You lose time instead of life on tails. No life limit and no strain.
 - [ ] Merchant - 3 free rerolls in each shop (max 3 per shop). Shop restocks immediately when bought. Coins cost half as much and have twice as many charges. When the last charge is used, the coin is destroyed.
 - [ ] Minimalist - Only a single power coin is available. Shop has infinite stock of basic Obols and this power coin. Choose power from main menu.

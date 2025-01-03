@@ -172,7 +172,7 @@ var souls_earned_this_round: int:
 		assert(souls_earned_this_round >= 0)
 		emit_signal("souls_earned_this_round_changed")
 
-const ARROWS_LIMIT = 20
+const ARROWS_LIMIT = 10
 var arrows: int:
 	set(val):
 		arrows = val
@@ -210,7 +210,7 @@ const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
 const DEFAULT_SHOP_PRICE_FLAT_INCREASE := 0
 var shop_price_flat_increase := DEFAULT_SHOP_PRICE_FLAT_INCREASE
-var SHOP_MULTIPLIER_INCREASE := 0.33
+var SHOP_MULTIPLIER_INCREASE := 0.25
 var SHOP_FLAT_INCREASE := 2
 
 var patron: Patron:
@@ -617,7 +617,7 @@ func current_round_enemy_coin_data() -> Array:
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
-	return rtype == RoundType.TRIAL1 or rtype == RoundType.TRIAL2 or rtype == RoundType.NEMESIS
+	return rtype == RoundType.TRIAL1 or rtype == RoundType.TRIAL2
 
 func is_next_round_end() -> bool:
 	if VOYAGE.size() == round_count:
@@ -782,8 +782,8 @@ const STHENO_CURSE_AMOUNT = 2
 var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) 2 coins.", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/curse_icon.png")
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/iron_icon.png")
-const MISFORTUNE_QUANTITY = 3
-var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins and after each payoff, three of your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/misfortune_icon.png")
+const MISFORTUNE_QUANTITY = 2
+var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins and after each payoff, two of your coins become\n(UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/misfortune_icon.png")
 var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/pain_icon.png")
 const BLOOD_COST = 1
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs %d(LIFE)." % BLOOD_COST, [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/blood_icon.png")
@@ -816,6 +816,7 @@ func replace_placeholders(tooltip: String) -> String:
 	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
 	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % ["red", "Ignite", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
 	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
 	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % ["palegoldenrod", "Bless", "res://assets/icons/status/bless_icon.png"])
@@ -1065,7 +1066,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 @onready var PATRONS = [
 	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Recharge all your coins.", PatronEnum.APHRODITE, PATRON_POWER_FAMILY_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn"), [APHRODITE_FAMILY]),
 	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Turn all coins to their other face.", PatronEnum.APOLLO, PATRON_POWER_FAMILY_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn"), [APOLLO_FAMILY]),
-	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Reflip all coins and remove all their statuses.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
+	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Are's Spear[/color]", "Clear all statuses from each coin, then reflip them.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
 	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to (TAILS), then gain 1 (ARROW) for each.", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
 	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's (LIFE) penalty by 1.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
 	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on (TAILS), +(HEAL) equal to its (LIFE) penalty. ", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),

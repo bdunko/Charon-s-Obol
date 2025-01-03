@@ -19,10 +19,11 @@ func _ready():
 	assert(_FX)
 	Global.state_changed.connect(_update_effects)
 	Global.active_coin_power_family_changed.connect(_update_effects)
+	_update_effects()
 
 func _can_be_activated() -> bool:
 	if _disable_interaction:
-		return true
+		return false
 	return Global.state == Global.State.AFTER_FLIP
 
 func _update_effects() -> void:

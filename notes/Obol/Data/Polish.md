@@ -1,6 +1,6 @@
-
-
-
+- [ ] FX - Filters for the patron selection and main scenes.
+	- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+- [ ] Needs an Abandon Run button somewhere. 
 - [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 
 - [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip.
 - [ ] Custom mouse https://docs.godotengine.org/en/stable/tutorials/inputs/custom_mouse_cursor.html, if needed
@@ -27,10 +27,9 @@
 	- [ ] Effect when a coin is tossed or lands
 	- [ ] Screen particle effect in the wind over board
 - [ ] Toggle for tooltips. (toggle on/off tooltips as a hotkey and clickable button)
-- [ ] Code - Will need to add an indestructible tag to coins and check that in some coin powers. (maybe?)
-	- [ ] Better long term solution - powers should specify the possible 'targets' from a list of enums; ie "OwnCoins", "Auto", "EnemyCoins", "AllCoins". Then instead of each case in the match having to check if that power is targetting correctly, we can just check at the start. 
+
 - [ ] Code - Change text color if not original number on numbers in coin tooltip (light blue = modified)
-- [ ] Code - Tooltips on bottom should appear above coins; tooltips on top should appear below coins. Should be able to pass 'direction priority' to a tooltip. (priority_left/right, priority_up/down - this defines the default way the tooltip goes IF there is enough space for either.)
+
 - [ ] Graphics - River scrolls during voyage.
 	- [ ] River animation in general
 - [ ] Graphics - Pile of life/souls should be in a circular pile instead of square.
@@ -47,6 +46,6 @@
 - [ ] It needs to be more clear when coin powers are usable.
 	- [ ] Color filter for between tosses?
 	- [ ] Coin label text is gray instead of white between tosses.
-	- [x] Coin flashing should be more pronounced.
-	- [ ] Animated icons for coin powers - flashing eyes for monsters - only animate when active.
+- [ ] Animated icons for coin powers - flashing eyes for monsters for ex - only animate when active.
+- [ ] Individual coin arts for each family of coin (ie a Zeus coin, Hermes coin, Hera coin...)
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect

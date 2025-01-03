@@ -1,7 +1,7 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals**
 	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
-		- [ ] **Balance - Jan 1st**
+		- [ ] **Balance and Polish**
 			- [x] Bump life penalty to something like 3/5/7/10
 			- [x] Bump antes to 3/4/5 over time.
 			- [x] Athena +1 charge all levels.
@@ -10,21 +10,18 @@
 					- [x] Make enemies more expensive at higher denominations.
 					- [x] Increase Ante earlier. 
 					- [x] Coins get a bit more expensive each round (flat amount in addition to the multiplier)
-				- [ ] 2
-				- [ ] 3
+				- [ ] 2 - Died, prices got high fast.
+					- [x] Athena doesn't work on life loss powers that aren't the base one (needs to use the global array)
+					- [x] Trial of Misfortune is brutal! Probably just 2 coins is good enough.
+				- [ ] 3 - Poseidon + Hades + Hephaestus + Apollo was very strong. I want to consider some additional scaling factor to Ante, because it gets ridiculous at a certain point - negative experience if the round is just too long. We can reduce prices a bit to compensate if needed. I think we can be a bit more aggressive with the quantity and level of monsters on later waves...
+					- [x] Coin did not immediately update when downgraded.
+					- [ ] Experiment with 4-5-6 Ante. Is it impossible? 
+					- [ ] Experiment with an additional scaling factor to ante; ie something slightly exponential after X tosses.
 				- [ ] 4
 				- [ ] 5
-			- [ ] Play 3 runs. Don't adjust.
-			- [x] Bug - fully recharge coins when entering shop, in case of trial of sapping
-			- [ ] Graphical Bug - Nemesis row coins are not being pulled to charon before flip?
-		- [ ] **Performance improvements Jan 2nd**
-			- [ ] Updated Godot engine version - should improve web performance.
-			- [ ] Run the profiler for a run and look for any obvious fixes.
-			- [x] Uploaded a desktop version of the game to itch - download and use this if you want better performance. It is MUCH, MUCH more performant.
-		- [ ] **Graphical Improvements Jan 3rd**
-			- [ ] FX - Filters for the patron selection and main scenes.
-				- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
 			- [ ] Particle - Just for mouse following IFF an effect is active.
+			- [ ] Arrow of Night definitely sometimes gets stuck as gold but I can't figure out the triggering condition!
+
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Patron Revamp - Jan 19th**
@@ -116,7 +113,7 @@
 	- [ ] Sap - Coin does not naturally recharge each toss.
 	- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
 	- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-- [ ] **Coin Effects - Feb 16th**
+- [ ] **Coin Graphical Effects - Feb 16th**
 - [ ] **Increase Coin Limit Feb 23rd**
 		- [ ] Goal - 10 coins.
 			- [ ] Coins need to cap at diobol size. 

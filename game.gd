@@ -543,6 +543,7 @@ func _on_accept_button_pressed():
 	
 	_DIALOGUE.show_dialogue("Payoff...")
 	_PLAYER_TEXTBOXES.make_invisible()
+	_disable_interaction_coins_and_patron()
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.before_payoff()
@@ -604,6 +605,7 @@ func _on_accept_button_pressed():
 					Global.MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS:
 						payoff_coin.FX.flash(Color.GHOST_WHITE)
 						Global.arrows = min(Global.arrows + 1, Global.ARROWS_LIMIT)
+						_disable_interaction_coins_and_patron() # stupid bad hack to make the arrow not light up
 					Global.MONSTER_POWER_FAMILY_SIREN:
 						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 						for coin in _COIN_ROW.get_tails():
@@ -724,6 +726,7 @@ func _on_accept_button_pressed():
 		await _wait_for_dialogue("You may end the round whenever you are done.")
 		Global.tutorialState = Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN
 	
+	_enable_interaction_coins_and_patron()
 	_enable_or_disable_end_round_textbox()
 	_PLAYER_TEXTBOXES.make_visible()
 	
@@ -1576,6 +1579,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.POWER_FAMILY_FREEZE:
 				if coin.is_frozen():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (FROZEN)..."))
+					return
 				coin.freeze()
 			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
 				if coin.is_stone() and left and left.is_stone() and right and right.is_stone():
@@ -1776,8 +1780,8 @@ func _on_patron_token_clicked():
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				_safe_flip(coin)
 				coin.clear_statuses()
+				_safe_flip(coin)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():

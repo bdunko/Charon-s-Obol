@@ -460,18 +460,7 @@ func upgrade() -> void:
 			_denomination = Global.Denomination.TRIOBOL
 		Global.Denomination.TRIOBOL:
 			_denomination = Global.Denomination.TETROBOL
-	
-	# immediately update specifically payoff powers...
-	# and if it's a lose life power, reapply athena bonuses
-	if _heads_power.power_family.is_payoff():
-		_heads_power.charges = max(_heads_power.charges + 1, _heads_power.power_family.uses_for_denom[_denomination])
-		if _heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-			_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
-	if _tails_power.power_family.is_payoff():
-		_tails_power.charges = max(_tails_power.charges + 1, _tails_power.power_family.uses_for_denom[_denomination])
-		if _tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE:
-			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
-	
+	_update_payoff_powers()
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
 	FX.flash(Color.GOLDENROD)
@@ -484,9 +473,22 @@ func downgrade() -> void:
 			_denomination = Global.Denomination.DIOBOL
 		Global.Denomination.TETROBOL:
 			_denomination = Global.Denomination.TRIOBOL
+	_update_payoff_powers()
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
 	FX.flash(Color.DARK_GRAY)
+
+func _update_payoff_powers() -> void:
+	# immediately update specifically payoff powers...
+	# and if it's a lose life power, reapply athena bonuses
+	if _heads_power.power_family.is_payoff():
+		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
+		if _heads_power.power_family in Global.LOSE_LIFE_POWERS:
+			_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	if _tails_power.power_family.is_payoff():
+		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
+		if _tails_power.power_family in Global.LOSE_LIFE_POWERS:
+			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 
 func is_passive() -> bool:
 	return get_active_power_family().is_passive()
@@ -764,13 +766,13 @@ func is_blank() -> bool:
 	return _blank
 
 func can_reduce_life_penalty() -> bool:
-	var can_reduce_heads = (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0)
-	var can_reduce_tails = (_tails_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _tails_power.charges != 0)
+	var can_reduce_heads = (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0)
+	var can_reduce_tails = (_tails_power.power_family in Global.LOSE_LIFE_POWERS and _tails_power.charges != 0)
 	return can_reduce_heads or can_reduce_tails
 
 func reduce_life_penalty_permanently() -> void:
 	_permanent_tails_penalty_reduction += 1
-	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
+	var reduced_power = _heads_power if (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0) else _tails_power
 	reduced_power.charges -= 1
 	_update_appearance()
 	_generate_tooltip()
@@ -846,10 +848,10 @@ func _generate_tooltip() -> void:
 		var max_tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
 		# use nothing instead of showing 0/0
-		if _heads_power.power_family.uses_for_denom[_denomination] == 0:
+		if not _heads_power.power_family.show_uses:
 			heads_charges = ""
 			max_heads_charges = ""
-		if _tails_power.power_family.uses_for_denom[_denomination] == 0:
+		if not _tails_power.power_family.show_uses:
 			tails_charges = ""
 			max_tails_charges = ""
 		
