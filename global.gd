@@ -452,14 +452,14 @@ var _VOYAGE_STANDARD = [
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 75, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 60, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 5, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, _SHOP123, 0, 150, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 10, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP123, 0, 120, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 9, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
@@ -475,7 +475,7 @@ var _VOYAGE_VARIANT = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 100, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 12, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 11, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
@@ -492,7 +492,7 @@ var _VOYAGE_BACKLOADED = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 80, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 7, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE5, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP23, 0, 120, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -514,8 +514,8 @@ var _VOYAGE_PARTITION = [
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 12, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP1234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 160, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0,  NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
@@ -526,14 +526,14 @@ var _VOYAGE_FRONTLOAD = [
 	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 60, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 50, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 90, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 16, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 75, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 14, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE4, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100,_SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 130, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
@@ -566,8 +566,8 @@ var _VOYAGE_TUTORIAL = [
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE_TUTORIAL, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE_TUTORIAL2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 100, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE_TUTORIAL2, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, 0, 70, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_LOW), #8 is intentional to prevent possible bugs, don't increase
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_LOW)
 ]
@@ -1272,7 +1272,7 @@ var HERA_FAMILY = CoinFamily.new(2, "(DENOM) of Hera", "[color=silver]Envious Wr
 var POSEIDON_FAMILY = CoinFamily.new(3, "(DENOM) of Poseidon", "[color=lightblue]Wave of Ice[/color]", RICH, POWER_FAMILY_FREEZE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var DEMETER_FAMILY = CoinFamily.new(4, "(DENOM) of Demeter", "[color=lightgreen]Grow Ever Stronger[/color]", STANDARD, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var APOLLO_FAMILY = CoinFamily.new(5, "(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", STANDARD, POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of  Night[/color]", PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ARES_FAMILY = CoinFamily.new(7, "(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", STANDARD, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ATHENA_FAMILY = CoinFamily.new(8, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", PRICY, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HEPHAESTUS_FAMILY = CoinFamily.new(9, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
@@ -1285,8 +1285,8 @@ const HADES_MONSTER_COST = [7, 5, 3, 1]
 var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
-const STANDARD_APPEASE = [8, 13, 19, 25]
-const ELITE_APPEASE = [30, 36, 43, 50]
+const STANDARD_APPEASE = [8, 13, 18, 23]
+const ELITE_APPEASE = [30, 35, 40, 45]
 const NEMESIS_MEDUSA_APPEASE = [50, 55, 60, 65]
 
 # stores a list of all monster coins and trial coins

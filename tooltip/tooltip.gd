@@ -141,6 +141,8 @@ static func create_manual(src, text: String, global_mouse_position: Vector2, sce
 	
 	_ALL_TOOLTIPS.append(tooltip)
 	
+	tooltip._force_position_onto_screen() # force position before performing scale...
+	
 	# pivot offset controls where we scale from
 	tooltip.pivot_offset = tooltip.size/2.0
 	tooltip.scale = Vector2(0.2, 0.2)
@@ -148,8 +150,6 @@ static func create_manual(src, text: String, global_mouse_position: Vector2, sce
 	
 	tooltip.modulate.a = 0.0
 	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85 if tooltip.style == Style.CLEAR else 1.0, 0.1)
-	
-	tooltip._force_position_onto_screen()
 	
 	# set initial visibility based on if tooltips are enabled
 	tooltip.visible = _ENABLED
@@ -218,7 +218,7 @@ func _force_position_onto_screen():
 			break
 
 	if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
-		position.y -= _TOOLTIP_OFFSET.y
+		position.y = max(0, position.y - _TOOLTIP_OFFSET.y) # clamp at 0 so we can't end up offscreen again
 
 func destroy_tooltip():
 	var fade_out = create_tween()

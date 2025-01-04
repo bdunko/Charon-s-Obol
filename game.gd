@@ -892,7 +892,7 @@ func _on_continue_button_pressed():
 		Global.souls = 0
 		
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			await _wait_for_dialogue(Global.replace_placeholders("And you may have a pittance of (LIFE) in exchange..."))
+			await _wait_for_dialogue(Global.replace_placeholders("And give you a pittance of (LIFE) in exchange..."))
 			
 		Global.lives += pity_life
 
@@ -999,7 +999,6 @@ func _on_end_round_button_pressed():
 	elif Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_COMPLETED:
 		await _wait_for_dialogue("You have completed the trial!")
 		await _wait_for_dialogue("It seems you have become quite proficient.")
-		await _wait_for_dialogue("I applaud you.")
 		await _wait_for_dialogue("The only challenge left is the tollgate...")
 		_DIALOGUE.show_dialogue("Spend your earnings before we proceed.")
 		Global.tutorialState = Global.TutorialState.ROUND7_TOLLGATE_INTRO
@@ -1058,10 +1057,10 @@ func _on_voyage_continue_button_clicked():
 		
 		if Global.tutorialState == Global.TutorialState.ROUND7_TOLLGATE_INTRO:
 			await _wait_for_dialogue("We have reached a tollgate...")
-			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must PAY %d(COIN)." % Global.current_round_toll()))
+			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay %d(COIN)." % Global.current_round_toll()))
 			await _wait_for_dialogue(Global.replace_placeholders("Obols are worth 1(COIN), Diobols 2(COIN)..."))
 			await _wait_for_dialogue(Global.replace_placeholders("Triobols are worth 3(COIN), and Tetrobols 4(COIN)."))
-			_DIALOGUE.show_dialogue("Add a coin to your payment by CLICKING it.")
+			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
 			Global.tutorialState = Global.TutorialState.ENDING
 		else:
 			if Global.toll_index == 0:
@@ -1272,7 +1271,7 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 	var no_buy_states = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE, Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE]
 	if Global.tutorialState in no_buy_states:
 		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE:
-			_DIALOGUE.show_dialogue("CLICK this coin.")
+			_DIALOGUE.show_dialogue("Click this coin.")
 			return
 		return
 	
@@ -1432,7 +1431,7 @@ func _on_coin_clicked(coin: Coin):
 				_LEFT_HAND.move_to_retracted_position()
 				_LEFT_HAND.lock()
 				await _wait_for_dialogue("Lastly, from now on...")
-				await _wait_for_dialogue(Global.replace_placeholders("I will take any leftover souls(SOULS) when you're done."))
+				await _wait_for_dialogue(Global.replace_placeholders("I will take any leftover souls(SOULS) between rounds."))
 				await _wait_for_dialogue(Global.replace_placeholders("So I advise you to spend your souls(SOULS) wisely..."))
 				await _wait_for_dialogue("Will you purchase new coins...")
 				await _wait_for_dialogue("Or upgrading existing ones?")

@@ -842,7 +842,8 @@ func _generate_tooltip() -> void:
 	# regular case - payoff, payoff, and nemesis coins
 	else:
 		const TOOLTIP_FORMAT = "%s\n%s\n%s[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
-		var appease_hint = "Spend %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to destroy.\n" % get_appeasal_price() if is_appeaseable() else ""
+		#var appease_hint = "Spend %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to destroy.\n" % get_appeasal_price() if is_appeaseable() else ""
+		var appease_hint = "" # decided not to show this in tooltip to save on tooltip size...
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img][img=12x13]res://assets/icons/white_arrow.png[/img]" % _heads_power.power_family.icon_path
