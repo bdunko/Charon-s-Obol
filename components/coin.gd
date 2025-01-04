@@ -182,6 +182,9 @@ func _update_price_label() -> void:
 		if _coin_family in Global.TOLL_EXCLUDE_COIN_FAMILIES:
 			_PRICE.text = ""
 			return
+		var value = get_value()
+		if _coin_family in Global.TOLL_NEGATIVE_COIN_FAMILIES:
+			value = -value
 		_PRICE.text = _TOLL_FORMAT % get_value()
 	elif is_appeaseable():
 		var price = get_appeasal_price()
@@ -809,7 +812,9 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	
 	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
-	
+	txt = txt.replace("(2+1_PER_DENOM)", str(get_denomination_as_int() + 2))
+	txt = txt.replace("(2_PER_DENOM)", str(get_denomination_as_int() * 2))
+	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + (get_denomination_as_int() * 2)))
 	
 	var heph_str = func(denom_as_int: int) -> String:
 		match(denom_as_int):

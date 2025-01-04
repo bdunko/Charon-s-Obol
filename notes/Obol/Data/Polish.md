@@ -20,6 +20,7 @@
 - [ ] FX - Black vignette heartbeat when lower on health
 - [ ] FX - Particles
 	- [ ] Particle effect on mouse when ability is active.
+		- [ ] Doesn't work great - but possibly, we can have multiple custom mouse cursors and change them as needed? Maybe even change into the icon of the ability?
 	- [ ] Death particle effect.
 	- [ ] Initial particle effect when new status applied to coins.
 	- [ ] Trail for souls, life, and purchased coins?

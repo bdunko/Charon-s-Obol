@@ -1,9 +1,35 @@
-[gd_scene load_steps=5 format=3 uid="uid://b65ykf244ptkj"]
+[gd_scene load_steps=10 format=3 uid="uid://b65ykf244ptkj"]
 
 [ext_resource type="Script" path="res://scratch/test.gd" id="1_bfevy"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_2yiv0"]
 [ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_mdiy3"]
 [ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="4_op63r"]
+[ext_resource type="Script" path="res://scratch/power_mouse_particles.gd" id="5_5esf4"]
+[ext_resource type="Texture2D" uid="uid://bduk12k8ehsxm" path="res://assets/ui/cursor.png" id="5_580m3"]
+
+[sub_resource type="Gradient" id="Gradient_y1sh4"]
+offsets = PackedFloat32Array(0, 0.825036, 0.991465)
+colors = PackedColorArray(1, 0.721569, 0, 0.607843, 1, 0.847059, 0.32549, 0.607843, 0.721569, 0.721569, 0.721569, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_126o4"]
+gradient = SubResource("Gradient_y1sh4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_74xvm"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 40.0
+radial_accel_max = 80.0
+color_ramp = SubResource("GradientTexture1D_126o4")
+hue_variation_min = -0.03
+hue_variation_max = 0.04
 
 [node name="Scratch" type="Node2D"]
 
@@ -48,6 +74,19 @@ offset_right = 40.0
 offset_bottom = 40.0
 bbcode_enabled = true
 text = "[color=red][b]bold[/b][/color]"
+
+[node name="Cursor" type="Sprite2D" parent="."]
+z_index = 4096
+position = Vector2(67, 29)
+texture = ExtResource("5_580m3")
+script = ExtResource("5_5esf4")
+
+[node name="MouseFollowParticles" type="GPUParticles2D" parent="Cursor"]
+position = Vector2(-4, -4)
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_74xvm")
+lifetime = 0.5
+local_coords = true
 
 [connection signal="mouse_entered" from="Test/MouseWatcher" to="Test" method="_on_mouse_watcher_mouse_entered"]
 [connection signal="mouse_exited" from="Test/MouseWatcher" to="Test" method="_on_mouse_watcher_mouse_exited"]

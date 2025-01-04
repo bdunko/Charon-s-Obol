@@ -19,6 +19,7 @@ func _ready():
 	assert(_FX)
 	Global.state_changed.connect(_update_effects)
 	Global.active_coin_power_family_changed.connect(_update_effects)
+	Global.arrow_count_changed.connect(_update_effects)
 	_update_effects()
 
 func _can_be_activated() -> bool:

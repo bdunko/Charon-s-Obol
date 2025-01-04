@@ -169,7 +169,8 @@ var souls: int:
 var souls_earned_this_round: int:
 	set(val):
 		souls_earned_this_round = val
-		assert(souls_earned_this_round >= 0)
+		if souls_earned_this_round < 0:
+			souls_earned_this_round = 0
 		emit_signal("souls_earned_this_round_changed")
 
 const ARROWS_LIMIT = 10
@@ -210,7 +211,7 @@ const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
 const DEFAULT_SHOP_PRICE_FLAT_INCREASE := 0
 var shop_price_flat_increase := DEFAULT_SHOP_PRICE_FLAT_INCREASE
-var SHOP_MULTIPLIER_INCREASE := 0.25
+var SHOP_MULTIPLIER_INCREASE := 0.15
 var SHOP_FLAT_INCREASE := 2
 
 var patron: Patron:
@@ -239,14 +240,19 @@ func clear_toll_coins() -> void:
 	emit_signal("toll_coins_changed")
 
 # coins that cannot be offered at tolls
-@onready var TOLL_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
+@onready var TOLL_EXCLUDE_COIN_FAMILIES = []
+# coins with a negative value at tolls
+@onready var TOLL_NEGATIVE_COIN_FAMILIES = [THORNS_FAMILY]
 # coins that cannot be upgraded
 @onready var UPGRADE_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
 
 func calculate_toll_coin_value() -> int:
 	var sum = 0
 	for coin in toll_coins_offered:
-		sum += coin.get_value()
+		if coin.get_coin_family() in Global.TOLL_EXCLUDE_COIN_FAMILIES:
+			sum -= coin.get_value()
+		else:
+			sum += coin.get_value()
 	return sum
 
 var active_coin_power_coin: Coin = null:
@@ -270,26 +276,46 @@ func triangular(i: int) -> int:
 	return i*(i+1)/2
 
 enum AnteFormula {
-	THREE, FOUR, FIVE, SIX, SEVEN
+	THREE, FOUR, FIVE, SIX, SEVEN,
+	THREE_WITH_EXP, FOUR_WITH_EXP, FIVE_WITH_EXP, SIX_WITH_EXP, SEVEN_WITH_EXP
 }
 
 # returns the life cost of a toss; min 0
 func ante_cost() -> int:
 	var base_ante = 0
+	var add_exp = false
 	
 	match(current_round_ante_formula()):
 		AnteFormula.THREE:
 			base_ante = flips_this_round * 3
+		AnteFormula.THREE_WITH_EXP:
+			base_ante = flips_this_round * 3
+			add_exp = true
 		AnteFormula.FOUR:
 			base_ante = flips_this_round * 4
+		AnteFormula.FOUR_WITH_EXP:
+			base_ante = flips_this_round * 4
+			add_exp = true
 		AnteFormula.FIVE:
 			base_ante = flips_this_round * 5 
+		AnteFormula.FIVE_WITH_EXP:
+			base_ante = flips_this_round * 5 
+			add_exp = true
 		AnteFormula.SIX:
 			base_ante = flips_this_round * 6
+		AnteFormula.SIX_WITH_EXP:
+			base_ante = flips_this_round * 6
+			add_exp = true
 		AnteFormula.SEVEN:
 			base_ante = flips_this_round * 7
+		AnteFormula.SEVEN_WITH_EXP:
+			base_ante = flips_this_round * 7
+			add_exp = true
 		_:
 			assert(false, "Invalid ante formula...")
+	
+	if add_exp and flips_this_round >= 7:
+		base_ante += pow(2, flips_this_round - 5)
 	
 	return max(0, base_ante + ante_modifier_this_round)
 
@@ -332,34 +358,65 @@ class Monster:
 
 var NO_MONSTERS = [[]]
 
+# pricing:
+# 1x per coin 
+# 2x denom for standard
+# 4x denom for elite
+# price total of 3
 var MONSTER_WAVE1 = [
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)]
 ]
+
+# price total of ~8
+# 3 + 2 + 2 + 2 = 9
+# 2 + 2 + 4 = 8
 var MONSTER_WAVE2 = [
 	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
 	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # lieutenant
 ]
+
+# price total of ~14
+# 1 + 12 = 13
+# 4 + 2 + 4 + 2 + 2 = 14
+# 3 + 4 + 4 + 4 = 15
+# 5 + 2 + 2 + 2 + 2 + 2 = 15
 var MONSTER_WAVE3 = [ 
-	[Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL)], # juggernaut
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # lieutenant
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # brothers in arms
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
-]
-var MONSTER_WAVE4 = [
 	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
-	[Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # commander
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # marauders
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # lieutenant
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # brothers in arms
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # swarm
 ]
+
+# price total of ~20
+# 2 + 12 + 6= 20
+# 3 + 8 + 4 + 4 = 19
+# 4 + 2 + 8 + 2 + 2 = 18
+var MONSTER_WAVE4 = [
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # juggernaut
+	[Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # commander
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.ELITE, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # marauders
+]
+
+# price total of ~28
+# 3 + 12 + 6 + 6 = 27
+# 4 + 4 + 12 + 4 + 4 = 28
+# 3 + 8 + 8 + 8 = 27
+# 5 + 16 + 2 + 2 + 2 + 2 = 26
+# 4 + 6 + 8 + 6 + 4 = 28
+# 5 + 4 + 4 + 4 + 4 + 4 = 25
 var MONSTER_WAVE5 = [
-	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # commander
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # marauders
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # brothers in arms
-	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # taskmaster
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # lieutenant
-	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # swarm
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL)], # commander
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # marauders
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.TETROBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TETROBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TETROBOL)], # brothers in arms
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.OBOL)], # taskmaster
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TETROBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.TRIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # lieutenant
+	[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)], # swarm
 ]
+
+# price total of ~35
+# 2 + 16 + 16 = 34
 var MONSTER_WAVE6 = [
-	[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)], # juggernaut
+	[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL)], # juggernaut
 ]
 
 var MONSTER_WAVE_TUTORIAL = [
@@ -372,133 +429,145 @@ var MONSTER_WAVE_TUTORIAL2 = [
 
 var VOYAGE
 
-const _ANTE_LOW = AnteFormula.THREE
-const _ANTE_MID = AnteFormula.FOUR
-const _ANTE_HIGH = AnteFormula.FIVE
+const _ANTE_LOW = AnteFormula.FOUR_WITH_EXP
+const _ANTE_MID = AnteFormula.FIVE_WITH_EXP
+const _ANTE_HIGH = AnteFormula.SIX_WITH_EXP
+
+const _NOSHOP = []
+const _SHOP1 = [Denomination.OBOL]
+const _SHOP12 = [Denomination.OBOL, Denomination.DIOBOL]
+const _SHOP123 = [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL]
+const _SHOP1234 = [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL]
+const _SHOP2 = [Denomination.DIOBOL]
+const _SHOP23 = [Denomination.DIOBOL, Denomination.TRIOBOL]
+const _SHOP234 = [Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL]
+const _SHOP3 = [Denomination.TRIOBOL]
+const _SHOP34 = [Denomination.TRIOBOL, Denomination.TETROBOL]
+const _SHOP4 = [Denomination.TETROBOL]
 
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
 var _VOYAGE_STANDARD = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 75, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 5, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, [], 10, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 75, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 5, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.TRIAL2, 100, _SHOP123, 0, 150, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 10, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
  
 # VARIANT (2 Gate - 2 Trial [12])
 # NNNGNN1GNN2B
 var _VOYAGE_VARIANT = [ 
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, [], 4, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 100, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 4, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE3, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 100, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 12, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
 	
 # BACKLOADED (2 Gate - 3 Trial [111])
 # NNNN1GN1GN1B 
 var _VOYAGE_BACKLOADED = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 80, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE5, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, 0, 120, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL1, 100, _SHOP234, 0, 160, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
 
 # PARTITION (1 Gate - 2 Trial [22])
 # NNNN2GNNN2B
 var _VOYAGE_PARTITION = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_LOW),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 80, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 12, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 160, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0,  NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE3, _ANTE_LOW),
+	Round.new(RoundType.TRIAL2, 100, _SHOP123, 0, 80, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 12, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP1234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 160, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0,  NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
 
 # FRONTLOAD - (1 Gate - 3 Trial [112])
 # NN1NN1GNN2B
 var _VOYAGE_FRONTLOAD = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 90, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 16, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 150, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 60, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 90, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 16, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE4, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100,_SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
 
 # INTERSPERSED - (3 Gate - 2 Trial [12)
 # NNGN1NGN2NGNB
 var _VOYAGE_INTERSPERSED = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, [], 3, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 60, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, [], 6, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL], 0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 120, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.DIOBOL, Denomination.TRIOBOL], 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, [], 9, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, [Denomination.TRIOBOL, Denomination.TETROBOL], 0, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 3, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 60, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 6, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.TRIAL2, 100, _SHOP23, 0, 120, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 9, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
 ]
 
 # TUTORIAL (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
 var _VOYAGE_TUTORIAL = [
-	Round.new(RoundType.BOARDING, 0, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, NO_MONSTERS, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 0, MONSTER_WAVE_TUTORIAL2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, [Denomination.OBOL, Denomination.DIOBOL], 0, 100, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE_TUTORIAL, _ANTE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE_TUTORIAL2, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 100, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.TOLLGATE, 0, [], 8, 0, NO_MONSTERS, _ANTE_LOW), #8 is intentional to prevent possible bugs, don't increase
 	Round.new(RoundType.END, 0, [], 0, 0, NO_MONSTERS, _ANTE_LOW)
 ]
@@ -551,6 +620,7 @@ func randomize_voyage() -> void:
 	# randomize the monster pool
 	STANDARD_MONSTERS.shuffle()
 	_standard_monster_pool = STANDARD_MONSTERS.slice(0, NUM_STANDARD_MONSTERS)
+	ELITE_MONSTERS.shuffle()
 	_elite_monster_pool = ELITE_MONSTERS.slice(0, NUM_ELITE_MONSTERS)
 	assert(_standard_monster_pool.size() == NUM_STANDARD_MONSTERS)
 	assert(_elite_monster_pool.size() == NUM_ELITE_MONSTERS)
@@ -730,8 +800,8 @@ class PowerFamily:
 const SHOW_USES = true
 const ONLY_SHOW_ICON = false
 
-@onready var LOSE_LIFE_POWERS = [POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE_INCREASED, POWER_FAMILY_LOSE_LIFE_DOUBLED, POWER_FAMILY_LOSE_LIFE_THORNS]
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 4, 7, 10], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
+@onready var LOSE_LIFE_POWERS = [POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE_INCREASED, POWER_FAMILY_LOSE_LIFE_DOUBLED, POWER_FAMILY_LOSE_ZERO_LIFE, POWER_FAMILY_LOSE_LIFE_THORNS]
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 4, 7, 11], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 6, 9, 12], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 8, 14, 20], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 2, 3, 4], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
@@ -739,8 +809,8 @@ var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [0
 
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS)", [1, 2, 3, 4], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_blue_icon.png")
 
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 7, 10, 13], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1+1_PER_DENOM)(HEAL)", [1, 1, 1, 1], PowerType.POWER, SHOW_USES, "res://assets/icons/demeter_icon.png")
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 7, 9, 11], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_blue_icon.png")
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)", [1, 1, 1, 1], PowerType.POWER, SHOW_USES, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, SHOW_USES,"res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) another coin.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/hera_icon.png")
@@ -768,6 +838,8 @@ var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1(ARROW).", [1, 1
 
 var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) a coin.", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/monster/chimera_icon.png")
 var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each (TAILS) coin.", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/monster/siren_icon.png")
+const SIREN_CURSE_AMOUNT = 2
+var MONSTER_POWER_FAMILY_SIREN_CURSE = PowerFamily.new("(CURSE) 2 coins.", [2, 2, 2, 2], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/nemesis/curse_icon.png")
 var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your (LIFE).", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/monster/basilisk_icon.png")
 var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn a coin to (STONE).", [1, 1, 1, 1], PowerType.PAYOFF, ONLY_SHOW_ICON, "res://assets/icons/monster/gorgon_icon.png")
 
@@ -1180,10 +1252,10 @@ class CoinFamily:
 		return ""
 
 const NO_PRICE = [0, 0, 0, 0]
-const CHEAP = [3, 10, 23, 45]
-const STANDARD = [5, 13, 28, 50] 
-const PRICY = [6, 15, 32, 55] 
-const RICH = [10, 20, 41, 64]
+const CHEAP = [3, 10, 24, 49]
+const STANDARD = [5, 13, 29, 54] 
+const PRICY = [6, 15, 33, 59] 
+const RICH = [10, 20, 42, 68]
 
 # Coin Families
 # stores a list of all player coins (coins that can be bought in shop)
@@ -1202,20 +1274,20 @@ var DEMETER_FAMILY = CoinFamily.new(4, "(DENOM) of Demeter", "[color=lightgreen]
 var APOLLO_FAMILY = CoinFamily.new(5, "(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", STANDARD, POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ARES_FAMILY = CoinFamily.new(7, "(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", STANDARD, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ATHENA_FAMILY = CoinFamily.new(8, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", RICH, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ATHENA_FAMILY = CoinFamily.new(8, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", PRICY, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HEPHAESTUS_FAMILY = CoinFamily.new(9, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var APHRODITE_FAMILY = CoinFamily.new(10, "(DENOM) of Aphrodite", "[color=lightpink]True Lovers, Unified[/color]", STANDARD, POWER_FAMILY_COPY_FOR_TOSS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HERMES_FAMILY = CoinFamily.new(11, "(DENOM) of Hermes", "[color=lightskyblue]From Lands Distant[/color]", PRICY, POWER_FAMILY_EXCHANGE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HESTIA_FAMILY = CoinFamily.new(12, "(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", STANDARD,  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DIONYSUS_FAMILY = CoinFamily.new(13, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", STANDARD, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var DIONYSUS_FAMILY = CoinFamily.new(13, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", CHEAP, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 const HADES_SELF_GAIN = [7, 9, 11, 13]
 const HADES_MONSTER_COST = [7, 5, 3, 1]
 var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
-const STANDARD_APPEASE = [8, 19, 30, 42]
-const ELITE_APPEASE = [30, 45, 60, 75]
-const NEMESIS_MEDUSA_APPEASE = [40, 45, 50, 55]
+const STANDARD_APPEASE = [8, 13, 19, 25]
+const ELITE_APPEASE = [30, 36, 43, 50]
+const NEMESIS_MEDUSA_APPEASE = [50, 55, 60, 65]
 
 # stores a list of all monster coins and trial coins
 @warning_ignore("unused_private_class_variable")
@@ -1234,9 +1306,9 @@ var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy[/color]", "[c
 var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE_INCREASED, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 # elite monsters
-var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
-#var MONSTER_GORGON_FAMILY = CoinFamily.new(1009, "[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+var MONSTER_GORGON_FAMILY = CoinFamily.new(1009, "[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera[/color]", "[color=purple]Great Blaze[/color]", NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 
 # nemesis

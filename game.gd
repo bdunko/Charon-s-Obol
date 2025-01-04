@@ -664,6 +664,12 @@ func _on_accept_button_pressed():
 							var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED)
 							if targets.size() != 0:
 								targets[0].curse()
+					Global.MONSTER_POWER_FAMILY_SIREN_CURSE:
+						payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+						for i in range(0, Global.SIREN_CURSE_AMOUNT):
+							var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED)
+							if targets.size() != 0:
+								targets[0].curse()
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -882,8 +888,14 @@ func _on_continue_button_pressed():
 			_SHOP_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
 			await _wait_for_dialogue(Global.replace_placeholders("As promised, I will take your remaining souls(SOULS)..."))
 		
+		var pity_life = ceil(Global.souls / 10.0)
 		Global.souls = 0
 		
+		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
+			await _wait_for_dialogue(Global.replace_placeholders("And you may have a pittance of (LIFE) in exchange..."))
+			
+		Global.lives += pity_life
+
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
 	
@@ -902,7 +914,7 @@ func _on_end_round_button_pressed():
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == 2
 	const bad_luck_souls_first_round = 15
-	const average_souls = 20
+	const average_souls = 17
 	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < bad_luck_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
 		var souls_awarded = 0
 		if Global.flips_this_round == 0:
@@ -1084,6 +1096,10 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("...take a deep breath...")
 		# refresh lives
 		if not Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FAMINE): # famine trial prevents life regen
+			Global.lives += Global.current_round_life_regen()
+		
+		if Global.current_round_type() == Global.RoundType.NEMESIS: # nemesis - regen an additional 100
+			await _wait_for_dialogue("...and steel your nerves...")
 			Global.lives += Global.current_round_life_regen()
 	
 	# refresh patron powers
@@ -1684,7 +1700,7 @@ func _on_coin_clicked(coin: Coin):
 			var spent_use = false
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
-					Global.lives += coin.get_denomination_as_int() + 1
+					Global.lives += 1 + (coin.get_denomination_as_int() * 2)
 				Global.POWER_FAMILY_GAIN_ARROW:
 					if Global.arrows == Global.ARROWS_LIMIT:
 						_DIALOGUE.show_dialogue("Too many arrows...")

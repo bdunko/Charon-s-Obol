@@ -15,12 +15,20 @@
 					- [x] Trial of Misfortune is brutal! Probably just 2 coins is good enough.
 				- [ ] 3 - Poseidon + Hades + Hephaestus + Apollo was very strong. I want to consider some additional scaling factor to Ante, because it gets ridiculous at a certain point - negative experience if the round is just too long. We can reduce prices a bit to compensate if needed. I think we can be a bit more aggressive with the quantity and level of monsters on later waves...
 					- [x] Coin did not immediately update when downgraded.
-					- [ ] Experiment with 4-5-6 Ante. Is it impossible? 
-					- [ ] Experiment with an additional scaling factor to ante; ie something slightly exponential after X tosses.
-				- [ ] 4
+					- [x] Experiment with 4-5-6 Ante. Is it impossible? 
+					- [x] Experiment with an additional scaling factor to ante; ie something slightly exponential after X tosses.
+				- [ ] 4 - Rounds are too long in my opinion, even not doing abusive stuff.
+					- [x] Move to 4-5-6 Ante. This will just generally reduce the number of rounds in the game while also reducing the amount of souls, and power spike, the player can get.
+					- [x] Slightly reduce tetrobol and triobol generic payoffs - 5 7 9 11 instead of up by 3 at certain points
+					- [x] Monsters should be more powerful and numerous at later stops in general (bump denoms)
+					- [x] Arrows point down 2 px
+					- [x] Coin denoms in shop should be handled a bit better - last round should offer a bit cheaper, earlier rounds can introduce triobols
+					- [x] Triobol and Tetrobol upgrades should be more pricey
+					- [x] Leftover souls convert to life at a rate of 1 to 10
+						- [x] Add 1 line for this in the tutorial.
+					- [x] Buff Demeter a touch
+					- [x] Siren back -> Curse two coins.
 				- [ ] 5
-			- [ ] Particle - Just for mouse following IFF an effect is active.
-			- [ ] Arrow of Night definitely sometimes gets stuck as gold but I can't figure out the triggering condition!
 
 
 **Charon's Obol Beta - Coalescence**
