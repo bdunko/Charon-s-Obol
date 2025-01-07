@@ -890,7 +890,7 @@ func _on_continue_button_pressed():
 				await _wait_for_dialogue(Global.replace_placeholders("Cleverly done."))
 				
 				
-		var pity_life = ceil(Global.souls / 10.0)
+		var pity_life = ceil(Global.souls / 5.0)
 		Global.souls = 0
 		
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:

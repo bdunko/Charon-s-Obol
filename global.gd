@@ -211,8 +211,8 @@ const DEFAULT_SHOP_PRICE_MULTIPLIER := 1.0
 var shop_price_multiplier := DEFAULT_SHOP_PRICE_MULTIPLIER
 const DEFAULT_SHOP_PRICE_FLAT_INCREASE := 0
 var shop_price_flat_increase := DEFAULT_SHOP_PRICE_FLAT_INCREASE
-var SHOP_MULTIPLIER_INCREASE := 0.15
-var SHOP_FLAT_INCREASE := 2
+var SHOP_MULTIPLIER_INCREASE := 0.125
+var SHOP_FLAT_INCREASE := 1
 
 var patron: Patron:
 	set(val):
@@ -801,7 +801,7 @@ const SHOW_USES = true
 const ONLY_SHOW_ICON = false
 
 @onready var LOSE_LIFE_POWERS = [POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE_INCREASED, POWER_FAMILY_LOSE_LIFE_DOUBLED, POWER_FAMILY_LOSE_ZERO_LIFE, POWER_FAMILY_LOSE_LIFE_THORNS]
-var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 4, 7, 11], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
+var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [2, 4, 7, 10], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 6, 9, 12], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [4, 8, 14, 20], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 2, 3, 4], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_red_icon.png")

@@ -2,13 +2,14 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
 		- [ ] Visual indicator of charge level. Possibly glowy orb things.
+		- [ ] All Patron powers become one use per Toss.
 		- [ ] Update patron powers and add passives to tooltips.
 			- [ ] **Hades**
 				- [ ] Active (1 charge) - Downgrade a coin three times. (If it is yours, first heal life and gain souls equal to 10x its value). Can be used in the shop.
 				- [ ] Passive - Souls persist between rounds (except for the final round).
 			- [ ] **Aphrodite**
-				- [ ] Active (2 charges) - Recharge all of your coins.
-				- [ ] Passive - During payoff, gain 1 soul for each unspent power charge.
+				- [ ] Active (2 charges) - Add 1 charge to each of your coins.
+				- [ ] Passive - During payoff, gain 1 soul for each unspent power charge (on heads).
 			- [ ] **Hephaestus**
 				- [ ] Active (2 charges) - Ignite a coin. If it's already ignited, upgrade it.
 				- [ ] Passive - Ignited coins heal you instead of hurt you.
@@ -31,17 +32,17 @@
 				- [ ] Active (3 charges) - Reflip all coins.
 				- [ ] Passive - Monster coins on Tails cost half as much to destroy.
 			- [ ] **Athena**
-				- [ ] Active (3 charges) - Permanently reduce a coin's life penalty by 1.
-				- [ ] Passive - Before the first toss of each round, randomly Bless 3 coins.
+				- [ ] Active (3 charges) - Permanently reduce a coin's life penalty by 2.
+				- [ ] Passive - If your coins are ever all on tails, reflip all of them.
 			- [ ] **Hera**
 				- [ ] Active (3 charges) - Reflip a coin and its neighbors.
 				- [ ] Passive - When you reflip a coin, it always lands on the opposite side.
 			- [ ] **Apollo**
-				- [ ] Active (3 charges) - Clear all negative statuses from a coin, then (if possible), appy the opposite of that status.
+				- [ ] Active (3 charges) - Clear all negative statuses from a coin, then (if possible), apply the opposite of that status.
 				- [ ] Passive - You can see what each coin will land on in its next flip.
 			- [ ] **Hestia**
 				- [ ] Active (4 charges) - Make a coin Lucky. 
-				- [ ] Passive - Lucky has a smaller effect, but can be applied multiple times to the same coin.
+				- [ ] Passive - Lucky has a smaller effect, but may be applied multiple times to the same coin. (Lucky applies a 10% heads chance boost but may stack up to 4 times, up to a 90% heads chance.)
 			- [ ] **Zeus**
 				- [ ] Active (4 charges) - Reflip a coin.
 				- [ ] Passive - When you reflip a coin, Supercharge it.
@@ -85,6 +86,12 @@
 		- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.)
 		- [ ] Slightly black out the screen while Charon is talking.
 
+
+**Fruits**
+- [ ] Choose coins to add to update.
+- [ ] Choose bosses to add to update.
+- [ ] Choose monsters to add to update.
+- [ ] Choose characters to add to update.
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Patron Revamp - Jan 19th**
@@ -134,7 +141,7 @@
 	- [ ] **More Monsters**
 	- [ ] **More Coins**
 	- [ ] **More Characters**
-- [ ] **Basic Sound - March - Apr 31st**
+- [ ] **Basic Sound - March 30th**
 
 
 **Charon's Obol Release**

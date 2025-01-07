@@ -413,7 +413,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tsak1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xcxfy"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -533,7 +533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kem5b"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjl03"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -653,7 +653,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ib87"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gnlk3"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -912,7 +912,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_tsak1")
+material = SubResource("ShaderMaterial_xcxfy")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1156,7 +1156,7 @@ offset_top = 163.0
 offset_right = 318.0
 offset_bottom = 179.0
 theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
-text = "Alpha 3.1.1"
+text = "Alpha 3.1.2"
 
 [node name="Textboxes" type="HBoxContainer" parent="MainUI"]
 z_index = 1
@@ -1168,12 +1168,12 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_kem5b")
+material = SubResource("ShaderMaterial_qjl03")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_7ib87")
+material = SubResource("ShaderMaterial_gnlk3")
 layout_mode = 2
 default_text = " Quit "
 
