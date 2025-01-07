@@ -319,7 +319,7 @@ func on_start() -> void: #reset
 	await Global.delay(0.1)
 	
 	if Global.tutorialState == Global.TutorialState.PROLOGUE_BEFORE_BOARDING:
-		await _wait_for_dialogue("Ah, a pleasant surprise.")
+		await _wait_for_dialogue("Ah, a surprise... (Click anywhere to continue)")
 		await _wait_for_dialogue("You grace us with your presence once more.")
 		await _wait_for_dialogue("He has been impatiently awaiting your arrival.")
 		await _wait_for_dialogue("Come aboard my ship and we shall be off.")
@@ -373,8 +373,6 @@ func _on_flip_complete() -> void:
 			Global.CHARON_POWER_DEATH:
 				await _wait_for_dialogue("Fate is cruel indeed.")
 				await _wait_for_dialogue("It seems this is the end for you.")
-				await _wait_for_dialogue("And now...")
-				await _wait_for_dialogue("...I collect my prize.")
 				Global.state = Global.State.GAME_OVER
 			Global.CHARON_POWER_LIFE:
 				await _wait_for_dialogue("Fate smiles upon you...")
@@ -725,7 +723,7 @@ func _on_accept_button_pressed():
 	elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED:
 		await _wait_for_dialogue("Perhaps the next toss will be more fortunate?")
 		await _wait_for_dialogue("You may toss as many times as you wish...")
-		await _wait_for_dialogue("...though the ante will continue to increase.")
+		await _wait_for_dialogue(Global.replace_placeholders("...though the ante(LIFE) will continue to increase."))
 		await _wait_for_dialogue(Global.replace_placeholders("Each toss, you may earn souls(SOULS), or lose life(LIFE)."))
 		await _wait_for_dialogue(Global.replace_placeholders("For now, know that acquiring souls(SOULS) will help you..."))
 		await _wait_for_dialogue(Global.replace_placeholders("I advise tossing until you are low on life(LIFE)."))
@@ -856,7 +854,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("And pay all the tolls.")
 		await _wait_for_dialogue("I shall speak more about them upon arrival.")
 		await _wait_for_dialogue("You may view the map during a round by clicking it.")
-		_DIALOGUE.show_dialogue("For now, let's continue to the next round.")
+		_DIALOGUE.show_dialogue("For now, let's continue to the next normal round.")
 		Global.tutorialState = Global.TutorialState.ROUND5_INTRO
 	
 	if Global.did_ante_increase():
@@ -886,19 +884,28 @@ func _on_continue_button_pressed():
 	if not Global.tutorialState in no_lose_souls_states:
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			_SHOP_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
-			await _wait_for_dialogue(Global.replace_placeholders("As promised, I will take your remaining souls(SOULS)..."))
-		
+			await _wait_for_dialogue(Global.replace_placeholders("As stated, I will take your remaining souls(SOULS)..."))
+			if Global.souls == 0:
+				await _wait_for_dialogue(Global.replace_placeholders("Ah, you've spent them all."))
+				await _wait_for_dialogue(Global.replace_placeholders("Cleverly done."))
+				
+				
 		var pity_life = ceil(Global.souls / 10.0)
 		Global.souls = 0
 		
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			await _wait_for_dialogue(Global.replace_placeholders("And give you a pittance of (LIFE) in exchange..."))
-			
+			if pity_life == 0:
+				await _wait_for_dialogue(Global.replace_placeholders("If you had happened to have any leftover souls(SOULS)..."))
+				await _wait_for_dialogue(Global.replace_placeholders("I would have given you a pittance of (HEAL) in exchange."))
+			else:
+				await _wait_for_dialogue(Global.replace_placeholders("And give you a pittance of (HEAL) in exchange..."))
+			await _wait_for_dialogue(Global.replace_placeholders("Not a great exchange for you..."))
+			await _wait_for_dialogue(Global.replace_placeholders("But better than nothing."))
 		Global.lives += pity_life
 
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
-	
+			await _wait_for_dialogue(Global.replace_placeholders("Now let's continue onwards."))
+
 	await _advance_round()
 	
 	# increase the shop costs
@@ -951,6 +958,7 @@ func _on_end_round_button_pressed():
 	Global.state = Global.State.SHOP
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
+		_SHOP_COIN_ROW.get_child(0).hide_price()
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_LEFT_HAND.lock()
 		await _wait_for_dialogue("Now we move to the next part of the game...")
@@ -968,6 +976,8 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue(Global.replace_placeholders("If it is on tails(TAILS), there is nothing you can do."))
 		await _wait_for_dialogue("Using Powers allows you to change that.")
 		await _wait_for_dialogue("This particular coin can reflip other coins.")
+		_SHOP_COIN_ROW.get_child(0).show_price()
+		await _wait_for_dialogue(Global.replace_placeholders("The coin's price of %d souls(SOULS) is shown above it." % _SHOP_COIN_ROW.get_child(0).get_store_price()))
 		if Global.souls < Global.ZEUS_FAMILY.store_price_for_denom[0]:
 			await _wait_for_dialogue("...Ah, you don't have enough souls for this coin.")
 			Global.souls = Global.ZEUS_FAMILY.store_price_for_denom[0]
@@ -981,9 +991,6 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue("We return to the shop once more.")
 		await _wait_for_dialogue("In addition to purchasing new coins...")
 		await _wait_for_dialogue("You can also upgrade your current coins.")
-		await _wait_for_dialogue("There are four denominations of increasing value...")
-		await _wait_for_dialogue("Obol, Diobol, Triobol, and Tetrobol.")
-		await _wait_for_dialogue("Coins of higher denominations are stronger.")
 		var upgrade_price = _COIN_ROW.get_child(0).get_upgrade_price()
 		if Global.souls < upgrade_price:
 			await _wait_for_dialogue("Hmm...")
@@ -1078,10 +1085,15 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("This is a game about tossing Coins.")
 		await _wait_for_dialogue("Each Round will consist of multiple Tosses.")
 		_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-		await _wait_for_dialogue(Global.replace_placeholders("When the coin lands on Heads(HEADS), you earn Souls(SOULS)..."))
+		var souls_earned = _COIN_ROW.get_child(0).get_active_power_charges()
+		Global.souls += souls_earned
+		await _wait_for_dialogue(Global.replace_placeholders("When the coin lands on Heads(HEADS), you earn +%d Souls(SOULS)..." % souls_earned))
 		_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("...when it [color=white]lands on Tails(TAILS), you lose Life(LIFE)[/color]."))
-		Global.lives += Global.current_round_life_regen()
+		Global.souls -= souls_earned
+		var life_loss = _COIN_ROW.get_child(0).get_active_power_charges()
+		Global.lives += life_loss
+		await _wait_for_dialogue(Global.replace_placeholders("...when it [color=white]lands on Tails(TAILS), you lose %d Life(LIFE)[/color]." % life_loss))
+		Global.lives += Global.current_round_life_regen() - life_loss
 		_LEFT_HAND.unpoint()
 		_COIN_ROW.get_child(0).turn()
 		await _wait_for_dialogue(Global.replace_placeholders("Each round, you will gain 100 Life(HEAL)."))
@@ -1153,7 +1165,7 @@ func _on_voyage_continue_button_clicked():
 					_make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION)
 					await _wait_for_dialogue("You shall be bound in Iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
-					_apply_misfortune_trial()
+					#_apply_misfortune_trial() # note - removed the initial application, for balance for now at least
 					await _wait_for_dialogue("You shall be shrouded in Misfortune!")
 				Global.TRIAL_PAIN_FAMILY:
 					await _wait_for_dialogue("You shall writhe in Pain!")
@@ -1422,16 +1434,21 @@ func _on_coin_clicked(coin: Coin):
 			coin.reset_power_uses()
 			
 			if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE:
-				await _wait_for_dialogue("The coin has been upgraded.")
-				await _wait_for_dialogue("Its payoff has increased.")
+				await _wait_for_dialogue("The coin has been upgraded from Obol to Diobol.")
+				await _wait_for_dialogue("There are four denominations of increasing value...")
+				await _wait_for_dialogue("Obol, Diobol, Triobol, and Tetrobol.")
+				await _wait_for_dialogue("Coins of higher denominations are stronger.")
+				await _wait_for_dialogue(Global.replace_placeholders("This coin's payoff(SOULS) has increased."))
 				await _COIN_ROW.get_child(0).turn()
-				await _wait_for_dialogue("But the downside has increased as well.")
+				await _wait_for_dialogue(Global.replace_placeholders("But the penalty(LIFE) has increased as well."))
 				await _COIN_ROW.get_child(0).turn()
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.move_to_retracted_position()
 				_LEFT_HAND.lock()
+				await _wait_for_dialogue(Global.replace_placeholders("Risk... reward..."))
 				await _wait_for_dialogue("Lastly, from now on...")
-				await _wait_for_dialogue(Global.replace_placeholders("I will take any leftover souls(SOULS) between rounds."))
+				await _wait_for_dialogue("When you leave this shop...")
+				await _wait_for_dialogue(Global.replace_placeholders("I will take your remaining souls(SOULS)."))
 				await _wait_for_dialogue(Global.replace_placeholders("So I advise you to spend your souls(SOULS) wisely..."))
 				await _wait_for_dialogue("Will you purchase new coins...")
 				await _wait_for_dialogue("Or upgrading existing ones?")
@@ -1568,7 +1585,7 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) Status."))
 				await _wait_for_dialogue("Coins can be affected by many Statuses...")
 				await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
-				await _wait_for_dialogue("Mouse over the icon below the coin to learn more.")
+				await _wait_for_dialogue(Global.replace_placeholders("Mouse over the (LUCKYICON)icon below the coin to learn more."))
 				await _wait_for_dialogue("A patron token has a limited number of charges.")
 				await _wait_for_dialogue("The charges are replenished between rounds.")
 				await _wait_for_dialogue("Now, I will leave you to it.")

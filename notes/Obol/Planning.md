@@ -1,79 +1,52 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Current Goals**
-	- [ ] **Alpha 3.1.0 - Deadline Jan 4th**
-		- [ ] **Balance and Polish**
-			- [x] Bump life penalty to something like 3/5/7/10
-			- [x] Bump antes to 3/4/5 over time.
-			- [x] Athena +1 charge all levels.
-			- [ ] Play 5 runs. Adjust between.
-				- [ ] 1 - Overall felt pretty good. I felt too rich in the middle and ran out of things to buy. Endgame prices were apt, but prices were too cheap in the middle of the game. Enemies feel slightly too cheap, especially later in the game when you are making hundreds of souls per round.
-					- [x] Make enemies more expensive at higher denominations.
-					- [x] Increase Ante earlier. 
-					- [x] Coins get a bit more expensive each round (flat amount in addition to the multiplier)
-				- [ ] 2 - Died, prices got high fast.
-					- [x] Athena doesn't work on life loss powers that aren't the base one (needs to use the global array)
-					- [x] Trial of Misfortune is brutal! Probably just 2 coins is good enough.
-				- [ ] 3 - Poseidon + Hades + Hephaestus + Apollo was very strong. I want to consider some additional scaling factor to Ante, because it gets ridiculous at a certain point - negative experience if the round is just too long. We can reduce prices a bit to compensate if needed. I think we can be a bit more aggressive with the quantity and level of monsters on later waves...
-					- [x] Coin did not immediately update when downgraded.
-					- [x] Experiment with 4-5-6 Ante. Is it impossible? 
-					- [x] Experiment with an additional scaling factor to ante; ie something slightly exponential after X tosses.
-				- [ ] 4 - Rounds are too long in my opinion, even not doing abusive stuff.
-					- [x] Move to 4-5-6 Ante. This will just generally reduce the number of rounds in the game while also reducing the amount of souls, and power spike, the player can get.
-					- [x] Slightly reduce tetrobol and triobol generic payoffs - 5 7 9 11 instead of up by 3 at certain points
-					- [x] Monsters should be more powerful and numerous at later stops in general (bump denoms)
-					- [x] Arrows point down 2 px
-					- [x] Coin denoms in shop should be handled a bit better - last round should offer a bit cheaper, earlier rounds can introduce triobols
-					- [x] Triobol and Tetrobol upgrades should be more pricey
-					- [x] Leftover souls convert to life at a rate of 1 to 10
-						- [x] Add 1 line for this in the tutorial.
-					- [x] Buff Demeter a touch
-					- [x] Siren back -> Curse two coins.
-				- [ ] 5
-
-
-**Charon's Obol Beta - Coalescence**
-- [ ] **Patron Revamp - Jan 19th**
-	- [ ] Recharge over time instead of at start of round (tosses). 
-	- [ ] Set max number of charges (does not increase over time), can differ by god. Recharge rate also differs by god.
-		- [ ] Maybe max is always 3, but recharge rate varies.
-		- [ ] Probably start at 1 charge.
-	- [ ] Different visual effects to show charge level.
-	- [ ] Always recharges up to half (rounded up) at start of trial or boss.
-	- [ ] Patron token should not change glow color when moused over. Patron token should have an effect when moused over (a fun one could be a bit of 'jittering' like it is quivering with power)
-	- [ ] Bug - hovering patron token in shop while it has charges causes it to start glowing (remove all charges when in shop)
-	- [ ] Update patron powers and add passives:
-		- [ ] Hades - Destroy a coin. If it was yours, heal life and gain souls equal to 10x its value. 1 max. Slow recharge. Can be used in the shop.
-			- [ ] Passive - Passive - Souls persist between rounds.
-		- [ ] Aphrodite - Permanently increase a coin's maximum charges by 1. 2 max. Slow recharge.
-			- [ ] Passive - During payoff, gain 1 soul for each unspent power charge.
-		- [ ] Hephaestus - Ignite a coin. If it's already ignited, upgrade it. 2 max. Slow recharge.
-			- [ ] Passive - Ignited coins heal you instead of hurt you.
-		- [ ] Artemis - Turn all your coins to their other face.  2 max. Slow recharge.
-			- [ ] Passive - You gain 3 free arrows at the start of each round.
-		- [ ] Poseidon - Freeze a coin and its neighbors. 2 max. Slow recharge. 
-			- [ ] Passive - Frozen coins have a 50% chance to remain frozen instead of thawing.
-		- [ ] Dionysus - Random behavior. 2 max. Fast recharge.
-			- [ ] Passive - Whenever you gain a coin, Bless it. The first reroll in each shop is free.
-		- [ ] Demeter - Clear all statuses from a coin. 3 max. Medium recharge.
-			- [ ] Passive - Statuses are not cleared between rounds.
-		- [ ] Hermes - Trade a coin for another of equal value. 3 max. Medium recharge.
-			- [ ] Passive - Whenever you trade or gain a coin, it has a 20% chance to upgrade.
-		- [ ] Ares - Reflip all coins. 3 max. Medium recharge.
-			- [ ] Passive - Monster coins on tails cost half as much to destroy.
-		- [ ] Athena - Permanently reduce a coin's life penalty by 1. 3 max. Medium recharge.
-			- [ ] Passive - Before the first toss of each round, randomly Bless 3 coins.
-		- [ ] Hera - Reflip a coin and its neighbors. 3 max. Medium recharge.
-			- [ ] Passive - When you reflip a coin, it always lands on its other side. 
-		- [ ] Apollo - Clear all negative statuses from a coin, then (if possible) apply the opposite of that status. - 3 max. Medium recharge.
-			- [ ] Passive - You can see what each coin will land on in its next flip. 
-		- [ ] Hestia - Make a coin Lucky. 4 max. Fast recharge.
-			- [ ] Passive - Lucky may be applied to a coin multiple times to increasing effect.
-		- [ ] Zeus - Reflip a coin. 5 max. Very fast recharge.
-			- [ ] Passive - When you reflip a coin, Supercharge it.
+- [ ] **Current Goals - Jan 19th Sprint b0.1.0**
+	- [ ] **Patron Revamp**
+		- [ ] Visual indicator of charge level. Possibly glowy orb things.
+		- [ ] Update patron powers and add passives to tooltips.
+			- [ ] **Hades**
+				- [ ] Active (1 charge) - Downgrade a coin three times. (If it is yours, first heal life and gain souls equal to 10x its value). Can be used in the shop.
+				- [ ] Passive - Souls persist between rounds (except for the final round).
+			- [ ] **Aphrodite**
+				- [ ] Active (2 charges) - Recharge all of your coins.
+				- [ ] Passive - During payoff, gain 1 soul for each unspent power charge.
+			- [ ] **Hephaestus**
+				- [ ] Active (2 charges) - Ignite a coin. If it's already ignited, upgrade it.
+				- [ ] Passive - Ignited coins heal you instead of hurt you.
+			- [ ] **Artemis**
+				- [ ] Active (2 charges) - Turn all your coins to their other face.  
+				- [ ] Passive - You gain 3 free arrows at the start of each round.
+			- [ ] **Poseidon**
+				- [ ] Active (2 charges) - Freeze a coin and its neighbors. 
+				- [ ] Passive - Frozen coins have a 50% chance to remain frozen instead of thawing.
+			- [ ] **Dionysus**
+				- [ ] Active (3 charges) -Random behavior.
+				- [ ] Passive - Whenever you gain a coin, Bless it. The first reroll in each shop is free.
+			- [ ] **Demeter**
+				- [ ] Active (3 charges) - Clear all statuses from a coin.
+				- [ ] Passive - Statuses are not cleared between rounds.
+			- [ ] **Hermes**
+				- [ ] Active (3 charges) - Trade a coin for another of equal value.
+				- [ ] Passive - Whenever you trade or gain a coin, it has a 20% chance to immediately upgrade.
+			- [ ] **Ares**
+				- [ ] Active (3 charges) - Reflip all coins.
+				- [ ] Passive - Monster coins on Tails cost half as much to destroy.
+			- [ ] **Athena**
+				- [ ] Active (3 charges) - Permanently reduce a coin's life penalty by 1.
+				- [ ] Passive - Before the first toss of each round, randomly Bless 3 coins.
+			- [ ] **Hera**
+				- [ ] Active (3 charges) - Reflip a coin and its neighbors.
+				- [ ] Passive - When you reflip a coin, it always lands on the opposite side.
+			- [ ] **Apollo**
+				- [ ] Active (3 charges) - Clear all negative statuses from a coin, then (if possible), appy the opposite of that status.
+				- [ ] Passive - You can see what each coin will land on in its next flip.
+			- [ ] **Hestia**
+				- [ ] Active (4 charges) - Make a coin Lucky. 
+				- [ ] Passive - Lucky has a smaller effect, but can be applied multiple times to the same coin.
+			- [ ] **Zeus**
+				- [ ] Active (4 charges) - Reflip a coin.
+				- [ ] Passive - When you reflip a coin, Supercharge it.
 		- [ ] spare ideas
 			- [ ] Active - Turn 2 random coins to heads. 2 max. Slow recharge.
-			- [ ] Active - Recharge all of your coins once. 2 max. Slow recharge.
-			- [ ] Passive - Frozen coins have a 33% chance to remain Frozen when flipped.
 			- [ ] Passive - Blessed coins have a 33% chance to remain Blessed when flipped.
 			- [ ] Passive - If you would ever die, destroy this token and heal 50 life. 
 			- [ ] Passive - If ever all coins are on tails, reflip all coins.
@@ -82,10 +55,8 @@
 			- [ ] Passive - Whenever you destroy a coin, gain a random Obol.
 			- [ ] Passive - Upgrading coins is cheaper. Buying coins is more expensive.
 			- [ ] Passive - Buying coins is cheaper. Upgrading coins is more expensive.
-			- [ ] Passive - During payoff, heal 1 life for each power coin on heads with unspent charges.
 			- [ ] Underworld powers
 				- [ ] Active - Trade all your coins for other random coins of equal value and type. 1 max. Very slow recharge.
-				- [ ] Active - Destroy one of your coins. Gain life based on its value. 2 max. Slow recharge.
 				- [ ] Active - A random Patron power. Changes randomly each round.
 				- [ ] Passive - Your coins are permanently ignited and blessed.
 				- [ ] Passive - Your power coins have a random amount of charges from 1-5.
@@ -95,6 +66,28 @@
 				- [ ] Passive - Your coins have 2 additional charges. You lose 1 life for each unspent charge during payoff.
 				- [ ] Passive - Your coins have an infinite number of charges, but cost 1 life to use. 
 				- [ ] Passive - Your payoff coins are permanently Unlucky, but their payoff is doubled.
+				- [ ] Passive - Whenever you heal life, gain that many souls.
+	- [ ] **Polish #1**
+		- [ ] Filters for the patron selection and main scenes.
+			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+		- [ ] Needs an Abandon Run button somewhere. 
+			- [ ] Add an X somewhere on the board on the top right.
+			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
+			- [ ] Also triggered on esc
+		- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reaosnable - particle effects from the activated coin will also help)
+		- [ ] Initial particle additions.
+		- [ ] Map should flash when hovered and not open.
+		- [ ] Rows need a "retract for toss" option which does not pull back stoned/frozen coins.
+		- [ ] Passive coins (trials) should flash whenever they activate - just call a function on global to do this (pass the power type, global scans the row, performs flash).
+		- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
+		- [ ] Fancy mat for Shop.
+	- [ ] **Tutorial Improvements**
+		- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.)
+		- [ ] Slightly black out the screen while Charon is talking.
+
+
+**Charon's Obol Beta - Coalescence**
+- [ ] **Patron Revamp - Jan 19th**
 - [ ] **Difficulty levels - Feb 2nd**
 	- [ ] Charon will unleash his Malice.
 	- [ ] Trials have 2 modifiers.  Tollgates are more expensive.
@@ -146,10 +139,26 @@
 
 **Charon's Obol Release**
 - [ ] **Settings menu**
+- [ ] **Controller Support**
 - [ ] **Coin Gallery**
 - [ ] **More Content**
 - [ ] **Polish**
 - [ ] **Bugs**
+- [ ] **Coinsets** - multiple options for what coins form the coinpool.
+	- [ ] Complete - everything
+	- [ ] Classic - Olympians (the 13 original)
+	- [ ] Classic+ - Classic with a few more additions, around ~25 coins.
+	- [ ] Remix/Redux/Remake - Small sets of 25 coins, basically alternative Classic.
+	- [ ] Finesse - Tricky coins, hard to use
+	- [ ] Elements - Manipulation with lightning, freeze, ignite, wind coins.
+	- [ ] Heroic - No gods, instead only heroic greek figures.
+	- [ ] Worldly - nature themed coins, healing focus
+	- [ ] Corrupted - Coins with downsides
+	- [ ] Metamorphosis - Coins that trade, exchange, gain, destroy coins.
+	- [ ] Predestined - Absolutely no coins that reflip, focus on lucky/bless etc
+	- [ ] Fundamental - Absolutely no coins with Statuses.
+	- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
+	- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
 
 
 

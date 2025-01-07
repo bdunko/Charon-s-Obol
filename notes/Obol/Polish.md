@@ -1,6 +1,5 @@
-- [ ] FX - Filters for the patron selection and main scenes.
-	- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
-- [ ] Needs an Abandon Run button somewhere. 
+
+- [ ] Different coin art for the elite monsters and nemesis monsters. 
 - [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 
 - [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip.
 - [ ] Custom mouse https://docs.godotengine.org/en/stable/tutorials/inputs/custom_mouse_cursor.html, if needed

@@ -49,7 +49,7 @@ func _on_game_game_ended(victory: bool):
 	# perform any coin unlock logic here based on the results of the game
 	# queue any unlocks for the main menu
 	if victory and Global.is_character(Global.Character.LADY):
-		MAIN_MENU_SCENE.queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HADES_FAMILY, Global.Character.ELEUSINIAN])
+		MAIN_MENU_SCENE.queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.HADES_FAMILY, Global.Character.ELEUSINIAN])
 	
 	# if we won, show the victory screen
 	if victory:

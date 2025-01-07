@@ -174,7 +174,7 @@ func _update_price_label() -> void:
 		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
 		
 		# hide upgrade label during some parts of tutorial
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN]
+		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
 		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
@@ -195,6 +195,12 @@ func _update_price_label() -> void:
 		var no_appease_states = [Global.TutorialState.ROUND4_MONSTER_INTRO, Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS]
 		if Global.tutorialState in no_appease_states:
 			_PRICE.text = ""
+
+func show_price() -> void:
+	_PRICE.show()
+
+func hide_price() -> void:
+	_PRICE.hide()
 
 func _update_flash():
 	# if this coin is an enemy coin, glow purple at all times
@@ -321,12 +327,6 @@ func _ready():
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
-
-func show_price() -> void:
-	_PRICE.show()
-
-func hide_price() -> void:
-	_PRICE.hide()
 
 func _on_state_changed() -> void:
 	_update_appearance()

@@ -23,3 +23,12 @@ theme_override_colors/default_color = Color(1, 1, 1, 1)
 bbcode_enabled = true
 text = "[center]\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"
 -Epicurus[/center]"
+
+[node name="ClickLabel" type="RichTextLabel" parent="."]
+z_index = 4096
+offset_top = 149.0
+offset_right = 320.0
+offset_bottom = 170.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "[center][color=lightslategray]Click anywhere to continue.[/color][/center]"

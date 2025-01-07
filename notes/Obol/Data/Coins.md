@@ -286,6 +286,8 @@ Unlockable coins + more coins
 	- [ ] ??? - Recharge your Patron token.
 	- [ ] ??? - Choose a coin. Set both faces to the current side's power for this toss. (we accidentally did this while reworking Aphrodite - basically set another coin's tails to equal its heads)
 	- [ ] ??? - Daedalus - Copy another coin's power onto this coin's tails and give it +0/1/2/3 charges, but it does not recharge naturally.
+	- [ ] ??? - Turn all your tails coins to heads, then curse them.
+	- [ ] ??? - Choose a coin. Ignite it, Bless it, and make it Lucky.
 
 
 

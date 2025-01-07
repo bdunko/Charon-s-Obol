@@ -7,6 +7,7 @@ signal coin_purchased
 @onready var _SHOP_ROW = $ShopRow
 
 const _NUM_GENERIC_SHOP_ITEMS = 1
+const _NUM_FLEX_SHOP_ITEMS = 1
 const _NUM_GOD_SHOP_ITEMS = 3
 
 var _coin_spawn_point: Vector2
@@ -26,6 +27,10 @@ func _on_state_changed() -> void:
 func set_coin_spawn_point(spawn_point: Vector2) -> void:
 	_coin_spawn_point = spawn_point
 
+enum _StockType {
+	PAYOFF, POWER
+}
+
 func randomize_shop() -> void:
 	for coin in _SHOP_ROW.get_children():
 		_SHOP_ROW.remove_child(coin)
@@ -42,29 +47,42 @@ func randomize_shop() -> void:
 		coin.clicked.connect(_on_try_coin_purchased)
 		return
 	
-	for _i in _NUM_GENERIC_SHOP_ITEMS:
+	var payoff_coinpool = Global.get_payoff_coinpool()
+	var power_coinpool = Global.get_power_coinpool()
+	
+	# randomize the types of coins to add to stock
+	var to_stock = []
+	for i in _NUM_GENERIC_SHOP_ITEMS:
+		to_stock.append(_StockType.PAYOFF)
+	for i in _NUM_FLEX_SHOP_ITEMS:
+		if Global.RNG.randi_range(0, 1) == 0:
+			to_stock.append(_StockType.PAYOFF)
+		else:
+			to_stock.append(_StockType.POWER)
+	for i in _NUM_GOD_SHOP_ITEMS:
+		to_stock.append(_StockType.POWER)
+	
+	# choose the specific coin families given the types
+	var coin_families_to_stock = []
+	for stockType in to_stock:
+		match stockType:
+			_StockType.PAYOFF:
+				coin_families_to_stock.append(payoff_coinpool.pop_front())
+				if payoff_coinpool.size() == 0: # replenish if empty
+					payoff_coinpool = Global.get_payoff_coinpool()
+			_StockType.POWER:
+				coin_families_to_stock.append(power_coinpool.pop_front())
+				if power_coinpool.size() == 0: # replenish if empty
+					power_coinpool = Global.get_payoff_coinpool()
+	
+	# make the coins and add to shop
+	for family in coin_families_to_stock:
 		var coin = _COIN_SCENE.instantiate()
 		_SHOP_ROW.add_child(coin)
 		coin.global_position = _coin_spawn_point
-		coin.init_coin(Global.GENERIC_FAMILY, Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
+		coin.init_coin(family, Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
-	
-	for _i in _NUM_GOD_SHOP_ITEMS:
-		var coin = _COIN_SCENE.instantiate()
-		_SHOP_ROW.add_child(coin)
-		coin.global_position = _coin_spawn_point
-		coin.init_coin(Global.random_god_family(), Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
-		coin.clicked.connect(_on_try_coin_purchased)
-	
-	# prevent duplicate coins
-	# $HACK$ this is an excessively lazy way to do this, but it's not really a big deal...
-	var dup = false
-	for i in _SHOP_ROW.get_child_count():
-		for j in range(i+1, _SHOP_ROW.get_child_count()):
-			if _SHOP_ROW.get_child(i).get_coin_family() == _SHOP_ROW.get_child(j).get_coin_family():
-				dup = true
-	if dup:
-		randomize_shop()
+
 
 func retract() -> void:
 	await _SHOP_ROW.retract(_coin_spawn_point)

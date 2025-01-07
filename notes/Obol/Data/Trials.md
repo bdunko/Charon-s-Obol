@@ -27,6 +27,12 @@
 		- [ ] Torment - You cannot use the same power twice in a row.
 		- [ ] ??? - Only activate 5 powers per toss.
 
+
+More ideas
+- [ ] Tribulations - Randomly apply negative statuses to 2 coins after each toss.
+- [ ] ??? - After each toss, clear all beneficial statuses.
+
+
 old trail ideas
 Level 1 Trials
 - [ ] Gain a monster coin. If there isn't enough space, destroy the lowest value coin until there is.

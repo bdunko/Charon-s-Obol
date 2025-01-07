@@ -1,3 +1,4 @@
+- [ ] Scrolls of Knowledge - an optional rule review + tips that unlocks on the main menu after the tutorial.
 - [ ] Will need to add an indestructible tag to coins and check that in some coin powers. (maybe?)
 	- [ ] Better long term solution - powers should specify the possible 'targets' from a list of enums; ie "OwnCoins", "Auto", "EnemyCoins", "AllCoins". Then instead of each case in the match having to check if that power is targetting correctly, we can just check at the start. 
 - [ ] Tooltips on bottom should appear above coins; tooltips on top should appear below coins. Should be able to pass 'direction priority' to a tooltip. (priority_left/right, priority_up/down - this defines the default way the tooltip goes IF there is enough space for either.)

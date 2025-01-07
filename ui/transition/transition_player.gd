@@ -23,7 +23,10 @@ enum Effect {
 @onready var _COLORBOX = $ColorBox
 @onready var _INITIAL_COLOR = $ColorBox.color
 @onready var _LABEL = $Label
+@onready var _CLICK_LABEL = $ClickLabel
+@onready var _CLICK_LABEL_TWEEN = Global.ManagedTween.new(_CLICK_LABEL, "modulate:a")
 
+var _fade_out_started = false # ugly, but used for a bit of handling with the click label...
 var _is_playing = false
 var _custom_fade_in_time = 1.0
 var _custom_fade_out_time = 1.0
@@ -31,10 +34,13 @@ var _custom_fade_out_time = 1.0
 func _ready() -> void:
 	assert(_COLORBOX)
 	assert(_LABEL)
+	assert(_CLICK_LABEL)
+	assert(_CLICK_LABEL_TWEEN)
 	for child in get_children():
 		child.hide()
 	_COLORBOX.modulate.a = 0.0
 	_LABEL.modulate.a = 0.0
+	_CLICK_LABEL.modulate.a = 0.0
 
 func set_fade_time(in_time: float, out_time: float) -> void:
 	_custom_fade_in_time = in_time
@@ -80,10 +86,19 @@ func play(effect: Effect) -> void:
 			await _fade_in(_COLORBOX, _custom_fade_in_time)
 		
 		Effect.LABEL_FADE_IN:
+			_fade_out_started = false
 			await _fade_out(_LABEL, 0.4) #these functions are a bit misleadingly named
+			await Global.delay(2.0)
+			if not _fade_out_started:
+				print("tween to 1.0")
+				_CLICK_LABEL.show()
+				_CLICK_LABEL_TWEEN.tween(1.0, 0.4)
 		Effect.LABEL_FADE_OUT:
+			_fade_out_started = true
+			print("tween to 0.0")
+			_CLICK_LABEL_TWEEN.tween(0.0, 0.4)
 			await _fade_in(_LABEL, 0.4)
-		
+			_CLICK_LABEL.hide()
 		_:
 			assert(false, "No match for enum.")
 	

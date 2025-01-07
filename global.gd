@@ -93,7 +93,7 @@ var tutorialState: TutorialState:
 var CHARACTERS = {
 	Character.LADY : CharacterData.new(0, Global.Character.LADY, "[color=brown]The Lady[/color]", 
 		"\"Yet [color=springgreen]she[/color] was bound to return, willing or not, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks until their renewal.\"\n-Homeric Hymn to Demeter",
-		"Learn the rules of Charon's game.", 
+		"Learn the rules of Charon's game.\n[color=lightslategray]Click Embark to begin.[/color]", 
 		["So [color=springgreen]you've[/color] returned to [color=purple]me[/color] once more.",
 		"[color=springgreen]You[/color] always were one to keep [color=purple]me[/color] waiting.",
 		"Regardless, welcome back home."],
@@ -152,7 +152,7 @@ enum State {
 }
 
 func reroll_cost() -> int:
-	return (1+shop_rerolls) * (1+shop_rerolls)
+	return (shop_rerolls) * (shop_rerolls)
 
 var shop_rerolls: int:
 	set(val):
@@ -475,7 +475,7 @@ var _VOYAGE_VARIANT = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 100, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 11, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 9, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 150, NO_MONSTERS, _ANTE_HIGH),
@@ -492,10 +492,10 @@ var _VOYAGE_BACKLOADED = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 80, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 7, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 6, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE5, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP23, 0, 120, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 7, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL1, 100, _SHOP234, 0, 160, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
@@ -511,7 +511,7 @@ var _VOYAGE_PARTITION = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE3, _ANTE_LOW),
 	Round.new(RoundType.TRIAL2, 100, _SHOP123, 0, 80, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 12, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 11, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE5, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
@@ -526,11 +526,11 @@ var _VOYAGE_FRONTLOAD = [
 	Round.new(RoundType.BOARDING, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_LOW), 
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP1, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 50, NO_MONSTERS, _ANTE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 40, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
 	Round.new(RoundType.TRIAL1, 100, _SHOP123, 0, 75, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 14, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 13, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP23, 0, 0, MONSTER_WAVE4, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100,_SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.TRIAL2, 100, _SHOP234, 0, 130, NO_MONSTERS, _ANTE_HIGH),
@@ -548,11 +548,11 @@ var _VOYAGE_INTERSPERSED = [
 	Round.new(RoundType.NORMAL, 100, _SHOP12, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
 	Round.new(RoundType.TRIAL1, 100, _SHOP12, 0, 60, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 6, 0, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 5, 0, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.NORMAL, 100, _SHOP123, 0, 0, MONSTER_WAVE4, _ANTE_MID),
 	Round.new(RoundType.TRIAL2, 100, _SHOP23, 0, 120, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 9, 0, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, 8, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP234, 0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, _NOSHOP, 0, 0, NO_MONSTERS, _ANTE_HIGH)
@@ -594,7 +594,7 @@ func randomize_voyage() -> void:
 	# choose a voyage
 	VOYAGE = choose_one_weighted(
 		[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
-		[300, 200, 125, 125, 125, 125])
+		[250, 200, 200, 200, 200, 200])
 	
 	var possible_trials_lv1 = LV1_TRIALS.duplicate(true)
 	var possible_trials_lv2 = LV2_TRIALS.duplicate(true)
@@ -810,7 +810,7 @@ var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [0
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS)", [1, 2, 3, 4], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_blue_icon.png")
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 7, 9, 11], PowerType.PAYOFF, SHOW_USES, "res://assets/icons/soul_fragment_blue_icon.png")
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)", [1, 1, 1, 1], PowerType.POWER, SHOW_USES, "res://assets/icons/demeter_icon.png")
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1], PowerType.POWER, SHOW_USES, "res://assets/icons/demeter_icon.png")
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip another coin.", [2, 3, 4, 5], PowerType.POWER, SHOW_USES,"res://assets/icons/zeus_icon.png")
 var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) another coin.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/poseidon_icon.png")
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/hera_icon.png")
@@ -823,7 +823,7 @@ var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Copy another coin's power for 
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/hermes_icon.png")
 var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make another coin (LUCKY).", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/hestia_icon.png")
 var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4], PowerType.POWER, SHOW_USES,"res://assets/icons/dionysus_icon.png")
-var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(LIFE); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1], PowerType.POWER, SHOW_USES,"res://assets/icons/hades_icon.png")
+var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1], PowerType.POWER, SHOW_USES,"res://assets/icons/hades_icon.png")
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [0, 0, 0, 0], PowerType.POWER, SHOW_USES,"")
 
@@ -855,7 +855,7 @@ var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) 2 coins.", [2, 
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/iron_icon.png")
 const MISFORTUNE_QUANTITY = 2
-var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("When the trial begins and after each payoff, two of your coins become\n(UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/misfortune_icon.png")
+var TRIAL_POWER_FAMILY_MISFORTUNE = PowerFamily.new("After each payoff, two of your coins become (UNLUCKY).", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/misfortune_icon.png")
 var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/pain_icon.png")
 const BLOOD_COST = 1
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs %d(LIFE)." % BLOOD_COST, [0, 0, 0, 0], PowerType.PASSIVE, ONLY_SHOW_ICON, "res://assets/icons/trial/blood_icon.png")
@@ -890,6 +890,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
+	tooltip = tooltip.replace("(LUCKYICON)", "res://assets/icons/status/lucky_icon.png")
 	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
 	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % ["palegoldenrod", "Bless", "res://assets/icons/status/bless_icon.png"])
 	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % ["mediumorchid", "Curse", "res://assets/icons/status/curse_icon.png"])
@@ -1333,7 +1334,6 @@ var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(3011, "[color=steelblue]Trial of Over
 var CHARON_OBOL_FAMILY = CoinFamily.new(10000, "[color=magenta]Charon's Obol[/color]", "Last Chance", NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)
 
 
-
 # stores the active pool of coins for this run
 # updated via generate_coinpool at the start of each run
 var _COINPOOL = []
@@ -1351,6 +1351,22 @@ func generate_coinpool() -> void:
 	
 	#for coin in _COINPOOL:
 	#	print(coin.coin_name)
+
+func get_payoff_coinpool() -> Array:
+	var payoffs = []
+	for coin in _COINPOOL:
+		if coin.heads_power_family.is_payoff():
+			payoffs.append(coin)
+	payoffs.shuffle()
+	return payoffs
+
+func get_power_coinpool() -> Array:
+	var powers = []
+	for coin in _COINPOOL:
+		if coin.heads_power_family.is_power():
+			powers.append(coin)
+	powers.shuffle()
+	return powers
 
 func random_family() -> CoinFamily:
 	return choose_one(_COINPOOL)
@@ -1393,7 +1409,7 @@ var _save_dict = {
 		ARTEMIS_FAMILY.id : false,
 		ARES_FAMILY.id : true,
 		ATHENA_FAMILY.id : true,
-		HEPHAESTUS_FAMILY.id : true, 
+		HEPHAESTUS_FAMILY.id : false, 
 		APHRODITE_FAMILY.id : true,
 		HERMES_FAMILY.id : true,
 		HESTIA_FAMILY.id : true,
