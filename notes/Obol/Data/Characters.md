@@ -53,10 +53,10 @@
 - [ ] Cannot upgrade coins. Coins can be sold back to the shop for full price.
 - [ ] Exact number of flips must be performed each mode, no life. Tails penalties are to lose some number of souls instead.
 - [ ] You gain thrice as many souls. You take thrice as much damage. The number of rounds is reduced a lot.
-- [ ] The Senator - No life, limited flips, all coins are power coins but their BACK is soul generation.
+- [ ] The Archon - No life, limited flips, all coins are power coins but their BACK is soul generation.
 - [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection.
 	- [ ] maybe separate or added; The shop cannot be rerolled manually. After each purchase, the shop is rerolled.
-- [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 3 boss on 5.
+- [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. No ante increases. 
 - [ ] Power coins are always on heads, but don't recharge at the end of the round. Upgrading a power coin refills charges. Tetrobols can be upgraded to refill them. Power coins are cheaper.
 - [ ] The Emperor - Power coins don't recharge until the end of the round, but have doubled charges.
 - [ ] The Prince - Power coins don't recharge and are destroyed when their charges reach 0. Power coins are much cheaper.
@@ -72,18 +72,16 @@
 - [ ] Cartographer - The map has branches (bit of a lot of work probably)
 - [ ] Wanderer - Daily run mode with differnet mods.
 - [ ] ??? - Designer challenges. Variety of mixes of different stuff. One a week for a year, 52 challenges, can replay older ones. Rotates weekly as well. 
-- [ ] You only have 5 coins slots. Coins may be upgraded beyond Tetrobol.
+- [ ] You only have 5 coins slots. Coins may be upgraded infinitely (Tetrobol +1/2/3...)
 - [ ] Twins - You have two rows of coins. Alternate between them each toss (in shop, a swap row button appears which switches between the rows when purchasing. In tollgate, prices are halves but both rows must pay the coins.) You also start with a coin which can swap itself for any coin in the other row (indestructable). basically when you activate the power, it shows the other row, you pick one, then it swaps the two.
 - [ ] Physician - You start with X life (slightly less than normal total sum). You do not replenish life each round.
 	- [ ] Alternative/replacement - Titan - You start with tons and tons of life, but you never gain more and strain never resets.
 - [ ] Philosopher - Except for the first toss each round, when flipped, coins always land on their opposite face. All tails penalties are reduced to 1.
-- [ ] Champion - 3 rounds with tollgate between each, all boss rounds, you get 300 souls at the start to build a board in the shop before the first round.
+- [ ] Champion - 3 rounds, all boss rounds, you get 300 souls at the start to build a board in the shop before the first round.
 - [ ] Tollgate after every round, but in smaller costs.
 - [ ] Devoted - You start with 3 permanent Obol copies of a random god coin. All other coins and coin upgrades costs 1.5x as many souls.
 - [ ] ??? - Only payoff coins (but still a few different types probably, and some that cast a 'power' on payoff such as Luckying or Blessing other coins.). Your only power is flipping a coin and its neighbors. You can use that power a limited number of times each toss. In the shop you can permanently upgrade this limit at an increasing soul cost.
 	- [ ] Maybe could have sub options of a few different 'single' power types? Such as normal reflip, uh freeze, uh... well there could probably be a few. The weird gravity pull one, some other reflip things. "Switch coin and neighbors to its other side". "Flip a coin to its other side. Then flip 2 other random coins." ???
-- [ ] ??? - No shop, instead start with 3 coins in an extra row with these abilities - Gain 1 random Obol, Upgrade 1 coin, Destroy 1 coin.
-	- [ ] Either these flip like normal OR you have a normal Obol and must pay souls to activate these abilities?
 - [ ] ??? - Your coins are randomized each round (not each toss)
 - [ ] ??? - Souls and life are the same. End round whenever. Strain increases exponentially.
 - [ ] Limited coinpool - 10 coins possible, shown on map, some degree of smart randomization.
@@ -101,7 +99,7 @@
 - [ ] Sickly - You do not lose life from tails penalties. Strain never resets. 
 - [ ] ??? - Strain is always 1. Coins do not recharge between tosses.
 - [ ] ??? - Skip the first round and start with 3 random Obols. After each tollgate, skip the next round and gain random Obols until your row is full.
-- [ ] Gardener - Your coins automatically upgrade after you've owned them for a certain number of tosses (Obols = 5, Diobols = 15, etc). Only coins in shop are Obols, but rerolls are cheaper. Alternatively, unspent souls become life and you do not regenerate life naturally.
+- [ ] Gardener - Your coins automatically upgrade after you've owned them for a certain number of tosses (Obols = 5, Diobols = 15, etc). Only coins in shop are Obols and they are free. Unspent souls become life and you do not regenerate life naturally.
 - [ ] ??? - Coin Prices are much more variable. Shop stock is a bit larger. No upgrading. Coins in shop may have statuses.
 - [ ] Lover - Every power coin has a random other power (of another gender) on the opposite side; "Obol of Zeus and Artemis". Coins powers only recharge a single charge each toss (both sides recharge by 1).
 - [ ] Charioteer - Game runs in real time. Each round has a time limit. You lose time instead of life on tails. No life limit and no strain.
@@ -114,3 +112,4 @@
 - [ ] ??? - All coins start as Obols and upgrade at the end of each round.
 - [ ] Phrygian (King Midas) - Coins have an infinite number of charges. When a coin is deactivated after using its power, turn it to gold! (Destroy it and gain souls based on its value).
 - [ ] Banker - No monsters, many tollgates.
+- [ ] The Architect - There are no payoff coins. You start with Hermes, Hephaestus, and Dionysus. There is no monsters or final boss, but there are more tollgates and trials.

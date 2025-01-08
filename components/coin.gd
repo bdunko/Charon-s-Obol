@@ -185,7 +185,7 @@ func _update_price_label() -> void:
 		var value = get_value()
 		if _coin_family in Global.TOLL_NEGATIVE_COIN_FAMILIES:
 			value = -value
-		_PRICE.text = _TOLL_FORMAT % get_value()
+		_PRICE.text = _TOLL_FORMAT % value
 	elif is_appeaseable():
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
@@ -877,6 +877,12 @@ func on_round_end() -> void:
 	if not _heads:
 		turn()
 	clear_statuses()
+
+func get_heads_icon() -> String:
+	return _heads_power.power_family.icon_path
+
+func get_tails_icon() -> String:
+	return _tails_power.power_family.icon_path
 
 func on_toss_complete() -> void:
 	pass

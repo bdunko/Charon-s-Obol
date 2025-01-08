@@ -13,16 +13,15 @@ const _NUM_GOD_SHOP_ITEMS = 3
 var _coin_spawn_point: Vector2
 
 func _ready() -> void:
-	for coin in _SHOP_ROW.get_children():
-		_SHOP_ROW.remove_child(coin)
-		coin.queue_free()
+	_remove_children()
 	
 	assert(_SHOP_ROW)
 	Global.state_changed.connect(_on_state_changed)
 	
 func _on_state_changed() -> void:
 	if Global.state != Global.State.SHOP:
-		retract() # move all the coins offscreen to 'hide' the shop
+		await retract() # move all the coins offscreen to 'hide' the shop
+		_remove_children()
 
 func set_coin_spawn_point(spawn_point: Vector2) -> void:
 	_coin_spawn_point = spawn_point
@@ -31,10 +30,13 @@ enum _StockType {
 	PAYOFF, POWER
 }
 
-func randomize_shop() -> void:
+func _remove_children():
 	for coin in _SHOP_ROW.get_children():
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
+
+func randomize_shop() -> void:
+	_remove_children()
 	
 	if Global.tutorialState != Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:
 		_SHOP_ROW.expand()
