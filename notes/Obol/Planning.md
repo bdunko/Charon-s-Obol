@@ -81,9 +81,19 @@
 		- [ ] Passive coins (trials) should flash whenever they activate - just call a function on global to do this (pass the power type, global scans the row, performs flash).
 		- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 		- [ ] Fancy mat for Shop.
-	- [ ] **Tutorial Improvements**
+	- [ ] **New Player Improvements**
 		- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.)
 		- [ ] Slightly black out the screen while Charon is talking.
+		- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
+		- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
+		- [ ] Point out that we gained 100 life at the start of round 2. (and point it out)
+		- [ ] Point at soul when explaining and life when explaining (rotate hand maybe)
+			- [ ] Fancier animation/transitions for unlocks. Exciting!
+		- [ ] Add an additional space for 'text tip' with each coin unlocked and character.
+			- [ ] Apollo - explain curse and bless.
+			- [ ] Artemis - explain arrows.
+			- [ ] Hephaestus - explain ignite.
+			- [ ] Eleusianian - "Now, let the real game begin..."
 
 
 **Fruits**

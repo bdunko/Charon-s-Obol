@@ -1,4 +1,4 @@
-
+- [ ] "Scrolls of Knowledge" - built in tutorial to review game mechanics, and unlock hints over time. Shown on main menu and unlocked after tutorial.
 - [ ] Different coin art for the elite monsters and nemesis monsters. 
 - [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 
 - [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip.

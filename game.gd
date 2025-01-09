@@ -131,7 +131,7 @@ func _on_life_count_changed() -> void:
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
-		await _wait_for_dialogue("You're out of life...")
+		await _wait_for_dialogue("You are out of life...")
 		Global.state = Global.State.CHARON_OBOL_FLIP
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
@@ -201,8 +201,6 @@ func _on_state_changed() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		Global.flips_this_round = 0 # reduce ante to 0 for display purposes
 		Global.ante_modifier_this_round = 0
-		# behind the scenes - make each coin in the player row interactable; as they were disabled for payoff which may have been interrupted
-		_COIN_ROW.enable_interaction()
 		_ENEMY_COIN_ROW.clear()
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
@@ -444,6 +442,7 @@ func _on_flip_complete() -> void:
 			await _wait_for_dialogue("It calls upon the power of a higher being.")
 			await _wait_for_dialogue("Patron tokens are always available.")
 			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
+			Global.temporary_set_z(_LEFT_HAND, _COIN_ROW.z_index + 1) # make sure hand appears over coins
 			_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
 			_LEFT_HAND.lock()
 			_DIALOGUE.show_dialogue("Activate this token by clicking on it.")
@@ -923,6 +922,7 @@ func _on_continue_button_pressed():
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)
 	_PLAYER_TEXTBOXES.make_invisible()
+	_enable_interaction_coins_and_patron()
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
 	
@@ -1317,7 +1317,7 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN:
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.unpoint()
-		_DIALOGUE.show_dialogue("Excellent. Let us proceed to the next round.")
+		_DIALOGUE.show_dialogue("Excellent. Exit the shop to proceed to the next round.")
 		_SHOP_CONTINUE_TEXTBOX.enable()
 		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
 
@@ -1589,6 +1589,7 @@ func _on_coin_clicked(coin: Coin):
 				_patron_token.deactivate()
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
 				_map_is_disabled = false
+				Global.restore_z(_LEFT_HAND)
 				await _wait_for_dialogue("Useful, isn't it?")
 				await _wait_for_dialogue("This token doesn't flip coins...")
 				await _wait_for_dialogue("It simply turns them to their other side.")
@@ -1598,8 +1599,8 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("Mouse over the (LUCKYICON)icon below the coin for details."))
 				await _wait_for_dialogue("A patron token has a limited number of charges.")
 				await _wait_for_dialogue("The charges are replenished between rounds.")
-				await _wait_for_dialogue("Now, I will leave you to it.")
-				_DIALOGUE.show_dialogue("Deactivate the token by clicking it or right clicking.")
+				await _wait_for_dialogue("Deactivate the token by clicking it or right clicking.")
+				_DIALOGUE.show_dialogue("Now, I will leave you to it.")
 				_ACCEPT_TEXTBOX.enable()
 				Global.tutorialState = Global.TutorialState.ROUND4_MONSTER_INTRO
 			return
@@ -1762,7 +1763,7 @@ func _on_coin_clicked(coin: Coin):
 				var icon = _COIN_ROW.get_child(1).get_heads_icon() 
 				await _wait_for_dialogue("Now, this coin's power,[img=10x13]%s[/img], is active." % icon)
 				await _wait_for_dialogue("This power can reflip other coins.")
-				_DIALOGUE.show_dialogue("Click your other coin to use the power on it." % icon)
+				_DIALOGUE.show_dialogue("Click your other coin to use the power on it.")
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 				_LEFT_HAND.lock()

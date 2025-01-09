@@ -1,0 +1,67 @@
+- [ ] **Patron Revamp**
+	- [ ] Visual indicator of charge level. Possibly glowy orb things.
+	- [ ] All Patron powers become one use per Toss.
+	- [ ] Update patron powers and add passives to tooltips.
+		- [x] **Hades**
+			- [ ] Active (1 charge) - Downgrade a coin three times. (If it is yours, first heal life and gain souls equal to 10x its value). Usable in shop.
+			- [ ] Passive - Souls persist between rounds (except for the final round).
+		- [x] **Aphrodite**
+			- [ ] Active (2 charges) - Add 2 charges to each of your coins.
+			- [ ] Passive - If you would ever die, destroy this token and heal 100 life.
+		- [x] **Hephaestus**
+			- [ ] Active (2 charges) - Ignite a coin. If it's already ignited, upgrade it.
+			- [ ] Passive - Ignited coins heal you instead of hurt you.
+		- [x] **Hera**
+			- [ ] Active (2 charges) - Reflip a coin and its neighbors.
+			- [ ] Passive - When you reflip a coin, it always lands on the opposite side.
+		- [x] **Artemis**
+			- [ ] Active (2 charges) - Turn all coins to their other face.  
+			- [ ] Passive - You gain 3 free arrows at the start of each round.
+		- [x] **Poseidon**
+			- [ ] Active (3 charges) - Freeze a coin.
+			- [ ] Passive - After you freeze a monster coin, Blank it.
+		- [x] **Dionysus**
+			- [ ] Active (3 charges) - Random behavior. (ie Dionysus does a variety of 'smart' beneficial things to your board, but you don't have precise control over what he does.)
+			- [ ] Passive - Whenever you gain a new coin, Bless it. 
+		- [x] **Demeter**
+			- [ ] Active - For each coin on tails, heal life equal to its life penalty.
+			- [ ] Passive - Whenever you heal life, gain that many souls.
+		- [x] **Hermes**
+			- [ ] Active (3 charges) - Trade a coin for another of equal value. Usable in shop.
+			- [ ] Passive - Whenever you trade or gain a coin, it has a 20% chance to immediately upgrade.
+		- [x] **Ares**
+			- [ ] Active (3 charges) - Reflip all coins.
+			- [ ] Passive - Monster coins on Tails cost half as much to destroy.
+		- [x] **Athena**
+			- [ ] Active (3 charges) - Permanently reduce a coin's tails penalty by 2.
+			- [ ] Passive - You can see what each coin will land on in its next flip.
+		- [x] **Apollo**
+			- [ ] Active (4 charges) - Clear all statuses from a coin.
+			- [ ] Passive - Statuses are not cleared between rounds.
+		- [x] **Zeus**
+			- [ ] Active (4 charges) - Reflip a coin.
+			- [ ] Passive - Whenever you use a power on a coin, Supercharge it.
+		- [x] **Hestia**
+			- [ ] Active (5 charges) - Make a coin Lucky. 
+			- [ ] Passive - Lucky has a smaller effect, but may be applied multiple times to the same coin. (Lucky applies a 10% heads chance boost but may stack up to 4 times, up to a 90% heads chance.)
+	- [ ] Underworld Powers
+		- [ ] Active - Turn 2 random coins to heads and 2 random coins to tails. 5 max. 
+		- [ ] Active - Trade all your coins for other random coins of equal value and type. 1 max. 
+		- [ ] Active - A random Patron power. Changes randomly each round.
+		- [ ] Active - Turn all your coins to heads, then Curse them.
+		- [ ] Passive - Your life is doubled. Monsters cannot be destroyed.
+		- [ ] Passive - 
+		- [ ] Passive - If ever all coins are on tails, reflip all coins.
+		- [ ] Passive - Your rightmost coin always lands on heads.
+		- [ ] Passive - At the end of each round, upgrade your lowest valued coin.
+		- [ ] Passive - Whenever you destroy a coin (including a monster), gain a random Obol.
+		- [ ] Passive - Buying coins is much more expensive. Upgrading coins is much cheaper.
+		- [ ] Passive - Upgrading coins is much more expensive. Buying coins is much cheaper.
+		- [ ] Passive - Your coins are permanently ignited and blessed.
+		- [ ] Passive - Your power coins have a random amount of charges from 1-5.
+		- [ ] Passive - After each payoff, increase each coin's payoff and penalty by 1.
+		- [ ] Passive - Your powers also affect both adjacent coins.
+		- [ ] Passive - Strain damage is reduced to 1. You start with 100 life and cannot gain more.
+		- [ ] Passive - Your coins have 2 additional charges. You lose 1 life for each unspent charge during payoff.
+		- [ ] Passive - Your coins have an infinite number of charges, but cost 1 life to use. 
+		- [ ] Passive - Your payoff coins are permanently Unlucky, but their payoff is doubled.

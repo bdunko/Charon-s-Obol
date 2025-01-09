@@ -96,7 +96,7 @@ var tutorialState: TutorialState:
 var CHARACTERS = {
 	Character.LADY : CharacterData.new(0, Global.Character.LADY, "[color=brown]The Lady[/color]", 
 		"\"Yet [color=springgreen]she[/color] was bound to return, willing or not, and in [color=springgreen]her[/color] passing the flowers wilted and trees weeped, for once [color=springgreen]she[/color] crossed the river, it would be many weeks until their renewal.\"\n-Homeric Hymn to Demeter",
-		"Learn the rules of Charon's game.\n[color=lightslategray]Click Embark to begin.[/color]", 
+		"Learn the rules of Charon's game.\n[color=lightslategray]Click Embark to begin the tutorial.[/color]", 
 		["So [color=springgreen]you've[/color] returned to [color=purple]me[/color] once more.",
 		"[color=springgreen]You[/color] always were one to keep [color=purple]me[/color] waiting.",
 		"Regardless, welcome back home."],
@@ -899,7 +899,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
-	tooltip = tooltip.replace("(LUCKYICON)", "res://assets/icons/status/lucky_icon.png")
+	tooltip = tooltip.replace("(LUCKYICON)", "[img=10x13]res://assets/icons/status/lucky_icon.png[/img]")
 	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
 	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % ["palegoldenrod", "Bless", "res://assets/icons/status/bless_icon.png"])
 	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % ["mediumorchid", "Curse", "res://assets/icons/status/curse_icon.png"])
