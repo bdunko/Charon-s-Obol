@@ -112,7 +112,7 @@ func _on_text_submitted(txt):
 				if patron.to_lower().contains(args[1].to_lower()):
 					Global.patron = Global.patron_for_enum(Global.PatronEnum[patron])
 					game._make_patron_token()
-					Global.patron_uses = 2
+					Global.patron_uses = Global.patron.get_uses_per_round()
 					found = true
 					break
 			success = found

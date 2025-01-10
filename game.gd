@@ -288,7 +288,7 @@ func on_start() -> void: #reset
 	Global.round_count = 1
 	Global.souls_earned_this_round = 0
 	Global.lives = Global.current_round_life_regen()
-	Global.patron_uses = Global.current_round_patron_uses()
+	Global.patron_uses = Global.patron.get_uses_per_round()
 	Global.souls = 0
 	Global.arrows = 0
 	Global.active_coin_power_family = null
@@ -1123,7 +1123,7 @@ func _on_voyage_continue_button_clicked():
 			Global.lives += Global.current_round_life_regen()
 	
 	# refresh patron powers
-	Global.patron_uses = Global.current_round_patron_uses()
+	Global.patron_uses = Global.patron.get_uses_per_round()
 		
 	if first_round and not Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
 		await _wait_for_dialogue("...Let's begin the game...")
@@ -1339,17 +1339,6 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
 
-func destroy_coin(coin: Coin) -> void:
-	if coin.get_parent() is CoinRow:
-		_remove_coin_from_row(coin)
-	# play destruction animation (coin will free itself after finishing)
-	coin.destroy()
-	
-	# if nemesis round and the row is now empty, go ahead and end the round
-	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
-		_on_end_round_button_pressed()
-		return
-
 func _remove_coin_from_row(coin: Coin) -> void:
 	assert(coin.get_parent() is CoinRow)
 	var destroyed_global_pos = coin.global_position # store the coin's global position, so we can restore it after removing from row
@@ -1365,10 +1354,26 @@ func _remove_coin_from_row_move_then_destroy(coin: Coin, point: Vector2) -> void
 	tween.tween_callback(destroy_coin.bind(coin)) 
 
 func downgrade_coin(coin: Coin) -> void:
+	if coin.is_being_destroyed():
+		return
 	if coin.get_denomination() == Global.Denomination.OBOL:
 		destroy_coin(coin)
 	else:
 		coin.downgrade()
+
+func destroy_coin(coin: Coin) -> void:
+	if coin.is_being_destroyed():
+		return
+	
+	if coin.get_parent() is CoinRow:
+		_remove_coin_from_row(coin)
+	# play destruction animation (coin will free itself after finishing)
+	coin.destroy()
+	
+	# if nemesis round and the row is now empty, go ahead and end the round
+	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
+		_on_end_round_button_pressed()
+		return
 
 func _get_row_for(coin: Coin) -> CoinRow:
 	if _COIN_ROW.has_coin(coin):
@@ -1525,42 +1530,33 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_CHARON:
 					coin.turn()
 					coin.make_lucky()
-					
 				Global.PATRON_POWER_FAMILY_ZEUS:
-					coin.supercharge()
 					_safe_flip(coin)
 				Global.PATRON_POWER_FAMILY_HERA:
-					coin.turn()
+					_safe_flip(coin)
 					if left:
-						left.turn()
+						_safe_flip(left)
 					if right:
-						right.turn()
+						_safe_flip(right)
 				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
-					if left:
-						left.freeze()
-					if right:
-						right.freeze()
 				Global.PATRON_POWER_FAMILY_ATHENA:
 					if not coin.can_reduce_life_penalty():
 						_DIALOGUE.show_dialogue("No need...")
 						return
-					coin.reduce_life_penalty_permanently()
+					coin.reduce_life_penalty_permanently(2)
+				Global.PATRON_POWER_FAMILY_APOLLO:
+					if not coin.has_status():
+						_DIALOGUE.show_dialogue("No need...")
+						return
+					coin.clear_statuses()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
-					if _COIN_ROW.get_child_count() == 1:
-						_DIALOGUE.show_dialogue("No point...")
-						return
-					if row == _ENEMY_COIN_ROW:
-						_DIALOGUE.show_dialogue("Can't upgrade that...")
-						return
-					if left and left.get_denomination() == Global.Denomination.TETROBOL and right and right.get_denomination() == Global.Denomination.TETROBOL:
+					if (not coin.can_upgrade()) and coin.is_ignited():
 						_DIALOGUE.show_dialogue("Can't upgrade further...")
 						return
-					downgrade_coin(coin)
-					if left and left.can_upgrade():
-						left.upgrade()
-					if right and right.can_upgrade():
-						right.upgrade()
+					if coin.is_ignited():
+						coin.upgrade()
+					coin.ignite()
 				Global.PATRON_POWER_FAMILY_HERMES:
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
@@ -1568,22 +1564,18 @@ func _on_coin_clicked(coin: Coin):
 					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
-					if Global.RNG.randi_range(1, 4) == 1 and new_coin.can_upgrade():
-						new_coin.upgrade()
 				Global.PATRON_POWER_FAMILY_HESTIA:
+					# PATRONTODO - prevent applying if lucky is already lv4
 					coin.make_lucky()
-					coin.bless()
 				Global.PATRON_POWER_FAMILY_HADES:
-					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
+					if row == _COIN_ROW and _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
-					if row == _ENEMY_COIN_ROW:
-						_DIALOGUE.show_dialogue("Can't destroy enemies...")
-						return
-					# gain life & souls
-					Global.lives += Global.HADES_PATRON_MULTIPLIER * coin.get_value()
-					_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
-					destroy_coin(coin)
+					if row == _COIN_ROW:
+						Global.lives += Global.HADES_PATRON_MULTIPLIER * coin.get_value()
+						_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
+					for i in range(0, 3):
+						downgrade_coin(coin)
 			Global.patron_uses -= 1
 			if Global.patron_uses == 0:
 				_patron_token.deactivate()
@@ -1809,34 +1801,25 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if as_coin.is_tails() and as_coin.get_active_power_family() in Global.LOSE_LIFE_POWERS:
-					Global.lives += as_coin.get_active_power_charges()
+					Global.lives += as_coin.get_active_power_charges() * 2
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_FAMILY_APOLLO:
+		Global.PATRON_POWER_FAMILY_ARTEMIS:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				as_coin.turn()
 			Global.patron_uses -= 1
-		Global.PATRON_POWER_FAMILY_ARTEMIS:
-			var arrows_earned = 0
-			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				var as_coin: Coin = coin
-				arrows_earned += 1
-				if as_coin.is_heads():
-					as_coin.turn()
-			Global.arrows = min(Global.arrows + arrows_earned, Global.ARROWS_LIMIT)
-			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				coin.clear_statuses()
 				_safe_flip(coin)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if not as_coin.get_active_power_family().is_payoff():
-					as_coin.recharge_power_uses_by(1)
+					as_coin.recharge_power_uses_by(2)
 			Global.patron_uses -= 1
 		Global.PATRON_POWER_FAMILY_DIONYSUS:
+			# TODODO
 			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 				_DIALOGUE.show_dialogue("Too many coins...")
 				return

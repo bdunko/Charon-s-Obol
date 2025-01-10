@@ -413,7 +413,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5r3wq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ncmgk"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -533,7 +533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v82tm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4shv"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -653,7 +653,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_460kx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_242p7"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -912,7 +912,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_5r3wq")
+material = SubResource("ShaderMaterial_ncmgk")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1168,12 +1168,12 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_v82tm")
+material = SubResource("ShaderMaterial_e4shv")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_460kx")
+material = SubResource("ShaderMaterial_242p7")
 layout_mode = 2
 default_text = " Quit "
 

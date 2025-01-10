@@ -614,7 +614,10 @@ func set_heads_no_anim() -> void:
 func set_tails_no_anim() -> void:
 	_heads = false
 
+var marked_for_destruction = false
 func destroy() -> void:
+	assert(not marked_for_destruction)
+	marked_for_destruction = true
 	_disable_interaction = true # disable all interaction while destroying
 	FX.stop_all() # disable all effects
 	_FACE_LABEL.hide() # hide the text
@@ -626,6 +629,9 @@ func destroy() -> void:
 	FX.fade_out(0.2)
 	await FX.disintegrate(0.2)
 	queue_free() # and free when done
+
+func is_being_destroyed() -> bool:
+	return marked_for_destruction
 
 func get_active_power_family() -> Global.PowerFamily:
 	return _heads_power.power_family if is_heads() else _tails_power.power_family
@@ -716,6 +722,9 @@ func stone() -> void:
 	_material_state = _MaterialState.STONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
+func has_status() -> bool:
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_supercharged()
+
 func clear_statuses() -> void:
 	_blank = false
 	_supercharged = false
@@ -768,24 +777,27 @@ func is_stone() -> bool:
 func is_blank() -> bool:
 	return _blank
 
+func is_supercharged() -> bool:
+	return _supercharged
+
 func can_reduce_life_penalty() -> bool:
 	var can_reduce_heads = (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0)
 	var can_reduce_tails = (_tails_power.power_family in Global.LOSE_LIFE_POWERS and _tails_power.charges != 0)
 	return can_reduce_heads or can_reduce_tails
 
-func reduce_life_penalty_permanently() -> void:
-	_permanent_tails_penalty_reduction += 1
+func reduce_life_penalty_permanently(amt: int = 1) -> void:
+	_permanent_tails_penalty_reduction += amt
 	var reduced_power = _heads_power if (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0) else _tails_power
-	reduced_power.charges -= 1
+	reduced_power.charges = max(reduced_power.charges - amt, 0)
 	_update_appearance()
 	_generate_tooltip()
 	FX.flash(Color.SEA_GREEN)
 
-func reduce_life_penalty_for_round() -> void:
+func reduce_life_penalty_for_round(amt: int = 1) -> void:
 	assert(can_reduce_life_penalty())
 	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
-	_round_tails_penalty_reduction += 1
-	reduced_power.charges -= 1
+	_round_tails_penalty_reduction += amt
+	reduced_power.charges = max(reduced_power.charges - amt, 0)
 	_update_appearance()
 	_generate_tooltip()
 	FX.flash(Color.SEA_GREEN)
@@ -846,8 +858,8 @@ func _generate_tooltip() -> void:
 		var appease_hint = "" # decided not to show this in tooltip to save on tooltip size...
 		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img][img=12x13]res://assets/icons/white_arrow.png[/img]" % _heads_power.power_family.icon_path
-		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else "[img=10x13]%s[/img][img=12x13]res://assets/icons/white_arrow.png[/img]" % _tails_power.power_family.icon_path
+		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _heads_power.power_family.icon_path)
+		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _tails_power.power_family.icon_path)
 		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var max_heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
