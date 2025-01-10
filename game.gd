@@ -897,9 +897,11 @@ func _on_continue_button_pressed():
 			if Global.souls == 0:
 				await _wait_for_dialogue(Global.replace_placeholders("Ah, you've spent them all."))
 				await _wait_for_dialogue(Global.replace_placeholders("Cleverly done."))
-				
-		var pity_life = ceil(Global.souls / SOUL_TO_LIFE_CONVERSION_RATE)
-		Global.souls = 0
+		
+		var pity_life = 0
+		if not (Global.is_passive_active(Global.PATRON_POWER_FAMILY_HADES) and not Global.is_next_round_nemesis()):
+			pity_life = ceil(Global.souls / SOUL_TO_LIFE_CONVERSION_RATE)
+			Global.souls = 0
 		
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			if pity_life == 0:
@@ -1592,7 +1594,7 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("Mouse over the (LUCKYICON)icon below the coin for details."))
 				await _wait_for_dialogue("A patron token has a limited number of charges.")
 				await _wait_for_dialogue("The charges are replenished between rounds.")
-				await _wait_for_dialogue("It may also only be used once per toss.")
+				await _wait_for_dialogue("Lastly, it may be used only once each toss.")
 				_DIALOGUE.show_dialogue("Now, I will leave you to it.")
 				_ACCEPT_TEXTBOX.enable()
 				Global.tutorialState = Global.TutorialState.ROUND4_MONSTER_INTRO

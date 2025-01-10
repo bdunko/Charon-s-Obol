@@ -1,8 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
-		- [ ] Visual indicator of charge level. Possibly glowy orb things that hover in set spots up to 5 charges.
-		- [ ] Add passive powers.
 		- [ ] Dionysus implementation
 		- [ ] Resolve all PATRONTODO
 			- [ ] Hestia
@@ -10,9 +8,9 @@
 		- [ ] Add a passive to Charon's Oar.
 			- [ ] Add to tutorial.
 			- [ ] Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
+		- [ ] Consider adding POWER and PAYOFF icons to coins too... maybe use blue PAYOFF and red PAYOFF.
+			- [ ] If we do this, we probably want to enlarge the tooltip size slightly again.
 		- [ ] Update patron powers and add passives to tooltips.
-			- [ ] **Hades**
-				- [ ] Passive - Souls persist between rounds (except for the final round).
 			- [ ] **Aphrodite**
 				- [ ] Passive - If you would ever die, destroy this token and heal 100 life.
 			- [ ] **Hephaestus**
