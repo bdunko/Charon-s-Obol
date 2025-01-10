@@ -32,7 +32,8 @@ func _ready():
 	assert(FX)
 	assert(_MOUSE)
 	Global.state_changed.connect(_on_state_changed)
-	Global.patron_uses_changed.connect(_on_patron_uses_changed)
+	Global.patron_uses_changed.connect(_on_patron_changed)
+	Global.patron_used_this_toss_changed.connect(_on_patron_changed)
 	
 	_MOUSE.clicked.connect(_on_mouse_clicked)
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
@@ -93,19 +94,20 @@ func activate() -> void:
 	Global.active_coin_power_family = Global.patron.power_family
 	Global.active_coin_power_coin = null # if there is an active coin, unactivate it
 	_activated = true
-	_update_effects()
 
 func deactivate() -> void:
 	#create_tween().tween_property(self, "rotation_degrees", 0, _ROTATION_TIME)
 	Global.active_coin_power_family = null
 	_activated = false
-	_update_effects()
+
+func can_activate() -> bool:
+	return _can_activate
 
 func is_activated() -> bool:
 	return _activated
 
-func _on_patron_uses_changed() -> void:
-	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0
+func _on_patron_changed() -> void:
+	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0 and not Global.patron_used_this_toss
 
 func _process(_delta) -> void:
 	#var target = (get_global_mouse_position() - Vector2(size.x/2 + 8, 0)) if _activated else _START_POSITION
@@ -113,4 +115,4 @@ func _process(_delta) -> void:
 	pass
 
 func _on_state_changed() -> void:
-	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0
+	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0 and not Global.patron_used_this_toss

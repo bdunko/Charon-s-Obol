@@ -14,6 +14,7 @@ signal toll_coins_changed
 signal flips_this_round_changed
 signal ante_changed
 signal patron_changed
+signal patron_used_this_toss_changed
 signal patron_uses_changed
 signal rerolls_changed
 signal souls_earned_this_round_changed
@@ -226,6 +227,11 @@ var patron_uses: int:
 	set(val):
 		patron_uses = val
 		emit_signal("patron_uses_changed")
+
+var patron_used_this_toss: bool:
+	set(val):
+		patron_used_this_toss = val
+		emit_signal("patron_used_this_toss_changed")
 
 var toll_index = 0
 var toll_coins_offered := []
@@ -917,7 +923,7 @@ func replace_placeholders(tooltip: String) -> String:
 	
 	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/white_arrow.png[/img]")
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
-	tooltip = tooltip.replace("(PASSIVE)", "[color=yellow][Passive][/color]")
+	tooltip = tooltip.replace("(PASSIVE)", "[color=yellow][Passively][/color]")
 	
 	return tooltip
 

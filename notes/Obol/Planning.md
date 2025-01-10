@@ -1,14 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
-		- [ ] Visual indicator of charge level. Possibly glowy orb things.
-		- [ ] All Patron powers become one use per Toss.
+		- [ ] Visual indicator of charge level. Possibly glowy orb things that hover in set spots up to 5 charges.
 		- [ ] Add passive powers.
 		- [ ] Dionysus implementation
 		- [ ] Resolve all PATRONTODO
 			- [ ] Hestia
 		- [ ] Hades + Hermes usable in shop (with leftover charges).
 		- [ ] Add a passive to Charon's Oar.
+			- [ ] Add to tutorial.
+			- [ ] Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
 		- [ ] Update patron powers and add passives to tooltips.
 			- [ ] **Hades**
 				- [ ] Passive - Souls persist between rounds (except for the final round).

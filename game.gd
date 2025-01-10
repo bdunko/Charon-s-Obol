@@ -543,6 +543,7 @@ func _on_accept_button_pressed():
 	_patron_token.deactivate()
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
+	Global.patron_used_this_toss = false
 	
 	_DIALOGUE.show_dialogue("Payoff...")
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -1577,8 +1578,8 @@ func _on_coin_clicked(coin: Coin):
 					for i in range(0, 3):
 						downgrade_coin(coin)
 			Global.patron_uses -= 1
-			if Global.patron_uses == 0:
-				_patron_token.deactivate()
+			Global.patron_used_this_toss = true
+			_patron_token.deactivate()
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
 				_map_is_disabled = false
 				Global.restore_z(_LEFT_HAND)
@@ -1591,7 +1592,7 @@ func _on_coin_clicked(coin: Coin):
 				await _wait_for_dialogue(Global.replace_placeholders("Mouse over the (LUCKYICON)icon below the coin for details."))
 				await _wait_for_dialogue("A patron token has a limited number of charges.")
 				await _wait_for_dialogue("The charges are replenished between rounds.")
-				await _wait_for_dialogue("Deactivate the token by clicking it or right clicking.")
+				await _wait_for_dialogue("It may also only be used once per toss.")
 				_DIALOGUE.show_dialogue("Now, I will leave you to it.")
 				_ACCEPT_TEXTBOX.enable()
 				Global.tutorialState = Global.TutorialState.ROUND4_MONSTER_INTRO
@@ -1778,8 +1779,8 @@ func _on_patron_token_clicked():
 	if Global.state != Global.State.AFTER_FLIP:
 		return
 	
-	if Global.patron_uses == 0:
-		_DIALOGUE.show_dialogue("No more gods!")
+	if not _patron_token.can_activate():
+		_DIALOGUE.show_dialogue("No more assistance!")
 		return
 	
 	if _patron_token.is_activated():
@@ -1803,21 +1804,25 @@ func _on_patron_token_clicked():
 				if as_coin.is_tails() and as_coin.get_active_power_family() in Global.LOSE_LIFE_POWERS:
 					Global.lives += as_coin.get_active_power_charges() * 2
 			Global.patron_uses -= 1
+			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				as_coin.turn()
 			Global.patron_uses -= 1
+			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				_safe_flip(coin)
 			Global.patron_uses -= 1
+			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if not as_coin.get_active_power_family().is_payoff():
 					as_coin.recharge_power_uses_by(2)
 			Global.patron_uses -= 1
+			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_DIONYSUS:
 			# TODODO
 			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
@@ -1826,6 +1831,7 @@ func _on_patron_token_clicked():
 			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
 			new_coin.make_lucky()
 			Global.patron_uses -= 1
+			Global.patron_used_this_toss = true
 		_: # if not immediate, activate the token
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_ACTIVATED:
 				_DIALOGUE.show_dialogue("Now click a coin to use the patron's power.")
