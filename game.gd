@@ -474,7 +474,7 @@ func _on_flip_complete() -> void:
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_COIN_ROW.get_children():
-			_safe_flip(coin)
+			_safe_flip(coin, true)
 		return
 	
 	if _COIN_ROW.get_child_count() == 0:
@@ -507,34 +507,49 @@ func _on_toss_button_clicked() -> void:
 		coin = coin as Coin
 		
 		if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
-			_safe_flip(coin, 1000000)
+			_safe_flip(coin, true, 1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
-			_safe_flip(coin, -1000000)
+			_safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO:
 			if coin.get_coin_family() == Global.ZEUS_FAMILY:
-				_safe_flip(coin, 1000000)
+				_safe_flip(coin, true, 1000000)
 			else:
-				_safe_flip(coin, -1000000)
+				_safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-			_safe_flip(coin, -1000000)
+			_safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			_safe_flip(coin, -1000000)
+			_safe_flip(coin, true, -1000000)
 		else:
-			_safe_flip(coin)
+			_safe_flip(coin, true)
 	for coin in _ENEMY_COIN_ROW.get_children():
 		coin = coin as Coin
-		_safe_flip(coin)
+		_safe_flip(coin, true)
 
-func _safe_flip(coin: Coin, bonus: int = 0) -> void:
+func _safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
 	flips_pending += 1
 	_PLAYER_TEXTBOXES.make_invisible()
-	coin.flip(bonus)
+	coin.flip(is_toss, bonus)
 
 func _earn_souls(soul_amt: int) -> void:
+	assert(soul_amt >= 0)
+	if soul_amt == 0:
+		return
 	Global.souls += soul_amt
 	Global.souls_earned_this_round += soul_amt
 
+func _heal_life(heal_amt: int) -> void:
+	assert(heal_amt >= 0)
+	if heal_amt == 0:
+		return
+	Global.lives += heal_amt
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DEMETER):
+		_earn_souls(heal_amt)
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DEMETER)
+
 func _lose_souls(soul_amt: int) -> void: 
+	assert(soul_amt >= 0)
+	if soul_amt == 0:
+		return
 	Global.souls = max(0, Global.souls - soul_amt)
 	Global.souls_earned_this_round -= soul_amt
 
@@ -564,6 +579,7 @@ func _on_accept_button_pressed():
 					if charges > 0:
 						payoff_coin.FX.flash(Color.RED)
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # trial pain - 3x loss from tails penalties
+						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_PAIN)
 						Global.lives -= charges * 3
 					else:
 						Global.lives -= charges
@@ -571,7 +587,8 @@ func _on_accept_button_pressed():
 				match(payoff_power_family):
 					Global.POWER_FAMILY_GAIN_SOULS:
 						var payoff = charges
-						if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 5 souls per payoff coin
+						if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 10 souls per payoff coin
+							Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_LIMITATION)
 							payoff = 0 if charges <= 10 else charges
 						if payoff > 0:
 							payoff_coin.FX.flash(Color.AQUA)
@@ -691,7 +708,11 @@ func _on_accept_button_pressed():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
 					possibly_ignited_coin.payoff_move_up()
-					Global.lives -= 3
+					if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
+						_heal_life(3)
+						Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HEPHAESTUS)
+					else:
+						Global.lives -= 3
 					await Global.delay(0.15)
 					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
@@ -704,6 +725,7 @@ func _on_accept_button_pressed():
 		var coins = _COIN_ROW.get_highest_valued_heads()
 		if not coins.is_empty():
 			Global.choose_one(coins).downgrade()
+			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
 		_apply_misfortune_trial()
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
@@ -711,11 +733,13 @@ func _on_accept_button_pressed():
 			if coin.is_tails():
 				coin.curse()
 				coin.freeze()
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_COLLAPSE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
 			if coin.is_power() and coin.is_heads():
 				coin.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_OVERLOAD)
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.after_payoff()
@@ -902,6 +926,8 @@ func _on_continue_button_pressed():
 		if not (Global.is_passive_active(Global.PATRON_POWER_FAMILY_HADES) and not Global.is_next_round_nemesis()):
 			pity_life = ceil(Global.souls / SOUL_TO_LIFE_CONVERSION_RATE)
 			Global.souls = 0
+		elif Global.souls > 0:
+			Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HADES)
 		
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			if pity_life == 0:
@@ -911,7 +937,7 @@ func _on_continue_button_pressed():
 				await _wait_for_dialogue(Global.replace_placeholders("And give you a pittance of (HEAL) in exchange..."))
 			await _wait_for_dialogue(Global.replace_placeholders("Not a great exchange for you..."))
 			await _wait_for_dialogue(Global.replace_placeholders("But better than nothing."))
-		Global.lives += pity_life
+		_heal_life(pity_life)
 
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			await _wait_for_dialogue(Global.replace_placeholders("Now let's continue onwards."))
@@ -1051,6 +1077,7 @@ func _apply_misfortune_trial() -> void:
 		var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
 		if targets.size() != 0:
 			targets[0].make_unlucky()
+	Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
 
 func _on_voyage_continue_button_clicked():
 	_hide_voyage_map()
@@ -1120,6 +1147,8 @@ func _on_voyage_continue_button_clicked():
 		# refresh lives
 		if not Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FAMINE): # famine trial prevents life regen
 			Global.lives += Global.current_round_life_regen()
+		else:
+			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_FAMINE)
 		
 		if Global.current_round_type() == Global.RoundType.NEMESIS: # nemesis - regen an additional 100
 			await _wait_for_dialogue("...and steel your nerves...")
@@ -1226,7 +1255,11 @@ func _on_voyage_continue_button_clicked():
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
 		for coin in _ENEMY_COIN_ROW.get_children():
 			coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
-		
+	
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARTEMIS) and Global.arrows != Global.ARROWS_LIMIT:
+		Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + 3)
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
+	
 	_enable_or_disable_end_round_textbox()
 	_PLAYER_TEXTBOXES.make_visible()
 	_DIALOGUE.show_dialogue("Will you toss...?")
@@ -1324,13 +1357,16 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		_SHOP_CONTINUE_TEXTBOX.enable()
 		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
 
-func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, initial_position: Vector2) -> Coin:
+func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, initial_position: Vector2, during_round: bool = false) -> Coin:
 	var new_coin: Coin = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.global_position = initial_position
 	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
+	if during_round and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERMES) and new_coin.can_upgrade() and Global.RNG.randi_range(1, 5) == 5:
+		new_coin.upgrade()
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERMES)
 	return new_coin
 
 func _gain_coin_from_shop(coin: Coin) -> void:
@@ -1491,8 +1527,10 @@ func _on_coin_clicked(coin: Coin):
 		
 		if Global.souls >= coin.get_appeasal_price():
 			_DIALOGUE.show_dialogue("Very good...")
-			destroy_coin(coin)
 			Global.souls -= coin.get_appeasal_price()
+			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARES) and coin.is_tails():
+				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARES)
+			destroy_coin(coin)
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls...")
 		return
@@ -1523,6 +1561,7 @@ func _on_coin_clicked(coin: Coin):
 				_DIALOGUE.show_dialogue("Not enough life...")
 				return
 			Global.lives -= Global.BLOOD_COST
+			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
 		
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
@@ -1534,13 +1573,13 @@ func _on_coin_clicked(coin: Coin):
 					coin.turn()
 					coin.make_lucky()
 				Global.PATRON_POWER_FAMILY_ZEUS:
-					_safe_flip(coin)
+					_safe_flip(coin, false)
 				Global.PATRON_POWER_FAMILY_HERA:
-					_safe_flip(coin)
+					_safe_flip(coin, false)
 					if left:
-						_safe_flip(left)
+						_safe_flip(left, false)
 					if right:
-						_safe_flip(right)
+						_safe_flip(right, false)
 				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
 				Global.PATRON_POWER_FAMILY_ATHENA:
@@ -1564,7 +1603,7 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION)
+					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 				Global.PATRON_POWER_FAMILY_HESTIA:
@@ -1575,12 +1614,16 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
 					if row == _COIN_ROW:
-						Global.lives += Global.HADES_PATRON_MULTIPLIER * coin.get_value()
+						_heal_life(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 						_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 					for i in range(0, 3):
 						downgrade_coin(coin)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
+			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
+				if not coin.is_being_destroyed():
+					coin.supercharge()
+					Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
 			_patron_token.deactivate()
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
 				_map_is_disabled = false
@@ -1608,12 +1651,12 @@ func _on_coin_clicked(coin: Coin):
 				elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
-					_safe_flip(coin, 1000000)
+					_safe_flip(coin, false, 1000000)
 				elif coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
 				else:
-					_safe_flip(coin)
+					_safe_flip(coin, false)
 			Global.POWER_FAMILY_FREEZE:
 				if coin.is_frozen():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (FROZEN)..."))
@@ -1624,11 +1667,11 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
 				# flip coin and neighbors
-				_safe_flip(coin)
+				_safe_flip(coin, false)
 				if left:
-					_safe_flip(left)
+					_safe_flip(left, false)
 				if right:
-					_safe_flip(right)
+					_safe_flip(right, false)
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
@@ -1674,7 +1717,7 @@ func _on_coin_clicked(coin: Coin):
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
 					return
-				var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION)
+				var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 			Global.POWER_FAMILY_MAKE_LUCKY:
@@ -1691,7 +1734,7 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
 					downgrade_coin(coin)
-					Global.lives += Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1]
+					_heal_life(Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1])
 				else:
 					_DIALOGUE.show_dialogue("Can't downgrade that...")
 					return
@@ -1699,12 +1742,16 @@ func _on_coin_clicked(coin: Coin):
 				if coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
-				_safe_flip(coin)
+				_safe_flip(coin, false)
 				Global.arrows -= 1
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
 		Global.active_coin_power_coin.spend_power_use()
+		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
+			if not coin.is_being_destroyed():
+				coin.supercharge()
+				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
 		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
 			Global.active_coin_power_family = null
@@ -1720,12 +1767,13 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Not enough life...")
 					return
 				Global.lives -= Global.BLOOD_COST
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
 			
 			# resolve the power
 			var spent_use = false
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
-					Global.lives += 1 + (coin.get_denomination_as_int() * 2)
+					_heal_life(1 + (coin.get_denomination_as_int() * 2))
 				Global.POWER_FAMILY_GAIN_ARROW:
 					if Global.arrows == Global.ARROWS_LIMIT:
 						_DIALOGUE.show_dialogue("Too many arrows...")
@@ -1737,12 +1785,12 @@ func _on_coin_clicked(coin: Coin):
 					spent_use = true
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c = c as Coin
-						_safe_flip(c)
+						_safe_flip(c, false)
 				Global.POWER_FAMILY_GAIN_COIN:
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
-					_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position)
+					_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position, true)
 			if not spent_use:
 				coin.spend_power_use()
 		else: # otherwise, make this the active coin and coin power and await click on target
@@ -1804,7 +1852,7 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if as_coin.is_tails() and as_coin.get_active_power_family() in Global.LOSE_LIFE_POWERS:
-					Global.lives += as_coin.get_active_power_charges() * 2
+					_heal_life(as_coin.get_active_power_charges() * 2)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
@@ -1815,7 +1863,7 @@ func _on_patron_token_clicked():
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				_safe_flip(coin)
+				_safe_flip(coin, false)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_APHRODITE:

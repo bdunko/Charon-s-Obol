@@ -34,10 +34,20 @@ func _ready():
 	Global.state_changed.connect(_on_state_changed)
 	Global.patron_uses_changed.connect(_on_patron_changed)
 	Global.patron_used_this_toss_changed.connect(_on_patron_changed)
+	Global.patron_used_this_toss_changed.connect(_on_use)
+	Global.passive_triggered.connect(_on_passive_triggered)
 	
 	_MOUSE.clicked.connect(_on_mouse_clicked)
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
+
+func _on_use() -> void:
+	if Global.patron_used_this_toss:
+		FX.flash(Color.WHITE)
+
+func _on_passive_triggered(passive: Global.PowerFamily) -> void:
+	if Global.patron.power_family == passive:
+		FX.flash(Color.GOLD)
 
 func _update_effects() -> void:
 	# if disabled, remove all effects

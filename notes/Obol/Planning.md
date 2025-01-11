@@ -1,15 +1,34 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
-		- [ ] Dionysus implementation
-		- [ ] Resolve all PATRONTODO
-			- [ ] Hestia
-		- [ ] Hades + Hermes usable in shop (with leftover charges).
-		- [ ] Add a passive to Charon's Oar.
-			- [ ] Add to tutorial.
-			- [ ] Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
-		- [ ] Consider adding POWER and PAYOFF icons to coins too... maybe use blue PAYOFF and red PAYOFF.
-			- [ ] If we do this, we probably want to enlarge the tooltip size slightly again.
+		- [ ] **TODO**
+			- [ ] Easy ones
+				- [x] Hephaestus
+				- [x] Hera
+				- [x] Artemis
+				- [x] Poseidon
+				- [x] Demeter
+				- [x] Hermes
+				- [x] Ares
+				- [x] Zeus
+			- [ ] Slightly more effortful
+				- [ ] Athena
+				- [ ] Hestia
+					- [ ] resolve the PATRONTODO
+				- [ ] Dionysus
+				- [ ] Aphrodite
+			- [ ] Cleanup
+				- [ ] Charon's Oar passive
+					- [ ] Add to tutorial.
+					- [ ] Explain passive in tutorial. Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
+				- [ ] Hades + Hermes usable in shop (with leftover charges).
+				- [ ] Bug - Tooltip on statues shows 0/2 charges when it should show 2/2, because there are no Global.patron_uses yet.
+			- [ ] Testing
+				- [ ] Test all tokens.
+					- [ ] Passives.
+					- [ ] Actives.
+					- [ ] Tutorial runthrough.
+
 		- [ ] Update patron powers and add passives to tooltips.
 			- [ ] **Aphrodite**
 				- [ ] Passive - If you would ever die, destroy this token and heal 100 life.
@@ -39,6 +58,7 @@
 			- [ ] **Hestia**
 				- [ ] Passive - Lucky has a smaller effect, but may be applied multiple times to the same coin. (Lucky applies a 13% heads chance boost but may stack up to 3 times, up to a 89% heads chance.)
 	- [ ] **Polish #1**
+		- [ ] No last chance flip for Nemesis rounds or Trial rounds.
 		- [ ] Filters for the patron selection and main scenes.
 			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
 		- [ ] Needs an Abandon Run button somewhere. 
@@ -52,6 +72,8 @@
 		- [ ] Passive coins (trials) should flash whenever they activate - just call a function on global to do this (pass the power type, global scans the row, performs flash).
 		- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 		- [ ] Fancy mat for Shop.
+		- [ ] Consider adding POWER and PAYOFF icons to coins too... maybe use blue PAYOFF and red PAYOFF.
+		- [ ] If we do this, we probably want to enlarge the tooltip size slightly again.
 	- [ ] **New Player Improvements**
 		- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.)
 		- [ ] Slightly black out the screen while Charon is talking.
@@ -102,20 +124,32 @@
 	- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
 	- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
 - [ ] **Coin Graphical Effects - Feb 16th**
-- [ ] **Increase Coin Limit Feb 23rd**
-	- [ ] Goal - 10 coins.
-		- [ ] Coins need to cap at diobol size. 
-		- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
-			- [ ] Obol - keep
-			- [ ] Diobol - 1 larger on bottom?
-			- [ ] Triobol - replace with current diobol
-			- [ ] Tetrobol - triobol 1 larger on bottom?
-	- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
-	- [ ] Move price label down as well to make more space.
-	- [ ] Move shop, enemy row, and hands down with extra space.
-	- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
-	- [ ] Possibly remove a few pixels from the cloth playmat.
-	- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
+- [ ] **Increase Coin Limit & Other Refactors Feb 23rd**
+	- [ ] **Coin Limit Increase**
+		- [ ] Goal - 10 coins.
+			- [ ] Coins need to cap at diobol size. 
+			- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
+				- [ ] Obol - keep
+				- [ ] Diobol - 1 larger on bottom?
+				- [ ] Triobol - replace with current diobol
+				- [ ] Tetrobol - triobol 1 larger on bottom?
+		- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
+		- [ ] Move price label down as well to make more space.
+		- [ ] Move shop, enemy row, and hands down with extra space.
+		- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
+		- [ ] Possibly remove a few pixels from the cloth playmat.
+		- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
+	- [ ] **Additional Refactors**
+		- [ ] Separate out Global.gd into multiple files.
+			- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
+		- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
+		- [ ] Cleanup coin.gd in the same way.
+		- [ ] **Coin Power Refactor**
+			- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife. 
+				- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
+				- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
+				- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
+			- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
 - [ ] **More Content - Mar 16th**
 	- [ ] **New bosses**
 	- [ ] **More Monsters**

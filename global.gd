@@ -21,6 +21,8 @@ signal souls_earned_this_round_changed
 signal tutorial_state_changed
 signal game_loaded
 
+signal passive_triggered
+
 var character: CharacterData
 
 func is_character(chara: Global.Character) -> bool:
@@ -1181,7 +1183,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Downgrade a coin thrice. If it was yours, first gain (SOULS) and heal (LIFE) equal to %dx its value(COIN).\n(PASSIVE)Souls persist between rounds [color=gray](except for Nemesis rounds)[/color]." % HADES_PATRON_MULTIPLIER, PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
 	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "(IGNITE) a coin. If it was already (IGNITED), upgrade it.\n(PASSIVE)(IGNITE) heals you instead of hurting you.", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
 	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Reflip a coin and its neighbors.\n(PASSIVE)When you reflip a coin, it always lands on the other side.", PatronEnum.HERA, PATRON_POWER_FAMILY_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn"), [HERA_FAMILY]),
-	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal value.\n(PASSIVE)When you obtain a new coin, it has a 20% chance to upgrade.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
+	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal value.\n(PASSIVE)When you obtain a new coin during a round, it has a 20% chance to upgrade.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
 	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin (LUCKY).\n(PASSIVE)(LUCKY) has a lesser effect, but may be applied up to 4 times to the same coin.", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
 	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "(FREEZE) a coin.\n(PASSIVE)When you (FREEZE) a monster coin, also (BLANK) it.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
 	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin.\n(PASSIVE)When you use a power on a coin, (SUPERCHARGE) it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY]),

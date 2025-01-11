@@ -326,7 +326,15 @@ func _ready():
 	assert(_TETROBOL_STATUS_ANCHOR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
+	Global.passive_triggered.connect(_on_passive_triggered)
 	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
+
+func _on_passive_triggered(passive: Global.PowerFamily) -> void:
+	if _heads_power.power_family == passive or _tails_power.power_family == passive:
+		if _owner == Owner.NEMESIS:
+			FX.flash(Color.PURPLE)
+		else:
+			FX.flash(Color.GOLD)
 
 func _on_state_changed() -> void:
 	_update_appearance()
@@ -366,6 +374,8 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_on_state_changed() # a bit of a hack but it is a good catchall...
 
 func get_appeasal_price() -> int:
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARES) and is_tails():
+		return _coin_family.appeasal_price_for_denom[_denomination] / 2
 	return _coin_family.appeasal_price_for_denom[_denomination]
 
 func is_appeaseable() -> bool:
@@ -508,7 +518,7 @@ func is_other_face_power() -> bool:
 func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not _blank
 
-func flip(bonus: int = 0) -> void:
+func flip(is_toss: bool, bonus: int = 0) -> void:
 	if get_active_power_family().is_passive():
 		_freeze_ignite_state = _FreezeIgniteState.NONE
 		emit_signal("flip_complete")
@@ -533,7 +543,10 @@ func flip(bonus: int = 0) -> void:
 	_FACE_LABEL.hide() # hide text
 	_PRICE.hide() # hide appease cost
 	
-	if is_blessed():
+	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
+		_heads = not _heads
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERA)
+	elif is_blessed():
 		FX.flash(Color.PALE_GOLDENROD)
 		_heads = true
 		_bless_curse_state = _BlessCurseState.NONE
@@ -564,6 +577,7 @@ func flip(bonus: int = 0) -> void:
 	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
 		_luck_state = _LuckState.UNLUCKY if _heads else _LuckState.LUCKY
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_EQUIVALENCE)
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
@@ -582,7 +596,7 @@ func flip(bonus: int = 0) -> void:
 	if _supercharged and not _heads:
 		FX.flash(Color.YELLOW)
 		_supercharged = false
-		await flip()
+		await flip(is_toss)
 		return
 	
 	# if the mouse is still over after the flip, start glowing again
@@ -614,10 +628,10 @@ func set_heads_no_anim() -> void:
 func set_tails_no_anim() -> void:
 	_heads = false
 
-var marked_for_destruction = false
+var _marked_for_destruction = false
 func destroy() -> void:
-	assert(not marked_for_destruction)
-	marked_for_destruction = true
+	assert(not _marked_for_destruction)
+	_marked_for_destruction = true
 	_disable_interaction = true # disable all interaction while destroying
 	FX.stop_all() # disable all effects
 	_FACE_LABEL.hide() # hide the text
@@ -631,7 +645,7 @@ func destroy() -> void:
 	queue_free() # and free when done
 
 func is_being_destroyed() -> bool:
-	return marked_for_destruction
+	return _marked_for_destruction
 
 func get_active_power_family() -> Global.PowerFamily:
 	return _heads_power.power_family if is_heads() else _tails_power.power_family
@@ -662,6 +676,7 @@ func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges:
 	elif is_stone():
 		return current_charges
 	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_sapping: #recharge only by 1
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SAPPING)
 		return min(current_charges + 1, power_family.uses_for_denom[_denomination])
 	return power_family.uses_for_denom[_denomination]
 
@@ -712,6 +727,10 @@ func freeze() -> void:
 	FX.flash(Color.CYAN) # flash ahead of time, even if effect fails
 	# if stoned, don't freeze
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.FROZEN
+	
+	if _freeze_ignite_state == _FreezeIgniteState.FROZEN and Global.is_passive_active(Global.PATRON_POWER_FAMILY_POSEIDON) and _owner == Owner.NEMESIS:
+		blank()
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_POSEIDON)
 
 func ignite() -> void:
 	FX.flash(Color.RED) # flash ahead of time, even if effect fails
