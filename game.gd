@@ -1259,6 +1259,11 @@ func _on_voyage_continue_button_clicked():
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARTEMIS) and Global.arrows != Global.ARROWS_LIMIT:
 		Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + 3)
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_APHRODITE):
+		var randomized = _COIN_ROW.get_randomized()
+		for i in range(0, randomized.size(), 2):
+			randomized[i].bless()
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_APHRODITE)
 	
 	_enable_or_disable_end_round_textbox()
 	_PLAYER_TEXTBOXES.make_visible()
@@ -1367,6 +1372,9 @@ func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.De
 	if during_round and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERMES) and new_coin.can_upgrade() and Global.RNG.randi_range(1, 5) == 5:
 		new_coin.upgrade()
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERMES)
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DIONYSUS):
+		new_coin.make_lucky()
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DIONYSUS)
 	return new_coin
 
 func _gain_coin_from_shop(coin: Coin) -> void:
@@ -1607,7 +1615,9 @@ func _on_coin_clicked(coin: Coin):
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 				Global.PATRON_POWER_FAMILY_HESTIA:
-					# PATRONTODO - prevent applying if lucky is already lv4
+					if not coin.can_make_lucky():
+						_DIALOGUE.show_dialogue("No need...")
+						return
 					coin.make_lucky()
 				Global.PATRON_POWER_FAMILY_HADES:
 					if row == _COIN_ROW and _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
@@ -1721,8 +1731,8 @@ func _on_coin_clicked(coin: Coin):
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 			Global.POWER_FAMILY_MAKE_LUCKY:
-				if coin.is_lucky():
-					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (LUCKY)..."))
+				if not coin.can_make_lucky():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("No need..."))
 					return
 				coin.make_lucky()
 			Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:

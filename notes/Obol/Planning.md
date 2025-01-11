@@ -2,18 +2,7 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
 		- [ ] **TODO**
-			- [ ] Slightly more effortful
-				- [ ] Hestia
-					- [ ] resolve the PATRONTODO
-					- [ ] Make new icons for Slightly Lucky, Quite Lucky, Incredibly Lucky
-					- [ ] Add these as luck states.
-					- [ ] Add to status bar.
-					- [ ] Write code to handle applying Lucky when already Lucky. 
-						- [ ] Hestia token/coin needs to be updated to allow lucky to be applied when already lucky IFF hestia token is in play.
-					- [ ] Handle when unlucky is applied (this luck state should degrade by 1, not be overwritten, except for Slightly Lucky, which is overwritten.)
-				- [ ] Dionysus - whenever you make and gain coin, or buy coin from shop, Bless
-				- [ ] Aphrodite
-				- [ ] Dionysus - Saturday
+			- [ ] Dionysus - Saturday
 			- [ ] Cleanup - Saturday/Sunday
 				- [ ] Charon's Oar passive
 					- [ ] Add to tutorial.

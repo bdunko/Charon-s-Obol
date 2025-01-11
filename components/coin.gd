@@ -18,7 +18,8 @@ enum _BlessCurseState {
 }
 
 enum _LuckState {
-	NONE, LUCKY, UNLUCKY
+	NONE, LUCKY, UNLUCKY,
+	SLIGHTLY_LUCKY, QUITE_LUCKY, INCREDIBLY_LUCKY
 }
 
 enum _Animation {
@@ -35,6 +36,9 @@ enum _MaterialState {
 
 @onready var _STATUS_BAR = $Sprite/StatusBar
 @onready var _LUCKY_ICON = $Sprite/StatusBar/Lucky
+@onready var _SLIGHTLY_LUCKY_ICON = $Sprite/StatusBar/SlightlyLucky
+@onready var _QUITE_LUCKY_ICON = $Sprite/StatusBar/QuiteLucky
+@onready var _INCREDIBLY_LUCKY_ICON = $Sprite/StatusBar/IncrediblyLucky
 @onready var _UNLUCKY_ICON = $Sprite/StatusBar/Unlucky
 @onready var _FREEZE_ICON = $Sprite/StatusBar/Freeze
 @onready var _IGNITE_ICON = $Sprite/StatusBar/Ignite
@@ -281,8 +285,12 @@ var _luck_state: _LuckState:
 		_luck_state = val
 		_STATUS_BAR.update_icon(_LUCKY_ICON, _luck_state == _LuckState.LUCKY)
 		_STATUS_BAR.update_icon(_UNLUCKY_ICON, _luck_state == _LuckState.UNLUCKY)
+		_STATUS_BAR.update_icon(_SLIGHTLY_LUCKY_ICON, _luck_state == _LuckState.SLIGHTLY_LUCKY)
+		_STATUS_BAR.update_icon(_QUITE_LUCKY_ICON, _luck_state == _LuckState.QUITE_LUCKY)
+		_STATUS_BAR.update_icon(_INCREDIBLY_LUCKY_ICON, _luck_state == _LuckState.INCREDIBLY_LUCKY)
 		
-		if _luck_state == _LuckState.LUCKY:
+		if _luck_state == _LuckState.LUCKY or _luck_state == _LuckState.SLIGHTLY_LUCKY\
+			or _luck_state == _LuckState.QUITE_LUCKY or _luck_state == _LuckState.INCREDIBLY_LUCKY:
 			FX.flash(Color.LAWN_GREEN)
 			FX.recolor_outline(Color("#59c035")) #lucky
 		elif _luck_state == _LuckState.UNLUCKY:
@@ -571,6 +579,12 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	if is_heads() and _luck_state == _LuckState.LUCKY and _get_percentage_success(bonus) - _next_flip_roll < LUCKY_MODIFIER:
 		#prnt("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
 		FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
+	elif is_heads() and _luck_state == _LuckState.SLIGHTLY_LUCKY and _get_percentage_success(bonus) - _next_flip_roll < SLIGHTLY_LUCKY_MODIFIER:
+		FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
+	elif is_heads() and _luck_state == _LuckState.QUITE_LUCKY and _get_percentage_success(bonus) - _next_flip_roll < SLIGHTLY_LUCKY_MODIFIER:
+		FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
+	elif is_heads() and _luck_state == _LuckState.INCREDIBLY_LUCKY and _get_percentage_success(bonus) - _next_flip_roll < SLIGHTLY_LUCKY_MODIFIER:
+		FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
 	elif is_tails() and _luck_state == _LuckState.UNLUCKY and _get_percentage_success(bonus) - _next_flip_roll >= UNLUCKY_MODIFIER:
 		#prnt("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
 		FX.flash(Color.ORANGE_RED) # failed because of unlucky
@@ -626,6 +640,12 @@ func _get_percentage_success(bonus: int = 0):
 	match(_luck_state):
 		_LuckState.LUCKY:
 			percentage_success += LUCKY_MODIFIER
+		_LuckState.SLIGHTLY_LUCKY:
+			percentage_success += SLIGHTLY_LUCKY_MODIFIER
+		_LuckState.QUITE_LUCKY:
+			percentage_success += QUITE_LUCKY_MODIFIER
+		_LuckState.INCREDIBLY_LUCKY:
+			percentage_success += INCREDIBLY_LUCKY_MODIFIER
 		_LuckState.UNLUCKY:
 			percentage_success += UNLUCKY_MODIFIER
 	return percentage_success
@@ -724,10 +744,24 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	FX.flash(Color.LIGHT_PINK)
 
 func make_lucky() -> void:
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HESTIA):
+		if _luck_state == _LuckState.SLIGHTLY_LUCKY:
+			_luck_state = _LuckState.QUITE_LUCKY
+		elif _luck_state == _LuckState.QUITE_LUCKY:
+			_luck_state = _LuckState.INCREDIBLY_LUCKY
+		else:
+			_luck_state = _LuckState.SLIGHTLY_LUCKY
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HESTIA) 
+		return
 	_luck_state = _LuckState.LUCKY
 
 func make_unlucky() -> void:
-	_luck_state = _LuckState.UNLUCKY
+	if _luck_state == _LuckState.QUITE_LUCKY:
+		_luck_state = _LuckState.SLIGHTLY_LUCKY
+	elif _luck_state == _LuckState.INCREDIBLY_LUCKY:
+		_luck_state = _LuckState.QUITE_LUCKY
+	else:
+		_luck_state = _LuckState.UNLUCKY
 
 func blank() -> void:
 	_blank = true
@@ -795,8 +829,12 @@ func is_heads() -> bool:
 func is_tails() -> bool:
 	return not _heads
 
+func can_make_lucky() -> bool:
+	return _luck_state != _LuckState.LUCKY and _luck_state != _LuckState.INCREDIBLY_LUCKY
+
 func is_lucky() -> bool:
-	return _luck_state == _LuckState.LUCKY
+	return _luck_state == _LuckState.LUCKY or _luck_state == _LuckState.SLIGHTLY_LUCKY\
+		or _luck_state == _LuckState.QUITE_LUCKY or  _luck_state == _LuckState.INCREDIBLY_LUCKY
 
 func is_blessed() -> bool:
 	return _bless_curse_state == _BlessCurseState.BLESSED
