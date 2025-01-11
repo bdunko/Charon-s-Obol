@@ -57,6 +57,8 @@ enum _MaterialState {
 @onready var _TRIOBOL_STATUS_ANCHOR = $TriobolStatusAnchor
 @onready var _TETROBOL_STATUS_ANCHOR = $TetrobolStatusAnchor
 
+@onready var _NEXT_FLIP_INDICATOR = $Sprite/NextFlipIndicator
+
 @onready var FX : FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
@@ -130,6 +132,7 @@ func _update_appearance() -> void:
 	_update_face_label()
 	_update_price_label()
 	_update_flash()
+	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_passive())
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#e12f3b"
@@ -248,6 +251,7 @@ var _bless_curse_state: _BlessCurseState:
 			FX.set_scan_color(Color.PURPLE)
 		else:
 			FX.set_scan_color(Color.WHITE)
+		_update_appearance()
 
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
@@ -286,6 +290,7 @@ var _luck_state: _LuckState:
 			FX.recolor_outline(Color("#b3202a")) #unlucky
 		else:
 			FX.recolor_outline_to_default()
+		_update_appearance()
 
 var _material_state: _MaterialState:
 	set(val):
@@ -301,6 +306,9 @@ var _material_state: _MaterialState:
 # stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
 var _round_tails_penalty_reduction = 0
 var _permanent_tails_penalty_reduction = 0
+
+# roll that will be used the next time this coin is flipped; used so we can 'predict' flips
+var _next_flip_roll = Global.RNG.randi_range(1, 100)
 
 func _ready():
 	assert(_SPRITE)
@@ -518,6 +526,11 @@ func is_other_face_power() -> bool:
 func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not _blank
 
+const LUCKY_MODIFIER = 20
+const SLIGHTLY_LUCKY_MODIFIER = 13
+const QUITE_LUCKY_MODIFIER = 26
+const INCREDIBLY_LUCKY_MODIFIER = 39
+const UNLUCKY_MODIFIER = -20
 func flip(is_toss: bool, bonus: int = 0) -> void:
 	if get_active_power_family().is_passive():
 		_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -542,42 +555,32 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	# animate
 	_FACE_LABEL.hide() # hide text
 	_PRICE.hide() # hide appease cost
+	_NEXT_FLIP_INDICATOR.hide()
+	
+	_heads = _get_next_heads(is_toss, bonus)
 	
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
-		_heads = not _heads
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERA)
 	elif is_blessed():
 		FX.flash(Color.PALE_GOLDENROD)
-		_heads = true
 		_bless_curse_state = _BlessCurseState.NONE
 	elif is_cursed():
 		FX.flash(Color.ORCHID)
-		_heads = false
 		_bless_curse_state = _BlessCurseState.NONE
-	else:
-		const LUCKY_MODIFIER = 20
-		const UNLUCKY_MODIFIER = -20
-		# the % value to succeed
-		var percentage_success = 50 + bonus
-		match(_luck_state):
-			_LuckState.LUCKY:
-				percentage_success += LUCKY_MODIFIER
-			_LuckState.UNLUCKY:
-				percentage_success += UNLUCKY_MODIFIER
-		var roll = Global.RNG.randi_range(1, 100)
-		var success = percentage_success >= roll 
-		if success and _luck_state == _LuckState.LUCKY and percentage_success - roll < LUCKY_MODIFIER:
-			#prnt("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
-			FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
-		elif not success and _luck_state == _LuckState.UNLUCKY and percentage_success - roll >= UNLUCKY_MODIFIER:
-			#prnt("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
-			FX.flash(Color.ORANGE_RED) # failed because of unlucky
-		
-		_heads = success
+	
+	if is_heads() and _luck_state == _LuckState.LUCKY and _get_percentage_success(bonus) - _next_flip_roll < LUCKY_MODIFIER:
+		#prnt("roll %d, success chance %d; lucky mattered" % [roll, percentage_success])
+		FX.flash(Color.LAWN_GREEN) # succeeded because of lucky
+	elif is_tails() and _luck_state == _LuckState.UNLUCKY and _get_percentage_success(bonus) - _next_flip_roll >= UNLUCKY_MODIFIER:
+		#prnt("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
+		FX.flash(Color.ORANGE_RED) # failed because of unlucky
 	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
 		_luck_state = _LuckState.UNLUCKY if _heads else _LuckState.LUCKY
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_EQUIVALENCE)
+	
+	# roll new RNG number
+	_next_flip_roll = Global.RNG.randi_range(1, 100)
 	
 	# todo - make it move up in a parabola; add a shadow
 	set_animation(_Animation.FLIP)
@@ -591,6 +594,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	_FACE_LABEL.show()
 	if is_appeaseable():
 		_PRICE.show()
+	_NEXT_FLIP_INDICATOR.show()
 	
 	# if supercharged and we landed on tails, flip again.
 	if _supercharged and not _heads:
@@ -606,6 +610,25 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	emit_signal("flip_complete")
 	
 	_disable_interaction = false
+
+func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
+	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
+		return not _heads
+	elif is_blessed():
+		return true
+	elif is_cursed():
+		return false
+	return _get_percentage_success(bonus) >= _next_flip_roll 
+
+func _get_percentage_success(bonus: int = 0):
+	# the % value to succeed
+	var percentage_success = 50 + bonus
+	match(_luck_state):
+		_LuckState.LUCKY:
+			percentage_success += LUCKY_MODIFIER
+		_LuckState.UNLUCKY:
+			percentage_success += UNLUCKY_MODIFIER
+	return percentage_success
 
 # turn a coin to its other side
 func turn() -> void:

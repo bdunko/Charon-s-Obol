@@ -21,6 +21,7 @@ func _ready():
 	Global.active_coin_power_family_changed.connect(_update_effects)
 	Global.arrow_count_changed.connect(_update_effects)
 	_update_effects()
+	_FX.set_uniform(FX.Uniform.FLOAT_FLASH_STRENGTH, 0.0) # this is a bit of a silly brute force that fixes a graphical glitch with arrows...
 
 func _can_be_activated() -> bool:
 	if _disable_interaction:

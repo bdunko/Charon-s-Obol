@@ -3,18 +3,24 @@
 	- [ ] **Patron Revamp**
 		- [ ] **TODO**
 			- [ ] Slightly more effortful
-				- [ ] Athena
 				- [ ] Hestia
 					- [ ] resolve the PATRONTODO
-				- [ ] Dionysus
+					- [ ] Make new icons for Slightly Lucky, Quite Lucky, Incredibly Lucky
+					- [ ] Add these as luck states.
+					- [ ] Add to status bar.
+					- [ ] Write code to handle applying Lucky when already Lucky. 
+						- [ ] Hestia token/coin needs to be updated to allow lucky to be applied when already lucky IFF hestia token is in play.
+					- [ ] Handle when unlucky is applied (this luck state should degrade by 1, not be overwritten, except for Slightly Lucky, which is overwritten.)
+				- [ ] Dionysus - whenever you make and gain coin, or buy coin from shop, Bless
 				- [ ] Aphrodite
-			- [ ] Cleanup
+				- [ ] Dionysus - Saturday
+			- [ ] Cleanup - Saturday/Sunday
 				- [ ] Charon's Oar passive
 					- [ ] Add to tutorial.
 					- [ ] Explain passive in tutorial. Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
 				- [ ] Hades + Hermes usable in shop (with leftover charges).
 				- [ ] Bug - Tooltip on statues shows 0/2 charges when it should show 2/2, because there are no Global.patron_uses yet.
-			- [ ] Testing
+			- [ ] Testing - Saturday/Sunday
 				- [ ] Test all tokens.
 					- [ ] Passives.
 					- [ ] Actives.
@@ -22,7 +28,7 @@
 
 		- [ ] Update patron powers and add passives to tooltips.
 			- [ ] **Aphrodite**
-				- [ ] Passive - If you would ever die, destroy this token and heal 100 life.
+				- [ ] Passive - Before the first toss of each round, Bless half of your coins.
 			- [ ] **Dionysus**
 				- [ ] Active (3 charges) - Random behavior. (ie Dionysus does a variety of 'smart' beneficial things to your board, but you don't have precise control over what he does.)
 				- [ ] Passive - Whenever you gain a new coin, Bless it. 
