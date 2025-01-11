@@ -907,7 +907,12 @@ func on_round_end() -> void:
 	# force to heads
 	if not _heads:
 		turn()
-	clear_statuses()
+	
+	# clear status, unless Apollo patron
+	if not Global.is_passive_active(Global.PATRON_POWER_FAMILY_APOLLO):
+		clear_statuses()
+	elif has_status():
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HEPHAESTUS)
 
 func get_heads_icon() -> String:
 	return _heads_power.power_family.icon_path
