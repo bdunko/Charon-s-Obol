@@ -7,8 +7,18 @@ func _ready():
 	tween()
 	
 	# TEST
-	var ar = []
-	print(ar.filter(func(n): return n >= 5))
+	var ar = [1, 2, 3, 4, 5]
+	
+	print(Global.choose_x(ar, 1))
+	print(Global.choose_x(ar, 2))
+	print(Global.choose_x(ar, 3))
+	
+	print(Global.choose_x(ar, 4))
+	print(Global.choose_x(ar, 5))
+	print(Global.choose_x(ar, 6))
+	print(Global.choose_x(ar, 7))
+	print(Global.choose_x(ar, 100))
+	
 	
 
 func tween() -> void:

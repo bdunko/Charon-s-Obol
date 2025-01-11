@@ -103,7 +103,7 @@ func _on_text_submitted(txt):
 	elif cmd == "clear" or cmd == "wipe" or cmd == "destroy" or cmd == "clearall" or cmd == "destroyall":
 		while coin_row.get_child_count() != 1: 
 			game.destroy_coin(coin_row.get_rightmost_to_leftmost()[0])
-	elif cmd == "patron":
+	elif cmd == "patron" or cmd == "token":
 		if not args.size() == 2:
 			success = false
 		else:

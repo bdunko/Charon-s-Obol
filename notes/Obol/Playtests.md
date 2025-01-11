@@ -6,7 +6,8 @@
 		- 1 payoff
 		- 1 payoff OR power (50/50)
 		- 3 power
-1/5/2025
+
+
 
 
 

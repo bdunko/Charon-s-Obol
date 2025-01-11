@@ -608,7 +608,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	_FACE_LABEL.show()
 	if is_appeaseable():
 		_PRICE.show()
-	_NEXT_FLIP_INDICATOR.show()
+	_NEXT_FLIP_INDICATOR.update_visibility()
 	
 	# if supercharged and we landed on tails, flip again.
 	if _supercharged and not _heads:
@@ -802,6 +802,9 @@ func has_status() -> bool:
 	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_supercharged()
 
 func clear_statuses() -> void:
+	if not has_status():
+		return
+	FX.flash(Color.LIGHT_GREEN)
 	_blank = false
 	_supercharged = false
 	clear_blessed_cursed()
@@ -810,17 +813,35 @@ func clear_statuses() -> void:
 	clear_lucky_unlucky()
 
 func clear_lucky_unlucky() -> void:
+	if _luck_state == _LuckState.NONE:
+		return
+	FX.flash(Color.LIGHT_GREEN)
 	_luck_state = _LuckState.NONE
 
 func clear_blessed_cursed() -> void:
+	if _bless_curse_state == _BlessCurseState.NONE:
+		return
+	FX.flash(Color.LIGHT_GREEN)
 	_bless_curse_state = _BlessCurseState.NONE
 	
 func clear_freeze_ignite() -> void:
+	if _freeze_ignite_state == _FreezeIgniteState.NONE:
+		return
+	FX.flash(Color.LIGHT_GREEN)
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func clear_material() -> void:
+	if _material_state == _MaterialState.NONE:
+		return
+	FX.flash(Color.LIGHT_GREEN)
 	_material_state = _MaterialState.NONE
 
+func clear_blanked() -> void:
+	if not _blank:
+		return
+	FX.flash(Color.LIGHT_GREEN)
+	_blank = false
+	
 func is_heads() -> bool:
 	if _heads == null:
 		return true

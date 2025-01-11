@@ -1009,6 +1009,17 @@ func choose_one_weighted(options, weights):
 		if r <= 0:
 			return options[i]
 
+# choose x different random elements of arr
+# if x > arr.size, arr will contain all elements (but randomized)
+func choose_x(arr: Array, x: int) -> Array:
+	arr.shuffle()
+	var ret = []
+	for i in arr.size():
+		if i >= x:
+			break
+		ret.append(arr[i])
+	return ret
+
 func ordinal_suffix(i: int) -> String:
 	var j = i % 10
 	var k = i % 100
@@ -1138,7 +1149,7 @@ var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [3, 3, 3, 3], PowerType.P
 var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "");
 var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "");
 var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "");
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [3, 3, 3, 3], PowerType.POWER, ONLY_SHOW_ICON, "");
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "");
 var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "");
 var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "");
 var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "");
@@ -1185,7 +1196,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's (LIFE) penalty by 2\n(PASSIVE)You can see what face each coin will land on when flipped.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
 	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on (TAILS), +(HEAL) equal to twice its (LIFE) penalty.\n(PASSIVE)Whenever you heal (HEAL), also gain that many (SOULS).", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
 	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "???\n(PASSIVE)When you gain a new coin, make it (LUCKY).", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
-	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Downgrade a coin thrice. If it was yours, first gain (SOULS) and heal (LIFE) equal to %dx its value(COIN).\n(PASSIVE)Souls persist between rounds [color=gray](except for Nemesis rounds)[/color]." % HADES_PATRON_MULTIPLIER, PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
+	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Downgrade a coin thrice. If it was yours, first gain (SOULS) and heal (LIFE) equal to %dx its value(COIN).\n(PASSIVE)Souls persist between rounds [color=gray](except before a Nemesis)[/color]." % HADES_PATRON_MULTIPLIER, PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
 	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "(IGNITE) a coin. If it was already (IGNITED), upgrade it.\n(PASSIVE)(IGNITE) heals you instead of hurting you.", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
 	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Reflip a coin and its neighbors.\n(PASSIVE)When you reflip a coin, it always lands on the other side.", PatronEnum.HERA, PATRON_POWER_FAMILY_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn"), [HERA_FAMILY]),
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal value.\n(PASSIVE)When you obtain a new coin during a round, it has a 20% chance to upgrade.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),

@@ -35,7 +35,7 @@ func get_heads() -> Array:
 	assert(get_child_count() != 0)
 	var heads = []
 	for coin in get_children():
-		if coin.get_heads():
+		if coin.is_heads():
 			heads.append(coin)
 	return heads
 
@@ -160,20 +160,59 @@ static func FILTER_NOT_LUCKY(c: Coin) -> bool:
 static func FILTER_NOT_UNLUCKY(c: Coin) -> bool:
 	return not c.is_unlucky()
 
+static func FILTER_UNLUCKY(c: Coin) -> bool:
+	return c.is_unlucky()
+
 static func FILTER_NOT_BLANK(c: Coin) -> bool:
 	return not c.is_blank()
+
+static func FILTER_BLANK(c: Coin) -> bool:
+	return c.is_blank()
 
 static func FILTER_NOT_CURSED(c: Coin) -> bool:
 	return not c.is_cursed()
 
+static func FILTER_CURSED(c: Coin) -> bool:
+	return c.is_cursed()
+
 static func FILTER_NOT_IGNITED(c: Coin) -> bool:
 	return not c.is_ignited()
+
+static func FILTER_IGNITED(c: Coin) -> bool:
+	return c.is_ignited()
+
+static func FILTER_NOT_FROZEN(c: Coin) -> bool:
+	return not c.is_frozen()
+
+static func FILTER_FROZEN(c: Coin) -> bool:
+	return c.is_frozen()
 
 static func FILTER_NOT_STONE(c: Coin) -> bool:
 	return not c.is_stone()
 
+static func FILTER_STONE(c: Coin) -> bool:
+	return c.is_stone()
+
+static func FILTER_NOT_SUPERCHARGED(c: Coin) -> bool:
+	return c.is_supercharged()
+
+static func FILTER_HEADS(c: Coin) -> bool:
+	return c.is_heads()
+
+static func FILTER_TAILS(c: Coin) -> bool:
+	return c.is_tails()
+
+static func FILTER_POWER(c: Coin) -> bool:
+	return c.is_power()
+
+static func FILTER_RECHARGABLE(c: Coin) -> bool:
+	return c.is_power() and c.get_active_power_charges() != c.get_max_active_power_charges()
+
 func get_filtered_randomized(filter_func) -> Array:
 	return get_randomized().filter(filter_func)
+
+func get_filtered(filter_func) -> Array:
+	return get_children().filter(filter_func)
 
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)

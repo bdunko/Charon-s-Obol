@@ -289,6 +289,14 @@ Unlockable coins + more coins
 	- [ ] ??? - Turn all your tails coins to heads, then curse them.
 	- [ ] ??? - Choose a coin. Ignite it, Bless it, and make it Lucky.
 	- [ ] ??? - Downgrade this coin, then upgrade its neighbors. 
+	- [ ] Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
+	- [ ] ??? - Blank 2 random tails coins.
+	- [ ] Dodge Tank - Passively, if this is on heads, enemy abilities target it 80% of the time.
+	- [ ] ??? - Turn this coin to tails. Gain 2/3/4/5 arrows.
+	- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
+	- [ ] ??? - Permanently increase this coin's payoff by 1/2/3/4 every 5 tosses.
+
+- [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
 
 
 

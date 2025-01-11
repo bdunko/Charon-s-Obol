@@ -1883,13 +1883,113 @@ func _on_patron_token_clicked():
 					as_coin.recharge_power_uses_by(2)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
-		Global.PATRON_POWER_FAMILY_DIONYSUS:
-			# TODODO
-			if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
-				_DIALOGUE.show_dialogue("Too many coins...")
-				return
-			var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
-			new_coin.make_lucky()
+		Global.PATRON_POWER_FAMILY_DIONYSUS: # smart random behavior
+			var tails = _COIN_ROW.get_tails()
+			tails.shuffle()
+			var tails_powers = tails.filter(CoinRow.FILTER_POWER)
+			var heads = _COIN_ROW.get_heads()
+			heads.shuffle()
+			var _heads_powers = heads.filter(CoinRow.FILTER_POWER)
+			var n_coins = _COIN_ROW.get_child_count()
+			
+			# savior check - if a lot of coins are tails, assist with that directly
+			if heads.size() == 0 or (n_coins >= floor(Global.COIN_LIMIT / 2.0) and heads.size() <= 1) or (n_coins >= Global.COIN_LIMIT and heads.size() <= 2):
+				var roll = Global.RNG.randi_range(1, 3)
+				if heads.size() <= 3:
+					roll = 1
+				match(roll):
+					1: # turn 2 powers to heads
+						for coin in Global.choose_x(tails_powers, 2):
+							coin.turn()
+					2: # reflip 4 tails coins
+						for coin in Global.choose_x(tails, 4):
+							_safe_flip(coin, false)
+					3: # reflip all coins
+						for coin in _COIN_ROW.get_children():
+							_safe_flip(coin, false)
+			else:  # otherwise, choose 2-3 helpful actions
+				var boons = 0
+				while boons < Global.RNG.randi_range(2, 3):
+					match(Global.RNG.randi_range(1, 12)):
+						1: # gain a coin
+							if _COIN_ROW.get_child_count() != Global.COIN_LIMIT and _COIN_ROW.get_child_count() != Global.COIN_LIMIT - 1:
+								var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
+								if Global.RNG.randi_range(1, 3) == 1:
+									new_coin.make_lucky()
+								if Global.RNG.randi_range(1, 2) == 1:
+									new_coin.bless()
+								boons += 1
+						2: # make coins lucky
+							var not_lucky = _COIN_ROW.get_filtered_randomized(_COIN_ROW.FILTER_NOT_LUCKY)
+							if not_lucky.size() != 0:
+								for coin in Global.choose_x(not_lucky, Global.RNG.randi_range(1, 3)):
+									coin.make_lucky()
+								boons += 1
+						3: # make coins blessed
+							var not_blessed = _COIN_ROW.get_filtered_randomized(_COIN_ROW.FILTER_NOT_BLESSED)
+							if not_blessed.size() != 0:
+								for coin in Global.choose_x(not_blessed, Global.RNG.randi_range(1, 3)):
+									coin.bless()
+								boons += 1
+						4: # freeze heads coins
+							var not_frozen_heads = heads.filter(CoinRow.FILTER_NOT_FROZEN)
+							if not_frozen_heads.size() != 0:
+								for coin in Global.choose_x(not_frozen_heads, Global.RNG.randi_range(1, 3)):
+									coin.freeze()
+								boons += 1
+						5: # clear ignite or frozen on tails
+							var ignited = _COIN_ROW.get_filtered(CoinRow.FILTER_IGNITED)
+							var frozen_tails = _COIN_ROW.get_filtered(CoinRow.FILTER_FROZEN).filter(CoinRow.FILTER_TAILS)
+							if ignited.size() + frozen_tails.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
+								for coin in Global.choose_x(ignited, Global.RNG.randi_range(2, 3)):
+									coin.clear_freeze_ignite()
+								for coin in Global.choose_x(frozen_tails, Global.RNG.randi_range(2, 3)):
+									coin.clear_freeze_ignite()
+								boons += 1
+						6: # clear unlucky, cursed, or blank
+							var unlucky = _COIN_ROW.get_filtered(CoinRow.FILTER_UNLUCKY)
+							var cursed = _COIN_ROW.get_filtered(CoinRow.FILTER_CURSED)
+							var blank = _COIN_ROW.get_filtered(CoinRow.FILTER_BLANK)
+							if unlucky.size() + cursed.size() + blank.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
+								for coin in Global.choose_x(unlucky, Global.RNG.randi_range(2, 3)):
+									coin.clear_lucky_unlucky()
+								for coin in Global.choose_x(cursed, Global.RNG.randi_range(2, 3)):
+									coin.clear_blessed_cursed()
+								for coin in Global.choose_x(blank, Global.RNG.randi_range(2, 3)):
+									coin.clear_blanked()
+								boons += 1
+						7: # gain arrows
+							if Global.arrows <= Global.ARROWS_LIMIT - floor(Global.ARROWS_LIMIT / 2.0):
+								var bonus_arrows = Global.RNG.randi_range(2, 4)
+								Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + bonus_arrows)
+								boons += 1
+						8: # blank a monster
+							if _ENEMY_COIN_ROW.get_child_count() != 0:
+								for coin in Global.choose_x(_ENEMY_COIN_ROW.get_children(), Global.RNG.randi_range(1, 2)):
+									coin.blank()
+								boons += 1
+						9: # downgrade a monster
+							if _ENEMY_COIN_ROW.get_child_count() != 0:
+								for coin in Global.choose_x(_ENEMY_COIN_ROW.get_children(), Global.RNG.randi_range(2, 3)):
+									downgrade_coin(coin)
+								boons += 1
+						10: # gain souls/life, just a generic bonus
+							match(Global.RNG.randi_range(1, 2)):
+								1:
+									_earn_souls(max(4, Global.RNG.randi_range(Global.round_count, 2 * Global.round_count)))
+								2:
+									_heal_life(max(6, Global.RNG.randi_range(Global.round_count * 2, 3 * Global.round_count)))
+							boons += 1
+						11: # recharge coins
+							var rechargable = _COIN_ROW.get_filtered(CoinRow.FILTER_RECHARGABLE)
+							if rechargable.size() >= 2:
+								for i in Global.RNG.randi_range(2, 4):
+									Global.choose_one(rechargable).recharge_power_uses_by(1)
+						12: # supercharge coins
+							var chargeable = _COIN_ROW.get_filtered(CoinRow.FILTER_NOT_SUPERCHARGED)
+							if chargeable.size() >= 3:
+								for coin in Global.choose_x(chargeable, Global.RNG.randi_range(2, 3)):
+									coin.supercharge()
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		_: # if not immediate, activate the token

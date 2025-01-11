@@ -1,30 +1,34 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
-		- [ ] **TODO**
-			- [ ] Dionysus - Saturday
-			- [ ] Cleanup - Saturday/Sunday
-				- [ ] Charon's Oar passive
-					- [ ] Add to tutorial.
-					- [ ] Explain passive in tutorial. Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
-				- [ ] Hades + Hermes usable in shop (with leftover charges).
-				- [ ] Bug - Tooltip on statues shows 0/2 charges when it should show 2/2, because there are no Global.patron_uses yet.
-			- [ ] Testing - Saturday/Sunday
-				- [ ] Test all tokens.
-					- [ ] Passives.
-					- [ ] Actives.
-					- [ ] Tutorial runthrough.
-
-		- [ ] Update patron powers and add passives to tooltips.
-			- [ ] **Aphrodite**
-				- [ ] Passive - Before the first toss of each round, Bless half of your coins.
-			- [ ] **Dionysus**
-				- [ ] Active (3 charges) - Random behavior. (ie Dionysus does a variety of 'smart' beneficial things to your board, but you don't have precise control over what he does.)
-				- [ ] Passive - Whenever you gain a new coin, Bless it. 
-			- [ ] **Athena**
-				- [ ] Passive - You can see what each coin will land on in its next flip.
-			- [ ] **Hestia**
-				- [ ] Passive - Lucky has a smaller effect, but may be applied multiple times to the same coin. (Lucky applies a 13% heads chance boost but may stack up to 3 times, up to a 89% heads chance.)
+		- [ ] Dionysus - Saturday
+			- [x] Active (3 charges) - Random behavior. (ie Dionysus does a variety of 'smart' beneficial things to your board, but you don't have precise control over what he does.) 
+				- [x] Savior - If all coins are on tails, or 1 coin on heads and 5+ coins owned, or 2 coins on heads and 8+ coins owned:
+					- [x] Turn 2-3 coins to heads. Prioritize power coins.
+					- [x] Reflip 3-4 coins.
+					- [x] Reflip all coins.
+				- [x] Otherwise, perform 2-3 boons:
+					- [x] If 6 or fewer coins: gain 1 random Lucky Obol (Diobol if roundcount >= voyage length / 2).
+					- [x] If there are coins without Lucky: Apply Lucky.
+					- [x] If there are coins without Bless: Apply Bless.
+					- [x] (probability increases with coins on heads) If there are coins on heads: Apply Freeze.
+					- [x] (probability increases with more negative statuses) If there are coins that are Unlucky, Ignited, Blanked, or Stoned: Clear that status.
+					- [x] If you have fewer than 10 arrows: Gain 2 arrows.
+					- [x] If there are monsters: Blank a monster.
+					- [x] If there are coins with no charges and coins on tails: Add charges.
+		- [ ] Cleanup - Saturday/Sunday
+			- [ ] Charon's Oar passive
+				- [ ] After payoff, if all your coins are on Heads, gain 5 souls.
+				- [ ] Add to tutorial.
+				- [ ] Explain passive in tutorial. Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
+			- [ ] Hades + Hermes usable in shop (with leftover charges).
+			- [ ] Bug - Tooltip on statues shows 0/2 charges when it should show 2/2, because there are no Global.patron_uses yet.
+		- [ ] Testing - Saturday/Sunday
+			- [ ] Test all tokens.
+				- [ ] Passives.
+				- [ ] Actives.
+				- [ ] Tutorial runthrough.
+	
 	- [ ] **Polish #1**
 		- [ ] No last chance flip for Nemesis rounds or Trial rounds.
 		- [ ] Filters for the patron selection and main scenes.
@@ -55,6 +59,7 @@
 			- [ ] Artemis - explain arrows.
 			- [ ] Hephaestus - explain ignite.
 			- [ ] Eleusianian - "Now, let the real game begin..."
+		- [ ] Add "are you sure" the first time the player tries to flip a heads coin to tails with either Zeus or Charon token.
 
 
 **Fruits**
@@ -62,6 +67,12 @@
 - [ ] Choose bosses to add to update.
 - [ ] Choose monsters to add to update.
 - [ ] Choose characters to add to update.
+	- [ ] The Archon
+	- [ ] The Merchant
+	- [ ] The Gardener
+	- [ ] The Sickly
+	- [ ] The Hoplite
+	- [ ] The Idealist
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Patron Revamp - Jan 19th**
@@ -123,6 +134,7 @@
 	- [ ] **More Monsters**
 	- [ ] **More Coins**
 	- [ ] **More Characters**
+	- [ ] **Steady Unlocks** + **Unlocks for each character & nemesis**
 - [ ] **Basic Sound - March 30th**
 
 
