@@ -1,35 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
-		- [ ] Dionysus - Saturday
-			- [x] Active (3 charges) - Random behavior. (ie Dionysus does a variety of 'smart' beneficial things to your board, but you don't have precise control over what he does.) 
-				- [x] Savior - If all coins are on tails, or 1 coin on heads and 5+ coins owned, or 2 coins on heads and 8+ coins owned:
-					- [x] Turn 2-3 coins to heads. Prioritize power coins.
-					- [x] Reflip 3-4 coins.
-					- [x] Reflip all coins.
-				- [x] Otherwise, perform 2-3 boons:
-					- [x] If 6 or fewer coins: gain 1 random Lucky Obol (Diobol if roundcount >= voyage length / 2).
-					- [x] If there are coins without Lucky: Apply Lucky.
-					- [x] If there are coins without Bless: Apply Bless.
-					- [x] (probability increases with coins on heads) If there are coins on heads: Apply Freeze.
-					- [x] (probability increases with more negative statuses) If there are coins that are Unlucky, Ignited, Blanked, or Stoned: Clear that status.
-					- [x] If you have fewer than 10 arrows: Gain 2 arrows.
-					- [x] If there are monsters: Blank a monster.
-					- [x] If there are coins with no charges and coins on tails: Add charges.
-		- [ ] Cleanup - Saturday/Sunday
-			- [ ] Charon's Oar passive
-				- [ ] After payoff, if all your coins are on Heads, gain 5 souls.
-				- [ ] Add to tutorial.
-				- [ ] Explain passive in tutorial. Explain in tutorial that patron uses are once per round. Remove the lines about deactivating.
-			- [ ] Hades + Hermes usable in shop (with leftover charges).
-			- [ ] Bug - Tooltip on statues shows 0/2 charges when it should show 2/2, because there are no Global.patron_uses yet.
-		- [ ] Testing - Saturday/Sunday
+		- [ ] Testing - Sunday
 			- [ ] Test all tokens.
 				- [ ] Passives.
 				- [ ] Actives.
 				- [ ] Tutorial runthrough.
+					- [ ] Make sure Oar works.
+					- [ ] Check Zeus reflip warning.
 	
-	- [ ] **Polish #1**
+	- [ ] **Polish**
 		- [ ] No last chance flip for Nemesis rounds or Trial rounds.
 		- [ ] Filters for the patron selection and main scenes.
 			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
@@ -37,11 +17,10 @@
 			- [ ] Add an X somewhere on the board on the top right.
 			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
 			- [ ] Also triggered on esc
-		- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reaosnable - particle effects from the activated coin will also help)
+		- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reasonable - particle effects from the activated coin will also help)
 		- [ ] Initial particle additions.
 		- [ ] Map should flash when hovered and not open.
 		- [ ] Rows need a "retract for toss" option which does not pull back stoned/frozen coins.
-		- [ ] Passive coins (trials) should flash whenever they activate - just call a function on global to do this (pass the power type, global scans the row, performs flash).
 		- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 		- [ ] Fancy mat for Shop.
 		- [ ] Consider adding POWER and PAYOFF icons to coins too... maybe use blue PAYOFF and red PAYOFF.
@@ -52,14 +31,14 @@
 		- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
 		- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
 		- [ ] Point out that we gained 100 life at the start of round 2. (and point it out)
+	- [ ] **Unlock Improvements**
 		- [ ] Point at soul when explaining and life when explaining (rotate hand maybe)
 			- [ ] Fancier animation/transitions for unlocks. Exciting!
-		- [ ] Add an additional space for 'text tip' with each coin unlocked and character.
+		- [ ] Add an additional space for 'advice' with each coin unlocked and character.
 			- [ ] Apollo - explain curse and bless.
 			- [ ] Artemis - explain arrows.
 			- [ ] Hephaestus - explain ignite.
 			- [ ] Eleusianian - "Now, let the real game begin..."
-		- [ ] Add "are you sure" the first time the player tries to flip a heads coin to tails with either Zeus or Charon token.
 
 
 **Fruits**

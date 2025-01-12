@@ -90,6 +90,8 @@ enum TutorialState {
 	
 	ENDING # ending text
 }
+var tutorial_warned_zeus_reflip := false
+var tutorial_pointed_out_patron_passive := false
 
 var tutorialState: TutorialState:
 	set(val):
@@ -1133,8 +1135,9 @@ class Patron:
 		self.patron_token = tkn
 		self._starting_coinpool = start_cpl
 	
-	func get_description() -> String:
-		return Global.replace_placeholders("[color=yellow]%d/%d[/color](TODO)(POWERARROW)%s" % [Global.patron_uses, get_uses_per_round(), _description])
+	func get_description(show_full_charges: bool = false) -> String:
+		var n_charges = get_uses_per_round() if show_full_charges else Global.patron_uses
+		return Global.replace_placeholders("[color=yellow]%d/%d[/color](TODO)(POWERARROW)%s" % [n_charges, get_uses_per_round(), _description])
 	
 	func get_uses_per_round() -> int:
 		return power_family.uses_for_denom[0]
@@ -1204,7 +1207,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "(FREEZE) a coin.\n(PASSIVE)When you (FREEZE) a monster coin, also (BLANK) it.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
 	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin.\n(PASSIVE)When you use a power on a coin, (SUPERCHARGE) it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY]),
 
-	Patron.new("[color=mediumorchid]Charon[/color]", "[color=mediumorchid]Charon's Oar[/color]", "Turn a coin to its other face and make it (LUCKY).", PatronEnum.CHARON, PATRON_POWER_FAMILY_CHARON, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/charon.tscn"), [HADES_FAMILY])
+	Patron.new("[color=mediumorchid]Charon[/color]", "[color=mediumorchid]Charon's Oar[/color]", "Turn a coin to its other face and make it (LUCKY).\n(PASSIVE)After payoff, if every coin is on heads(HEADS), +5(SOULS).", PatronEnum.CHARON, PATRON_POWER_FAMILY_CHARON, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/charon.tscn"), [HADES_FAMILY])
 ]
 
 func statue_scene_for_patron_enum(enm: PatronEnum) -> PackedScene:

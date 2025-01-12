@@ -34,7 +34,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 func _on_clickable_area_mouse_entered():
 	var patron = Global.patron_for_enum(patron_enum)
 	var nme = patron.god_name if patron_enum != Global.PatronEnum.GODLESS else "an [color=gray]Unknown God[/color]"
-	var desc = patron.get_description() if patron_enum != Global.PatronEnum.GODLESS else "???"
+	var desc = patron.get_description(true) if patron_enum != Global.PatronEnum.GODLESS else "???"
 	
 	if not _disabled:
 		_FX.start_glowing(Color.GHOST_WHITE, 2)

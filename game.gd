@@ -266,6 +266,9 @@ func on_start() -> void: #reset
 	_VOYAGE_MAP.rotation_degrees = -90
 	
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
+	Global.tutorial_warned_zeus_reflip = false
+	Global.tutorial_warned_charon_reflip = false
+	Global.tutorial_pointed_out_patron_passive = false
 	
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_COIN_ROW.add_child(charons_obol)
@@ -441,7 +444,11 @@ func _on_flip_complete() -> void:
 			await _wait_for_dialogue("This is a patron token.")
 			await _wait_for_dialogue("It calls upon the power of a higher being.")
 			await _wait_for_dialogue("Patron tokens are always available.")
+			await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE) bonus."))
 			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
+			await _wait_for_dialogue(Global.replace_placeholders("And for its (PASSIVE), which is always active..."))
+			await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn 5 extra (SOULS)."))
+			await _wait_for_dialogue("Try using the patron's power now.")
 			Global.temporary_set_z(_LEFT_HAND, _COIN_ROW.z_index + 1) # make sure hand appears over coins
 			_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
 			_LEFT_HAND.lock()
@@ -740,6 +747,24 @@ func _on_accept_button_pressed():
 				coin.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_OVERLOAD)
+	
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_CHARON):
+		if _COIN_ROW.get_filtered(CoinRow.FILTER_HEADS).size() == _COIN_ROW.get_child_count():
+			if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_pointed_out_patron_passive:
+				await _wait_for_dialogue(Global.replace_placeholders("Ah, all your coins are heads(HEADS)!"))
+				_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
+				_LEFT_HAND.lock()
+				await _wait_for_dialogue(Global.replace_placeholders("Your patron has a passive bonus for that..."))
+				_LEFT_HAND.unlock()
+				_LEFT_HAND.unpoint()
+			_earn_souls(5)
+			if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_pointed_out_patron_passive:
+				await _wait_for_dialogue(Global.replace_placeholders("You earn 5 extra souls(SOULS)."))
+				await _wait_for_dialogue(Global.replace_placeholders("Well played."))
+				Global.tutorial_pointed_out_patron_passive = true
+				
+
+				
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.after_payoff()
@@ -1664,6 +1689,23 @@ func _on_coin_clicked(coin: Coin):
 					_safe_flip(coin, false, 1000000)
 				elif coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+					return
+				elif Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_warned_zeus_reflip and coin.is_heads():
+					await _DIALOGUE.show_dialogue("Wait!")
+					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
+					_LEFT_HAND.lock()
+					await _DIALOGUE.show_dialogue("This power coin is still active.")
+					_LEFT_HAND.unlock()
+					_LEFT_HAND.point_at(_hand_point_for_coin(coin))
+					_LEFT_HAND.lock()
+					await _DIALOGUE.show_dialogue("If you didn't intend to reflip this coin...")
+					_LEFT_HAND.unlock()
+					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
+					_LEFT_HAND.lock()
+					await _DIALOGUE.show_dialogue("Deactivate the power by clicking this coin, or right clicking.")
+					_LEFT_HAND.unlock()
+					_LEFT_HAND.unpoint()
+					Global.tutorial_warned_charon_reflip = true
 					return
 				else:
 					_safe_flip(coin, false)
