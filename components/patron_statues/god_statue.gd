@@ -37,7 +37,7 @@ func _on_clickable_area_mouse_entered():
 	var desc = patron.get_description(true) if patron_enum != Global.PatronEnum.GODLESS else "???"
 	
 	if not _disabled:
-		_FX.start_glowing(Color.GHOST_WHITE, 2)
+		_FX.start_glowing_solid(Color.AZURE, 2)
 	if _show_tooltip:
 		UITooltip.create(_HITBOX, Global.replace_placeholders("Altar to %s\n%s" % [nme, desc]), get_global_mouse_position(), get_tree().root)
 

@@ -41,8 +41,15 @@ signal game_ended
 @onready var _RIVER_RIGHT: River = $RiverRight
 @onready var _VOYAGE_MAP: VoyageMap = $Table/VoyageMap
 @onready var _MAP_BLOCKER = $UI/MapBlocker
-var _map_open = false # if the map is currently open
-var _map_is_disabled = false # if the map can be clicked on (ie, disabled during waiting dialogues and if the map is mid transition)
+var _map_open = false: # if the map is currently open
+	set(val):
+		_map_open = val
+		_VOYAGE_MAP.disable_glow() if _map_is_disabled or _map_open else _VOYAGE_MAP.enable_glow()
+	
+var _map_is_disabled = false: # if the map can be clicked on (ie, disabled during waiting dialogues and if the map is mid transition)
+	set(val):
+		_map_is_disabled = val
+		_VOYAGE_MAP.disable_glow() if _map_is_disabled or _map_open else _VOYAGE_MAP.enable_glow()
 
 @onready var _PATRON_TOKEN_POSITION: Vector2 = $Table/PatronToken.position
 
@@ -132,7 +139,10 @@ func _on_life_count_changed() -> void:
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
 		await _wait_for_dialogue("You are out of life...")
-		Global.state = Global.State.CHARON_OBOL_FLIP
+		if Global.is_current_round_trial() or Global.is_current_round_nemesis():
+			Global.state = Global.State.GAME_OVER
+		else:
+			Global.state = Global.State.CHARON_OBOL_FLIP
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
 	#var fragment_count = 0
@@ -204,7 +214,9 @@ func _on_state_changed() -> void:
 		_ENEMY_COIN_ROW.clear()
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
 		_PLAYER_TEXTBOXES.make_invisible()
-		await _wait_for_dialogue("Yet I will grant you one final opportunity.")
+		await _wait_for_dialogue("I did not expect you to perish here...")
+		await _wait_for_dialogue("Very well!")
+		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _CHARON_COIN_ROW.expand()
 		await _wait_for_dialogue("We will flip this single obol.")
@@ -267,7 +279,6 @@ func on_start() -> void: #reset
 	
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
 	Global.tutorial_warned_zeus_reflip = false
-	Global.tutorial_warned_charon_reflip = false
 	Global.tutorial_pointed_out_patron_passive = false
 	
 	var charons_obol = _COIN_SCENE.instantiate()
@@ -476,6 +487,7 @@ func _on_flip_complete() -> void:
 				_DIALOGUE.show_dialogue("Change your fate...")
 			else:
 				_DIALOGUE.show_dialogue("The coins fall...")
+		_map_is_disabled = false
 		_PLAYER_TEXTBOXES.make_visible()
 
 func _on_toss_button_clicked() -> void:
@@ -503,6 +515,7 @@ func _on_toss_button_clicked() -> void:
 		return
 	
 	_PLAYER_TEXTBOXES.make_invisible()
+	_map_is_disabled = true
 	if not Global.is_current_round_trial(): #obviously don't move trial coins up, we only want that for enemy coins
 		_ENEMY_COIN_ROW.retract(_CHARON_FLIP_POSITION)
 	await _COIN_ROW.retract(_PLAYER_FLIP_POSITION)
@@ -534,6 +547,7 @@ func _on_toss_button_clicked() -> void:
 
 func _safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
 	flips_pending += 1
+	_map_is_disabled = true
 	_PLAYER_TEXTBOXES.make_invisible()
 	coin.flip(is_toss, bonus)
 
@@ -817,7 +831,8 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 		_MAP_BLOCKER.show()
 	_VOYAGE_MAP.set_closeable(closeable)
 	await map_display_tween.finished
-	_map_is_disabled = false
+	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during_ anim...
+		_map_is_disabled = false
 
 func _hide_voyage_map() -> void:
 	_map_open = false
@@ -829,8 +844,9 @@ func _hide_voyage_map() -> void:
 	_MAP_BLOCKER.hide()
 	_PLAYER_TEXTBOXES.make_visible()
 	await map_hide_tween.finished
+	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during anim...
+		_map_is_disabled = false
 	_VOYAGE_MAP.z_index = 0
-	_map_is_disabled = false
 	_enable_interaction_coins_and_patron()
 
 func _on_voyage_map_clicked():
@@ -1691,18 +1707,18 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
 				elif Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_warned_zeus_reflip and coin.is_heads():
-					await _DIALOGUE.show_dialogue("Wait!")
+					await _wait_for_dialogue("Wait!")
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
 					_LEFT_HAND.lock()
-					await _DIALOGUE.show_dialogue("This power coin is still active.")
+					await _wait_for_dialogue("This power coin is still active.")
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.point_at(_hand_point_for_coin(coin))
 					_LEFT_HAND.lock()
-					await _DIALOGUE.show_dialogue("If you didn't intend to reflip this coin...")
+					await _wait_for_dialogue("If you didn't intend to reflip this coin...")
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
 					_LEFT_HAND.lock()
-					await _DIALOGUE.show_dialogue("Deactivate the power by clicking this coin, or right clicking.")
+					await _wait_for_dialogue("Deactivate the power by clicking this coin, or right clicking.")
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
 					Global.tutorial_warned_charon_reflip = true

@@ -698,6 +698,10 @@ func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
 	return rtype == RoundType.TRIAL1 or rtype == RoundType.TRIAL2
 
+func is_current_round_nemesis() -> bool:
+	var rtype = current_round_type()
+	return rtype == RoundType.NEMESIS
+
 func is_next_round_nemesis() -> bool:
 	if VOYAGE.size() == round_count:
 		return false #next round is null lol - this should never happen though

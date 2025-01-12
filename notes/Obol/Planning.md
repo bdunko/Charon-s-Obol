@@ -8,9 +8,9 @@
 				- [ ] Tutorial runthrough.
 					- [ ] Make sure Oar works.
 					- [ ] Check Zeus reflip warning.
-	
+
 	- [ ] **Polish**
-		- [ ] No last chance flip for Nemesis rounds or Trial rounds.
+		- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting probably.
 		- [ ] Filters for the patron selection and main scenes.
 			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
 		- [ ] Needs an Abandon Run button somewhere. 
@@ -19,7 +19,6 @@
 			- [ ] Also triggered on esc
 		- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reasonable - particle effects from the activated coin will also help)
 		- [ ] Initial particle additions.
-		- [ ] Map should flash when hovered and not open.
 		- [ ] Rows need a "retract for toss" option which does not pull back stoned/frozen coins.
 		- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 		- [ ] Fancy mat for Shop.

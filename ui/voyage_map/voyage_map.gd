@@ -11,6 +11,7 @@ signal closed
 @onready var _CLICK_DETECTOR = $Map/ClickDetector
 @onready var _X_BUTTON = $Map/XButton
 @onready var _ANIMATION_PLAYER = $AnimationPlayer
+@onready var _FX = $Map/FX
 
 static var _NODE_SCENE = preload("res://ui/voyage_map/voyage_node.tscn")
 
@@ -95,3 +96,27 @@ func node_position(i: int) -> Vector2:
 
 func change_river_color(colorStyle: River.ColorStyle, instant: bool) -> void:
 	_RIVER.change_color(colorStyle, instant)
+
+var _glow_enabled = false
+func enable_glow() -> void:
+	_glow_enabled = true
+	_update_glow()
+
+func disable_glow() -> void:
+	_glow_enabled = false
+	_update_glow()
+
+func _update_glow() -> void:
+	if _glow_enabled and _hovered:
+		_FX.start_glowing_solid(Color.AZURE, FX.FAST_GLOW_SPEED)
+	else:
+		_FX.stop_glowing()
+
+var _hovered = false
+func _on_click_detector_mouse_entered():
+	_hovered = true
+	_update_glow()
+
+func _on_click_detector_mouse_exited():
+	_hovered = false
+	_update_glow()
