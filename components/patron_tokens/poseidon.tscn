@@ -8,6 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qviun"]
 shader = ExtResource("2_xb4ip")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -34,8 +35,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -124,6 +127,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bb76y"]
 shader = ExtResource("2_xb4ip")
+shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -150,8 +154,10 @@ shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
 shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
 shader_parameter/auto_flash_start_time = 0.0
 shader_parameter/red_correct = 0.0
 shader_parameter/green_correct = 0.0
@@ -258,7 +264,7 @@ root_node = NodePath("../..")
 
 [node name="Polygon" type="CollisionPolygon2D" parent="."]
 position = Vector2(9, -14)
-polygon = PackedVector2Array(-5, 36, -2, 33, -1, 33, 0, 34, 11, 34, 11, 31, 0, 31, -1, 32, -2, 32, -5, 29, -5, 28, -2, 25, -1, 25, 0, 26, 11, 26, 11, 23, 0, 23, -1, 24, -2, 24, -5, 21, -5, 20, -2, 17, -1, 17, 0, 18, 13, 18, 15, 20, 16, 22, 16, 26, 33, 26, 35, 28, 35, 29, 33, 31, 16, 31, 16, 35, 15, 37, 13, 39, 0, 39, -1, 40, -2, 40, -5, 37)
+polygon = PackedVector2Array(-5, 36, -2, 33, -1, 33, 0, 34, 0, 31, -1, 32, -2, 32, -5, 29, -5, 28, -2, 25, -1, 25, 0, 26, 0, 23, -1, 24, -2, 24, -5, 21, -5, 20, -2, 17, -1, 17, 0, 18, 13, 18, 15, 20, 16, 22, 16, 26, 33, 26, 35, 28, 35, 29, 33, 31, 16, 31, 16, 35, 15, 37, 13, 39, 0, 39, -1, 40, -2, 40, -5, 37)
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("5_jpa1o")]
 watched = NodePath("../Polygon")

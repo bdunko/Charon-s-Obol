@@ -280,6 +280,7 @@ func on_start() -> void: #reset
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
 	Global.tutorial_warned_zeus_reflip = false
 	Global.tutorial_pointed_out_patron_passive = false
+	Global.tutorial_patron_passive_active = false
 	
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_COIN_ROW.add_child(charons_obol)
@@ -445,6 +446,7 @@ func _on_flip_complete() -> void:
 			Global.tutorialState = Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE
 		elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			_ACCEPT_TEXTBOX.disable()
+			Global.tutorial_patron_passive_active = true
 			await _wait_for_dialogue("Hmm... that is a truly dismal turn of fortune.")
 			await _wait_for_dialogue("I shall offer one last piece of assistance.")
 			_patron_token.show()
@@ -455,10 +457,11 @@ func _on_flip_complete() -> void:
 			await _wait_for_dialogue("This is a patron token.")
 			await _wait_for_dialogue("It calls upon the power of a higher being.")
 			await _wait_for_dialogue("Patron tokens are always available.")
-			await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE) bonus."))
+			await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE)."))
+			await _wait_for_dialogue(Global.replace_placeholders("For its (PASSIVE), which is always active..."))
+			await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn an extra 5(SOULS)."))
+			await _wait_for_dialogue(Global.replace_placeholders("And for its power..."))
 			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
-			await _wait_for_dialogue(Global.replace_placeholders("And for its (PASSIVE), which is always active..."))
-			await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn 5 extra (SOULS)."))
 			await _wait_for_dialogue("Try using the patron's power now.")
 			Global.temporary_set_z(_LEFT_HAND, _COIN_ROW.z_index + 1) # make sure hand appears over coins
 			_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
@@ -758,13 +761,13 @@ func _on_accept_button_pressed():
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
 			if coin.is_power() and coin.is_heads():
-				coin.flash(Color.DARK_SLATE_BLUE)
+				coin.FX.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_OVERLOAD)
 	
-	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_CHARON):
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_CHARON) and Global.tutorial_patron_passive_active:
 		if _COIN_ROW.get_filtered(CoinRow.FILTER_HEADS).size() == _COIN_ROW.get_child_count():
-			if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_pointed_out_patron_passive:
+			if Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_pointed_out_patron_passive:
 				await _wait_for_dialogue(Global.replace_placeholders("Ah, all your coins are heads(HEADS)!"))
 				_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
 				_LEFT_HAND.lock()
@@ -981,7 +984,7 @@ func _on_continue_button_pressed():
 		_heal_life(pity_life)
 
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			await _wait_for_dialogue(Global.replace_placeholders("Now let's continue onwards."))
+			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
 
 	await _advance_round()
 	
@@ -1706,7 +1709,7 @@ func _on_coin_clicked(coin: Coin):
 				elif coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
-				elif Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_warned_zeus_reflip and coin.is_heads():
+				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads():
 					await _wait_for_dialogue("Wait!")
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
 					_LEFT_HAND.lock()
@@ -1718,10 +1721,11 @@ func _on_coin_clicked(coin: Coin):
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
 					_LEFT_HAND.lock()
-					await _wait_for_dialogue("Deactivate the power by clicking this coin, or right clicking.")
+					await _wait_for_dialogue("Deactivate the power by clicking this coin...")
+					await _wait_for_dialogue("...or by right clicking anywhere.")
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
-					Global.tutorial_warned_charon_reflip = true
+					Global.tutorial_warned_zeus_reflip = true
 					return
 				else:
 					_safe_flip(coin, false)
@@ -1920,7 +1924,7 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if as_coin.is_tails() and as_coin.get_active_power_family() in Global.LOSE_LIFE_POWERS:
-					_heal_life(as_coin.get_active_power_charges() * 2)
+					_heal_life(as_coin.get_active_power_charges())
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
@@ -1978,13 +1982,13 @@ func _on_patron_token_clicked():
 									new_coin.bless()
 								boons += 1
 						2: # make coins lucky
-							var not_lucky = _COIN_ROW.get_filtered_randomized(_COIN_ROW.FILTER_NOT_LUCKY)
+							var not_lucky = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY)
 							if not_lucky.size() != 0:
 								for coin in Global.choose_x(not_lucky, Global.RNG.randi_range(1, 3)):
 									coin.make_lucky()
 								boons += 1
 						3: # make coins blessed
-							var not_blessed = _COIN_ROW.get_filtered_randomized(_COIN_ROW.FILTER_NOT_BLESSED)
+							var not_blessed = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLESSED)
 							if not_blessed.size() != 0:
 								for coin in Global.choose_x(not_blessed, Global.RNG.randi_range(1, 3)):
 									coin.bless()
@@ -2018,7 +2022,7 @@ func _on_patron_token_clicked():
 								boons += 1
 						7: # gain arrows
 							if Global.arrows <= Global.ARROWS_LIMIT - floor(Global.ARROWS_LIMIT / 2.0):
-								var bonus_arrows = Global.RNG.randi_range(2, 4)
+								var bonus_arrows = Global.RNG.randi_range(1, 3)
 								Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + bonus_arrows)
 								boons += 1
 						8: # blank a monster

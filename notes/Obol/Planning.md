@@ -2,12 +2,11 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Patron Revamp**
 		- [ ] Testing - Sunday
-			- [ ] Test all tokens.
-				- [ ] Passives.
-				- [ ] Actives.
-				- [ ] Tutorial runthrough.
-					- [ ] Make sure Oar works.
-					- [ ] Check Zeus reflip warning.
+			- [ ] Tutorial runthrough.
+				- [ ] Make sure Oar works.
+					- [ ] Active
+					- [ ] Passive
+				- [ ] Check Zeus reflip warning.
 
 	- [ ] **Polish**
 		- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting probably.
@@ -17,6 +16,7 @@
 			- [ ] Add an X somewhere on the board on the top right.
 			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
 			- [ ] Also triggered on esc
+			- [ ] maybe can steal this implementation from MonScript (script editor definitely had a popup thingy)
 		- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reasonable - particle effects from the activated coin will also help)
 		- [ ] Initial particle additions.
 		- [ ] Rows need a "retract for toss" option which does not pull back stoned/frozen coins.

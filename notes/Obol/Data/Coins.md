@@ -2,7 +2,7 @@ Unlockable coins + more coins
 - [ ] Payoff Coins
 	- [ ] NOTE - Power coins besides the basic one all have an icon and their heads face oscillates (fades) between showing the icon and showing the souls payoff for the coin.
 	- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-	- [ ] Icarus - To the Sun - Shards based on number of heads; but if all heads, destroyed
+	- [ ] Icarus - Sun-scorched Wax - Shards based on number of heads; but if all heads, destroyed
 	- [ ] Castor & Pollux - Paired coin. Whenever a power is used on one, also use it on the other. Whenever one is upgraded or destroyed, do the same to the other. Same for bless/curse and other statuses. Always lands on the same side as the other.
 	- [ ] Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
 	- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.

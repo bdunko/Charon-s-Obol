@@ -92,7 +92,7 @@ func _on_text_submitted(txt):
 		if not args.size() == 2:
 			success = false
 		else:
-			game.heal_life(int(args[1]))
+			game._heal_life(int(args[1]))
 	elif cmd == "arrows" or cmd == "arrow":
 		if not args.size() == 2:
 			success = false

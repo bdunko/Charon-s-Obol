@@ -169,6 +169,12 @@ static func FILTER_NOT_BLANK(c: Coin) -> bool:
 static func FILTER_BLANK(c: Coin) -> bool:
 	return c.is_blank()
 
+static func FILTER_NOT_BLESSED(c: Coin) -> bool:
+	return not c.is_blessed()
+
+static func FILTER_BLESSED(c: Coin) -> bool:
+	return c.is_blessed()
+
 static func FILTER_NOT_CURSED(c: Coin) -> bool:
 	return not c.is_cursed()
 
