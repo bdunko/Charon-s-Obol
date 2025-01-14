@@ -248,6 +248,25 @@ func retract(retract_point: Vector2) -> void:
 		coin.move_to(retract_point, Global.COIN_TWEEN_TIME)
 	await Global.delay(Global.COIN_TWEEN_TIME)
 
+func retract_for_toss(retract_point: Vector2) -> void:
+	_state = _State.RETRACTED
+	if get_child_count() == 0:
+		return
+	
+	# don't retract frozen or stoned coins
+	var coins_to_retract = get_children().filter(FILTER_NOT_STONE).filter(FILTER_NOT_FROZEN)
+	
+	# do a very minor delay if nothing to retract
+	if coins_to_retract.size() == 0:
+		await Global.delay(0.1)
+		return
+	
+	for coin in coins_to_retract:
+		coin.move_to(retract_point, Global.COIN_TWEEN_TIME)
+	
+	await Global.delay(Global.COIN_TWEEN_TIME)
+	
+
 func expand() -> void:
 	_state = _State.EXPANDED
 	if get_child_count() == 0:

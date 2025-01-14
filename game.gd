@@ -520,8 +520,8 @@ func _on_toss_button_clicked() -> void:
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true
 	if not Global.is_current_round_trial(): #obviously don't move trial coins up, we only want that for enemy coins
-		_ENEMY_COIN_ROW.retract(_CHARON_FLIP_POSITION)
-	await _COIN_ROW.retract(_PLAYER_FLIP_POSITION)
+		_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
+	await _COIN_ROW.retract_for_toss(_PLAYER_FLIP_POSITION)
 	_COIN_ROW.expand()
 	_ENEMY_COIN_ROW.expand()
 	

@@ -43,9 +43,9 @@ func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int 
 	if vnt == VoyageNode.VoyageNodeType.TRIAL:
 		node.hovered.connect(_on_trial_hovered)
 
-const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]."
+const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+(SOULS)."
 const _NEMESIS_FORMAT = "%s\n%s\n\nYou must be victorious."
-const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d[img=12x13]res://assets/icons/coin_icon.png[/img]."
+const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d(COIN)."
 
 func update_tooltips() -> void:
 	Global.free_children(_NODES)
@@ -60,9 +60,9 @@ func update_tooltips() -> void:
 			Global.RoundType.NORMAL:
 				_add_node(VoyageNode.VoyageNodeType.NODE)
 			Global.RoundType.TOLLGATE:
-				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, _TOLLGATE_FORMAT % rnd.tollCost, rnd.tollCost)
+				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, Global.replace_placeholders(_TOLLGATE_FORMAT % rnd.tollCost), rnd.tollCost)
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
-				_add_node(VoyageNode.VoyageNodeType.TRIAL, _TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota])
+				_add_node(VoyageNode.VoyageNodeType.TRIAL, Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota]))
 			Global.RoundType.NEMESIS:
 				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [rnd.trialData.name, rnd.trialData.description])
 			Global.RoundType.END:

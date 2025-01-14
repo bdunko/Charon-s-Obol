@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cavnytgggycg6"
-path="res://.godot/imported/white_arrow.png-48d86c848b438a44b56e771173e90bf5.ctex"
+uid="uid://cocrpfkc8ynai"
+path="res://.godot/imported/payoff_purple.png-83225e69ec4f46e270b5ca05b2da3d0a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/white_arrow.png"
-dest_files=["res://.godot/imported/white_arrow.png-48d86c848b438a44b56e771173e90bf5.ctex"]
+source_file="res://assets/icons/ui/payoff_purple.png"
+dest_files=["res://.godot/imported/payoff_purple.png-83225e69ec4f46e270b5ca05b2da3d0a.ctex"]
 
 [params]
 

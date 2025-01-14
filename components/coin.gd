@@ -166,10 +166,10 @@ func _update_face_label() -> void:
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 
-const _BUY_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]"
-const _TOLL_FORMAT = "[center]%d[/center][img=12x13]res://assets/icons/coin_icon.png[/img]"
+const _BUY_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
+const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
+const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center](SOULS)"
+const _TOLL_FORMAT = "[center]%d[/center](COIN)"
 func _update_price_label() -> void:
 	if Global.state == Global.State.SHOP:
 		# special case - can't upgrade further, show nothing
@@ -178,7 +178,7 @@ func _update_price_label() -> void:
 			return
 		var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
-		_PRICE.text = (_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price]
+		_PRICE.text = Global.replace_placeholders((_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price])
 		
 		# hide upgrade label during some parts of tutorial
 		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
@@ -192,11 +192,11 @@ func _update_price_label() -> void:
 		var value = get_value()
 		if _coin_family in Global.TOLL_NEGATIVE_COIN_FAMILIES:
 			value = -value
-		_PRICE.text = _TOLL_FORMAT % value
+		_PRICE.text = Global.replace_placeholders(_TOLL_FORMAT % value)
 	elif is_appeaseable():
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
-		_PRICE.text = _APPEASE_FORMAT % [color, price]
+		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
 		
 		# hide appease label during some parts of tutorial
 		var no_appease_states = [Global.TutorialState.ROUND4_MONSTER_INTRO, Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS]

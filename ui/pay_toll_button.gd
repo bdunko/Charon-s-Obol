@@ -12,8 +12,8 @@ func _on_state_changed() -> void:
 	else:
 		hide()
 
-const _FORMAT = "Pay Toll (%d/%d[img=12x13]res://assets/icons/coin_icon.png[/img])"
+const _FORMAT = "Pay Toll (%d/%d(COIN))"
 func _on_toll_coins_changed() -> void:
 	var offered = Global.calculate_toll_coin_value()
-	_TEXT.text = _FORMAT % [offered, Global.current_round_toll()]
+	_TEXT.text = Global.replace_placeholders(_FORMAT % [offered, Global.current_round_toll()])
 	enable() if offered >= Global.current_round_toll() else disable()

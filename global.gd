@@ -940,9 +940,14 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % ["yellow", "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % ["slategray", "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
 	
-	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/white_arrow.png[/img]")
+	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/ui/white_arrow.png[/img]")
+	tooltip = tooltip.replace("(PASSIVE)", "[img=35x13]res://assets/icons/ui/passive.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_SOULS)", "[img=35x13]res://assets/icons/ui/payoff_souls.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_LIFE)", "[img=35x13]res://assets/icons/ui/payoff_life.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=35x13]res://assets/icons/ui/payoff_purple.png[/img]")
+	tooltip = tooltip.replace("(POWER)", "[img=35x13]res://assets/icons/ui/power.png[/img]")
+	
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
-	tooltip = tooltip.replace("(PASSIVE)", "[img=35x13]res://assets/icons/passive_icon.png[/img]")
 	
 	return tooltip
 
