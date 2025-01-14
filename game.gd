@@ -1000,7 +1000,7 @@ func _on_end_round_button_pressed():
 		coin.on_round_end()
 	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
-	var first_round = Global.round_count == 2
+	var first_round = Global.round_count == Global.FIRST_ROUND
 	const bad_luck_souls_first_round = 15
 	const average_souls = 17
 	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < bad_luck_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
@@ -1125,7 +1125,7 @@ func _apply_misfortune_trial() -> void:
 
 func _on_voyage_continue_button_clicked():
 	_hide_voyage_map()
-	var first_round = Global.round_count == 2
+	var first_round = Global.round_count == Global.FIRST_ROUND
 	
 	# if this is the first round, give an obol
 	if first_round:
@@ -1321,8 +1321,9 @@ func _enable_or_disable_end_round_textbox() -> void:
 		Global.TutorialState.ROUND2_POWER_UNUSABLE, # need a second toss to explain powers only on heads
 		Global.TutorialState.ROUND3_PATRON_INTRO, # need a toss to explain patrons
 		Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS] # need a toss to explain monsters
+	var first_round = Global.round_count == Global.FIRST_ROUND
 	var first_toss_of_round = Global.flips_this_round == 0
-	var disable_textbox = (first_toss_of_round and not Global.DEBUG_DONT_FORCE_FIRST_TOSS) or Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota()) or tutorial_disabled_states.has(Global.tutorialState)
+	var disable_textbox = (not first_round and first_toss_of_round and not Global.DEBUG_DONT_FORCE_FIRST_TOSS) or Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota()) or tutorial_disabled_states.has(Global.tutorialState)
 	_END_ROUND_TEXTBOX.disable() if disable_textbox else _END_ROUND_TEXTBOX.enable()
 
 var victory = false

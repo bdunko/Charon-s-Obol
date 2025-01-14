@@ -5,7 +5,7 @@
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_ohh8u"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_djo6g"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tnmy"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ay6qg"]
 shader = ExtResource("2_ohh8u")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -131,7 +131,7 @@ script = ExtResource("1_emwac")
 patron_enum = 14
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_7tnmy")
+material = SubResource("ShaderMaterial_ay6qg")
 texture = ExtResource("1_qaa8w")
 centered = false
 

@@ -194,6 +194,7 @@ var state := State.BEFORE_FLIP:
 		state = val
 		emit_signal("state_changed")
 
+const FIRST_ROUND = 2
 var round_count:
 	set(val):
 		round_count = val
@@ -942,10 +943,10 @@ func replace_placeholders(tooltip: String) -> String:
 	
 	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/ui/white_arrow.png[/img]")
 	tooltip = tooltip.replace("(PASSIVE)", "[img=35x13]res://assets/icons/ui/passive.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_SOULS)", "[img=35x13]res://assets/icons/ui/payoff_souls.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_LIFE)", "[img=35x13]res://assets/icons/ui/payoff_life.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=35x13]res://assets/icons/ui/payoff_purple.png[/img]")
-	tooltip = tooltip.replace("(POWER)", "[img=35x13]res://assets/icons/ui/power.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_SOULS)", "[img=31x13]res://assets/icons/ui/payoff_souls.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_LIFE)", "[img=31x13]res://assets/icons/ui/payoff_life.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=31x13]res://assets/icons/ui/payoff_purple.png[/img]")
+	tooltip = tooltip.replace("(POWER)", "[img=29x13]res://assets/icons/ui/power.png[/img]")
 	
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
 	

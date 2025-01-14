@@ -125,7 +125,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bb76y"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1edv8"]
 shader = ExtResource("2_xb4ip")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -255,7 +255,7 @@ mouse_filter = 2
 script = ExtResource("1_4q7as")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_bb76y")
+material = SubResource("ShaderMaterial_1edv8")
 texture = ExtResource("2_pt5l5")
 centered = false
 

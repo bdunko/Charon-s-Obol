@@ -503,7 +503,7 @@ void vertex()
 	
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7f5al"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ye4r"]
 shader = SubResource("Shader_j4mdd")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
@@ -629,7 +629,7 @@ script = ExtResource("1_s6gla")
 patron_enum = 12
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_7f5al")
+material = SubResource("ShaderMaterial_2ye4r")
 texture = ExtResource("2_pedkd")
 centered = false
 
