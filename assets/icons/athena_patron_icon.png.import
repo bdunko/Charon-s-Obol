@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8ejarqd71cdj"
-path="res://.godot/imported/unused_bow_icon.png-d55d26a29a6366025f0b398612c5b76d.ctex"
+uid="uid://4jegtqil8j1o"
+path="res://.godot/imported/athena_patron_icon.png-41da2a072590afa7f05cfbf5dde6f654.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/unused_bow_icon.png"
-dest_files=["res://.godot/imported/unused_bow_icon.png-d55d26a29a6366025f0b398612c5b76d.ctex"]
+source_file="res://assets/icons/athena_patron_icon.png"
+dest_files=["res://.godot/imported/athena_patron_icon.png-41da2a072590afa7f05cfbf5dde6f654.ctex"]
 
 [params]
 

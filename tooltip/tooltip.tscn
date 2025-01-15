@@ -6,7 +6,7 @@
 
 [node name="Tooltip" type="MarginContainer"]
 z_index = 4001
-offset_right = 155.0
+offset_right = 160.0
 offset_bottom = 55.0
 size_flags_vertical = 0
 mouse_filter = 2
@@ -32,9 +32,9 @@ patch_margin_bottom = 1
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
-theme_override_constants/margin_left = 5
+theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
 [node name="TooltipText" type="RichTextLabel" parent="Layer/TextMargin"]

@@ -961,8 +961,8 @@ func _generate_tooltip() -> void:
 		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _heads_power.power_family.icon_path)
 		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _tails_power.power_family.icon_path)
-		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text(" [color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders(_replace_placeholder_text("(POWER)[color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges))
+		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders(_replace_placeholder_text("(POWER)[color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges))
 		var max_heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var max_tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		

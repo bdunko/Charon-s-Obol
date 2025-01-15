@@ -1031,7 +1031,7 @@ func _on_end_round_button_pressed():
 	Global.flips_this_round = 0
 	Global.ante_modifier_this_round = 0
 	
-	randomize_shop()
+	randomize_and_show_shop()
 	
 	_RIGHT_HAND.move_offscreen()
 	_LEFT_HAND.move_to_retracted_position()
@@ -2096,12 +2096,12 @@ func _on_shop_reroll_button_clicked():
 	_PLAYER_TEXTBOXES.make_invisible()
 	Global.souls -= Global.reroll_cost()
 	await _SHOP.retract()
-	randomize_shop()
+	randomize_and_show_shop()
 	Global.shop_rerolls += 1
 	_PLAYER_TEXTBOXES.make_visible()
-	
-func randomize_shop() -> void:
-	_SHOP.randomize_shop()
+
+func randomize_and_show_shop() -> void:
+	_SHOP.randomize_and_show_shop()
 	
 	# connect each shop coin to charon hand for hovering...
 	for coin in _SHOP_COIN_ROW.get_children():

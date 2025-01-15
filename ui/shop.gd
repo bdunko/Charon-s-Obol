@@ -35,7 +35,7 @@ func _remove_children():
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
 
-func randomize_shop() -> void:
+func randomize_and_show_shop() -> void:
 	_remove_children()
 	
 	if Global.tutorialState != Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:

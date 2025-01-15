@@ -414,10 +414,19 @@ func disintegrate(time: float) -> void:
 	assert(time >= 0.0, "Time must be non-negative.")
 	
 	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1, 0.0)
-	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1, 0.0)
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2, 0.0)
 	set_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 0.0)
 	
 	await tween_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 1.0, time)
+
+func disintegrate_in(time: float) -> void:
+	assert(time >= 0.0, "Time must be non-negative.")
+	
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1, 0.0)
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2, 0.0)
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 1.0)
+	
+	await tween_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 0.0, time)
 
 func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: float = 1.0, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")

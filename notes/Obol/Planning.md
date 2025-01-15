@@ -2,7 +2,10 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
 		- [ ] **Today**
-			- [ ] Fancy mat for Shop.
+			- [ ] Leftover patron icons
+				- [ ] Apollo
+				- [ ] Demeter
+				- [ ] Dionysus
 		- [ ] **Monday-Friday - New Player Improvements**
 			- [ ] **Tutorial Tuning**
 				- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
@@ -10,9 +13,6 @@
 				- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
 				- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
 				- [ ] Point out that we gained 100 life at the start of round 2.
-			- [ ] **Tooltip Improvement**
-				- [ ] Consider adding POWER and PAYOFF icons to coins too... maybe use blue PAYOFF and red PAYOFF.
-				- [ ] Increase tooltip size slightly.
 			- [ ] **Clearer Differentiation between phases**
 				- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 				- [ ] Worth exploring a potential UI on the table for this?

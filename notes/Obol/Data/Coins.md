@@ -295,6 +295,7 @@ Unlockable coins + more coins
 	- [ ] ??? - Turn this coin to tails. Gain 2/3/4/5 arrows.
 	- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
 	- [ ] ??? - Permanently increase this coin's payoff by 1/2/3/4 every 5 tosses.
+	- [ ] ??? - Does not recharge naturally. +1 charge when a monster is destroyed. Turn a coin to its other face.
 
 - [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
 
