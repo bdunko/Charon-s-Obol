@@ -1155,17 +1155,17 @@ class Patron:
 	
 	func get_random_starting_coin_family() -> CoinFamily:
 		return Global.choose_one(_starting_coinpool)
-""
+
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
-var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [4, 4, 4, 4], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
+var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/aphrodite_patron_icon.png");
+var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [4, 4, 4, 4], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/apollo_patron_icon.png");
 var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [3, 3, 3, 3], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/ares_icon.png");
-var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
+var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/artemis_patron_icon.png");
 var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/athena_patron_icon.png");
-var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [3, 3, 3, 3], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
-var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
-var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/todo_icon.png");
+var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/demeter_patron_icon.png");
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [3, 3, 3, 3], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/dionysus_patron_icon.png");
+var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/hades_patron_icon.png");
+var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/hephaestus_patron_icon.png");
 var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/hera_icon.png");
 var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [3, 3, 3, 3], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/hermes_icon.png");
 var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [5, 5, 5, 5], PowerType.POWER, ONLY_SHOW_ICON, "res://assets/icons/hestia_icon.png");

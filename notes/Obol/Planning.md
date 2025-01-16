@@ -2,10 +2,7 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
 		- [ ] **Today**
-			- [ ] Leftover patron icons
-				- [ ] Apollo
-				- [ ] Demeter
-				- [ ] Dionysus
+			- [ ] Enemy power coins need special handling for the (PASSIVE) icon... darn
 		- [ ] **Monday-Friday - New Player Improvements**
 			- [ ] **Tutorial Tuning**
 				- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
@@ -15,13 +12,13 @@
 				- [ ] Point out that we gained 100 life at the start of round 2.
 			- [ ] **Clearer Differentiation between phases**
 				- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
-				- [ ] Worth exploring a potential UI on the table for this?
+					- [ ] Color filter + fog is heavier while waiting for toss, clears after toss and in shop?
 			- [ ] **More Obvious When a Power is Active**
 				- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reasonable - particle effects from the activated coin will also help)
 		- [ ] **Saturday - Sunday: Graphical Improvements**
 			- [ ] Filters for the patron selection and main scenes.
 				- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
-			- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting probably.
+			- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
 			- [ ] **Particles**
 				- [ ] Initial particle additions.
 			- [ ] **Unlock Improvements**
