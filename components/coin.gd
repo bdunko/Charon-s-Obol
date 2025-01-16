@@ -148,15 +148,14 @@ func _update_face_label() -> void:
 		_FACE_LABEL.text = ""
 		return
 	
-	var color = _YELLOW if get_active_power_charges() != 0 else _GRAY
-	if get_active_power_family() in Global.LOSE_LIFE_POWERS:
+	var color
+	match(get_active_power_family().power_type):
+		Global.PowerType.PAYOFF_LOSE_LIFE, Global.PowerType.PAYOFF_LOSE_SOULS:
 			color = _RED
-	else:
-		match(get_active_power_family()):
-			Global.POWER_FAMILY_GAIN_SOULS:
-				color = _BLUE
-			Global.POWER_FAMILY_LOSE_SOULS_THORNS:
-				color = _RED
+		Global.PowerType.PAYOFF_GAIN_SOULS:
+			color = _BLUE
+		_:
+			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
 	var charges_str = "%d" % get_active_power_charges() if get_active_power_family().show_uses else ""
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
@@ -512,11 +511,11 @@ func _update_payoff_powers() -> void:
 	# and if it's a lose life power, reapply athena bonuses
 	if _heads_power.power_family.is_payoff():
 		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
-		if _heads_power.power_family in Global.LOSE_LIFE_POWERS:
+		if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 			_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 	if _tails_power.power_family.is_payoff():
 		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
-		if _tails_power.power_family in Global.LOSE_LIFE_POWERS:
+		if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 
 func is_passive() -> bool:
@@ -882,13 +881,13 @@ func is_supercharged() -> bool:
 	return _supercharged
 
 func can_reduce_life_penalty() -> bool:
-	var can_reduce_heads = (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0)
-	var can_reduce_tails = (_tails_power.power_family in Global.LOSE_LIFE_POWERS and _tails_power.charges != 0)
+	var can_reduce_heads = (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0)
+	var can_reduce_tails = (_tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _tails_power.charges != 0)
 	return can_reduce_heads or can_reduce_tails
 
 func reduce_life_penalty_permanently(amt: int = 1) -> void:
 	_permanent_tails_penalty_reduction += amt
-	var reduced_power = _heads_power if (_heads_power.power_family in Global.LOSE_LIFE_POWERS and _heads_power.charges != 0) else _tails_power
+	var reduced_power = _heads_power if (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
 	reduced_power.charges = max(reduced_power.charges - amt, 0)
 	_update_appearance()
 	_generate_tooltip()
@@ -940,48 +939,49 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination_as_int()))
 	return txt
 
-# icons which we don't show an icon and charge count for in tooltips at the front.
-@onready var EXCLUDE_ICON_FAMILIES = [Global.POWER_FAMILY_GAIN_SOULS, Global.POWER_FAMILY_LOSE_SOULS_THORNS, Global.CHARON_POWER_DEATH, Global.CHARON_POWER_LIFE] + Global.LOSE_LIFE_POWERS
 func _generate_tooltip() -> void:
-	var txt = ""
-	var coin_name = get_coin_name()
-	var subtitle = get_subtitle()
+	var tooltip = ""
 	
 	# special case - use a shortened tooltip for passive coins
-	if get_active_power_family().powerType == Global.PowerType.PASSIVE:
+	# later, if we add coins with passives, this will need to change. But it works fine for now, with only passive trials.
+	if get_active_power_family().power_type == Global.PowerType.PASSIVE:
+		assert(_heads_power.power_family == _tails_power.power_family, "Need to refactor!") # this is always true for trials; just a warning for myself if I forget to change this l8r
+		# (name)
+		# (subtitle)
+		# (desc)
 		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n%s"
 		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		txt = PASSIVE_FORMAT % [coin_name, subtitle, desc]
-	# regular case - payoff, payoff, and nemesis coins
+		tooltip = PASSIVE_FORMAT % [get_coin_name(), get_subtitle(), desc]
 	else:
-		const TOOLTIP_FORMAT = "%s\n%s\n%s[img=12x13]res://assets/icons/heads_icon.png[/img]%s\n[img=12x13]res://assets/icons/tails_icon.png[/img]%s"
-		#var appease_hint = "Spend %d[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] to destroy.\n" % get_appeasal_price() if is_appeaseable() else ""
-		var appease_hint = "" # decided not to show this in tooltip to save on tooltip size...
-		var heads_power_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_power_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-		var heads_power_icon = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _heads_power.power_family.icon_path)
-		var tails_power_icon = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders("[img=10x13]%s[/img](POWERARROW)" % _tails_power.power_family.icon_path)
-		var heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders(_replace_placeholder_text("(POWER)[color=yellow](CURRENT_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges))
-		var tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else Global.replace_placeholders(_replace_placeholder_text("(POWER)[color=yellow](CURRENT_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges))
-		var max_heads_charges = "" if _heads_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var max_tails_charges = "" if _tails_power.power_family in EXCLUDE_ICON_FAMILIES else _replace_placeholder_text("[color=yellow]/(MAX_CHARGES)[/color]", _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
-		
-		# use nothing instead of showing 0/0
-		if not _heads_power.power_family.show_uses:
-			heads_charges = ""
-			max_heads_charges = ""
-		if not _tails_power.power_family.show_uses:
-			tails_charges = ""
-			max_tails_charges = ""
-		
-		#(currcharges)/(maxcharges)[icon]:description
-		const POWER_FORMAT = "%s%s%s%s"
-		var heads_power = POWER_FORMAT % [heads_charges, max_heads_charges, heads_power_icon, heads_power_desc]
-		var tails_power = POWER_FORMAT % [tails_charges, max_tails_charges, tails_power_icon, tails_power_desc]
-		
-		txt = TOOLTIP_FORMAT % [coin_name, subtitle, appease_hint, heads_power, tails_power]
+		# (name)
+		# (subtitle)
+		# heads (type) [opt: uses] (icon) [opt: -> (desc)]
+		# tails (type) [opt: uses] (icon) [opt: -> (desc)]
 	
-	UITooltip.create(_MOUSE, txt, get_global_mouse_position(), get_tree().root)
+		# get descriptions for powers
+		var heads_power_type = _heads_power.power_family.get_power_type_placeholder()
+		var tails_power_type = _tails_power.power_family.get_power_type_placeholder()
+		var heads_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var tails_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		
+		# N/N(icon)->
+		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
+		var heads_power = "" if not _heads_power.power_family.show_uses() else _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var tails_power = "" if not _tails_power.power_family.show_uses() else _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		
+		# (HEADS/TAILS)(power_stuff)(desc)
+		const FACE_FORMAT = "%s%s%s%s"
+		var heads_power_str = FACE_FORMAT % ["(HEADS)", heads_power_type, heads_power, heads_desc]
+		var tails_power_str = FACE_FORMAT % ["(TAILS)", tails_power_type, tails_power, tails_desc]
+		
+		# name
+		# subtitle
+		# heads
+		# tails
+		const TOOLTIP_FORMAT = "%s\n%s\n%s\n%s"
+		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), heads_power_str, tails_power_str]
+	
+	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root)
 
 func on_round_end() -> void:
 	_round_tails_penalty_reduction = 0

@@ -113,3 +113,4 @@
 - [ ] Phrygian (King Midas) - Coins have an infinite number of charges. When a coin is deactivated after using its power, turn it to gold! (Destroy it and gain souls based on its value).
 - [ ] Banker - No monsters, many tollgates.
 - [ ] The Architect - There are no payoff coins. You start with Hermes, Hephaestus, and Dionysus. There is no monsters or final boss, but there are more tollgates and trials.
+- [ ] The Archer - Powers cost arrows to use instead of charges. You start with an additional coin which generates arrows. (something something something...)

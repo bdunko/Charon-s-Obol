@@ -2,7 +2,15 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
 		- [ ] **Today**
-			- [ ] Enemy power coins need special handling for the (PASSIVE) icon... darn
+			- [ ] Enemy power coins need special handling for the (PAYOFF_PURPLE) icon... darn
+			- [ ] Probably need special handling for CHARON_POWER_DEATH/LIFE to not show any icon.
+			- [ ] Power type refactor
+				- [x] Refactor payoff code. 
+				- [x] Curse/unlucky/downgrade/ignite etc must scale off of charges.
+				- [ ] Refactor tooltip generating code in coin - insert the type based on powerType.
+				- [x] Remove LOSE_LIFE_POWERS. 
+				- [x] Remove NON_TARGETING_POWERS.
+				- [ ] Remove EXCLUDE_ICON_FAMILIES
 		- [ ] **Monday-Friday - New Player Improvements**
 			- [ ] **Tutorial Tuning**
 				- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
@@ -14,13 +22,15 @@
 				- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
 					- [ ] Color filter + fog is heavier while waiting for toss, clears after toss and in shop?
 			- [ ] **More Obvious When a Power is Active**
-				- [ ] It needs to be more obvious when a coin is active (mouse cursor changes is likely reasonable - particle effects from the activated coin will also help)
+				- [ ] It needs to be more obvious when a coin is active.
+					- [ ] Mouse cursor changes to the power's icon.
 		- [ ] **Saturday - Sunday: Graphical Improvements**
 			- [ ] Filters for the patron selection and main scenes.
 				- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
 			- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
 			- [ ] **Particles**
 				- [ ] Initial particle additions.
+					- [ ] Particles coming off of an activated coin.
 			- [ ] **Unlock Improvements**
 				- [ ] Fancier animation/transitions for unlocks. Exciting!
 				- [ ] Add an additional space for 'advice' with each coin unlocked and character.
