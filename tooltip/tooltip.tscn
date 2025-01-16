@@ -6,7 +6,7 @@
 
 [node name="Tooltip" type="MarginContainer"]
 z_index = 4001
-offset_right = 160.0
+offset_right = 170.0
 offset_bottom = 55.0
 size_flags_vertical = 0
 mouse_filter = 2

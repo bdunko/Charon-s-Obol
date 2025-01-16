@@ -156,14 +156,14 @@ func _update_face_label() -> void:
 			color = _BLUE
 		_:
 			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
-	var charges_str = "%d" % get_active_power_charges() if get_active_power_family().show_uses else ""
+	var charges_str = "" if get_active_power_family().icon_only else ("%d" % get_active_power_charges())
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
-	if get_active_power_family().show_uses:
-		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION
-	else:
+	if get_active_power_family().icon_only:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
+	else:
+		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION 
 
 const _BUY_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
@@ -966,8 +966,8 @@ func _generate_tooltip() -> void:
 		
 		# N/N(icon)->
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
-		var heads_power = "" if not _heads_power.power_family.show_uses() else _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_power = "" if not _tails_power.power_family.show_uses() else _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var heads_power = "" if not _heads_power.power_family.is_power() else _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var tails_power = "" if not _tails_power.power_family.is_power() else _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"

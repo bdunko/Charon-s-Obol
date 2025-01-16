@@ -2,15 +2,6 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
 		- [ ] **Today**
-			- [ ] Enemy power coins need special handling for the (PAYOFF_PURPLE) icon... darn
-			- [ ] Probably need special handling for CHARON_POWER_DEATH/LIFE to not show any icon.
-			- [ ] Power type refactor
-				- [x] Refactor payoff code. 
-				- [x] Curse/unlucky/downgrade/ignite etc must scale off of charges.
-				- [ ] Refactor tooltip generating code in coin - insert the type based on powerType.
-				- [x] Remove LOSE_LIFE_POWERS. 
-				- [x] Remove NON_TARGETING_POWERS.
-				- [ ] Remove EXCLUDE_ICON_FAMILIES
 		- [ ] **Monday-Friday - New Player Improvements**
 			- [ ] **Tutorial Tuning**
 				- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
@@ -44,6 +35,7 @@
 			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
 			- [ ] Also triggered on esc
 			- [ ] maybe can steal this implementation from MonScript (script editor definitely had a popup thingy)
+		- [ ] Map should use icons from trials and boss instead of just generic T and purple skull. Also would be nice to fit in a special 'miniboss' round for the first time an Elite spawns.
 
 
 
