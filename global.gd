@@ -66,6 +66,7 @@ enum TutorialState {
 	ROUND1_SHOP_BEFORE_BUYING_COIN, # introducing the shop
 	ROUND1_SHOP_AFTER_BUYING_COIN, # after the player buys a coin
 	
+	ROUND2_INTRO, # explain gaining life
 	ROUND2_POWER_INTRO, # explain powers
 	ROUND2_POWER_ACTIVATED, # after activating a power
 	ROUND2_POWER_USED, # after the power has been used
@@ -73,6 +74,7 @@ enum TutorialState {
 	ROUND2_SHOP_BEFORE_UPGRADE, # explain upgrades
 	ROUND2_SHOP_AFTER_UPGRADE, # some more text after upgrades
 	
+	ROUND3_INTRO, 
 	ROUND3_PATRON_INTRO, # introduce the idea of the patron token
 	ROUND3_PATRON_ACTIVATED, # after activating the token
 	ROUND3_PATRON_USED, # after the token is used

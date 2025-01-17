@@ -4,11 +4,11 @@
 		- [ ] **New Player Improvements**
 			- [ ] Friday
 				- [ ] **Tutorial Tuning**
-					- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
 					- [ ] Slightly black out the screen while Charon is talking.
-					- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
-					- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
-					- [ ] Point out that we gained 100 life at the start of round 2.
+						- [ ] first, try just black out during WAIT_FOR_DIALOGUE...
+							- [ ] test if it's too annoying...
+							- [ ] Charon hands should always be above the black. (since Charon is talking).
+							- [ ] Probably need to bring certain other things to front as well. have a global function for this. 
 		- [ ] **Saturday - Sunday: Graphical Improvements**
 			- [ ] **Saturday**
 				- [ ] **Particles**

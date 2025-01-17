@@ -9,6 +9,8 @@ signal game_ended
 @onready var _ENEMY_COIN_ROW: CoinRow = $Table/EnemyRow/CoinRow
 @onready var _CHARON_COIN_ROW: CoinRow = $Table/CharonObolRow
 
+@onready var _LIFE_LABEL = $Table/LivesLabel
+@onready var _SOUL_LABEL = $Table/SoulsLabel
 @onready var _LIFE_FRAGMENTS = $Table/LifeFragments
 @onready var _SOUL_FRAGMENTS = $Table/SoulFragments
 @onready var _ARROWS = $Table/Arrows
@@ -87,6 +89,9 @@ func _ready() -> void:
 	assert(_ENEMY_COIN_ROW)
 	assert(_CHARON_COIN_ROW)
 	
+	assert(_LIFE_LABEL)
+	assert(_SOUL_LABEL)
+	
 	assert(_PLAYER_TEXTBOXES)
 	assert(_END_ROUND_TEXTBOX)
 	assert(_VOYAGE_NEXT_ROUND_TEXTBOX)
@@ -111,7 +116,6 @@ func _ready() -> void:
 	
 	assert(_CHARON_FOG_FX)
 	assert(_DECISION_TINT_FX)
-	
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
 	
@@ -584,7 +588,7 @@ func _on_toss_button_clicked() -> void:
 			_safe_flip(coin, true, 1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
 			_safe_flip(coin, true, -1000000)
-		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO:
+		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO or (Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE and Global.flips_this_round % 2 == 0):
 			if coin.get_coin_family() == Global.ZEUS_FAMILY:
 				_safe_flip(coin, true, 1000000)
 			else:
@@ -779,7 +783,7 @@ func _on_accept_button_pressed():
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.unpoint()
 			_earn_souls(5)
-			if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_pointed_out_patron_passive:
+			if Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_pointed_out_patron_passive:
 				await _wait_for_dialogue(Global.replace_placeholders("You earn 5 extra souls(SOULS)."))
 				await _wait_for_dialogue(Global.replace_placeholders("Well played."))
 				Global.tutorial_pointed_out_patron_passive = true
@@ -1174,11 +1178,13 @@ func _on_voyage_continue_button_clicked():
 		_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 		var souls_earned = _COIN_ROW.get_child(0).get_active_power_charges()
 		Global.souls += souls_earned
+		_SOUL_LABEL.fade_in()
 		await _wait_for_dialogue(Global.replace_placeholders("If the coin lands on Heads(HEADS), you earn +%d Souls(SOULS)." % souls_earned))
 		_COIN_ROW.get_child(0).turn()
 		Global.souls -= souls_earned
 		var life_loss = _COIN_ROW.get_child(0).get_active_power_charges()
 		Global.lives += life_loss
+		_LIFE_LABEL.fade_in()
 		await _wait_for_dialogue(Global.replace_placeholders("If it [color=white]lands on Tails(TAILS), you lose %d Life(LIFE)[/color]." % life_loss))
 		Global.lives += Global.current_round_life_regen() - life_loss
 		_LEFT_HAND.unpoint()
@@ -1209,6 +1215,15 @@ func _on_voyage_continue_button_clicked():
 		await _wait_for_dialogue("...Let's begin the game...")
 	elif Global.current_round_type() == Global.RoundType.TRIAL1 or Global.current_round_type() == Global.RoundType.TRIAL2:
 		await _wait_for_dialogue("Your trial begins...")
+	elif Global.tutorialState == Global.TutorialState.ROUND2_INTRO:
+		await _wait_for_dialogue("As I mentioned before...")
+		await _wait_for_dialogue(Global.replace_placeholders("At the start of each round, you gain 100(HEAL)."))
+		await _wait_for_dialogue("Additionally, the Ante has been reset to 0.")
+		await _wait_for_dialogue("Now let's begin the second round.")
+		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
+	elif Global.tutorialState == Global.TutorialState.ROUND3_INTRO:
+		await _wait_for_dialogue("Let the third round begin.")
+		Global.tutorailState = Global.TutorialState.ROUND3_PATRON_INTRO
 	elif Global.tutorialState == Global.TutorialState.ROUND4_MONSTER_INTRO:
 		await _wait_for_dialogue("Allow me to introduce an additional challenge.")
 	elif Global.tutorialState == Global.TutorialState.ROUND5_INTRO:
@@ -1409,7 +1424,7 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		_LEFT_HAND.unpoint()
 		_DIALOGUE.show_dialogue("Excellent. Exit the shop to proceed to the next round.")
 		_SHOP_CONTINUE_TEXTBOX.enable()
-		Global.tutorialState = Global.TutorialState.ROUND2_POWER_INTRO
+		Global.tutorialState = Global.TutorialState.ROUND2_INTRO
 
 func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, initial_position: Vector2, during_round: bool = false) -> Coin:
 	var new_coin: Coin = _COIN_SCENE.instantiate()
@@ -1569,7 +1584,7 @@ func _on_coin_clicked(coin: Coin):
 				Global.restore_z(_LEFT_HAND)
 				_DIALOGUE.show_dialogue("Buying or upgrading...?")
 				_SHOP_CONTINUE_TEXTBOX.enable()
-				Global.tutorialState = Global.TutorialState.ROUND3_PATRON_INTRO
+				Global.tutorialState = Global.TutorialState.ROUND3_INTRO
 			else:
 				_DIALOGUE.show_dialogue("More power...")
 		else:

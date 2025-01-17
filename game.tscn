@@ -5138,7 +5138,7 @@ script = ExtResource("15_wj7tb")
 root_node = NodePath("../../..")
 script = ExtResource("7_4br5g")
 
-[node name="FragmentsLabel" type="Label" parent="Table"]
+[node name="SoulsLabel" type="Label" parent="Table"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_6w1vx")
 offset_left = 252.0
@@ -5150,7 +5150,7 @@ text = "5"
 horizontal_alignment = 1
 script = ExtResource("16_ee6yk")
 
-[node name="FX" type="AnimationPlayer" parent="Table/FragmentsLabel"]
+[node name="FX" type="AnimationPlayer" parent="Table/SoulsLabel"]
 root_node = NodePath("../../..")
 script = ExtResource("7_4br5g")
 
