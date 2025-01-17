@@ -278,6 +278,19 @@ var active_coin_power_coin: Coin = null:
 var active_coin_power_family: PowerFamily:
 	set(val):
 		active_coin_power_family = val
+		
+		# update mouse cursor
+		if active_coin_power_family == null:
+			Input.set_custom_mouse_cursor(null)
+		else:
+			var img: Image = load(active_coin_power_family.icon_path).get_image()
+			assert(img is Image)
+			# remove the leftmost y... this is a transparent column used for spacing the img; don't need for curso
+			img = img.get_region(Rect2(Vector2i(1, 0), img.get_size() - Vector2i(1, 0)))
+			# resize it up a bit... starts at 9x13; resize this by 5x or so
+			img.resize(img.get_width() * 5, img.get_height() * 5, Image.INTERPOLATE_NEAREST)
+			Input.set_custom_mouse_cursor(ImageTexture.create_from_image(img), Input.CURSOR_ARROW, img.get_size() / 2.0)
+		
 		emit_signal("active_coin_power_family_changed")
 		#if val == null: #should not be necessary...
 		#	active_coin_power_coin = null

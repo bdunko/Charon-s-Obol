@@ -1,34 +1,42 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
-		- [ ] **Today**
-		- [ ] **Monday-Friday - New Player Improvements**
-			- [ ] **Tutorial Tuning**
-				- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
-				- [ ] Slightly black out the screen while Charon is talking.
-				- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
-				- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
-				- [ ] Point out that we gained 100 life at the start of round 2.
-			- [ ] **Clearer Differentiation between phases**
-				- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
-					- [ ] Color filter + fog is heavier while waiting for toss, clears after toss and in shop?
-			- [ ] **More Obvious When a Power is Active**
-				- [ ] It needs to be more obvious when a coin is active.
-					- [ ] Mouse cursor changes to the power's icon.
+		- [ ] **New Player Improvements**
+			- [ ] Thursday
+				- [ ] **Clearer Differentiation between phases**
+					- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
+					- [ ] Color filter + fog is heavier while waiting for toss specifically. 
+						- [ ] Blue normally
+						- [ ] Red for Charon's Obol toss.
+				- [ ] **More Obvious When a Power is Active**
+					- [ ] It needs to be more obvious when a coin is active.
+						- [ ] Mouse cursor changes to the power's icon.
+					- [ ] Particle effect across the entire screen while a power is active.
+			- [ ] Friday
+				- [ ] **Tutorial Tuning**
+					- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
+					- [ ] Slightly black out the screen while Charon is talking.
+					- [ ] Rig round 2 RNG to give a new player more chances to use the zeus coin (possibly the 3rd and 4th tosses can be forced to be similar to the first one)
+					- [ ] Fade in the Life/Soul text earlier during Charon's explaination.
+					- [ ] Point out that we gained 100 life at the start of round 2.
 		- [ ] **Saturday - Sunday: Graphical Improvements**
-			- [ ] Filters for the patron selection and main scenes.
-				- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
-			- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
-			- [ ] **Particles**
-				- [ ] Initial particle additions.
-					- [ ] Particles coming off of an activated coin.
-			- [ ] **Unlock Improvements**
-				- [ ] Fancier animation/transitions for unlocks. Exciting!
-				- [ ] Add an additional space for 'advice' with each coin unlocked and character.
-					- [ ] Apollo - explain curse and bless.
-					- [ ] Artemis - explain arrows.
-					- [ ] Hephaestus - explain ignite.
-					- [ ] Eleusianian - "Now, let the real game begin..."
+			- [ ] **Saturday**
+				- [ ] **Particles**
+					- [ ] Initial particle additions.
+						- [ ] Particles coming off of an activated coin.
+						- [ ] Ambient particles on main menu and game.
+			- [ ] **Sunday**
+				- [ ] Filters for the patron selection and main scenes.
+					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+				- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
+				- [ ] **Unlock Improvements**
+					- [ ] 
+					- [ ] Transitions between unlocks. Transitions between unlock ending and 
+					- [ ] Add an additional space for 'advice' with each coin unlocked and character.
+						- [ ] Apollo - explain curse and bless.
+						- [ ] Artemis - explain arrows.
+						- [ ] Hephaestus - explain ignite.
+						- [ ] Eleusianian - "Now, let the real game begin..."
 	- [ ] **Etc**
 		- [ ] Needs an Abandon Run button somewhere. 
 			- [ ] Add an X somewhere on the board on the top right.
