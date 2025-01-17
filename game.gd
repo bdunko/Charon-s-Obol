@@ -37,6 +37,18 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
+@onready var _DECISION_TINT_FX = $DecisionTint/FX
+const _DECISION_FX_TIME = 0.3
+const _DECISION_TINT_ALPHA = 0.15
+const _DECISION_TINT_NORMAL = Color("#4e81d4")
+const _DECISION_TINT_TRIAL = Color("#ea4d5e")
+const _DECISION_TINT_NEMESIS = Color("#6f56fd")
+const _DECISION_TINT_CHARON = Color("#2a0581")
+@onready var _CHARON_FOG_FX = $CharonFog/FX
+
+@onready var _FOG_FX = $Fog/FX
+@onready var _FOG_BLUE_FX = $FogBlue/FX
+
 @onready var _RIVER_LEFT: River = $RiverLeft
 @onready var _RIVER_RIGHT: River = $RiverRight
 @onready var _VOYAGE_MAP: VoyageMap = $Table/VoyageMap
@@ -96,6 +108,16 @@ func _ready() -> void:
 	assert(_MAP_SHOWN_POINT)
 	assert(_MAP_HIDDEN_POINT)
 	assert(_MAP_INITIAL_POINT)
+	
+	assert(_CHARON_FOG_FX)
+	assert(_DECISION_TINT_FX)
+	
+	assert(_FOG_FX)
+	assert(_FOG_BLUE_FX)
+	
+	_CHARON_FOG_FX.get_parent().show() # this is dumb but I want to hide the fog in editor...
+	_CHARON_FOG_FX.hide()
+	_DECISION_TINT_FX.hide()
 	
 	_SHOP.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
 	_ENEMY_ROW.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
@@ -178,6 +200,27 @@ func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
+	# update the decision tint filter
+	if Global.state == Global.State.BEFORE_FLIP:
+		if Global.is_current_round_trial():
+			_DECISION_TINT_FX.tint(_DECISION_TINT_TRIAL)
+		elif Global.is_current_round_nemesis():
+			_DECISION_TINT_FX.tint(_DECISION_TINT_NEMESIS)
+		else:
+			_DECISION_TINT_FX.tint(_DECISION_TINT_NORMAL)
+		_DECISION_TINT_FX.fade_in(_DECISION_FX_TIME, _DECISION_TINT_ALPHA)
+	else:
+		_CHARON_FOG_FX.fade_out(_DECISION_FX_TIME)
+		_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
+	
+	# remove fog in shop
+	if Global.state == Global.State.SHOP:
+		_FOG_FX.fade_out()
+		_FOG_BLUE_FX.fade_out()
+	else:
+		_FOG_FX.fade_in()
+		_FOG_BLUE_FX.fade_in()
+	
 	if Global.state == Global.State.CHARON_OBOL_FLIP and Global.tutorialState != Global.TutorialState.INACTIVE:
 		if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_COMPLETED:
 			await _wait_for_dialogue("It seems you were unable to defeat the trial.")
@@ -227,6 +270,9 @@ func _on_state_changed() -> void:
 		_CHARON_COIN_ROW.get_child(0).turn()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("And now, on the edge of life and death...")
+		_CHARON_FOG_FX.fade_in(_DECISION_FX_TIME)
+		_DECISION_TINT_FX.tint(_DECISION_TINT_CHARON)
+		_DECISION_TINT_FX.fade_in(_DECISION_FX_TIME, _DECISION_TINT_ALPHA)
 		_DIALOGUE.show_dialogue("You must toss!")
 		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
@@ -394,6 +440,7 @@ func _on_flip_complete() -> void:
 				await _wait_for_dialogue("It seems this is the end for you.")
 				Global.state = Global.State.GAME_OVER
 			Global.CHARON_POWER_LIFE:
+				
 				await _wait_for_dialogue("Fate smiles upon you...")
 				await _wait_for_dialogue("You have dodged death, for a time.")
 				await _wait_for_dialogue("But your journey has not yet concluded...")
@@ -495,6 +542,8 @@ func _on_flip_complete() -> void:
 
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
+		_CHARON_FOG_FX.fade_out(_DECISION_FX_TIME)
+		_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
 		for coin in _CHARON_COIN_ROW.get_children():
 			_safe_flip(coin, true)
 		return
@@ -516,6 +565,8 @@ func _on_toss_button_clicked() -> void:
 	
 	if Global.lives < 0:
 		return
+	
+	_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
 	
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true

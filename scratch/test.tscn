@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://b65ykf244ptkj"]
 
-[ext_resource type="Script" path="res://scratch/test.gd" id="1_bfevy"]
-[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_2yiv0"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_mdiy3"]
-[ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="4_op63r"]
-[ext_resource type="Script" path="res://scratch/power_mouse_particles.gd" id="5_5esf4"]
-[ext_resource type="Texture2D" uid="uid://bduk12k8ehsxm" path="res://assets/ui/cursor.png" id="5_580m3"]
+[ext_resource type="Script" path="res://scratch/test.gd" id="1_r5d7g"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_bwwgy"]
+[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_pt7r6"]
+[ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="4_3phlp"]
+[ext_resource type="Texture2D" uid="uid://bduk12k8ehsxm" path="res://assets/ui/cursor.png" id="5_pqvvn"]
+[ext_resource type="Script" path="res://scratch/power_mouse_particles.gd" id="6_5fmic"]
 
 [sub_resource type="Gradient" id="Gradient_y1sh4"]
 offsets = PackedFloat32Array(0, 0.825036, 0.991465)
@@ -41,9 +41,9 @@ offset_top = 46.0
 offset_right = 225.0
 offset_bottom = 111.0
 rotation = 0.750492
-script = ExtResource("1_bfevy")
+script = ExtResource("1_r5d7g")
 
-[node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_2yiv0")]
+[node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_bwwgy")]
 watched = NodePath("../Hitbox")
 
 [node name="Hitbox" type="CollisionPolygon2D" parent="Test"]
@@ -61,11 +61,11 @@ offset_left = 22.0
 offset_top = 19.0
 offset_right = 30.0
 offset_bottom = 27.0
-script = ExtResource("3_mdiy3")
+script = ExtResource("3_pt7r6")
 _tooltip = "[center][p][color=slategray]Stone[/color][/p][p]This coin does not flip and its powers cannot be activated.[/p][/center]"
 
 [node name="Sprite2D" type="Sprite2D" parent="Blank2"]
-texture = ExtResource("4_op63r")
+texture = ExtResource("4_3phlp")
 centered = false
 offset = Vector2(-1, -3)
 
@@ -78,8 +78,8 @@ text = "[color=red][b]bold[/b][/color]"
 [node name="Cursor" type="Sprite2D" parent="."]
 z_index = 4096
 position = Vector2(67, 29)
-texture = ExtResource("5_580m3")
-script = ExtResource("5_5esf4")
+texture = ExtResource("5_pqvvn")
+script = ExtResource("6_5fmic")
 
 [node name="MouseFollowParticles" type="GPUParticles2D" parent="Cursor"]
 position = Vector2(-4, -4)

@@ -7,19 +7,19 @@ func _ready():
 	tween()
 	
 	# TEST
-	var ar = [1, 2, 3, 4, 5]
+	var ar = [1, 2, 3]
 	
-	print(Global.choose_x(ar, 1))
-	print(Global.choose_x(ar, 2))
-	print(Global.choose_x(ar, 3))
-	
-	print(Global.choose_x(ar, 4))
-	print(Global.choose_x(ar, 5))
-	print(Global.choose_x(ar, 6))
-	print(Global.choose_x(ar, 7))
-	print(Global.choose_x(ar, 100))
-	
-	
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
+	print(Global.choose_one_excluding(ar, [1]))
 
 func tween() -> void:
 	pass

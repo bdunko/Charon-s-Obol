@@ -331,7 +331,7 @@ func recolor_outline(color: Color, base_outline_color = _outline_color) -> void:
 func recolor_outline_to_default() -> void:
 	set_uniform(Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE, _outline_color)
 
-func tint(color: Color, strength: float) -> void:
+func tint(color: Color, strength: float = 1.0) -> void:
 	assert(strength >= 0.0 and strength <= 1.0)
 	
 	set_uniform(Uniform.VEC3_TINT_COLOR, color)
@@ -364,19 +364,19 @@ func start_glowing_solid(color: Color, speed: float = DEFAULT_GLOW_SPEED, thickn
 func stop_glowing() -> void:
 	set_uniform(Uniform.INT_GLOW_THICKNESS, 0)
 
-func fade_out(time: float = 1.0) -> void:
+func fade_out(time: float = 1.0, min_alpha: float = 0.0) -> void:
 	assert(time >= 0.0)
 	if time == 0.0:
 		hide()
 		return
-	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0, time)
+	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, min_alpha, time)
 
-func fade_in(time: float = 1.0) -> void:
+func fade_in(time: float = 1.0, max_alpha: float = 1.0) -> void:
 	assert(time >= 0.0)
 	if time == 0.0:
 		show()
 		return
-	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0, time)
+	await tween_uniform(Uniform.FLOAT_TRANSPARENCY, max_alpha, time)
 
 func hide() -> void:
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)

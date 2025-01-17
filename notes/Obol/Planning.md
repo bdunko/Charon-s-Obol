@@ -2,16 +2,6 @@
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
 		- [ ] **New Player Improvements**
-			- [ ] Thursday
-				- [ ] **Clearer Differentiation between phases**
-					- [ ] The different phases of the game need to be more clear - potentially a color filter while waiting to toss, for example...
-					- [ ] Color filter + fog is heavier while waiting for toss specifically. 
-						- [ ] Blue normally
-						- [ ] Red for Charon's Obol toss.
-				- [ ] **More Obvious When a Power is Active**
-					- [ ] It needs to be more obvious when a coin is active.
-						- [ ] Mouse cursor changes to the power's icon.
-					- [ ] Particle effect across the entire screen while a power is active.
 			- [ ] Friday
 				- [ ] **Tutorial Tuning**
 					- [ ] Make sure map cannot be clicked while Charon is talking (this can happen right after Charon teaches you that you can click the map, which we explicitly should prevent.) (I THINK WE FIXED THIS)
@@ -25,6 +15,7 @@
 					- [ ] Initial particle additions.
 						- [ ] Particles coming off of an activated coin.
 						- [ ] Ambient particles on main menu and game.
+						- [ ] Particle effect across the entire screen while a power is active.
 			- [ ] **Sunday**
 				- [ ] Filters for the patron selection and main scenes.
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
