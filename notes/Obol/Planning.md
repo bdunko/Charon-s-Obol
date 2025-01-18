@@ -4,11 +4,7 @@
 		- [ ] **New Player Improvements**
 			- [ ] Friday
 				- [ ] **Tutorial Tuning**
-					- [ ] Slightly black out the screen while Charon is talking.
-						- [ ] first, try just black out during WAIT_FOR_DIALOGUE...
-							- [ ] test if it's too annoying...
-							- [ ] Charon hands should always be above the black. (since Charon is talking).
-							- [ ] Probably need to bring certain other things to front as well. have a global function for this. 
+					- [ ] Price should fade in for tutorial upgrade and tutorial buying coin (we basically already have this working, just need to use show_price and hide_price and change no_upgrade_tutorial a bit to not affect text)
 		- [ ] **Saturday - Sunday: Graphical Improvements**
 			- [ ] **Saturday**
 				- [ ] **Particles**
@@ -21,8 +17,7 @@
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
 				- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
 				- [ ] **Unlock Improvements**
-					- [ ] 
-					- [ ] Transitions between unlocks. Transitions between unlock ending and 
+					- [ ] Transitions between unlocks. Transitions between unlock ending and main menu
 					- [ ] Add an additional space for 'advice' with each coin unlocked and character.
 						- [ ] Apollo - explain curse and bless.
 						- [ ] Artemis - explain arrows.

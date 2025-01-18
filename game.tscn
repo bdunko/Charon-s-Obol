@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=67 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Script" path="res://ui/river.gd" id="3_icqna"]
@@ -3611,7 +3611,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xdpqy"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_whp4p"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -3731,7 +3731,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1nao"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qevab"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -3851,7 +3851,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0qq8c"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5oghh"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -3971,7 +3971,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cdu3k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8pt45"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4091,7 +4091,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l5kiw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c6aps"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4211,7 +4211,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojlbv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uulku"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4331,7 +4331,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dwmjn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kvhtl"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4451,7 +4451,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ntf5m"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bngyr"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4571,7 +4571,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xm0su"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_67v78"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5057,6 +5057,125 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1biib"]
+shader = ExtResource("7_aonp5")
+shader_parameter/POST_PROCESSING = false
+shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/use_exclude_colors = true
+shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/displace_x = 0
+shader_parameter/displace_y = 0
+shader_parameter/displace_repeat = true
+shader_parameter/auto_pan_speed = Vector2(0, 0)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
+shader_parameter/replace_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
+shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/tint_color = Color(0, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
+shader_parameter/auto_flash_speed = 0.0
+shader_parameter/auto_flash_bound1 = 0.0
+shader_parameter/auto_flash_bound2 = 1.0
+shader_parameter/auto_flash_start_time = 0.0
+shader_parameter/red_correct = 0.0
+shader_parameter/green_correct = 0.0
+shader_parameter/blue_correct = 0.0
+shader_parameter/gray_correct = 0.0
+shader_parameter/brightness_correct = 1.0
+shader_parameter/contrast_correct = 1.0
+shader_parameter/saturation_correct = 1.0
+shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
+shader_parameter/scanline_strength = 1.0
+shader_parameter/scanline_left_to_right_position = -0.001
+shader_parameter/scanline_top_to_bottom_position = -0.001
+shader_parameter/scanline_topleft_to_bottomright_position = -0.001
+shader_parameter/scanline_topright_to_bottomleft_position = -0.001
+shader_parameter/auto_scanline_left_to_right_on = false
+shader_parameter/auto_scanline_left_to_right_reverse = false
+shader_parameter/auto_scanline_left_to_right_start_time = 0.0
+shader_parameter/auto_scanline_left_to_right_scan_duration = 0.5
+shader_parameter/auto_scanline_left_to_right_delay = 1.0
+shader_parameter/auto_scanline_top_to_bottom_on = false
+shader_parameter/auto_scanline_top_to_bottom_reverse = false
+shader_parameter/auto_scanline_top_to_bottom_start_time = 0.0
+shader_parameter/auto_scanline_top_to_bottom_scan_duration = 0.5
+shader_parameter/auto_scanline_top_to_bottom_delay = 1.0
+shader_parameter/auto_scanline_topleft_to_bottomright_on = false
+shader_parameter/auto_scanline_topleft_to_bottomright_reverse = false
+shader_parameter/auto_scanline_topleft_to_bottomright_start_time = 0.0
+shader_parameter/auto_scanline_topleft_to_bottomright_scan_duration = 0.5
+shader_parameter/auto_scanline_topleft_to_bottomright_delay = 1.0
+shader_parameter/auto_scanline_topright_to_bottomleft_on = false
+shader_parameter/auto_scanline_topright_to_bottomleft_reverse = false
+shader_parameter/auto_scanline_topright_to_bottomleft_start_time = 0.0
+shader_parameter/auto_scanline_topright_to_bottomleft_scan_duration = 0.5
+shader_parameter/auto_scanline_topright_to_bottomleft_delay = 1.0
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_thickness = 0
+shader_parameter/glow_diagonals = false
+shader_parameter/auto_glow_speed = 0.0
+shader_parameter/auto_glow_bound = 0.75
+shader_parameter/auto_glow_start_time = 0.0
+shader_parameter/disintegrate_seed = 1
+shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
+shader_parameter/disintegrate_strength = 0.0
+shader_parameter/disintegrate_alpha_bound1 = 0.0
+shader_parameter/disintegrate_alpha_bound2 = 0.0
+shader_parameter/disintegrate_as_static = false
+shader_parameter/auto_disintegrate_random_seed_speed = 0.0
+shader_parameter/fog_enabled = false
+shader_parameter/fog_opacity = 0.5
+shader_parameter/fog_density = 0.25
+shader_parameter/fog_speed = Vector2(-0.02, 0)
+shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/vertical_colorline_spacing = 2
+shader_parameter/vertical_colorline_strength = 0.0
+shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
+shader_parameter/horizontal_colorline_spacing = 2
+shader_parameter/horizontal_colorline_strength = 0.0
+shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/checker_strength = 0.0
+shader_parameter/checker_x_size = 1
+shader_parameter/checker_y_size = 1
+shader_parameter/checker_x_pattern = 2
+shader_parameter/checker_y_pattern = 2
+shader_parameter/checker_contrast_amount = 1.0
+shader_parameter/checker_contrast_ratio = 0.5
+shader_parameter/mouselight_on = false
+shader_parameter/mouselight_color = Color(1, 1, 1, 1)
+shader_parameter/mouselight_strength = 0.5
+shader_parameter/mouselight_size = 8
+shader_parameter/mouselight_soften_edges = true
+shader_parameter/mouselight_checker = false
+shader_parameter/auto_mouselight_flicker_speed = 8.0
+shader_parameter/auto_mouselight_flicker_bound = 10.0
+shader_parameter/cut_left = 0.0
+shader_parameter/cut_right = 0.0
+shader_parameter/cut_top = 0.0
+shader_parameter/cut_bottom = 0.0
+shader_parameter/vignette_on = false
+shader_parameter/vignette_ignore_transparent = false
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+shader_parameter/vignette_radius = 1.0
+shader_parameter/transparency = 0.0
+shader_parameter/auto_flicker_speed = 0.0
+shader_parameter/auto_flicker_bound = 0.0
+shader_parameter/auto_flicker_start_time = 0.0
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_2km4d")
 
@@ -5309,6 +5428,16 @@ offset_right = 320.0
 offset_bottom = 97.0
 color = Color(1, 1, 1, 0)
 
+[node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
+z_index = 100
+position = Vector2(0, 1)
+text_color = Color(0.913725, 0.619608, 0.811765, 1)
+background_color = Color(0.027451, 0.0196078, 0.027451, 1)
+border_color = Color(0.909804, 0.415686, 0.45098, 1)
+flash_color = Color(0.960784, 0.643137, 0.65098, 1)
+textbox_effects_while_waiting = true
+textbox_float = true
+
 [node name="PlayerTextboxes" type="HBoxContainer" parent="UI"]
 z_index = 100
 offset_left = 5.0
@@ -5320,48 +5449,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_xdpqy")
+material = SubResource("ShaderMaterial_whp4p")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_c1nao")
+material = SubResource("ShaderMaterial_qevab")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_0qq8c")
+material = SubResource("ShaderMaterial_5oghh")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_cdu3k")
+material = SubResource("ShaderMaterial_8pt45")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_l5kiw")
+material = SubResource("ShaderMaterial_c6aps")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ojlbv")
+material = SubResource("ShaderMaterial_uulku")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_dwmjn")
+material = SubResource("ShaderMaterial_kvhtl")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -5369,27 +5498,17 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_ntf5m")
+material = SubResource("ShaderMaterial_bngyr")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_xm0su")
+material = SubResource("ShaderMaterial_67v78")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"
-
-[node name="DialogueSystem" parent="UI" instance=ExtResource("4_sixhk")]
-z_index = 100
-position = Vector2(0, 1)
-text_color = Color(0.913725, 0.619608, 0.811765, 1)
-background_color = Color(0.027451, 0.0196078, 0.027451, 1)
-border_color = Color(0.909804, 0.415686, 0.45098, 1)
-flash_color = Color(0.960784, 0.643137, 0.65098, 1)
-textbox_effects_while_waiting = true
-textbox_float = true
 
 [node name="Points" type="Node2D" parent="."]
 
@@ -5462,6 +5581,16 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="FX" parent="DecisionTint" instance=ExtResource("6_gfndp")]
+
+[node name="TutorialFade" type="ColorRect" parent="."]
+z_index = 1000
+material = SubResource("ShaderMaterial_1biib")
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2
+
+[node name="FX" type="AnimationPlayer" parent="TutorialFade"]
+script = ExtResource("7_4br5g")
 
 [connection signal="clicked" from="Table/VoyageMap" to="." method="_on_voyage_map_clicked"]
 [connection signal="closed" from="Table/VoyageMap" to="." method="_on_voyage_map_closed"]

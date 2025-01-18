@@ -39,9 +39,10 @@ var _current_textbox = null
 var _waiting = false
 
 func _ready() -> void:
-	for child in get_children():
-		remove_child(child)
-		child.queue_free()
+	var placeholder = find_child("Textbox")
+	assert(placeholder)
+	remove_child(placeholder)
+	placeholder.queue_free()
  
 func is_waiting() -> bool:
 	return _waiting

@@ -196,17 +196,13 @@ func _update_price_label() -> void:
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
-		
-		# hide appease label during some parts of tutorial
-		var no_appease_states = [Global.TutorialState.ROUND4_MONSTER_INTRO, Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS]
-		if Global.tutorialState in no_appease_states:
-			_PRICE.text = ""
 
 func show_price() -> void:
-	_PRICE.show()
+	_PRICE.modulate.a = 0.0
+	create_tween().tween_property(_PRICE, "modulate:a", 1.0, 0.25)
 
 func hide_price() -> void:
-	_PRICE.hide()
+	_PRICE.modulate.a = 0.0
 
 func _update_flash():
 	# if this coin is an enemy coin, glow purple at all times

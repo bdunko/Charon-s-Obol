@@ -1152,11 +1152,11 @@ class ManagedTween:
 # helpers for moving something to a specific z index while remembering its previous z-index
 # mostly useful for tutorials and the like
 var _z_map = {}
-func temporary_set_z(node: Node2D, z: int) -> void:
+func temporary_set_z(node: CanvasItem, z: int) -> void:
 	_z_map[node] = node.z_index
 	node.z_index = z
 
-func restore_z(node: Node2D) -> void:
+func restore_z(node: CanvasItem) -> void:
 	assert(_z_map.has(node))
 	node.z_index = _z_map[node]
 	_z_map.erase(node)
