@@ -77,8 +77,8 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _RIGHT_HAND: CharonHand = $Table/CharonHandRight
 
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
-const _TUTORIAL_FADE_ALPHA = 0.5
-const _TUTORIAL_FADE_TIME = 0.15
+const _TUTORIAL_FADE_ALPHA = 0.35
+const _TUTORIAL_FADE_TIME = 0.1
 @onready var _TUTORIAL_FADE_Z = $TutorialFade.z_index + 1
 var _tutorial_items_shown_above_filter = null
 var _tutorial_fading = false # used to prevent clicking on coins during fades...
@@ -1118,6 +1118,7 @@ func _on_end_round_button_pressed():
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_LEFT_HAND.lock()
+		_SHOP_COIN_ROW.get_child(0).hide_price()
 		await _tutorial_fade_in([_SHOP_COIN_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
 		await _wait_for_dialogue("Now we move to the next part of the game...")
 		await _wait_for_dialogue("This is the Shop.")
@@ -1135,6 +1136,7 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue("Using powers allows you to change that.")
 		var icon = _SHOP_COIN_ROW.get_child(0).get_heads_icon()
 		await _wait_for_dialogue("This particular power,[img=10x13]%s[/img], can reflip other coins." % icon)
+		_SHOP_COIN_ROW.get_child(0).show_price()
 		await _wait_for_dialogue(Global.replace_placeholders("The coin's price of %d souls(SOULS) is shown above it." % _SHOP_COIN_ROW.get_child(0).get_store_price()))
 		if Global.souls < Global.ZEUS_FAMILY.store_price_for_denom[0]:
 			await _wait_for_dialogue("...Ah, you don't have enough souls for this coin.")
@@ -1147,10 +1149,15 @@ func _on_end_round_button_pressed():
 	elif Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:
 		_SHOP_CONTINUE_TEXTBOX.disable()
 		_LEFT_HAND.lock()
+		_COIN_ROW.get_child(0).hide_price()
+		_COIN_ROW.get_child(1).hide_price()
 		await _tutorial_fade_in([_COIN_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
 		await _wait_for_dialogue("We return to the shop once more.")
 		await _wait_for_dialogue("In addition to purchasing new coins...")
 		await _wait_for_dialogue("You can also upgrade your current coins.")
+		_COIN_ROW.get_child(0).show_price()
+		_COIN_ROW.get_child(1).show_price()
+		await _wait_for_dialogue("The upgrade's price is shown above the coin.")
 		var upgrade_price = _COIN_ROW.get_child(0).get_upgrade_price()
 		if Global.souls < upgrade_price:
 			await _wait_for_dialogue("Hmm...")
