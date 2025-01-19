@@ -30,23 +30,15 @@ func _can_be_activated() -> bool:
 
 func _update_effects() -> void:
 	if _disable_interaction:
-		_FX.stop_flashing()
 		_FX.stop_glowing()
 		return
 	
 	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
-		_FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.DEFAULT_GLOW_MINIMUM, false)
+		_FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
 	elif _can_be_activated():
-		_FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
+		_FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0 if _mouse_over else FX.FAST_GLOW_MINIMUM, false)
 	else:
 		_FX.stop_glowing()
-	
-	if Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
-		_FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
-	elif _mouse_over and _can_be_activated():
-		_FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
-	else:
-		_FX.stop_flashing()
 
 static var _once_per_frame = false
 func _on_clickable_area_input_event(_viewport, event, _shape_idx):

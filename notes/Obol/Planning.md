@@ -1,8 +1,8 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
-		- [ ] **Saturday - Sunday: Graphical Improvements**
-			- [ ] **Saturday**
+		- [ ] **Graphical Improvements**
+			- [ ] **Sunday**
 				- [ ] **Particles**
 					- [ ] Create particle types
 						- [ ] EruptOutPoint - Particle moves rapidly outward from a point
@@ -19,16 +19,20 @@
 						- [ ] IconGrow - An icon starts at a point, rapidly scales up and fades.
 							- [ ] Used for powers
 						- [ ] IconShrink - An icon starts at a point, rapidly scales down and fades.
-					- [ ] Initial particle additions.
+					- [ ] **Initial particle additions.**
 						- [ ] Particles coming off of an activated coin.
 						- [ ] Ambient particles on main menu and game.
 						- [ ] Particle effect across the entire screen while a power is active.
-			- [ ] **Sunday**
-				- [ ] Filters for the patron selection and main scenes.
+				- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting on hover if we do this.
+					- [ ] When hovered, make the outline solid.
+					- [ ] also need to do this for arrows
+					- [ ] Patron statue - glow solid when hovered
+			- [ ] The cut line
+				- [ ] **Filters for the patron selection and main scenes.**
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
-				- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting if we do this.
 				- [ ] **Unlock Improvements**
 					- [ ] Transitions between unlocks. Transitions between unlock ending and main menu
+					- [ ] Can probably have falling coins in the background via particles
 					- [ ] Add an additional space for 'advice' with each coin unlocked and character.
 						- [ ] Apollo - explain curse and bless.
 						- [ ] Artemis - explain arrows.
@@ -43,7 +47,7 @@
 		- [ ] Map should use icons from trials and boss instead of just generic T and purple skull. Also would be nice to fit in a special 'miniboss' round for the first time an Elite spawns.
 
 
-
+- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
 
 **Fruits**
 - [ ] Choose coins to add to update.

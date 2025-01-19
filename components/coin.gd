@@ -135,7 +135,7 @@ func _update_appearance() -> void:
 		FX.stop_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT)
 	_update_face_label()
 	_update_price_label()
-	_update_flash()
+	_update_glow()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_passive())
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
@@ -204,26 +204,30 @@ func show_price() -> void:
 func hide_price() -> void:
 	_PRICE.modulate.a = 0.0
 
-func _update_flash():
+func _update_glow():
 	# if this coin is an enemy coin, glow purple at all times
 	if _owner == Owner.NEMESIS:
-		#FX.start_flashing(Color.MEDIUM_PURPLE, 10, 0.25, 0.5, false)
-		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
+		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM)
 		return
 	
 	# if coin is disabled or another coin is activated right now, don't glow at all
-	if _disable_interaction or (Global.active_coin_power_coin != null and Global.active_coin_power_coin != self):
+	if _disable_interaction:
 		FX.stop_glowing()
 		return
 	
-	# if this is the active power coin, glow gold
+	# if another coin is active now and hovering this coin as a target, glow white
+	if Global.active_coin_power_coin != null and Global.active_coin_power_coin != self and _MOUSE.is_over():
+		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
+		return
+	
+	# if this is the active power coin, glow solid gold
 	if Global.active_coin_power_coin == self:
-		FX.start_flashing(Color.GOLD, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
+		FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
 		return
 		
-	# if this coin can be activated, glow white
+	# if this coin can be activated, glow white (solid if mouse over)
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
-		FX.start_glowing(Color.WHITE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
+		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0 if _MOUSE.is_over() else FX.FAST_GLOW_MINIMUM, false)
 		return
 	
 	FX.stop_glowing()
@@ -611,10 +615,6 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 		_supercharged = false
 		await flip(is_toss)
 		return
-	
-	# if the mouse is still over after the flip, start glowing again
-	if _MOUSE.is_over():
-		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	
 	emit_signal("flip_complete")
 	
@@ -1043,40 +1043,18 @@ func _on_mouse_clicked():
 		emit_signal("clicked", self)
 
 func _on_mouse_entered():
-	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self and ((get_active_power_charges() != 0 and can_activate_power()) or Global.active_coin_power_family != null) and not is_passive():
-		FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
 	emit_signal("hovered", self)
+	_update_appearance()
 
 func _on_mouse_exited():
-	if not _disable_interaction and Global.state == Global.State.AFTER_FLIP and not Global.active_coin_power_coin == self:
-		FX.stop_flashing()
 	emit_signal("unhovered", self)
+	_update_appearance()
 
-var _was_active_power_coin = false
 func _on_active_coin_power_coin_changed() -> void:
 	if not is_inside_tree(): #bit of a $HACK$ since this gets called before we're in tree to make tween; could also check tween return value but meh
 		return
 	
 	_update_appearance()
-	
-	if not _disable_interaction:
-		if Global.active_coin_power_coin == self:
-			_was_active_power_coin = true
-			FX.start_glowing(Color.GOLD, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
-		else:
-			# if this coin was active and the mouse is not over it anymore, we need to remember stop its glow
-			# if this coin wasn't active, make sure it stops glowing
-			var was_active_and_mouse_no_longer_over = _was_active_power_coin and not _MOUSE.is_over()
-			var wasnt_active_and_cant_be_activated = get_active_power_charges() == 0 or not can_activate_power()
-			
-			if was_active_and_mouse_no_longer_over or wasnt_active_and_cant_be_activated:
-				FX.stop_flashing()
-			
-			# lastly if this was the active power and we're still over it, glow white instead of gold again
-			if _was_active_power_coin and _MOUSE.is_over():
-				FX.start_flashing(Color.AZURE, FX.DEFAULT_FLASH_SPEED, FX.DEFAULT_FLASH_BOUND1, FX.DEFAULT_FLASH_BOUND2, false)
-	else:
-		FX.stop_flashing()
 
 func _on_tutorial_state_changed() -> void:
 	if not is_inside_tree(): # a bit of a hack for startup, but whatever

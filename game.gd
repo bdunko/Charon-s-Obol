@@ -928,10 +928,13 @@ func _hide_voyage_map() -> void:
 	_enable_interaction_coins_and_patron()
 
 func _on_voyage_map_clicked():
+	print("clicked map")
 	var no_map_states = [Global.TutorialState.ROUND2_POWER_USED, Global.TutorialState.ROUND2_POWER_UNUSABLE, Global.TutorialState.ROUND3_PATRON_USED]
 	if Global.tutorialState in no_map_states:
 		return
 	if _map_is_disabled or _map_open:
+		print(_map_is_disabled)
+		print(_map_open)
 		return
 	_show_voyage_map(true, true)
 
