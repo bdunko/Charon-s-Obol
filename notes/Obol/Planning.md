@@ -4,29 +4,18 @@
 		- [ ] **Graphical Improvements**
 			- [ ] **Sunday**
 				- [ ] **Particles**
-					- [ ] Create particle types
-						- [ ] EruptOutPoint - Particle moves rapidly outward from a point
-						- [ ] EruptOutRing - Particle moves rapidly outward from a ring.
-							- [ ] Used for dust on coin flips.
-						- [ ] Windy - Particles fly from a certain direction constantly across the screen.
-							- [ ] Used both on main menu and game.
-						- [ ] AmbientAir - Particles fade in/out periodically across a large area.
-							- [ ] Used when a power is active (color depends on power)
-						- [ ] PulledIn - Particles start widely from a line and move towards a central point
-							- [ ] Used for death animation
-						- [ ] Trail - Just a steady stream of particles. attach to a moving object.
-							- [ ] Used for coin flips, souls, lives.
-						- [ ] IconGrow - An icon starts at a point, rapidly scales up and fades.
-							- [ ] Used for powers
-						- [ ] IconShrink - An icon starts at a point, rapidly scales down and fades.
 					- [ ] **Initial particle additions.**
-						- [ ] Particles coming off of an activated coin.
-						- [ ] Ambient particles on main menu and game.
-						- [ ] Particle effect across the entire screen while a power is active.
-				- [ ] Coins with activatable powers should glow solid when hovered. Patron token also. Remove tinting on hover if we do this.
-					- [ ] When hovered, make the outline solid.
-					- [ ] also need to do this for arrows
-					- [ ] Patron statue - glow solid when hovered
+						- [ ] AmbientSparks when a power is active, alongside a slight gold screen filter. 
+							- [ ] Associate each powerfamily with 2 colors. Use two systems, one of each color.
+						- [ ] Windy on both main menu (purple and red sparks) and game (sparks matching river color)
+						- [ ] Coins
+							- [ ] After a flip ends, play dust effect with EruptOutRing
+							- [ ] When a status is applied, play IconShrink with that status icon over the status bar or corner of the coin
+							- [ ] When a power is used on a coin, play IconGrow with that power icon over the center of the coin
+							- [ ] When a power is used on a coin, use EruptOutPoint with colors of that particle.
+							- [ ] Ignited coins have a constant smoke effect.
+							- [ ] Frozen coins have a constant sparkle effect.
+						- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
 			- [ ] The cut line
 				- [ ] **Filters for the patron selection and main scenes.**
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.

@@ -1020,10 +1020,19 @@ func _advance_round() -> void:
 		_VOYAGE_NEXT_ROUND_TEXTBOX.set_text("Begin %d%s Round" % [Global.round_count - 1, Global.ordinal_suffix(Global.round_count - 1)])
 	_PLAYER_TEXTBOXES.make_visible()
 
+@onready var _EMBERS_PARTICLES = $Embers
 func _recolor_river(colorStyle: River.ColorStyle, instant: bool) -> void:
 	_RIVER_LEFT.change_color(colorStyle, instant)
 	_RIVER_RIGHT.change_color(colorStyle, instant)
 	_VOYAGE_MAP.change_river_color(colorStyle, instant)
+	
+	match colorStyle: # also recolor the particles
+		River.ColorStyle.PURPLE:
+			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#bc4a9b"), 0.5)
+		River.ColorStyle.GREEN:
+			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#cdf7e2"), 0.5)
+		River.ColorStyle.RED:
+			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#df3e23"), 0.5)
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=47 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -28,6 +28,44 @@
 [ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
+
+[sub_resource type="Gradient" id="Gradient_uigqt"]
+colors = PackedColorArray(0.737255, 0.290196, 0.607843, 0.470588, 0.737255, 0.290196, 0.607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_l758n"]
+gradient = SubResource("Gradient_uigqt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kfrfr"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_l758n")
+
+[sub_resource type="Gradient" id="Gradient_yeap5"]
+colors = PackedColorArray(1, 0.054902, 0.152941, 0.470588, 0.737255, 0.290196, 0.607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vhqf1"]
+gradient = SubResource("Gradient_yeap5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2cdev"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_vhqf1")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ct364"]
 
@@ -413,7 +451,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ibkxi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqi44"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -533,7 +571,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vy2tc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sl8cb"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -653,7 +691,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v3pry"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2rluf"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -781,6 +819,21 @@ offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="EmbersPurple" type="GPUParticles2D" parent="."]
+position = Vector2(153, 183)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_kfrfr")
+lifetime = 4.5
+preprocess = 5.0
+trail_lifetime = 3.5
+
+[node name="EmbersRed" type="GPUParticles2D" parent="."]
+position = Vector2(153, 183)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_2cdev")
+lifetime = 3.5
+preprocess = 5.0
 
 [node name="FogBase" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_016i3")
@@ -912,7 +965,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ibkxi")
+material = SubResource("ShaderMaterial_eqi44")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1168,12 +1221,12 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_vy2tc")
+material = SubResource("ShaderMaterial_sl8cb")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_v3pry")
+material = SubResource("ShaderMaterial_2rluf")
 layout_mode = 2
 default_text = " Quit "
 
