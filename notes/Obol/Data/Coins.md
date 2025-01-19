@@ -296,6 +296,11 @@ Unlockable coins + more coins
 	- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
 	- [ ] ??? - Permanently increase this coin's payoff by 1/2/3/4 every 5 tosses.
 	- [ ] ??? - Does not recharge naturally. +1 charge when a monster is destroyed. Turn a coin to its other face.
+	- [ ] Atlas - Flip the coins adjacent to this coin. For each that lands on heads, flip a random monster coin.
+	- [ ] Nesoi - Choose a coin. Use that coin's power on both of its neighbors.
+	- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.
+	- [ ] Nesoi - Choose a coin. Copy each of this coin's statuses to that coin.
+	- [ ] Nesoi - Choose a coin. Move each of its statuses to this coin.
 
 - [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
 

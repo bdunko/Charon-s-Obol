@@ -1,13 +1,24 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Current Goals - Jan 19th Sprint b0.1.0**
 	- [ ] **Goals**
-		- [ ] **New Player Improvements**
-			- [ ] Friday
-				- [ ] **Tutorial Tuning**
-					- [ ] Price should fade in for tutorial upgrade and tutorial buying coin (we basically already have this working, just need to use show_price and hide_price and change no_upgrade_tutorial a bit to not affect text)
 		- [ ] **Saturday - Sunday: Graphical Improvements**
 			- [ ] **Saturday**
 				- [ ] **Particles**
+					- [ ] Create particle types
+						- [ ] EruptOutPoint - Particle moves rapidly outward from a point
+						- [ ] EruptOutRing - Particle moves rapidly outward from a ring.
+							- [ ] Used for dust on coin flips.
+						- [ ] Windy - Particles fly from a certain direction constantly across the screen.
+							- [ ] Used both on main menu and game.
+						- [ ] AmbientAir - Particles fade in/out periodically across a large area.
+							- [ ] Used when a power is active (color depends on power)
+						- [ ] PulledIn - Particles start widely from a line and move towards a central point
+							- [ ] Used for death animation
+						- [ ] Trail - Just a steady stream of particles. attach to a moving object.
+							- [ ] Used for coin flips, souls, lives.
+						- [ ] IconGrow - An icon starts at a point, rapidly scales up and fades.
+							- [ ] Used for powers
+						- [ ] IconShrink - An icon starts at a point, rapidly scales down and fades.
 					- [ ] Initial particle additions.
 						- [ ] Particles coming off of an activated coin.
 						- [ ] Ambient particles on main menu and game.
