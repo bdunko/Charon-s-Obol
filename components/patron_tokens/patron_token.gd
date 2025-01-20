@@ -41,6 +41,13 @@ func _ready():
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
 
+static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
+@onready var _POWER_ICON_GROW_POINT = $PowerIconGrowPoint
+func play_power_used_effect(power: Global.PowerFamily) -> void:
+	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
+	particle.texture = load(power.icon_path)
+	_POWER_ICON_GROW_POINT.add_child(particle)
+
 func _on_use() -> void:
 	if Global.patron_used_this_toss:
 		FX.flash(Color.WHITE)

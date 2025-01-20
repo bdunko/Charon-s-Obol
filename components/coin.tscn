@@ -1257,6 +1257,9 @@ animation = &"heads"
 centered = false
 script = ExtResource("35_2vs3w")
 
+[node name="PowerIconGrowPoint" type="Node2D" parent="Sprite"]
+position = Vector2(19, 20)
+
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
 watched = NodePath("../TetrobolClickbox")
 

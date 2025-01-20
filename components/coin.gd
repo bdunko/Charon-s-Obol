@@ -344,6 +344,13 @@ func _ready():
 	Global.passive_triggered.connect(_on_passive_triggered)
 	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
 
+static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
+@onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
+func play_power_used_effect(power: Global.PowerFamily) -> void:
+	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
+	particle.texture = load(power.icon_path)
+	_POWER_ICON_GROW_POINT.add_child(particle)
+
 func _on_passive_triggered(passive: Global.PowerFamily) -> void:
 	if _heads_power.power_family == passive or _tails_power.power_family == passive:
 		if _owner == Owner.NEMESIS:

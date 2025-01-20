@@ -3,7 +3,7 @@ extends Node2D
 
 signal coin_purchased
 
-@onready var _COIN_SCENE = preload("res://components/coin.tscn")
+static var _COIN_SCENE = preload("res://components/coin.tscn")
 @onready var _SHOP_ROW = $ShopRow
 
 const _NUM_GENERIC_SHOP_ITEMS = 1

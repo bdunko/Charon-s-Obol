@@ -147,3 +147,6 @@ polygon = PackedVector2Array(1, 40, -1, 38, -3, 34, -3, 23, -1, 19, 1, 17, 6, 17
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("5_0xx2r")]
 watched = NodePath("../Polygon")
+
+[node name="PowerIconGrowPoint" type="Node2D" parent="."]
+position = Vector2(25, 12)

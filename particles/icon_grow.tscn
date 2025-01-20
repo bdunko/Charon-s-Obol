@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmndm4m2fuq4u"]
+
+[ext_resource type="Texture2D" uid="uid://blj71nts4230g" path="res://assets/icons/apollo_patron_icon.png" id="1_jned6"]
+[ext_resource type="Script" path="res://particles/oneshot_particle.gd" id="2_o3geb"]
+
+[sub_resource type="Gradient" id="Gradient_eyh18"]
+offsets = PackedFloat32Array(0, 0.409091, 0.789141, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kkhd7"]
+gradient = SubResource("Gradient_eyh18")
+
+[sub_resource type="Curve" id="Curve_jraoi"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.629261, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_38ph5"]
+curve = SubResource("Curve_jraoi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1hwq3"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_38ph5")
+color_ramp = SubResource("GradientTexture1D_kkhd7")
+
+[node name="IconGrow" type="GPUParticles2D"]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_1hwq3")
+texture = ExtResource("1_jned6")
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+local_coords = true
+script = ExtResource("2_o3geb")

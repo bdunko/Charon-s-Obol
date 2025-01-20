@@ -5,17 +5,15 @@
 			- [ ] **Sunday**
 				- [ ] **Particles**
 					- [ ] **Initial particle additions.**
-						- [ ] AmbientSparks when a power is active, alongside a slight gold screen filter. 
-							- [ ] Associate each powerfamily with 2 colors. Use two systems, one of each color.
-						- [ ] Windy on both main menu (purple and red sparks) and game (sparks matching river color)
 						- [ ] Coins
+							- [ ] Should instantiate a new copy of the particle every time it is needed and queue free on completion. This way we can have overlapping if needed. Attach to Sprite with given position.
+							- [ ] Need to use particles for status effects. 
+						- [ ] Extra
 							- [ ] After a flip ends, play dust effect with EruptOutRing
-							- [ ] When a status is applied, play IconShrink with that status icon over the status bar or corner of the coin
-							- [ ] When a power is used on a coin, play IconGrow with that power icon over the center of the coin
-							- [ ] When a power is used on a coin, use EruptOutPoint with colors of that particle.
-							- [ ] Ignited coins have a constant smoke effect.
+							- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
+							- [ ] While a coin's power is active, sparkly glow on it...
 							- [ ] Frozen coins have a constant sparkle effect.
-						- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
+							- [ ] Ignited coins have a constant smoke effect.
 			- [ ] The cut line
 				- [ ] **Filters for the patron selection and main scenes.**
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.

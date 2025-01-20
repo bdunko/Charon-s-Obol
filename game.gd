@@ -31,7 +31,7 @@ signal game_ended
 @onready var _PLAYER_NEW_COIN_POSITION: Vector2 = _PLAYER_POINT - Vector2(22, 0)
 @onready var _PLAYER_FLIP_POSITION: Vector2 = _PLAYER_NEW_COIN_POSITION - Vector2(0, 25)
 @onready var _CHARON_NEW_COIN_POSITION: Vector2 = _CHARON_POINT - Vector2(22, 0)
-@onready var _CHARON_FLIP_POSITION: Vector2 = _CHARON_NEW_COIN_POSITION + Vector2(0, 25)
+@onready var _CHARON_FLIP_POSITION: Vector2 = _CHARON_NEW_COIN_POSITION
 @onready var _LIFE_FRAGMENT_PILE_POINT: Vector2 = $Points/LifeFragmentPile.position
 @onready var _SOUL_FRAGMENT_PILE_POINT: Vector2 = $Points/SoulFragmentPile.position
 @onready var _ARROW_PILE_POINT: Vector2 = $Points/ArrowPile.position
@@ -750,30 +750,37 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY), charges):
 						target.make_lucky()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_UNLUCKY:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), charges):
 						target.make_unlucky()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_CURSE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED), charges):
 						target.curse()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_BLANK:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLANK), charges):
 						target.blank()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_FREEZE_TAILS:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_tails():
 						coin.freeze()
+						coin.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_STONE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_STONE), charges):
 						target.stone()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_IGNITE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_STONE), charges):
 						target.ignite()
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_IGNITE_SELF:
 					payoff_coin.ignite() #ignite itself
 				Global.PowerType.PAYOFF_DOWNGRADE_MOST_VALUABLE:
@@ -783,10 +790,12 @@ func _on_accept_button_pressed():
 						highest.shuffle()
 						# don't downgrade if it's the last coin
 						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
+							highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
 							downgrade_coin(highest[0])
 				_:
 					assert(false, "No matching case for power type!")
 				# END MATCH
+			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -1764,8 +1773,10 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_HERA:
 					_safe_flip(coin, false)
 					if left:
+						left.play_power_used_effect(Global.active_coin_power_family)
 						_safe_flip(left, false)
 					if right:
+						right.play_power_used_effect(Global.active_coin_power_family)
 						_safe_flip(right, false)
 				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
@@ -1792,6 +1803,7 @@ func _on_coin_clicked(coin: Coin):
 						return
 					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
+					new_coin.play_power_used_effect(Global.active_coin_power_family)
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 				Global.PATRON_POWER_FAMILY_HESTIA:
 					if not coin.can_make_lucky():
@@ -1807,6 +1819,8 @@ func _on_coin_clicked(coin: Coin):
 						_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 					for i in range(0, 3):
 						downgrade_coin(coin)
+			coin.play_power_used_effect(Global.active_coin_power_family)
+			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
@@ -1880,8 +1894,10 @@ func _on_coin_clicked(coin: Coin):
 				# flip coin and neighbors
 				_safe_flip(coin, false)
 				if left:
+					left.play_power_used_effect(Global.active_coin_power_family)
 					_safe_flip(left, false)
 				if right:
+					right.play_power_used_effect(Global.active_coin_power_family)
 					_safe_flip(right, false)
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
@@ -1930,6 +1946,7 @@ func _on_coin_clicked(coin: Coin):
 					return
 				var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
+				new_coin.play_power_used_effect(Global.active_coin_power_family)
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
 			Global.POWER_FAMILY_MAKE_LUCKY:
 				if not coin.can_make_lucky():
@@ -1954,10 +1971,12 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
 				_safe_flip(coin, false)
+				coin.play_power_used_effect(Global.active_coin_power_family)
 				Global.arrows -= 1
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
+		coin.play_power_used_effect(Global.active_coin_power_family)
 		Global.active_coin_power_coin.spend_power_use()
 		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
 			if not coin.is_being_destroyed():
@@ -1996,14 +2015,19 @@ func _on_coin_clicked(coin: Coin):
 					spent_use = true
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c = c as Coin
+						c.play_power_used_effect(coin.get_active_power_family())
 						_safe_flip(c, false)
 				Global.POWER_FAMILY_GAIN_COIN:
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
-					_make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position, true)
+					var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position, true)
+					new_coin.play_power_used_effect(coin.get_active_power_family())
+				_:
+					assert(false, "No matching power")
 			if not spent_use:
 				coin.spend_power_use()
+			coin.play_power_used_effect(coin.get_active_power_family())
 		else: # otherwise, make this the active coin and coin power and await click on target
 			# prevent reactivating the coin after deactivating
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
@@ -2066,17 +2090,20 @@ func _on_patron_token_clicked():
 				var as_coin: Coin = coin
 				if as_coin.is_tails() and as_coin.get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 					_heal_life(as_coin.get_active_power_charges())
+					as_coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARTEMIS:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				as_coin.turn()
+				as_coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				_safe_flip(coin, false)
+				coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_APHRODITE:
@@ -2084,6 +2111,7 @@ func _on_patron_token_clicked():
 				var as_coin: Coin = coin
 				if not as_coin.get_active_power_family().is_payoff():
 					as_coin.recharge_power_uses_by(2)
+					as_coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_DIONYSUS: # smart random behavior
@@ -2104,12 +2132,15 @@ func _on_patron_token_clicked():
 					1: # turn 2 powers to heads
 						for coin in Global.choose_x(tails_powers, 2):
 							coin.turn()
+							coin.play_power_used_effect(Global.patron.power_family)
 					2: # reflip 4 tails coins
 						for coin in Global.choose_x(tails, 4):
 							_safe_flip(coin, false)
+							coin.play_power_used_effect(Global.patron.power_family)
 					3: # reflip all coins
 						for coin in _COIN_ROW.get_children():
 							_safe_flip(coin, false)
+							coin.play_power_used_effect(Global.patron.power_family)
 			else:  # otherwise, choose 2-3 helpful actions
 				var boons = 0
 				while boons < Global.RNG.randi_range(2, 3):
@@ -2121,24 +2152,28 @@ func _on_patron_token_clicked():
 									new_coin.make_lucky()
 								if Global.RNG.randi_range(1, 2) == 1:
 									new_coin.bless()
+								new_coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						2: # make coins lucky
 							var not_lucky = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY)
 							if not_lucky.size() != 0:
 								for coin in Global.choose_x(not_lucky, Global.RNG.randi_range(1, 3)):
 									coin.make_lucky()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						3: # make coins blessed
 							var not_blessed = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLESSED)
 							if not_blessed.size() != 0:
 								for coin in Global.choose_x(not_blessed, Global.RNG.randi_range(1, 3)):
 									coin.bless()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						4: # freeze heads coins
 							var not_frozen_heads = heads.filter(CoinRow.FILTER_NOT_FROZEN)
 							if not_frozen_heads.size() != 0:
 								for coin in Global.choose_x(not_frozen_heads, Global.RNG.randi_range(1, 3)):
 									coin.freeze()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						5: # clear ignite or frozen on tails
 							var ignited = _COIN_ROW.get_filtered(CoinRow.FILTER_IGNITED)
@@ -2146,8 +2181,10 @@ func _on_patron_token_clicked():
 							if ignited.size() + frozen_tails.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
 								for coin in Global.choose_x(ignited, Global.RNG.randi_range(2, 3)):
 									coin.clear_freeze_ignite()
+									coin.play_power_used_effect(Global.patron.power_family)
 								for coin in Global.choose_x(frozen_tails, Global.RNG.randi_range(2, 3)):
 									coin.clear_freeze_ignite()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						6: # clear unlucky, cursed, or blank
 							var unlucky = _COIN_ROW.get_filtered(CoinRow.FILTER_UNLUCKY)
@@ -2156,10 +2193,13 @@ func _on_patron_token_clicked():
 							if unlucky.size() + cursed.size() + blank.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
 								for coin in Global.choose_x(unlucky, Global.RNG.randi_range(2, 3)):
 									coin.clear_lucky_unlucky()
+									coin.play_power_used_effect(Global.patron.power_family)
 								for coin in Global.choose_x(cursed, Global.RNG.randi_range(2, 3)):
 									coin.clear_blessed_cursed()
+									coin.play_power_used_effect(Global.patron.power_family)
 								for coin in Global.choose_x(blank, Global.RNG.randi_range(2, 3)):
 									coin.clear_blanked()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						7: # gain arrows
 							if Global.arrows <= Global.ARROWS_LIMIT - floor(Global.ARROWS_LIMIT / 2.0):
@@ -2170,11 +2210,13 @@ func _on_patron_token_clicked():
 							if _ENEMY_COIN_ROW.get_child_count() != 0:
 								for coin in Global.choose_x(_ENEMY_COIN_ROW.get_children(), Global.RNG.randi_range(1, 2)):
 									coin.blank()
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						9: # downgrade a monster
 							if _ENEMY_COIN_ROW.get_child_count() != 0:
 								for coin in Global.choose_x(_ENEMY_COIN_ROW.get_children(), Global.RNG.randi_range(2, 3)):
 									downgrade_coin(coin)
+									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						10: # gain souls/life, just a generic bonus
 							match(Global.RNG.randi_range(1, 2)):
@@ -2187,12 +2229,16 @@ func _on_patron_token_clicked():
 							var rechargable = _COIN_ROW.get_filtered(CoinRow.FILTER_RECHARGABLE)
 							if rechargable.size() >= 2:
 								for i in Global.RNG.randi_range(2, 4):
-									Global.choose_one(rechargable).recharge_power_uses_by(1)
+									var coin = Global.choose_one(rechargable)
+									coin.recharge_power_uses_by(1)
+									coin.play_power_used_effect(Global.patron.power_family)
 						12: # supercharge coins
 							var chargeable = _COIN_ROW.get_filtered(CoinRow.FILTER_NOT_SUPERCHARGED)
 							if chargeable.size() >= 3:
 								for coin in Global.choose_x(chargeable, Global.RNG.randi_range(2, 3)):
 									coin.supercharge()
+									coin.play_power_used_effect(Global.patron.power_family)
+			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		_: # if not immediate, activate the token

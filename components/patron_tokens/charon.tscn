@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6qwhjhc5auji"]
+[gd_scene load_steps=7 format=3 uid="uid://uvebhh3n15bi"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_0sdaw"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_yxh76"]
@@ -147,3 +147,6 @@ polygon = PackedVector2Array(13, 28, 15, 26, 17, 25, 28, 25, 30, 26, 32, 28, 32,
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("5_rnfa1")]
 watched = NodePath("../Polygon")
+
+[node name="PowerIconGrowPoint" type="Node2D" parent="."]
+position = Vector2(22, 14)
