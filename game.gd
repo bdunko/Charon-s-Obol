@@ -77,8 +77,8 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _RIGHT_HAND: CharonHand = $Table/CharonHandRight
 
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
-const _TUTORIAL_FADE_ALPHA = 0.35
-const _TUTORIAL_FADE_TIME = 0.1
+const _TUTORIAL_FADE_ALPHA = 0.45
+const _TUTORIAL_FADE_TIME = 0.15
 @onready var _TUTORIAL_FADE_Z = $TutorialFade.z_index + 1
 var _tutorial_items_shown_above_filter = null
 var _tutorial_fading = false # used to prevent clicking on coins during fades...

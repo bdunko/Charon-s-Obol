@@ -207,7 +207,7 @@ func hide_price() -> void:
 func _update_glow():
 	# if this coin is an enemy coin, glow purple at all times
 	if _owner == Owner.NEMESIS:
-		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM)
+		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		return
 	
 	# if coin is disabled or another coin is activated right now, don't glow at all
@@ -237,6 +237,7 @@ var _blank: bool = false:
 		_blank = val
 		_STATUS_BAR.update_icon(_BLANK_ICON, _blank)
 		if _blank:
+			_play_new_status_effect("res://assets/icons/status/blank_icon.png")
 			FX.flash(Color.BISQUE)
 		_update_appearance()
 
@@ -249,9 +250,11 @@ var _bless_curse_state: _BlessCurseState:
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.YELLOW)
 			FX.set_scan_color(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
 		elif _bless_curse_state == _BlessCurseState.CURSED:
 			FX.flash(Color.PURPLE)
 			FX.set_scan_color(Color.PURPLE)
+			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
 		else:
 			FX.set_scan_color(Color.WHITE)
 		_update_appearance()
@@ -265,9 +268,11 @@ var _freeze_ignite_state: _FreezeIgniteState:
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
 			FX.flash(Color.CYAN)
 			FX.tint(Color.CYAN, 0.5)
+			_play_new_status_effect("res://assets/icons/status/freeze_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
 			FX.flash(Color.RED)
 			FX.tint(Color.RED, 0.5)
+			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			FX.clear_tint()
 
@@ -277,6 +282,7 @@ var _supercharged: bool:
 		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _supercharged)
 		if _supercharged:
 			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
 			# TODO - add particles here
 
 var _luck_state: _LuckState:
@@ -292,9 +298,11 @@ var _luck_state: _LuckState:
 			or _luck_state == _LuckState.QUITE_LUCKY or _luck_state == _LuckState.INCREDIBLY_LUCKY:
 			FX.flash(Color.LAWN_GREEN)
 			FX.recolor_outline(Color("#59c035")) #lucky
+			_play_new_status_effect("res://assets/icons/status/lucky_icon.png")
 		elif _luck_state == _LuckState.UNLUCKY:
 			FX.flash(Color.ORANGE_RED)
 			FX.recolor_outline(Color("#b3202a")) #unlucky
+			_play_new_status_effect("res://assets/icons/status/unlucky_icon.png")
 		else:
 			FX.recolor_outline_to_default()
 		_update_appearance()
@@ -307,6 +315,7 @@ var _material_state: _MaterialState:
 		if _material_state == _MaterialState.STONE:
 			FX.flash(Color.SLATE_GRAY)
 			FX.tint(Color.SLATE_GRAY, 0.7)
+			_play_new_status_effect("res://assets/icons/status/stone_icon.png")
 		elif _material_state == _MaterialState.NONE and not is_ignited():
 			FX.clear_tint()
 
@@ -350,6 +359,13 @@ func play_power_used_effect(power: Global.PowerFamily) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
 	particle.texture = load(power.icon_path)
 	_POWER_ICON_GROW_POINT.add_child(particle)
+
+static var _PARTICLE_ICON_SHRINK_SCENE = preload("res://particles/icon_shrink.tscn")
+@onready var _STATUS_ICON_SHRINK_POINT = $Sprite/StatusIconShrinkPoint
+func _play_new_status_effect(icon_path: String) -> void:
+	var particle: GPUParticles2D = _PARTICLE_ICON_SHRINK_SCENE.instantiate()
+	particle.texture = load(icon_path)
+	_STATUS_ICON_SHRINK_POINT.add_child(particle)
 
 func _on_passive_triggered(passive: Global.PowerFamily) -> void:
 	if _heads_power.power_family == passive or _tails_power.power_family == passive:

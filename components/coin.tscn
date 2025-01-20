@@ -1044,7 +1044,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_tte34")
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"power_obol_flat"
+animation = &"payoff_tetrobol_flat"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -1259,6 +1259,9 @@ script = ExtResource("35_2vs3w")
 
 [node name="PowerIconGrowPoint" type="Node2D" parent="Sprite"]
 position = Vector2(19, 20)
+
+[node name="StatusIconShrinkPoint" type="Node2D" parent="Sprite"]
+position = Vector2(20, -5)
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
 watched = NodePath("../TetrobolClickbox")

@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgk78eq0gf27h"]
+
+[ext_resource type="Texture2D" uid="uid://osmuebsyxiq" path="res://assets/icons/status/lucky_icon.png" id="1_087qa"]
+[ext_resource type="Script" path="res://particles/oneshot_particle.gd" id="2_4w061"]
+
+[sub_resource type="Gradient" id="Gradient_csasi"]
+offsets = PackedFloat32Array(0, 0.409091, 0.789141, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m37g1"]
+gradient = SubResource("Gradient_csasi")
+
+[sub_resource type="Curve" id="Curve_fnm1i"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(0.75, 1.03915), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lalpq"]
+curve = SubResource("Curve_fnm1i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cwpts"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_lalpq")
+color_ramp = SubResource("GradientTexture1D_m37g1")
+
+[node name="IconShrink" type="GPUParticles2D"]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_cwpts")
+texture = ExtResource("1_087qa")
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+local_coords = true
+script = ExtResource("2_4w061")
