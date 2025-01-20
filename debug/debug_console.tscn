@@ -1,18 +1,60 @@
-[gd_scene load_steps=3 format=3 uid="uid://coxrexwj3ljyb"]
+[gd_scene load_steps=4 format=3 uid="uid://coxrexwj3ljyb"]
 
 [ext_resource type="FontFile" uid="uid://bd2gns5j8fooy" path="res://assets/fonts/m5x7.ttf" id="1_igrf4"]
 [ext_resource type="Script" path="res://debug/debug_console.gd" id="1_uqlvl"]
+[ext_resource type="Script" path="res://debug/show_hide_children_button.gd" id="3_twslc"]
 
 [node name="DebugConsole" type="LineEdit"]
 process_mode = 3
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 312.0
-offset_bottom = 29.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 242.0
+offset_bottom = 25.0
 theme_override_fonts/font = ExtResource("1_igrf4")
 theme_override_font_sizes/font_size = 16
 placeholder_text = "DEBUG - close by pressing ` or ~"
 script = ExtResource("1_uqlvl")
+
+[node name="OpenHelp" type="Button" parent="."]
+layout_mode = 0
+offset_left = 241.0
+offset_right = 308.0
+offset_bottom = 21.0
+text = "Toggle Help"
+script = ExtResource("3_twslc")
+
+[node name="ColorRect" type="ColorRect" parent="OpenHelp"]
+layout_mode = 0
+offset_left = -240.0
+offset_top = 26.0
+offset_right = 66.0
+offset_bottom = 170.0
+color = Color(0.12549, 0.12549, 0.12549, 0.921569)
+
+[node name="Help" type="RichTextLabel" parent="OpenHelp"]
+layout_mode = 0
+offset_left = -237.0
+offset_top = 26.0
+offset_right = 66.0
+offset_bottom = 169.0
+bbcode_enabled = true
+text = "[center]Commands (scrollbar on right):[/center]
+souls [x]  - Gain x souls
+lives [x]  - Gain x life
+arrows [x]  - Gain x arrows
+
+coin [god]  - get coin of god (\"coin coin\" for generic)
+spawn [monster]  - spawn monster (or trial)
+patron [god]  - patron becomes god
+
+clear - clears row
+kill         exit                r - repeats last command
+
+Shorthand works for names (ex: \"coin ap\" will find the first coin starting with ap, which is Apollo.)
+
+Nothing is case sensitive. 
+
+Use at your own peril (can cause game crash if you make weird situations)"
 
 [connection signal="debug_console_closed" from="." to="." method="_on_debug_console_closed"]
 [connection signal="debug_console_opened" from="." to="." method="_on_debug_console_opened"]

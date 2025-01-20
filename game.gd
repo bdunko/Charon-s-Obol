@@ -1811,14 +1811,15 @@ func _on_coin_clicked(coin: Coin):
 						return
 					coin.make_lucky()
 				Global.PATRON_POWER_FAMILY_HADES:
-					if row == _COIN_ROW and _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
+					if row == _ENEMY_COIN_ROW:
+						_DIALOGUE.show_dialogue("Can't destroy that...")
+						return
+					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
-					if row == _COIN_ROW:
-						_heal_life(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
-						_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
-					for i in range(0, 3):
-						downgrade_coin(coin)
+					destroy_coin(coin)
+					_heal_life(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
+					_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 			coin.play_power_used_effect(Global.active_coin_power_family)
 			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1

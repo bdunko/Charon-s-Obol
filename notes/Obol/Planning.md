@@ -6,8 +6,7 @@
 				- [ ] **Particles**
 					- [ ] **Initial particle additions.**
 						- [ ] Coins
-							- [ ] Should instantiate a new copy of the particle every time it is needed and queue free on completion. This way we can have overlapping if needed. Attach to Sprite with given position.
-							- [ ] Need to use particles for status effects. 
+							- [ ] Status effect particles
 						- [ ] Extra
 							- [ ] After a flip ends, play dust effect with EruptOutRing
 							- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
