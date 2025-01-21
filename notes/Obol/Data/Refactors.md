@@ -5,7 +5,7 @@
 	- [ ] Updated Godot engine version - should improve web performance.
 	- [ ] Run the profiler for a run and look for any obvious fixes.
 
-- [ ] Particle GLobal
+- [ ] Particle Global
 	- [ ] Create autoload singleton Particles
 	- [ ] Move the partcile scenes from inside coin to here. 
 	- [ ] Allow requesting a oneshot particle given a texture for it.

@@ -1,15 +1,58 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-
-
-
+	- [ ] **Bugs**
+		- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
+	- [ ] **Difficulty levels**
+		- [ ] Charon will unleash his Malice.
+		- [ ] Trials have two modifiers. 
+		- [ ] Tollgates are more expensive.
+		- [ ] The Nemesis is more powerful.
+		- [ ] Additional scaling options (stakes?)
+			- [ ] Tails chance
+			- [ ] Shop prices
+			- [ ] Tollgate prices
+			- [ ] Monster costs
+			- [ ] Life penalties
+			- [ ] Strain
+	- [ ] **Charon's Malice**
+		- [ ] Hands hovering over board.
+		- [ ] Activates on a cycle every so foten.
+		- [ ] Graphical effects (glowing hands etc) to
+		- [ ] **Malice Effects**
+			- [ ] Turn all payoffs to tails
+			- [ ] Turn half powers to tails
+			- [ ] Reflip all coins
+			- [ ] Drain power charges
+			- [ ] Curse a coin
+			- [ ] Unlucky a coin
+			- [ ] Ignite a coin
+			- [ ] Freeze coins on tails
+			- [ ] Clear positive statuses
+			- [ ] Summon a monster
+			- [ ] Blank a coin
+			- [ ] Increase tails penalty
+			- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
+		- [ ] Sap - Coin does not naturally recharge each toss.
+		- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+		- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+	- [ ] **Enhanced Monster Effects**
+		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
+		- [ ] Add projectiles for monster coins targetting coins in player's row. 
+			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+			- [ ] Just need to await for it to finish
+				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count.
 - [ ] **Stretch Goals**
+	- [ ] **Patron Revamp Feedback**
+		- [ ] Demeter might be a bit too strong, consider nerfing a bit? I don't want to nerf the active, so the passive might need a bit. Or, we can nerf the Demeter coin slightly (but is this really a problem?). Or tighten strain clamp.
+		- [ ] Hephaestus - change to "You may upgrade your coins an additional two times"
+			- [ ] Add Pentobol and Drachma
 	- [ ] **Graphical Improvements**
 		- [ ] **Filters for the patron selection and main scenes.**
-			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything
 		- [ ] **Unlock Improvements**
 			- [ ] Transitions between unlocks. Transitions between unlock ending and main menu
 			- [ ] Can probably have falling coins in the background via particles
+			- [ ] Lots of particles!!! Rising particles! Sparkle particles! So much particles!
 			- [ ] Add an additional space for 'advice' with each coin unlocked and character.
 				- [ ] Apollo - explain curse and bless.
 				- [ ] Artemis - explain arrows.
@@ -31,9 +74,6 @@
 		- [ ] Map should use icons from trials and boss instead of just generic T and purple skull. Also would be nice to fit in a special 'miniboss' round for the first time an Elite spawns.
 
 
-**Bugs**
-- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
-
 **Fruits**
 - [ ] Choose coins to add to update.
 - [ ] Choose bosses to add to update.
@@ -47,32 +87,6 @@
 	- [ ] The Idealist
 
 **Charon's Obol Beta - Coalescence**
-- [ ] **Difficulty levels - Feb 2nd**
-	- [ ] Charon will unleash his Malice.
-	- [ ] Trials have 2 modifiers.  Tollgates are more expensive.
-	- [ ] Monsters are stronger. The Nemesis is more powerful.
-	- [ ] (infinite scaling) 5% more likely to land on tails (configurable with arrows; max increases by 2% on victory.)
-- [ ] **Charon's Malice - Feb 2nd**
-	- [ ] Hands hovering over board.
-	- [ ] Activates on a cycle every so foten.
-	- [ ] Graphical effects (glowing hands etc) to
-	- [ ] **Malice Effects**
-		- [ ] Turn all payoffs to tails
-		- [ ] Turn half powers to tails
-		- [ ] Reflip all coins
-		- [ ] Drain power charges
-		- [ ] Curse a coin
-		- [ ] Unlucky a coin
-		- [ ] Ignite a coin
-		- [ ] Freeze coins on tails
-		- [ ] Clear positive statuses
-		- [ ] Summon a monster
-		- [ ] Blank a coin
-		- [ ] Increase tails penalty
-		- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
-	- [ ] Sap - Coin does not naturally recharge each toss.
-	- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
-	- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
 - [ ] **Coin Graphical Effects - Feb 16th**
 - [ ] **Increase Coin Limit & Other Refactors Feb 23rd**
 	- [ ] **Coin Limit Increase**

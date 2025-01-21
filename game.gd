@@ -122,7 +122,7 @@ func _tutorial_show(item: CanvasItem):
 var river_color_index = 0
 var _RIVER_COLORS = [River.ColorStyle.PURPLE, River.ColorStyle.GREEN, River.ColorStyle.RED]
 
-const SOUL_TO_LIFE_CONVERSION_RATE = 3.0
+const SOUL_TO_LIFE_CONVERSION_RATE = 5.0
 
 func _ready() -> void:
 	assert(_COIN_ROW)
@@ -2208,7 +2208,7 @@ func _on_patron_token_clicked():
 								Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + bonus_arrows)
 								boons += 1
 						8: # blank a monster
-							if _ENEMY_COIN_ROW.get_child_count() != 0:
+							if not Global.is_current_round_trial() and _ENEMY_COIN_ROW.get_child_count() != 0:
 								for coin in Global.choose_x(_ENEMY_COIN_ROW.get_children(), Global.RNG.randi_range(1, 2)):
 									coin.blank()
 									coin.play_power_used_effect(Global.patron.power_family)
@@ -2228,7 +2228,7 @@ func _on_patron_token_clicked():
 							boons += 1
 						11: # recharge coins
 							var rechargable = _COIN_ROW.get_filtered(CoinRow.FILTER_RECHARGABLE)
-							if rechargable.size() >= 2:
+							if rechargable.size() >= 3:
 								for i in Global.RNG.randi_range(2, 4):
 									var coin = Global.choose_one(rechargable)
 									coin.recharge_power_uses_by(1)
