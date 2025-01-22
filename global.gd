@@ -49,7 +49,7 @@ class CharacterData:
 		self.victoryClosingLine = victoryClosingLn
 
 enum Character {
-	ELEUSINIAN, LADY
+	ELEUSINIAN, LADY, MERCHANT
 }
 
 enum TutorialState {
@@ -113,6 +113,16 @@ var CHARACTERS = {
 	Character.ELEUSINIAN : CharacterData.new(1, Global.Character.ELEUSINIAN, "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
 		"The standard game.\nSurvive Trials, Tollgates, and a Nemesis to win.",
+		["The birds are singing.", 
+		"The sun is shining.",
+		"People parade through the streets.",
+		"All is at peace in the world.",
+		"For with [color=springgreen]her[/color] return..."], 
+		"...[color=springgreen]spring[/color] has come again."),
+	
+	Character.MERCHANT : CharacterData.new(2, Global.Character.MERCHANT, "[color=gold]The Merchant[/color]", \
+		"\"Virtue does not come from [color=gold]wealth[/color], but [color=gold]wealth[/color], and every other good thing which men have comes from virtue.\"\n-Socrates",
+		"Coins may be sold back to the Shop.\nCoins cannot be upgraded in the Shop.",
 		["The birds are singing.", 
 		"The sun is shining.",
 		"People parade through the streets.",
@@ -1530,7 +1540,8 @@ var _save_dict = {
 	},
 	_SAVE_CHAR_KEY : {
 		CHARACTERS[Character.LADY].id : true,
-		CHARACTERS[Character.ELEUSINIAN].id : false
+		CHARACTERS[Character.ELEUSINIAN].id : false,
+		CHARACTERS[Character.MERCHANT].id : false
 	}
 }
 
@@ -1549,9 +1560,13 @@ func unlock_all() -> void:
 		unlock_character(chara)
 
 func is_coin_unlocked(coin: CoinFamily) -> bool:
+	#if not _save_dict[_SAVE_COIN_KEY].has(coin.id):
+	#	return false
 	return _save_dict[_SAVE_COIN_KEY][coin.id]
 
 func is_character_unlocked(chara: Character) -> bool:
+	#if not _save_dict[_SAVE_CHAR_KEY].has(CHARACTERS[chara].id):
+	#	return false
 	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id]
 
 func load_save() -> void:

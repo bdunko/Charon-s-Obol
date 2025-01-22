@@ -91,6 +91,7 @@
 	- [ ] Same thing but only with payoff coins and you don't keep them, so random powers each round basically.
 - [ ] Puzzle mode - Given a set of coins and life, go for the souls highscore. Mutliple preset puzzles with highscore tracking.
 - [ ] Wounded - Your life saps away in real time.
+	- [ ] Monsters and Nemesis also activate in real time. Charon activates malice in real time. (timers are visible for monsters; all monsters activate after X time then it resets - it is an interrupt)
 - [ ] ??? - Only one coin available in the shop at a time. Rerolls are free, but limited in number.
 - [ ] ??? - You gain souls for each unspent power on a heads coin. No payoff coins. Start with a random power coin.
 - [ ] ??? - Soul quota per round. No tollgates, Limited and set number of souls in each shop (balattro style upgrade).

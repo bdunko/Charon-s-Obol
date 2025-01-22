@@ -918,7 +918,7 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 		_MAP_BLOCKER.show()
 	_VOYAGE_MAP.set_closeable(closeable)
 	await map_display_tween.finished
-	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during_ anim...
+	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during anim...
 		_map_is_disabled = false
 
 func _hide_voyage_map() -> void:
@@ -1632,17 +1632,6 @@ func _enable_interaction_coins_and_patron() -> void:
 func _on_coin_clicked(coin: Coin):
 	if _DIALOGUE.is_waiting() or _tutorial_fading:
 		return
-	
-	# if we're in the shop, sell this coin
-	# if Global.state == Global.State.SHOP:
-	#	# don't sell if this is the last coin
-	#	if _COIN_ROW.get_child_count() == 1:
-	#		_DIALOGUE.show_dialogue("Can't sell last coin!")
-	#		return
-	#	Global.souls += coin.get_sell_price()
-	#	_COIN_ROW.remove_child(coin)
-	#	coin.queue_free()
-	#	return
 
 	if Global.state == Global.State.TOLLGATE:
 		# if this coin cannot be offered at a toll, error message and return
@@ -1668,6 +1657,16 @@ func _on_coin_clicked(coin: Coin):
 		# prevent upgrading Zeus coin as first upgrade
 		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE and coin.is_power():
 			_DIALOGUE.show_dialogue("Click the other coin.")
+			return
+		
+		# if we're in the shop, sell this coin
+		if Global.is_character(Global.Character.MERCHANT):
+			# don't sell if this is the last coin
+			if _COIN_ROW.get_child_count() == 1:
+				_DIALOGUE.show_dialogue("Can't sell last coin...")
+				return
+			_earn_souls(coin.get_sell_price())
+			destroy_coin(coin)
 			return
 		
 		if not coin.can_upgrade():
@@ -2068,7 +2067,10 @@ func _on_patron_token_clicked():
 		return
 	
 	if not _patron_token.can_activate():
-		_DIALOGUE.show_dialogue("No more assistance!")
+		if Global.patron_uses > 0:
+			_DIALOGUE.show_dialogue("Only once per toss...")
+		else:
+			_DIALOGUE.show_dialogue("No more aid!")
 		return
 	
 	if _patron_token.is_activated():

@@ -1,12 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
+	- [ ] **Early**
+		- [ ] Merchant
+		- [ ] Slight reward for overdonating at tollgate (souls)
 	- [ ] **Bugs**
 		- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
 	- [ ] **Difficulty levels**
 		- [ ] Charon will unleash his Malice.
-		- [ ] Trials have two modifiers. 
-		- [ ] Tollgates are more expensive.
-		- [ ] The Nemesis is more powerful.
+		- [ ] Trials have two modifiers and higher quotas.
+		- [ ] Shops and tollgates are more expensive.
+		- [ ] Monsters and the Nemesis are more powerful.
 		- [ ] Additional scaling options (stakes?)
 			- [ ] Tails chance
 			- [ ] Shop prices

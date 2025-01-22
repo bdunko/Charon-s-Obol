@@ -166,7 +166,7 @@ func _update_face_label() -> void:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION 
 
 const _BUY_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
-const _UPGRADE_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
+const _UPGRADE_SELL_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center](SOULS)"
 const _TOLL_FORMAT = "[center]%d[/center](COIN)"
 func _update_price_label() -> void:
@@ -175,9 +175,17 @@ func _update_price_label() -> void:
 		if _owner == Owner.PLAYER and not can_upgrade():
 			_PRICE.text = ""
 			return
-		var price = get_upgrade_price() if _owner == Owner.PLAYER else get_store_price()
-		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
-		_PRICE.text = Global.replace_placeholders((_UPGRADE_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price])
+		
+		var price
+		var color
+		if _owner == Owner.PLAYER:
+			price = get_sell_price() if Global.is_character(Global.Character.MERCHANT) else get_upgrade_price()
+			color = AFFORDABLE_COLOR if Global.is_character(Global.Character.MERCHANT) or Global.souls >= price else UNAFFORDABLE_COLOR
+		else:
+			price = get_store_price()
+			color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
+		
+		_PRICE.text = Global.replace_placeholders((_UPGRADE_SELL_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price])
 		
 		# hide upgrade label during some parts of tutorial
 		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
@@ -448,8 +456,7 @@ func get_upgrade_price() -> int:
 	return 1000000
 
 func get_sell_price() -> int:
-	#breakpoint #deprecated for now
-	return max(1, int(get_store_price()/3.0))
+	return max(1, int(get_store_price()/2.0))
 
 func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
