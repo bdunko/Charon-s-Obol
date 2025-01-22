@@ -172,7 +172,7 @@ const _TOLL_FORMAT = "[center]%d[/center](COIN)"
 func _update_price_label() -> void:
 	if Global.state == Global.State.SHOP:
 		# special case - can't upgrade further, show nothing
-		if _owner == Owner.PLAYER and not can_upgrade():
+		if _owner == Owner.PLAYER and not can_upgrade() and not Global.is_character(Global.Character.MERCHANT):
 			_PRICE.text = ""
 			return
 		
@@ -456,7 +456,7 @@ func get_upgrade_price() -> int:
 	return 1000000
 
 func get_sell_price() -> int:
-	return max(1, int(get_store_price()/2.0))
+	return max(1, ceil(get_store_price()/3.0))
 
 func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:

@@ -1,8 +1,5 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-	- [ ] **Early**
-		- [ ] Merchant
-		- [ ] Slight reward for overdonating at tollgate (souls)
 	- [ ] **Bugs**
 		- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
 	- [ ] **Difficulty levels**

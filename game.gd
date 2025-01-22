@@ -470,6 +470,7 @@ func _on_flip_complete() -> void:
 	if Global.state == Global.State.AFTER_FLIP:
 		if flips_pending == 0:
 			_PLAYER_TEXTBOXES.make_visible()
+			_map_is_disabled = false
 			
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
 				_LEFT_HAND.unlock()
@@ -894,11 +895,9 @@ func _on_accept_button_pressed():
 	_DIALOGUE.show_dialogue("Will you toss the coins...?")
 
 func _wait_for_dialogue(dialogue: String) -> void:
-	_map_is_disabled = true
 	_PLAYER_TEXTBOXES.make_invisible()
 	await _DIALOGUE.show_dialogue_and_wait(dialogue)
 	_PLAYER_TEXTBOXES.make_visible()
-	_map_is_disabled = false
 
 const _MAP_ACTIVE_Z_INDEX = 2001
 func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
@@ -918,8 +917,7 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 		_MAP_BLOCKER.show()
 	_VOYAGE_MAP.set_closeable(closeable)
 	await map_display_tween.finished
-	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during anim...
-		_map_is_disabled = false
+	_map_is_disabled = false
 
 func _hide_voyage_map() -> void:
 	_map_open = false
@@ -931,19 +929,15 @@ func _hide_voyage_map() -> void:
 	_MAP_BLOCKER.hide()
 	_PLAYER_TEXTBOXES.make_visible()
 	await map_hide_tween.finished
-	if not _DIALOGUE.is_waiting(): #handle case where we close the map automatically then have dialogue start during anim...
-		_map_is_disabled = false
+	_map_is_disabled = false
 	_VOYAGE_MAP.z_index = 0
 	_enable_interaction_coins_and_patron()
 
 func _on_voyage_map_clicked():
-	print("clicked map")
 	var no_map_states = [Global.TutorialState.ROUND2_POWER_USED, Global.TutorialState.ROUND2_POWER_UNUSABLE, Global.TutorialState.ROUND3_PATRON_USED]
 	if Global.tutorialState in no_map_states:
 		return
-	if _map_is_disabled or _map_open:
-		print(_map_is_disabled)
-		print(_map_open)
+	if _map_is_disabled or _map_open or _tutorial_fading or _DIALOGUE.is_waiting():
 		return
 	_show_voyage_map(true, true)
 
@@ -1464,6 +1458,8 @@ func _enable_or_disable_end_round_textbox() -> void:
 var victory = false
 func _on_pay_toll_button_clicked():
 	if _toll_price_remaining() == 0:
+		
+		var overpay = Global.current_round_toll() - Global.calculate_toll_coin_value()
 		# delete each of the coins used to pay the toll
 		for coin in Global.toll_coins_offered:
 			destroy_coin(coin)
@@ -1483,6 +1479,9 @@ func _on_pay_toll_button_clicked():
 			await _wait_for_dialogue("A shame. Goodbye.")
 			_on_die_button_clicked()
 			return
+		
+		if overpay != 0:
+			pass #we might do something here someday... or maybe not
 		
 		# now move the boat forward...
 		_advance_round()
