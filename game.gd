@@ -1200,13 +1200,20 @@ func _on_end_round_button_pressed():
 func _hand_point_for_coin(coin: Coin) -> Vector2:
 	return coin.global_position + Vector2(20, 0)
 
-func _on_shop_coin_hovered(coin: Coin) -> void:
+func _on_coin_hovered(coin: Coin) -> void:
+	# hovering coin in shop updates mouse cursor, and if shop coin, charon points
 	if not _map_open and Global.state == Global.State.SHOP:
-		_LEFT_HAND.point_at(_hand_point_for_coin(coin))
+		if coin.is_owned_by_player():
+			Global.set_custom_mouse_cursor_to_icon("res://assets/icons/ui/sell.png" if Global.is_character(Global.Character.MERCHANT) else "res://assets/icons/ui/upgrade.png")
+		else:
+			Global.set_custom_mouse_cursor_to_icon("res://assets/icons/ui/buy.png")
+			_LEFT_HAND.point_at(_hand_point_for_coin(coin))
 
-func _on_shop_coin_unhovered(_coin: Coin) -> void:
+func _on_coin_unhovered(coin: Coin) -> void:
 	if Global.state == Global.State.SHOP:
-		_LEFT_HAND.move_to_retracted_position()
+		Global.clear_custom_mouse_cursor()
+		if not coin.is_owned_by_player(): #if shop coin
+			_LEFT_HAND.move_to_retracted_position()
 
 func _toll_price_remaining() -> int:
 	return max(0, Global.current_round_toll() - Global.calculate_toll_coin_value())
@@ -1532,9 +1539,9 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 		return
 	
 	# disconnect charon hand signals
-	coin.hovered.disconnect(_on_shop_coin_hovered)
-	coin.unhovered.disconnect(_on_shop_coin_unhovered)
-	_on_shop_coin_unhovered(coin)
+	coin.hovered.disconnect(_on_coin_hovered)
+	coin.unhovered.disconnect(_on_coin_unhovered)
+	_on_coin_unhovered(coin)
 	
 	_gain_coin_from_shop(coin) # move coin to player row
 	_SHOP.purchase_coin(coin) # charge the shop
@@ -1550,6 +1557,8 @@ func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.De
 	var new_coin: Coin = _COIN_SCENE.instantiate()
 	new_coin.clicked.connect(_on_coin_clicked)
 	new_coin.flip_complete.connect(_on_flip_complete)
+	new_coin.hovered.connect(_on_coin_hovered)
+	new_coin.unhovered.connect(_on_coin_unhovered)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.global_position = initial_position
 	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
@@ -2293,5 +2302,5 @@ func randomize_and_show_shop() -> void:
 	
 	# connect each shop coin to charon hand for hovering...
 	for coin in _SHOP_COIN_ROW.get_children():
-		coin.unhovered.connect(_on_shop_coin_unhovered)
-		coin.hovered.connect(_on_shop_coin_hovered)
+		coin.unhovered.connect(_on_coin_unhovered)
+		coin.hovered.connect(_on_coin_hovered)

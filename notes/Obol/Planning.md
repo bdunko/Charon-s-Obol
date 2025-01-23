@@ -1,46 +1,38 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-	- [ ] **Bugs**
-		- [ ] Noticed a bug where I could not open voyage map while in shop. Keep an eye on this. I left debug prints in map for now.
-	- [ ] **Difficulty levels**
-		- [ ] Charon will unleash his Malice.
-		- [ ] Trials have two modifiers and higher quotas.
-		- [ ] Shops and tollgates are more expensive.
-		- [ ] Monsters and the Nemesis are more powerful.
-		- [ ] Additional scaling options (stakes?)
-			- [ ] Tails chance
-			- [ ] Shop prices
-			- [ ] Tollgate prices
-			- [ ] Monster costs
-			- [ ] Life penalties
-			- [ ] Strain
-	- [ ] **Charon's Malice**
-		- [ ] Hands hovering over board.
-		- [ ] Activates on a cycle every so foten.
-		- [ ] Graphical effects (glowing hands etc) to
-		- [ ] **Malice Effects**
-			- [ ] Turn all payoffs to tails
-			- [ ] Turn half powers to tails
-			- [ ] Reflip all coins
-			- [ ] Drain power charges
-			- [ ] Curse a coin
-			- [ ] Unlucky a coin
-			- [ ] Ignite a coin
-			- [ ] Freeze coins on tails
-			- [ ] Clear positive statuses
-			- [ ] Summon a monster
-			- [ ] Blank a coin
-			- [ ] Increase tails penalty
-			- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
-		- [ ] Sap - Coin does not naturally recharge each toss.
-		- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
-		- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-	- [ ] **Enhanced Monster Effects**
-		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
-		- [ ] Add projectiles for monster coins targetting coins in player's row. 
-			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-			- [ ] Just need to await for it to finish
-				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count.
+	- [ ] **Merchant Experiment**
+		- [ ] Define a series of difficulty modifiers in one global place, so I can tune things more quickly. 
+			- [ ] Life penalty modifier (+/-)
+			- [ ] Soul payoff modifier (+/-)
+			- [ ] Shop price multiplier.
+			- [ ] Shop base addition.
+			- [ ] Strain levels (array 3)
+			- [ ] Monster price modifier (multiplier)
+			- [ ] Tollgate modifier (+/- cost)
+		- [ ] Allow difficulty modifiers to apply per character.
+		- [ ] Price multipliers need to be per shop? This allows me to create a nonlinear curve.
+			- [ ] This seems particularly important given how big the income jump from round 1 -> round 2 is
+			- [ ] Rounds after tollgates can be slightly cheaper.
+				- [ ] Implementation therefore needs to be linked to the map. Define a bunch of constant numbers.
+		- [ ] Play at least 5 runs with the Merchant and balance him some.
+		- [ ] **Ideas to Play With**
+			- [ ] Play with increasing strain further/faster. Maybe clamp even harder on the exponential part (start 1 round faster?)
+			- [ ] Rounds after tollgates should be a bit easier. Monsters should be weaker on these rounds (or fewer in number)
+	- [ ] **Increase Coin Limit to 10**
+		- [ ] **Coin Limit Increase**
+			- [ ] Goal - 10 coins.
+				- [ ] Coins need to cap at diobol size. 
+				- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
+					- [ ] Obol - keep
+					- [ ] Diobol - 1 larger on bottom?
+					- [ ] Triobol - replace with current diobol
+					- [ ] Tetrobol - triobol 1 larger on bottom?
+			- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
+			- [ ] Move price label down as well to make more space.
+			- [ ] Move shop, enemy row, and hands down with extra space.
+			- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
+			- [ ] Possibly remove a few pixels from the cloth playmat.
+			- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
 - [ ] **Stretch Goals**
 	- [ ] **Patron Revamp Feedback**
 		- [ ] Demeter might be a bit too strong, consider nerfing a bit? I don't want to nerf the active, so the passive might need a bit. Or, we can nerf the Demeter coin slightly (but is this really a problem?). Or tighten strain clamp.
@@ -73,55 +65,65 @@
 			- [ ] maybe can steal this implementation from MonScript (script editor definitely had a popup thingy)
 		- [ ] Map should use icons from trials and boss instead of just generic T and purple skull. Also would be nice to fit in a special 'miniboss' round for the first time an Elite spawns.
 
-
-**Fruits**
-- [ ] Choose coins to add to update.
-- [ ] Choose bosses to add to update.
-- [ ] Choose monsters to add to update.
-- [ ] Choose characters to add to update.
-	- [ ] The Archon
-	- [ ] The Merchant
-	- [ ] The Gardener
-	- [ ] The Sickly
-	- [ ] The Hoplite
-	- [ ] The Idealist
-
 **Charon's Obol Beta - Coalescence**
-- [ ] **Coin Graphical Effects - Feb 16th**
-- [ ] **Increase Coin Limit & Other Refactors Feb 23rd**
-	- [ ] **Coin Limit Increase**
-		- [ ] Goal - 10 coins.
-			- [ ] Coins need to cap at diobol size. 
-			- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
-				- [ ] Obol - keep
-				- [ ] Diobol - 1 larger on bottom?
-				- [ ] Triobol - replace with current diobol
-				- [ ] Tetrobol - triobol 1 larger on bottom?
-		- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
-		- [ ] Move price label down as well to make more space.
-		- [ ] Move shop, enemy row, and hands down with extra space.
-		- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
-		- [ ] Possibly remove a few pixels from the cloth playmat.
-		- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
-	- [ ] **Additional Refactors**
-		- [ ] Separate out Global.gd into multiple files.
-			- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
-		- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
-		- [ ] Cleanup coin.gd in the same way.
-		- [ ] **Coin Power Refactor**
-			- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife. 
-				- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
-				- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
-				- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
-			- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
-- [ ] **More Content - Mar 16th**
+- [ ] **Difficulty levels**
+	- [ ] Charon will unleash his Malice.
+	- [ ] Trials have two modifiers and higher quotas.
+	- [ ] Shops and tollgates are more expensive.
+	- [ ] Monsters and the Nemesis are more powerful.
+	- [ ] Additional scaling options (stakes?)
+		- [ ] Tails chance
+		- [ ] Shop prices
+		- [ ] Tollgate prices
+		- [ ] Monster costs
+		- [ ] Life penalties
+		- [ ] Strain
+	- [ ] **Charon's Malice**
+		- [ ] Hands hovering over board.
+		- [ ] Activates on a cycle every so foten.
+		- [ ] Graphical effects (glowing hands etc) to
+		- [ ] **Malice Effects**
+			- [ ] Turn all payoffs to tails
+			- [ ] Turn half powers to tails
+			- [ ] Reflip all coins
+			- [ ] Drain power charges
+			- [ ] Curse a coin
+			- [ ] Unlucky a coin
+			- [ ] Ignite a coin
+			- [ ] Freeze coins on tails
+			- [ ] Clear positive statuses
+			- [ ] Summon a monster
+			- [ ] Blank a coin
+			- [ ] Increase tails penalty
+			- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
+		- [ ] Sap - Coin does not naturally recharge each toss.
+		- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+		- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+	- [ ] **Enhanced Monster Effects**
+		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
+		- [ ] Add projectiles for monster coins targetting coins in player's row. 
+			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+			- [ ] Just need to await for it to finish
+				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count.
+- [ ] **Coin Graphical Effects**
+- [ ] **More Content**
 	- [ ] **New bosses**
 	- [ ] **More Monsters**
 	- [ ] **More Coins**
 	- [ ] **More Characters**
 	- [ ] **Steady Unlocks** + **Unlocks for each character & nemesis**
-- [ ] **Basic Sound - March 30th**
-
+- [ ] **Basic Sound
+- [ ] **Additional Refactors**
+	- [ ] Separate out Global.gd into multiple files.
+		- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
+	- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
+	- [ ] Cleanup coin.gd in the same way.
+	- [ ] **Coin Power Refactor**
+		- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife. 
+			- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
+			- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
+			- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
+		- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
 
 **Charon's Obol Release**
 - [ ] **Settings menu**

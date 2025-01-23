@@ -11,27 +11,21 @@
 - [ ] "Zoom out" camera transition to table after the zoom in to patron scene.
 - [ ] Play with checkerboard full screen effect with light.
 - [ ] Bug - clicking and then moving away then releasing still triggers the button 
-- [ ] Art - Change river color after tollgates, and also apply a slight tint to the entire screen accordingly.
 - [ ] Art - Since the NUMBER does not change on Artemis/Demeter/Hades upgrades, perhaps change the ICON to indicate the power is stronger as well? Just minor graphical effect such as fancy pixels around the edges n stuff; maybe multiple arrows for Artemis or whatever.
 - [ ] FX - Lighting effects (experiment with)
 - [ ] FX - Rising text from payoffs (- souls, + souls, - life, etc)
 - [ ] FX - Red flash when taking damage
 - [ ] FX - Black vignette heartbeat when lower on health
 - [ ] FX - Particles
-	- [ ] Particle effect on mouse when ability is active.
-		- [ ] Doesn't work great - but possibly, we can have multiple custom mouse cursors and change them as needed? Maybe even change into the icon of the ability?
 	- [ ] Death particle effect.
-	- [ ] Initial particle effect when new status applied to coins.
 	- [ ] Trail for souls, life, and purchased coins?
 	- [ ] Trail for coins moving to hands/toss.
 	- [ ] Effect when a coin is tossed or lands
-	- [ ] Screen particle effect in the wind over board
 - [ ] Toggle for tooltips. (toggle on/off tooltips as a hotkey and clickable button)
 
 - [ ] Code - Change text color if not original number on numbers in coin tooltip (light blue = modified)
 
 - [ ] Graphics - River scrolls during voyage.
-	- [ ] River animation in general
 - [ ] Graphics - Pile of life/souls should be in a circular pile instead of square.
 - [ ] Graphics - Coin shadows
 - [ ] Graphics - Skeletal hand shadows. 
@@ -47,5 +41,4 @@
 	- [ ] Color filter for between tosses?
 	- [ ] Coin label text is gray instead of white between tosses.
 - [ ] Animated icons for coin powers - flashing eyes for monsters for ex - only animate when active.
-- [ ] Individual coin arts for each family of coin (ie a Zeus coin, Hermes coin, Hera coin...)
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect

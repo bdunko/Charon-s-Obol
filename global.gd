@@ -293,23 +293,28 @@ var active_coin_power_family: PowerFamily:
 		
 		# update mouse cursor
 		if active_coin_power_family == null:
-			Input.set_custom_mouse_cursor(null)
+			clear_custom_mouse_cursor()
 		else:
-			var img: Image = load(active_coin_power_family.icon_path).get_image()
-			assert(img is Image)
-			# remove the leftmost y... this is a transparent column used for spacing the img; don't need for curso
-			img = img.get_region(Rect2(Vector2i(1, 0), img.get_size() - Vector2i(1, 0)))
-			# resize it up a bit... starts at 9x13; resize this by 5x or so
-			img.resize(img.get_width() * 5, img.get_height() * 5, Image.INTERPOLATE_NEAREST)
-			Input.set_custom_mouse_cursor(ImageTexture.create_from_image(img), Input.CURSOR_ARROW, img.get_size() / 2.0)
-		
+			set_custom_mouse_cursor_to_icon(active_coin_power_family.icon_path)
 		emit_signal("active_coin_power_family_changed")
 		#if val == null: #should not be necessary...
 		#	active_coin_power_coin = null
 
-const COIN_LIMIT = 8
-
+const COIN_LIMIT = 10
 var COIN_ROWS: Array
+
+# note - this trims off a pixel on the left since that's the format for our icons. Keep this in mind...
+func set_custom_mouse_cursor_to_icon(icon_path: String) -> void:
+	var img: Image = load(icon_path).get_image()
+	assert(img is Image)
+	# remove the leftmost y... this is a transparent column used for spacing the img; don't need for cursor
+	img = img.get_region(Rect2(Vector2i(1, 0), img.get_size() - Vector2i(1, 0)))
+	# resize it up a bit... starts at 9x13; resize this by 5x or so
+	img.resize(img.get_width() * 5, img.get_height() * 5, Image.INTERPOLATE_NEAREST)
+	Input.set_custom_mouse_cursor(ImageTexture.create_from_image(img), Input.CURSOR_ARROW, img.get_size() / 2.0)
+
+func clear_custom_mouse_cursor() -> void:
+	Input.set_custom_mouse_cursor(null)
 
 func triangular(i: int) -> int:
 	@warning_ignore("integer_division")
