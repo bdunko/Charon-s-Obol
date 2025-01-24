@@ -411,8 +411,6 @@ func on_start() -> void: #reset
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
-	Global.shop_price_multiplier = Global.DEFAULT_SHOP_PRICE_MULTIPLIER
-	Global.shop_price_flat_increase = Global.DEFAULT_SHOP_PRICE_FLAT_INCREASE
 	
 	#debug
 	#Global.souls = 2000
@@ -1079,10 +1077,6 @@ func _on_continue_button_pressed():
 			await _tutorial_fade_out()
 
 	await _advance_round()
-	
-	# increase the shop costs
-	Global.shop_price_multiplier += Global.SHOP_MULTIPLIER_INCREASE
-	Global.shop_price_flat_increase += Global.SHOP_FLAT_INCREASE
 
 func _on_end_round_button_pressed():
 	assert(Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP)

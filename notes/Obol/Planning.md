@@ -4,20 +4,17 @@
 		- [ ] Define a series of difficulty modifiers in one global place, so I can tune things more quickly. 
 			- [ ] Life penalty modifier (+/-)
 			- [ ] Soul payoff modifier (+/-)
-			- [ ] Shop price multiplier.
-			- [ ] Shop base addition.
 			- [ ] Strain levels (array 3)
-			- [ ] Monster price modifier (multiplier)
+			- [ ] Monster prices - array
+			- [ ] Standard life loss - array
 			- [ ] Tollgate modifier (+/- cost)
 		- [ ] Allow difficulty modifiers to apply per character.
-		- [ ] Price multipliers need to be per shop? This allows me to create a nonlinear curve.
-			- [ ] This seems particularly important given how big the income jump from round 1 -> round 2 is
-			- [ ] Rounds after tollgates can be slightly cheaper.
-				- [ ] Implementation therefore needs to be linked to the map. Define a bunch of constant numbers.
 		- [ ] Play at least 5 runs with the Merchant and balance him some.
 		- [ ] **Ideas to Play With**
 			- [ ] Play with increasing strain further/faster. Maybe clamp even harder on the exponential part (start 1 round faster?)
 			- [ ] Rounds after tollgates should be a bit easier. Monsters should be weaker on these rounds (or fewer in number)
+		- [ ] **Need to Create a Model for the Game**
+			- [ ] We can define how many souls you should have after round 1. Play a bunch of games and calculate how many souls we earn at each round. Use this to determine prices that feel right.
 	- [ ] **Increase Coin Limit to 10**
 		- [ ] **Coin Limit Increase**
 			- [ ] Goal - 10 coins.
