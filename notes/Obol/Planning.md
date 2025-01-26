@@ -1,35 +1,39 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-	- [ ] **Merchant Experiment**
+	- [ ] **Saturday - Increase Coin Limit to 10**
+		- [ ] **Coin Limit Increase**
+			- [ ] Goal - 10 coins.
+				- [x] All coins are Diobol size.
+			- [x] Update animation players to use new coin sprite 
+			- [x] Status row caps at 3. Move it closer to new shrunken coin. 
+			- [x] Move price label down as well to make more space.
+			- [ ] Move shop, enemy row, and hands down with extra space.
+			- [ ] Adjust cloth playmat in background to match new row size.
+			- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
+	- [ ] **Sunday - Merchant Experiment**
 		- [ ] Define a series of difficulty modifiers in one global place, so I can tune things more quickly. 
-			- [ ] Life penalty modifier (+/-)
-			- [ ] Soul payoff modifier (+/-)
 			- [ ] Strain levels (array 3)
+			- [ ] Shop multipliers
 			- [ ] Monster prices - array
 			- [ ] Standard life loss - array
-			- [ ] Tollgate modifier (+/- cost)
-		- [ ] Allow difficulty modifiers to apply per character.
 		- [ ] Play at least 5 runs with the Merchant and balance him some.
 		- [ ] **Ideas to Play With**
 			- [ ] Play with increasing strain further/faster. Maybe clamp even harder on the exponential part (start 1 round faster?)
-			- [ ] Rounds after tollgates should be a bit easier. Monsters should be weaker on these rounds (or fewer in number)
+			- [ ] Rounds after tollgates should be a bit easier. Monsters should be weaker on these rounds (or fewer in number)?
 		- [ ] **Need to Create a Model for the Game**
 			- [ ] We can define how many souls you should have after round 1. Play a bunch of games and calculate how many souls we earn at each round. Use this to determine prices that feel right.
-	- [ ] **Increase Coin Limit to 10**
-		- [ ] **Coin Limit Increase**
-			- [ ] Goal - 10 coins.
-				- [ ] Coins need to cap at diobol size. 
-				- [ ] Think of different ways to denote coins besides size - or experiment with sizes between obol and diobol. 
-					- [ ] Obol - keep
-					- [ ] Diobol - 1 larger on bottom?
-					- [ ] Triobol - replace with current diobol
-					- [ ] Tetrobol - triobol 1 larger on bottom?
-			- [ ] Status row probably caps at ~3. Move it closer to new shrunken coin. 
-			- [ ] Move price label down as well to make more space.
-			- [ ] Move shop, enemy row, and hands down with extra space.
-			- [ ] Look for anywhere we hardcoded the coin limit at 8 and fix that.
-			- [ ] Possibly remove a few pixels from the cloth playmat.
-			- [ ] Clean up coinrow code some too, it's terrible right now (the coin positioning that is, the math is not very well done - let's redo the calcs)
+		- [ ] **Ideals**
+			- [ ] You should feel a linear increase in power over the course of the game. You should start with Obols, progress to Diobols, then Triobol, then Tetrobol.
+			- [ ] You should have to mix up your strategy during the game several times. You should end up with an entirely different set of coins at the end of the game. You should not find yourself repeating the same actions for multiple rounds in a row.
+			- [ ] You should not feel like rounds are dragging in the mid/lategame.
+			- [ ] You should end with some coins on tails in the early and midgame. 
+			- [ ] You are able to achieve 100% heads in lategame. You should be able to do 'broken' things in lategame.
+			- [ ] Monsters should feel impactful.
+			- [ ] Trials should feel dangerous. 
+			- [ ] Tollgates should feel impactful.
+			- [ ] The Nemesis should feel dangerous.
+			- [ ] I as the designer should be able to define a baseline amount of souls you are expected to earn each round for balance purposes. 
+			- [ ] Ultimate goal - increase diversity within a single run.
 - [ ] **Stretch Goals**
 	- [ ] **Patron Revamp Feedback**
 		- [ ] Demeter might be a bit too strong, consider nerfing a bit? I don't want to nerf the active, so the passive might need a bit. Or, we can nerf the Demeter coin slightly (but is this really a problem?). Or tighten strain clamp.

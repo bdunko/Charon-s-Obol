@@ -52,15 +52,6 @@ enum _MaterialState {
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Sprite/Price
 
-@onready var _OBOL_CLICKBOX = $ObolClickbox
-@onready var _DIOBOL_CLICKBOX = $DiobolClickbox
-@onready var _TRIOBOL_CLICKBOX = $TriobolClickbox
-@onready var _TETROBOL_CLICKBOX = $TetrobolClickbox
-@onready var _OBOL_STATUS_ANCHOR = $ObolStatusAnchor
-@onready var _DIOBOL_STATUS_ANCHOR = $DiobolStatusAnchor
-@onready var _TRIOBOL_STATUS_ANCHOR = $TriobolStatusAnchor
-@onready var _TETROBOL_STATUS_ANCHOR = $TetrobolStatusAnchor
-
 @onready var _NEXT_FLIP_INDICATOR = $Sprite/NextFlipIndicator
 
 @onready var FX : FX = $Sprite/FX
@@ -91,19 +82,6 @@ var _denomination: Global.Denomination:
 	set(val):
 		_denomination = val
 		set_animation(_Animation.FLAT) #update denom
-		match(_denomination): # update clickbox & status bar position
-			Global.Denomination.OBOL:
-				_MOUSE.watched = _OBOL_CLICKBOX
-				_STATUS_BAR.position = _OBOL_STATUS_ANCHOR.position
-			Global.Denomination.DIOBOL:
-				_MOUSE.watched = _DIOBOL_CLICKBOX
-				_STATUS_BAR.position = _DIOBOL_STATUS_ANCHOR.position
-			Global.Denomination.TRIOBOL:
-				_MOUSE.watched = _TRIOBOL_CLICKBOX
-				_STATUS_BAR.position = _TRIOBOL_STATUS_ANCHOR.position
-			Global.Denomination.TETROBOL:
-				_MOUSE.watched = _TETROBOL_CLICKBOX
-				_STATUS_BAR.position = _TETROBOL_STATUS_ANCHOR.position
 
 var _heads:
 	set(val):
@@ -348,14 +326,6 @@ func _ready():
 	assert(_CURSE_ICON)
 	assert(_SUPERCHARGE_ICON)
 	assert(_STATUS_BAR)
-	assert(_OBOL_CLICKBOX)
-	assert(_OBOL_STATUS_ANCHOR)
-	assert(_DIOBOL_CLICKBOX)
-	assert(_DIOBOL_STATUS_ANCHOR)
-	assert(_TRIOBOL_CLICKBOX)
-	assert(_TRIOBOL_STATUS_ANCHOR)
-	assert(_TETROBOL_CLICKBOX)
-	assert(_TETROBOL_STATUS_ANCHOR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)

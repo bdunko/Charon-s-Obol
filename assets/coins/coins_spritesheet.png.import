@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beojhxabonyeq"
-path="res://.godot/imported/diobol.png-cbd4fcfd358104855666b6fbbef7d92c.ctex"
+uid="uid://b4agtqc74rbqp"
+path="res://.godot/imported/coins_spritesheet.png-3fe330cce17ce11bff5c845dec40351e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/coins/diobol.png"
-dest_files=["res://.godot/imported/diobol.png-cbd4fcfd358104855666b6fbbef7d92c.ctex"]
+source_file="res://assets/coins/coins_spritesheet.png"
+dest_files=["res://.godot/imported/coins_spritesheet.png-3fe330cce17ce11bff5c845dec40351e.ctex"]
 
 [params]
 
