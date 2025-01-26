@@ -16,6 +16,22 @@ enum _State {
 }
 var _state = _State.EXPANDED
 
+@onready var _PLACEHOLDERS = $PLACEHOLDERS
+var _POSITION_MAP = {}
+func _ready() -> void:
+	# store placeholders
+	var coin_num = 0
+	for coin_count in _PLACEHOLDERS.get_children():
+		coin_num += 1
+		var pos_array = []
+		for coin in coin_count.get_children():
+			pos_array.push_back(coin.position + position)
+		_POSITION_MAP[coin_num] = pos_array
+	
+	# now delete placeholders
+	_PLACEHOLDERS.queue_free()
+	remove_child(_PLACEHOLDERS)
+
 func clear() -> void:
 	for coin in get_children():
 		coin.queue_free()
@@ -272,14 +288,11 @@ func expand() -> void:
 	if get_child_count() == 0:
 		return
 	
-	var coin_width = get_child(0).size.x - 4
-	var start = size.x / 2.0 + 2#center
-	start -= ((get_child_count() * coin_width/2.0))
-	
 	# position all the coins
+	var positions = _POSITION_MAP[get_child_count()]
 	for i in get_child_count():
 		var coin = get_child(i)
-		coin.move_to(Vector2(start + (i*coin_width) + 2, position.y), Global.COIN_TWEEN_TIME)
+		coin.move_to(positions[i], Global.COIN_TWEEN_TIME)
 	
 	await Global.delay(Global.COIN_TWEEN_TIME)
 
