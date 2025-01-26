@@ -2,7 +2,7 @@ class_name CoinRow
 extends Control
 
 func _on_child_entered_tree(_node) -> void:
-	assert(_node is Coin, "Coin Row cannot contain non-Coins!")
+	assert(_node is Coin or _node.name == "PLACEHOLDERS", "Coin Row cannot contain non-Coins!")
 	if _state == _State.EXPANDED:
 		call_deferred("expand")
 
@@ -272,19 +272,14 @@ func expand() -> void:
 	if get_child_count() == 0:
 		return
 	
-	var coin_width = get_child(0).size.x - 2 #6 for left/right padding
-	var start = size.x / 2.0 + 2 #center
+	var coin_width = get_child(0).size.x - 4
+	var start = size.x / 2.0 + 2#center
 	start -= ((get_child_count() * coin_width/2.0))
 	
 	# position all the coins
 	for i in get_child_count():
 		var coin = get_child(i)
-		
-		# $HACK$ I can't get this to center properly so screw it, hardcode 1st coin
-		#if get_child_count() == 1:
-		#	coin.move_to(Vector2(position.x + 125, position.y), Global.COIN_TWEEN_TIME)
-		
-		coin.move_to(Vector2(start + (i*coin_width)+2, position.y), Global.COIN_TWEEN_TIME)
+		coin.move_to(Vector2(start + (i*coin_width) + 2, position.y), Global.COIN_TWEEN_TIME)
 	
 	await Global.delay(Global.COIN_TWEEN_TIME)
 

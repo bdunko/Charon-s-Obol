@@ -108,9 +108,6 @@ var _tails_power: FacePower:
 
 # updates face label, glow, and price label
 func _update_appearance() -> void:
-	# a bit of a hack, to prevent scanline on Trial coins
-	if is_passive():
-		FX.stop_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT)
 	_update_face_label()
 	_update_price_label()
 	_update_glow()
@@ -235,14 +232,10 @@ var _bless_curse_state: _BlessCurseState:
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.YELLOW)
-			FX.set_scan_color(Color.YELLOW)
 			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
 		elif _bless_curse_state == _BlessCurseState.CURSED:
 			FX.flash(Color.PURPLE)
-			FX.set_scan_color(Color.PURPLE)
 			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
-		else:
-			FX.set_scan_color(Color.WHITE)
 		_update_appearance()
 
 var _freeze_ignite_state: _FreezeIgniteState:
@@ -329,7 +322,6 @@ func _ready():
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)
-	FX.start_scanning(FX.ScanDirection.DIAGONAL_TOPLEFT_TO_BOTTOMRIGHT, Color.WHITE, FX.DEFAULT_SCAN_STRENGTH, FX.DEFAULT_SCAN_DURATION, FX.DEFAULT_SCAN_DELAY, false)
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
