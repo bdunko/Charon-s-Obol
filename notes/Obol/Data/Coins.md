@@ -301,6 +301,7 @@ Unlockable coins + more coins
 	- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.
 	- [ ] Nesoi - Choose a coin. Copy each of this coin's statuses to that coin.
 	- [ ] Nesoi - Choose a coin. Move each of its statuses to this coin.
+	- [ ] ??? - Make a coin Unlucky and turn it to its other face.
 
 - [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
 

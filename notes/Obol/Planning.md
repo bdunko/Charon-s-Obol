@@ -1,16 +1,30 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
 	- [ ] **Week - Rebalancing & Reorienting**
-		- [ ] Denomination curve scaling:
-			- [ ] Diobol always costs 20 more than Obol.
-			- [ ] Triobol always costs 50 more than Diobol.
-			- [ ] Tetrobol always costs 100 more than Triobol.
-			- [ ] Obol prices scale during game via multiplier.
-		- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
-		- [ ] Shop shows upcoming tollgate cost.
-		- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
-		- [ ] Remove individual life and soul fragments. Instead, use a crystal heart/block. For arrows, 
-		- [ ] Bug - the stupid arrow styling thing.
+		- [ ] Polish
+			- [ ] Still need to redraw the background. 
+			- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
+			- [ ] Shop shows upcoming tollgate cost.
+			- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
+			- [ ] Show coin limit visually on screen (maybe on carpet somewhere)
+			- [ ] Recharge when tossing instead of after toss.
+			- [ ] Shop should attempt to reroll coins which are entirely unaffordable (up to 5 times per coin) into something which is affordable.
+				- [ ] Shop should offer a discount on diobol, triobol, and tetrobol compared to upgrading. Incentivize buying from shop (and make it so obols aren't strictly best in shop)
+			- [ ] Payoff coins and power coins should have a separate color scheme. Powers can go bronze silver gold green, payoffs should stay brown but do different shades of brown I guess
+		- [ ] Bug
+			- [ ] Purchased coins from shop do not have correct signals to display buy/upgrade tags
+			- [ ] the stupid arrow styling thing
+			- [ ] After trial, remove filter in shop
+			- [ ] Need different status grow point and status bar positions for monsters of triobol or tetrobol level... also maybe the powericongrowpoint. Small thing but sigh...
+		- [ ] Utility for self
+			- [ ] Add logging which prints each round:
+				- [ ] coins earned each round
+				- [ ] life lost to strain
+				- [ ] life lost to tails.
+				- [ ] heads ratio
+				- [ ] tails ratio
+			- [ ] Log to text file.
+			- [ ] Add onscreen timer for self (we can dub this speedrun mode later in options), top left
 - [ ] **Stretch Goals**
 	- [ ] **Graphical Improvements**
 		- [ ] **Filters for the patron selection and main scenes.**

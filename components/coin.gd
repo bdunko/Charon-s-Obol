@@ -199,7 +199,7 @@ func _update_glow():
 		return
 	
 	# if another coin is active now and hovering this coin as a target, glow white
-	if Global.active_coin_power_coin != null and Global.active_coin_power_coin != self and _MOUSE.is_over():
+	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self and _MOUSE.is_over():
 		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
 		return
 	
@@ -402,16 +402,26 @@ func is_monster() -> bool:
 	return _owner == Owner.NEMESIS
 
 func get_store_price() -> int:
-	return _coin_family.store_price_for_denom[_denomination] * Global.current_round_shop_multiplier()
+	var upgrade_modifier = 0 
+	match(_denomination):
+		Global.Denomination.OBOL:
+			upgrade_modifier = 0
+		Global.Denomination.DIOBOL:
+			upgrade_modifier = Global.CUMULATIVE_TO_DIOBOL
+		Global.Denomination.TRIOBOL:
+			upgrade_modifier = Global.CUMULATIVE_TO_TRIOBOL
+		Global.Denomination.TETROBOL:
+			upgrade_modifier = Global.CUMULATIVE_TO_TETROBOL
+	return (_coin_family.base_price * Global.current_round_shop_multiplier()) + upgrade_modifier
 
 func get_upgrade_price() -> int:
 	match(_denomination):
 		Global.Denomination.OBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.DIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.OBOL]) * Global.current_round_shop_multiplier()
+			return Global.UPGRADE_TO_DIOBOL
 		Global.Denomination.DIOBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.TRIOBOL] - _coin_family.store_price_for_denom[Global.Denomination.DIOBOL]) * Global.current_round_shop_multiplier()
+			return Global.UPGRADE_TO_TRIOBOL
 		Global.Denomination.TRIOBOL:
-			return (_coin_family.store_price_for_denom[Global.Denomination.TETROBOL] - _coin_family.store_price_for_denom[Global.Denomination.TRIOBOL]) * Global.current_round_shop_multiplier()
+			return Global.UPGRADE_TO_TETROBOL
 		Global.Denomination.TETROBOL:
 			return 10000000 #error case really
 	breakpoint

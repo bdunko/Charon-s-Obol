@@ -1198,9 +1198,9 @@ autowrap_mode = 2
 
 [node name="StatusBar" type="HBoxContainer" parent="Sprite"]
 offset_left = 4.0
-offset_top = 34.0
+offset_top = 35.0
 offset_right = 30.0
-offset_bottom = 42.0
+offset_bottom = 43.0
 mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
@@ -1368,10 +1368,10 @@ centered = false
 script = ExtResource("35_2vs3w")
 
 [node name="PowerIconGrowPoint" type="Node2D" parent="Sprite"]
-position = Vector2(17, 16)
+position = Vector2(17, 17)
 
 [node name="StatusIconShrinkPoint" type="Node2D" parent="Sprite"]
-position = Vector2(17, -8)
+position = Vector2(17, -7)
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
 watched = NodePath("../Clickbox")

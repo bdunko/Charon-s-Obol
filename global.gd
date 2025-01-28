@@ -353,7 +353,8 @@ func ante_cost() -> int:
 		_:
 			assert(false, "Invalid ante formula...")
 	
-	if add_exp and flips_this_round >= 7:
+	const EXP_STARTS_AT = 7
+	if add_exp and flips_this_round >= EXP_STARTS_AT:
 		base_ante += pow(2, flips_this_round - 5)
 	
 	return max(0, base_ante + ante_modifier_this_round)
@@ -471,9 +472,9 @@ var MONSTER_WAVE_TUTORIAL2 = [
 
 var VOYAGE
 
-const _ANTE_LOW = AnteFormula.FOUR_WITH_EXP
+const _ANTE_LOW = AnteFormula.THREE_WITH_EXP
 const _ANTE_MID = AnteFormula.FIVE_WITH_EXP
-const _ANTE_HIGH = AnteFormula.SIX_WITH_EXP
+const _ANTE_HIGH = AnteFormula.SEVEN_WITH_EXP
 
 const _NOSHOP = []
 const _SHOP1 = [Denomination.OBOL]
@@ -490,13 +491,13 @@ const _SHOP4 = [Denomination.TETROBOL]
 const _NOMULT = 0.0
 const _SHOP_MULT1 = 1.0
 const _SHOP_MULT2 = 2.0
-const _SHOP_MULT3 = 2.25
-const _SHOP_MULT4 = 2.5
-const _SHOP_MULT5 = 2.75
-const _SHOP_MULT6 = 3.0
-const _SHOP_MULT7 = 3.25
-const _SHOP_MULT8 = 3.5
-const _SHOP_MULT9 = 3.75
+const _SHOP_MULT3 = 2.5
+const _SHOP_MULT4 = 3.0
+const _SHOP_MULT5 = 2.0
+const _SHOP_MULT6 = 2.25
+const _SHOP_MULT7 = 2.5
+const _SHOP_MULT8 = 5.0
+const _SHOP_MULT9 = 5.0
 
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
@@ -505,13 +506,13 @@ var _VOYAGE_STANDARD = [
 	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, NO_MONSTERS, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, MONSTER_WAVE1, _ANTE_LOW),
 	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT4, 0, 60, NO_MONSTERS, _ANTE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, _SHOP_MULT4, 0, 60, NO_MONSTERS, _ANTE_MID),
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 5, 0, NO_MONSTERS, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5,0, 0, MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6,0, 0, MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT7,0, 110, NO_MONSTERS, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT5,0, 0, MONSTER_WAVE3, _ANTE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, _SHOP_MULT6,0, 0, MONSTER_WAVE4, _ANTE_MID),
+	Round.new(RoundType.TRIAL2, 100, _SHOP23, _SHOP_MULT7,0, 110, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, NO_MONSTERS, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8,0, 0, MONSTER_WAVE5, _ANTE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, _SHOP_MULT8,0, 0, MONSTER_WAVE5, _ANTE_HIGH),
 	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT9,0, 0, MONSTER_WAVE6, _ANTE_HIGH),
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, NO_MONSTERS, _ANTE_HIGH),
 	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, NO_MONSTERS, _ANTE_HIGH)
@@ -645,9 +646,10 @@ func randomize_voyage() -> void:
 		return
 	
 	# choose a voyage
-	VOYAGE = choose_one_weighted(
-		[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
-		[250, 200, 200, 200, 200, 200])
+	#VOYAGE = choose_one_weighted(
+	#	[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
+	#	[250, 200, 200, 200, 200, 200])
+	VOYAGE = _VOYAGE_STANDARD
 	
 	var possible_trials_lv1 = LV1_TRIALS.duplicate(true)
 	var possible_trials_lv2 = LV2_TRIALS.duplicate(true)
@@ -1348,7 +1350,8 @@ class CoinFamily:
 	var coin_name: String
 	var subtitle: String
 	
-	var store_price_for_denom: Array
+	# TODO - replace with just a base price int
+	var base_price: int
 	var heads_power_family: PowerFamily
 	var tails_power_family: PowerFamily
 
@@ -1357,18 +1360,17 @@ class CoinFamily:
 	var _sprite_style: _SpriteStyle
 	
 	func _init(ide: int, nme: String, 
-			sub_title: String, prices: Array,
+			sub_title: String, b_price: int,
 			heads_pwr: PowerFamily, tails_pwr: PowerFamily,
 			style: _SpriteStyle, app_price := [NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE]) -> void:
 		id = ide
 		coin_name = nme
 		subtitle = sub_title
-		store_price_for_denom = prices
+		base_price = b_price
 		heads_power_family = heads_pwr
 		tails_power_family = tails_pwr
 		appeasal_price_for_denom = app_price
 		_sprite_style = style
-		assert(store_price_for_denom.size() == 4)
 		assert(appeasal_price_for_denom.size() == 4)
 	
 	func get_style_string() -> String:
@@ -1388,11 +1390,18 @@ class CoinFamily:
 		breakpoint
 		return ""
 
-const NO_PRICE = [0, 0, 0, 0]
-const CHEAP = [3, 9, 22, 46]
-const STANDARD = [5, 12, 27, 51] 
-const PRICY = [7, 14, 31, 56] 
-const RICH = [10, 19, 40, 65]
+const NO_PRICE = 0
+const CHEAP = 3
+const STANDARD = 5
+const PRICY = 7
+const RICH = 10
+
+const UPGRADE_TO_DIOBOL = 20
+const UPGRADE_TO_TRIOBOL = 45
+const UPGRADE_TO_TETROBOL = 80
+const CUMULATIVE_TO_DIOBOL = UPGRADE_TO_DIOBOL
+const CUMULATIVE_TO_TRIOBOL = CUMULATIVE_TO_DIOBOL + UPGRADE_TO_TRIOBOL
+const CUMULATIVE_TO_TETROBOL = CUMULATIVE_TO_TRIOBOL + UPGRADE_TO_TETROBOL
 
 # Coin Families
 # stores a list of all player coins (coins that can be bought in shop)
@@ -1422,9 +1431,9 @@ const HADES_MONSTER_COST = [7, 5, 3, 1]
 var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
-const STANDARD_APPEASE = [7, 12, 16, 21]
-const ELITE_APPEASE = [25, 30, 35, 40]
-const NEMESIS_MEDUSA_APPEASE = [45, 50, 55, 60]
+const STANDARD_APPEASE = [6, 10, 15, 21]
+const ELITE_APPEASE = [20, 25, 30, 35]
+const NEMESIS_MEDUSA_APPEASE = [35, 44, 52, 60]
 
 # stores a list of all monster coins and trial coins
 @warning_ignore("unused_private_class_variable")

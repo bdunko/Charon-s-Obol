@@ -1136,9 +1136,9 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue("This particular power,[img=10x13]%s[/img], can reflip other coins." % icon)
 		_SHOP_COIN_ROW.get_child(0).show_price()
 		await _wait_for_dialogue(Global.replace_placeholders("The coin's price of %d souls(SOULS) is shown above it." % _SHOP_COIN_ROW.get_child(0).get_store_price()))
-		if Global.souls < Global.ZEUS_FAMILY.store_price_for_denom[0]:
+		if Global.souls < _SHOP_COIN_ROW.get_child(0).get_store_price():
 			await _wait_for_dialogue("...Ah, you don't have enough souls for this coin.")
-			Global.souls = Global.ZEUS_FAMILY.store_price_for_denom[0]
+			Global.souls = _SHOP_COIN_ROW.get_child(0).get_store_price()
 			await _wait_for_dialogue("Just this time, take these...")
 		await _tutorial_fade_out()
 		_DIALOGUE.show_dialogue("Purchase this coin by clicking on it.")

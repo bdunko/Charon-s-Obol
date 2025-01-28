@@ -5072,7 +5072,7 @@ shader_parameter/vignette_on = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
-shader_parameter/transparency = 0.125
+shader_parameter/transparency = 0.1
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
@@ -5328,9 +5328,9 @@ script = ExtResource("24_cds23")
 
 [node name="CoinRow" parent="Table/EnemyRow" instance=ExtResource("19_ym3ga")]
 offset_left = 4.0
-offset_top = 49.0
+offset_top = 56.0
 offset_right = 317.0
-offset_bottom = 93.0
+offset_bottom = 100.0
 
 [node name="CoinRow" parent="Table" instance=ExtResource("19_ym3ga")]
 z_index = 2
