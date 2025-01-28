@@ -39,13 +39,12 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
-@onready var _DECISION_TINT_FX = $DecisionTint/FX
-const _DECISION_FX_TIME = 0.25
-const _DECISION_TINT_ALPHA = 0.1
-const _DECISION_TINT_NORMAL = Color("#4e81d4")
-const _DECISION_TINT_TRIAL = Color("#ea4d5e")
-const _DECISION_TINT_NEMESIS = Color("#6f56fd")
-const _DECISION_TINT_CHARON = Color("#2a0581")
+@onready var _SPECIAL_TINT_FX = $DecisionTint/FX
+const _SPECIAL_TINT_TIME = 0.25
+const _SPECIAL_TINT_ALPHA = 0.1
+const _SPECIAL_TINT_TRIAL = Color("#ea4d5e")
+const _SPECIAL_TINT_NEMESIS = Color("#6f56fd")
+const _SPECIAL_TINT_CHARON = Color("#2a0581")
 @onready var _CHARON_FOG_FX = $CharonFog/FX
 
 @onready var _FOG_FX = $Fog/FX
@@ -158,14 +157,14 @@ func _ready() -> void:
 	assert(_MAP_INITIAL_POINT)
 	
 	assert(_CHARON_FOG_FX)
-	assert(_DECISION_TINT_FX)
+	assert(_SPECIAL_TINT_FX)
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
 	assert(_TUTORIAL_FADE_FX)
 	
 	_CHARON_FOG_FX.get_parent().show() # this is dumb but I want to hide the fog in editor...
 	_CHARON_FOG_FX.hide()
-	_DECISION_TINT_FX.hide()
+	_SPECIAL_TINT_FX.hide()
 	
 	_SHOP.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
 	_ENEMY_ROW.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
@@ -248,18 +247,15 @@ func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
-	# update the decision tint filter
-	if Global.state == Global.State.BEFORE_FLIP:
-		if Global.is_current_round_trial():
-			_DECISION_TINT_FX.tint(_DECISION_TINT_TRIAL)
-		elif Global.is_current_round_nemesis():
-			_DECISION_TINT_FX.tint(_DECISION_TINT_NEMESIS)
-		else:
-			_DECISION_TINT_FX.tint(_DECISION_TINT_NORMAL)
-		_DECISION_TINT_FX.fade_in(_DECISION_FX_TIME, _DECISION_TINT_ALPHA)
+	if Global.is_current_round_trial():
+		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_TRIAL)
+		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+	elif Global.is_current_round_nemesis():
+		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_NEMESIS)
+		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
 	else:
-		_CHARON_FOG_FX.fade_out(_DECISION_FX_TIME)
-		_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
+		_CHARON_FOG_FX.fade_out(_SPECIAL_TINT_TIME)
+		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
 	
 	# remove fog in shop
 	if Global.state == Global.State.SHOP:
@@ -320,9 +316,9 @@ func _on_state_changed() -> void:
 		_CHARON_COIN_ROW.get_child(0).turn()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("And now, on the edge of life and death...")
-		_CHARON_FOG_FX.fade_in(_DECISION_FX_TIME)
-		_DECISION_TINT_FX.tint(_DECISION_TINT_CHARON)
-		_DECISION_TINT_FX.fade_in(_DECISION_FX_TIME, _DECISION_TINT_ALPHA)
+		_CHARON_FOG_FX.fade_in(_SPECIAL_TINT_TIME)
+		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_CHARON)
+		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
 		_DIALOGUE.show_dialogue("You must toss!")
 		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
@@ -465,11 +461,10 @@ func _on_flip_complete() -> void:
 	flips_pending -= 1
 	assert(flips_pending >= 0)
 	
-	if Global.state == Global.State.AFTER_FLIP:
-		if flips_pending == 0:
+	if flips_pending == 0:
+		if Global.state == Global.State.AFTER_FLIP: #ignore reflips such as Zeus
 			_PLAYER_TEXTBOXES.make_visible()
 			_map_is_disabled = false
-			
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.unpoint()
@@ -483,134 +478,130 @@ func _on_flip_complete() -> void:
 				await _tutorial_fade_out()
 				_DIALOGUE.show_dialogue("Deactivate the coin by clicking it or right clicking.")
 				Global.tutorialState = Global.TutorialState.ROUND2_POWER_UNUSABLE
-		return #ignore reflips such as Zeus
-	
-	# if this is after the last chance flip, resolve payoff
-	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		var charons_obol = _CHARON_COIN_ROW.get_child(0) as Coin
-		match charons_obol.get_active_power_family():
-			Global.CHARON_POWER_DEATH:
-				await _wait_for_dialogue("Fate is cruel indeed.")
-				await _wait_for_dialogue("It seems this is the end for you.")
-				Global.state = Global.State.GAME_OVER
-			Global.CHARON_POWER_LIFE:
-				await _wait_for_dialogue("Fate smiles upon you...")
-				await _wait_for_dialogue("You have dodged death, for a time.")
-				await _wait_for_dialogue("But your journey has not yet concluded...")
-				Global.lives = 0
-				_on_end_round_button_pressed()
-			_:
-				assert(false, "Charon's obol has an incorrect power?")
-		_COIN_ROW.expand()
-		_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
-		return
-	
-	# if every flip is done
-	if flips_pending == 0:
-		for coin in _COIN_ROW.get_children():
-			coin = coin as Coin
-			coin.on_toss_complete()
-		
-		Global.flips_this_round += 1
-		Global.state = Global.State.AFTER_FLIP
-		
-		if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
-			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-			await _tutorial_fade_in([_COIN_ROW])
-			await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS)... how fortunate for you."))
-			await _tutorial_fade_out()
-			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You may accept your prize.")
-			Global.tutorialState = Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED
-		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
-			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-			await _tutorial_fade_in([_COIN_ROW])
-			await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS)... unlucky."))
-			await _tutorial_fade_out()
-			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You must accept your fate.")
-			Global.tutorialState = Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED
-		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO:
-			await _tutorial_fade_in([_COIN_ROW])
-			await _wait_for_dialogue("Hmm...")
-			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
-			await _wait_for_dialogue(Global.replace_placeholders("Your payoff coin has landed on tails(TAILS)..."))
-			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
-			await _wait_for_dialogue(Global.replace_placeholders("But your power coin has landed on heads(HEADS)!"))
-			await _wait_for_dialogue("You can use its power before accepting payoff.")
-			await _tutorial_fade_out()
-			_DIALOGUE.show_dialogue("Activate the power coin by clicking on it.")
-			_LEFT_HAND.lock()
-			_ACCEPT_TEXTBOX.disable()
-			Global.tutorialState = Global.TutorialState.ROUND2_POWER_ACTIVATED
-		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-			_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
-			await _tutorial_fade_in([_COIN_ROW])
-			await _wait_for_dialogue("Unfortunate...")
-			await _wait_for_dialogue(Global.replace_placeholders("Both coins landed on tails(TAILS)."))
-			await _wait_for_dialogue(Global.replace_placeholders("A power can only activate if it lands on heads(HEADS)..."))
-			await _tutorial_fade_out()
-			_LEFT_HAND.unpoint()
-			_DIALOGUE.show_dialogue("You have no choice but to accept this outcome.")
-			Global.tutorialState = Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE
-		elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			_ACCEPT_TEXTBOX.disable()
-			Global.tutorial_patron_passive_active = true
-			await _tutorial_fade_in([_COIN_ROW, _patron_token])
-			await _wait_for_dialogue("Hmm... that is a truly dismal turn of fortune.")
-			await _wait_for_dialogue("I shall offer one last piece of assistance.")
-			_patron_token.show()
-			_patron_token.position = _CHARON_POINT
-			var tween = create_tween()
-			tween.tween_property(_patron_token, "position", _PATRON_TOKEN_POSITION, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-			await _wait_for_dialogue("Take this...")
-			await _wait_for_dialogue("This is a patron token.")
-			await _wait_for_dialogue("It calls upon the power of a higher being.")
-			await _wait_for_dialogue("Patron tokens are always available.")
-			await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE)."))
-			await _wait_for_dialogue(Global.replace_placeholders("For its (PASSIVE), which is always active..."))
-			await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn an extra 5(SOULS)."))
-			await _wait_for_dialogue(Global.replace_placeholders("And for its power..."))
-			await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
-			await _wait_for_dialogue("Try using the patron's power now.")
-			await _tutorial_fade_out()
-			Global.temporary_set_z(_LEFT_HAND, _COIN_ROW.z_index + 1) # make sure hand appears over coins
-			_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
-			_LEFT_HAND.lock()
-			_DIALOGUE.show_dialogue("Activate this token by clicking on it.")
-			Global.tutorialState = Global.TutorialState.ROUND3_PATRON_ACTIVATED
-		elif Global.tutorialState == Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS:
-			_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
-			_LEFT_HAND.lock()
-			await _tutorial_fade_in([_ENEMY_COIN_ROW])
-			await _wait_for_dialogue("The coin shows what it will do during payoff.")
-			await _wait_for_dialogue("In this case...")
-			if _ENEMY_COIN_ROW.get_child(0).is_heads():
-				await _wait_for_dialogue(Global.replace_placeholders("It will make one of your coins (UNLUCKY)."))
-			else:
-				await _wait_for_dialogue(Global.replace_placeholders("It is going to deal damage to your (LIFE)."))
-			await _wait_for_dialogue("Powers may change this result, if you wish.")
-			await _wait_for_dialogue("Lastly...")
-			_ENEMY_COIN_ROW.get_child(0).show_price()
-			await _wait_for_dialogue(Global.replace_placeholders("You may use souls(SOULS) to defeat monsters."))
-			await _wait_for_dialogue("You may click on a monster to banish it.")
-			await _tutorial_fade_out()
-			_DIALOGUE.show_dialogue("Let's see how you fare against this new test!")
-			_LEFT_HAND.unlock()
-			_LEFT_HAND.unpoint()
-			Global.tutorialState = Global.TutorialState.ROUND4_VOYAGE
+			return 
+		elif Global.state == Global.State.CHARON_OBOL_FLIP: # if this is after the last chance flip, resolve payoff
+			var charons_obol = _CHARON_COIN_ROW.get_child(0) as Coin
+			_map_is_disabled = false
+			match charons_obol.get_active_power_family():
+				Global.CHARON_POWER_DEATH:
+					await _wait_for_dialogue("Fate is cruel indeed.")
+					await _wait_for_dialogue("It seems this is the end for you.")
+					Global.state = Global.State.GAME_OVER
+				Global.CHARON_POWER_LIFE:
+					await _wait_for_dialogue("Fate smiles upon you...")
+					await _wait_for_dialogue("You have dodged death, for a time.")
+					await _wait_for_dialogue("But your journey has not yet concluded...")
+					Global.lives = 0
+					_on_end_round_button_pressed()
+				_:
+					assert(false, "Charon's obol has an incorrect power?")
+			_COIN_ROW.expand()
+			_CHARON_COIN_ROW.retract(_CHARON_NEW_COIN_POSITION)
+			return
 		else:
-			if _COIN_ROW.has_a_power_coin():
-				_DIALOGUE.show_dialogue("Change your fate...")
+			# otherwise, this was a toss:
+			for coin in _COIN_ROW.get_children():
+				coin = coin as Coin
+				coin.on_toss_complete()
+			
+			Global.flips_this_round += 1
+			Global.state = Global.State.AFTER_FLIP
+			
+			if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
+				await _tutorial_fade_in([_COIN_ROW])
+				await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS)... how fortunate for you."))
+				await _tutorial_fade_out()
+				_LEFT_HAND.unpoint()
+				_DIALOGUE.show_dialogue("You may accept your prize.")
+				Global.tutorialState = Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED
+			elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
+				await _tutorial_fade_in([_COIN_ROW])
+				await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS)... unlucky."))
+				await _tutorial_fade_out()
+				_LEFT_HAND.unpoint()
+				_DIALOGUE.show_dialogue("You must accept your fate.")
+				Global.tutorialState = Global.TutorialState.ROUND1_FIRST_TAILS_ACCEPTED
+			elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO:
+				await _tutorial_fade_in([_COIN_ROW])
+				await _wait_for_dialogue("Hmm...")
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
+				await _wait_for_dialogue(Global.replace_placeholders("Your payoff coin has landed on tails(TAILS)..."))
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
+				await _wait_for_dialogue(Global.replace_placeholders("But your power coin has landed on heads(HEADS)!"))
+				await _wait_for_dialogue("You can use its power before accepting payoff.")
+				await _tutorial_fade_out()
+				_DIALOGUE.show_dialogue("Activate the power coin by clicking on it.")
+				_LEFT_HAND.lock()
+				_ACCEPT_TEXTBOX.disable()
+				Global.tutorialState = Global.TutorialState.ROUND2_POWER_ACTIVATED
+			elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
+				_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(1)))
+				await _tutorial_fade_in([_COIN_ROW])
+				await _wait_for_dialogue("Unfortunate...")
+				await _wait_for_dialogue(Global.replace_placeholders("Both coins landed on tails(TAILS)."))
+				await _wait_for_dialogue(Global.replace_placeholders("A power can only activate if it lands on heads(HEADS)..."))
+				await _tutorial_fade_out()
+				_LEFT_HAND.unpoint()
+				_DIALOGUE.show_dialogue("You have no choice but to accept this outcome.")
+				Global.tutorialState = Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE
+			elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
+				_ACCEPT_TEXTBOX.disable()
+				Global.tutorial_patron_passive_active = true
+				await _tutorial_fade_in([_COIN_ROW, _patron_token])
+				await _wait_for_dialogue("Hmm... that is a truly dismal turn of fortune.")
+				await _wait_for_dialogue("I shall offer one last piece of assistance.")
+				_patron_token.show()
+				_patron_token.position = _CHARON_POINT
+				var tween = create_tween()
+				tween.tween_property(_patron_token, "position", _PATRON_TOKEN_POSITION, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+				await _wait_for_dialogue("Take this...")
+				await _wait_for_dialogue("This is a patron token.")
+				await _wait_for_dialogue("It calls upon the power of a higher being.")
+				await _wait_for_dialogue("Patron tokens are always available.")
+				await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE)."))
+				await _wait_for_dialogue(Global.replace_placeholders("For its (PASSIVE), which is always active..."))
+				await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn an extra 5(SOULS)."))
+				await _wait_for_dialogue(Global.replace_placeholders("And for its power..."))
+				await _wait_for_dialogue(Global.replace_placeholders("This one turns a coin over and makes it (LUCKY)."))
+				await _wait_for_dialogue("Try using the patron's power now.")
+				await _tutorial_fade_out()
+				Global.temporary_set_z(_LEFT_HAND, _COIN_ROW.z_index + 1) # make sure hand appears over coins
+				_LEFT_HAND.point_at(_PATRON_TOKEN_POSITION + Vector2(22, 5)) # $hack$ this is hardcoded, whatever
+				_LEFT_HAND.lock()
+				_DIALOGUE.show_dialogue("Activate this token by clicking on it.")
+				Global.tutorialState = Global.TutorialState.ROUND3_PATRON_ACTIVATED
+			elif Global.tutorialState == Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS:
+				_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
+				_LEFT_HAND.lock()
+				await _tutorial_fade_in([_ENEMY_COIN_ROW])
+				await _wait_for_dialogue("The coin shows what it will do during payoff.")
+				await _wait_for_dialogue("In this case...")
+				if _ENEMY_COIN_ROW.get_child(0).is_heads():
+					await _wait_for_dialogue(Global.replace_placeholders("It will make one of your coins (UNLUCKY)."))
+				else:
+					await _wait_for_dialogue(Global.replace_placeholders("It is going to deal damage to your (LIFE)."))
+				await _wait_for_dialogue("Powers may change this result, if you wish.")
+				await _wait_for_dialogue("Lastly...")
+				_ENEMY_COIN_ROW.get_child(0).show_price()
+				await _wait_for_dialogue(Global.replace_placeholders("You may use souls(SOULS) to defeat monsters."))
+				await _wait_for_dialogue("You may click on a monster to banish it.")
+				await _tutorial_fade_out()
+				_DIALOGUE.show_dialogue("Let's see how you fare against this new test!")
+				_LEFT_HAND.unlock()
+				_LEFT_HAND.unpoint()
+				Global.tutorialState = Global.TutorialState.ROUND4_VOYAGE
 			else:
-				_DIALOGUE.show_dialogue("The coins fall...")
-		_map_is_disabled = false
-		_PLAYER_TEXTBOXES.make_visible()
+				if _COIN_ROW.has_a_power_coin():
+					_DIALOGUE.show_dialogue("Change your fate...")
+				else:
+					_DIALOGUE.show_dialogue("The coins fall...")
+			_map_is_disabled = false
+			_PLAYER_TEXTBOXES.make_visible()
 
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		_CHARON_FOG_FX.fade_out(_DECISION_FX_TIME)
-		_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
 		for coin in _CHARON_COIN_ROW.get_children():
 			_safe_flip(coin, true)
 		return
@@ -632,8 +623,6 @@ func _on_toss_button_clicked() -> void:
 	
 	if Global.lives < 0:
 		return
-	
-	_DECISION_TINT_FX.fade_out(_DECISION_FX_TIME)
 	
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true

@@ -490,13 +490,13 @@ const _SHOP4 = [Denomination.TETROBOL]
 const _NOMULT = 0.0
 const _SHOP_MULT1 = 1.0
 const _SHOP_MULT2 = 2.0
-const _SHOP_MULT3 = 2.5
-const _SHOP_MULT4 = 3.0
-const _SHOP_MULT5 = 3.5
-const _SHOP_MULT6 = 4.0
-const _SHOP_MULT7 = 4.5
-const _SHOP_MULT8 = 5.0
-const _SHOP_MULT9 = 5.5
+const _SHOP_MULT3 = 2.25
+const _SHOP_MULT4 = 2.5
+const _SHOP_MULT5 = 2.75
+const _SHOP_MULT6 = 3.0
+const _SHOP_MULT7 = 3.25
+const _SHOP_MULT8 = 3.5
+const _SHOP_MULT9 = 3.75
 
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
@@ -1220,20 +1220,20 @@ class Patron:
 		return Global.choose_one(_starting_coinpool)
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [4, 4, 4, 4], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [3, 3, 3, 3], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/artemis_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/athena_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/demeter_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [3, 3, 3, 3], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/hades_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [5, 5, 5, 5], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [4, 4, 4, 4], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ONLY_SHOW_ICON);
 
 var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/charon_life_icon.png", ONLY_SHOW_ICON);
 
@@ -1391,7 +1391,7 @@ class CoinFamily:
 const NO_PRICE = [0, 0, 0, 0]
 const CHEAP = [3, 9, 22, 46]
 const STANDARD = [5, 12, 27, 51] 
-const PRICY = [6, 14, 31, 56] 
+const PRICY = [7, 14, 31, 56] 
 const RICH = [10, 19, 40, 65]
 
 # Coin Families
@@ -1401,7 +1401,7 @@ const RICH = [10, 19, 40, 65]
 	ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY]
 
 # payoff coins
-var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/color]", CHEAP, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/color]", PRICY, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
 # power coins
 var ZEUS_FAMILY = CoinFamily.new(1, "(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", STANDARD, POWER_FAMILY_REFLIP, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
