@@ -1,11 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-	- [ ] **Week - Rebalancing**
+	- [ ] **Week - Rebalancing & Reorienting**
 		- [ ] Denomination curve scaling:
 			- [ ] Diobol always costs 20 more than Obol.
 			- [ ] Triobol always costs 50 more than Diobol.
 			- [ ] Tetrobol always costs 100 more than Triobol.
 			- [ ] Obol prices scale during game via multiplier.
+		- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
+		- [ ] Shop shows upcoming tollgate cost.
+		- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
+		- [ ] Remove individual life and soul fragments. Instead, use a crystal heart/block. For arrows, 
 		- [ ] Bug - the stupid arrow styling thing.
 - [ ] **Stretch Goals**
 	- [ ] **Graphical Improvements**

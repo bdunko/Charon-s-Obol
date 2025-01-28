@@ -278,10 +278,15 @@ func _add_tween(uniform: Uniform, tween: Tween) -> void:
 	if not tween in lis:
 		lis.append(tween)
 
-func _process(_delta) -> void:
+# this has performance issues when FX is used widely
+#func _process(_delta) -> void:
+#	# update the mouse position every frame
+#	get_parent().material.set_shader_parameter(_UNIFORM_MOUSE, get_parent().get_global_mouse_position())
+
+# instead, update mouse manaully if needed - it is the job of the user who needs mouse updates for shader to use this
+func process_update_mouse() -> void:
 	# update the mouse position every frame
 	get_parent().material.set_shader_parameter(_UNIFORM_MOUSE, get_parent().get_global_mouse_position())
-
 
 ## PREBAKED SHADER EFFECTS ##
 enum ScanDirection {
