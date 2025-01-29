@@ -75,6 +75,8 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _LEFT_HAND: CharonHand = $Table/CharonHandLeft
 @onready var _RIGHT_HAND: CharonHand = $Table/CharonHandRight
 
+@onready var _SPEEDRUN_TIMER: SpeedrunTimer = $UI/SpeedrunTimer
+
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
 const _TUTORIAL_FADE_ALPHA = 0.45
 const _TUTORIAL_FADE_TIME = 0.15
@@ -161,6 +163,8 @@ func _ready() -> void:
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
 	assert(_TUTORIAL_FADE_FX)
+	
+	assert(_SPEEDRUN_TIMER)
 	
 	_CHARON_FOG_FX.get_parent().show() # this is dumb but I want to hide the fog in editor...
 	_CHARON_FOG_FX.hide()
@@ -325,6 +329,7 @@ func _on_state_changed() -> void:
 		_on_game_end()
 
 func _on_game_end() -> void:
+	_SPEEDRUN_TIMER.finish()
 	if Global.tutorialState == Global.TutorialState.ENDING:
 		await _tutorial_fade_in()
 		await _wait_for_dialogue("We've reached the other shore...")
@@ -415,6 +420,8 @@ func on_start() -> void: #reset
 	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.OBOL, _PLAYER_NEW_COIN_POSITION)
 	
 	Global.state = Global.State.BOARDING
+	
+	_SPEEDRUN_TIMER.start()
 	
 	# pull back the hands, and have them move in
 	_LEFT_HAND.unlock()
@@ -633,8 +640,9 @@ func _on_toss_button_clicked() -> void:
 	_ENEMY_COIN_ROW.expand()
 	
 	# flip all the coins
-	for coin in _COIN_ROW.get_children():
+	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		coin = coin as Coin
+		coin.on_toss_initiated()
 		
 		if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
 			_safe_flip(coin, true, 1000000)
@@ -651,9 +659,6 @@ func _on_toss_button_clicked() -> void:
 			_safe_flip(coin, true, -1000000)
 		else:
 			_safe_flip(coin, true)
-	for coin in _ENEMY_COIN_ROW.get_children():
-		coin = coin as Coin
-		_safe_flip(coin, true)
 
 func _safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
 	flips_pending += 1
@@ -1538,10 +1543,7 @@ func _on_shop_coin_purchased(coin: Coin, price: int):
 
 func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.Denomination, initial_position: Vector2, during_round: bool = false) -> Coin:
 	var new_coin: Coin = _COIN_SCENE.instantiate()
-	new_coin.clicked.connect(_on_coin_clicked)
-	new_coin.flip_complete.connect(_on_flip_complete)
-	new_coin.hovered.connect(_on_coin_hovered)
-	new_coin.unhovered.connect(_on_coin_unhovered)
+	_init_new_coin_signals(new_coin)
 	_COIN_ROW.add_child(new_coin)
 	new_coin.global_position = initial_position
 	new_coin.init_coin(coin_family, denomination, Coin.Owner.PLAYER)
@@ -1559,8 +1561,13 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 	_COIN_ROW.add_child(coin)
 	coin.global_position = cur_pos
 	coin.mark_owned_by_player()
+	_init_new_coin_signals(coin)
+
+func _init_new_coin_signals(coin: Coin) -> void:
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
+	coin.hovered.connect(_on_coin_hovered)
+	coin.unhovered.connect(_on_coin_unhovered)
 
 func _remove_coin_from_row(coin: Coin) -> void:
 	assert(coin.get_parent() is CoinRow)

@@ -412,7 +412,7 @@ func get_store_price() -> int:
 			upgrade_modifier = Global.CUMULATIVE_TO_TRIOBOL
 		Global.Denomination.TETROBOL:
 			upgrade_modifier = Global.CUMULATIVE_TO_TETROBOL
-	return (_coin_family.base_price * Global.current_round_shop_multiplier()) + upgrade_modifier
+	return floor(_coin_family.base_price * Global.current_round_shop_multiplier()) + floor(upgrade_modifier * Global.STORE_UPGRADE_DISCOUNT)
 
 func get_upgrade_price() -> int:
 	match(_denomination):
@@ -427,8 +427,9 @@ func get_upgrade_price() -> int:
 	breakpoint
 	return 1000000
 
+const _SELL_MULT = 0.5
 func get_sell_price() -> int:
-	return max(1, ceil(get_store_price()/3.0))
+	return max(1, ceil(get_store_price() * _SELL_MULT))
 
 func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
@@ -495,7 +496,7 @@ func upgrade() -> void:
 	set_animation(_Animation.FLAT) # update sprite
 	FX.flash(Color.GOLDENROD)
 
-func downgrade() -> void:
+func downgrade(no_flash: bool = false) -> void:
 	match(_denomination):
 		Global.Denomination.DIOBOL:
 			_denomination = Global.Denomination.OBOL
@@ -506,7 +507,8 @@ func downgrade() -> void:
 	_update_payoff_powers()
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
-	FX.flash(Color.DARK_GRAY)
+	if not no_flash:
+		FX.flash(Color.DARK_GRAY)
 
 func _update_payoff_powers() -> void:
 	# immediately update specifically payoff powers...
@@ -1000,6 +1002,9 @@ func get_heads_icon() -> String:
 func get_tails_icon() -> String:
 	return _tails_power.power_family.icon_path
 
+func on_toss_initiated() -> void:
+	reset_power_uses()
+
 func on_toss_complete() -> void:
 	pass
 
@@ -1018,8 +1023,6 @@ func after_payoff() -> void:
 		FX.flash(Color.HOT_PINK)
 		_set_tails_power_to(_tails_power_overwritten)
 		_tails_power_overwritten = null
-	
-	reset_power_uses()
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()

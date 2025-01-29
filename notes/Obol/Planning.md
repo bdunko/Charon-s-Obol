@@ -2,30 +2,13 @@
 - [ ] **Active Goals - Feb 2 Sprint**
 	- [ ] **Week - Rebalancing & Reorienting**
 		- [ ] Polish
-			- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
-			- [ ] Shop shows upcoming tollgate cost.
-			- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
-			- [ ] Show coin limit visually on screen (maybe on carpet somewhere)
-			- [ ] Recharge when tossing instead of after toss.
+			- [ ] Thursday
+				- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
+				- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
 			- [ ] Shop should attempt to reroll coins which are entirely unaffordable (up to 5 times per coin) into something which is affordable.
-				- [ ] Shop should offer a discount on diobol, triobol, and tetrobol compared to upgrading. Incentivize buying from shop (and make it so obols aren't strictly best in shop)
-					- [ ] 20% cheaper
-			- [ ] Payoff coins and power coins should have a separate color scheme. Powers can go bronze silver gold green, payoffs should stay brown but do different shades of brown I guess
-			- [ ] In tutorial - shop should only have 3 coins (1 payoff and 2 powers).
 		- [ ] Bug
-			- [ ] Purchased coins from shop do not have correct signals to display buy/upgrade tags
 			- [ ] the stupid arrow styling thing
 			- [ ] After trial, remove filter in shop
-			- [ ] Need different status grow point and status bar positions for monsters of triobol or tetrobol level... also maybe the powericongrowpoint. Small thing but sigh...
-		- [ ] Utility for self
-			- [ ] Add logging which prints each round:
-				- [ ] coins earned each round
-				- [ ] life lost to strain
-				- [ ] life lost to tails.
-				- [ ] heads ratio
-				- [ ] tails ratio
-			- [ ] Log to text file.
-			- [ ] Add onscreen timer for self (we can dub this speedrun mode later in options), top left
 - [ ] **Stretch Goals**
 	- [ ] **Graphical Improvements**
 		- [ ] **Filters for the patron selection and main scenes.**

@@ -472,6 +472,8 @@ var MONSTER_WAVE_TUTORIAL2 = [
 
 var VOYAGE
 
+const STORE_UPGRADE_DISCOUNT = 0.75
+
 const _ANTE_LOW = AnteFormula.THREE_WITH_EXP
 const _ANTE_MID = AnteFormula.FIVE_WITH_EXP
 const _ANTE_HIGH = AnteFormula.SEVEN_WITH_EXP
