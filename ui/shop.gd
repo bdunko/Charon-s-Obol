@@ -6,9 +6,17 @@ signal coin_purchased
 static var _COIN_SCENE = preload("res://components/coin.tscn")
 @onready var _SHOP_ROW = $ShopRow
 
-const _NUM_GENERIC_SHOP_ITEMS = 1
-const _NUM_FLEX_SHOP_ITEMS = 1
-const _NUM_GOD_SHOP_ITEMS = 3
+const _TUTORIAL_NUM_PAYOFF = 1
+const _TUTORIAL_NUM_FLEX = 1
+const _TUTORIAL_NUM_POWER = 2
+
+const _STANDARD_NUM_PAYOFF = 1
+const _STANDARD_NUM_FLEX = 1
+const _STANDARD_NUM_POWER = 2
+
+const _MERCHANT_NUM_PAYOFF = 1
+const _MERCHANT_NUM_FLEX = 2
+const _MERCHANT_NUM_POWER = 3
 
 var _coin_spawn_point: Vector2
 
@@ -35,6 +43,27 @@ func _remove_children():
 		_SHOP_ROW.remove_child(coin)
 		coin.queue_free()
 
+func _num_payoff() -> int:
+	if Global.tutorialState != Global.TutorialState.INACTIVE:
+		return _TUTORIAL_NUM_PAYOFF
+	if Global.is_character(Global.Character.MERCHANT):
+		return _MERCHANT_NUM_PAYOFF
+	return _STANDARD_NUM_PAYOFF
+
+func _num_flex() -> int:
+	if Global.tutorialState != Global.TutorialState.INACTIVE:
+		return _TUTORIAL_NUM_FLEX
+	if Global.is_character(Global.Character.MERCHANT):
+		return _MERCHANT_NUM_FLEX
+	return _STANDARD_NUM_FLEX
+
+func _num_power() -> int:
+	if Global.tutorialState != Global.TutorialState.INACTIVE:
+		return _TUTORIAL_NUM_POWER
+	if Global.is_character(Global.Character.MERCHANT):
+		return _MERCHANT_NUM_POWER
+	return _STANDARD_NUM_POWER
+
 func randomize_and_show_shop() -> void:
 	_remove_children()
 	
@@ -54,14 +83,14 @@ func randomize_and_show_shop() -> void:
 	
 	# randomize the types of coins to add to stock
 	var to_stock = []
-	for i in _NUM_GENERIC_SHOP_ITEMS:
+	for i in _num_payoff():
 		to_stock.append(_StockType.PAYOFF)
-	for i in _NUM_FLEX_SHOP_ITEMS:
+	for i in _num_flex():
 		if Global.RNG.randi_range(0, 1) == 0:
 			to_stock.append(_StockType.PAYOFF)
 		else:
 			to_stock.append(_StockType.POWER)
-	for i in _NUM_GOD_SHOP_ITEMS:
+	for i in _num_power():
 		to_stock.append(_StockType.POWER)
 	
 	# choose the specific coin families given the types

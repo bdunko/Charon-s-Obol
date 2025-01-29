@@ -90,7 +90,6 @@ offset_left = 215.0
 offset_right = 249.0
 
 [node name="Six" type="Node2D" parent="PLACEHOLDERS"]
-visible = false
 
 [node name="1" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
 offset_left = 59.0
@@ -222,6 +221,7 @@ offset_left = 279.0
 offset_right = 313.0
 
 [node name="Ten" type="Node2D" parent="PLACEHOLDERS"]
+visible = false
 
 [node name="1" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
 offset_left = 3.0

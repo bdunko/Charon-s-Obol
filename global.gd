@@ -122,7 +122,7 @@ var CHARACTERS = {
 	
 	Character.MERCHANT : CharacterData.new(2, Global.Character.MERCHANT, "[color=gold]The Merchant[/color]", \
 		"\"Virtue does not come from [color=gold]wealth[/color], but [color=gold]wealth[/color], and every other good thing which men have comes from virtue.\"\n-Socrates",
-		"Coins may be sold back to the Shop.\nCoins cannot be upgraded in the Shop.",
+		"Coins may be sold back to the Shop.\nCoins cannot be upgraded in the Shop.\nThe shop offers 2 more coins.",
 		["The birds are singing.", 
 		"The sun is shining.",
 		"People parade through the streets.",
