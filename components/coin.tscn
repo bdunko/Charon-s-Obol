@@ -1151,10 +1151,10 @@ animations = [{
 }]
 
 [node name="Coin" type="Control"]
-custom_minimum_size = Vector2(35, 44)
+custom_minimum_size = Vector2(34, 44)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 35.0
+offset_right = 34.0
 offset_bottom = 44.0
 mouse_filter = 2
 script = ExtResource("1_eg3xp")

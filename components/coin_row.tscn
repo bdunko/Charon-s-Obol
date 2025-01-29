@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="2_exv03"]
 
 [node name="CoinRow" type="Control"]
-custom_minimum_size = Vector2(313, 44)
+custom_minimum_size = Vector2(320, 44)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 313.0
+offset_right = 314.0
 offset_bottom = 44.0
 mouse_filter = 2
 script = ExtResource("1_kg7i3")
@@ -18,248 +18,250 @@ script = ExtResource("1_kg7i3")
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/One" instance=ExtResource("2_exv03")]
-offset_left = 139.0
-offset_right = 174.0
+offset_left = 143.0
+offset_right = 177.0
 
 [node name="Two" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Two" instance=ExtResource("2_exv03")]
-offset_left = 121.0
-offset_right = 156.0
+offset_left = 124.0
+offset_right = 158.0
 
 [node name="2" parent="PLACEHOLDERS/Two" instance=ExtResource("2_exv03")]
-offset_left = 157.0
-offset_right = 192.0
+offset_left = 162.0
+offset_right = 196.0
 
 [node name="Three" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Three" instance=ExtResource("2_exv03")]
-offset_left = 103.0
-offset_right = 138.0
+offset_left = 105.0
+offset_right = 139.0
 
 [node name="2" parent="PLACEHOLDERS/Three" instance=ExtResource("2_exv03")]
-offset_left = 139.0
-offset_right = 174.0
+offset_left = 143.0
+offset_right = 177.0
 
 [node name="3" parent="PLACEHOLDERS/Three" instance=ExtResource("2_exv03")]
-offset_left = 175.0
-offset_right = 210.0
+offset_left = 181.0
+offset_right = 215.0
 
 [node name="Four" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Four" instance=ExtResource("2_exv03")]
-offset_left = 85.0
-offset_right = 120.0
+offset_left = 89.0
+offset_right = 123.0
 
 [node name="2" parent="PLACEHOLDERS/Four" instance=ExtResource("2_exv03")]
-offset_left = 121.0
-offset_right = 156.0
+offset_left = 125.0
+offset_right = 159.0
 
 [node name="3" parent="PLACEHOLDERS/Four" instance=ExtResource("2_exv03")]
-offset_left = 157.0
-offset_right = 192.0
+offset_left = 161.0
+offset_right = 195.0
 
 [node name="4" parent="PLACEHOLDERS/Four" instance=ExtResource("2_exv03")]
-offset_left = 193.0
-offset_right = 228.0
+offset_left = 197.0
+offset_right = 231.0
 
 [node name="Five" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Five" instance=ExtResource("2_exv03")]
-offset_left = 67.0
-offset_right = 102.0
+offset_left = 71.0
+offset_right = 105.0
 
 [node name="2" parent="PLACEHOLDERS/Five" instance=ExtResource("2_exv03")]
-offset_left = 103.0
-offset_right = 138.0
+offset_left = 107.0
+offset_right = 141.0
 
 [node name="3" parent="PLACEHOLDERS/Five" instance=ExtResource("2_exv03")]
-offset_left = 139.0
-offset_right = 174.0
+offset_left = 143.0
+offset_right = 177.0
 
 [node name="4" parent="PLACEHOLDERS/Five" instance=ExtResource("2_exv03")]
-offset_left = 175.0
-offset_right = 210.0
+offset_left = 179.0
+offset_right = 213.0
 
 [node name="5" parent="PLACEHOLDERS/Five" instance=ExtResource("2_exv03")]
-offset_left = 211.0
-offset_right = 246.0
+offset_left = 215.0
+offset_right = 249.0
 
 [node name="Six" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
-offset_left = 49.0
-offset_right = 84.0
+offset_left = 59.0
+offset_right = 93.0
 
 [node name="2" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
-offset_left = 85.0
-offset_right = 120.0
+offset_left = 93.0
+offset_right = 127.0
 
 [node name="3" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
-offset_left = 121.0
-offset_right = 156.0
+offset_left = 127.0
+offset_right = 161.0
 
 [node name="4" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
-offset_left = 157.0
-offset_right = 192.0
+offset_left = 159.0
+offset_right = 193.0
 
 [node name="5" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
 offset_left = 193.0
-offset_right = 228.0
+offset_right = 227.0
 
 [node name="6" parent="PLACEHOLDERS/Six" instance=ExtResource("2_exv03")]
-offset_left = 229.0
-offset_right = 264.0
+offset_left = 227.0
+offset_right = 261.0
 
 [node name="Seven" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 31.0
-offset_right = 66.0
+offset_left = 38.0
+offset_right = 72.0
 
 [node name="2" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 67.0
-offset_right = 102.0
+offset_left = 73.0
+offset_right = 107.0
 
 [node name="3" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 103.0
-offset_right = 138.0
+offset_left = 108.0
+offset_right = 142.0
 
 [node name="4" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 139.0
-offset_right = 174.0
+offset_left = 143.0
+offset_right = 177.0
 
 [node name="5" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 175.0
-offset_right = 210.0
+offset_left = 178.0
+offset_right = 212.0
 
 [node name="6" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 211.0
-offset_right = 246.0
+offset_left = 213.0
+offset_right = 247.0
 
 [node name="7" parent="PLACEHOLDERS/Seven" instance=ExtResource("2_exv03")]
-offset_left = 247.0
+offset_left = 248.0
 offset_right = 282.0
 
 [node name="Eight" type="Node2D" parent="PLACEHOLDERS"]
+visible = false
 
 [node name="1" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 13.0
-offset_right = 48.0
+offset_left = 17.0
+offset_right = 51.0
 
 [node name="2" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 49.0
-offset_right = 84.0
+offset_left = 53.0
+offset_right = 87.0
 
 [node name="3" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 85.0
-offset_right = 120.0
+offset_left = 89.0
+offset_right = 123.0
 
 [node name="4" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 121.0
-offset_right = 156.0
+offset_left = 125.0
+offset_right = 159.0
 
 [node name="5" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 157.0
-offset_right = 192.0
+offset_left = 161.0
+offset_right = 195.0
 
 [node name="6" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 193.0
-offset_right = 228.0
+offset_left = 197.0
+offset_right = 231.0
 
 [node name="7" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 229.0
-offset_right = 264.0
+offset_left = 233.0
+offset_right = 267.0
 
 [node name="8" parent="PLACEHOLDERS/Eight" instance=ExtResource("2_exv03")]
-offset_left = 265.0
-offset_right = 300.0
+offset_left = 269.0
+offset_right = 303.0
 
 [node name="Nine" type="Node2D" parent="PLACEHOLDERS"]
 visible = false
 
 [node name="1" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 3.0
-offset_right = 38.0
+offset_left = 7.0
+offset_right = 41.0
 
 [node name="2" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 37.0
-offset_right = 72.0
+offset_left = 41.0
+offset_right = 75.0
 
 [node name="3" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 71.0
-offset_right = 106.0
+offset_left = 75.0
+offset_right = 109.0
 
 [node name="4" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 105.0
-offset_right = 140.0
+offset_left = 109.0
+offset_right = 143.0
 
 [node name="5" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 139.0
-offset_right = 174.0
+offset_left = 143.0
+offset_right = 177.0
 
 [node name="6" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 173.0
-offset_right = 208.0
+offset_left = 177.0
+offset_right = 211.0
 
 [node name="7" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 207.0
-offset_right = 242.0
+offset_left = 211.0
+offset_right = 245.0
 
 [node name="8" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 241.0
-offset_right = 276.0
+offset_left = 245.0
+offset_right = 279.0
 
 [node name="9" parent="PLACEHOLDERS/Nine" instance=ExtResource("2_exv03")]
-offset_left = 275.0
-offset_right = 310.0
+offset_left = 279.0
+offset_right = 313.0
 
 [node name="Ten" type="Node2D" parent="PLACEHOLDERS"]
-visible = false
 
 [node name="1" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
+offset_left = 3.0
+offset_right = 37.0
 
 [node name="2" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 31.0
-offset_right = 66.0
+offset_left = 34.0
+offset_right = 68.0
 
 [node name="3" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 62.0
-offset_right = 97.0
+offset_left = 65.0
+offset_right = 99.0
 
 [node name="4" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 93.0
-offset_right = 128.0
+offset_left = 96.0
+offset_right = 130.0
 
 [node name="5" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 124.0
-offset_right = 159.0
+offset_left = 127.0
+offset_right = 161.0
 
 [node name="6" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 155.0
-offset_right = 190.0
+offset_left = 159.0
+offset_right = 193.0
 
 [node name="7" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 186.0
-offset_right = 221.0
+offset_left = 190.0
+offset_right = 224.0
 
 [node name="8" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 217.0
-offset_right = 252.0
+offset_left = 221.0
+offset_right = 255.0
 
 [node name="9" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 248.0
-offset_right = 283.0
+offset_left = 252.0
+offset_right = 286.0
 
 [node name="10" parent="PLACEHOLDERS/Ten" instance=ExtResource("2_exv03")]
-offset_left = 279.0
-offset_right = 314.0
+offset_left = 283.0
+offset_right = 317.0
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
