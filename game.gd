@@ -978,7 +978,7 @@ func _advance_round() -> void:
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(6) + Vector2(6, 5))
 		await _wait_for_dialogue("Black dots are standard rounds...")
 		await _wait_for_dialogue("So far, you've completed four standard rounds.")
-		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(7) + Vector2(6, 4))
+		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(7) + Vector2(6, 3))
 		await _wait_for_dialogue("Red dots are Trial rounds.")
 		await _wait_for_dialogue("A trial presents additional challenges to overcome...")
 		_DIALOGUE.show_dialogue("Mouse over the red dot to learn about the Trial...")
@@ -995,7 +995,7 @@ func _advance_round() -> void:
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _LEFT_HAND.move_offscreen()
 		Global.restore_z(_LEFT_HAND)
-		_LEFT_HAND.move_to_default_position()
+		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("To win my game...")
 		await _wait_for_dialogue("You must pass all the trials...")
 		await _wait_for_dialogue("And pay all the tolls.")
@@ -1003,6 +1003,31 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("You may view the map during a round by clicking it.")
 		_DIALOGUE.show_dialogue("For now, let's continue to the next normal round.")
 		Global.tutorialState = Global.TutorialState.ROUND5_INTRO
+	
+	# first round - point at the trials and nemesis
+	if Global.round_count == Global.FIRST_ROUND and Global.tutorialState == Global.TutorialState.INACTIVE:
+		await _wait_for_dialogue("Take a moment to view our route...")
+		_DIALOGUE.show_dialogue("Observe the challenges which lie ahead.")
+		_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
+		await _LEFT_HAND.move_offscreen()
+		Global.temporary_set_z(_LEFT_HAND, _MAP_ACTIVE_Z_INDEX + 1)
+		UITooltip.disable_automatic_tooltips()
+		# point at trials in order...
+		var i = 1
+		for rnd in Global.VOYAGE:
+			if rnd.roundType == Global.RoundType.TRIAL1 or rnd.roundType == Global.RoundType.TRIAL2 or rnd.roundType == Global.RoundType.NEMESIS:
+				_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
+				await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(6, 3))
+				var tooltip = UITooltip.create_manual(_VOYAGE_MAP.node_tooltip_string(i), _VOYAGE_MAP.node_position(i) + Vector2(6, 4), get_tree().root)
+				await Global.left_click_input
+				tooltip.destroy_tooltip()
+			i += 1
+		_PLAYER_TEXTBOXES.make_invisible()
+		await _LEFT_HAND.move_offscreen()
+		UITooltip.enable_all_tooltips()
+		Global.restore_z(_LEFT_HAND)
+		_LEFT_HAND.unpoint()
+		_DIALOGUE.show_dialogue("Are you ready to begin?")
 	
 	if Global.did_ante_increase():
 		await _wait_for_dialogue("The river is deepening...")
@@ -1229,7 +1254,7 @@ func _on_voyage_continue_button_clicked():
 	# if this is the first round, give an obol
 	if first_round:
 		if Global.tutorialState != Global.TutorialState.ROUND1_OBOL_INTRODUCTION:
-			await _wait_for_dialogue("Now place your payment on the table...")
+			await _wait_for_dialogue("Place your payment on the table...")
 			_make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, _PLAYER_NEW_COIN_POSITION) # make a single starting coin
 		
 			# removed, but kept potentially for later - generate a random bonus starting coin from patron

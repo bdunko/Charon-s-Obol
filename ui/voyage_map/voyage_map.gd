@@ -94,6 +94,11 @@ func node_position(i: int) -> Vector2:
 		return Vector2(-1, -1)
 	return _NODES.get_child(i).get_global_position()
 
+func node_tooltip_string(i: int) -> String:
+	if i >= _NODES.get_child_count():
+		return "ERROR"
+	return _NODES.get_child(i).get_node_tooltip()
+
 func change_river_color(colorStyle: River.ColorStyle, instant: bool) -> void:
 	_RIVER.change_color(colorStyle, instant)
 

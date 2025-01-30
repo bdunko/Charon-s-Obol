@@ -2,7 +2,13 @@ class_name UITooltip
 extends MarginContainer
 
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
-static var _ENABLED := true
+
+
+enum _TooltipSystemState {
+	SHOW_ALL, HIDE_ALL, HIDE_AUTO
+}
+
+static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 # offset of the tooltip from the mouse
@@ -10,7 +16,7 @@ const _TOOLTIP_OFFSET := Vector2(-73, 15)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
-const _MAX_WIDTH_THRESHOLD := 140
+const _MAX_WIDTH_THRESHOLD := 160
 
 const _FORMAT := "[center]%s[/center]"
 
@@ -20,21 +26,28 @@ enum Style {
 
 var source # must be either Control, Area2D, or MouseWatcher
 var style: Style
+var manual_control: bool
+var manual_mouse_position: Vector2
 
 func get_label() -> RichTextLabel:
 	var label = find_child("TooltipText")
 	assert(label)
 	return label
 
-static func enable_tooltips():
-	_ENABLED = true
+static func enable_all_tooltips():
+	_SYSTEM_STATE = _TooltipSystemState.SHOW_ALL
 	for tooltip in _ALL_TOOLTIPS:
 		tooltip.visible = true
 
-static func disable_tooltips():
-	_ENABLED = false
+static func disable_all_tooltips():
+	_SYSTEM_STATE = _TooltipSystemState.HIDE_ALL
 	for tooltip in _ALL_TOOLTIPS:
 		tooltip.visible = false
+
+static func disable_automatic_tooltips():
+	_SYSTEM_STATE = _TooltipSystemState.HIDE_AUTO
+	for tooltip in _ALL_TOOLTIPS:
+		tooltip.visible = tooltip.manual_control
 
 static func clear_tooltips():
 	for tooltip in _ALL_TOOLTIPS:
@@ -79,20 +92,23 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 			connect_source.call(tooltip)
 			return
 	
-	var tooltip: UITooltip = create_manual(src, text, global_mouse_position, scene_root, tooltip_style)
-	
+	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, tooltip_style)
 	connect_source.call(tooltip)
+
+static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
+	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, tooltip_style, true)
+	return tooltip
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func create_manual(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
-	assert(src is Control or src is Area2D or src is MouseWatcher)
-	
+static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR, is_manual: bool = false) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
 	tooltip.source = src
 	tooltip.style = tooltip_style
+	tooltip.manual_control = is_manual
+	tooltip.manual_mouse_position = mouse_position
 	
 	var label = tooltip.get_label()
 	
@@ -136,7 +152,7 @@ static func create_manual(src, text: String, global_mouse_position: Vector2, sce
 		
 	label.text = _FORMAT % text
 	
-	tooltip.position = global_mouse_position + _TOOLTIP_OFFSET
+	tooltip.position = mouse_position + _TOOLTIP_OFFSET
 	scene_root.add_child(tooltip)
 	
 	_ALL_TOOLTIPS.append(tooltip)
@@ -152,20 +168,20 @@ static func create_manual(src, text: String, global_mouse_position: Vector2, sce
 	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85 if tooltip.style == Style.CLEAR else 1.0, 0.1)
 	
 	# set initial visibility based on if tooltips are enabled
-	tooltip.visible = _ENABLED
+	tooltip.visible = true if _SYSTEM_STATE == _TooltipSystemState.SHOW_ALL or (_SYSTEM_STATE == _TooltipSystemState.HIDE_AUTO and tooltip.manual_control) else false
 	
 	return tooltip
 
 func _process(_delta):
-	if not is_instance_valid(source):
+	if not manual_control and not is_instance_valid(source):
 		destroy_tooltip()
 		return
 	
 	# problem - this code doesn't handle rotations at all, like at all.
 	
 	# HINT - common problem if tooltip appears but immediately vanishes; check size of the control carefully!
-	var mouse_position = get_global_mouse_position()
-	if source is Control:
+	var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
+	if source != null and source is Control:
 		if not Rect2(source.global_position, source.size).has_point(mouse_position):
 			destroy_tooltip() # if the source has moved away from mouse, destroy the tooltip
 	# $HACK$? - I guess we don't need this Area2D case - dunno, seems to work without it...
@@ -185,7 +201,7 @@ func _get_real_rect():
 # force the tooltip to be within the screen boundaries and not overlapping the mouse
 func _force_position_onto_screen():
 	# update position based on mouse position and screen position
-	var mouse_position = get_global_mouse_position()
+	var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
 	var viewport_rect = get_viewport_rect()
 
 	#$HACK$ - idk why but Tooltip's y size is way larger than it should be, but this is right

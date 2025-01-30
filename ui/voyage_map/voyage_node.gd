@@ -67,8 +67,9 @@ func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0, custom
 	
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
-	
-	
+
+func get_node_tooltip() -> String:
+	return _TOOLTIP.get_tooltip_string()
 
 func _on_tooltip_created():
 	emit_signal("hovered")

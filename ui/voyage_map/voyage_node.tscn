@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bqfaj14sdjdpo"]
+[gd_scene load_steps=22 format=3 uid="uid://bqfaj14sdjdpo"]
 
 [ext_resource type="Script" path="res://ui/voyage_map/voyage_node.gd" id="1_0aijh"]
 [ext_resource type="Texture2D" uid="uid://cjhxmaumlkkeb" path="res://assets/table/voyage_map/node/path_full.png" id="1_ej6my"]
@@ -124,6 +124,8 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2kwit"]
+
 [node name="VoyageNode" type="Control"]
 custom_minimum_size = Vector2(11, 21)
 layout_mode = 3
@@ -144,7 +146,7 @@ animation = &"nemesis"
 centered = false
 
 [node name="CustomIcon" type="Sprite2D" parent="."]
-visible = false
+material = SubResource("ShaderMaterial_2kwit")
 position = Vector2(1, 3)
 texture = ExtResource("11_5pejp")
 centered = false

@@ -17,6 +17,9 @@ func set_tooltip(new_tooltip: String) -> void:
 	if _tooltip_visible:
 		_show_tooltip()
 
+func get_tooltip_string() -> String:
+	return _tooltip
+
 func _ready() -> void:
 	connect("mouse_entered", _on_mouse_entered)
 	connect("mouse_exited", _on_mouse_exited)
