@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bcjopt7s2pcsj"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_y8a6h"]
-[ext_resource type="Texture2D" uid="uid://cpm6c8k5weglh" path="res://assets/table/token/demeter.png" id="2_46i8c"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_n6l3p"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_b6y80"]
+[ext_resource type="Texture2D" uid="uid://culthcw36r15" path="res://assets/table/patron_token_spritesheet.png" id="3_dur1x"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="5_k4wqf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6kt1g"]
@@ -136,8 +136,11 @@ script = ExtResource("1_y8a6h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_6kt1g")
-texture = ExtResource("2_46i8c")
+texture = ExtResource("3_dur1x")
 centered = false
+hframes = 7
+vframes = 7
+frame = 9
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("3_b6y80")]
 

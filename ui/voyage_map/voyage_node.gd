@@ -9,6 +9,7 @@ enum VoyageNodeType {
 }
 
 @onready var _PATH = $Path
+@onready var _CUSTOM_ICON = $CustomIcon
 @onready var _TYPE = $Type
 @onready var _PRICE_LABEL = $Price
 @onready var _TOOLTIP = $TooltipEmitter
@@ -21,12 +22,13 @@ func _ready():
 	assert(_PRICE_LABEL)
 	assert(_TOOLTIP)
 	_PRICE_LABEL.hide()
+	_CUSTOM_ICON.hide()
 	_TOOLTIP.tooltip_created.connect(_on_tooltip_created)
 
 func ship_position() -> Vector2:
 	return Vector2(position.x - 4, 29)
 
-func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0) -> void:
+func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0, custom_icon: Texture2D = null) -> void:
 	assert(tooltip == "" or (vnt == VoyageNodeType.NEMESIS or vnt == VoyageNodeType.TRIAL or vnt == VoyageNodeType.TOLLGATE))
 	assert(price == 0 or vnt == VoyageNodeType.TOLLGATE)
 	
@@ -54,11 +56,19 @@ func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0) -> voi
 			_PATH.play("full")
 			_PRICE_LABEL.text = _PRICE_FORMAT % price
 	
+	# set custom icon and hide generic one if provided
+	if custom_icon != null:
+		_TYPE.hide()
+		_CUSTOM_ICON.show()
+		_CUSTOM_ICON.texture = custom_icon
+	
 	# update tooltip
 	_TOOLTIP.set_tooltip(tooltip)
 	
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
+	
+	
 
 func _on_tooltip_created():
 	emit_signal("hovered")

@@ -36,10 +36,10 @@ func _on_state_changed() -> void:
 	if Global.state == Global.State.GAME_OVER:
 		_set_boat_start() # reset boat position
 
-func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int = 0):
+func _add_node(vnt: VoyageNode.VoyageNodeType, tooltip: String = "", price: int = 0, custom_icon: Texture2D = null):
 	var node: VoyageNode = _NODE_SCENE.instantiate()
 	_NODES.add_child(node)
-	node.init_node(vnt, tooltip, price)
+	node.init_node(vnt, tooltip, price, custom_icon)
 	if vnt == VoyageNode.VoyageNodeType.TRIAL:
 		node.hovered.connect(_on_trial_hovered)
 
@@ -58,13 +58,13 @@ func update_tooltips() -> void:
 			Global.RoundType.BOARDING:
 				_add_node(VoyageNode.VoyageNodeType.DOCK)
 			Global.RoundType.NORMAL:
-				_add_node(VoyageNode.VoyageNodeType.NODE)
+				_add_node(VoyageNode.VoyageNodeType.NODE, "", 0, rnd.get_icon())
 			Global.RoundType.TOLLGATE:
-				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, Global.replace_placeholders(_TOLLGATE_FORMAT % rnd.tollCost), rnd.tollCost)
+				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, Global.replace_placeholders(_TOLLGATE_FORMAT % rnd.tollCost), rnd.tollCost, rnd.get_icon())
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
-				_add_node(VoyageNode.VoyageNodeType.TRIAL, Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota]))
+				_add_node(VoyageNode.VoyageNodeType.TRIAL, Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota]), 0, rnd.get_icon())
 			Global.RoundType.NEMESIS:
-				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [rnd.trialData.name, rnd.trialData.description])
+				_add_node(VoyageNode.VoyageNodeType.NEMESIS, _NEMESIS_FORMAT % [rnd.trialData.name, rnd.trialData.description], 0, rnd.get_icon())
 			Global.RoundType.END:
 				_add_node(VoyageNode.VoyageNodeType.RIGHT_END)
 	

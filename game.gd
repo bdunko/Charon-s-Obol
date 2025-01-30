@@ -2277,7 +2277,7 @@ func _deactivate_active_power() -> void:
 		_ACCEPT_TEXTBOX.enable()
 
 func _on_shop_reroll_button_clicked():
-	if Global.souls <= Global.reroll_cost():
+	if Global.souls < Global.reroll_cost():
 		_DIALOGUE.show_dialogue("Not enough souls...")
 		return
 	_PLAYER_TEXTBOXES.make_invisible()

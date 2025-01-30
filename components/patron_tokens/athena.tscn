@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cecmoqk22suvi"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_qnwod"]
-[ext_resource type="Texture2D" uid="uid://bl5621syfg20a" path="res://assets/table/token/athena.png" id="2_bfsx4"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_qwwv7"]
+[ext_resource type="Texture2D" uid="uid://culthcw36r15" path="res://assets/table/patron_token_spritesheet.png" id="3_q8m02"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_y7j1m"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="5_bef7w"]
 
@@ -136,8 +136,11 @@ script = ExtResource("1_qnwod")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_6sarh")
-texture = ExtResource("2_bfsx4")
+texture = ExtResource("3_q8m02")
 centered = false
+hframes = 7
+vframes = 7
+frame = 7
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("3_y7j1m")]
 

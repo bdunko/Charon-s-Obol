@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbnd4jp2g0alg"
-path="res://.godot/imported/artemis.png-3ce532ddbb7c188e36790dd866825f86.ctex"
+uid="uid://culthcw36r15"
+path="res://.godot/imported/patron_token_spritesheet.png-2304be76bc5a2cf7885a01bd46000f26.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/table/token/artemis.png"
-dest_files=["res://.godot/imported/artemis.png-3ce532ddbb7c188e36790dd866825f86.ctex"]
+source_file="res://assets/table/patron_token_spritesheet.png"
+dest_files=["res://.godot/imported/patron_token_spritesheet.png-2304be76bc5a2cf7885a01bd46000f26.ctex"]
 
 [params]
 

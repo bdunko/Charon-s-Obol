@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_e0hf5"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_6y2kx"]
-[ext_resource type="Texture2D" uid="uid://d040en8lq1gyf" path="res://assets/table/token/hestia.png" id="2_ifbmu"]
+[ext_resource type="Texture2D" uid="uid://culthcw36r15" path="res://assets/table/patron_token_spritesheet.png" id="3_36iau"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_ourrf"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="5_jf51k"]
 
@@ -136,8 +136,11 @@ script = ExtResource("1_e0hf5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_8iqan")
-texture = ExtResource("2_ifbmu")
+texture = ExtResource("3_36iau")
 centered = false
+hframes = 7
+vframes = 7
+frame = 15
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("3_ourrf")]
 

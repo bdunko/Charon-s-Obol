@@ -2,17 +2,23 @@
 - [ ] **Active Goals - Feb 2 Sprint**
 	- [ ] **Week - Rebalancing & Reorienting**
 		- [ ] Polish
-			- [ ] Thursday
-				- [ ] Map should use specific icons for nemesis and trials instead of generic icons.
+			- [ ] Today 
 				- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
-			- [ ] Shop should attempt to reroll coins which are entirely unaffordable (up to 5 times per coin) into something which is affordable.
+				- [ ] After trial, remove color filter in shop
+				- [ ] During trial and nemesis, add additional wind particles (bright red/purple)
+			- [ ] Thursday/Friday
+				- [ ] **Filters for the patron selection and main scenes.**
+					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+			- [ ] Saturday/Sunday
+				- [ ] Settings menu.
+				- [ ] Should be openable from game or main menu.
+				- [ ] When opened in game, should offer an 'end run' option.
 		- [ ] Bug
 			- [ ] the stupid arrow styling thing
-			- [ ] After trial, remove filter in shop
 - [ ] **Stretch Goals**
 	- [ ] **Graphical Improvements**
-		- [ ] **Filters for the patron selection and main scenes.**
-			- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything
+		- [ ] **Update Shader to work with Spritesheets**
+			- [ ] Shader does not work with spritesheets which work across the entire sheet.
 		- [ ] **Unlock Improvements**
 			- [ ] Transitions between unlocks. Transitions between unlock ending and main menu
 			- [ ] Can probably have falling coins in the background via particles
@@ -22,6 +28,10 @@
 				- [ ] Artemis - explain arrows.
 				- [ ] Hephaestus - explain ignite.
 				- [ ] Eleusianian - "Now, let the real game begin..."
+		- [ ] **Orphic Tablets**
+			- [ ] Option unlocked on main menu once unlocked.
+			- [ ] New tablets unlocked in progression.
+
 		- [ ] **Particles**
 			- [ ] Extra
 				- [ ] After a flip ends, play dust effect with EruptOutRing
@@ -35,14 +45,17 @@
 			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
 			- [ ] Also triggered on esc
 			- [ ] maybe can steal this implementation from MonScript (script editor definitely had a popup thingy)
-		- [ ] Map should use icons from trials and boss instead of just generic T and purple skull. Also would be nice to fit in a special 'miniboss' round for the first time an Elite spawns.
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Difficulty levels**
+	- [ ] Base difficulty.
 	- [ ] Charon will unleash his Malice.
 	- [ ] Trials have two modifiers and higher quotas.
 	- [ ] Shops and tollgates are more expensive.
+		- [ ] Increase shop multipliers + upgrade prices.
 	- [ ] Monsters and the Nemesis are more powerful.
+		- [ ] Monsters have higher tails penalty and waves are more powerful.
+		- [ ] Nemesis are stronger.
 	- [ ] Additional scaling options (stakes?)
 		- [ ] Tails chance
 		- [ ] Shop prices
@@ -71,12 +84,16 @@
 		- [ ] Sap - Coin does not naturally recharge each toss.
 		- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
 		- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-	- [ ] **Enhanced Monster Effects**
+	- [ ] Scales of Themis
+		- [ ] Additional difficulty tweakings such as heads/tails chances, shop prices, upgrade prices, etc.
+		- [ ] Offers an overall 'weight' which predicts how hard a setting will be.
+		- [ ] Unlocked sometime in the unlock progression (late)
+	- [ ] **Enhanced Monster Effects (Projectile animations)**
 		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
 		- [ ] Add projectiles for monster coins targetting coins in player's row. 
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
-				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count.
+				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
 - [ ] **Coin Graphical Effects**
 - [ ] **More Content**
 	- [ ] **New bosses**
@@ -115,11 +132,10 @@
 	- [ ] Worldly - nature themed coins, healing focus
 	- [ ] Corrupted - Coins with downsides
 	- [ ] Metamorphosis - Coins that trade, exchange, gain, destroy coins.
-	- [ ] Predestined - Absolutely no coins that reflip, focus on lucky/bless etc
-	- [ ] Fundamental - Absolutely no coins with Statuses.
+	- [ ] Preordained - Absolutely no coins that reflip, focus on lucky/bless etc
+	- [ ] Fundamentals - Absolutely no coins with Statuses.
 	- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 	- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
-
 
 
 
