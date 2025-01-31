@@ -1018,7 +1018,8 @@ func _advance_round() -> void:
 			if rnd.roundType == Global.RoundType.TRIAL1 or rnd.roundType == Global.RoundType.TRIAL2 or rnd.roundType == Global.RoundType.NEMESIS:
 				_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
 				await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(6, 3))
-				var tooltip = UITooltip.create_manual(_VOYAGE_MAP.node_tooltip_string(i), _VOYAGE_MAP.node_position(i) + Vector2(6, 4), get_tree().root)
+				var tooltip = UITooltip.create_manual(_VOYAGE_MAP.node_tooltip_string(i), _VOYAGE_MAP.node_position(i) + Vector2(6, 4), get_tree().root, UITooltip.Style.OPAQUE)
+				await Global.delay(0.25)
 				await Global.left_click_input
 				tooltip.destroy_tooltip()
 			i += 1

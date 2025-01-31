@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bqfaj14sdjdpo"]
+[gd_scene load_steps=21 format=3 uid="uid://bqfaj14sdjdpo"]
 
 [ext_resource type="Script" path="res://ui/voyage_map/voyage_node.gd" id="1_0aijh"]
 [ext_resource type="Texture2D" uid="uid://cjhxmaumlkkeb" path="res://assets/table/voyage_map/node/path_full.png" id="1_ej6my"]
@@ -52,10 +52,6 @@ region = Rect2(11, 0, 11, 21)
 atlas = ExtResource("8_stfbt")
 region = Rect2(0, 0, 11, 21)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_36wts"]
-atlas = ExtResource("8_stfbt")
-region = Rect2(11, 0, 11, 21)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_sy2e3"]
 atlas = ExtResource("1_qbcvo")
 region = Rect2(0, 0, 11, 21)
@@ -104,9 +100,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fts3e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_36wts")
 }],
 "loop": true,
 "name": &"tollgate",
@@ -142,7 +135,7 @@ centered = false
 
 [node name="Type" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_o6fe2")
-animation = &"nemesis"
+animation = &"tollgate"
 centered = false
 
 [node name="CustomIcon" type="Sprite2D" parent="."]

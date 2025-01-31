@@ -4,13 +4,11 @@ extends Node2D
 @onready var GAME_SCENE = $Game
 @onready var MAIN_MENU_SCENE = $MainMenu
 @onready var GOD_SELECTION_SCENE = $GodSelection
-@onready var MAIN_MENU_POST_PROCESSING_FX = $PostProcess/MainMenu/FX
 
 func _ready() -> void:
 	assert(GAME_SCENE)
 	assert(MAIN_MENU_SCENE)
 	assert(GOD_SELECTION_SCENE)
-	assert(MAIN_MENU_POST_PROCESSING_FX)
 	
 	Global.load_save() # load save file
 	
@@ -22,7 +20,6 @@ func _on_main_menu_start_game():
 	if not TransitionPlayer.is_playing():
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 		MAIN_MENU_SCENE.hide()
-		MAIN_MENU_POST_PROCESSING_FX.fade_out(1.0)
 		await Global.delay(0.3)
 		TransitionPlayer.set_text(Global.character.introText)
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
@@ -57,7 +54,6 @@ func _on_game_game_ended(victory: bool):
 		GOD_SELECTION_SCENE.on_victory()
 	# otherwise go straight back to main menu
 	else:
-		MAIN_MENU_POST_PROCESSING_FX.fade_in(1.0)
 		MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 	TransitionPlayer.reset_color()
@@ -80,5 +76,4 @@ func _on_god_selection_exited():
 	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
-	MAIN_MENU_POST_PROCESSING_FX.fade_in(1.0)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

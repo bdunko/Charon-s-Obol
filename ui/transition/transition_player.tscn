@@ -5,7 +5,10 @@
 [node name="Transitions" type="Node2D"]
 script = ExtResource("1_xu3p7")
 
-[node name="ColorBox" type="ColorRect" parent="."]
+[node name="Layer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="ColorBox" type="ColorRect" parent="Layer"]
 z_index = 4095
 offset_left = -300000.0
 offset_top = -300000.0
@@ -13,7 +16,7 @@ offset_right = 300000.0
 offset_bottom = 300000.0
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="RichTextLabel" parent="."]
+[node name="Label" type="RichTextLabel" parent="Layer"]
 z_index = 4096
 offset_left = 51.0
 offset_top = 19.0
@@ -24,7 +27,7 @@ bbcode_enabled = true
 text = "[center]\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"
 -Epicurus[/center]"
 
-[node name="ClickLabel" type="RichTextLabel" parent="."]
+[node name="ClickLabel" type="RichTextLabel" parent="Layer"]
 z_index = 4096
 offset_top = 149.0
 offset_right = 320.0

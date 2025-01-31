@@ -2,15 +2,18 @@
 - [ ] **Active Goals - Feb 2 Sprint**
 	- [ ] **Week - Rebalancing & Reorienting**
 		- [ ] Polish
-			- [ ] Today 
-				- [ ] Charon highlights trials and nemesis at start of game on map (point at each in turn, show tooltip, text box for each)
-				- [ ] After trial, remove color filter in shop
-				- [ ] During trial and nemesis, add additional wind particles (bright red/purple)
 			- [ ] Thursday/Friday
 				- [ ] **Filters for the patron selection and main scenes.**
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
+				- [ ] After trial, remove color filter in shop
+				- [ ] During trial and nemesis, add additional wind particles (bright red/purple)
 			- [ ] Saturday/Sunday
 				- [ ] Settings menu.
+					- [ ] Enable/disable filter.
+					- [ ] Enable/disable fog.
+					- [ ] Enable/disable wind particles.
+					- [ ] Sound controls for later. SFX and Music.
+					- [ ] 
 				- [ ] Should be openable from game or main menu.
 				- [ ] When opened in game, should offer an 'end run' option.
 		- [ ] Bug
