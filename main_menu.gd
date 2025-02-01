@@ -2,27 +2,24 @@ extends Node2D
 
 signal start_game
 
-@onready var _MAIN_UI = $UI/MainUI
-@onready var _CHARACTER_SELECTOR: ArrowSelector = $UI/MainUI/Selector/Character
-@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $UI/MainUI/DescriptionContainer/CharacterDescription
-@onready var _DIFFICULTY_SELECTOR = $UI/MainUI/Selector/Difficulty
+@onready var _MAIN_UI = $MainUI
+@onready var _CHARACTER_SELECTOR: ArrowSelector = $MainUI/Selector/Character
+@onready var _CHARACTER_DESCRIPTION: RichTextLabel = $MainUI/DescriptionContainer/CharacterDescription
+@onready var _DIFFICULTY_SELECTOR = $MainUI/Selector/Difficulty
 
-@onready var _UNLOCK_UI = $UI/UnlockUI
+@onready var _UNLOCK_UI = $UnlockUI
 
-@onready var _UNLOCK_CHARACTER_UI = $UI/UnlockUI/CharacterUI
-@onready var _UNLOCK_CHARACTER_LABEL = $UI/UnlockUI/CharacterUI/Character
-@onready var _UNLOCK_CHARACTER_DESCRIPTION_LABEL = $UI/UnlockUI/CharacterUI/CharacterDescription
+@onready var _UNLOCK_CHARACTER_UI = $UnlockUI/CharacterUI
+@onready var _UNLOCK_CHARACTER_LABEL = $UnlockUI/CharacterUI/Character
+@onready var _UNLOCK_CHARACTER_DESCRIPTION_LABEL = $UnlockUI/CharacterUI/CharacterDescription
 
-@onready var _UNLOCK_COIN_UI = $UI/UnlockUI/CoinUI
-@onready var _UNLOCK_COIN_FAMILY_LABEL = $UI/UnlockUI/CoinUI/Family
-@onready var _UNLOCK_COIN_SUBTITLE_LABEL = $UI/UnlockUI/CoinUI/Subtitle
-@onready var _UNLOCK_OBOL = $UI/UnlockUI/CoinUI/Coins/Obol
-@onready var _UNLOCK_DIOBOL = $UI/UnlockUI/CoinUI/Coins/Diobol
-@onready var _UNLOCK_TRIOBOL = $UI/UnlockUI/CoinUI/Coins/Triobol
-@onready var _UNLOCK_TETROBOL = $UI/UnlockUI/CoinUI/Coins/Tetrobol
-
-@onready var _UI_LAYER = $UI
-@onready var _POST_PROCESS_LAYER = $PostProcess
+@onready var _UNLOCK_COIN_UI = $UnlockUI/CoinUI
+@onready var _UNLOCK_COIN_FAMILY_LABEL = $UnlockUI/CoinUI/Family
+@onready var _UNLOCK_COIN_SUBTITLE_LABEL = $UnlockUI/CoinUI/Subtitle
+@onready var _UNLOCK_OBOL = $UnlockUI/CoinUI/Coins/Obol
+@onready var _UNLOCK_DIOBOL = $UnlockUI/CoinUI/Coins/Diobol
+@onready var _UNLOCK_TRIOBOL = $UnlockUI/CoinUI/Coins/Triobol
+@onready var _UNLOCK_TETROBOL = $UnlockUI/CoinUI/Coins/Tetrobol
 
 var _queued_unlocks = []
 
@@ -62,13 +59,6 @@ func _ready() -> void:
 	switch_to_main_ui()
 
 	Global.game_loaded.connect(setup_character_selector)
-	
-	visibility_changed.connect(_on_visibility_changed)
-	_on_visibility_changed()
-
-func _on_visibility_changed() -> void:
-	_UI_LAYER.visible = visible
-	_POST_PROCESS_LAYER.visible = visible
 
 func setup_character_selector() -> void:
 	var names = []

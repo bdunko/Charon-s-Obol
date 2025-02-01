@@ -2,6 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
+[ext_resource type="Texture2D" uid="uid://cnvv5rolt6bt3" path="res://shaders/black.png" id="3_0wssj"]
+[ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="3_76g51"]
 [ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/main_menu/arrow_selector.tscn" id="3_trmuq"]
 [ext_resource type="Script" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
@@ -28,7 +30,6 @@
 [ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
-[ext_resource type="Script" path="res://shaders/fx.gd" id="29_adqei"]
 
 [sub_resource type="Gradient" id="Gradient_uigqt"]
 colors = PackedColorArray(0.737255, 0.290196, 0.607843, 0.470588, 0.737255, 0.290196, 0.607843, 0)
@@ -452,126 +453,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8x1rl"]
-shader = ExtResource("27_x0p8j")
-shader_parameter/POST_PROCESSING = true
-shader_parameter/MOUSE = Vector2(20, 20)
-shader_parameter/use_exclude_colors = true
-shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/displace_x = 0
-shader_parameter/displace_y = 0
-shader_parameter/displace_repeat = true
-shader_parameter/auto_pan_speed = Vector2(0, 0)
-shader_parameter/replace_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
-shader_parameter/replace_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
-shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
-shader_parameter/tint_color = Color(0, 0, 0, 1)
-shader_parameter/tint_strength = 0.0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/auto_flash_color = Color(1, 1, 1, 1)
-shader_parameter/auto_flash_speed = 0.0
-shader_parameter/auto_flash_bound1 = 0.0
-shader_parameter/auto_flash_bound2 = 1.0
-shader_parameter/auto_flash_start_time = 0.0
-shader_parameter/red_correct = 0.0
-shader_parameter/green_correct = 0.0
-shader_parameter/blue_correct = 0.0
-shader_parameter/gray_correct = 0.0
-shader_parameter/brightness_correct = 1.0
-shader_parameter/contrast_correct = 1.0
-shader_parameter/saturation_correct = 1.0
-shader_parameter/scanline_color = Color(0.98, 0.69, 0.23, 1)
-shader_parameter/scanline_strength = 1.0
-shader_parameter/scanline_left_to_right_position = -0.001
-shader_parameter/scanline_top_to_bottom_position = -0.001
-shader_parameter/scanline_topleft_to_bottomright_position = -0.001
-shader_parameter/scanline_topright_to_bottomleft_position = -0.001
-shader_parameter/auto_scanline_left_to_right_on = false
-shader_parameter/auto_scanline_left_to_right_reverse = false
-shader_parameter/auto_scanline_left_to_right_start_time = 0.0
-shader_parameter/auto_scanline_left_to_right_scan_duration = 0.5
-shader_parameter/auto_scanline_left_to_right_delay = 1.0
-shader_parameter/auto_scanline_top_to_bottom_on = false
-shader_parameter/auto_scanline_top_to_bottom_reverse = false
-shader_parameter/auto_scanline_top_to_bottom_start_time = 0.0
-shader_parameter/auto_scanline_top_to_bottom_scan_duration = 0.5
-shader_parameter/auto_scanline_top_to_bottom_delay = 1.0
-shader_parameter/auto_scanline_topleft_to_bottomright_on = false
-shader_parameter/auto_scanline_topleft_to_bottomright_reverse = false
-shader_parameter/auto_scanline_topleft_to_bottomright_start_time = 0.0
-shader_parameter/auto_scanline_topleft_to_bottomright_scan_duration = 0.5
-shader_parameter/auto_scanline_topleft_to_bottomright_delay = 1.0
-shader_parameter/auto_scanline_topright_to_bottomleft_on = false
-shader_parameter/auto_scanline_topright_to_bottomleft_reverse = false
-shader_parameter/auto_scanline_topright_to_bottomleft_start_time = 0.0
-shader_parameter/auto_scanline_topright_to_bottomleft_scan_duration = 0.5
-shader_parameter/auto_scanline_topright_to_bottomleft_delay = 1.0
-shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_thickness = 0
-shader_parameter/glow_diagonals = false
-shader_parameter/auto_glow_speed = 0.0
-shader_parameter/auto_glow_bound = 0.75
-shader_parameter/auto_glow_start_time = 0.0
-shader_parameter/disintegrate_seed = 1
-shader_parameter/disintegrate_color = Color(0, 0, 0, 1)
-shader_parameter/disintegrate_strength = 0.0
-shader_parameter/disintegrate_alpha_bound1 = 0.0
-shader_parameter/disintegrate_alpha_bound2 = 0.0
-shader_parameter/disintegrate_as_static = false
-shader_parameter/auto_disintegrate_random_seed_speed = 0.0
-shader_parameter/fog_enabled = false
-shader_parameter/fog_opacity = 0.5
-shader_parameter/fog_density = 0.25
-shader_parameter/fog_speed = Vector2(-0.02, 0)
-shader_parameter/vertical_colorline_color = Color(0.705882, 0.117647, 1, 1)
-shader_parameter/vertical_colorline_spacing = 2
-shader_parameter/vertical_colorline_strength = 0.05
-shader_parameter/horizontal_colorline_color = Color(1, 1, 1, 1)
-shader_parameter/horizontal_colorline_spacing = 2
-shader_parameter/horizontal_colorline_strength = 0.0
-shader_parameter/checker_color = Color(0.2, 0.2, 0.2, 1)
-shader_parameter/checker_strength = 0.16
-shader_parameter/checker_x_size = 1
-shader_parameter/checker_y_size = 1
-shader_parameter/checker_x_pattern = 2
-shader_parameter/checker_y_pattern = 2
-shader_parameter/checker_contrast_amount = 1.0
-shader_parameter/checker_contrast_ratio = 0.5
-shader_parameter/mouselight_on = false
-shader_parameter/mouselight_color = Color(1, 1, 1, 1)
-shader_parameter/mouselight_strength = 0.5
-shader_parameter/mouselight_size = 8
-shader_parameter/mouselight_soften_edges = true
-shader_parameter/mouselight_checker = false
-shader_parameter/auto_mouselight_flicker_speed = 8.0
-shader_parameter/auto_mouselight_flicker_bound = 10.0
-shader_parameter/cut_left = 0.0
-shader_parameter/cut_right = 0.0
-shader_parameter/cut_top = 0.0
-shader_parameter/cut_bottom = 0.0
-shader_parameter/vignette_on = true
-shader_parameter/vignette_ignore_transparent = true
-shader_parameter/vignette_color = Color(0.294118, 0.298039, 0.670588, 1)
-shader_parameter/vignette_radius = 9.311
-shader_parameter/transparency = 1.0
-shader_parameter/auto_flicker_speed = 0.0
-shader_parameter/auto_flicker_bound = 0.0
-shader_parameter/auto_flicker_start_time = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsa3u"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0lx68"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -691,7 +573,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pqao8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h1q5r"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -811,7 +693,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_748kl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjq1e"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -934,11 +816,10 @@ shader_parameter/auto_flicker_start_time = 0.0
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_yp8j4")
 
-[node name="Background2" type="ColorRect" parent="."]
-offset_right = 320.0
-offset_bottom = 180.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+[node name="Background" type="Sprite2D" parent="."]
+material = ExtResource("3_76g51")
+texture = ExtResource("3_0wssj")
+centered = false
 
 [node name="EmbersPurple" type="GPUParticles2D" parent="."]
 position = Vector2(153, 183)
@@ -974,25 +855,12 @@ offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
 
-[node name="PostProcess" type="CanvasLayer" parent="."]
-
-[node name="MainMenu" type="ColorRect" parent="PostProcess"]
-material = SubResource("ShaderMaterial_8x1rl")
-offset_right = 320.0
-offset_bottom = 180.0
-mouse_filter = 2
-
-[node name="FX" type="AnimationPlayer" parent="PostProcess/MainMenu"]
-script = ExtResource("29_adqei")
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="UnlockUI" type="Node2D" parent="UI"]
+[node name="UnlockUI" type="Node2D" parent="."]
 visible = false
 
-[node name="CoinUI" type="Node2D" parent="UI/UnlockUI"]
+[node name="CoinUI" type="Node2D" parent="UnlockUI"]
 
-[node name="Title" type="RichTextLabel" parent="UI/UnlockUI/CoinUI"]
+[node name="Title" type="RichTextLabel" parent="UnlockUI/CoinUI"]
 offset_top = 16.0
 offset_right = 319.0
 offset_bottom = 31.0
@@ -1004,7 +872,7 @@ bbcode_enabled = true
 text = "[center]New Coin Unlocked![/center]"
 fit_content = true
 
-[node name="Family" type="RichTextLabel" parent="UI/UnlockUI/CoinUI"]
+[node name="Family" type="RichTextLabel" parent="UnlockUI/CoinUI"]
 offset_top = 43.0
 offset_right = 320.0
 offset_bottom = 56.0
@@ -1018,7 +886,7 @@ text = "[center]Coin Family[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Subtitle" type="RichTextLabel" parent="UI/UnlockUI/CoinUI"]
+[node name="Subtitle" type="RichTextLabel" parent="UnlockUI/CoinUI"]
 offset_top = 58.0
 offset_right = 320.0
 offset_bottom = 71.0
@@ -1031,27 +899,27 @@ text = "[center]Coin Description[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Coins" type="HBoxContainer" parent="UI/UnlockUI/CoinUI"]
+[node name="Coins" type="HBoxContainer" parent="UnlockUI/CoinUI"]
 offset_top = 75.0
 offset_right = 320.0
 offset_bottom = 115.0
 alignment = 1
 
-[node name="Obol" parent="UI/UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
+[node name="Obol" parent="UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
 layout_mode = 2
 
-[node name="Diobol" parent="UI/UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
+[node name="Diobol" parent="UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
 layout_mode = 2
 
-[node name="Triobol" parent="UI/UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
+[node name="Triobol" parent="UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
 layout_mode = 2
 
-[node name="Tetrobol" parent="UI/UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
+[node name="Tetrobol" parent="UnlockUI/CoinUI/Coins" instance=ExtResource("4_xe0ox")]
 layout_mode = 2
 
-[node name="CharacterUI" type="Node2D" parent="UI/UnlockUI"]
+[node name="CharacterUI" type="Node2D" parent="UnlockUI"]
 
-[node name="Title" type="RichTextLabel" parent="UI/UnlockUI/CharacterUI"]
+[node name="Title" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
 offset_top = 16.0
 offset_right = 319.0
 offset_bottom = 31.0
@@ -1063,7 +931,7 @@ bbcode_enabled = true
 text = "[center]New Character Unlocked![/center]"
 fit_content = true
 
-[node name="Character" type="RichTextLabel" parent="UI/UnlockUI/CharacterUI"]
+[node name="Character" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
 offset_top = 43.0
 offset_right = 320.0
 offset_bottom = 56.0
@@ -1077,7 +945,7 @@ text = "[center][color=green]Character Name[/color][/center]"
 fit_content = true
 scroll_active = false
 
-[node name="CharacterDescription" type="RichTextLabel" parent="UI/UnlockUI/CharacterUI"]
+[node name="CharacterDescription" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
 offset_top = 58.0
 offset_right = 320.0
 offset_bottom = 148.0
@@ -1087,7 +955,7 @@ text = "[center]This is an unlock description.[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Textboxes" type="HBoxContainer" parent="UI/UnlockUI"]
+[node name="Textboxes" type="HBoxContainer" parent="UnlockUI"]
 z_index = 1
 offset_top = 157.0
 offset_right = 320.0
@@ -1097,14 +965,14 @@ mouse_filter = 2
 alignment = 1
 script = ExtResource("25_r145h")
 
-[node name="UnlockContinueButton" parent="UI/UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_xsa3u")
+[node name="UnlockContinueButton" parent="UnlockUI/Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_0lx68")
 layout_mode = 2
 default_text = "Unlock"
 
-[node name="MainUI" type="Node2D" parent="UI"]
+[node name="MainUI" type="Node2D" parent="."]
 
-[node name="Title" type="RichTextLabel" parent="UI/MainUI"]
+[node name="Title" type="RichTextLabel" parent="MainUI"]
 offset_top = 16.0
 offset_right = 319.0
 offset_bottom = 31.0
@@ -1117,14 +985,14 @@ text = "[center]Charon's Obol[/center]"
 fit_content = true
 metadata/_edit_use_anchors_ = true
 
-[node name="DescriptionContainer" type="VBoxContainer" parent="UI/MainUI"]
+[node name="DescriptionContainer" type="VBoxContainer" parent="MainUI"]
 offset_top = 57.0
 offset_right = 320.0
 offset_bottom = 116.0
 alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="CharacterDescription" type="RichTextLabel" parent="UI/MainUI/DescriptionContainer"]
+[node name="CharacterDescription" type="RichTextLabel" parent="MainUI/DescriptionContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 bbcode_enabled = true
@@ -1132,7 +1000,7 @@ text = "[center]This is a character description.[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="Selector" type="VBoxContainer" parent="UI/MainUI"]
+[node name="Selector" type="VBoxContainer" parent="MainUI"]
 offset_top = 118.0
 offset_right = 320.0
 offset_bottom = 154.0
@@ -1140,89 +1008,89 @@ mouse_filter = 2
 theme_override_constants/separation = -1
 metadata/_edit_use_anchors_ = true
 
-[node name="Character" parent="UI/MainUI/Selector" instance=ExtResource("3_trmuq")]
+[node name="Character" parent="MainUI/Selector" instance=ExtResource("3_trmuq")]
 layout_mode = 2
 
-[node name="Difficulty" type="HBoxContainer" parent="UI/MainUI/Selector"]
+[node name="Difficulty" type="HBoxContainer" parent="MainUI/Selector"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 1
 
-[node name="Skull1" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty"]
+[node name="Skull1" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 
-[node name="Unvanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull1"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull1"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull1/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("4_vorie")
 texture_hover = ExtResource("5_rjkur")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull1/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("5_rjkur")
 
-[node name="Vanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull1"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull1"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull1/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("6_0c7wk")
 texture_hover = ExtResource("7_yehu3")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull1/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("7_yehu3")
 
-[node name="Skull2" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty"]
+[node name="Skull2" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 
-[node name="Unvanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull2"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull2/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 layout_mode = 2
 texture_normal = ExtResource("5_j10ut")
 texture_hover = ExtResource("7_72k32")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull2/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("7_72k32")
 
-[node name="Vanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull2"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull2/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("10_1fs3h")
 texture_hover = ExtResource("11_j5kxn")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull2/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("11_j5kxn")
 
-[node name="Skull3" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty"]
+[node name="Skull3" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1230,38 +1098,38 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 2
 
-[node name="Unvanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull3"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull3/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("13_cm17n")
 texture_hover = ExtResource("14_7daqw")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull3/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("14_7daqw")
 
-[node name="Vanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull3"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull3/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("15_bobj0")
 texture_hover = ExtResource("16_85eo4")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull3/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("16_85eo4")
 
-[node name="Skull4" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty"]
+[node name="Skull4" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1269,38 +1137,38 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 3
 
-[node name="Unvanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull4"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull4/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("17_04co6")
 texture_hover = ExtResource("18_gsexb")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull4/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("18_gsexb")
 
-[node name="Vanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull4"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull4/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("19_8cqw2")
 texture_hover = ExtResource("20_7ie8d")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull4/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("20_7ie8d")
 
-[node name="Skull5" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty"]
+[node name="Skull5" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1308,38 +1176,38 @@ theme_override_constants/separation = 0
 script = ExtResource("4_13483")
 difficulty = 4
 
-[node name="Unvanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull5"]
+[node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull5/Unvanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("21_xvp1m")
 texture_hover = ExtResource("22_uhdo5")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull5/Unvanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("22_uhdo5")
 
-[node name="Vanquished" type="BoxContainer" parent="UI/MainUI/Selector/Difficulty/Skull5"]
+[node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
 
-[node name="Unselected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull5/Vanquished"]
+[node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("23_1dh72")
 texture_hover = ExtResource("24_yeah1")
 
-[node name="Selected" type="TextureButton" parent="UI/MainUI/Selector/Difficulty/Skull5/Vanquished"]
+[node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = ExtResource("24_yeah1")
 
-[node name="Version" type="Label" parent="UI/MainUI"]
+[node name="Version" type="Label" parent="MainUI"]
 offset_left = 264.0
 offset_top = 163.0
 offset_right = 318.0
@@ -1348,7 +1216,7 @@ theme_override_colors/font_color = Color(0.521569, 0.541176, 0.533333, 1)
 text = "Alpha 4.0.0"
 metadata/_edit_use_anchors_ = true
 
-[node name="Textboxes" type="HBoxContainer" parent="UI/MainUI"]
+[node name="Textboxes" type="HBoxContainer" parent="MainUI"]
 z_index = 1
 offset_top = 157.0
 offset_right = 320.0
@@ -1358,17 +1226,17 @@ alignment = 1
 script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
-[node name="EmbarkButton" parent="UI/MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_pqao8")
+[node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_h1q5r")
 layout_mode = 2
 default_text = "Embark"
 
-[node name="QuitButton" parent="UI/MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_748kl")
+[node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
+material = SubResource("ShaderMaterial_xjq1e")
 layout_mode = 2
 default_text = " Quit "
 
-[node name="DebugUnlockEverything" type="Button" parent="UI/MainUI"]
+[node name="DebugUnlockEverything" type="Button" parent="MainUI"]
 self_modulate = Color(1, 1, 1, 0.00392157)
 offset_left = 262.0
 offset_top = 162.0
@@ -1376,11 +1244,11 @@ offset_right = 320.0
 offset_bottom = 180.0
 metadata/_edit_use_anchors_ = true
 
-[connection signal="clicked" from="UI/UnlockUI/Textboxes/UnlockContinueButton" to="." method="_on_unlock_continue_button_clicked"]
-[connection signal="changed" from="UI/MainUI/Selector/Character" to="." method="_on_character_changed"]
-[connection signal="clicked" from="UI/MainUI/Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]
-[connection signal="clicked" from="UI/MainUI/Textboxes/QuitButton" to="." method="_on_quit_button_clicked"]
-[connection signal="pressed" from="UI/MainUI/DebugUnlockEverything" to="." method="_on_debug_unlock_everything_pressed"]
+[connection signal="clicked" from="UnlockUI/Textboxes/UnlockContinueButton" to="." method="_on_unlock_continue_button_clicked"]
+[connection signal="changed" from="MainUI/Selector/Character" to="." method="_on_character_changed"]
+[connection signal="clicked" from="MainUI/Textboxes/EmbarkButton" to="." method="_on_embark_button_clicked"]
+[connection signal="clicked" from="MainUI/Textboxes/QuitButton" to="." method="_on_quit_button_clicked"]
+[connection signal="pressed" from="MainUI/DebugUnlockEverything" to="." method="_on_debug_unlock_everything_pressed"]
 
-[editable path="UI/UnlockUI/Textboxes/UnlockContinueButton"]
-[editable path="UI/MainUI/Textboxes/EmbarkButton"]
+[editable path="UnlockUI/Textboxes/UnlockContinueButton"]
+[editable path="MainUI/Textboxes/EmbarkButton"]
