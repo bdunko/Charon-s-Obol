@@ -1554,9 +1554,21 @@ func is_passive_active(passivePower: PowerFamily) -> bool:
 	return false
 
 const _SAVE_PATH = "user://save.charonsobol"
+const _SETTINGS = "settings"
+const _VARIABLES = "variables"
 const _SAVE_COIN_KEY = "coin"
 const _SAVE_CHAR_KEY = "character"
 var _save_dict = {
+	_SETTINGS : {
+		SETTING_FULLSCREEN : false,
+		SETTING_SPEEDRUN_MODE : false,
+		SETTING_MASTER_VOLUME : 50,
+		SETTING_MUSIC_VOLUME : 50,
+		SETTING_SFX_VOLUME : 50
+	},
+	_VARIABLES : {
+		"hello" : "world"
+	},
 	_SAVE_COIN_KEY : {
 		GENERIC_FAMILY.id : true,
 		ZEUS_FAMILY.id : true,
@@ -1595,6 +1607,14 @@ func unlock_all() -> void:
 	for chara in Character.values():
 		unlock_character(chara)
 
+func change_setting(setting: String, value: Variant) -> void:
+	_save_dict[_SETTINGS][setting] = value
+	Global.write_save()
+
+func set_variable(variable: String, value: Variant) -> void:
+	_save_dict[_VARIABLES][variable] = value
+	Global.write_save()
+
 func is_coin_unlocked(coin: CoinFamily) -> bool:
 	#if not _save_dict[_SAVE_COIN_KEY].has(coin.id):
 	#	return false
@@ -1604,6 +1624,17 @@ func is_character_unlocked(chara: Character) -> bool:
 	#if not _save_dict[_SAVE_CHAR_KEY].has(CHARACTERS[chara].id):
 	#	return false
 	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id]
+
+const SETTING_FULLSCREEN = "fullscreen_on"
+const SETTING_SPEEDRUN_MODE = "speedrun_mode"
+const SETTING_MASTER_VOLUME = "master_volume"
+const SETTING_MUSIC_VOLUME = "music_volume"
+const SETTING_SFX_VOLUME = "sfx_volume"
+func get_setting(setting: String) -> Variant:
+	return _save_dict[_SETTINGS][setting]
+
+func get_variable(variable: String) -> Variant:
+	return _save_dict[_VARIABLES][variable]
 
 func load_save() -> void:
 	# some sanity asserts
@@ -1626,6 +1657,8 @@ func load_save() -> void:
 	#print(_save_dict)
 	emit_signal("game_loaded")
 
+# recursively iterate over all keys in dict and dictionaries those keys may correspond to. 
+# for each of those non-dictionary keys which exists in dict_to_overwrite, replace the value with the one from dict.
 func _recursive_overwrite_dictionary(dict: Dictionary, dict_to_overwrite: Dictionary) -> void:
 	for key in dict.keys():
 		# if the dict to overwrite doesn't have this key, skip
@@ -1651,5 +1684,3 @@ func _recursive_overwrite_dictionary(dict: Dictionary, dict_to_overwrite: Dictio
 func write_save() -> void:
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.WRITE)
 	file.store_var(_save_dict)
-	#print("save")
-	#print(_save_dict)

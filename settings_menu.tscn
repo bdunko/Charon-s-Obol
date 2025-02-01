@@ -1,0 +1,119 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ekqb04wjjw8"]
+
+[ext_resource type="Script" path="res://settings_menu.gd" id="1_3dyr8"]
+
+[node name="SettingsMenu" type="Node2D"]
+position = Vector2(20, 10)
+script = ExtResource("1_3dyr8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(280, 160)
+offset_right = 280.0
+offset_bottom = 160.0
+color = Color(0.509804, 0.231373, 0.666667, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_right = 280.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WindowDropdown" type="OptionButton" parent="."]
+offset_left = 5.0
+offset_top = 17.0
+offset_right = 154.0
+offset_bottom = 38.0
+size_flags_horizontal = 0
+item_count = 3
+selected = 0
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Windowed Fullscreen"
+popup/item_2/id = 2
+
+[node name="ResolutionDropdown" type="OptionButton" parent="."]
+offset_left = 162.0
+offset_top = 17.0
+offset_right = 255.0
+offset_bottom = 38.0
+size_flags_horizontal = 0
+
+[node name="Volume" type="Node2D" parent="."]
+position = Vector2(3, 44)
+
+[node name="MasterVolume" type="Node2D" parent="Volume"]
+
+[node name="HSlider" type="HSlider" parent="Volume/MasterVolume"]
+offset_left = 89.0
+offset_top = -1.0
+offset_right = 252.0
+offset_bottom = 15.0
+
+[node name="Label" type="Label" parent="Volume/MasterVolume"]
+offset_right = 89.0
+offset_bottom = 16.0
+text = "Master Volume"
+horizontal_alignment = 1
+
+[node name="MasterVolume2" type="Node2D" parent="Volume"]
+position = Vector2(0, 17)
+
+[node name="HSlider" type="HSlider" parent="Volume/MasterVolume2"]
+offset_left = 89.0
+offset_top = -1.0
+offset_right = 251.0
+offset_bottom = 15.0
+
+[node name="Label" type="Label" parent="Volume/MasterVolume2"]
+offset_right = 89.0
+offset_bottom = 16.0
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MasterVolume3" type="Node2D" parent="Volume"]
+position = Vector2(0, 34)
+
+[node name="HSlider" type="HSlider" parent="Volume/MasterVolume3"]
+offset_left = 89.0
+offset_top = -1.0
+offset_right = 251.0
+offset_bottom = 15.0
+
+[node name="Label" type="Label" parent="Volume/MasterVolume3"]
+offset_right = 89.0
+offset_bottom = 16.0
+text = "Effects Volume"
+horizontal_alignment = 1
+
+[node name="SpeedrunMode" type="Node2D" parent="."]
+position = Vector2(2, 100)
+
+[node name="CheckBox" type="CheckBox" parent="SpeedrunMode"]
+offset_right = 24.0
+offset_bottom = 24.0
+
+[node name="Label" type="Label" parent="SpeedrunMode"]
+offset_left = 26.0
+offset_top = 4.0
+offset_right = 104.0
+offset_bottom = 20.0
+text = "Speedrun Mode"
+
+[node name="QuitRun" type="Button" parent="."]
+offset_left = 228.0
+offset_top = 138.0
+offset_right = 279.0
+offset_bottom = 159.0
+text = "Quit Run"
+
+[node name="QuitRun2" type="Button" parent="."]
+offset_left = 265.0
+offset_top = 1.0
+offset_right = 279.0
+offset_bottom = 22.0
+text = "X"
