@@ -13,8 +13,6 @@
 					- [ ] Enable/disable filter.
 					- [ ] Enable/disable fog.
 					- [ ] Enable/disable wind particles.
-					- [ ] Sound controls for later. SFX and Music.
-					- [ ] 
 				- [ ] Should be openable from game or main menu.
 				- [ ] When opened in game, should offer an 'end run' option.
 		- [ ] Bug

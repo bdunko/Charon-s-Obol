@@ -1,18 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://3ekqb04wjjw8"]
+[gd_scene load_steps=3 format=3 uid="uid://3ekqb04wjjw8"]
 
 [ext_resource type="Script" path="res://settings_menu.gd" id="1_3dyr8"]
+[ext_resource type="Theme" uid="uid://rmwyxqdoudlb" path="res://ui/settings/settings_theme.tres" id="1_r1im6"]
 
-[node name="SettingsMenu" type="Node2D"]
-position = Vector2(20, 10)
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 20.0
+offset_bottom = 10.0
+theme = ExtResource("1_r1im6")
 script = ExtResource("1_3dyr8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(280, 160)
+layout_mode = 0
 offset_right = 280.0
 offset_bottom = 160.0
 color = Color(0.509804, 0.231373, 0.666667, 1)
 
 [node name="Title" type="Label" parent="."]
+layout_mode = 0
 offset_right = 280.0
 offset_bottom = 16.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -21,11 +30,30 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WindowDropdown" type="OptionButton" parent="."]
-offset_left = 5.0
-offset_top = 17.0
-offset_right = 154.0
-offset_bottom = 38.0
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 13.0
+
+[node name="DisplayStyle" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 1.0
+offset_bottom = 1.0
+
+[node name="Label" type="Label" parent="DisplayStyle"]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 93.0
+offset_bottom = 40.0
+text = "Display Style"
+horizontal_alignment = 1
+
+[node name="WindowDropdown" type="OptionButton" parent="DisplayStyle"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 21.0
+offset_right = 255.0
+offset_bottom = 42.0
 size_flags_horizontal = 0
 item_count = 3
 selected = 0
@@ -36,68 +64,82 @@ popup/item_1/id = 1
 popup/item_2/text = "Windowed Fullscreen"
 popup/item_2/id = 2
 
-[node name="ResolutionDropdown" type="OptionButton" parent="."]
-offset_left = 162.0
-offset_top = 17.0
-offset_right = 255.0
-offset_bottom = 38.0
-size_flags_horizontal = 0
+[node name="Volume" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 52.0
+offset_right = 3.0
+offset_bottom = 52.0
 
-[node name="Volume" type="Node2D" parent="."]
-position = Vector2(3, 44)
-
-[node name="MasterVolume" type="Node2D" parent="Volume"]
+[node name="MasterVolume" type="Control" parent="Volume"]
+anchors_preset = 0
 
 [node name="HSlider" type="HSlider" parent="Volume/MasterVolume"]
+layout_mode = 0
 offset_left = 89.0
 offset_top = -1.0
 offset_right = 252.0
 offset_bottom = 15.0
 
 [node name="Label" type="Label" parent="Volume/MasterVolume"]
+layout_mode = 0
 offset_right = 89.0
 offset_bottom = 16.0
 text = "Master Volume"
 horizontal_alignment = 1
 
-[node name="MasterVolume2" type="Node2D" parent="Volume"]
-position = Vector2(0, 17)
+[node name="MasterVolume2" type="Control" parent="Volume"]
+anchors_preset = 0
+offset_top = 17.0
+offset_bottom = 17.0
 
 [node name="HSlider" type="HSlider" parent="Volume/MasterVolume2"]
+layout_mode = 0
 offset_left = 89.0
 offset_top = -1.0
 offset_right = 251.0
 offset_bottom = 15.0
 
 [node name="Label" type="Label" parent="Volume/MasterVolume2"]
+layout_mode = 0
 offset_right = 89.0
 offset_bottom = 16.0
 text = "Music Volume"
 horizontal_alignment = 1
 
-[node name="MasterVolume3" type="Node2D" parent="Volume"]
-position = Vector2(0, 34)
+[node name="MasterVolume3" type="Control" parent="Volume"]
+anchors_preset = 0
+offset_top = 34.0
+offset_bottom = 34.0
 
 [node name="HSlider" type="HSlider" parent="Volume/MasterVolume3"]
+layout_mode = 0
 offset_left = 89.0
 offset_top = -1.0
 offset_right = 251.0
 offset_bottom = 15.0
 
 [node name="Label" type="Label" parent="Volume/MasterVolume3"]
+layout_mode = 0
 offset_right = 89.0
 offset_bottom = 16.0
 text = "Effects Volume"
 horizontal_alignment = 1
 
-[node name="SpeedrunMode" type="Node2D" parent="."]
-position = Vector2(2, 100)
+[node name="SpeedrunMode" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 107.0
+offset_right = 2.0
+offset_bottom = 107.0
 
 [node name="CheckBox" type="CheckBox" parent="SpeedrunMode"]
+layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 
 [node name="Label" type="Label" parent="SpeedrunMode"]
+layout_mode = 0
 offset_left = 26.0
 offset_top = 4.0
 offset_right = 104.0
@@ -105,6 +147,7 @@ offset_bottom = 20.0
 text = "Speedrun Mode"
 
 [node name="QuitRun" type="Button" parent="."]
+layout_mode = 0
 offset_left = 228.0
 offset_top = 138.0
 offset_right = 279.0
@@ -112,6 +155,7 @@ offset_bottom = 159.0
 text = "Quit Run"
 
 [node name="QuitRun2" type="Button" parent="."]
+layout_mode = 0
 offset_left = 265.0
 offset_top = 1.0
 offset_right = 279.0

@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://rmwyxqdoudlb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xly3w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ys0c"]
+
+[resource]
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_xly3w")
+OptionButton/styles/focus = SubResource("StyleBoxEmpty_6ys0c")
