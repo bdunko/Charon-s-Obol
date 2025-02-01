@@ -5,8 +5,9 @@
 			- [ ] Thursday/Friday
 				- [ ] **Filters for the patron selection and main scenes.**
 					- [ ] Heavy checker/purple filter on main menu should not include UI elements (tooltips and textboxes). Need to move inside the scenes instead of on main on top of everything.
-				- [ ] After trial, remove color filter in shop
 				- [ ] During trial and nemesis, add additional wind particles (bright red/purple)
+				- [ ] Minor thing, trial coins are not centered perfectly during trial - I wonder if enemy row is wrong
+					- [ ] doesn't look like it, so it's probably an issue with the sprite?
 			- [ ] Saturday/Sunday
 				- [ ] Settings menu.
 					- [ ] Enable/disable filter.

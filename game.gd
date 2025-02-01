@@ -39,7 +39,7 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
-@onready var _SPECIAL_TINT_FX = $DecisionTint/FX
+@onready var _SPECIAL_TINT_FX = $SpecialTint/FX
 const _SPECIAL_TINT_TIME = 0.25
 const _SPECIAL_TINT_ALPHA = 0.1
 const _SPECIAL_TINT_TRIAL = Color("#ea4d5e")
@@ -251,14 +251,15 @@ func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
-	if Global.is_current_round_trial():
+	if Global.state == Global.State.SHOP:
+		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
+	elif Global.is_current_round_trial():
 		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_TRIAL)
 		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
 	elif Global.is_current_round_nemesis():
 		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_NEMESIS)
 		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
 	else:
-		_CHARON_FOG_FX.fade_out(_SPECIAL_TINT_TIME)
 		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
 	
 	# remove fog in shop
@@ -268,6 +269,9 @@ func _on_state_changed() -> void:
 	else:
 		_FOG_FX.fade_in()
 		_FOG_BLUE_FX.fade_in()
+	
+	if Global.state != Global.State.CHARON_OBOL_FLIP:
+		_CHARON_FOG_FX.fade_out(_SPECIAL_TINT_TIME)
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP and Global.tutorialState != Global.TutorialState.INACTIVE:
 		if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_COMPLETED:
