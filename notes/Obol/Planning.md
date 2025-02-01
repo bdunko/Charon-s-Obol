@@ -1,17 +1,13 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
 	- [ ] **Week - Rebalancing & Reorienting**
-		- [ ] Polish
-			- [ ] During trial and nemesis, add additional wind particles (bright red/purple)
-			- [ ] Minor thing, trial coins are not centered perfectly during trial - I wonder if enemy row is wrong
-				- [ ] doesn't look like it, so it's probably an issue with the sprite?
-			- [ ] Saturday/Sunday
-				- [ ] Settings menu.
-					- [ ] Enable/disable filter.
-					- [ ] Enable/disable fog.
-					- [ ] Enable/disable wind particles.
-				- [ ] Should be openable from game or main menu.
-				- [ ] When opened in game, should offer an 'end run' option.
+		- [ ] Saturday/Sunday
+			- [ ] Settings menu.
+				- [ ] Enable/disable filter.
+				- [ ] Enable/disable fog.
+				- [ ] Enable/disable wind particles.
+			- [ ] Should be openable from game or main menu.
+			- [ ] When opened in game, should offer an 'end run' option.
 		- [ ] Bug
 			- [ ] the stupid arrow styling thing
 - [ ] **Stretch Goals**

@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=72 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="2_82tsr"]
@@ -5084,6 +5084,20 @@ hue_variation_min = -0.05
 hue_variation_max = 0.05
 hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1e2v"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 100, 1)
+particle_flag_disable_z = true
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 110.0
+initial_velocity_max = 150.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+hue_variation_curve = SubResource("CurveTexture_m4xxc")
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o6jch"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ycsoo"]
@@ -6015,6 +6029,16 @@ modulate = Color(0.737255, 0.290196, 0.607843, 1)
 position = Vector2(-27, 86)
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_ds4rr")
+lifetime = 5.0
+preprocess = 5.0
+trail_lifetime = 3.5
+
+[node name="TrialEmbers" type="GPUParticles2D" parent="."]
+modulate = Color(0.737255, 0.290196, 0.607843, 1)
+position = Vector2(-27, 86)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_r1e2v")
 lifetime = 5.0
 preprocess = 5.0
 trail_lifetime = 3.5

@@ -126,27 +126,72 @@ offset_bottom = 16.0
 text = "Effects Volume"
 horizontal_alignment = 1
 
-[node name="SpeedrunMode" type="Control" parent="."]
+[node name="Checkboxes" type="Control" parent="."]
+anchors_preset = 0
+offset_top = -4.0
+offset_bottom = -4.0
+
+[node name="ShowTimer" type="Control" parent="Checkboxes"]
 anchors_preset = 0
 offset_left = 2.0
 offset_top = 107.0
 offset_right = 2.0
 offset_bottom = 107.0
 
-[node name="CheckBox" type="CheckBox" parent="SpeedrunMode"]
+[node name="CheckBox" type="CheckBox" parent="Checkboxes/ShowTimer"]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 
-[node name="Label" type="Label" parent="SpeedrunMode"]
+[node name="Label" type="Label" parent="Checkboxes/ShowTimer"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 4.0
 offset_right = 104.0
 offset_bottom = 20.0
-text = "Speedrun Mode"
+text = "Show Timer"
 
-[node name="QuitRun" type="Button" parent="."]
+[node name="DisableFilter" type="Control" parent="Checkboxes"]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 124.0
+offset_right = 2.0
+offset_bottom = 124.0
+
+[node name="CheckBox" type="CheckBox" parent="Checkboxes/DisableFilter"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+
+[node name="Label" type="Label" parent="Checkboxes/DisableFilter"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 4.0
+offset_right = 104.0
+offset_bottom = 20.0
+text = "Disable Filter"
+
+[node name="FastMode" type="Control" parent="Checkboxes"]
+anchors_preset = 0
+offset_left = 122.0
+offset_top = 107.0
+offset_right = 122.0
+offset_bottom = 107.0
+
+[node name="CheckBox" type="CheckBox" parent="Checkboxes/FastMode"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+
+[node name="Label" type="Label" parent="Checkboxes/FastMode"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 4.0
+offset_right = 104.0
+offset_bottom = 20.0
+text = "Fast Mode"
+
+[node name="QuitRunButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 228.0
 offset_top = 138.0
@@ -154,7 +199,7 @@ offset_right = 279.0
 offset_bottom = 159.0
 text = "Quit Run"
 
-[node name="QuitRun2" type="Button" parent="."]
+[node name="CloseButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 265.0
 offset_top = 1.0

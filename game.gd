@@ -77,6 +77,9 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 
 @onready var _SPEEDRUN_TIMER: SpeedrunTimer = $UI/SpeedrunTimer
 
+@onready var _EMBERS_PARTICLES = $Embers
+@onready var _TRIAL_EMBERS_PARTICLES = $TrialEmbers
+
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
 const _TUTORIAL_FADE_ALPHA = 0.45
 const _TUTORIAL_FADE_TIME = 0.15
@@ -166,6 +169,10 @@ func _ready() -> void:
 	
 	assert(_SPEEDRUN_TIMER)
 	
+	assert(_EMBERS_PARTICLES)
+	assert(_TRIAL_EMBERS_PARTICLES)
+	_TRIAL_EMBERS_PARTICLES.emitting = false
+	
 	_CHARON_FOG_FX.get_parent().show() # this is dumb but I want to hide the fog in editor...
 	_CHARON_FOG_FX.hide()
 	_SPECIAL_TINT_FX.hide()
@@ -253,14 +260,18 @@ func _on_state_changed() -> void:
 	
 	if Global.state == Global.State.SHOP:
 		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
+		_TRIAL_EMBERS_PARTICLES.emitting = false
 	elif Global.is_current_round_trial():
 		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_TRIAL)
 		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+		_TRIAL_EMBERS_PARTICLES.emitting = true
 	elif Global.is_current_round_nemesis():
 		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_NEMESIS)
 		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+		_TRIAL_EMBERS_PARTICLES.emitting = true
 	else:
 		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
+		_TRIAL_EMBERS_PARTICLES.emitting = false
 	
 	# remove fog in shop
 	if Global.state == Global.State.SHOP:
@@ -1045,7 +1056,6 @@ func _advance_round() -> void:
 		_VOYAGE_NEXT_ROUND_TEXTBOX.set_text("Begin %d%s Round" % [Global.round_count - 1, Global.ordinal_suffix(Global.round_count - 1)])
 	_PLAYER_TEXTBOXES.make_visible()
 
-@onready var _EMBERS_PARTICLES = $Embers
 func _recolor_river(colorStyle: River.ColorStyle, instant: bool) -> void:
 	_RIVER_LEFT.change_color(colorStyle, instant)
 	_RIVER_RIGHT.change_color(colorStyle, instant)
@@ -1054,10 +1064,13 @@ func _recolor_river(colorStyle: River.ColorStyle, instant: bool) -> void:
 	match colorStyle: # also recolor the particles
 		River.ColorStyle.PURPLE:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#bc4a9b"), 0.5)
+			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#bc4a9b"), 0.5)
 		River.ColorStyle.GREEN:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#cdf7e2"), 0.5)
+			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#cdf7e2"), 0.5)
 		River.ColorStyle.RED:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#df3e23"), 0.5)
+			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#df3e23"), 0.5)
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)
