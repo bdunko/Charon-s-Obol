@@ -6,20 +6,28 @@ signal start_game
 @onready var _CHARACTER_SELECTOR: ArrowSelector = $MainUI/Selector/Character
 @onready var _CHARACTER_DESCRIPTION: RichTextLabel = $MainUI/DescriptionContainer/CharacterDescription
 @onready var _DIFFICULTY_SELECTOR = $MainUI/Selector/Difficulty
+@onready var _MAIN_UI_EMBERS_CHARACTER = $MainUI/EmbersCharacter
 
 @onready var _UNLOCK_UI = $UnlockUI
 
 @onready var _UNLOCK_CHARACTER_UI = $UnlockUI/CharacterUI
 @onready var _UNLOCK_CHARACTER_LABEL = $UnlockUI/CharacterUI/Character
 @onready var _UNLOCK_CHARACTER_DESCRIPTION_LABEL = $UnlockUI/CharacterUI/CharacterDescription
+@onready var _UNLOCK_CHARACTER_EMBERS_FANCY = $UnlockUI/CharacterUI/CharacterEmbersFancy
+@onready var _UNLOCK_CHARACTER_EMBERS = $UnlockUI/CharacterUI/CharacterEmbers
 
 @onready var _UNLOCK_COIN_UI = $UnlockUI/CoinUI
 @onready var _UNLOCK_COIN_FAMILY_LABEL = $UnlockUI/CoinUI/Family
 @onready var _UNLOCK_COIN_SUBTITLE_LABEL = $UnlockUI/CoinUI/Subtitle
+@onready var _UNLOCK_COIN_TIP_LABEL = $UnlockUI/CoinUI/Tip
 @onready var _UNLOCK_OBOL = $UnlockUI/CoinUI/Coins/Obol
 @onready var _UNLOCK_DIOBOL = $UnlockUI/CoinUI/Coins/Diobol
 @onready var _UNLOCK_TRIOBOL = $UnlockUI/CoinUI/Coins/Triobol
 @onready var _UNLOCK_TETROBOL = $UnlockUI/CoinUI/Coins/Tetrobol
+
+@onready var _UNLOCK_TEXTBOXES = $UnlockUI/UnlockTextboxes
+
+@onready var _FALLING_COINS = $UnlockUI/FallingCoins
 
 var _queued_unlocks = []
 
@@ -34,7 +42,9 @@ func _ready() -> void:
 	assert(_UNLOCK_CHARACTER_UI)
 	assert(_UNLOCK_CHARACTER_LABEL)
 	assert(_UNLOCK_CHARACTER_DESCRIPTION_LABEL)
-
+	assert(_UNLOCK_CHARACTER_EMBERS_FANCY)
+	assert(_UNLOCK_CHARACTER_EMBERS)
+	
 	assert(_UNLOCK_COIN_UI)
 	assert(_UNLOCK_COIN_FAMILY_LABEL)
 	assert(_UNLOCK_COIN_SUBTITLE_LABEL)
@@ -42,6 +52,8 @@ func _ready() -> void:
 	assert(_UNLOCK_DIOBOL)
 	assert(_UNLOCK_TRIOBOL)
 	assert(_UNLOCK_TETROBOL)
+	assert(_UNLOCK_COIN_TIP_LABEL)
+	assert(_FALLING_COINS)
 
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 
@@ -59,6 +71,9 @@ func _ready() -> void:
 	switch_to_main_ui()
 
 	Global.game_loaded.connect(setup_character_selector)
+	
+	# DEBUG UNLOCK
+	queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN])
 
 func setup_character_selector() -> void:
 	var names = []
@@ -83,6 +98,7 @@ func _on_character_changed(characterName: String) -> void:
 		if character.name == characterName:
 			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
 			Global.character = character
+			_MAIN_UI_EMBERS_CHARACTER.process_material.color_ramp.gradient.set_color(0, Color(Global.character.color))
 			_DIFFICULTY_SELECTOR.visible = not Global.is_character(Global.Character.LADY) # no difficulties for LADY
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
@@ -112,6 +128,9 @@ func queue_unlocks(unlocks) -> void:
 	switch_to_unlock_ui()
 	do_unlock()
 
+const _FADE_TIME = 0.3
+const _DELAY_TIME = 0.7
+
 func do_unlock() -> void:
 	if _queued_unlocks.size() == 0:
 		return
@@ -119,46 +138,92 @@ func do_unlock() -> void:
 	var unlocked = _queued_unlocks.pop_front()
 	assert(unlocked is Global.Character or unlocked is Global.CoinFamily)
 	
+	_UNLOCK_TEXTBOXES.make_invisible()
+	
+	# perform the unlock. update ui, then fade it in.
 	if unlocked is Global.Character:
-		# todo - cleaner transition here
-		_UNLOCK_CHARACTER_UI.show()
-		_UNLOCK_COIN_UI.hide()
-		
+		# update the ui and perform the unlock
 		_UNLOCK_CHARACTER_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].name
 		_UNLOCK_CHARACTER_DESCRIPTION_LABEL.text = "[center]%s[/center]" % Global.CHARACTERS[unlocked].description
+		_UNLOCK_CHARACTER_EMBERS.process_material.color_ramp.gradient.set_color(0, Color(Global.CHARACTERS[unlocked].color))
+		_UNLOCK_CHARACTER_EMBERS_FANCY.process_material.color_ramp.gradient.set_color(0, Color(Global.CHARACTERS[unlocked].color))
 		Global.unlock_character(unlocked)
 		setup_character_selector()
-		
 		if unlocked == Global.Character.ELEUSINIAN: # Move the selector over to Eleusinian right away after finishing Lady
 			set_character(Global.Character.ELEUSINIAN)
-	elif unlocked is Global.CoinFamily:
-		# todo - cleaner transition here
-		_UNLOCK_COIN_UI.show()
-		_UNLOCK_CHARACTER_UI.hide()
 		
+		# fade it in
+		_UNLOCK_CHARACTER_UI.show()
+		_UNLOCK_CHARACTER_UI.modulate.a = 0.0
+		await Global.fade_in(_UNLOCK_CHARACTER_UI, _FADE_TIME)
+	elif unlocked is Global.CoinFamily:
+		# update the ui and perform the unlock
 		_UNLOCK_COIN_FAMILY_LABEL.text = "[center]%s[/center]" % unlocked.coin_name.replace("(DENOM)", "Obol")
 		_UNLOCK_COIN_SUBTITLE_LABEL.text = "[center]%s[/center]" % unlocked.subtitle
+		_UNLOCK_COIN_TIP_LABEL.text = "[center]%s[center]" % Global.replace_placeholders(unlocked.unlock_tip)
+		_UNLOCK_COIN_TIP_LABEL.visible = unlocked.unlock_tip != Global.NO_UNLOCK_TIP
 		_UNLOCK_OBOL.init_coin(unlocked, Global.Denomination.OBOL, Coin.Owner.PLAYER)
 		_UNLOCK_DIOBOL.init_coin(unlocked, Global.Denomination.DIOBOL, Coin.Owner.PLAYER)
 		_UNLOCK_TRIOBOL.init_coin(unlocked, Global.Denomination.TRIOBOL, Coin.Owner.PLAYER)
 		_UNLOCK_TETROBOL.init_coin(unlocked, Global.Denomination.TETROBOL, Coin.Owner.PLAYER)
 		Global.unlock_coin(unlocked)
+		
+		# fade it in
+		_UNLOCK_COIN_UI.show()
+		_UNLOCK_COIN_UI.modulate.a = 0.0
+		# dumb hack but we need to do it this way for coins since they have a shader
+		_UNLOCK_OBOL.FX.hide()
+		_UNLOCK_DIOBOL.FX.hide()
+		_UNLOCK_TRIOBOL.FX.hide()
+		_UNLOCK_TETROBOL.FX.hide()
+		_UNLOCK_OBOL.FX.fade_in(_FADE_TIME * 2)
+		_UNLOCK_DIOBOL.FX.fade_in(_FADE_TIME * 2)
+		_UNLOCK_TRIOBOL.FX.fade_in(_FADE_TIME * 2)
+		_UNLOCK_TETROBOL.FX.fade_in(_FADE_TIME * 2)
+		Global.fade_in(_FALLING_COINS, _FADE_TIME)
+		await Global.fade_in(_UNLOCK_COIN_UI, _FADE_TIME)
+	
+	_UNLOCK_TEXTBOXES.make_visible()
 
 func _on_unlock_continue_button_clicked():
+	# fade out the current unlock
+	_UNLOCK_TEXTBOXES.make_invisible()
+	Global.fade_out(_UNLOCK_CHARACTER_UI)
+	_UNLOCK_OBOL.FX.fade_out(_FADE_TIME * 2)
+	_UNLOCK_DIOBOL.FX.fade_out(_FADE_TIME * 2)
+	_UNLOCK_TRIOBOL.FX.fade_out(_FADE_TIME * 2)
+	_UNLOCK_TETROBOL.FX.fade_out(_FADE_TIME * 2)
+	
+	# if the previous unlock was a coin and the next is also a coin, keep the falling coins effect
+	if not _is_next_unlock_coin():
+		Global.fade_out(_FALLING_COINS, _FADE_TIME)
+	await Global.fade_out(_UNLOCK_COIN_UI)
+	_UNLOCK_CHARACTER_UI.hide()
+	_UNLOCK_COIN_UI.hide()
+	
+	await Global.delay(_DELAY_TIME)
+	
+	# now either do (fade in) the next unlock or switch back to main menu
 	if _queued_unlocks.size() != 0:
 		do_unlock()
 	else:
 		switch_to_main_ui()
 
+func _is_next_unlock_coin() -> bool:
+	return _queued_unlocks.size() != 0 and _queued_unlocks[0] is Global.CoinFamily
+
 func switch_to_main_ui() -> void:
-	# todo - cleaner transition here
-	_MAIN_UI.show()
+	# main menu needs to fade in
 	_UNLOCK_UI.hide()
+	_MAIN_UI.show()
+	_MAIN_UI.modulate.a = 0.0
+	await Global.fade_in(_MAIN_UI, _FADE_TIME)
 
 func switch_to_unlock_ui() -> void:
-	# todo - cleaner transition here
-	_UNLOCK_UI.show()
 	_MAIN_UI.hide()
+	_UNLOCK_COIN_UI.hide()
+	_UNLOCK_CHARACTER_UI.hide()
+	_UNLOCK_UI.show()
 
 func _on_debug_unlock_everything_pressed():
 	Global.unlock_all()

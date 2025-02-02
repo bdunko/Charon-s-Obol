@@ -42,3 +42,16 @@
 	- [ ] Coin label text is gray instead of white between tosses.
 - [ ] Animated icons for coin powers - flashing eyes for monsters for ex - only animate when active.
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
+
+
+
+- [ ] **Update Shader to work with Spritesheets**
+	- [ ] Shader does not work with spritesheets which work across the entire sheet, notably we removed scanline from coins.
+
+	- [ ] **Particles**
+		- [ ] Extra
+			- [ ] After a flip ends, play dust effect with EruptOutRing
+			- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
+			- [ ] While a coin's power is active, sparkly glow on it...
+			- [ ] Frozen coins have a constant sparkle effect.
+			- [ ] Ignited coins have a constant smoke effect.

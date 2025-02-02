@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceq105sv7ncif"
-path="res://.godot/imported/arrow.png-db97f88afc2bb7dffb6a19ec31c57056.ctex"
+uid="uid://0ycixrey3lc3"
+path="res://.godot/imported/hollow_spike.png-846481eba35a84f03b37f88d0b9cb3ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/particles/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-db97f88afc2bb7dffb6a19ec31c57056.ctex"]
+source_file="res://assets/particles/hollow_spike.png"
+dest_files=["res://.godot/imported/hollow_spike.png-846481eba35a84f03b37f88d0b9cb3ad.ctex"]
 
 [params]
 

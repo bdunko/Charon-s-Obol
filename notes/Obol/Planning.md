@@ -1,68 +1,28 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 2 Sprint**
-	- [ ] **Week - Rebalancing & Reorienting**
-		- [ ] Saturday/Sunday
-			- [ ] Settings menu.
-				- [ ] Enable/disable filter.
-				- [ ] Enable/disable fog.
-				- [ ] Enable/disable wind particles.
-			- [ ] Should be openable from game or main menu.
-			- [ ] When opened in game, should offer an 'end run' option.
-		- [ ] Bug
-			- [ ] the stupid arrow styling thing
 - [ ] **Stretch Goals**
-	- [ ] **Graphical Improvements**
-		- [ ] **Update Shader to work with Spritesheets**
-			- [ ] Shader does not work with spritesheets which work across the entire sheet.
-		- [ ] **Unlock Improvements**
-			- [ ] Transitions between unlocks. Transitions between unlock ending and main menu
-			- [ ] Can probably have falling coins in the background via particles
-			- [ ] Lots of particles!!! Rising particles! Sparkle particles! So much particles!
-			- [ ] Add an additional space for 'advice' with each coin unlocked and character.
-				- [ ] Apollo - explain curse and bless.
-				- [ ] Artemis - explain arrows.
-				- [ ] Hephaestus - explain ignite.
-				- [ ] Eleusianian - "Now, let the real game begin..."
-		- [ ] **Orphic Tablets**
-			- [ ] Option unlocked on main menu once unlocked.
-			- [ ] New tablets unlocked in progression.
+	- [ ] **Unlock Improvements**
+		- [ ] All - sparkle particles all over the screen
+		- [ ] New difficulty unlocks.
+		- [ ] Coin Gallery unlock.
+		- [ ] Orphic Tablets unlock.
+		- [ ] Scales of Themis unlock.
+	- [ ] Zoom out from initial game scene when we spawn in...
 
-		- [ ] **Particles**
-			- [ ] Extra
-				- [ ] After a flip ends, play dust effect with EruptOutRing
-				- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
-				- [ ] While a coin's power is active, sparkly glow on it...
-				- [ ] Frozen coins have a constant sparkle effect.
-				- [ ] Ignited coins have a constant smoke effect.
-	- [ ] **Etc**
-		- [ ] Needs an Abandon Run button somewhere. 
-			- [ ] Add an X somewhere on the board on the top right.
-			- [ ] When clicked, open a popup window with abandon run. In the future, we will also put settings here probably.
-			- [ ] Also triggered on esc
-			- [ ] maybe can steal this implementation from MonScript (script editor definitely had a popup thingy)
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Difficulty levels**
-	- [ ] Base difficulty.
-	- [ ] Charon will unleash his Malice.
-	- [ ] Trials have two modifiers and higher quotas.
-	- [ ] Shops and tollgates are more expensive.
-		- [ ] Increase shop multipliers + upgrade prices.
-	- [ ] Monsters and the Nemesis are more powerful.
-		- [ ] Monsters have higher tails penalty and waves are more powerful.
-		- [ ] Nemesis are stronger.
-	- [ ] Additional scaling options (stakes?)
-		- [ ] Tails chance
-		- [ ] Shop prices
-		- [ ] Tollgate prices
-		- [ ] Monster costs
-		- [ ] Life penalties
-		- [ ] Strain
-	- [ ] **Charon's Malice**
+	- [ ] **UI Work**
+		- [ ] Each character has different savefile tracking for their highest unlocked difficulty.
+		- [ ] Show skulls on main menu only up to unlocked difficulty for that character.
+			- [ ] Redo skull arts slightly.
+			- [ ] Skulls need art for hovered, active, and inactive.
+			- [ ] Skulls also have alternative art once you've beaten that difficulty before (vanquished).
+	- [ ] **Implementing Difficulties**
 		- [ ] Hands hovering over board.
 		- [ ] Activates on a cycle every so foten.
 		- [ ] Graphical effects (glowing hands etc) to
-		- [ ] **Malice Effects**
+		- [ ] **Malice**
 			- [ ] Turn all payoffs to tails
 			- [ ] Turn half powers to tails
 			- [ ] Reflip all coins
@@ -79,10 +39,26 @@
 		- [ ] Sap - Coin does not naturally recharge each toss.
 		- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
 		- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-	- [ ] Scales of Themis
-		- [ ] Additional difficulty tweakings such as heads/tails chances, shop prices, upgrade prices, etc.
-		- [ ] Offers an overall 'weight' which predicts how hard a setting will be.
-		- [ ] Unlocked sometime in the unlock progression (late)
+	- [ ] **Scales of Themis**
+		- [ ] Shows overall 'heat' level of difficulty settings.
+		- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
+		- [ ] Tails chance
+		- [ ] Shop prices
+			- [ ] Affects both obol scaling and upgrades
+		- [ ] Tollgate prices
+			- [ ] flat increase based on round
+		- [ ] Monster strength
+		- [ ] Life penalties
+			- [ ] flat increase/decrease
+		- [ ] Strain
+			- [ ] flat increase/decrease
+	- [ ] **Orphic Tablets**
+		- [ ] Option unlocked on main menu once unlocked.
+		- [ ] New tablets unlocked in progression.
+		- [ ] Unlocked upon tutorial completion, populated with initial tutorials rehashing tutorial.
+		- [ ] Status - shows a list of all status icons and effects
+	- [ ] **Coin Gallery**
+		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
 	- [ ] **Enhanced Monster Effects (Projectile animations)**
 		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
 		- [ ] Add projectiles for monster coins targetting coins in player's row. 
