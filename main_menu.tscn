@@ -417,26 +417,6 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="Gradient" id="Gradient_nfok0"]
-offsets = PackedFloat32Array(0, 0.499055, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.784314, 0.56587, 0.00171702, 0.762059, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_686p2"]
-gradient = SubResource("Gradient_nfok0")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lfqgr"]
-emission_shape = 3
-emission_box_extents = Vector3(180, 100, 1)
-particle_flag_disable_z = true
-direction = Vector3(0, -1, 0)
-spread = 0.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 3.0
-initial_velocity_max = 5.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-color_ramp = SubResource("GradientTexture1D_686p2")
-
 [sub_resource type="Gradient" id="Gradient_njw1q"]
 colors = PackedColorArray(0.443137, 0.254902, 0.231373, 0.427451, 0.56587, 0.00171702, 0.762059, 0)
 
@@ -514,6 +494,26 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_ngnkn")
 
+[sub_resource type="Gradient" id="Gradient_nfok0"]
+offsets = PackedFloat32Array(0, 0.499055, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.784314, 0.56587, 0.00171702, 0.762059, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_686p2"]
+gradient = SubResource("Gradient_nfok0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lfqgr"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 100, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_686p2")
+
 [sub_resource type="Gradient" id="Gradient_xrnau"]
 colors = PackedColorArray(0, 0.72549, 0, 1, 1, 1, 1, 0)
 
@@ -552,7 +552,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fd7x5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_316j7"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -729,7 +729,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_vhqf1")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t1dnw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn447"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -849,7 +849,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xn7pe"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdg6t"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -998,17 +998,8 @@ mouse_filter = 2
 
 [node name="UnlockUI" type="Node2D" parent="."]
 
-[node name="Sparkle" type="GPUParticles2D" parent="UnlockUI"]
-visible = false
-position = Vector2(164, 95)
-amount = 32
-process_material = SubResource("ParticleProcessMaterial_lfqgr")
-texture = ExtResource("5_dj8go")
-lifetime = 2.0
-preprocess = 10.0
-trail_lifetime = 3.5
-
 [node name="FallingCoins" type="Node2D" parent="UnlockUI"]
+visible = false
 
 [node name="FallingCoinsBronze" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
@@ -1045,8 +1036,19 @@ lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
 
-[node name="CoinUI" type="Node2D" parent="UnlockUI"]
+[node name="Sparkle" type="Node2D" parent="UnlockUI"]
 visible = false
+
+[node name="Sparkle" type="GPUParticles2D" parent="UnlockUI/Sparkle"]
+position = Vector2(164, 95)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_lfqgr")
+texture = ExtResource("5_dj8go")
+lifetime = 2.0
+preprocess = 10.0
+trail_lifetime = 3.5
+
+[node name="CoinUI" type="Node2D" parent="UnlockUI"]
 
 [node name="Title" type="RichTextLabel" parent="UnlockUI/CoinUI"]
 offset_top = 16.0
@@ -1061,9 +1063,9 @@ text = "[center]New Coin Unlocked![/center]"
 fit_content = true
 
 [node name="Family" type="RichTextLabel" parent="UnlockUI/CoinUI"]
-offset_top = 50.0
+offset_top = 38.0
 offset_right = 320.0
-offset_bottom = 63.0
+offset_bottom = 51.0
 theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -1075,9 +1077,9 @@ fit_content = true
 scroll_active = false
 
 [node name="Subtitle" type="RichTextLabel" parent="UnlockUI/CoinUI"]
-offset_top = 65.0
+offset_top = 53.0
 offset_right = 320.0
-offset_bottom = 78.0
+offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
@@ -1088,7 +1090,7 @@ fit_content = true
 scroll_active = false
 
 [node name="Tip" type="RichTextLabel" parent="UnlockUI/CoinUI"]
-offset_top = 83.0
+offset_top = 71.0
 offset_right = 320.0
 offset_bottom = 111.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -1120,6 +1122,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="CharacterUI" type="Node2D" parent="UnlockUI"]
+visible = false
 
 [node name="CharacterEmbers" type="GPUParticles2D" parent="UnlockUI/CharacterUI"]
 position = Vector2(153, 183)
@@ -1151,9 +1154,9 @@ text = "[center]New Character Unlocked![/center]"
 fit_content = true
 
 [node name="Character" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
-offset_top = 50.0
+offset_top = 38.0
 offset_right = 320.0
-offset_bottom = 63.0
+offset_bottom = 51.0
 theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -1165,14 +1168,102 @@ fit_content = true
 scroll_active = false
 
 [node name="CharacterDescription" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
-offset_top = 65.0
+offset_top = 53.0
 offset_right = 320.0
-offset_bottom = 154.0
+offset_bottom = 142.0
 size_flags_vertical = 4
 bbcode_enabled = true
 text = "[center]This is an unlock description.[/center]"
 fit_content = true
 scroll_active = false
+
+[node name="FeatureUI" type="Node2D" parent="UnlockUI"]
+visible = false
+
+[node name="Title" type="RichTextLabel" parent="UnlockUI/FeatureUI"]
+offset_top = 16.0
+offset_right = 319.0
+offset_bottom = 31.0
+theme_override_colors/font_shadow_color = Color(0.772549, 0.227451, 0.74902, 0.262745)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/normal_font = ExtResource("1_jpqrs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center]New Feature Unlocked![/center]"
+fit_content = true
+
+[node name="Feature" type="RichTextLabel" parent="UnlockUI/FeatureUI"]
+offset_top = 38.0
+offset_right = 320.0
+offset_bottom = 51.0
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+text = "[center][color=gold]Harder Difficulty Unlocked for The Eleusinian![/color][/center]"
+fit_content = true
+scroll_active = false
+
+[node name="FeatureDescription" type="RichTextLabel" parent="UnlockUI/FeatureUI"]
+offset_top = 97.0
+offset_right = 320.0
+offset_bottom = 137.0
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[center]Charon is (ADJECTIVE)
+Description of difficulty[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="FeatureSprite" type="Sprite2D" parent="UnlockUI/FeatureUI"]
+position = Vector2(160, 75)
+texture = ExtResource("4_vorie")
+
+[node name="DifficultyUI" type="Node2D" parent="UnlockUI"]
+visible = false
+
+[node name="Title" type="RichTextLabel" parent="UnlockUI/DifficultyUI"]
+offset_top = 16.0
+offset_right = 319.0
+offset_bottom = 31.0
+theme_override_colors/font_shadow_color = Color(0.772549, 0.227451, 0.74902, 0.262745)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/normal_font = ExtResource("1_jpqrs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center]New Difficulty Unlocked![/center]"
+fit_content = true
+
+[node name="Difficulty" type="RichTextLabel" parent="UnlockUI/DifficultyUI"]
+offset_top = 38.0
+offset_right = 320.0
+offset_bottom = 51.0
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+text = "[center][color=gold]Harder Difficulty Unlocked for The Eleusinian![/color][/center]"
+fit_content = true
+scroll_active = false
+
+[node name="DifficultyDescription" type="RichTextLabel" parent="UnlockUI/DifficultyUI"]
+offset_top = 97.0
+offset_right = 320.0
+offset_bottom = 137.0
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[center]Charon is (ADJECTIVE)
+Description of difficulty[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="DifficultySprite" type="Sprite2D" parent="UnlockUI/DifficultyUI"]
+position = Vector2(160, 75)
+texture = ExtResource("4_vorie")
 
 [node name="UnlockTextboxes" type="HBoxContainer" parent="UnlockUI"]
 z_index = 1
@@ -1185,7 +1276,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_fd7x5")
+material = SubResource("ShaderMaterial_316j7")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1467,12 +1558,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_t1dnw")
+material = SubResource("ShaderMaterial_dn447")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_xn7pe")
+material = SubResource("ShaderMaterial_gdg6t")
 layout_mode = 2
 default_text = " Quit "
 

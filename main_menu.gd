@@ -25,9 +25,20 @@ signal start_game
 @onready var _UNLOCK_TRIOBOL = $UnlockUI/CoinUI/Coins/Triobol
 @onready var _UNLOCK_TETROBOL = $UnlockUI/CoinUI/Coins/Tetrobol
 
+@onready var _UNLOCK_FEATURE_UI = $UnlockUI/FeatureUI
+@onready var _UNLOCK_FEATURE_LABEL = $UnlockUI/FeatureUI/Feature
+@onready var _UNLOCK_FEATURE_DESCRIPTION = $UnlockUI/FeatureUI/FeatureDescription
+@onready var _UNLOCK_FEATURE_SPRITE = $UnlockUI/FeatureUI/FeatureSprite
+
+@onready var _UNLOCK_DIFFICULTY_UI = $UnlockUI/DifficultyUI
+@onready var _UNLOCK_DIFFICULTY_LABEL = $UnlockUI/DifficultyUI/Difficulty
+@onready var _UNLOCK_DIFFICULTY_DESCRIPTION = $UnlockUI/DifficultyUI/DifficultyDescription
+@onready var _UNLOCK_DIFFICULTY_SPRITE = $UnlockUI/DifficultyUI/DifficultySprite
+
 @onready var _UNLOCK_TEXTBOXES = $UnlockUI/UnlockTextboxes
 
 @onready var _FALLING_COINS = $UnlockUI/FallingCoins
+@onready var _SPARKLE = $UnlockUI/Sparkle
 
 var _queued_unlocks = []
 
@@ -53,7 +64,25 @@ func _ready() -> void:
 	assert(_UNLOCK_TRIOBOL)
 	assert(_UNLOCK_TETROBOL)
 	assert(_UNLOCK_COIN_TIP_LABEL)
+	
+	assert(_UNLOCK_FEATURE_UI)
+	assert(_UNLOCK_FEATURE_LABEL)
+	assert(_UNLOCK_FEATURE_DESCRIPTION)
+	assert(_UNLOCK_FEATURE_SPRITE)
+	
+	assert(_UNLOCK_DIFFICULTY_LABEL)
+	assert(_UNLOCK_DIFFICULTY_UI)
+	assert(_UNLOCK_DIFFICULTY_SPRITE)
+	assert(_UNLOCK_DIFFICULTY_DESCRIPTION)
+	
+	assert(_UNLOCK_TEXTBOXES)
+	
 	assert(_FALLING_COINS)
+	_FALLING_COINS.show()
+	_FALLING_COINS.modulate.a = 0.0
+	assert(_SPARKLE)
+	_SPARKLE.show()
+	_SPARKLE.modulate.a = 0.0
 
 	assert(Global.Character.size() == Global.CHARACTERS.size())
 
@@ -73,7 +102,9 @@ func _ready() -> void:
 	Global.game_loaded.connect(setup_character_selector)
 	
 	# DEBUG UNLOCK
-	queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN])
+	queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
+	Global.UNLOCKED_FEATURE_SCALES_OF_THEMIS, Global.UNLOCKED_FEATURE_ORPHIC_TABLETS, Global.UNLOCKED_FEATURE_ORPHIC_PAGE1,\
+	Global.TEST_DIFFICULTY_UNLOCK])
 
 func setup_character_selector() -> void:
 	var names = []
@@ -115,7 +146,7 @@ func queue_unlocks(unlocks) -> void:
 	# remove any unlocks that are already unlocked
 	var true_unlocks = []
 	for unlock in unlocks:
-		assert(unlock is Global.Character or unlock is Global.CoinFamily)
+		assert(unlock is Global.Character or unlock is Global.CoinFamily or unlock is Global.UnlockedFeature or unlock is Global.UnlockedDifficulty)
 		if unlock is Global.Character and Global.is_character_unlocked(unlock):
 			continue
 		elif unlock is Global.CoinFamily and Global.is_coin_unlocked(unlock):
@@ -136,7 +167,6 @@ func do_unlock() -> void:
 		return
 	
 	var unlocked = _queued_unlocks.pop_front()
-	assert(unlocked is Global.Character or unlocked is Global.CoinFamily)
 	
 	_UNLOCK_TEXTBOXES.make_invisible()
 	
@@ -182,6 +212,55 @@ func do_unlock() -> void:
 		_UNLOCK_TETROBOL.FX.fade_in(_FADE_TIME * 2)
 		Global.fade_in(_FALLING_COINS, _FADE_TIME)
 		await Global.fade_in(_UNLOCK_COIN_UI, _FADE_TIME)
+	elif unlocked is Global.UnlockedFeature:
+		#update the ui
+		_UNLOCK_FEATURE_LABEL.text = "[center]%s[/center]" % unlocked.name
+		_UNLOCK_FEATURE_DESCRIPTION.text = "[center]%s[/center]" % unlocked.description
+		_UNLOCK_FEATURE_SPRITE.texture = load(unlocked.sprite_path)
+		
+		# TODO UNLOCKS
+		match unlocked.feature_type:
+			Global.UnlockedFeature.FeatureType.SCALES_OF_THEMIS:
+				pass
+				#Global.unlock_scales_of_themis()
+			Global.UnlockedFeature.FeatureType.ORPHIC_TABLETS:
+				pass
+				#Global.unlock_orphic_tablets()
+			Global.UnlockedFeature.FeatureType.ORPHIC_TABLET_PAGE:
+				assert(unlocked is Global.UnlockedOrphicPageFeature)
+				pass
+				#Global.unlock_orphic_tablet_page(unlocked.page)
+		
+		_UNLOCK_FEATURE_UI.show()
+		_UNLOCK_FEATURE_UI.modulate.a = 0.0
+		Global.fade_in(_SPARKLE, _FADE_TIME)
+		await Global.fade_in(_UNLOCK_FEATURE_UI, _FADE_TIME)
+	elif unlocked is Global.UnlockedDifficulty:
+		# update the ui
+		_UNLOCK_DIFFICULTY_LABEL.text = "[center]Harder Difficulty Unlocked for %s[/center]" % Global.CHARACTERS[unlocked.character].name
+		_UNLOCK_DIFFICULTY_DESCRIPTION.text = "[center]%s[/center]" % Global.difficulty_tooltip_for(unlocked.difficulty)
+		
+		match unlocked.difficulty:
+			Global.Difficulty.INDIFFERENT1:
+				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull1.png")
+			Global.Difficulty.VENGEFUL2:
+				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull2.png")
+			Global.Difficulty.GREEDY3:
+				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull3.png")
+			Global.Difficulty.CRUEL4:
+				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull4.png")
+			Global.Difficulty.UNFAIR5:
+				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull5.png")
+			_:
+				assert(false)
+		# TODO UNLOCK
+		var character = unlocked.character
+		var difficulty = unlocked.difficulty
+		#Global.unlock_difficulty(character, difficulty)
+		
+		_UNLOCK_DIFFICULTY_UI.show()
+		_UNLOCK_DIFFICULTY_UI.modulate.a = 0.0
+		await Global.fade_in(_UNLOCK_DIFFICULTY_UI, _FADE_TIME)
 	
 	_UNLOCK_TEXTBOXES.make_visible()
 
@@ -194,12 +273,19 @@ func _on_unlock_continue_button_clicked():
 	_UNLOCK_TRIOBOL.FX.fade_out(_FADE_TIME * 2)
 	_UNLOCK_TETROBOL.FX.fade_out(_FADE_TIME * 2)
 	
+	Global.fade_out(_UNLOCK_DIFFICULTY_UI)
+	Global.fade_out(_UNLOCK_FEATURE_UI)
+	
 	# if the previous unlock was a coin and the next is also a coin, keep the falling coins effect
 	if not _is_next_unlock_coin():
 		Global.fade_out(_FALLING_COINS, _FADE_TIME)
+	if not _is_next_unlock_feature():
+		Global.fade_out(_SPARKLE)
 	await Global.fade_out(_UNLOCK_COIN_UI)
 	_UNLOCK_CHARACTER_UI.hide()
 	_UNLOCK_COIN_UI.hide()
+	_UNLOCK_DIFFICULTY_UI.hide()
+	_UNLOCK_FEATURE_UI.hide()
 	
 	await Global.delay(_DELAY_TIME)
 	
@@ -212,6 +298,9 @@ func _on_unlock_continue_button_clicked():
 func _is_next_unlock_coin() -> bool:
 	return _queued_unlocks.size() != 0 and _queued_unlocks[0] is Global.CoinFamily
 
+func _is_next_unlock_feature() -> bool:
+	return _queued_unlocks.size() != 0 and _queued_unlocks[0] is Global.UnlockedFeature
+
 func switch_to_main_ui() -> void:
 	# main menu needs to fade in
 	_UNLOCK_UI.hide()
@@ -221,8 +310,10 @@ func switch_to_main_ui() -> void:
 
 func switch_to_unlock_ui() -> void:
 	_MAIN_UI.hide()
-	_UNLOCK_COIN_UI.hide()
 	_UNLOCK_CHARACTER_UI.hide()
+	_UNLOCK_COIN_UI.hide()
+	_UNLOCK_DIFFICULTY_UI.hide()
+	_UNLOCK_FEATURE_UI.hide()
 	_UNLOCK_UI.show()
 
 func _on_debug_unlock_everything_pressed():

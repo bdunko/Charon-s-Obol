@@ -54,6 +54,58 @@ enum Character {
 	ELEUSINIAN, LADY, MERCHANT
 }
 
+
+class UnlockedDifficulty:
+	var character: Character
+	var difficulty: Difficulty
+	
+	func _init(char: Character, diff: Difficulty) -> void:
+		self.character = char
+		self.difficulty = diff
+
+enum OrphicTabletPage {
+	BASE, TIP1
+}
+
+class UnlockedFeature:
+	enum FeatureType {
+		SCALES_OF_THEMIS, ORPHIC_TABLETS, ORPHIC_TABLET_PAGE
+	}
+	
+	var name: String
+	var description: String
+	var feature_type: FeatureType
+	var sprite_path: String
+	
+	func _init(feat_type: FeatureType, nme: String, desc: String, sprt: String) -> void:
+		self.feature_type = feat_type
+		self.name = nme
+		self.description = desc
+		self.sprite_path = sprt
+
+class UnlockedOrphicPageFeature extends UnlockedFeature:
+	var page
+	
+	func _init(feat_type, nme, desc, sprt: String, tablet_pg: OrphicTabletPage):
+		super._init(feat_type, nme, desc, sprt)
+		self.page = tablet_pg
+
+const _NO_CHARACTER = Character.LADY
+const _NO_DIFFICULTY = Difficulty.INDIFFERENT1
+
+var UNLOCKED_FEATURE_SCALES_OF_THEMIS = UnlockedFeature.new(UnlockedFeature.FeatureType.SCALES_OF_THEMIS, "The Scales of Themis",\
+	"More options to configure the difficulty.\nAvailable from the main menu.",\
+	"res://assets/icons/trial/equivalence_icon.png")
+var UNLOCKED_FEATURE_ORPHIC_TABLETS = UnlockedFeature.new(UnlockedFeature.FeatureType.ORPHIC_TABLETS, "The Orphic Tablets",\
+	"Contains detailed explainations for the game's rules.\nNew pages will unlock periodically.\nAvailable from the main menu.",\
+	"res://assets/icons/trial/polymorph_icon.png")
+var UNLOCKED_FEATURE_ORPHIC_PAGE1 = UnlockedOrphicPageFeature.new(UnlockedFeature.FeatureType.ORPHIC_TABLETS, "Orphic Tablets Updated",\
+	"Additional information about status effects added to Orphic Tablets.\nView the Orphic Tablets from the main menu.",\
+	"res://assets/icons/trial/polarization_icon.png", OrphicTabletPage.TIP1)
+
+var TEST_DIFFICULTY_UNLOCK = UnlockedDifficulty.new(Global.Character.ELEUSINIAN, Global.Difficulty.CRUEL4)
+
+
 enum TutorialState {
 	INACTIVE,
 	
@@ -136,36 +188,20 @@ var CHARACTERS = {
 var difficulty: Difficulty
 
 enum Difficulty {
-	INDIFFERENT, VENGEFUL, GREEDY, CRUEL, UNFAIR
+	INDIFFERENT1, VENGEFUL2, GREEDY3, CRUEL4, UNFAIR5
 }
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
-	# potential difficulty revamp - 
-	# 1 regular difficulty
-	# 2 adds unpredictability - Charon Malice
-	# 3 amp up trials - Trials have 2 modifiers. You cannot view future Trials until completing the previous one. Nemesis is stronger.
-	# 4 more challenge - Charon will sometimes summon monsters.
-	# 5 shop behavior change - You start with 5 Obol of Stone. Coins in the Shop may have negative statuses. 
-	# 6 general difficulty bump - Your coins land on tails more often. Tollgates are more expensive. Charon is more aggressive.
-	
-	# Normal difficulty.
-	# Charon will unleash his Malice.
-	# Each Trial has two modifiers. The Nemesis is more powerful. 
-	# Charon may summon monsters at the start of non-Trial rounds. Coins available in the Shop may have negative statuses. 
-	# You cannot view future Trials until completing the previous one. Tollgates are more expensive. 
-	# Your coins land on tails 10% more often. Charon's behavior is more unpredictable. (he has a chance to diverge from his attack pattern and mix in an unused attack)
-	
-	#todo - fill these description with colors too
 	match diff:
-		Difficulty.INDIFFERENT:
+		Difficulty.INDIFFERENT1:
 			return "Charon is Indifferent\nThe base difficulty."
-		Difficulty.VENGEFUL:
+		Difficulty.VENGEFUL2:
 			return "Charon is Vengeful\nCharon may occasionally unleash his Malice."
-		Difficulty.GREEDY:
+		Difficulty.GREEDY3:
 			return "Charon is Greedy\nCoin upgrades are more expensive.\nTollgates require a larger payment."
-		Difficulty.CRUEL:
+		Difficulty.CRUEL4:
 			return "Charon is Cruel\nTrials have two modifiers.\nTrial soul quotas are higher."
-		Difficulty.UNFAIR:
+		Difficulty.UNFAIR5:
 			return "Charon is Unfair\nMonsters are stronger and more numerous.\nThe Nemesis is more powerful."
 	assert(false, "shouldn't happen..")
 	return ""
@@ -1451,7 +1487,7 @@ var DEMETER_FAMILY = CoinFamily.new(4, "(DENOM) of Demeter", "[color=lightgreen]
 var APOLLO_FAMILY = CoinFamily.new(5, "(DENOM) of Apollo", "[color=orange]Harmonic, Melodic[/color]", "(BLESS)(POWERARROW)This coin will land on (HEADS) next flip.\n(CURSE)(POWERARROW)This coin will land on (TAILS) next flip.",\
 	STANDARD, POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
-var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of  Night[/color]", "(ARROW)(POWERARROW)Can be used to reflip coins.\nPersists between tosses and rounds.",\
+var ARTEMIS_FAMILY = CoinFamily.new(6, "(DENOM) of Artemis", "[color=purple]Arrows of Night[/color]", "(ARROW)(POWERARROW)Can be used to reflip coins.\nPersists between tosses and rounds.",\
 	PRICY, POWER_FAMILY_GAIN_ARROW, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
 var ARES_FAMILY = CoinFamily.new(7, "(DENOM) of Ares", "[color=indianred]Chaos of War[/color]", NO_UNLOCK_TIP,\

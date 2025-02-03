@@ -42,6 +42,7 @@
 	- [ ] Coin label text is gray instead of white between tosses.
 - [ ] Animated icons for coin powers - flashing eyes for monsters for ex - only animate when active.
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
+- [ ] Zoom out from initial game scene when we spawn in?
 
 
 

@@ -1,14 +1,5 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Feb 2 Sprint**
-- [ ] **Stretch Goals**
-	- [ ] **Unlock Improvements**
-		- [ ] All - sparkle particles all over the screen
-		- [ ] New difficulty unlocks.
-		- [ ] Coin Gallery unlock.
-		- [ ] Orphic Tablets unlock.
-		- [ ] Scales of Themis unlock.
-	- [ ] Zoom out from initial game scene when we spawn in...
-
+- [ ] **Active Goals - Feb 16 Sprint**
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Difficulty levels**
@@ -57,8 +48,8 @@
 		- [ ] New tablets unlocked in progression.
 		- [ ] Unlocked upon tutorial completion, populated with initial tutorials rehashing tutorial.
 		- [ ] Status - shows a list of all status icons and effects
-	- [ ] **Coin Gallery**
-		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
+		- [ ] **Coin Gallery**
+			- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
 	- [ ] **Enhanced Monster Effects (Projectile animations)**
 		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
 		- [ ] Add projectiles for monster coins targetting coins in player's row. 
@@ -69,8 +60,8 @@
 - [ ] **More Content**
 	- [ ] **New bosses**
 	- [ ] **More Monsters**
-	- [ ] **More Coins**
-	- [ ] **More Characters**
+	- [ ] **More Coins +30**
+	- [ ] **More Characters +3**
 	- [ ] **Steady Unlocks** + **Unlocks for each character & nemesis**
 - [ ] **Basic Sound
 - [ ] **Additional Refactors**
