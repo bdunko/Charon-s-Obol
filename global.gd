@@ -59,8 +59,8 @@ class UnlockedDifficulty:
 	var character: Character
 	var difficulty: Difficulty
 	
-	func _init(char: Character, diff: Difficulty) -> void:
-		self.character = char
+	func _init(chara: Character, diff: Difficulty) -> void:
+		self.character = chara
 		self.difficulty = diff
 
 enum OrphicTabletPage {

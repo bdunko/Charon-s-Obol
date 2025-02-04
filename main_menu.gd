@@ -102,9 +102,9 @@ func _ready() -> void:
 	Global.game_loaded.connect(setup_character_selector)
 	
 	# DEBUG UNLOCK
-	queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
-	Global.UNLOCKED_FEATURE_SCALES_OF_THEMIS, Global.UNLOCKED_FEATURE_ORPHIC_TABLETS, Global.UNLOCKED_FEATURE_ORPHIC_PAGE1,\
-	Global.TEST_DIFFICULTY_UNLOCK])
+	#queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
+	#Global.UNLOCKED_FEATURE_SCALES_OF_THEMIS, Global.UNLOCKED_FEATURE_ORPHIC_TABLETS, Global.UNLOCKED_FEATURE_ORPHIC_PAGE1,\
+	#Global.TEST_DIFFICULTY_UNLOCK])
 
 func setup_character_selector() -> void:
 	var names = []
@@ -254,8 +254,8 @@ func do_unlock() -> void:
 			_:
 				assert(false)
 		# TODO UNLOCK
-		var character = unlocked.character
-		var difficulty = unlocked.difficulty
+		var _character = unlocked.character
+		var _difficulty = unlocked.difficulty
 		#Global.unlock_difficulty(character, difficulty)
 		
 		_UNLOCK_DIFFICULTY_UI.show()

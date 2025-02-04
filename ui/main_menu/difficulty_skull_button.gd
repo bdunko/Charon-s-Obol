@@ -15,21 +15,23 @@ var _vanquished: bool = false
 var _selected: bool = false
 
 func _ready():
-	#assert(_SKULL)
-	#assert(_VANQUISHED)
+	assert(_UNVANQUISHED_UNSELECTED)
+	assert(_UNVANQUISHED_SELECTED)
+	assert(_VANQUISHED_UNSELECTED)
+	assert(_VANQUISHED_SELECTED)
+	
 	_UNVANQUISHED_UNSELECTED.pressed.connect(select)
 	_VANQUISHED_SELECTED.pressed.connect(select)
 	_VANQUISHED_SELECTED.mouse_entered.connect(_on_mouse_entered)
 	_VANQUISHED_UNSELECTED.mouse_entered.connect(_on_mouse_entered)
 	_UNVANQUISHED_SELECTED.mouse_entered.connect(_on_mouse_entered)
 	_UNVANQUISHED_UNSELECTED.mouse_entered.connect(_on_mouse_entered)
-	
 
 func _update_button_visibility() -> void:
 	_UNVANQUISHED_UNSELECTED.visible = not _vanquished and not _selected
 	_UNVANQUISHED_SELECTED.visible = not _vanquished and _selected
 	_VANQUISHED_UNSELECTED.visible = _vanquished and not _selected
-	_VANQUISHED_SELECTED.visible = _vanquished and _selected	
+	_VANQUISHED_SELECTED.visible = _vanquished and _selected
 
 func select() -> void:
 	emit_signal("selected", self, difficulty)
