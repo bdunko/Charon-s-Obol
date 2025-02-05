@@ -76,6 +76,20 @@
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
 				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+	- [ ] **Tutorial Tuning**
+		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+		- [ ] The Shop Mat should be brought to front when introducing the shop.
+		- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
+		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
+		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
+		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
+		- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
+			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+		- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
+		- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
+		- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
+		- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
+
 
 	- [ ] Stretch Goals
 		- [ ] **Scales of Themis**

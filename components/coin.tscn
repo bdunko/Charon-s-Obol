@@ -1223,7 +1223,7 @@ custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
 script = ExtResource("23_u3o1j")
 _tooltip = "(S_TURNED_TO_STONE)
-This coin cannot be flipped and does not recharge naturally."
+This coin cannot be flipped, does not pay off, and does not recharge naturally."
 
 [node name="Sprite2D" type="Sprite2D" parent="Sprite/StatusBar/Stone"]
 texture = ExtResource("24_gdnx8")

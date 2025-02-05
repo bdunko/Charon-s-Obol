@@ -33,6 +33,7 @@
 		- [ ] Pelte (light shield) -
 	- [ ] Monster can have 'armor', reduces damage dealt by 1.
 	- [ ] More simple idea given the monster rework: Monsters are more numerous. You cannot end the round until all monsters are slain. Once all monsters are slain, the round ends automatically. Possibly for thematic purposes, we can still use the 'weapon' coins up there instead of typical payoff coins. You have a set number of souls to spend in shops and earn souls for killing monsters. 
+- [ ] Mythical Hero - Your coins land on heads 99% of the time. Every round is a trial. Monsters are more numerous and must be destroyed to progress.
 - [ ] Versus mode/tug of war - No souls; Charon has a life pile and so do you. Soul gains take life from Charon; life gain takes life from you. Take all of Charon's life before you do each round. Remaining life is converted to shards and used to purchase new coins and upgrades.
 - [ ] Cube Draft - Coins last only a single round, then are destroyed. Select a new set of 5 coins from a selection of 8 in the shop every round. Shard quota per round.
 - [ ] Chaos - Whenever a coin is flipped, its power is randomized, except for a single Obol on the left. You can still upgrade coins, they keep their denomination.
@@ -54,8 +55,7 @@
 - [ ] Exact number of flips must be performed each mode, no life. Tails penalties are to lose some number of souls instead.
 - [ ] You gain thrice as many souls. You take thrice as much damage. The number of rounds is reduced a lot.
 - [ ] The Archon - No life, limited flips, all coins are power coins but their BACK is soul generation.
-- [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection.
-	- [ ] maybe separate or added; The shop cannot be rerolled manually. After each purchase, the shop is rerolled.
+- [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. Whenever you buy a coin from the shop, the shop rerolls. There is no reroll button.
 - [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. No ante increases. 
 - [ ] Power coins are always on heads, but don't recharge at the end of the round. Upgrading a power coin refills charges. Tetrobols can be upgraded to refill them. Power coins are cheaper.
 - [ ] The Emperor - Power coins don't recharge until the end of the round, but have doubled charges.
@@ -116,3 +116,4 @@
 - [ ] The Architect - There are no payoff coins. You start with Hermes, Hephaestus, and Dionysus. There is no monsters or final boss, but there are more tollgates and trials.
 - [ ] The Archer - Powers cost arrows to use instead of charges. You start with an additional coin which generates arrows. (something something something...)
 - [ ] The coin limit is increased. All coins are Diobols.
+- [ ] Adherent - Only a single type of power coin is available (limit the possible types to reasonable ones), randomly chosen. (All possible payoff coins are available)

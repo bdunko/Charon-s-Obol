@@ -1781,6 +1781,8 @@ func _on_coin_clicked(coin: Coin):
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
+		var spent_power_use = false # some coins need to spend their charges before they activate to work properly
+		
 		# powers can't be used on passive coins
 		if coin.is_passive(): 
 			_DIALOGUE.show_dialogue("Can't use a power on that...")
@@ -1811,6 +1813,10 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_ZEUS:
 					_safe_flip(coin, false)
 				Global.PATRON_POWER_FAMILY_HERA:
+					# necessary in case hera reflips itself
+					Global.active_coin_power_coin.spend_power_use()
+					spent_power_use = true
+					
 					_safe_flip(coin, false)
 					if left:
 						left.play_power_used_effect(Global.active_coin_power_family)
@@ -2018,7 +2024,8 @@ func _on_coin_clicked(coin: Coin):
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
 		coin.play_power_used_effect(Global.active_coin_power_family)
-		Global.active_coin_power_coin.spend_power_use()
+		if not spent_power_use:
+			Global.active_coin_power_coin.spend_power_use()
 		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
 			if not coin.is_being_destroyed():
 				coin.supercharge()

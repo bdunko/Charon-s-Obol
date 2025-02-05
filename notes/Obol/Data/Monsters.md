@@ -22,8 +22,7 @@
 	- [ ] Hyperborean - Freeze random + Lose Souls
 	- [ ] Phoenix - Heal + Ignite
 	- [ ] Nymph - Bless + Lose Souls
-	- [ ] Eidolon - Gain Souls + Curse / starts Unlucky
-	- [ ] ??? (some ghostly thing) - Destroy this coin + Deal damage and Curse this coin. Starts Cursed.
+	- [ ] Eidolon - Destroy this coin and gain souls / Deal damage and Curse this coin. Starts Cursed. (at triobol+ it also is unlucky)
 	- [ ] Cyclopes - Upgrade&Ignite + Downgrade
 	- [ ] Colchian Dragon - Gain Souls + Heavy damage
 	- [ ] ??? - Make each enemy coin Unlucky + Damage

@@ -188,17 +188,17 @@ var CHARACTERS = {
 var difficulty: Difficulty
 
 enum Difficulty {
-	INDIFFERENT1, VENGEFUL2, GREEDY3, CRUEL4, UNFAIR5
+	INDIFFERENT1, HOSTILE2, GREEDY3, CRUEL4, UNFAIR5
 }
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
 	match diff:
 		Difficulty.INDIFFERENT1:
 			return "Charon is Indifferent\nThe base difficulty."
-		Difficulty.VENGEFUL2:
-			return "Charon is Vengeful\nCharon may occasionally unleash his Malice."
+		Difficulty.HOSTILE2:
+			return "Charon is Hostile\nCharon may occasionally unleash his Malice."
 		Difficulty.GREEDY3:
-			return "Charon is Greedy\nCoin upgrades are more expensive.\nTollgates require a larger payment."
+			return "Charon is Greedy\nCoins are more expensive.\nTollgates require a larger payment."
 		Difficulty.CRUEL4:
 			return "Charon is Cruel\nTrials have two modifiers.\nTrial soul quotas are higher."
 		Difficulty.UNFAIR5:

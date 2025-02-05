@@ -246,11 +246,11 @@ var _freeze_ignite_state: _FreezeIgniteState:
 		
 		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
 			FX.flash(Color.CYAN)
-			FX.tint(Color.CYAN, 0.5)
+			FX.tint(Color.CYAN, 0.8)
 			_play_new_status_effect("res://assets/icons/status/freeze_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
 			FX.flash(Color.RED)
-			FX.tint(Color.RED, 0.5)
+			FX.tint(Color.RED, 0.8)
 			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			FX.clear_tint()

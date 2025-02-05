@@ -22,9 +22,7 @@
 	- [ ] Trail for coins moving to hands/toss.
 	- [ ] Effect when a coin is tossed or lands
 - [ ] Toggle for tooltips. (toggle on/off tooltips as a hotkey and clickable button)
-
 - [ ] Code - Change text color if not original number on numbers in coin tooltip (light blue = modified)
-
 - [ ] Graphics - River scrolls during voyage.
 - [ ] Graphics - Pile of life/souls should be in a circular pile instead of square.
 - [ ] Graphics - Coin shadows

@@ -23,7 +23,7 @@ Unlockable coins + more coins
 	- [ ] ??? - Nullifying field - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff. 
 	- [ ] ??? - Crack this coin (1 charge). On the fifth crack, destroy and gain lots of souls.
 	- [ ] ??? - Every time this lands on tails, upgraded payout.
-	- [ ] Phaethon - Whenever this card is on heads, gain souls then immediately reflip it.
+	- [ ] Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
 	- [ ] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
 	- [ ] ??? (payoff) - 1 soul per coin which has been destroyed or spent since the last payoff.
 	- [ ] ??? - 0/1/2/3 souls - Increased payoff by 2 each toss (resets at end of round)
@@ -40,8 +40,7 @@ Unlockable coins + more coins
 	- [ ] Statuses
 		- [ ] Perseus - Gorgan's Gaze, Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. Stone coins also lose 1 value.
 		- [ ] Midas - Turn a coin to Gold! Golden coins get +1 value and can be resold to Charon in the shop (new option appears) for full value. They also have -1 charge.
-		- [ ] ??? - choose a coin, treat it as blank for the rest of the round.
-		- [ ] ??? - Freeze 2/3/4/5 other random coins.
+		- [ ] ??? - Blank a coin.
 	- [ ] Blurse
 		- [ ] Prometheus - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
 		- [ ] Tantalus - Randomly curse or bless all your coins. Gain 1 soul for each coin cursed, lose 1 life for each coin blessed.
