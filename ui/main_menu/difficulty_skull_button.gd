@@ -10,7 +10,6 @@ signal selected
 @onready var _VANQUISHED_UNSELECTED: TextureButton = $Vanquished/Unselected
 @onready var _VANQUISHED_SELECTED: TextureButton = $Vanquished/Selected
 
-#TODO - hook this up once we store vanquished status somewhere per character
 var _vanquished: bool = false
 var _selected: bool = false
 
@@ -21,7 +20,8 @@ func _ready():
 	assert(_VANQUISHED_SELECTED)
 	
 	_UNVANQUISHED_UNSELECTED.pressed.connect(select)
-	_VANQUISHED_SELECTED.pressed.connect(select)
+	_VANQUISHED_UNSELECTED.pressed.connect(select)
+	
 	_VANQUISHED_SELECTED.mouse_entered.connect(_on_mouse_entered)
 	_VANQUISHED_UNSELECTED.mouse_entered.connect(_on_mouse_entered)
 	_UNVANQUISHED_SELECTED.mouse_entered.connect(_on_mouse_entered)
@@ -32,6 +32,10 @@ func _update_button_visibility() -> void:
 	_UNVANQUISHED_SELECTED.visible = not _vanquished and _selected
 	_VANQUISHED_UNSELECTED.visible = _vanquished and not _selected
 	_VANQUISHED_SELECTED.visible = _vanquished and _selected
+
+func set_vanquished(is_vanquished: bool) -> void:
+	_vanquished = is_vanquished
+	_update_button_visibility()
 
 func select() -> void:
 	emit_signal("selected", self, difficulty)

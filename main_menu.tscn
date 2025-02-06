@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=97 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -534,7 +534,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s2cvo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7s4qt"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -715,6 +715,10 @@ color_ramp = SubResource("GradientTexture1D_vhqf1")
 atlas = ExtResource("14_yugwh")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3sts4"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(96, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_u68bv"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(16, 0, 16, 16)
@@ -726,6 +730,10 @@ region = Rect2(32, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnxdx"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qcjw"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(112, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eg6ho"]
 atlas = ExtResource("14_yugwh")
@@ -739,6 +747,10 @@ region = Rect2(80, 0, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(0, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhwga"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(96, 16, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_0r1wy"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(16, 16, 16, 16)
@@ -750,6 +762,10 @@ region = Rect2(32, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_w31ix"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cosuv"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(112, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7g7tf"]
 atlas = ExtResource("14_yugwh")
@@ -763,6 +779,10 @@ region = Rect2(80, 16, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(0, 32, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_37r7h"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(96, 32, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_kedyg"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(16, 32, 16, 16)
@@ -774,6 +794,10 @@ region = Rect2(32, 32, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3hnr"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hdtf"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(112, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pokfu"]
 atlas = ExtResource("14_yugwh")
@@ -787,6 +811,10 @@ region = Rect2(80, 32, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(0, 48, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjv4v"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(96, 48, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_snm5r"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(16, 48, 16, 16)
@@ -798,6 +826,10 @@ region = Rect2(32, 48, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vokay"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xok14"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(112, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fq2v3"]
 atlas = ExtResource("14_yugwh")
@@ -811,6 +843,10 @@ region = Rect2(80, 48, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(0, 64, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_migvd"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(96, 64, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_pn1u7"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(16, 64, 16, 16)
@@ -823,6 +859,10 @@ region = Rect2(32, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(48, 64, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvqak"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(112, 64, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qsgc"]
 atlas = ExtResource("14_yugwh")
 region = Rect2(64, 64, 16, 16)
@@ -831,7 +871,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fatt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ec2nt"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -951,7 +991,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0grk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i1b36"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1379,7 +1419,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_s2cvo")
+material = SubResource("ShaderMaterial_7s4qt")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1468,6 +1508,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_0vcrt")
+texture_pressed = SubResource("AtlasTexture_3sts4")
 texture_hover = SubResource("AtlasTexture_u68bv")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
@@ -1484,6 +1525,7 @@ visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_wnxdx")
+texture_pressed = SubResource("AtlasTexture_1qcjw")
 texture_hover = SubResource("AtlasTexture_eg6ho")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
@@ -1505,6 +1547,7 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_1ve2t")
+texture_pressed = SubResource("AtlasTexture_vhwga")
 texture_hover = SubResource("AtlasTexture_0r1wy")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
@@ -1519,6 +1562,7 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_w31ix")
+texture_pressed = SubResource("AtlasTexture_cosuv")
 texture_hover = SubResource("AtlasTexture_7g7tf")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
@@ -1540,6 +1584,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_hdn0r")
+texture_pressed = SubResource("AtlasTexture_37r7h")
 texture_hover = SubResource("AtlasTexture_kedyg")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
@@ -1556,6 +1601,7 @@ visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_c3hnr")
+texture_pressed = SubResource("AtlasTexture_5hdtf")
 texture_hover = SubResource("AtlasTexture_pokfu")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
@@ -1578,6 +1624,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_i8orj")
+texture_pressed = SubResource("AtlasTexture_kjv4v")
 texture_hover = SubResource("AtlasTexture_snm5r")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
@@ -1594,6 +1641,7 @@ visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_vokay")
+texture_pressed = SubResource("AtlasTexture_xok14")
 texture_hover = SubResource("AtlasTexture_fq2v3")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
@@ -1616,6 +1664,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_u5kq3")
+texture_pressed = SubResource("AtlasTexture_migvd")
 texture_hover = SubResource("AtlasTexture_pn1u7")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
@@ -1632,6 +1681,7 @@ visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_kt4di")
+texture_pressed = SubResource("AtlasTexture_gvqak")
 texture_hover = SubResource("AtlasTexture_0qsgc")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
@@ -1660,12 +1710,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_2fatt")
+material = SubResource("ShaderMaterial_ec2nt")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_v0grk")
+material = SubResource("ShaderMaterial_i1b36")
 layout_mode = 2
 default_text = " Quit "
 

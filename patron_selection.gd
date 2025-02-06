@@ -114,9 +114,9 @@ func on_victory() -> void:
 			statue.disable()
 			statue.clear_fx()
 	
-	for line in Global.character.victoryDialogue:
+	for line in Global.get_character_victory_dialogue():
 		await _VICTORY_DIALOGUE.show_dialogue_and_wait(line)
-	_VICTORY_DIALOGUE.show_dialogue(Global.character.victoryClosingLine)
+	_VICTORY_DIALOGUE.show_dialogue(Global.get_character_victory_closing_line())
 	
 	_VICTORY_TEXTBOXES.make_visible()
 

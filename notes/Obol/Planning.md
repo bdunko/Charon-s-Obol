@@ -2,8 +2,6 @@
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Save Work**
 		- [ ] Save data needs to keep track of the highest difficulty defeated by each character.
-			- [ ] Can just store the enum for highest difficulty per character, should be pretty easy to implement. 
-			- [ ] Add a new map to save dict; unlocked_difficulty_map, key character value difficulty.
 			- [ ] Add global function to unlock new difficulty. Check after clearing a run (check if current difficulty > save_dict's difficulty, if so queue the unlock. unlock then updates save dict and saves to file. Called by mainmenu after a run ends in victory.)
 	- [ ] **Implementing Difficulties**
 		- [x] Indifferent - done

@@ -27,6 +27,21 @@ var character: CharacterData
 
 func is_character(chara: Global.Character) -> bool:
 	return character.character == chara
+	
+func get_character() -> Global.Character:
+	return character.character
+
+func get_character_color() -> Color:
+	return character.color
+
+func get_character_intro_text() -> String:
+	return character.introText
+
+func get_character_victory_dialogue() -> Array:
+	return character.victoryDialogue
+
+func get_character_victory_closing_line() -> String:
+	return character.victoryClosingLine
 
 class CharacterData:
 	var id: int
@@ -188,7 +203,12 @@ var CHARACTERS = {
 var difficulty: Difficulty
 
 enum Difficulty {
-	INDIFFERENT1, HOSTILE2, GREEDY3, CRUEL4, UNFAIR5
+	INDIFFERENT1 = 0, 
+	HOSTILE2 = 1, 
+	GREEDY3 = 2, 
+	CRUEL4 = 3, 
+	UNFAIR5 = 4, 
+	BEATEN_ALL_DIFFICULTIES = 5
 }
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
@@ -1633,9 +1653,11 @@ const _SETTINGS = "settings"
 const _VARIABLES = "variables"
 const _SAVE_COIN_KEY = "coin"
 const _SAVE_CHAR_KEY = "character"
+const _CHAR_UNLOCKED = "character_unlocked"
+const _CHAR_HIGHEST_DIFFICULTY = "character_highest_difficulty"
 var _save_dict = {
 	_SETTINGS : {
-		SETTING_FULLSCREEN : false,
+		SETTING_WINDOW_MODE : 0,
 		SETTING_SPEEDRUN_MODE : false,
 		SETTING_MASTER_VOLUME : 50,
 		SETTING_MUSIC_VOLUME : 50,
@@ -1662,9 +1684,18 @@ var _save_dict = {
 		HADES_FAMILY.id : false
 	},
 	_SAVE_CHAR_KEY : {
-		CHARACTERS[Character.LADY].id : true,
-		CHARACTERS[Character.ELEUSINIAN].id : false,
-		CHARACTERS[Character.MERCHANT].id : false
+		CHARACTERS[Character.LADY].id : {
+			_CHAR_UNLOCKED : true,
+			_CHAR_HIGHEST_DIFFICULTY : Difficulty.INDIFFERENT1
+		},
+		CHARACTERS[Character.ELEUSINIAN].id : {
+			_CHAR_UNLOCKED : false,
+			_CHAR_HIGHEST_DIFFICULTY : Difficulty.INDIFFERENT1
+		},
+		CHARACTERS[Character.MERCHANT].id : {
+			_CHAR_UNLOCKED : false,
+			_CHAR_HIGHEST_DIFFICULTY : Difficulty.INDIFFERENT1
+		}
 	}
 }
 
@@ -1673,7 +1704,15 @@ func unlock_coin(coin: CoinFamily) -> void:
 	Global.write_save()
 
 func unlock_character(chara: Character) -> void:
-	_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id] = true
+	_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id][_CHAR_UNLOCKED] = true
+	Global.write_save()
+
+func unlock_difficulty(chara: Character, new_difficulty: Difficulty) -> void:
+	# if we somehow unlock a lower difficulty, don't permit
+	if get_highest_difficulty_unlocked_for(chara) > new_difficulty:
+		assert(false, "don't do this")
+		return
+	_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id][_CHAR_HIGHEST_DIFFICULTY] = new_difficulty
 	Global.write_save()
 
 func unlock_all() -> void:
@@ -1681,6 +1720,7 @@ func unlock_all() -> void:
 		unlock_coin(family)
 	for chara in Character.values():
 		unlock_character(chara)
+		unlock_difficulty(chara, Difficulty.BEATEN_ALL_DIFFICULTIES)
 
 func change_setting(setting: String, value: Variant) -> void:
 	_save_dict[_SETTINGS][setting] = value
@@ -1698,9 +1738,12 @@ func is_coin_unlocked(coin: CoinFamily) -> bool:
 func is_character_unlocked(chara: Character) -> bool:
 	#if not _save_dict[_SAVE_CHAR_KEY].has(CHARACTERS[chara].id):
 	#	return false
-	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id]
+	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id][_CHAR_UNLOCKED]
 
-const SETTING_FULLSCREEN = "fullscreen_on"
+func get_highest_difficulty_unlocked_for(chara: Character) -> Difficulty:
+	return _save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id][_CHAR_HIGHEST_DIFFICULTY]
+
+const SETTING_WINDOW_MODE = "window_mode"
 const SETTING_SPEEDRUN_MODE = "speedrun_mode"
 const SETTING_MASTER_VOLUME = "master_volume"
 const SETTING_MUSIC_VOLUME = "music_volume"

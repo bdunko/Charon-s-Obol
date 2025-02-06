@@ -21,7 +21,7 @@ func _on_main_menu_start_game():
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 		MAIN_MENU_SCENE.hide()
 		await Global.delay(0.3)
-		TransitionPlayer.set_text(Global.character.introText)
+		TransitionPlayer.set_text(Global.get_character_intro_text())
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.left_click_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
@@ -47,6 +47,12 @@ func _on_game_game_ended(victory: bool):
 	# queue any unlocks for the main menu
 	if victory and Global.is_character(Global.Character.LADY):
 		MAIN_MENU_SCENE.queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.HADES_FAMILY, Global.Character.ELEUSINIAN])
+	
+	# if we beat a new highest difficulty, add the next difficulty unlock
+	if victory and not Global.is_character(Global.Character.LADY):
+		if Global.get_highest_difficulty_unlocked_for(Global.get_character()) == Global.difficulty:
+			# we beat the highest difficulty we've unlocked, so unlock the next
+			MAIN_MENU_SCENE.queue_unlocks(Global.UnlockedDifficulty.new(Global.get_character(), Global.difficulty + 1))
 	
 	# if we won, show the victory screen
 	if victory:

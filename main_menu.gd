@@ -102,9 +102,9 @@ func _ready() -> void:
 	Global.game_loaded.connect(setup_character_selector)
 	
 	# DEBUG UNLOCK
-	#queue_unlocks([Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
+	#queue_unlocks([Global.TEST_DIFFICULTY_UNLOCK, Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
 	#Global.UNLOCKED_FEATURE_SCALES_OF_THEMIS, Global.UNLOCKED_FEATURE_ORPHIC_TABLETS, Global.UNLOCKED_FEATURE_ORPHIC_PAGE1,\
-	#Global.TEST_DIFFICULTY_UNLOCK])
+	#])
 
 func setup_character_selector() -> void:
 	var names = []
@@ -127,10 +127,19 @@ func _on_character_changed(characterName: String) -> void:
 	const CHARACTER_FORMAT = "[center]%s[/center]"
 	for character in Global.CHARACTERS.values():
 		if character.name == characterName:
-			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
 			Global.character = character
-			_MAIN_UI_EMBERS_CHARACTER.process_material.color_ramp.gradient.set_color(0, Color(Global.character.color))
+			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
+			_MAIN_UI_EMBERS_CHARACTER.process_material.color_ramp.gradient.set_color(0, Color(Global.get_character_color()))
+			
+			# update appearance of other skulls based on character...
 			_DIFFICULTY_SELECTOR.visible = not Global.is_character(Global.Character.LADY) # no difficulties for LADY
+			var highest_difficulty_unlocked = Global.get_highest_difficulty_unlocked_for(Global.get_character())
+			for skull in _DIFFICULTY_SELECTOR.get_children():
+				skull.visible = skull.difficulty <= highest_difficulty_unlocked
+				skull.set_vanquished(skull.difficulty < highest_difficulty_unlocked)
+				# and default to highest
+				if skull.difficulty <= highest_difficulty_unlocked:
+					skull.select()
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
 
@@ -155,7 +164,9 @@ func queue_unlocks(unlocks) -> void:
 	if true_unlocks.size() == 0:
 		return
 	
-	_queued_unlocks = true_unlocks
+	# add all the valid unlocks to the queue
+	for unlock in true_unlocks:
+		_queued_unlocks.append(unlock)
 	switch_to_unlock_ui()
 	do_unlock()
 
@@ -240,23 +251,26 @@ func do_unlock() -> void:
 		_UNLOCK_DIFFICULTY_LABEL.text = "[center]Harder Difficulty Unlocked for %s[/center]" % Global.CHARACTERS[unlocked.character].name
 		_UNLOCK_DIFFICULTY_DESCRIPTION.text = "[center]%s[/center]" % Global.difficulty_tooltip_for(unlocked.difficulty)
 		
+		var atlas_texture = AtlasTexture.new()
+		atlas_texture.atlas = load("res://assets/main_menu/difficulty_skulls/difficulty_skull_spritesheet.png")
+		
 		match unlocked.difficulty:
 			Global.Difficulty.INDIFFERENT1:
-				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull1.png")
+				atlas_texture.region = Rect2(Vector2(32, 0), Vector2(16, 16))
 			Global.Difficulty.HOSTILE2:
-				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull2.png")
+				atlas_texture.region = Rect2(Vector2(32, 16), Vector2(16, 16))
 			Global.Difficulty.GREEDY3:
-				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull3.png")
+				atlas_texture.region = Rect2(Vector2(32, 32), Vector2(16, 16))
 			Global.Difficulty.CRUEL4:
-				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull4.png")
+				atlas_texture.region = Rect2(Vector2(32, 48), Vector2(16, 16))
 			Global.Difficulty.UNFAIR5:
-				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull5.png")
+				atlas_texture.region = Rect2(Vector2(32, 64), Vector2(16, 16))
 			_:
 				assert(false)
-		# TODO UNLOCK
-		var _character = unlocked.character
-		var _difficulty = unlocked.difficulty
-		#Global.unlock_difficulty(character, difficulty)
+		_UNLOCK_DIFFICULTY_SPRITE.texture = atlas_texture
+		
+		# do the unlock
+		Global.unlock_difficulty(unlocked.character, unlocked.difficulty)
 		
 		_UNLOCK_DIFFICULTY_UI.show()
 		_UNLOCK_DIFFICULTY_UI.modulate.a = 0.0
