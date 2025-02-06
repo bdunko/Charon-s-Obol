@@ -243,7 +243,7 @@ func do_unlock() -> void:
 		match unlocked.difficulty:
 			Global.Difficulty.INDIFFERENT1:
 				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull1.png")
-			Global.Difficulty.VENGEFUL2:
+			Global.Difficulty.HOSTILE2:
 				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull2.png")
 			Global.Difficulty.GREEDY3:
 				_UNLOCK_DIFFICULTY_SPRITE = load("res://assets/main_menu/difficulty_skulls/skull3.png")

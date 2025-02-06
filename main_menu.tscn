@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=87 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -10,25 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="4_xe0ox"]
 [ext_resource type="Texture2D" uid="uid://c3kmtpo1q45xo" path="res://assets/particles/circle.png" id="5_am4o3"]
 [ext_resource type="Texture2D" uid="uid://bjum64hb3chwq" path="res://assets/particles/sparkle.png" id="5_dj8go"]
-[ext_resource type="Texture2D" uid="uid://dgst44vhjr2p8" path="res://assets/main_menu/difficulty_skulls/skull2.png" id="5_j10ut"]
-[ext_resource type="Texture2D" uid="uid://cm3se406p72ah" path="res://assets/main_menu/difficulty_skulls/skull1_hover.png" id="5_rjkur"]
-[ext_resource type="Texture2D" uid="uid://dnfj4cic18gct" path="res://assets/main_menu/difficulty_skulls/skull1_vanquished.png" id="6_0c7wk"]
-[ext_resource type="Texture2D" uid="uid://4gnhyu0f88pe" path="res://assets/main_menu/difficulty_skulls/skull2_hover.png" id="7_72k32"]
-[ext_resource type="Texture2D" uid="uid://brm0xjehlrt6b" path="res://assets/main_menu/difficulty_skulls/skull1_vanquished_hover.png" id="7_yehu3"]
-[ext_resource type="Texture2D" uid="uid://s87yv2m18kg" path="res://assets/main_menu/difficulty_skulls/skull2_vanquished.png" id="10_1fs3h"]
-[ext_resource type="Texture2D" uid="uid://c6430vitdj5p3" path="res://assets/main_menu/difficulty_skulls/skull2_vanquished_hover.png" id="11_j5kxn"]
-[ext_resource type="Texture2D" uid="uid://pifs7wspyh74" path="res://assets/main_menu/difficulty_skulls/skull3.png" id="13_cm17n"]
-[ext_resource type="Texture2D" uid="uid://csvvmt6lscfge" path="res://assets/main_menu/difficulty_skulls/skull3_hover.png" id="14_7daqw"]
-[ext_resource type="Texture2D" uid="uid://crmpm3qp363ln" path="res://assets/main_menu/difficulty_skulls/skull3_vanquished.png" id="15_bobj0"]
-[ext_resource type="Texture2D" uid="uid://cb0qg5op4vdwe" path="res://assets/main_menu/difficulty_skulls/skull3_vanquished_hover.png" id="16_85eo4"]
-[ext_resource type="Texture2D" uid="uid://ij1eq4bd8nb5" path="res://assets/main_menu/difficulty_skulls/skull4.png" id="17_04co6"]
-[ext_resource type="Texture2D" uid="uid://731ilqujtg4i" path="res://assets/main_menu/difficulty_skulls/skull4_hover.png" id="18_gsexb"]
-[ext_resource type="Texture2D" uid="uid://bcvybwa0h5c0k" path="res://assets/main_menu/difficulty_skulls/skull4_vanquished.png" id="19_8cqw2"]
-[ext_resource type="Texture2D" uid="uid://csbufcihlq05n" path="res://assets/main_menu/difficulty_skulls/skull4_vanquished_hover.png" id="20_7ie8d"]
-[ext_resource type="Texture2D" uid="uid://dw3bk7xc6nfl" path="res://assets/main_menu/difficulty_skulls/skull5.png" id="21_xvp1m"]
-[ext_resource type="Texture2D" uid="uid://xv5jdwimm8m3" path="res://assets/main_menu/difficulty_skulls/skull5_hover.png" id="22_uhdo5"]
-[ext_resource type="Texture2D" uid="uid://bjnua4hqljkkk" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished.png" id="23_1dh72"]
-[ext_resource type="Texture2D" uid="uid://bnmoty087x0kw" path="res://assets/main_menu/difficulty_skulls/skull5_vanquished_hover.png" id="24_yeah1"]
+[ext_resource type="Texture2D" uid="uid://dykf4mi53b7pv" path="res://assets/main_menu/difficulty_skulls/difficulty_skull_spritesheet.png" id="14_yugwh"]
 [ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
@@ -552,7 +534,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iq8eh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s2cvo"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -729,7 +711,127 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_vhqf1")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p2wlw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vcrt"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u68bv"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2qiu"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnxdx"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg6ho"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vrjv"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ve2t"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0r1wy"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_etpd7"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w31ix"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g7tf"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yhqg"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdn0r"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kedyg"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jku5a"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3hnr"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pokfu"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq6ao"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8orj"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snm5r"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnuma"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vokay"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq2v3"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(64, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0c8t"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5kq3"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pn1u7"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(16, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhnd7"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(32, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt4di"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(48, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0qsgc"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1tj2"]
+atlas = ExtResource("14_yugwh")
+region = Rect2(80, 64, 16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fatt"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -849,7 +951,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqfka"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0grk"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -997,6 +1099,7 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="UnlockUI" type="Node2D" parent="."]
+visible = false
 
 [node name="FallingCoins" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1276,12 +1379,11 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_iq8eh")
+material = SubResource("ShaderMaterial_s2cvo")
 layout_mode = 2
 default_text = "Unlock"
 
 [node name="MainUI" type="Node2D" parent="."]
-visible = false
 
 [node name="EmbersCharacter" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
@@ -1365,14 +1467,14 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("4_vorie")
-texture_hover = ExtResource("5_rjkur")
+texture_normal = SubResource("AtlasTexture_0vcrt")
+texture_hover = SubResource("AtlasTexture_u68bv")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("5_rjkur")
+texture_normal = SubResource("AtlasTexture_y2qiu")
 
 [node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull1"]
 layout_mode = 2
@@ -1381,14 +1483,14 @@ layout_mode = 2
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("6_0c7wk")
-texture_hover = ExtResource("7_yehu3")
+texture_normal = SubResource("AtlasTexture_wnxdx")
+texture_hover = SubResource("AtlasTexture_eg6ho")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull1/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("7_yehu3")
+texture_normal = SubResource("AtlasTexture_2vrjv")
 
 [node name="Skull2" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
@@ -1402,13 +1504,13 @@ layout_mode = 2
 
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 layout_mode = 2
-texture_normal = ExtResource("5_j10ut")
-texture_hover = ExtResource("7_72k32")
+texture_normal = SubResource("AtlasTexture_1ve2t")
+texture_hover = SubResource("AtlasTexture_0r1wy")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Unvanquished"]
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("7_72k32")
+texture_normal = SubResource("AtlasTexture_etpd7")
 
 [node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
@@ -1416,13 +1518,13 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("10_1fs3h")
-texture_hover = ExtResource("11_j5kxn")
+texture_normal = SubResource("AtlasTexture_w31ix")
+texture_hover = SubResource("AtlasTexture_7g7tf")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull2/Vanquished"]
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("11_j5kxn")
+texture_normal = SubResource("AtlasTexture_5yhqg")
 
 [node name="Skull3" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
@@ -1437,14 +1539,14 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("13_cm17n")
-texture_hover = ExtResource("14_7daqw")
+texture_normal = SubResource("AtlasTexture_hdn0r")
+texture_hover = SubResource("AtlasTexture_kedyg")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("14_7daqw")
+texture_normal = SubResource("AtlasTexture_jku5a")
 
 [node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
@@ -1453,14 +1555,14 @@ layout_mode = 2
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("15_bobj0")
-texture_hover = ExtResource("16_85eo4")
+texture_normal = SubResource("AtlasTexture_c3hnr")
+texture_hover = SubResource("AtlasTexture_pokfu")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull3/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("16_85eo4")
+texture_normal = SubResource("AtlasTexture_vq6ao")
 
 [node name="Skull4" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
@@ -1475,14 +1577,14 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("17_04co6")
-texture_hover = ExtResource("18_gsexb")
+texture_normal = SubResource("AtlasTexture_i8orj")
+texture_hover = SubResource("AtlasTexture_snm5r")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("18_gsexb")
+texture_normal = SubResource("AtlasTexture_xnuma")
 
 [node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
@@ -1491,14 +1593,14 @@ layout_mode = 2
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("19_8cqw2")
-texture_hover = ExtResource("20_7ie8d")
+texture_normal = SubResource("AtlasTexture_vokay")
+texture_hover = SubResource("AtlasTexture_fq2v3")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull4/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("20_7ie8d")
+texture_normal = SubResource("AtlasTexture_f0c8t")
 
 [node name="Skull5" type="BoxContainer" parent="MainUI/Selector/Difficulty"]
 layout_mode = 2
@@ -1513,14 +1615,14 @@ layout_mode = 2
 [node name="Unselected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("21_xvp1m")
-texture_hover = ExtResource("22_uhdo5")
+texture_normal = SubResource("AtlasTexture_u5kq3")
+texture_hover = SubResource("AtlasTexture_pn1u7")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Unvanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("22_uhdo5")
+texture_normal = SubResource("AtlasTexture_uhnd7")
 
 [node name="Vanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
@@ -1529,14 +1631,14 @@ layout_mode = 2
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("23_1dh72")
-texture_hover = ExtResource("24_yeah1")
+texture_normal = SubResource("AtlasTexture_kt4di")
+texture_hover = SubResource("AtlasTexture_0qsgc")
 
 [node name="Selected" type="TextureButton" parent="MainUI/Selector/Difficulty/Skull5/Vanquished"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture_normal = ExtResource("24_yeah1")
+texture_normal = SubResource("AtlasTexture_y1tj2")
 
 [node name="Version" type="Label" parent="MainUI"]
 offset_left = 264.0
@@ -1558,12 +1660,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_p2wlw")
+material = SubResource("ShaderMaterial_2fatt")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_aqfka")
+material = SubResource("ShaderMaterial_v0grk")
 layout_mode = 2
 default_text = " Quit "
 

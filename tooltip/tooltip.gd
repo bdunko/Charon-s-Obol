@@ -63,7 +63,7 @@ static func clear_tooltip_for(src):
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> void:
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	# if there is already a tooltip for this control, update that tooltip's text instead
@@ -95,13 +95,13 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, tooltip_style)
 	connect_source.call(tooltip)
 
-static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> UITooltip:
+static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
 	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, tooltip_style, true)
 	return tooltip
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE, is_manual: bool = false) -> UITooltip:
+static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR, is_manual: bool = false) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
@@ -165,7 +165,7 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	tooltip.create_tween().tween_property(tooltip, "scale", Vector2(1.0, 1.0), 0.1)
 	
 	tooltip.modulate.a = 0.0
-	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.85 if tooltip.style == Style.CLEAR else 1.0, 0.1)
+	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.95 if tooltip.style == Style.CLEAR else 1.0, 0.1)
 	
 	# set initial visibility based on if tooltips are enabled
 	tooltip.visible = true if _SYSTEM_STATE == _TooltipSystemState.SHOW_ALL or (_SYSTEM_STATE == _TooltipSystemState.HIDE_AUTO and tooltip.manual_control) else false

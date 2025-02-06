@@ -1,11 +1,5 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
-	- [ ] **UI Work**
-		- [ ] Each character has different savefile tracking for their highest unlocked difficulty.
-		- [ ] Show skulls on main menu only up to unlocked difficulty for that character.
-			- [ ] Redo skull arts slightly.
-			- [ ] Skulls need art for hovered, active, and inactive.
-			- [ ] Skulls also have alternative art once you've beaten that difficulty before (vanquished).
 	- [ ] **Save Work**
 		- [ ] Save data needs to keep track of the highest difficulty defeated by each character.
 			- [ ] Can just store the enum for highest difficulty per character, should be pretty easy to implement. 
