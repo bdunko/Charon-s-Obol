@@ -1,8 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
-	- [ ] **Save Work**
-		- [ ] Save data needs to keep track of the highest difficulty defeated by each character.
-			- [ ] Add global function to unlock new difficulty. Check after clearing a run (check if current difficulty > save_dict's difficulty, if so queue the unlock. unlock then updates save dict and saves to file. Called by mainmenu after a run ends in victory.)
+	- [ ] Add updated coin sprites
 	- [ ] **Implementing Difficulties**
 		- [x] Indifferent - done
 		- [ ] Hostile - Malice

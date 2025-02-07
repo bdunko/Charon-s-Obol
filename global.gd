@@ -118,9 +118,6 @@ var UNLOCKED_FEATURE_ORPHIC_PAGE1 = UnlockedOrphicPageFeature.new(UnlockedFeatur
 	"Additional information about status effects added to Orphic Tablets.\nView the Orphic Tablets from the main menu.",\
 	"res://assets/icons/trial/polarization_icon.png", OrphicTabletPage.TIP1)
 
-var TEST_DIFFICULTY_UNLOCK = UnlockedDifficulty.new(Global.Character.ELEUSINIAN, Global.Difficulty.CRUEL4)
-
-
 enum TutorialState {
 	INACTIVE,
 	
@@ -202,6 +199,8 @@ var CHARACTERS = {
 
 var difficulty: Difficulty
 
+
+
 enum Difficulty {
 	INDIFFERENT1 = 0, 
 	HOSTILE2 = 1, 
@@ -210,6 +209,20 @@ enum Difficulty {
 	UNFAIR5 = 4, 
 	BEATEN_ALL_DIFFICULTIES = 5
 }
+
+# increased prices and multiplier for greedy
+const GREEDY_DIOBOL_INCREASE = 5
+const GREEDY_TRIOBOL_INCREASE = 15
+const GREEDY_TETROBOL_INCREASE = 25
+const GREEDY_SHOP_MULTIPLIER_INCREASE = 0.3 #additive
+const GREEDY_TOOLGATE_INCREASE = 1.3 #multiplicative
+
+# increased trial quotas for cruel
+const CRUEL_SOUL_QUOTA_MULTIPLIER = 1.3 #multiplicative
+
+# increased monster strength for unfair
+const UNFAIR_MONSTER_STRENGTH_MULTIPLIER = 1.5 #multiplicative
+# const UNFAIR_NEMESIS_DENOM = Denomination.DRACHMA
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
 	match diff:
@@ -1474,7 +1487,7 @@ const RICH = 10
 
 const UPGRADE_TO_DIOBOL = 20
 const UPGRADE_TO_TRIOBOL = 45
-const UPGRADE_TO_TETROBOL = 80
+const UPGRADE_TO_TETROBOL = 75
 const CUMULATIVE_TO_DIOBOL = UPGRADE_TO_DIOBOL
 const CUMULATIVE_TO_TRIOBOL = CUMULATIVE_TO_DIOBOL + UPGRADE_TO_TRIOBOL
 const CUMULATIVE_TO_TETROBOL = CUMULATIVE_TO_TRIOBOL + UPGRADE_TO_TETROBOL

@@ -101,6 +101,9 @@ func _ready() -> void:
 
 	Global.game_loaded.connect(setup_character_selector)
 	
+	
+	#var TEST_DIFFICULTY_UNLOCK = UnlockedDifficulty.new(Global.Character.ELEUSINIAN, Global.Difficulty.CRUEL4)
+	
 	# DEBUG UNLOCK
 	#queue_unlocks([Global.TEST_DIFFICULTY_UNLOCK, Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
 	#Global.UNLOCKED_FEATURE_SCALES_OF_THEMIS, Global.UNLOCKED_FEATURE_ORPHIC_TABLETS, Global.UNLOCKED_FEATURE_ORPHIC_PAGE1,\
