@@ -1,65 +1,68 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
-	- [ ] Add updated coin sprites
-	- [ ] **Implementing Difficulties**
-		- [x] Indifferent - done
-		- [ ] Hostile - Malice
-		- [ ] Greedy - Coin upgrade prices uniformly higher. Obols are very slightly more expensive. Tollgates require a larger payment. 
-			- [ ] New prices are hardcoded in Global. Obols uniformly cost an extra ~2 souls perhaps.
-			- [ ] Tollgate prices increased by a flat multiplier of 1.3 or so?
-		- [ ] Cruel - Trials have two modifiers. Trial soul quotas are higher. 
-			- [ ] On map, show two icons for trial in a column. 
-			- [ ] Soul quotas increased by a flat multiplier of 1.3 or so?
-		- [ ] Unfair - Monsters are stronger and more numerous. Nemesis is stronger.
-			- [ ] Add Pentobol and Drachma for all coins. 
-				- [ ] Update Hepaestus ability to allow upgrades up to Drachma. Active just becomes "upgrade a coin, recharge it, and turn it to heads."
-			- [ ] Make Nemesis abilities scale with denomination. 
-			- [ ] On this difficulty, Nemesis spawn as Drachma.
-			- [ ] Change how monster waves work. Each round defines a 'monster strength' value and a 'number of elites'. Then the game generates an appropriate monster wave based on that value when you reach that, instead of hardcoded possible wave types, with the required number of elites.
-			- [ ] For the difficulty level, monster strength is increased by a certain amount which scales with round_count.
-	- [ ] **Malice**
-		- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
-		- [ ] Increases when you land heads from a toss flip; trigger a god power, or payoff a coin on heads. 
-		- [ ] Decreased when you end the round (by half).
-		- [ ] Decreases to 0 after Charon activates.
-		- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
-			- [ ] Indicator at 50%, 70%, and 90%.
-		- [ ] **Malice effect ideas:**
-			- [ ] Turn all payoffs to tails
-			- [ ] Turn half powers to tails
-			- [ ] Reflip all coins
-			- [ ] Drain power charges
-			- [ ] Curse a coin
-			- [ ] Unlucky a coin
-			- [ ] Ignite a coin
-			- [ ] Freeze coins on tails
-			- [ ] Clear positive statuses
-			- [ ] Summon a monster
-			- [ ] Blank a coin
-			- [ ] Increase tails penalty
-			- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
-			- [ ] Sap - Coin does not naturally recharge each toss.
-			- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
-			- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-			- [ ] Reflip some heads coins.
-			- [ ] Curse some coins.
-			- [ ] Turn a coin to stone.
-			- [ ] Ignite a coin.
-			- [ ] Turn a coin to glass.
-			- [ ] Blank a coin for the rest of the round.
-			- [ ] Flip a heads coin to tails.
-			- [ ] Give an Obol of Thorns.
-			- [ ] Freeze a coin on tails.
-			- [ ] Summon a monster. (maybe do this instead of monster encounter rounds, just have Charon regularly summon monsters over time)
-			- [ ] Downgrade a coin.
-			- [ ] Deal some damage.
-			- [ ] Extinguish Prometheus flame. (maybe half the stacks)
-			- [ ] Tap a coin - whenever a power on that coin is used, lose life.
-			- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
-			- [ ] (at 20+ flips) forcibly end the round.
-			- [ ] Give Obol of Thorns
-			- [ ] Summon monsters
-		- [ ] For now - Charon does not tell what he is going to do until he does it. You know he will do 'something', but not what that 'something' is. When Charon activates, he has a simplistic AI script which determines something painful (but not devastating) which he will do. 
+	- [ ] **Weekend**
+		- [ ] Change heph power to allow upgrading past Tetrobol. Active can be "upgrade a coin and fully recharge it." 1 charge.
+			- [ ] if heph power, in can_upgrade, return true unless Drachma (normally we check for tetrobol here)
+		- [ ] When zooming in on the cave during patron screen, remove the filter (it looks just a little weird :( ))
+		- [ ] **Implementing Difficulties**
+			- [x] Indifferent - done
+			- [ ] Hostile - Malice
+			- [ ] Greedy - Coin upgrade prices uniformly higher. Obols are very slightly more expensive. Tollgates require a larger payment. 
+				- [ ] New prices are hardcoded in Global. Obols uniformly cost an extra ~2 souls perhaps.
+				- [ ] Tollgate prices increased by a flat multiplier of 1.3 or so?
+			- [ ] Cruel - Trials have two modifiers. Trial soul quotas are higher. 
+				- [ ] On map, show two icons for trial in a column. 
+				- [ ] Soul quotas increased by a flat multiplier of 1.3 or so?
+			- [ ] Unfair - Monsters are stronger and more numerous. Nemesis is stronger.
+				- [ ] Add Pentobol and Drachma for all coins. 
+					- [ ] Update Hepaestus ability to allow upgrades up to Drachma. Active just becomes "upgrade a coin, recharge it, and turn it to heads."
+				- [ ] Make Nemesis abilities scale with denomination. 
+				- [ ] On this difficulty, Nemesis spawn as Drachma.
+				- [ ] Change how monster waves work. Each round defines a 'monster strength' value and a 'number of elites'. Then the game generates an appropriate monster wave based on that value when you reach that, instead of hardcoded possible wave types, with the required number of elites.
+				- [ ] For the difficulty level, monster strength is increased by a certain amount which scales with round_count.
+		- [ ] **Malice**
+			- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
+			- [ ] Increases when you land heads from a toss flip; trigger a god power, or payoff a coin on heads. 
+			- [ ] Decreased when you end the round (by half).
+			- [ ] Decreases to 0 after Charon activates.
+			- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
+				- [ ] Indicator at 50%, 70%, and 90%.
+			- [ ] **Malice effect ideas:**
+				- [ ] Turn all payoffs to tails
+				- [ ] Turn half powers to tails
+				- [ ] Reflip all coins
+				- [ ] Drain power charges
+				- [ ] Curse a coin
+				- [ ] Unlucky a coin
+				- [ ] Ignite a coin
+				- [ ] Freeze coins on tails
+				- [ ] Clear positive statuses
+				- [ ] Summon a monster
+				- [ ] Blank a coin
+				- [ ] Increase tails penalty
+				- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
+				- [ ] Sap - Coin does not naturally recharge each toss.
+				- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+				- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+				- [ ] Reflip some heads coins.
+				- [ ] Curse some coins.
+				- [ ] Turn a coin to stone.
+				- [ ] Ignite a coin.
+				- [ ] Turn a coin to glass.
+				- [ ] Blank a coin for the rest of the round.
+				- [ ] Flip a heads coin to tails.
+				- [ ] Give an Obol of Thorns.
+				- [ ] Freeze a coin on tails.
+				- [ ] Summon a monster. (maybe do this instead of monster encounter rounds, just have Charon regularly summon monsters over time)
+				- [ ] Downgrade a coin.
+				- [ ] Deal some damage.
+				- [ ] Extinguish Prometheus flame. (maybe half the stacks)
+				- [ ] Tap a coin - whenever a power on that coin is used, lose life.
+				- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
+				- [ ] (at 20+ flips) forcibly end the round.
+				- [ ] Give Obol of Thorns
+				- [ ] Summon monsters
+			- [ ] For now - Charon does not tell what he is going to do until he does it. You know he will do 'something', but not what that 'something' is. When Charon activates, he has a simplistic AI script which determines something painful (but not devastating) which he will do. 
 	- [ ] **Enhanced Monster Effects (Projectile animations)**
 		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
 		- [ ] Add projectiles for monster coins targetting coins in player's row. 

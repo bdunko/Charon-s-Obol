@@ -99,6 +99,8 @@ func get_lowest_to_highest_value() -> Array:
 	low_to_high.append_array(get_all_of_denomination(Global.Denomination.DIOBOL))
 	low_to_high.append_array(get_all_of_denomination(Global.Denomination.TRIOBOL))
 	low_to_high.append_array(get_all_of_denomination(Global.Denomination.TETROBOL))
+	low_to_high.append_array(get_all_of_denomination(Global.Denomination.PENTOBOL))
+	low_to_high.append_array(get_all_of_denomination(Global.Denomination.DRACHMA))
 	assert(low_to_high.size() == get_child_count())
 	return low_to_high
 

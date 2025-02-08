@@ -412,6 +412,10 @@ func get_store_price() -> int:
 			upgrade_modifier = Global.CUMULATIVE_TO_TRIOBOL
 		Global.Denomination.TETROBOL:
 			upgrade_modifier = Global.CUMULATIVE_TO_TETROBOL
+		Global.Denomination.PENTOBOL:
+			upgrade_modifier = Global.CUMULATIVE_TO_PENTOBOL
+		Global.Denomination.DRACHMA:
+			upgrade_modifier = Global.CUMULATIVE_TO_DRACHMA
 	return floor(_coin_family.base_price * Global.current_round_shop_multiplier()) + floor(upgrade_modifier * Global.STORE_UPGRADE_DISCOUNT)
 
 func get_upgrade_price() -> int:
@@ -449,6 +453,10 @@ func get_denomination_as_int() -> int:
 			return 3
 		Global.Denomination.TETROBOL:
 			return 4
+		Global.Denomination.PENTOBOL:
+			return 5
+		Global.Denomination.DRACHMA:
+			return 6
 	assert(false)
 	return -9999
 
@@ -477,6 +485,10 @@ func get_value() -> int:
 			return 3
 		Global.Denomination.TETROBOL:
 			return 4
+		Global.Denomination.PENTOBOL:
+			return 5
+		Global.Denomination.DRACHMA:
+			return 6
 	return 0
 
 func upgrade() -> void:
@@ -491,6 +503,10 @@ func upgrade() -> void:
 			_denomination = Global.Denomination.TRIOBOL
 		Global.Denomination.TRIOBOL:
 			_denomination = Global.Denomination.TETROBOL
+		Global.Denomination.TETROBOL:
+			_denomination = Global.Denomination.PENTOBOL
+		Global.Denomination.PENTOBOL:
+			_denomination = Global.Denomination.DRACHMA
 	_update_payoff_powers()
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite

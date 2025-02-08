@@ -127,7 +127,7 @@ func _on_text_submitted(txt):
 				if coin_name.contains(args[1].to_lower()):
 					var denom = Global.Denomination.TETROBOL
 					if args.size() == 3:
-						denom = clamp(int(args[2]), 0, 3)
+						denom = clamp(int(args[2]), 1, 6)
 					game.spawn_enemy(monster_or_trial, denom)
 					break
 	elif cmd == "coin" or cmd == "gain" or cmd == "gaincoin" or cmd == "give" or cmd == "givecoin" or cmd == "get" or cmd == "getcoin":
@@ -138,19 +138,19 @@ func _on_text_submitted(txt):
 		else:
 			var denom = Global.Denomination.TETROBOL
 			if args.size() == 3:
-				denom = clamp(int(args[2]), 0, 3)
+				denom = clamp(int(args[2]), 1, 6)
 			# special case thorns
 			if args[1].to_lower() == "thorn" or args[1].to_lower() == "thorns":
-				game._make_and_gain_coin(Global.THORNS_FAMILY, denom, game._PLAYER_NEW_COIN_POSITION)
+				game._make_and_gain_coin(Global.THORNS_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
 			elif args[1].to_lower() == "common" or args[1].to_lower() == "obol" or args[1].to_lower() == "generic" or args[1].to_lower() == "money" or args[1].to_lower() == "coin":
-				game._make_and_gain_coin(Global.GENERIC_FAMILY, denom, game._PLAYER_NEW_COIN_POSITION)
+				game._make_and_gain_coin(Global.GENERIC_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
 			else:
 				# search all coins...
 				var made = false
 				for coin in Global._ALL_PLAYER_COINS:
 					var coin_name = coin.coin_name.to_lower()
 					if coin_name.contains(args[1].to_lower()):
-						game._make_and_gain_coin(coin, denom, game._PLAYER_NEW_COIN_POSITION)
+						game._make_and_gain_coin(coin, denom-1, game._PLAYER_NEW_COIN_POSITION)
 						made = true
 						break
 				success = made

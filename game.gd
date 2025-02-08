@@ -428,12 +428,6 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	
-	#debug
-	#Global.souls = 2000
-	#Global.lives = 100
-	#Global.arrows = 5
-	#_make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.OBOL, _PLAYER_NEW_COIN_POSITION)
-	
 	Global.state = Global.State.BOARDING
 	
 	_SPEEDRUN_TIMER.start()
@@ -1711,7 +1705,7 @@ func _on_coin_clicked(coin: Coin):
 			return
 		
 		if not coin.can_upgrade():
-			if coin.get_denomination() == Global.Denomination.TETROBOL:
+			if coin.get_denomination() == Global.Denomination.TETROBOL or coin.get_denomination() == Global.Denomination.DRACHMA:
 				_DIALOGUE.show_dialogue("Can't upgrade more...")
 			else:
 				_DIALOGUE.show_dialogue("Can't upgrade that...")
@@ -1959,7 +1953,7 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't upgrade that...")
 					return
 				if not coin.can_upgrade():
-					if coin.get_denomination() == Global.Denomination.TETROBOL:
+					if coin.get_denomination() == Global.Denomination.TETROBOL or coin.get_denomination() == Global.Denomination.PENTOBOL:
 						_DIALOGUE.show_dialogue("Can't upgrade more...")
 					else:
 						_DIALOGUE.show_dialogue("Can't upgrade that...")
