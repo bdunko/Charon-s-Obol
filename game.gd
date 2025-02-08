@@ -815,11 +815,7 @@ func _on_accept_button_pressed():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
 					possibly_ignited_coin.payoff_move_up()
-					if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
-						_heal_life(3)
-						Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HEPHAESTUS)
-					else:
-						Global.lives -= 3
+					Global.lives -= 3
 					await Global.delay(0.15)
 					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
@@ -1831,12 +1827,11 @@ func _on_coin_clicked(coin: Coin):
 						return
 					coin.clear_statuses()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
-					if (not coin.can_upgrade()) and coin.is_ignited():
+					if not coin.can_upgrade():
 						_DIALOGUE.show_dialogue("Can't upgrade further...")
 						return
-					if coin.is_ignited():
-						coin.upgrade()
-					coin.ignite()
+					coin.upgrade()
+					coin.reset_power_uses(true)
 				Global.PATRON_POWER_FAMILY_HERMES:
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")

@@ -128,7 +128,7 @@ func _on_text_submitted(txt):
 					var denom = Global.Denomination.TETROBOL
 					if args.size() == 3:
 						denom = clamp(int(args[2]), 1, 6)
-					game.spawn_enemy(monster_or_trial, denom)
+					game.spawn_enemy(monster_or_trial, denom-1)
 					break
 	elif cmd == "coin" or cmd == "gain" or cmd == "gaincoin" or cmd == "give" or cmd == "givecoin" or cmd == "get" or cmd == "getcoin":
 		if not (args.size() == 2 or args.size() == 3):

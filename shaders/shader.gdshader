@@ -31,6 +31,7 @@ uniform bool POST_PROCESSING = false;
 // pass in the mouse position here
 uniform vec2 MOUSE = vec2(20, 20);
 
+uniform bool DISABLE = false;
 
 // --- Effects --- //
 // EXCLUDE
@@ -286,6 +287,8 @@ uniform float auto_flicker_start_time = 0.0;
 // --- Fragment Shader --- //
 void fragment() 
 {
+	if (!DISABLE) {
+	
 	COLOR = texture(TEXTURE, UV);
 	
 	// --- CALCULATE CONSTANTS ---
@@ -489,6 +492,8 @@ void fragment()
 	if (COLOR.a != 0.0) {
 		COLOR.a = mix(COLOR.a * transparency, auto_flicker_bound, vary0to1((TIME-auto_flicker_start_time + TIME_OFFSET) * auto_flicker_speed));
 	}
+	
+	} //end if disable
 }
 
 void vertex()

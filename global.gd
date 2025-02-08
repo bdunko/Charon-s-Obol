@@ -1318,7 +1318,7 @@ var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerTy
 var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/demeter_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/hades_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ONLY_SHOW_ICON);
 var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ONLY_SHOW_ICON);
@@ -1364,7 +1364,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on (TAILS), +(HEAL) equal to its (LIFE) penalty.\n(PASSIVE)Whenever you heal (HEAL), also gain that many (SOULS).", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
 	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "???\n(PASSIVE)When you gain a new coin, make it (LUCKY).", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
 	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy one of your coins. Gain (SOULS) and heal (LIFE) equal to %dx its value(COIN).\n(PASSIVE)Souls persist between rounds [color=gray](except before a Nemesis)[/color]." % HADES_PATRON_MULTIPLIER, PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
-	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "(IGNITE) a coin. If it was already (IGNITED), upgrade it.\n(PASSIVE)(IGNITE) heals you instead of hurting you.", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
+	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Upgrade a coin and fully recharge it.\n(PASSIVE)Coins may be upgraded beyond Tetrobol [color=gray](to Pentobol and Drachma)[/color].", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
 	Patron.new("[color=silver]Hera[/color]", "[color=silver]Hera's Lotus[/color]", "Reflip a coin and its neighbors.\n(PASSIVE)When you reflip a coin, it always lands on the other side.", PatronEnum.HERA, PATRON_POWER_FAMILY_HERA, preload("res://components/patron_statues/hera.tscn"), preload("res://components/patron_tokens/hera.tscn"), [HERA_FAMILY]),
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Herme's Caduceus[/color]", "Trade a coin for another of equal value.\n(PASSIVE)When you obtain a new coin during a round, it has a 20% chance to upgrade.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
 	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin\n(LUCKY).\n(PASSIVE)(LUCKY) has a lesser effect, but may be applied up to 3 times to the same coin.", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
@@ -1491,16 +1491,49 @@ const STANDARD = 5
 const PRICY = 7
 const RICH = 10
 
-const UPGRADE_TO_DIOBOL = 20
-const UPGRADE_TO_TRIOBOL = 45
-const UPGRADE_TO_TETROBOL = 75
-const UPGRADE_TO_PENTOBOL = 115
-const UPGRADE_TO_DRACHMA = 160
-const CUMULATIVE_TO_DIOBOL = UPGRADE_TO_DIOBOL
-const CUMULATIVE_TO_TRIOBOL = CUMULATIVE_TO_DIOBOL + UPGRADE_TO_TRIOBOL
-const CUMULATIVE_TO_TETROBOL = CUMULATIVE_TO_TRIOBOL + UPGRADE_TO_TETROBOL
-const CUMULATIVE_TO_PENTOBOL = CUMULATIVE_TO_TETROBOL + UPGRADE_TO_PENTOBOL
-const CUMULATIVE_TO_DRACHMA = CUMULATIVE_TO_PENTOBOL + UPGRADE_TO_DRACHMA
+const _UPGRADE_TO_DIOBOL = 20
+const _UPGRADE_TO_TRIOBOL = 45
+const _UPGRADE_TO_TETROBOL = 75
+const _UPGRADE_TO_PENTOBOL = 115
+const _UPGRADE_TO_DRACHMA = 160
+func get_price_to_upgrade(denom: Denomination) -> int:
+	match(denom):
+		Denomination.OBOL:
+			return _UPGRADE_TO_DIOBOL
+		Denomination.DIOBOL:
+			return _UPGRADE_TO_TRIOBOL
+		Denomination.TRIOBOL: 
+			return _UPGRADE_TO_TETROBOL
+		Denomination.TETROBOL:
+			return _UPGRADE_TO_PENTOBOL
+		Denomination.PENTOBOL:
+			return _UPGRADE_TO_DRACHMA
+		Denomination.DRACHMA:
+			return 0
+	assert(false, "No matching case?")
+	return 0
+
+const _CUMULATIVE_TO_DIOBOL = _UPGRADE_TO_DIOBOL
+const _CUMULATIVE_TO_TRIOBOL = _CUMULATIVE_TO_DIOBOL + _UPGRADE_TO_TRIOBOL
+const _CUMULATIVE_TO_TETROBOL = _CUMULATIVE_TO_TRIOBOL + _UPGRADE_TO_TETROBOL
+const _CUMULATIVE_TO_PENTOBOL = _CUMULATIVE_TO_TETROBOL + _UPGRADE_TO_PENTOBOL
+const _CUMULATIVE_TO_DRACHMA = _CUMULATIVE_TO_PENTOBOL + _UPGRADE_TO_DRACHMA
+func get_cumulative_to_upgrade_to(denom: Denomination) -> int:
+	match(denom):
+		Denomination.OBOL:
+			return 0
+		Denomination.DIOBOL:
+			return _CUMULATIVE_TO_DIOBOL
+		Denomination.TRIOBOL: 
+			return _CUMULATIVE_TO_TRIOBOL
+		Denomination.TETROBOL:
+			return _CUMULATIVE_TO_TETROBOL
+		Denomination.PENTOBOL:
+			return _CUMULATIVE_TO_PENTOBOL
+		Denomination.DRACHMA:
+			return _CUMULATIVE_TO_DRACHMA
+	assert(false, "No matching case?")
+	return 0
 
 const NO_UNLOCK_TIP = ""
 

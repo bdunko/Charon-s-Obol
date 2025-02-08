@@ -378,7 +378,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_round_tails_penalty_reduction = 0
 	_permanent_tails_penalty_reduction = 0
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
-	reset_power_uses()
+	reset_power_uses(true)
 	_on_state_changed() # a bit of a hack but it is a good catchall...
 
 func get_appeasal_price() -> int:
@@ -402,34 +402,11 @@ func is_monster() -> bool:
 	return _owner == Owner.NEMESIS
 
 func get_store_price() -> int:
-	var upgrade_modifier = 0 
-	match(_denomination):
-		Global.Denomination.OBOL:
-			upgrade_modifier = 0
-		Global.Denomination.DIOBOL:
-			upgrade_modifier = Global.CUMULATIVE_TO_DIOBOL
-		Global.Denomination.TRIOBOL:
-			upgrade_modifier = Global.CUMULATIVE_TO_TRIOBOL
-		Global.Denomination.TETROBOL:
-			upgrade_modifier = Global.CUMULATIVE_TO_TETROBOL
-		Global.Denomination.PENTOBOL:
-			upgrade_modifier = Global.CUMULATIVE_TO_PENTOBOL
-		Global.Denomination.DRACHMA:
-			upgrade_modifier = Global.CUMULATIVE_TO_DRACHMA
+	var upgrade_modifier = Global.get_cumulative_to_upgrade_to(_denomination)
 	return floor(_coin_family.base_price * Global.current_round_shop_multiplier()) + floor(upgrade_modifier * Global.STORE_UPGRADE_DISCOUNT)
 
 func get_upgrade_price() -> int:
-	match(_denomination):
-		Global.Denomination.OBOL:
-			return Global.UPGRADE_TO_DIOBOL
-		Global.Denomination.DIOBOL:
-			return Global.UPGRADE_TO_TRIOBOL
-		Global.Denomination.TRIOBOL:
-			return Global.UPGRADE_TO_TETROBOL
-		Global.Denomination.TETROBOL:
-			return 10000000 #error case really
-	breakpoint
-	return 1000000
+	return Global.get_price_to_upgrade(_denomination)
 
 const _SELL_MULT = 0.5
 func get_sell_price() -> int:
@@ -438,6 +415,10 @@ func get_sell_price() -> int:
 func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
 		return false
+	
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
+		return _denomination != Global.Denomination.DRACHMA
+	
 	return _denomination != Global.Denomination.TETROBOL
 
 func get_denomination() -> Global.Denomination:
@@ -505,8 +486,12 @@ func upgrade() -> void:
 			_denomination = Global.Denomination.TETROBOL
 		Global.Denomination.TETROBOL:
 			_denomination = Global.Denomination.PENTOBOL
+			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
+				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HADES)
 		Global.Denomination.PENTOBOL:
 			_denomination = Global.Denomination.DRACHMA
+			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
+				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HADES)
 	_update_payoff_powers()
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
@@ -1010,7 +995,7 @@ func on_round_end() -> void:
 	if not Global.is_passive_active(Global.PATRON_POWER_FAMILY_APOLLO):
 		clear_statuses()
 	elif has_status():
-		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HEPHAESTUS)
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_APOLLO)
 
 func get_heads_icon() -> String:
 	return _heads_power.power_family.icon_path

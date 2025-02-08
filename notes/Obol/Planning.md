@@ -1,9 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Weekend**
-		- [ ] Change heph power to allow upgrading past Tetrobol. Active can be "upgrade a coin and fully recharge it." 1 charge.
-			- [ ] if heph power, in can_upgrade, return true unless Drachma (normally we check for tetrobol here)
-		- [ ] When zooming in on the cave during patron screen, remove the filter (it looks just a little weird :( ))
 		- [ ] **Implementing Difficulties**
 			- [x] Indifferent - done
 			- [ ] Hostile - Malice

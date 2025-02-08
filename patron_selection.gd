@@ -10,6 +10,7 @@ signal exited
 @onready var _SHIP_PATH_FOLLOW = $PeacefulBG/ShipPath/Follow
 
 @onready var _WITHERED_BG = $WitheredBG
+@onready var _WITHERED_BG_FX = $WitheredBG/FX
 @onready var _PEACEFUL_BG = $PeacefulBG
 @onready var _RAIN = $Rain
 
@@ -65,6 +66,7 @@ func _on_statue_clicked(statue: PatronStatue):
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We walk into darkness.")
+	_WITHERED_BG_FX.disable() # disable the checker shader - looks a bit funny otherwise when zooming
 	await create_tween().tween_property(_CAMERA, "zoom", Vector2(50, 50), 1.2).finished
 	_PATRON_DIALOGUE.instant_clear_dialogue()
 	emit_signal("patron_selected")
@@ -86,6 +88,7 @@ func _make_background_withered() -> void:
 	_RAIN.show()
 	_FOG.show()
 	_WITHERED_BG.show()
+	_WITHERED_BG_FX.enable() # make sure the shader is enabled - might be disabled after zooming
 	_PEACEFUL_BG.hide()
 
 func _enable_and_reset_camera() -> void:

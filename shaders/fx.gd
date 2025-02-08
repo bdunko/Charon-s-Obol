@@ -4,6 +4,7 @@ extends AnimationPlayer
 signal tween_finished
 
 const _UNIFORM_MOUSE := "MOUSE"
+const _UNIFORM_DISABLE := "DISABLE"
 
 enum Uniform {
 	BOOL_USE_EXCLUDE_COLORS, VEC3_EXCLUDE_COLOR1, VEC3_EXCLUDE_COLOR2, VEC3_EXCLUDE_COLOR3, VEC3_EXCLUDE_COLOR4,
@@ -287,6 +288,12 @@ func _add_tween(uniform: Uniform, tween: Tween) -> void:
 func process_update_mouse() -> void:
 	# update the mouse position every frame
 	get_parent().material.set_shader_parameter(_UNIFORM_MOUSE, get_parent().get_global_mouse_position())
+
+func disable() -> void:
+	get_parent().material.set_shader_parameter(_UNIFORM_DISABLE, true)
+
+func enable() -> void:
+	get_parent().material.set_shader_parameter(_UNIFORM_DISABLE, false)
 
 ## PREBAKED SHADER EFFECTS ##
 enum ScanDirection {

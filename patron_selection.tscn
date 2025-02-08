@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://08gavqs15dvr"]
+[gd_scene load_steps=37 format=3 uid="uid://08gavqs15dvr"]
 
 [ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_5llq3"]
 [ext_resource type="Texture2D" uid="uid://ce0gftxajuwdt" path="res://assets/patron_choice/background/cloud_layer_front.png" id="5_k0wgb"]
 [ext_resource type="Texture2D" uid="uid://bv4hqkeqjxkfv" path="res://assets/patron_choice/background/cloud_ring.png" id="6_4xg8b"]
+[ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="6_048he"]
 [ext_resource type="Texture2D" uid="uid://ck31yg12emdjm" path="res://assets/patron_choice/background/eyes.png" id="6_kttg8"]
 [ext_resource type="Texture2D" uid="uid://cgof7rvyy8ooc" path="res://assets/patron_choice/background/flowers.png" id="7_xij8r"]
 [ext_resource type="Texture2D" uid="uid://bklbq2rd5wq1q" path="res://assets/patron_choice/background/ship.png" id="9_in8ic"]
@@ -107,6 +108,7 @@ animations = [{
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -226,6 +228,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -345,6 +348,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -470,6 +474,7 @@ noise = SubResource("FastNoiseLite_at7ng")
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -586,11 +591,12 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0axiu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5n3o0"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -743,6 +749,8 @@ autoplay = "default"
 frame_progress = 0.806666
 centered = false
 
+[node name="FX" parent="WitheredBG" instance=ExtResource("6_048he")]
+
 [node name="PeacefulBG" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("4_5llq3")
@@ -832,7 +840,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_0axiu")
+material = SubResource("ShaderMaterial_5n3o0")
 layout_mode = 2
 default_text = "Victory!"
 
