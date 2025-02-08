@@ -537,7 +537,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lj6wf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_afest"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -875,7 +875,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojl4k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wb6"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -996,7 +996,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hxkhd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aoebr"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1425,7 +1425,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_lj6wf")
+material = SubResource("ShaderMaterial_afest")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1545,7 +1545,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
-difficulty = 1
+difficulty = 1000
 
 [node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull2"]
 layout_mode = 2
@@ -1581,7 +1581,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
-difficulty = 2
+difficulty = 2000
 
 [node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull3"]
 layout_mode = 2
@@ -1621,7 +1621,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
-difficulty = 3
+difficulty = 3000
 
 [node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull4"]
 layout_mode = 2
@@ -1661,7 +1661,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("4_13483")
-difficulty = 4
+difficulty = 4000
 
 [node name="Unvanquished" type="BoxContainer" parent="MainUI/Selector/Difficulty/Skull5"]
 layout_mode = 2
@@ -1716,12 +1716,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ojl4k")
+material = SubResource("ShaderMaterial_j5wb6")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_hxkhd")
+material = SubResource("ShaderMaterial_aoebr")
 layout_mode = 2
 default_text = " Quit "
 

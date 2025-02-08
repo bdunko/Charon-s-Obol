@@ -199,30 +199,33 @@ var CHARACTERS = {
 
 var difficulty: Difficulty
 
-
-
 enum Difficulty {
 	INDIFFERENT1 = 0, 
-	HOSTILE2 = 1, 
-	GREEDY3 = 2, 
-	CRUEL4 = 3, 
-	UNFAIR5 = 4, 
-	BEATEN_ALL_DIFFICULTIES = 5
+	HOSTILE2 = 1000, 
+	GREEDY3 = 2000, 
+	CRUEL4 = 3000, 
+	UNFAIR5 = 4000, 
+	BEATEN_ALL_DIFFICULTIES = 5000
 }
 
 # increased prices and multiplier for greedy
-const GREEDY_DIOBOL_INCREASE = 5
-const GREEDY_TRIOBOL_INCREASE = 15
-const GREEDY_TETROBOL_INCREASE = 25
-const GREEDY_SHOP_MULTIPLIER_INCREASE = 0.3 #additive
-const GREEDY_TOOLGATE_INCREASE = 1.3 #multiplicative
+const _GREEDY_DIOBOL_INCREASE = 5
+const _GREEDY_TRIOBOL_INCREASE = 15
+const _GREEDY_TETROBOL_INCREASE = 25
+const _GREEDY_PENTOBOL_INCREASE = 35
+const _GREEDY_DRACHMA_INCREASE = 40
+const _GREEDY_SHOP_MULTIPLIER_INCREASE = 0.3 #additive
+const _GREEDY_TOLLGATE_MULTIPLIER = 1.3 #multiplicative
 
 # increased trial quotas for cruel
 const CRUEL_SOUL_QUOTA_MULTIPLIER = 1.3 #multiplicative
 
 # increased monster strength for unfair
 const UNFAIR_MONSTER_STRENGTH_MULTIPLIER = 1.5 #multiplicative
-# const UNFAIR_NEMESIS_DENOM = Denomination.DRACHMA
+const UNFAIR_NEMESIS_DENOM = Denomination.DRACHMA
+
+func is_difficulty_active(diff_level: Difficulty) -> bool:
+	return difficulty >= diff_level
 
 func difficulty_tooltip_for(diff: Difficulty) -> String:
 	match diff:
@@ -767,7 +770,10 @@ func current_round_life_regen() -> int:
 	return VOYAGE[round_count-1].lifeRegen
 
 func current_round_toll() -> int:
-	return VOYAGE[round_count-1].tollCost
+	return get_toll_cost(VOYAGE[round_count-1])
+
+func get_toll_cost(rnd: Round):
+	return ceil(rnd.tollCost * _GREEDY_TOLLGATE_MULTIPLIER if is_difficulty_active(Difficulty.GREEDY3) else 1.0)
 
 func current_round_quota() -> int:
 	return VOYAGE[round_count-1].quota
@@ -779,7 +785,10 @@ func current_round_ante_formula() -> AnteFormula:
 	return VOYAGE[round_count-1].ante_formula
 
 func current_round_shop_multiplier() -> float:
-	return VOYAGE[round_count-1].shop_multiplier
+	var diff_addition = 0
+	if is_difficulty_active(Difficulty.GREEDY3):
+		diff_addition += _GREEDY_SHOP_MULTIPLIER_INCREASE
+	return VOYAGE[round_count-1].shop_multiplier + diff_addition
 
 func did_ante_increase() -> bool:
 	if round_count == 0 or round_count == 1:
@@ -787,15 +796,17 @@ func did_ante_increase() -> bool:
 	return VOYAGE[round_count-1].ante_formula != VOYAGE[round_count-2].ante_formula
 
 # returns an array of [monster_family, denom] pairs for current round
+const _TRIAL1_DENOM = Denomination.DIOBOL
+const _TRIAL2_DENOM = Denomination.TETROBOL
 func current_round_enemy_coin_data() -> Array:
 	var coin_data = []
 	
 	if current_round_type() == RoundType.TRIAL1:
 		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
-			coin_data.append([trialFamily, Denomination.DIOBOL])
+			coin_data.append([trialFamily, _TRIAL1_DENOM])
 	elif current_round_type() == RoundType.TRIAL2:
 		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
-			coin_data.append([trialFamily, Denomination.TRIOBOL])
+			coin_data.append([trialFamily, _TRIAL2_DENOM])
 	elif current_round_type() == RoundType.NEMESIS:
 		for nemesisFamily in VOYAGE[round_count-1].trialData.coinFamilies:
 			coin_data.append([nemesisFamily, Denomination.TETROBOL])
@@ -838,15 +849,6 @@ func is_current_round_end() -> bool:
 	if round_count >= VOYAGE.size():
 		return true #this is the case that actually gets triggered btw in normal circumstances
 	return VOYAGE[round_count].roundType == RoundType.END
-
-func get_tollgate_cost(tollgateIndex: int) -> int:
-	var tollgates = 0
-	for rnd in VOYAGE:
-		if rnd.roundType == RoundType.TOLLGATE:
-			tollgates += 1
-			if tollgates == tollgateIndex:
-				return rnd.tollCost
-	return 0
 
 func _get_first_round_of_type(roundType: RoundType) -> TrialData:
 	for rnd in VOYAGE:
@@ -1499,39 +1501,34 @@ const _UPGRADE_TO_DRACHMA = 160
 func get_price_to_upgrade(denom: Denomination) -> int:
 	match(denom):
 		Denomination.OBOL:
-			return _UPGRADE_TO_DIOBOL
+			return _UPGRADE_TO_DIOBOL + _GREEDY_DIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
 		Denomination.DIOBOL:
-			return _UPGRADE_TO_TRIOBOL
+			return _UPGRADE_TO_TRIOBOL + _GREEDY_TRIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
 		Denomination.TRIOBOL: 
-			return _UPGRADE_TO_TETROBOL
+			return _UPGRADE_TO_TETROBOL + _GREEDY_TETROBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
 		Denomination.TETROBOL:
-			return _UPGRADE_TO_PENTOBOL
+			return _UPGRADE_TO_PENTOBOL + _GREEDY_PENTOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
 		Denomination.PENTOBOL:
-			return _UPGRADE_TO_DRACHMA
+			return _UPGRADE_TO_DRACHMA + _GREEDY_DRACHMA_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
 		Denomination.DRACHMA:
 			return 0
 	assert(false, "No matching case?")
 	return 0
 
-const _CUMULATIVE_TO_DIOBOL = _UPGRADE_TO_DIOBOL
-const _CUMULATIVE_TO_TRIOBOL = _CUMULATIVE_TO_DIOBOL + _UPGRADE_TO_TRIOBOL
-const _CUMULATIVE_TO_TETROBOL = _CUMULATIVE_TO_TRIOBOL + _UPGRADE_TO_TETROBOL
-const _CUMULATIVE_TO_PENTOBOL = _CUMULATIVE_TO_TETROBOL + _UPGRADE_TO_PENTOBOL
-const _CUMULATIVE_TO_DRACHMA = _CUMULATIVE_TO_PENTOBOL + _UPGRADE_TO_DRACHMA
 func get_cumulative_to_upgrade_to(denom: Denomination) -> int:
 	match(denom):
 		Denomination.OBOL:
 			return 0
 		Denomination.DIOBOL:
-			return _CUMULATIVE_TO_DIOBOL
+			return get_price_to_upgrade(Denomination.DIOBOL)
 		Denomination.TRIOBOL: 
-			return _CUMULATIVE_TO_TRIOBOL
+			return get_cumulative_to_upgrade_to(Denomination.DIOBOL) + get_price_to_upgrade(Denomination.TRIOBOL)
 		Denomination.TETROBOL:
-			return _CUMULATIVE_TO_TETROBOL
+			return get_cumulative_to_upgrade_to(Denomination.TRIOBOL) + get_price_to_upgrade(Denomination.TETROBOL)
 		Denomination.PENTOBOL:
-			return _CUMULATIVE_TO_PENTOBOL
+			return get_cumulative_to_upgrade_to(Denomination.TETROBOL) + get_price_to_upgrade(Denomination.PENTOBOL)
 		Denomination.DRACHMA:
-			return _CUMULATIVE_TO_DRACHMA
+			return get_cumulative_to_upgrade_to(Denomination.PENTOBOL) + get_price_to_upgrade(Denomination.DRACHMA)
 	assert(false, "No matching case?")
 	return 0
 

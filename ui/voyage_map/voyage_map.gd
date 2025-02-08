@@ -60,7 +60,7 @@ func update_tooltips() -> void:
 			Global.RoundType.NORMAL:
 				_add_node(VoyageNode.VoyageNodeType.NODE, "", 0, rnd.get_icon())
 			Global.RoundType.TOLLGATE:
-				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, Global.replace_placeholders(_TOLLGATE_FORMAT % rnd.tollCost), rnd.tollCost, rnd.get_icon())
+				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, Global.replace_placeholders(_TOLLGATE_FORMAT % Global.get_toll_cost(rnd)), Global.get_toll_cost(rnd), rnd.get_icon())
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
 				_add_node(VoyageNode.VoyageNodeType.TRIAL, Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialData.name, rnd.trialData.description, rnd.quota]), 0, rnd.get_icon())
 			Global.RoundType.NEMESIS:
