@@ -9,27 +9,56 @@ enum VoyageNodeType {
 }
 
 @onready var _PATH = $Path
-@onready var _CUSTOM_ICON = $CustomIcon
-@onready var _TYPE = $Type
+
+
+# TODO - TEST DOUBLE TRIALS
+
+# used for most nodes
+@onready var _TYPE = $Icon/Type
+# used for nemesis or single trials
+@onready var _CUSTOM_ICON = $Icon/CustomIcon
+# used for double trials
+@onready var _CUSTOM_ICON_DOUBLE_TOP = $Icon/CustomDoubleTop
+@onready var _CUSTOM_ICON_DOUBLE_BOTTOM = $Icon/CustomDoubleBottom
+
 @onready var _PRICE_LABEL = $Price
+
+# used for most tooltips
 @onready var _TOOLTIP = $TooltipEmitter
+# used when we have a double trial, since we need two different tooltips
+@onready var _TOOLTIP_TOP = $TooltipEmitterTop
+@onready var _TOOLTIP_BOTTOM = $TooltipEmitterBottom
+
 
 const _PRICE_FORMAT = "[center][color=#e12f3b]-%d[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
 
 func _ready():
 	assert(_PATH)
 	assert(_TYPE)
+	assert(_CUSTOM_ICON)
+	assert(_CUSTOM_ICON_DOUBLE_TOP)
+	assert(_CUSTOM_ICON_DOUBLE_BOTTOM)
 	assert(_PRICE_LABEL)
 	assert(_TOOLTIP)
+	_TYPE.show()
 	_PRICE_LABEL.hide()
 	_CUSTOM_ICON.hide()
+	_CUSTOM_ICON_DOUBLE_TOP.hide()
+	_CUSTOM_ICON_DOUBLE_BOTTOM.hide()
+	_TOOLTIP_TOP.disable()
+	_TOOLTIP_BOTTOM.disable()
+	
 	_TOOLTIP.tooltip_created.connect(_on_tooltip_created)
+	_TOOLTIP_TOP.tooltip_created.connect(_on_tooltip_created)
+	_TOOLTIP_BOTTOM.tooltip_created.connect(_on_tooltip_created)
 
 func ship_position() -> Vector2:
 	return Vector2(position.x - 4, 29)
 
-func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0, custom_icon: Texture2D = null) -> void:
-	assert(tooltip == "" or (vnt == VoyageNodeType.NEMESIS or vnt == VoyageNodeType.TRIAL or vnt == VoyageNodeType.TOLLGATE))
+func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = []) -> void:
+	assert(tooltips.size() == 1 or tooltips.size() == 2)
+	assert(custom_icons == null or custom_icons.size() >= 0 and custom_icons.size() <= 2)
+	assert(tooltips[0] == "" or (vnt == VoyageNodeType.NEMESIS or vnt == VoyageNodeType.TRIAL or vnt == VoyageNodeType.TOLLGATE))
 	assert(price == 0 or vnt == VoyageNodeType.TOLLGATE)
 	
 	match(vnt):
@@ -57,19 +86,33 @@ func init_node(vnt: VoyageNodeType, tooltip: String = "", price: int = 0, custom
 			_PRICE_LABEL.text = _PRICE_FORMAT % price
 	
 	# set custom icon and hide generic one if provided
-	if custom_icon != null:
-		_TYPE.hide()
-		_CUSTOM_ICON.show()
-		_CUSTOM_ICON.texture = custom_icon
+	if custom_icons != null:
+		if custom_icons.size() == 1:
+			_TYPE.hide()
+			_CUSTOM_ICON.show()
+			_CUSTOM_ICON.texture = custom_icons[0]
+		elif custom_icons.size() == 2:
+			_TYPE.hide()
+			_CUSTOM_ICON_DOUBLE_TOP.texture = custom_icons[0]
+			_CUSTOM_ICON_DOUBLE_BOTTOM.texture = custom_icons[1]
+			_CUSTOM_ICON_DOUBLE_TOP.show()
+			_CUSTOM_ICON_DOUBLE_BOTTOM.show()
 	
 	# update tooltip
-	_TOOLTIP.set_tooltip(tooltip)
+	if tooltips.size() == 1:
+		_TOOLTIP.set_tooltip(tooltips[0])
+	elif tooltips.size() == 2:
+		_TOOLTIP.disable()
+		_TOOLTIP_TOP.set_tooltip(tooltips[0])
+		_TOOLTIP_BOTTOM.set_tooltip(tooltips[1])
 	
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
 
-func get_node_tooltip() -> String:
-	return _TOOLTIP.get_tooltip_string()
+func get_node_tooltips() -> Array[String]:
+	if _TOOLTIP.is_enabled():
+		return [_TOOLTIP.get_tooltip_string()]
+	return [_TOOLTIP_TOP.get_tooltip_string(), _TOOLTIP_BOTTOM.get_tooltip_string()]
 
 func _on_tooltip_created():
 	emit_signal("hovered")

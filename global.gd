@@ -215,10 +215,10 @@ const _GREEDY_TETROBOL_INCREASE = 25
 const _GREEDY_PENTOBOL_INCREASE = 35
 const _GREEDY_DRACHMA_INCREASE = 40
 const _GREEDY_SHOP_MULTIPLIER_INCREASE = 0.3 #additive
-const _GREEDY_TOLLGATE_MULTIPLIER = 1.3 #multiplicative
+const _GREEDY_TOLLGATE_MULTIPLIER = 1.25 #multiplicative
 
 # increased trial quotas for cruel
-const CRUEL_SOUL_QUOTA_MULTIPLIER = 1.3 #multiplicative
+const _CRUEL_SOUL_QUOTA_MULTIPLIER = 1.5 #multiplicative
 
 # increased monster strength for unfair
 const UNFAIR_MONSTER_STRENGTH_MULTIPLIER = 1.5 #multiplicative
@@ -447,7 +447,7 @@ class Round:
 	var quota: float
 	var ante_formula: AnteFormula
 	
-	var trialData: TrialData
+	var trialDatas: Array[TrialData]
 	
 	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, shopMult: float, tollCst: int, rndQuota: int, mWaveDenoms: Array, anteForm: AnteFormula):
 		self.roundType = roundTyp
@@ -457,13 +457,17 @@ class Round:
 		self.tollCost = tollCst
 		self.monsterWaves = mWaveDenoms
 		self.quota = rndQuota
-		self.trialData = null
+		self.trialDatas = []
 		self.ante_formula = anteForm
 	
-	func get_icon() -> Texture2D:
-		if trialData != null:
-			return trialData.get_icon()
-		return null
+	func get_icons():
+		if trialDatas.size() == 0:
+			return null
+		
+		var icons = []
+		for trial in trialDatas:
+			icons.append(trial.get_icon())
+		return icons
 
 class Monster:
 	enum Archetype {
@@ -720,7 +724,7 @@ func randomize_voyage() -> void:
 		for rnd in VOYAGE:
 			match(rnd.roundType):
 				RoundType.TRIAL1:
-					rnd.trialData = _PAIN_TRIAL
+					rnd.trialDatas = [_PAIN_TRIAL, _PAIN_TRIAL]
 		_standard_monster_pool = [MONSTER_KOBALOS_FAMILY]
 		_elite_monster_pool = [MONSTER_KOBALOS_FAMILY] # unused, but just in case...
 		return
@@ -740,17 +744,19 @@ func randomize_voyage() -> void:
 		# debug - seed trial
 		match(rnd.roundType):
 			RoundType.TRIAL1:
-				var trial = Global.choose_one(possible_trials_lv1) if possible_trials_lv1.size() != 0 else Global.choose_one(LV1_TRIALS)
-				possible_trials_lv1.erase(trial)
-				rnd.trialData = trial
+				for i in range(0, 2):
+					var trial = Global.choose_one(possible_trials_lv1) if possible_trials_lv1.size() != 0 else Global.choose_one(LV1_TRIALS)
+					possible_trials_lv1.erase(trial)
+					rnd.trialDatas.append(trial)
 			RoundType.TRIAL2:
-				var trial = Global.choose_one(possible_trials_lv2) if possible_trials_lv2.size() != 0 else Global.choose_one(LV2_TRIALS)
-				possible_trials_lv2.erase(trial)
-				rnd.trialData = trial
+				for i in range(0, 2):
+					var trial = Global.choose_one(possible_trials_lv2) if possible_trials_lv2.size() != 0 else Global.choose_one(LV2_TRIALS)
+					possible_trials_lv2.erase(trial)
+					rnd.trialDatas.append(trial)
 			RoundType.NEMESIS:
 				var nemesis = Global.choose_one(possible_nemesis) if possible_nemesis.size() != 0 else Global.choose_one(NEMESES)
 				possible_nemesis.erase(nemesis)
-				rnd.trialData = nemesis
+				rnd.trialDatas.append(nemesis)
 	
 	# randomize the monster pool
 	STANDARD_MONSTERS.shuffle()
@@ -776,7 +782,10 @@ func get_toll_cost(rnd: Round):
 	return ceil(rnd.tollCost * _GREEDY_TOLLGATE_MULTIPLIER if is_difficulty_active(Difficulty.GREEDY3) else 1.0)
 
 func current_round_quota() -> int:
-	return VOYAGE[round_count-1].quota
+	return get_quota(VOYAGE[round_count-1])
+
+func get_quota(rnd: Round):
+	return ceil(rnd.quota * _CRUEL_SOUL_QUOTA_MULTIPLIER if is_difficulty_active(Difficulty.CRUEL4) else 1.0)
 
 func _current_round_shop_denoms() -> Array:
 	return VOYAGE[round_count-1].shopDenoms
@@ -802,13 +811,19 @@ func current_round_enemy_coin_data() -> Array:
 	var coin_data = []
 	
 	if current_round_type() == RoundType.TRIAL1:
-		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
+		for trialFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
 			coin_data.append([trialFamily, _TRIAL1_DENOM])
+		if is_difficulty_active(Difficulty.CRUEL4): # if high difficulty, show both trials
+			for trialFamily in VOYAGE[round_count-1].trialDatas[1].coinFamilies:
+				coin_data.append([trialFamily, _TRIAL1_DENOM])
 	elif current_round_type() == RoundType.TRIAL2:
-		for trialFamily in VOYAGE[round_count-1].trialData.coinFamilies:
+		for trialFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
 			coin_data.append([trialFamily, _TRIAL2_DENOM])
+		if is_difficulty_active(Difficulty.CRUEL4): # if high difficulty, show both trials
+			for trialFamily in VOYAGE[round_count-1].trialDatas[1].coinFamilies:
+				coin_data.append([trialFamily, _TRIAL2_DENOM])
 	elif current_round_type() == RoundType.NEMESIS:
-		for nemesisFamily in VOYAGE[round_count-1].trialData.coinFamilies:
+		for nemesisFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
 			coin_data.append([nemesisFamily, Denomination.TETROBOL])
 	else:
 		var monsters = Global.choose_one(VOYAGE[round_count-1].monsterWaves)
@@ -849,12 +864,6 @@ func is_current_round_end() -> bool:
 	if round_count >= VOYAGE.size():
 		return true #this is the case that actually gets triggered btw in normal circumstances
 	return VOYAGE[round_count].roundType == RoundType.END
-
-func _get_first_round_of_type(roundType: RoundType) -> TrialData:
-	for rnd in VOYAGE:
-		if rnd.roundType == roundType:
-			return rnd.trialData
-	return null
 
 class TrialData:
 	var name: String

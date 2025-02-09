@@ -19,6 +19,7 @@
 shader = ExtResource("2_yx6tr")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -2063,9 +2064,9 @@ offset_bottom = 79.0
 
 [node name="Nodes" type="HBoxContainer" parent="Map"]
 offset_left = 2.0
-offset_top = 40.0
+offset_top = 41.0
 offset_right = 193.0
-offset_bottom = 61.0
+offset_bottom = 62.0
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1

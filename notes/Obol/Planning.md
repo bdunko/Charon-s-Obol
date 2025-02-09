@@ -1,15 +1,12 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Weekend**
+		- [ ] Make the color filters on nemesis and trial oscillate a bit in color
 		- [ ] **Implementing Difficulties**
 			- [ ] Hostile - Malice
-			- [ ] Cruel - Trials have two modifiers. Trial soul quotas are higher. 
-				- [ ] On map, show two icons for trial in a column. 
-				- [ ] Soul quotas increased by a flat multiplier of 1.3 or so?
 			- [ ] Unfair - Monsters are stronger and more numerous. Nemesis is stronger.
-				- [ ] Add Pentobol and Drachma for all coins. 
-					- [ ] Update Hepaestus ability to allow upgrades up to Drachma. Active just becomes "upgrade a coin, recharge it, and turn it to heads."
 				- [ ] Make Nemesis abilities scale with denomination. 
+					- [ ] need a way to placeholder "Once, Twice, Thrice, etc, Four times, Five times, Six times"
 				- [ ] On this difficulty, Nemesis spawn as Drachma.
 				- [ ] Change how monster waves work. Each round defines a 'monster strength' value and a 'number of elites'. Then the game generates an appropriate monster wave based on that value when you reach that, instead of hardcoded possible wave types, with the required number of elites.
 				- [ ] For the difficulty level, monster strength is increased by a certain amount which scales with round_count.

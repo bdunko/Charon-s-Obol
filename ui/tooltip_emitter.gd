@@ -31,6 +31,9 @@ func enable() -> void:
 func disable() -> void:
 	_enabled = false
 
+func is_enabled():
+	return _enabled
+
 func _on_mouse_entered():
 	_show_tooltip()
 
