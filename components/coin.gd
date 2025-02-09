@@ -131,11 +131,14 @@ func _update_face_label() -> void:
 			color = _BLUE
 		_:
 			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
-	var charges_str = "" if get_active_power_family().icon_only else ("%d" % get_active_power_charges())
+	
+	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
+	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
+	var charges_str = "" if only_show_icon else ("%d" % get_active_power_charges())
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
-	if get_active_power_family().icon_only:
+	if only_show_icon:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION 
@@ -914,12 +917,31 @@ func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -
 		_tails_power_overwritten = _tails_power.power_family
 		_set_tails_power_to(temporary_power)
 
+
+const NUMERICAL_ADVERB_DICT = {
+	1 : "Once",
+	2 : "Twice", 
+	3 : "Thrice",
+	4 : "Four times",
+	5 : "Five times",
+	6 : "Six times",
+	7 : "Seven times",
+	8 : "Eight times",
+	9 : "Nine times", 
+	10 : "Ten times"
+}
 func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_charges: int = -100000) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -100000:
 		txt = txt.replace("(MAX_CHARGES)", str(max(0, max_charges)))
 	if current_charges != -100000:
-		txt = txt.replace("(CURRENT_CHARGES)", str(max(0, current_charges)))
+		var charges = str(max(0, current_charges))
+		txt = txt.replace("(CURRENT_CHARGES)", charges)
+		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
+		txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[current_charges])
+		txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[current_charges].to_lower())
+		
+		
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
 	
