@@ -45,8 +45,9 @@ func _ready():
 	_CUSTOM_ICON.hide()
 	_CUSTOM_ICON_DOUBLE_TOP.hide()
 	_CUSTOM_ICON_DOUBLE_BOTTOM.hide()
-	_TOOLTIP_TOP.disable()
-	_TOOLTIP_BOTTOM.disable()
+	_TOOLTIP_TOP.hide()
+	_TOOLTIP_BOTTOM.hide()
+	_TOOLTIP.hide()
 	
 	_TOOLTIP.tooltip_created.connect(_on_tooltip_created)
 	_TOOLTIP_TOP.tooltip_created.connect(_on_tooltip_created)
@@ -101,16 +102,18 @@ func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = [])
 	# update tooltip
 	if tooltips.size() == 1:
 		_TOOLTIP.set_tooltip(tooltips[0])
+		_TOOLTIP.show()
 	elif tooltips.size() == 2:
-		_TOOLTIP.disable()
 		_TOOLTIP_TOP.set_tooltip(tooltips[0])
 		_TOOLTIP_BOTTOM.set_tooltip(tooltips[1])
+		_TOOLTIP_TOP.show()
+		_TOOLTIP_BOTTOM.show()
 	
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
 
 func get_node_tooltips() -> Array[String]:
-	if _TOOLTIP.is_enabled():
+	if _TOOLTIP.visible:
 		return [_TOOLTIP.get_tooltip_string()]
 	return [_TOOLTIP_TOP.get_tooltip_string(), _TOOLTIP_BOTTOM.get_tooltip_string()]
 

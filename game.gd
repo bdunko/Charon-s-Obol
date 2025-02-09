@@ -1030,11 +1030,11 @@ func _advance_round() -> void:
 					await Global.left_click_input
 					tooltip.destroy_tooltip()
 				
-				if Global.is_difficulty_active(Global.Difficulty.CRUEL4) and (rnd.roundType == Global.RoundType.TRIAL1 or rnd.roundType == Global.RoundType.TRIAL2):
+				if Global.is_difficulty_active(Global.Difficulty.CRUEL3) and (rnd.roundType == Global.RoundType.TRIAL1 or rnd.roundType == Global.RoundType.TRIAL2):
 					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(3, -2)) # point at upper
 					await show_tooltip_and_wait.call(_VOYAGE_MAP.node_tooltip_strings(i)[0], _VOYAGE_MAP.node_position(i) + Vector2(6, 4))
 					_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
-					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(8, 4)) # point at lower
+					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(8, 5)) # point at lower
 					await show_tooltip_and_wait.call(_VOYAGE_MAP.node_tooltip_strings(i)[1], _VOYAGE_MAP.node_position(i) + Vector2(6, 4))
 				else:
 					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(6, 3))

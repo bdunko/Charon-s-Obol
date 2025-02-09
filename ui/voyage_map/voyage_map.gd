@@ -63,7 +63,7 @@ func update_tooltips() -> void:
 				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, [Global.replace_placeholders(_TOLLGATE_FORMAT % Global.get_toll_cost(rnd))], Global.get_toll_cost(rnd), rnd.get_icons())
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
 				# should have two trials
-				if Global.is_difficulty_active(Global.Difficulty.CRUEL4):
+				if Global.is_difficulty_active(Global.Difficulty.CRUEL3):
 					assert(rnd.trialDatas.size() == 2)
 					var tooltip1 = Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)])
 					var tooltip2 = Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[1].name, rnd.trialDatas[1].description, Global.get_quota(rnd)])

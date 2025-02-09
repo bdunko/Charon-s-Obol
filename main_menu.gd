@@ -102,7 +102,7 @@ func _ready() -> void:
 	Global.game_loaded.connect(setup_character_selector)
 	
 	
-	#var TEST_DIFFICULTY_UNLOCK = UnlockedDifficulty.new(Global.Character.ELEUSINIAN, Global.Difficulty.CRUEL4)
+	#var TEST_DIFFICULTY_UNLOCK = UnlockedDifficulty.new(Global.Character.ELEUSINIAN, Global.Difficulty.CRUEL3)
 	
 	# DEBUG UNLOCK
 	#queue_unlocks([Global.TEST_DIFFICULTY_UNLOCK, Global.APOLLO_FAMILY, Global.ARTEMIS_FAMILY, Global.HEPHAESTUS_FAMILY, Global.Character.MERCHANT, Global.Character.ELEUSINIAN,\
@@ -262,10 +262,10 @@ func do_unlock() -> void:
 				atlas_texture.region = Rect2(Vector2(32, 0), Vector2(16, 16))
 			Global.Difficulty.HOSTILE2:
 				atlas_texture.region = Rect2(Vector2(32, 16), Vector2(16, 16))
-			Global.Difficulty.GREEDY3:
-				atlas_texture.region = Rect2(Vector2(32, 32), Vector2(16, 16))
-			Global.Difficulty.CRUEL4:
+			Global.Difficulty.CRUEL3:
 				atlas_texture.region = Rect2(Vector2(32, 48), Vector2(16, 16))
+			Global.Difficulty.GREEDY4:
+				atlas_texture.region = Rect2(Vector2(32, 32), Vector2(16, 16))
 			Global.Difficulty.UNFAIR5:
 				atlas_texture.region = Rect2(Vector2(32, 64), Vector2(16, 16))
 			_:

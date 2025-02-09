@@ -202,8 +202,8 @@ var difficulty: Difficulty
 enum Difficulty {
 	INDIFFERENT1 = 0, 
 	HOSTILE2 = 1000, 
-	GREEDY3 = 2000, 
-	CRUEL4 = 3000, 
+	CRUEL3 = 2000, 
+	GREEDY4 = 3000, 
 	UNFAIR5 = 4000, 
 	BEATEN_ALL_DIFFICULTIES = 5000
 }
@@ -233,10 +233,10 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 			return "Charon is Indifferent\nThe base difficulty."
 		Difficulty.HOSTILE2:
 			return "Charon is Hostile\nCharon may occasionally unleash his Malice."
-		Difficulty.GREEDY3:
-			return "Charon is Greedy\nCoins are more expensive.\nTollgates require a larger payment."
-		Difficulty.CRUEL4:
+		Difficulty.CRUEL3:
 			return "Charon is Cruel\nTrials have two modifiers.\nTrial soul quotas are higher."
+		Difficulty.GREEDY4:
+			return "Charon is Greedy\nCoins are more expensive.\nTollgates require a larger payment."
 		Difficulty.UNFAIR5:
 			return "Charon is Unfair\nMonsters are stronger and more numerous.\nThe Nemesis is more powerful."
 	assert(false, "shouldn't happen..")
@@ -779,13 +779,13 @@ func current_round_toll() -> int:
 	return get_toll_cost(VOYAGE[round_count-1])
 
 func get_toll_cost(rnd: Round):
-	return ceil(rnd.tollCost * _GREEDY_TOLLGATE_MULTIPLIER if is_difficulty_active(Difficulty.GREEDY3) else 1.0)
+	return ceil(rnd.tollCost * (_GREEDY_TOLLGATE_MULTIPLIER if is_difficulty_active(Difficulty.GREEDY4) else 1.0))
 
 func current_round_quota() -> int:
 	return get_quota(VOYAGE[round_count-1])
 
 func get_quota(rnd: Round):
-	return ceil(rnd.quota * _CRUEL_SOUL_QUOTA_MULTIPLIER if is_difficulty_active(Difficulty.CRUEL4) else 1.0)
+	return ceil(rnd.quota * (_CRUEL_SOUL_QUOTA_MULTIPLIER if is_difficulty_active(Difficulty.CRUEL3) else 1.0))
 
 func _current_round_shop_denoms() -> Array:
 	return VOYAGE[round_count-1].shopDenoms
@@ -795,7 +795,7 @@ func current_round_ante_formula() -> AnteFormula:
 
 func current_round_shop_multiplier() -> float:
 	var diff_addition = 0
-	if is_difficulty_active(Difficulty.GREEDY3):
+	if is_difficulty_active(Difficulty.GREEDY4):
 		diff_addition += _GREEDY_SHOP_MULTIPLIER_INCREASE
 	return VOYAGE[round_count-1].shop_multiplier + diff_addition
 
@@ -813,13 +813,13 @@ func current_round_enemy_coin_data() -> Array:
 	if current_round_type() == RoundType.TRIAL1:
 		for trialFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
 			coin_data.append([trialFamily, _TRIAL1_DENOM])
-		if is_difficulty_active(Difficulty.CRUEL4): # if high difficulty, show both trials
+		if is_difficulty_active(Difficulty.CRUEL3): # if high difficulty, show both trials
 			for trialFamily in VOYAGE[round_count-1].trialDatas[1].coinFamilies:
 				coin_data.append([trialFamily, _TRIAL1_DENOM])
 	elif current_round_type() == RoundType.TRIAL2:
 		for trialFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
 			coin_data.append([trialFamily, _TRIAL2_DENOM])
-		if is_difficulty_active(Difficulty.CRUEL4): # if high difficulty, show both trials
+		if is_difficulty_active(Difficulty.CRUEL3): # if high difficulty, show both trials
 			for trialFamily in VOYAGE[round_count-1].trialDatas[1].coinFamilies:
 				coin_data.append([trialFamily, _TRIAL2_DENOM])
 	elif current_round_type() == RoundType.NEMESIS:
@@ -1510,15 +1510,15 @@ const _UPGRADE_TO_DRACHMA = 160
 func get_price_to_upgrade(denom: Denomination) -> int:
 	match(denom):
 		Denomination.OBOL:
-			return _UPGRADE_TO_DIOBOL + _GREEDY_DIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
+			return _UPGRADE_TO_DIOBOL + (_GREEDY_DIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
 		Denomination.DIOBOL:
-			return _UPGRADE_TO_TRIOBOL + _GREEDY_TRIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
+			return _UPGRADE_TO_TRIOBOL + (_GREEDY_TRIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
 		Denomination.TRIOBOL: 
-			return _UPGRADE_TO_TETROBOL + _GREEDY_TETROBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
+			return _UPGRADE_TO_TETROBOL + (_GREEDY_TETROBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
 		Denomination.TETROBOL:
-			return _UPGRADE_TO_PENTOBOL + _GREEDY_PENTOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
+			return _UPGRADE_TO_PENTOBOL + (_GREEDY_PENTOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
 		Denomination.PENTOBOL:
-			return _UPGRADE_TO_DRACHMA + _GREEDY_DRACHMA_INCREASE if is_difficulty_active(Difficulty.GREEDY3) else 0
+			return _UPGRADE_TO_DRACHMA + (_GREEDY_DRACHMA_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
 		Denomination.DRACHMA:
 			return 0
 	assert(false, "No matching case?")
