@@ -454,7 +454,7 @@ func get_tails_icon_path() -> String:
 	return _coin_family.tails_icon_path
 
 func get_coin_name() -> String:
-	return _replace_placeholder_text(_coin_family.coin_name, -1, -1)
+	return _replace_placeholder_text(_coin_family.coin_name)
 
 func get_style_string() -> String:
 	return _coin_family.get_style_string()
@@ -935,11 +935,12 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	if max_charges != -100000:
 		txt = txt.replace("(MAX_CHARGES)", str(max(0, max_charges)))
 	if current_charges != -100000:
-		var charges = str(max(0, current_charges))
-		txt = txt.replace("(CURRENT_CHARGES)", charges)
+		var charges = max(0, current_charges)
+		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)
 		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
-		txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[current_charges])
-		txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[current_charges].to_lower())
+		if charges != 0:
+			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
+			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
 		
 		
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))

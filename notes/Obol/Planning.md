@@ -2,13 +2,15 @@
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Weekend**
 		- [ ] Make the color filters on nemesis and trial oscillate a bit in color
+		- [ ] Nemesis icon on map - outline glows purple
+		- [ ] Trial icons on map - outline glows red
 		- [ ] **Implementing Difficulties**
 			- [ ] Hostile - Malice
 			- [ ] Unfair - Monsters are stronger and more numerous. Nemesis is stronger.
 				- [ ] Make Nemesis abilities scale with denomination. 
-					- [ ] need a way to placeholder "Once, Twice, Thrice, etc, Four times, Five times, Six times"
+					- [x] need a way to placeholder "Once, Twice, Thrice, etc, Four times, Five times, Six times"
 				- [ ] On this difficulty, Nemesis spawn as Drachma.
-				- [ ] Change how monster waves work. Each round defines a 'monster strength' value and a 'number of elites'. Then the game generates an appropriate monster wave based on that value when you reach that, instead of hardcoded possible wave types, with the required number of elites.
+				- [ ] Monsters can also spawn as tetrobol and pentobol (normally cap at tribol)
 				- [ ] For the difficulty level, monster strength is increased by a certain amount which scales with round_count.
 		- [ ] **Malice**
 			- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.

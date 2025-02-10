@@ -1,6 +1,5 @@
-[gd_scene load_steps=16 format=3 uid="uid://b65ykf244ptkj"]
+[gd_scene load_steps=15 format=3 uid="uid://b65ykf244ptkj"]
 
-[ext_resource type="Script" path="res://scratch/test.gd" id="1_r5d7g"]
 [ext_resource type="Script" path="res://scratch/scratch.gd" id="1_w2w5w"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_bwwgy"]
 [ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_pt7r6"]
@@ -39,6 +38,7 @@ hue_variation_max = 0.04
 shader = ExtResource("8_hjgr1")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -158,6 +158,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 shader = ExtResource("8_hjgr1")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
@@ -285,7 +286,6 @@ offset_top = 46.0
 offset_right = 225.0
 offset_bottom = 111.0
 rotation = 0.750492
-script = ExtResource("1_r5d7g")
 
 [node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_bwwgy")]
 watched = NodePath("../Hitbox")

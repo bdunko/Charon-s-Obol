@@ -11,6 +11,18 @@ func _ready():
 	#$New.texture = tex
 	pass
 	
+	
+	# combination sum
+	var goal = 80
+	var values = [2, 4, 6, 8]
+	var cost_per_length = 1
+	var max_length = 6
+	var output = []
+	
+	print(combination_sum(goal, values, cost_per_length, max_length))
+	
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

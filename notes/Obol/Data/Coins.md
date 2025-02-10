@@ -164,6 +164,7 @@ Unlockable coins + more coins
 	- [ ] ??? - Gain a random quest. When the quest is completed, gain 25 fragments. (this would not be a power; but a like uh scroll you can buy in the shop; probably doesn't take up a coin slot.
 		- [ ] Flip 50 coins; activate 20 power; Obtain 5 new coins, Upgrade 5 coins, Destroy 5 coins
 	- [ ] Daedalus(?) - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin.
+		- [ ] Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face."
 	- [ ] ??? - Use 10 random powers with random targets.
 	- [ ] ??? - Upgrade a coin. Flip it to its tails side and curse it.
 	- [ ] ??? - Destroy a coin. Flip each adjacent coin to heads.

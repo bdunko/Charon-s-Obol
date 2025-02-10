@@ -12,7 +12,7 @@
 	- [ ] Chimera - Ignite/2x damage
 	- [ ] Siren - Freeze tails/damage
 	- [ ] Basilisk - Half life/no damage
-	- [x] Gorgon (REMOVED) - Stone/damage
+	- [ ] Gorgon - Stone/damage
 
 ---
 **Concepts**
@@ -33,6 +33,9 @@
 	- [ ] Keres - Curse 2 + Unlucky 2
 	- [ ] Gigantes - Heavy damage + Ignite
 	- [ ] Manticore - Heavy Damage + Downgrade (Venomous Tail)
+	- [ ] ??? - Transform a coin into another coin of the same type and denomination.
 - [ ] Ideas
 	- [ ] https://en.wikipedia.org/wiki/Meliae
 	- [ ] https://en.wikipedia.org/wiki/Giants_(Greek_mythology)
+	- [ ] "Events" - optional, 1 charge, always available coin (possibly use a new type of sprite for this) that appears in enemy row and does not occupy any monster-strength.
+		- [ ] Tempt Fate - Randomly turn all your coins into other coins of the same denomination and type.
