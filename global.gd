@@ -221,8 +221,8 @@ const _GREEDY_TOLLGATE_MULTIPLIER = 1.25 #multiplicative
 const _CRUEL_SOUL_QUOTA_MULTIPLIER = 1.5 #multiplicative
 
 # increased monster strength for unfair
-const UNFAIR_MONSTER_STRENGTH_MULTIPLIER = 1.5 #multiplicative
-const UNFAIR_NEMESIS_DENOM = Denomination.DRACHMA
+const _UNFAIR_MONSTER_STRENGTH_MULTIPLIER = 1.5 #multiplicative
+const _UNFAIR_NEMESIS_DENOM = Denomination.DRACHMA
 
 func is_difficulty_active(diff_level: Difficulty) -> bool:
 	return difficulty >= diff_level
@@ -494,33 +494,34 @@ class MonsterWave:
 	var wave_type: WaveType
 	var strength: int
 	var wave_styles: Array
+	var min_monsters: int
 	var max_monsters: int # used for randomized waves, maximum monster quantity
 	var randomization_amount: int # used as a +/- when calcualing strength for monster waves
+	var possible_num_neutrals: Array
 	
-	func _init(wType: WaveType, str: int = 0, mxMonsters = 0, randAmt = 0, waveSty: Array = []) -> void:
+	func _init(wType: WaveType, streng: int = 0, mnMonsters = 0, mxMonsters = 0, randAmt = 0, waveSty: Array = [], neutrals: Array = [0]) -> void:
 		self.wave_type = wType
-		self.strength = str
+		self.strength = streng
 		self.wave_styles = waveSty
 		self.randomization_amount = randAmt
+		self.min_monsters = mnMonsters
 		self.max_monsters = mxMonsters
+		self.possible_num_neutrals = neutrals
 		assert(max_monsters <= 6 and max_monsters >= 0)
 		assert((wave_type == WaveType.NO_MONSTERS)\
 			or (wave_type == WaveType.SPECIFIC_WAVE and wave_styles.size() != 0)\
 			or ((wave_type == WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY or wave_type == WaveType.RANDOMIZED_STRENGTH_WITH_ELITES) and strength != -1 and max_monsters > 0))
-	
-	func make_wave() -> void:
-		pass #todo
 
 var _MONSTER_WAVE_NONE = MonsterWave.new(MonsterWave.WaveType.NO_MONSTERS)
-var _MONSTER_WAVE1 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 3, 1, 0)
-var _MONSTER_WAVE2 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 8, 2, 1)
-var _MONSTER_WAVE3 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 14, 4, 2)
-var _MONSTER_WAVE4 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)]])
-var _MONSTER_WAVE5 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 28, 5, 2)
-var _MONSTER_WAVE6 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL)]])
+var _MONSTER_WAVE1 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 3, 1, 1, 0, [], [0])
+var _MONSTER_WAVE2 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 8, 2, 2, 1, [1])
+var _MONSTER_WAVE3 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 14, 2, 3, 2, [1, 2])
+var _MONSTER_WAVE4 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)]])
+var _MONSTER_WAVE5 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 28, 3, 5, 2, [0, 1])
+var _MONSTER_WAVE6 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL)]])
 
-var _MONSTER_WAVE_TUTORIAL1 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
-var _MONSTER_WAVE_TUTORIAL2 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
+var _MONSTER_WAVE_TUTORIAL1 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
+var _MONSTER_WAVE_TUTORIAL2 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
 
 
 const STORE_UPGRADE_DISCOUNT = 0.75
@@ -681,8 +682,10 @@ var _VOYAGE_TUTORIAL = [
 
 const NUM_STANDARD_MONSTERS = 4
 const NUM_ELITE_MONSTERS = 2
-@onready var STANDARD_MONSTERS = [MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY] + [MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY]
+@onready var NEUTRAL_MONSTERS = [MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY]
+@onready var STANDARD_MONSTERS = [MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY]
 @onready var ELITE_MONSTERS = [MONSTER_SIREN_FAMILY, MONSTER_CHIMERA_FAMILY, MONSTER_BASILISK_FAMILY]
+var _neutral_monster_pool = []
 var _standard_monster_pool = []
 var _elite_monster_pool = []
 
@@ -694,6 +697,7 @@ func randomize_voyage() -> void:
 			match(rnd.roundType):
 				RoundType.TRIAL1:
 					rnd.trialDatas = [_PAIN_TRIAL, _PAIN_TRIAL]
+		_neutral_monster_pool = [MONSTER_KOBALOS_FAMILY]
 		_standard_monster_pool = [MONSTER_KOBALOS_FAMILY]
 		_elite_monster_pool = [MONSTER_KOBALOS_FAMILY] # unused, but just in case...
 		return
@@ -728,10 +732,12 @@ func randomize_voyage() -> void:
 				rnd.trialDatas.append(nemesis)
 	
 	# randomize the monster pool
+	_neutral_monster_pool = NEUTRAL_MONSTERS
 	STANDARD_MONSTERS.shuffle()
 	_standard_monster_pool = STANDARD_MONSTERS.slice(0, NUM_STANDARD_MONSTERS)
 	ELITE_MONSTERS.shuffle()
 	_elite_monster_pool = ELITE_MONSTERS.slice(0, NUM_ELITE_MONSTERS)
+	assert(_neutral_monster_pool.size() != 0)
 	assert(_standard_monster_pool.size() == NUM_STANDARD_MONSTERS)
 	assert(_elite_monster_pool.size() == NUM_ELITE_MONSTERS)
 
@@ -794,7 +800,8 @@ func current_round_enemy_coin_data() -> Array:
 				coin_data.append([trialFamily, _TRIAL2_DENOM])
 	elif current_round_type() == RoundType.NEMESIS:
 		for nemesisFamily in VOYAGE[round_count-1].trialDatas[0].coinFamilies:
-			coin_data.append([nemesisFamily, _NEMESIS_DENOM])
+			var nem_denom = _NEMESIS_DENOM if not is_difficulty_active(Difficulty.UNFAIR5) else _UNFAIR_NEMESIS_DENOM
+			coin_data.append([nemesisFamily, nem_denom])
 	else:
 		var wave: MonsterWave = VOYAGE[round_count-1].monsterWave
 		
@@ -811,21 +818,27 @@ func current_round_enemy_coin_data() -> Array:
 				_elite_monster_pool.shuffle()
 				for monster in monsters:
 					var denom = monster.denom
+					if is_difficulty_active(Difficulty.UNFAIR5) and denom != Denomination.DRACHMA: #on unfair, bump all denoms 
+						denom += 1
 					match monster.archetype:
 						Monster.Archetype.STANDARD:
 							coin_data.append([Global.choose_one(_standard_monster_pool), denom])
 						Monster.Archetype.ELITE:
 							coin_data.append([_elite_monster_pool[elite_index], denom])
 							elite_index += 1
+			
 			# we are provided with a strength level. Randomly create a wave style adding up to that strength.
 			# elites may or may not be permitted depending on the WaveType
 			MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, MonsterWave.WaveType.RANDOMIZED_STRENGTH_WITH_ELITES:
 				var elites_allowed = wave.wave_type == MonsterWave.WaveType.RANDOMIZED_STRENGTH_WITH_ELITES
+				var min_monsters = wave.min_monsters
 				var max_monsters = wave.max_monsters
 				var strength = wave.strength
 				var randomization_amount = wave.randomization_amount
+				var num_neutrals = Global.choose_one(wave.possible_num_neutrals)
 				
 				# these values MUST be different or the code will not work, unfortunately
+				const MAX_ENEMIES = 6
 				const standard_obol_strength = 3
 				const standard_diobol_strength = 5
 				const standard_triobol_strength = 7
@@ -853,50 +866,79 @@ func current_round_enemy_coin_data() -> Array:
 				}
 				
 				var values = [standard_obol_strength, standard_diobol_strength, standard_triobol_strength]
-				if is_difficulty_active(Difficulty.UNFAIR5): # permit pentobol/drachma
-					values += [standard_pentobol_strength, standard_pentobol_strength]
 				if elites_allowed:
 					values += [elite_triobol_strength, elite_tetrobol_strength]
-					if is_difficulty_active(Difficulty.UNFAIR5): # permit pentobol/drachma
+				
+				if is_difficulty_active(Difficulty.UNFAIR5): # permit higher denominations on unfair
+					if elites_allowed:
 						values += [elite_pentobol_strength, elite_drachma_strength]
+						values.erase(elite_triobol_strength) # remove the triobol possibility
+					strength = ceil(strength * _UNFAIR_MONSTER_STRENGTH_MULTIPLIER)
 				
+				# exception rule - no obols above a certain strength
+				if strength >= 20:
+					values.erase(standard_obol_strength)
 				
-				# calculate all possible sums...
-				# do this for also +1/-1/+2/-2 of this strength for more options/safety.
-				var possibilities = []
+				for i in num_neutrals+1:
+					# neutral denom based on strength, though always low
+					var denom = Denomination.OBOL
+					if strength >= 10:
+						denom = Denomination.DIOBOL
+					if strength >= 20:
+						denom = Denomination.TRIOBOL
+					coin_data.append([Global.choose_one(_neutral_monster_pool), denom])
 				
-				possibilities += combination_sum(strength, values, max_monsters)
-				for i in range(1, randomization_amount + 1):
-					possibilities += combination_sum(strength+i, values, max_monsters)
-					possibilities += combination_sum(strength-i, values, max_monsters)
-				print(possibilities)
+				# if the maximum monsters permitted plus neutrals randomized is > maximum possible (by space in row); reduce max_monsters to fit
+				if max_monsters + num_neutrals > MAX_ENEMIES:
+					max_monsters = MAX_ENEMIES - num_neutrals
+				if min_monsters > max_monsters: #clamp the min
+					min_monsters = max_monsters
 				
-				assert(possibilities.size() != 0)
-				if possibilities.size() == 0: # just some paranoid safety
-					return []
-				
-				# now choose a random possiblity and translate it into coin_data
-				var combination = Global.choose_one(possibilities)
-				for val in combination:
-					if strength_to_denom_standard.has(val):
-						coin_data.append([Global.choose_one(_standard_monster_pool), strength_to_denom_standard[val]])
-					else:
-						assert(strength_to_denom_elite.has(val))
-						coin_data.append([Global.choose_one(_elite_monster_pool), strength_to_denom_elite[val]])
+				# if we have ONLY neutral monsters, we're done
+				if max_monsters > 0:
+					# calculate all possible combinations...
+					var possibilities = []
+					possibilities += combination_sum(strength, values, min_monsters, max_monsters)
+					
+					# do this for also +/- randomization amount for a bit more variety and safety
+					for i in range(1, randomization_amount + 1):
+						possibilities += combination_sum(strength+i, values, min_monsters, max_monsters)
+						possibilities += combination_sum(strength-i, values, min_monsters, max_monsters)
+					print(possibilities)
+					
+					# if we absolutely cannot find anything in the desired range, start going up/down until we find SOMETHING possible
+					var force = randomization_amount
+					while possibilities.size() == 0: 
+						force += 1
+						possibilities += combination_sum(strength + force, values, min_monsters, max_monsters)
+						possibilities += combination_sum(strength - force, values, min_monsters, max_monsters)
+					
+					# now choose a random combination and translate it into coin_data, rolling specific monster types
+					var combination = Global.choose_one(possibilities)
+					print(combination)
+					for val in combination:
+						if strength_to_denom_standard.has(val):
+							coin_data.append([Global.choose_one(_standard_monster_pool), strength_to_denom_standard[val]])
+						else:
+							assert(strength_to_denom_elite.has(val))
+							coin_data.append([Global.choose_one(_elite_monster_pool), strength_to_denom_elite[val]])
+	print(coin_data)
 	return coin_data
 
 # returns an array of arrays of combinations of 'values' that make up 'target' when summed.
 # max_length - reject combinations larger than this size
 # warning - doesn't work with negative numbers
-func combination_sum(target: int, values: Array, max_length: int) -> Array:
+func combination_sum(target: int, values: Array, min_length: int, max_length: int) -> Array:
 	var answers = []
-	_combination_sum_recur([], target, values, max_length, answers)
+	_combination_sum_recur([], target, values, min_length, max_length, answers)
 	return answers
 
-func _combination_sum_recur(combination: Array, remaining: int, values: Array, max_length: int, answers: Array):
+func _combination_sum_recur(combination: Array, remaining: int, values: Array, min_length: int, max_length: int, answers: Array):
 	if remaining < 0 or combination.size() > max_length: #this isn't a valid answer
 		return
 	if remaining == 0: #we found an answer
+		if combination.size() < min_length: #too long... not a true answer
+			return
 		answers.append(combination)
 		return
 	
@@ -904,7 +946,7 @@ func _combination_sum_recur(combination: Array, remaining: int, values: Array, m
 	for val in values:
 		if val > remaining:
 			continue
-		_combination_sum_recur([] + combination + [val], remaining - val, values, max_length, answers)
+		_combination_sum_recur([] + combination + [val], remaining - val, values, min_length, max_length, answers)
 
 func is_current_round_trial() -> bool:
 	var rtype = current_round_type()
@@ -1080,26 +1122,26 @@ var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [0, 0, 0, 0, 0, 0], PowerType.POWER_TARGETTING, "res://assets/icons/arrow_icon.png", ONLY_SHOW_ICON)
 
 var MONSTER_POWER_FAMILY_HELLHOUND = PowerFamily.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_IGNITE_SELF, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/kobalos_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/arae_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/kobalos_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/arae_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
 
 var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (LUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LUCKY, "res://assets/icons/monster/centaur_heads_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/centaur_tails_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/monster/stymphalian_birds_icon.png", ONLY_SHOW_ICON)
 
-var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) a coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_IGNITE, "res://assets/icons/monster/chimera_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) a coin.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_IGNITE, "res://assets/icons/monster/chimera_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each (TAILS) coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_FREEZE_TAILS, "res://assets/icons/monster/siren_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SIREN_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your (LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_HALVE_LIFE, "res://assets/icons/monster/basilisk_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SIREN_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 3, 3, 4], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_HALVE_LIFE, "res://assets/icons/monster/basilisk_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
 
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), downgrade the most valuable coin.", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_DOWNGRADE_MOST_VALUABLE, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PowerFamily.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), downgrade the most valuable coin.", [2, 2, 2, 2, 3, 3], PowerType.PAYOFF_DOWNGRADE_MOST_VALUABLE, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_EURYALE_STONE = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/euryale_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/nemesis/unlucky_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [2, 2, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/nemesis/unlucky_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn (CURRENT_CHARGES) to (STONE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/stheno_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", ONLY_SHOW_ICON)
 const MISFORTUNE_QUANTITY = 2
@@ -1511,8 +1553,6 @@ enum _SpriteStyle {
 	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS, CHARONS
 }
 
-const NOT_APPEASEABLE_PRICE = -888
-
 class CoinFamily:
 	var id: int
 	
@@ -1663,8 +1703,9 @@ var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyo
 	CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
+const NOT_APPEASEABLE_PRICE = -888
 const STANDARD_APPEASE = [6, 10, 15, 21, 28, 35]
-const ELITE_APPEASE = [20, 25, 30, 35, 40, 45]
+const ELITE_APPEASE = [25, 30, 35, 40, 45, 50]
 const NEMESIS_MEDUSA_APPEASE = [35, 44, 52, 60, 68, 77]
 
 # stores a list of all monster coins and trial coins
@@ -1676,13 +1717,15 @@ const NEMESIS_MEDUSA_APPEASE = [35, 44, 52, 60, 68, 77]
 	TRIAL_IRON_FAMILY, TRIAL_MISFORTUNE_FAMILY, TRIAL_PAIN_FAMILY, TRIAL_BLOOD_FAMILY, TRIAL_EQUIVALENCE_FAMILY,
 	TRIAL_FAMINE_FAMILY, TRIAL_TORTURE_FAMILY, TRIAL_LIMITATION_FAMILY, TRIAL_COLLAPSE_FAMILY, TRIAL_SAPPING_FAMILY, TRIAL_OVERLOAD_FAMILY]
 
+# standard monsters
 var MONSTER_FAMILY = CoinFamily.new(1000, "[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", NO_UNLOCK_TIP, NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(1001, "[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_ARAE_FAMILY = CoinFamily.new(1003, "[color=gray]Arae[/color]", "[color=purple]Encumber With Guilt[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+# neutral monsters
 var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE_INCREASED, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 # elite monsters
 var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", NO_UNLOCK_TIP, NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)

@@ -1026,7 +1026,7 @@ func _advance_round() -> void:
 				# helper lambda
 				var show_tooltip_and_wait = func(tooltip_string, tooltip_pos) -> void:
 					var tooltip = UITooltip.create_manual(tooltip_string, tooltip_pos, get_tree().root)
-					await Global.delay(0.25)
+					await Global.delay(0.1)
 					await Global.left_click_input
 					tooltip.destroy_tooltip()
 				
