@@ -2,16 +2,17 @@
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Weekend**
 		- [ ] Make the color filters on nemesis and trial oscillate a bit in color
-		- [ ] Nemesis icon on map - outline glows purple
-		- [ ] Trial icons on map - outline glows red
-			- [ ] also nemesis abilities
+		- [ ] Monsters with payoff still need to show their icons in the tooltip.
 		- [ ] **Implementing Difficulties**
 			- [ ] Hostile - Malice
 		- [ ] **Malice**
 			- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
+			- [ ] Trigger point - Immediately after using a power. Remove control from player (disable active ability, ignore clicks). Slam firsts on table. Shout "Enough!" (wait) "It's my turn now!". Wait for any unresolved coin flips to finish. Then perform Malice ability.
 			- [ ] Increases when you land heads from a toss flip; trigger a god power, or payoff a coin on heads. 
+			- [ ] Increases slightly faster at level 2 Ante and slighty faster still at level 3 Ante. Increases even faster during Trials specifically (probably 2x)
 			- [ ] Decreased when you end the round (by half).
 			- [ ] Decreases to 0 after Charon activates.
+			- [ ] If above 100 after payoff, decrease to 90 or so (essentially, don't trigger immediately at the start of the following round!)
 			- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
 				- [ ] Indicator at 50%, 70%, and 90%.
 			- [ ] **Malice effect ideas:**

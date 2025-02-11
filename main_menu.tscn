@@ -48,6 +48,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -178,6 +184,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0.537255, 0.290196, 0.870588, 1)
 shader_parameter/tint_strength = 0.605
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -307,6 +319,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0.0470588, 0.552941, 1, 1)
 shader_parameter/tint_strength = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -537,7 +555,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g51pg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pfuyv"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -564,6 +582,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -875,7 +899,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6dx24"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uc1xn"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -902,6 +926,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -996,7 +1026,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1gpdc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hcf3b"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1023,6 +1053,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -1425,7 +1461,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_g51pg")
+material = SubResource("ShaderMaterial_pfuyv")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1716,12 +1752,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_6dx24")
+material = SubResource("ShaderMaterial_uc1xn")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_1gpdc")
+material = SubResource("ShaderMaterial_hcf3b")
 layout_mode = 2
 default_text = " Quit "
 

@@ -68,10 +68,19 @@ uniform vec3 replace_color4: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color4: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_color5: source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 replace_with_color5: source_color = vec3(0.0, 0.0, 0.0);
-
 // special extra uniform specifically intended to recolor outlines
 uniform vec3 replace_color_outline: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 replace_with_color_outline: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392);
+
+// RECOLOR OSCILLATE
+// Pixels of replace_color_oscillate_from oscillate between their original color and replace_color_oscillate_to at replace_color_oscillate_speed.
+group_uniforms RecolorOscillate;
+uniform vec3 auto_replace_color: source_color = vec3(0.0, 0.0, 0.0);
+uniform bool auto_replace_replace_original_color = false;
+uniform vec3 auto_replace_replace_original_color_with: source_color = vec3(0.0, 0.0, 0.0);
+uniform vec3 auto_replace_to_color: source_color = vec3(0.0, 0.0, 0.0);
+uniform float auto_replace_speed: hint_range(0.0, 30.0) = 0.0;
+uniform float auto_replace_start_time = 0.0;
 
 // TINT
 // Tint the texture with tint_color.
@@ -355,6 +364,13 @@ void fragment()
 		COLOR.rgb = replace_with_color5;
 	if (vec3eq(COLOR.rgb, replace_color_outline))
 		COLOR.rgb = replace_with_color_outline;
+	
+	if (vec3eq(COLOR.rgb, auto_replace_color)) {
+		vec3 replaced = auto_replace_color;
+		if (auto_replace_replace_original_color)
+			replaced = auto_replace_replace_original_color_with;
+		COLOR.rgb  = mix(replaced, auto_replace_to_color, abs(vary0to1((TIME-auto_replace_start_time + TIME_OFFSET) * auto_replace_speed)));
+	}
 	
 	// TINT, COLOR CORRECTION, and SCANLINE ignore excluded colors
 	if (!is_exclude_color) {

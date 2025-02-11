@@ -39,12 +39,13 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
-@onready var _SPECIAL_TINT_FX = $SpecialTint/FX
-const _SPECIAL_TINT_TIME = 0.25
-const _SPECIAL_TINT_ALPHA = 0.1
-const _SPECIAL_TINT_TRIAL = Color("#ea4d5e")
-const _SPECIAL_TINT_NEMESIS = Color("#6f56fd")
-const _SPECIAL_TINT_CHARON = Color("#2a0581")
+
+
+@onready var _TRIAL_TINT_FX = $TrialTint/FX
+@onready var _NEMESIS_TINT_FX = $NemesisTint/FX
+@onready var _CHARON_TINT_FX = $CharonTint/FX
+const _TINT_TIME = 0.25
+const _TINT_ALPHA = 0.1
 @onready var _CHARON_FOG_FX = $CharonFog/FX
 
 @onready var _FOG_FX = $Fog/FX
@@ -162,7 +163,10 @@ func _ready() -> void:
 	assert(_MAP_INITIAL_POINT)
 	
 	assert(_CHARON_FOG_FX)
-	assert(_SPECIAL_TINT_FX)
+	assert(_TRIAL_TINT_FX)
+	assert(_NEMESIS_TINT_FX)
+	assert(_CHARON_TINT_FX)
+	
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
 	assert(_TUTORIAL_FADE_FX)
@@ -174,8 +178,13 @@ func _ready() -> void:
 	_TRIAL_EMBERS_PARTICLES.emitting = false
 	
 	_CHARON_FOG_FX.get_parent().show() # this is dumb but I want to hide the fog in editor...
+	_TRIAL_TINT_FX.get_parent().show() # ...same for these tints!
+	_NEMESIS_TINT_FX.get_parent().show() # ...same for these tints!
+	_CHARON_TINT_FX.get_parent().show() # ...same for these tints!
 	_CHARON_FOG_FX.hide()
-	_SPECIAL_TINT_FX.hide()
+	_TRIAL_TINT_FX.hide()
+	_NEMESIS_TINT_FX.hide()
+	_CHARON_TINT_FX.hide()
 	
 	_SHOP.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
 	_ENEMY_ROW.set_coin_spawn_point(_CHARON_NEW_COIN_POSITION)
@@ -259,18 +268,20 @@ func _on_state_changed() -> void:
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
 	
 	if Global.state == Global.State.SHOP:
-		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
+		_TRIAL_TINT_FX.fade_out(_TINT_TIME)
+		_NEMESIS_TINT_FX.fade_out(_TINT_TIME)
+		_CHARON_TINT_FX.fade_out(_TINT_TIME)
 		_TRIAL_EMBERS_PARTICLES.emitting = false
 	elif Global.is_current_round_trial():
-		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_TRIAL)
-		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+		_TRIAL_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
 		_TRIAL_EMBERS_PARTICLES.emitting = true
 	elif Global.is_current_round_nemesis():
-		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_NEMESIS)
-		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+		_NEMESIS_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
 		_TRIAL_EMBERS_PARTICLES.emitting = true
 	else:
-		_SPECIAL_TINT_FX.fade_out(_SPECIAL_TINT_TIME)
+		_TRIAL_TINT_FX.fade_out(_TINT_TIME)
+		_NEMESIS_TINT_FX.fade_out(_TINT_TIME)
+		_CHARON_TINT_FX.fade_out(_TINT_TIME)
 		_TRIAL_EMBERS_PARTICLES.emitting = false
 	
 	# remove fog in shop
@@ -282,7 +293,7 @@ func _on_state_changed() -> void:
 		_FOG_BLUE_FX.fade_in()
 	
 	if Global.state != Global.State.CHARON_OBOL_FLIP:
-		_CHARON_FOG_FX.fade_out(_SPECIAL_TINT_TIME)
+		_CHARON_FOG_FX.fade_out(_TINT_TIME)
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP and Global.tutorialState != Global.TutorialState.INACTIVE:
 		if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_COMPLETED:
@@ -335,9 +346,8 @@ func _on_state_changed() -> void:
 		_CHARON_COIN_ROW.get_child(0).turn()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("And now, on the edge of life and death...")
-		_CHARON_FOG_FX.fade_in(_SPECIAL_TINT_TIME)
-		_SPECIAL_TINT_FX.tint(_SPECIAL_TINT_CHARON)
-		_SPECIAL_TINT_FX.fade_in(_SPECIAL_TINT_TIME, _SPECIAL_TINT_ALPHA)
+		_CHARON_FOG_FX.fade_in(_TINT_TIME)
+		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
 		_DIALOGUE.show_dialogue("You must toss!")
 		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:

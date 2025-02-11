@@ -18,7 +18,12 @@ enum Uniform {
 	VEC3_REPLACE_COLOR4, VEC3_REPLACE_WITH_COLOR4, 
 	VEC3_REPLACE_COLOR5, VEC3_REPLACE_WITH_COLOR5, 
 	VEC3_REPLACE_COLOR_OUTLINE, VEC3_REPLACE_WITH_COLOR_OUTLINE,
-
+	
+	VEC3_AUTO_REPLACE_COLOR, 
+	BOOL_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR, VEC3_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR_WITH,
+	VEC3_AUTO_REPLACE_TO_COLOR,
+	FLOAT_AUTO_REPLACE_SPEED, FLOAT_AUTO_REPLACE_START_TIME,
+	
 	VEC3_TINT_COLOR, FLOAT_TINT_STRENGTH,
 	
 	VEC3_FLASH_COLOR, FLOAT_FLASH_STRENGTH,
@@ -94,6 +99,13 @@ const _UNIFORM_TO_STR = {
 	Uniform.VEC3_REPLACE_COLOR_OUTLINE : "replace_color_outline", 
 	Uniform.VEC3_REPLACE_WITH_COLOR_OUTLINE : "replace_with_color_outline",
 	
+	Uniform.VEC3_AUTO_REPLACE_COLOR : "auto_replace_color",
+	Uniform.BOOL_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR : "auto_replace_replace_original_color",
+	Uniform.VEC3_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR_WITH : "auto_replace_replace_original_color_with",
+	Uniform.VEC3_AUTO_REPLACE_TO_COLOR : "auto_replace_to_color",
+	Uniform.FLOAT_AUTO_REPLACE_SPEED : "auto_replace_speed",
+	Uniform.FLOAT_AUTO_REPLACE_START_TIME : "auto_replace_start_time",
+
 	Uniform.VEC3_TINT_COLOR : "tint_color", 
 	Uniform.FLOAT_TINT_STRENGTH : "tint_strength",
 	
@@ -507,9 +519,26 @@ func stop_scanning(direction: ScanDirection) -> void:
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]
 	set_uniform(uniform_on, false)
 
+func start_auto_recolor(color: Color, with: Color, speed: float = 3.0, restart: bool = true, should_replace_original_color: bool = false, replace_original_with: Color = Color.BLACK) -> void:
+	assert(speed >= 0.0, "Speed is nonnegative")
+	
+	if restart:
+		set_uniform(Uniform.FLOAT_AUTO_REPLACE_START_TIME, START_TIME())
+	set_uniform(Uniform.VEC3_AUTO_REPLACE_COLOR, color)
+	set_uniform(Uniform.VEC3_AUTO_REPLACE_TO_COLOR, with)
+	set_uniform(Uniform.FLOAT_AUTO_REPLACE_SPEED, speed)
+	
+	set_uniform(Uniform.BOOL_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR, should_replace_original_color)
+	if should_replace_original_color:
+		set_uniform(Uniform.VEC3_AUTO_REPLACE_REPLACE_ORIGINAL_COLOR_WITH, replace_original_with)
+
+func stop_auto_recolor() -> void:
+	set_uniform(Uniform.FLOAT_AUTO_REPLACE_SPEED, 0.0)
+
 func stop_all() -> void:
 	stop_flashing()
 	stop_flickering()
 	stop_glowing()
 	for direction in ScanDirection.values():
 		stop_scanning(direction)
+	stop_auto_recolor()
