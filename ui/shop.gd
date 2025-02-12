@@ -117,6 +117,7 @@ func randomize_and_show_shop() -> void:
 		# if the denomination offered by the shop is unaffordable, attempt to downgrade it until it is affordable
 		while coin.get_denomination() != Global.Denomination.OBOL and coin.get_store_price() > Global.souls:
 			coin.downgrade(true)
+			coin.reset_power_uses() # bit clunky but if we don't do this, the rerolled coins will have +1 charge.
 
 func retract() -> void:
 	await _SHOP_ROW.retract(_coin_spawn_point)

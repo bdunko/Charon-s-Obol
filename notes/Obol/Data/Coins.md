@@ -1,10 +1,10 @@
 Unlockable coins + more coins
 - [ ] Payoff Coins
 	- [ ] NOTE - Power coins besides the basic one all have an icon and their heads face oscillates (fades) between showing the icon and showing the souls payoff for the coin.
-	- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-	- [ ] Icarus - Sun-scorched Wax - Shards based on number of heads; but if all heads, destroyed
+	- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+	- [x] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if all heads, destroyed
 	- [ ] Castor & Pollux - Paired coin. Whenever a power is used on one, also use it on the other. Whenever one is upgraded or destroyed, do the same to the other. Same for bless/curse and other statuses. Always lands on the same side as the other.
-	- [ ] Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
+	- [x] Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
 	- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 	- [ ] Daedalus - This coin can be infinitely upgraded and payoff increases each upgrade.
 	- [ ] Odysseus - Cannot be upgraded. At the end of each round, upgrades itself.
@@ -23,8 +23,8 @@ Unlockable coins + more coins
 	- [ ] ??? - Nullifying field - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff. 
 	- [ ] ??? - Crack this coin (1 charge). On the fifth crack, destroy and gain lots of souls.
 	- [ ] ??? - Every time this lands on tails, upgraded payout.
-	- [ ] Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
-	- [ ] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+	- [x] Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
+	- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
 	- [ ] ??? (payoff) - 1 soul per coin which has been destroyed or spent since the last payoff.
 	- [ ] ??? - 0/1/2/3 souls - Increased payoff by 2 each toss (resets at end of round)
 	- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
@@ -96,7 +96,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Every toss, change to a random god power.
 		- [ ] ??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
 		- [ ] ??? - Gain an exact copy of this coin.
-		- [ ]  ??? - One of the following, rotates every toss: Gain life. Gain souls. Recharge all other coins. Then destroy this coin. 
+		- [ ] ??? - One of the following, rotates every toss: Gain life. Gain souls. Recharge all other coins. Then destroy this coin. 
 		- [ ] ??? - Mantra coin - Charge this coin. Then if this coin has 10 or more charges, it transforms (for the round) into a coin with "doesn't flip; during this payoff, all payoffs are doubled" - then transforms back.
 		- [ ] ??? - Change the music. Slightly decrease Charon's malice. Many charges, cheap.
 		- [ ] ??? - Transform a coin into a generic Obol/Diobol/Triobol/Tetrobol for this toss.
@@ -169,10 +169,8 @@ Unlockable coins + more coins
 	- [ ] ??? - Upgrade a coin. Flip it to its tails side and curse it.
 	- [ ] ??? - Destroy a coin. Flip each adjacent coin to heads.
 	- [ ] ??? - Lose shards equal to a coin's tails penalty - flip that coin to heads.
-	- [ ] ??? - (No idea how to do this, but the idea - you no longer take damage from strain - feels like a good concept.)
 	- [ ] ??? - (no idea how) Choose a coin, it is permanently on heads.
 	- [ ] ??? - Flip this coin to tails. Flip its neighbors to heads and add 1/2/3/4 charges.
-	- [ ] ??? - Transform a coin into a generic Diobol.
 	- [ ] ??? - Reflip each coin in an odd/even position (leftmost coin is position 1). Changes every toss.
 	- [ ] ??? (payoff) - Payoff 1 soul + souls equal to the combined value of neighboring coins
 	- [ ] ??? - Flip each coin to its other side.
