@@ -253,7 +253,7 @@ var _freeze_ignite_state: _FreezeIgniteState:
 			_play_new_status_effect("res://assets/icons/status/freeze_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
 			FX.flash(Color.RED)
-			FX.tint(Color.RED, 0.8)
+			FX.tint(Color.RED, 0.7)
 			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			FX.clear_tint()
@@ -480,6 +480,8 @@ func upgrade() -> void:
 		assert(false, "Trying to upgrade a coin that we shouldn't.")
 		return
 	
+	var prev_denom = _denomination
+	
 	match(_denomination):
 		Global.Denomination.OBOL:
 			_denomination = Global.Denomination.DIOBOL
@@ -495,12 +497,24 @@ func upgrade() -> void:
 			_denomination = Global.Denomination.DRACHMA
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HADES)
-	_update_payoff_powers()
+	
+	# update charges to include the upgrade
+	var heads_charges_delta = _heads_power.power_family.uses_for_denom[_denomination] - _heads_power.power_family.uses_for_denom[prev_denom]
+	_heads_power.charges += heads_charges_delta
+	var tails_charges_delta = _tails_power.power_family.uses_for_denom[_denomination] - _tails_power.power_family.uses_for_denom[prev_denom]
+	_tails_power.charges += tails_charges_delta
+	
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
 	FX.flash(Color.GOLDENROD)
 
 func downgrade(no_flash: bool = false) -> void:
+	if _denomination == Global.Denomination.OBOL:
+		assert(false, "downgrading an obol")
+		return
+	
+	var prev_denom = _denomination
+	
 	match(_denomination):
 		Global.Denomination.DIOBOL:
 			_denomination = Global.Denomination.OBOL
@@ -508,23 +522,24 @@ func downgrade(no_flash: bool = false) -> void:
 			_denomination = Global.Denomination.DIOBOL
 		Global.Denomination.TETROBOL:
 			_denomination = Global.Denomination.TRIOBOL
-	_update_payoff_powers()
+		Global.Denomination.PENTOBOL:
+			_denomination = Global.Denomination.TETROBOL
+		Global.Denomination.DRACHMA:
+			_denomination = Global.Denomination.PENTOBOL
+		_:
+			assert(false, "no matching case?")
+			return
+	
+	# update charges to include the upgrade
+	var heads_charges_delta = _heads_power.power_family.uses_for_denom[_denomination] - _heads_power.power_family.uses_for_denom[prev_denom]
+	_heads_power.charges += heads_charges_delta
+	var tails_charges_delta = _tails_power.power_family.uses_for_denom[_denomination] - _tails_power.power_family.uses_for_denom[prev_denom]
+	_tails_power.charges += tails_charges_delta
+	
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
 	if not no_flash:
 		FX.flash(Color.DARK_GRAY)
-
-func _update_payoff_powers() -> void:
-	# immediately update specifically payoff powers...
-	# and if it's a lose life power, reapply athena bonuses
-	if _heads_power.power_family.is_payoff():
-		_heads_power.charges = _heads_power.power_family.uses_for_denom[_denomination]
-		if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-			_heads_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
-	if _tails_power.power_family.is_payoff():
-		_tails_power.charges = _tails_power.power_family.uses_for_denom[_denomination]
-		if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-			_tails_power.charges -= (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
 
 func is_passive() -> bool:
 	return get_active_power_family().is_passive()
@@ -938,7 +953,7 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 		var charges = max(0, current_charges)
 		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)
 		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
-		if charges != 0:
+		if charges != 0 and charges <= 10:
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
 		
