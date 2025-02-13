@@ -1,12 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Feb 16 Sprint**
 	- [ ] **Week**
-		- [ ] Monsters with payoff still need to show their icons in the tooltip.
-			- [ ] basically, payoff powers which are NOT life loss or soul payoffs must still have their icons. 
-		- [ ] Better handling of downgrades.
-			- [ ] When a coin is downgraded, it should lose charges IFF the downgrade has fewer charges. (ie going from 3 to 2 charges = -1 charge; going from 5 to 3 charges = -2 charge if possible). This allows monsters to be downgraded and have their charges reduced in the same action. Additionally, we must ensure that downgraded monsters have their tooltips updated/redrawn, because I bet right now they keep the old text...? actually that needs to be tested, since upgrading coins does work I think?
-				- [ ] This should also apply for upgrades. Upgrading should give charges corresponding to the delta between the original and the new denom.
-				- [ ] After we do this we can remove reset_power_uses from the shop.gd code.
 		- [ ] **Implementing Difficulties**
 			- [ ] Hostile - Malice
 		- [ ] **Malice**

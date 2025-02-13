@@ -946,6 +946,9 @@ const NUMERICAL_ADVERB_DICT = {
 	10 : "Ten times"
 }
 func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_charges: int = -100000) -> String:
+	assert((max_charges != -100000 and current_charges != -100000) or (max_charges == -100000 and current_charges == -100000),\
+		"If you provide either a max charges or current charges, you have to pass both (probably accidentally passed only 1 optional param)")
+	
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if max_charges != -100000:
 		txt = txt.replace("(MAX_CHARGES)", str(max(0, max_charges)))
@@ -1003,10 +1006,29 @@ func _generate_tooltip() -> void:
 		var heads_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		var tails_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
-		# N/N(icon)->
+		# N/N(icon)->   OR for certain powers,   N(icon)->
+		var heads_power = ""
+		var tails_power = ""
+		
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
-		var heads_power = "" if not _heads_power.power_family.is_power() else _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_power = "" if not _tails_power.power_family.is_power() else _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		if _heads_power.power_family.is_power():
+			heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		if _tails_power.power_family.is_power():
+			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		
+		const PAYOFF_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
+		const PAYOFF_FORMAT_ONE_CHARGE = "[img=10x13]%s[/img](POWERARROW)"
+		var exclude_powers = [Global.PowerType.PAYOFF_GAIN_SOULS, Global.PowerType.PAYOFF_LOSE_SOULS, Global.PowerType.PAYOFF_LOSE_LIFE]
+		if _heads_power.power_family.is_payoff() and not _heads_power.power_family in exclude_powers:
+			if _heads_power.power_family.uses_for_denom[_denomination] <= 1:
+				heads_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % _heads_power.power_family.icon_path)
+			else:
+				heads_power = _replace_placeholder_text(PAYOFF_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		if _tails_power.power_family.is_payoff() and not _tails_power.power_family in exclude_powers:
+			if _tails_power.power_family.uses_for_denom[_denomination] <= 1:
+				tails_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % tails_power.power_family.icon_path)
+			else:
+				tails_power = _replace_placeholder_text(PAYOFF_FORMAT % _tails_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"

@@ -230,15 +230,15 @@ func is_difficulty_active(diff_level: Difficulty) -> bool:
 func difficulty_tooltip_for(diff: Difficulty) -> String:
 	match diff:
 		Difficulty.INDIFFERENT1:
-			return "Charon is Indifferent\nThe base difficulty."
+			return "[color=purple]Charon is Indifferent[/color]\nThe base difficulty level."
 		Difficulty.HOSTILE2:
-			return "Charon is Hostile\nCharon may occasionally unleash his Malice."
+			return "[color=purple]Charon is Hostile[/color]\nCharon may occasionally unleash his Malice."
 		Difficulty.CRUEL3:
-			return "Charon is Cruel\nTrials have two modifiers.\nTrial soul quotas are higher."
+			return "[color=purple]Charon is Cruel[/color]\nTrials have two modifiers.\nTrial soul quotas are higher."
 		Difficulty.GREEDY4:
-			return "Charon is Greedy\nCoins are more expensive.\nTollgates require a larger payment."
+			return "[color=purple]Charon is Greedy[/color]\nCoins are more expensive.\nTollgates require a larger payment."
 		Difficulty.UNFAIR5:
-			return "Charon is Unfair\nMonsters are stronger and more numerous.\nThe Nemesis is more powerful."
+			return "[color=purple]Charon is Unfair[/color]\nMonsters are stronger and more numerous.\nThe Nemesis is more powerful."
 	assert(false, "shouldn't happen..")
 	return ""
 
