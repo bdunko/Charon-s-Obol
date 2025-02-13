@@ -5,14 +5,26 @@
 			- [ ] Hostile - Malice
 		- [ ] **Malice**
 			- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
-			- [ ] Trigger point - Immediately after using a power. Remove control from player (disable active ability, ignore clicks). Slam firsts on table. Shout "Enough!" (wait) "It's my turn now!". Wait for any unresolved coin flips to finish. Then perform Malice ability.
-			- [ ] Increases when you land heads from a toss flip; trigger a god power, or payoff a coin on heads. 
-			- [ ] Increases slightly faster at level 2 Ante and slighty faster still at level 3 Ante. Increases even faster during Trials specifically (probably 2x)
-			- [ ] Decreased when you end the round (by half).
-			- [ ] Decreases to 0 after Charon activates.
-			- [ ] If above 100 after payoff, decrease to 90 or so (essentially, don't trigger immediately at the start of the following round!)
+			- [ ] Graphical effect when Malice activates:
+				- [ ] Slams fist.
+				- [ ] Fog
+				- [ ] Screen shake
+				- [ ] Enough!
+				- [ ] It's my turn now!
+				- [ ] (do effect)
+				- [ ] malice = 0, return control
+			- [ ] Ensure that we don't get any buggy behavior - possibly wait for any pending flips to finish before resolving malice attack.
+			- [ ] Increases...
+				- [ ] When a coin pays off souls on heads
+				- [x] When you use a power.
+				- [x] At the end of each round.
+			- [x] Increases slightly faster at level 2 Ante and slighty faster still at level 3 Ante. Increases even faster during Trials specifically (probably 2x)
+			- [x] Decreased when you end the round (by a lot).
+			- [x] Decreases to 0 after Charon activates.
+			- [x] If above 100 after payoff, decrease to 90 or so (essentially, don't trigger immediately at the start of the following round!)
 			- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
-				- [ ] Indicator at 50%, 70%, and 90%.
+				- [ ] Indicator at 50%, 70%, 80%, and 85%, 90%, 95%.
+				- [ ] Quick fade between effects, at discrete points.
 			- [ ] **Malice effect ideas:**
 				- [ ] Turn all payoffs to tails
 				- [ ] Turn half powers to tails
@@ -48,7 +60,6 @@
 				- [ ] (at 20+ flips) forcibly end the round.
 				- [ ] Give Obol of Thorns
 				- [ ] Summon monsters
-			- [ ] For now - Charon does not tell what he is going to do until he does it. You know he will do 'something', but not what that 'something' is. When Charon activates, he has a simplistic AI script which determines something painful (but not devastating) which he will do. 
 	- [ ] **Weekend**
 		- [ ] **Enhanced Monster Effects (Projectile animations)**
 			- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).

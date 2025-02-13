@@ -20,6 +20,7 @@ signal rerolls_changed
 signal souls_earned_this_round_changed
 signal tutorial_state_changed
 signal game_loaded
+signal malice_changed
 
 signal passive_triggered
 
@@ -68,7 +69,6 @@ class CharacterData:
 enum Character {
 	ELEUSINIAN, LADY, MERCHANT
 }
-
 
 class UnlockedDifficulty:
 	var character: Character
@@ -297,10 +297,28 @@ var flips_this_round: int:
 		emit_signal("flips_this_round_changed")
 		emit_signal("ante_changed")
 
+var powers_this_round: int:
+	set(val):
+		powers_this_round = val
+		emit_signal("powers_this_round_changed")
+
 var ante_modifier_this_round: int:
 	set(val):
 		ante_modifier_this_round = val
 		emit_signal("ante_changed")
+
+const MALICE_ACTIVATION_THRESHOLD_AFTER_POWER := 100
+const MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS := 95
+const MALICE_INCREASE_ON_POWER_USED := 0.5
+const MALICE_INCREASE_ON_TOSS_FINISHED := 10
+const MALICE_TRIAL_MULTIPLIER := 2.0
+const MALICE_MULTIPLIER_END_ROUND := 0.3
+var malice: float:
+	set(val):
+		if is_difficulty_active(Difficulty.HOSTILE2):
+			malice = val
+			print("malice = %d" % malice)
+			emit_signal("malice_changed")
 
 const COIN_TWEEN_TIME := 0.22
 
@@ -448,10 +466,11 @@ class Round:
 	var monsterWave: MonsterWave
 	var quota: float
 	var ante_formula: AnteFormula
+	var malice_multiplier: float
 	
 	var trialDatas: Array[TrialData]
 	
-	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, shopMult: float, tollCst: int, rndQuota: int, mWave: MonsterWave, anteForm: AnteFormula):
+	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, shopMult: float, tollCst: int, rndQuota: int, mWave: MonsterWave, anteForm: AnteFormula, maliceMult: float):
 		self.roundType = roundTyp
 		self.lifeRegen = lifeRegn
 		self.shopDenoms = shopDenms
@@ -461,6 +480,7 @@ class Round:
 		self.quota = rndQuota
 		self.trialDatas = []
 		self.ante_formula = anteForm
+		self.malice_multiplier = maliceMult
 	
 	func get_icons():
 		if trialDatas.size() == 0:
@@ -530,6 +550,11 @@ const _ANTE_LOW = AnteFormula.THREE_WITH_EXP
 const _ANTE_MID = AnteFormula.FIVE_WITH_EXP
 const _ANTE_HIGH = AnteFormula.SEVEN_WITH_EXP
 
+const _MALICE_NONE := 0.0
+const _MALICE_LOW := 1.0
+const _MALICE_MID := 1.5
+const _MALICE_HIGH := 2.0
+
 const _NOSHOP = []
 const _SHOP1 = [Denomination.OBOL]
 const _SHOP12 = [Denomination.OBOL, Denomination.DIOBOL]
@@ -556,128 +581,128 @@ const _SHOP_MULT9 = 5.0
 # STANDARD (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
 var _VOYAGE_STANDARD = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP123, _SHOP_MULT4, 0, 60, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 5, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT5,0, 0, _MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP123, _SHOP_MULT6,0, 0, _MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, _SHOP23, _SHOP_MULT7,0, 110, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP234, _SHOP_MULT8,0, 0, _MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT9,0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP123, _SHOP_MULT4, 0, 60, _MONSTER_WAVE_NONE, _ANTE_MID, _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 5, 0, _MONSTER_WAVE_NONE, _ANTE_MID, _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT5,0, 0, _MONSTER_WAVE3, _ANTE_MID, _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP123, _SHOP_MULT6,0, 0, _MONSTER_WAVE4, _ANTE_MID, _MALICE_MID),
+	Round.new(RoundType.TRIAL2, 100, _SHOP23, _SHOP_MULT7,0, 110, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP234, _SHOP_MULT8,0, 0, _MONSTER_WAVE5, _ANTE_HIGH, _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT9,0, 0, _MONSTER_WAVE6, _ANTE_HIGH, _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH)
 ]
  
 # VARIANT (2 Gate - 2 Trial [12])
 # NNNGNN1GNN2B
 var _VOYAGE_VARIANT = [ 
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 4, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 80, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 9, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9,0 , 130, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 4, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE3, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE4, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 80, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 9, 0, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE5, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9,0 , 130, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH)
 ]
 	
 # BACKLOADED (2 Gate - 3 Trial [111])
 # NNNN1GN1GN1B 
 var _VOYAGE_BACKLOADED = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT5, 0, 70, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 6, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, _SHOP34, _SHOP_MULT7, 0, 100, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 7, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL1, 100, _SHOP34, _SHOP_MULT9, 0, 130, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT,0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT,0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE4, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT5, 0, 70, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 6, 0, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE5, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP34, _SHOP_MULT7, 0, 100, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 7, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TRIAL1, 100, _SHOP34, _SHOP_MULT9, 0, 130, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT,0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT,0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH)
 ]
 
 # PARTITION (1 Gate - 2 Trial [22])
 # NNNN2GNNN2B
 var _VOYAGE_PARTITION = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE3, _ANTE_LOW),
-	Round.new(RoundType.TRIAL2, 100, _SHOP23, _SHOP_MULT5, 0, 60, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT,10, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE5, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9, 0, 120, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0,  _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE3, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL2, 100, _SHOP23, _SHOP_MULT5, 0, 60, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT,10, 0, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE4, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE5, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9, 0, 120, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0,  _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH)
 ]
 
 # FRONTLOAD - (1 Gate - 3 Trial [112])
 # NN1NN1GNN2B
 var _VOYAGE_FRONTLOAD = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP12, _SHOP_MULT3, 0, 40, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE2, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 70, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 11, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE4, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100,_SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9, 0, 120, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP12, _SHOP_MULT3, 0, 40, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE2, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE3, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 70, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 11, 0, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT7, 0, 0, _MONSTER_WAVE4, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100,_SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT9, 0, 120, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH)
 ]
 
 # INTERSPERSED - (3 Gate - 2 Trial [12)
 # NNGN1NGN2NGNB
 var _VOYAGE_INTERSPERSED = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 2, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT4, 0, 50, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE3, _ANTE_MID),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 5, 0, _MONSTER_WAVE_NONE, _ANTE_MID),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE4, _ANTE_MID),
-	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT7, 0, 100, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE5, _ANTE_HIGH),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT9, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH),
-	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH),
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 2, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT4, 0, 50, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE3, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 5, 0, _MONSTER_WAVE_NONE, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT6, 0, 0, _MONSTER_WAVE4, _ANTE_MID,  _MALICE_MID),
+	Round.new(RoundType.TRIAL2, 100, _SHOP34, _SHOP_MULT7, 0, 100, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT8, 0, 0, _MONSTER_WAVE5, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NORMAL, 100, _SHOP34, _SHOP_MULT9, 0, 0, _MONSTER_WAVE6, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH),
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH,  _MALICE_HIGH)
 ]
 
 # TUTORIAL (2 Gate - 2 Trial [12])
 # NNN1GNN2GNNB
 var _VOYAGE_TUTORIAL = [
-	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), 
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT2, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE_TUTORIAL1, _ANTE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE_TUTORIAL2, _ANTE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 70, _MONSTER_WAVE_NONE, _ANTE_LOW),
-	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_LOW), #8 is intentional to prevent possible bugs, don't increase
-	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW)
+	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT2, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE_TUTORIAL1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE_TUTORIAL2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 70, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), #8 is intentional to prevent possible bugs, don't increase
+	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW)
 ]
 
 const NUM_STANDARD_MONSTERS = 4
@@ -767,6 +792,9 @@ func _current_round_shop_denoms() -> Array:
 
 func current_round_ante_formula() -> AnteFormula:
 	return VOYAGE[round_count-1].ante_formula
+
+func current_round_malice_multiplier() -> float:
+	return VOYAGE[round_count-1].malice_multiplier * (MALICE_TRIAL_MULTIPLIER if is_current_round_trial() else 1.0)
 
 func current_round_shop_multiplier() -> float:
 	var diff_addition = 0

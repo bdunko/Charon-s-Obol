@@ -99,6 +99,11 @@ func _on_text_submitted(txt):
 			success = false
 		else:
 			Global.arrows += int(args[1])
+	elif cmd == "malice":
+		if not args.size() == 2:
+			success = false
+		else:
+			Global.malice = max(0, int(args[1]))
 	elif cmd == "kill":
 		Global.lives = -1
 	elif cmd == "clear" or cmd == "wipe" or cmd == "destroy" or cmd == "clearall" or cmd == "destroyall":

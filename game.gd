@@ -437,6 +437,7 @@ func on_start() -> void: #reset
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
+	Global.malice = 0
 	
 	Global.state = Global.State.BOARDING
 	
@@ -894,6 +895,19 @@ func _on_accept_button_pressed():
 		await _tutorial_fade_out()
 		Global.tutorialState = Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN
 	
+	#MALICETODO
+	# if malice is >= 95.0 before increase, go ahead and activate with a post-toss malice effect.
+	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS:
+		await _wait_for_dialogue("Activate Malice After Toss!")
+		_PLAYER_TEXTBOXES.make_invisible()
+		# do stuff
+		Global.malice = 0.0
+	else:
+		# increase by 10 but cap at 95
+		Global.malice = min(Global.MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS,\
+			Global.malice + (Global.MALICE_INCREASE_ON_TOSS_FINISHED * Global.current_round_malice_multiplier()))
+	
+	
 	_enable_interaction_coins_and_patron()
 	_enable_or_disable_end_round_textbox()
 	_PLAYER_TEXTBOXES.make_visible()
@@ -1134,6 +1148,9 @@ func _on_end_round_button_pressed():
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
 	
+	# reduce accumulated malice significantly (mult by 0.3)
+	Global.malice *= Global.MALICE_MULTIPLIER_END_ROUND
+	
 	# First round skip + pity - advanced players may skip round 1 for base 20 souls; unlucky players are brought to 20
 	var first_round = Global.round_count == Global.FIRST_ROUND
 	const bad_luck_souls_first_round = 15
@@ -1163,6 +1180,7 @@ func _on_end_round_button_pressed():
 		_advance_round()
 		return
 	
+	Global.powers_this_round = 0
 	Global.flips_this_round = 0
 	Global.ante_modifier_this_round = 0
 	
@@ -2035,6 +2053,7 @@ func _on_coin_clicked(coin: Coin):
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
 		coin.play_power_used_effect(Global.active_coin_power_family)
+		Global.powers_this_round += 1
 		if not spent_power_use:
 			Global.active_coin_power_coin.spend_power_use()
 		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
@@ -2044,6 +2063,17 @@ func _on_coin_clicked(coin: Coin):
 		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
 			Global.active_coin_power_family = null
+		
+		# MALICETODO
+		Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
+		if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
+			_disable_interaction_coins_and_patron()
+			_map_is_disabled = false
+			await _wait_for_dialogue("Activate Malice After Power!")
+			_PLAYER_TEXTBOXES.make_invisible()
+			# do stuff
+			_PLAYER_TEXTBOXES.make_visible()
+			Global.malice = 0.0
 	
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
@@ -2087,6 +2117,7 @@ func _on_coin_clicked(coin: Coin):
 			if not spent_use:
 				coin.spend_power_use()
 			coin.play_power_used_effect(coin.get_active_power_family())
+			Global.powers_this_round += 1
 		else: # otherwise, make this the active coin and coin power and await click on target
 			# prevent reactivating the coin after deactivating
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:

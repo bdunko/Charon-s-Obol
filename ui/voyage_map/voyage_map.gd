@@ -69,7 +69,7 @@ func update_tooltips() -> void:
 					var tooltip2 = Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[1].name, rnd.trialDatas[1].description, Global.get_quota(rnd)])
 					_add_node(VoyageNode.VoyageNodeType.TRIAL, [tooltip1, tooltip2], 0, rnd.get_icons())
 				else:
-					_add_node(VoyageNode.VoyageNodeType.TRIAL, [Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)])], 0, rnd.get_icons())
+					_add_node(VoyageNode.VoyageNodeType.TRIAL, [Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)])], 0, [rnd.get_icons()[0]])
 			Global.RoundType.NEMESIS:
 				_add_node(VoyageNode.VoyageNodeType.NEMESIS, [_NEMESIS_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description]], 0, rnd.get_icons())
 			Global.RoundType.END:

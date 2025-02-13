@@ -1019,12 +1019,12 @@ func _generate_tooltip() -> void:
 		const PAYOFF_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		const PAYOFF_FORMAT_ONE_CHARGE = "[img=10x13]%s[/img](POWERARROW)"
 		var exclude_powers = [Global.PowerType.PAYOFF_GAIN_SOULS, Global.PowerType.PAYOFF_LOSE_SOULS, Global.PowerType.PAYOFF_LOSE_LIFE]
-		if _heads_power.power_family.is_payoff() and not _heads_power.power_family in exclude_powers:
+		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.power_type in exclude_powers:
 			if _heads_power.power_family.uses_for_denom[_denomination] <= 1:
 				heads_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % _heads_power.power_family.icon_path)
 			else:
 				heads_power = _replace_placeholder_text(PAYOFF_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		if _tails_power.power_family.is_payoff() and not _tails_power.power_family in exclude_powers:
+		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.power_type in exclude_powers:
 			if _tails_power.power_family.uses_for_denom[_denomination] <= 1:
 				tails_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % tails_power.power_family.icon_path)
 			else:
