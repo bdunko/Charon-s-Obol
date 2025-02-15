@@ -4,18 +4,30 @@
 		- [ ] **Implementing Difficulties**
 			- [ ] Hostile - Malice
 		- [ ] **Malice**
-			- [ ] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
+			- [x] Basically a counter which increments when Charon is mad, once it peaks, do a negative thing and reset the counter.
 			- [ ] Graphical effect when Malice activates:
 				- [ ] Slams fist.
 				- [ ] Fog
 				- [ ] Screen shake
-				- [ ] Enough!
-				- [ ] It's my turn now!
-				- [ ] (do effect)
+				- [ ] Enough! (wait; bit of a global delay here before you can advance? don' want mashing through - need some refactor in dialogue to do that, but very possible)
+				- [ ] (first time only)
+					- [ ] So, you think yourself clever?
+					- [ ] You think you can beat me at my own game?
+					- [ ] I think not. 
+					- [ ] Allow me to show you...
+					- [ ] ...just how powerless you truly are!
+				- [ ] (future times)
+					- [ ] You dare stand against me? (wait)
+				- [ ] (do effect, voice line while doing it).
+				- [ ] (first time only)
+					- [ ] You look rather surprised.
+					- [ ] I never said I would play fair.
+				- [ ] What will you do now? (wait)
+				- [ ] Entertain me. (no wait)
 				- [ ] malice = 0, return control
 			- [ ] Ensure that we don't get any buggy behavior - possibly wait for any pending flips to finish before resolving malice attack.
 			- [ ] Increases...
-				- [ ] When a coin pays off souls on heads
+				- [x] When a coin pays off souls on heads
 				- [x] When you use a power.
 				- [x] At the end of each round.
 			- [x] Increases slightly faster at level 2 Ante and slighty faster still at level 3 Ante. Increases even faster during Trials specifically (probably 2x)
@@ -23,43 +35,43 @@
 			- [x] Decreases to 0 after Charon activates.
 			- [x] If above 100 after payoff, decrease to 90 or so (essentially, don't trigger immediately at the start of the following round!)
 			- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
-				- [ ] Indicator at 50%, 70%, 80%, and 85%, 90%, 95%.
+				- [ ] Indicator at 50%, 75%, 90%, 95%.
+					- [ ] each stage should feel visually discrete
+					- [ ] 50% - dark wind particles coming off of charon...
+					- [ ] 75% - more particles from charon, faster, add another color
+					- [ ] 90% - hands start glowing
+					- [ ] 95% - glowing very fast
+					- [ ] all levels - more/faster particles
 				- [ ] Quick fade between effects, at discrete points.
+			- [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
 			- [ ] **Malice effect ideas:**
-				- [ ] Turn all payoffs to tails
-				- [ ] Turn half powers to tails
-				- [ ] Reflip all coins
-				- [ ] Drain power charges
-				- [ ] Curse a coin
-				- [ ] Unlucky a coin
-				- [ ] Ignite a coin
-				- [ ] Freeze coins on tails
-				- [ ] Clear positive statuses
-				- [ ] Summon a monster
-				- [ ] Blank a coin
-				- [ ] Increase tails penalty
-				- [ ] Give Obol of Thorns. (what happens if row is full? maybe just skips to next attack in rotation)
-				- [ ] Sap - Coin does not naturally recharge each toss.
-				- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
-				- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
-				- [ ] Reflip some heads coins.
-				- [ ] Curse some coins.
-				- [ ] Turn a coin to stone.
-				- [ ] Ignite a coin.
-				- [ ] Turn a coin to glass.
-				- [ ] Blank a coin for the rest of the round.
-				- [ ] Flip a heads coin to tails.
-				- [ ] Give an Obol of Thorns.
-				- [ ] Freeze a coin on tails.
-				- [ ] Summon a monster. (maybe do this instead of monster encounter rounds, just have Charon regularly summon monsters over time)
-				- [ ] Downgrade a coin.
-				- [ ] Deal some damage.
-				- [ ] Extinguish Prometheus flame. (maybe half the stacks)
-				- [ ] Tap a coin - whenever a power on that coin is used, lose life.
-				- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
-				- [ ] (at 20+ flips) forcibly end the round.
-				- [ ] Give Obol of Thorns
-				- [ ] Summon monsters
+				- [ ] Goal - do something that doesn't totally wipe you out, but feels mean and targetted.
+				- [ ] Charon should only do a single, impactful ability - not multiple smaller things.
+				- [ ] Each ability should have a corresponding line of Charon's exclaimation of anger.
+				- [ ] Future improvement - we could look at the coins in the row, categorize them by power type, and base decisions on that
+					- [ ] if zeus/artemis is in row - more likely to unlucky
+					- [ ] if hades is in row - don't bother with obols of thorns
+					- [ ] if heph is in row - more likely to downgrade
+					- [ ] if poseidon is row - more likely to ignite or target it specifically (lol)
+					- [ ] if hestia is in row - more likely to curse and unlucky
+					- [ ] let's not do this for now, but keep it in mind if the basic AI below is insufficeint. We could add a tagging system to powers, then count up powers matching each tag by scannign coin row when deciding behavior. Then we can factor that into the decision.
+				- [ ] Abilities for post-payoff
+					- [ ] Apply Unlucky to half coins (odds increased for Lucky coins; odds also increased based on arrows)
+					- [ ] Apply Ignite half coins (odds increased for coins frozen on heads; also increased if the round count and life count is high (ie counter healing stall))
+					- [ ] Curse coins. (odds increased for coins on heads or blessed; odds increased for coins of high denoms; aims for coins on heads and of high denom)
+					- [ ] Increase tails penalty (odds increased for each coin on tails)
+					- [ ] Give an Obol of Thorns. (odds increased based on having empty spaces in row; don't do this unless the player has <=8 coins. ie don't lock the last slot)
+					- [ ] Turn several power coins to stone (prefer to target power coins with charges)
+					- [ ] Strengthen monsters (odds increased based on rounds passed; require 2+ monsters; ie punish for not clearing them; increase their denoms by 1).
+					- [ ] Wipe all positive statuses (odds increaed based on number of positive statuses; must be above 1.3 per coin to activate at all)
+				- [ ] Abilities for post-power
+					- [ ] Turn all payoffs to tails. (odds increased for payoffs on heads. Minimum 2 coins turned.)
+					- [ ] Drain power charges from all (odds increased for power coins on heads with 2+ charges. Minimum 3 coins drained.)
+					- [ ] Spawn 2-3 monsters (odds increased based on monsters killed this round; delta between this round's monster strength and row's current strength; only if 2 or fewer monsters; monster denoms based on round strength). 
+					- [ ] Reflip all coins on heads. (odds increased based on coins on heads, but only if 2/3rd of coins are on heads)
+					- [ ] Freeze coins on tails (odds increased for coins on tails, but only if half coins are on heads.)
+					- [ ] Blank, curse, freeze, unlucky a single coin (odds increased for a powerful high denom power coin on heads; aims for the most powerful coin; basically screw this coin)
+					- [ ] Downgrade some coins (odds increased based on having many more coins than the next tollgate, if there is one. can't hit obols, no destruction)
 	- [ ] **Weekend**
 		- [ ] **Enhanced Monster Effects (Projectile animations)**
 			- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
@@ -244,3 +256,10 @@ THIS WOULD BE GOOD AS A MONSTER
 ??? - Many charges - Change a random coin to its other side.
 
 
+- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+- [ ] Reflip some heads coins.
+
+- [ ] Tap a coin - whenever a power on that coin is used, lose life.
+- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
+- [ ] Sap - Coin does not naturally recharge each toss.

@@ -752,6 +752,7 @@ func _on_accept_button_pressed():
 					if payoff > 0:
 						payoff_coin.FX.flash(Color.AQUA)
 						_earn_souls(payoff)
+						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					payoff_coin.FX.flash(Color.DARK_BLUE)
 					_lose_souls(charges)
@@ -899,6 +900,9 @@ func _on_accept_button_pressed():
 	# if malice is >= 95.0 before increase, go ahead and activate with a post-toss malice effect.
 	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS:
 		await _wait_for_dialogue("Activate Malice After Toss!")
+		# TODO - more effects
+		for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), 2):
+			target.make_unlucky()
 		_PLAYER_TEXTBOXES.make_invisible()
 		# do stuff
 		Global.malice = 0.0
@@ -2071,7 +2075,8 @@ func _on_coin_clicked(coin: Coin):
 			_map_is_disabled = false
 			await _wait_for_dialogue("Activate Malice After Power!")
 			_PLAYER_TEXTBOXES.make_invisible()
-			# do stuff
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_HEADS), 2):
+				target.flip()
 			_PLAYER_TEXTBOXES.make_visible()
 			Global.malice = 0.0
 	
