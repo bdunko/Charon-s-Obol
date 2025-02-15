@@ -37,11 +37,10 @@
 			- [ ] Visual graphical effects to imply when Charon is getting angry - flames, particles, darkening screen, etc.
 				- [ ] Indicator at 50%, 75%, 90%, 95%.
 					- [ ] each stage should feel visually discrete
-					- [ ] 50% - dark wind particles coming off of charon...
-					- [ ] 75% - more particles from charon, faster, add another color
-					- [ ] 90% - hands start glowing
-					- [ ] 95% - glowing very fast
-					- [ ] all levels - more/faster particles
+					- [ ] 50% - dust particles start coming off charon. amount scales with maice. 
+					- [ ] 75% - dust particles become brighter in color
+					- [ ] 90% - hands start glowing purple
+					- [ ] 95% - glowing purple very fast
 				- [ ] Quick fade between effects, at discrete points.
 			- [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
 			- [ ] **Malice effect ideas:**

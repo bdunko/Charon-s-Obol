@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=88 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="2_82tsr"]
@@ -35,6 +35,8 @@
 [ext_resource type="Script" path="res://enemy_row.gd" id="24_cds23"]
 [ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
 [ext_resource type="Script" path="res://speedrun_timer.gd" id="34_5jlkt"]
+[ext_resource type="Texture2D" uid="uid://0ycixrey3lc3" path="res://assets/particles/hollow_spike.png" id="36_l5qg4"]
+[ext_resource type="Texture2D" uid="uid://c3kmtpo1q45xo" path="res://assets/particles/circle.png" id="36_lon5y"]
 
 [sub_resource type="Shader" id="Shader_yc8jt"]
 code = "// Ben's Uber Pixel Shader
@@ -5139,6 +5141,28 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
+[sub_resource type="Curve" id="Curve_ue0n8"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0752841, -1), 0.0, 0.0, 0, 0, Vector2(0.140625, 1), 0.0, 0.0, 0, 0, Vector2(0.272727, -1), 0.0, 0.0, 0, 0, Vector2(0.394886, 1), 0.0, 0.0, 0, 0, Vector2(0.53125, -1), 0.0, 0.0, 0, 0, Vector2(0.610795, 1), 0.0, 0.0, 0, 0, Vector2(0.742898, -1), 0.0, 0.0, 0, 0, Vector2(0.81392, 1), 0.0, 0.0, 0, 0, Vector2(0.920455, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 11
+
+[sub_resource type="CurveTexture" id="CurveTexture_wm5f8"]
+curve = SubResource("Curve_ue0n8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t5ya3"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 100, 1)
+particle_flag_disable_z = true
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 110.0
+initial_velocity_max = 150.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+hue_variation_curve = SubResource("CurveTexture_wm5f8")
+
 [sub_resource type="Curve" id="Curve_i7mii"]
 min_value = -1.0
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0752841, -1), 0.0, 0.0, 0, 0, Vector2(0.140625, 1), 0.0, 0.0, 0, 0, Vector2(0.272727, -1), 0.0, 0.0, 0, 0, Vector2(0.394886, 1), 0.0, 0.0, 0, 0, Vector2(0.53125, -1), 0.0, 0.0, 0, 0, Vector2(0.610795, 1), 0.0, 0.0, 0, 0, Vector2(0.742898, -1), 0.0, 0.0, 0, 0, Vector2(0.81392, 1), 0.0, 0.0, 0, 0, Vector2(0.920455, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -5146,20 +5170,6 @@ point_count = 11
 
 [sub_resource type="CurveTexture" id="CurveTexture_m4xxc"]
 curve = SubResource("Curve_i7mii")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ds4rr"]
-emission_shape = 3
-emission_box_extents = Vector3(1, 100, 1)
-particle_flag_disable_z = true
-spread = 10.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 80.0
-initial_velocity_max = 100.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-hue_variation_min = -0.05
-hue_variation_max = 0.05
-hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1e2v"]
 emission_shape = 3
@@ -5172,6 +5182,55 @@ initial_velocity_max = 150.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 hue_variation_min = -0.1
+hue_variation_max = 0.1
+hue_variation_curve = SubResource("CurveTexture_m4xxc")
+
+[sub_resource type="Gradient" id="Gradient_3t6cd"]
+colors = PackedColorArray(0.737255, 0.290196, 0.607843, 1, 0.133333, 0.109804, 0.101961, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w2m7r"]
+gradient = SubResource("Gradient_3t6cd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m5kuv"]
+emission_shape = 1
+emission_sphere_radius = 11.82
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_w2m7r")
+
+[sub_resource type="Gradient" id="Gradient_6mqet"]
+offsets = PackedFloat32Array(0, 0.995807)
+colors = PackedColorArray(0.309804, 0.92549, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o567j"]
+gradient = SubResource("Gradient_6mqet")
+
+[sub_resource type="Curve" id="Curve_cwxbc"]
+max_value = 5.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_12aw4"]
+curve = SubResource("Curve_cwxbc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lkb7x"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+angular_velocity_max = 5.0
+orbit_velocity_min = 10.0
+orbit_velocity_max = 20.0
+scale_curve = SubResource("CurveTexture_12aw4")
+color_ramp = SubResource("GradientTexture1D_o567j")
 hue_variation_max = 0.1
 hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
@@ -7429,25 +7488,44 @@ limit_right = 320
 limit_bottom = 180
 
 [node name="Embers" type="GPUParticles2D" parent="."]
+visible = false
 modulate = Color(0.737255, 0.290196, 0.607843, 1)
 position = Vector2(-27, 86)
 amount = 16
-process_material = SubResource("ParticleProcessMaterial_ds4rr")
+process_material = SubResource("ParticleProcessMaterial_t5ya3")
 lifetime = 5.0
 preprocess = 5.0
 trail_lifetime = 3.5
 
 [node name="TrialEmbers" type="GPUParticles2D" parent="."]
+visible = false
 modulate = Color(0.737255, 0.290196, 0.607843, 1)
 position = Vector2(-27, 86)
-emitting = false
 amount = 64
 process_material = SubResource("ParticleProcessMaterial_r1e2v")
 lifetime = 5.0
 preprocess = 5.0
 trail_lifetime = 3.5
 
+[node name="MaliceDust" type="GPUParticles2D" parent="."]
+position = Vector2(159, -27)
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_m5kuv")
+texture = ExtResource("36_l5qg4")
+lifetime = 3.0
+preprocess = 5.0
+
+[node name="DeathSpiral" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_lkb7x")
+texture = ExtResource("36_lon5y")
+lifetime = 0.25
+trail_lifetime = 3.5
+
 [node name="Fog" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_a7o28")
 offset_right = 320.0
@@ -7458,6 +7536,7 @@ mouse_filter = 2
 script = ExtResource("7_4br5g")
 
 [node name="FogBlue" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_ruuci")
 offset_right = 320.0
@@ -7478,6 +7557,7 @@ mouse_filter = 2
 [node name="FX" parent="CharonFog" instance=ExtResource("6_gfndp")]
 
 [node name="TrialTint" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_6ippc")
 offset_right = 320.0
