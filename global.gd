@@ -12,6 +12,8 @@ signal active_coin_power_coin_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
 signal flips_this_round_changed
+signal powers_this_round_changed
+signal monsters_destroyed_this_round_changed
 signal ante_changed
 signal patron_changed
 signal patron_used_this_toss_changed
@@ -301,6 +303,11 @@ var powers_this_round: int:
 	set(val):
 		powers_this_round = val
 		emit_signal("powers_this_round_changed")
+
+var monsters_destroyed_this_round: int:
+	set(val):
+		monsters_destroyed_this_round = val
+		emit_signal("monsters_destroyed_this_round_changed")
 
 var ante_modifier_this_round: int:
 	set(val):
@@ -1058,7 +1065,7 @@ class TrialData:
 	#TrialData.new("Adversity", [GENERIC_FAMILY], "Gain a random permanent Monster coin. (If not enough space, destroy coins until there is.)"),
 	#TrialData.new("Fury", [GENERIC_FAMILY], "Charon's Malice increases 3 times as fast."),
 	#TrialData.new("Chains", [GENERIC_FAMILY], "When the trial begins, each of your non-payoff coins becomes Locked."),
-	#TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begins, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
+	#TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begicns, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
 ]
 
 enum PowerType {
@@ -1077,6 +1084,10 @@ enum PowerType {
 }
 
 class PowerFamily:
+	enum Tag {
+		REFLIP, FREEZE, LUCKY, GAIN, DESTROY, UPGRADE, HEAL, POSITIONING, CURSE, BLESS, TURN, TRADE, IGNITE
+	}
+	
 	var description: String:
 		get:
 			return Global.replace_placeholders(description)
@@ -1084,8 +1095,9 @@ class PowerFamily:
 	var power_type: PowerType
 	var icon_path: String
 	var prefer_icon_only: bool
+	var tags: Array
 	
-	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String, pref_icn_only: bool) -> void:
+	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String, pref_icn_only: bool, tgs: Array = []) -> void:
 		self.description = desc
 		self.uses_for_denom = uses_per_denom
 		self.power_type = pwrType
@@ -1093,6 +1105,7 @@ class PowerFamily:
 		self.prefer_icon_only = pref_icn_only
 		if icon != "":
 			assert(FileAccess.file_exists(self.icon_path))
+		self.tags = tgs
 	
 	func get_power_type_placeholder() -> String:
 		if is_power():
@@ -1120,6 +1133,9 @@ class PowerFamily:
 	
 	func is_passive() -> bool:
 		return power_type == PowerType.PASSIVE
+	
+	func has_tag(tag: Tag) -> bool:
+		return tags.has(tag)
 
 const ONLY_SHOW_ICON = true
 const ICON_AND_CHARGES = false
@@ -1134,19 +1150,19 @@ var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS)"
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 7, 9, 11, 13, 15], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/demeter_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/artemis_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/athena_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2, 3, 4], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE])
+var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/artemis_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
+var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
+var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2, 3, 4], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
 var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Copy another coin's power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/aphrodite_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING,"res://assets/icons/hades_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TRADE])
+var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
+var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
+var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING,"res://assets/icons/hades_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.DESTROY, PowerFamily.Tag.HEAL])
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [0, 0, 0, 0, 0, 0], PowerType.POWER_TARGETTING, "res://assets/icons/arrow_icon.png", ONLY_SHOW_ICON)
 
@@ -1314,6 +1330,14 @@ func choose_one_weighted(options, weights):
 		r -= weights[i]
 		if r <= 0:
 			return options[i]
+
+# filter an array and return an array containing only elements in keep
+func array_keep(array: Array, keep: Array) -> Array:
+	var ret = []
+	for elem in array:
+		if keep.has(elem):
+			ret.append(elem)
+	return ret
 
 # fade modulate over time; awaitable
 func fade_out(item: CanvasItem, time: float = 0.5) -> void:

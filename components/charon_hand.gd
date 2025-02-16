@@ -8,6 +8,7 @@ enum HandType {
 @export var HAND_TYPE: HandType = HandType.LEFT
 
 @onready var _SPRITE: AnimatedSprite2D = $Sprite
+@onready var _FX: FX = $Sprite/FX
 @onready var _SPRITE_BASE_Y = $Sprite.position.y
 @onready var _MOUSE: MouseWatcher = $Mouse
 @onready var _POINTING_OFFSET: Vector2 = $PointingOffset.position
@@ -84,6 +85,15 @@ func set_appearance(appearance: Appearance) -> void:
 			_SPRITE.play(_ANIM_NORMAL)
 		Appearance.POINTING:
 			_SPRITE.play(_ANIM_POINTING)
+
+func activate_malice_glow() -> void:
+	_FX.start_glowing(Color("#793a80"), 5, 1, 0.75)
+
+func activate_malice_glow_intense() -> void:
+	_FX.start_glowing(Color("#bc4a9b"), 20, 1, 0.9)
+
+func deactivate_malice_glow() -> void:
+	_FX.stop_glowing()
 
 func _on_mouse_entered() -> void:
 	#UITooltip.create(_MOUSE, "This is Charon's hand!", get_global_mouse_position(), get_tree().root)

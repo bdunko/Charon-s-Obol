@@ -175,6 +175,9 @@ func get_right_of(coin: Coin) -> Coin:
 static func FILTER_NOT_LUCKY(c: Coin) -> bool:
 	return not c.is_lucky()
 
+static func FILTER_LUCKY(c: Coin) -> bool:
+	return c.is_lucky()
+
 static func FILTER_NOT_UNLUCKY(c: Coin) -> bool:
 	return not c.is_unlucky()
 
@@ -229,14 +232,44 @@ static func FILTER_TAILS(c: Coin) -> bool:
 static func FILTER_POWER(c: Coin) -> bool:
 	return c.is_power()
 
+static func FILTER_PAYOFF(c: Coin) -> bool:
+	return c.is_payoff()
+
+static func FILTER_USABLE_POWER(c: Coin) -> bool:
+	return c.is_power() and c.get_active_power_charges() != 0
+
 static func FILTER_RECHARGABLE(c: Coin) -> bool:
 	return c.is_power() and c.get_active_power_charges() != c.get_max_active_power_charges()
+
+static func FILTER_OBOL(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.OBOL
+
+static func FILTER_DIOBOL(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.DIOBOL
+	
+static func FILTER_TRIOBOL(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.TRIOBOL
+	
+static func FILTER_TETROBOL(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.TETROBOL
+	
+static func FILTER_PENTOBOL(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.PENTOBOL
+	
+static func FILTER_DRACHMA(c: Coin) -> bool:
+	return c.get_denomination() == Global.Denomination.DRACHMA
 
 func get_filtered_randomized(filter_func) -> Array:
 	return get_randomized().filter(filter_func)
 
 func get_filtered(filter_func) -> Array:
 	return get_children().filter(filter_func)
+
+func get_multi_filtered(filter_funcs: Array) -> Array:
+	var ret = get_children()
+	for filt_func in filter_funcs:
+		ret = ret.filter(filt_func)
+	return ret
 
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
@@ -305,3 +338,6 @@ func disable_interaction() -> void:
 func enable_interaction() -> void:
 	for coin in get_children():
 		coin.enable_interaction()
+
+func num_coins() -> int:
+	return get_child_count()

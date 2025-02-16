@@ -1026,7 +1026,7 @@ func _generate_tooltip() -> void:
 				heads_power = _replace_placeholder_text(PAYOFF_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.power_type in exclude_powers:
 			if _tails_power.power_family.uses_for_denom[_denomination] <= 1:
-				tails_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % tails_power.power_family.icon_path)
+				tails_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % _tails_power.power_family.icon_path)
 			else:
 				tails_power = _replace_placeholder_text(PAYOFF_FORMAT % _tails_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
