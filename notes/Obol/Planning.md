@@ -1,62 +1,24 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Feb 16 Sprint**
-	- [ ] **Week**
-		- [ ] **Implementing Difficulties**
-			- [ ] Hostile - Malice
-		- [ ] **Malice**
-			- [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
-	- [ ] **Weekend**
-		- [ ] **Enhanced Monster Effects (Projectile animations)**
-			- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
-			- [ ] Add projectiles for monster coins targetting coins in player's row. 
-				- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-				- [ ] Just need to await for it to finish
-					- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-		- [ ] **Tutorial Tuning**
-			- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
-			- [ ] The Shop Mat should be brought to front when introducing the shop.
-			- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
-			- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
-			- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
-			- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
-			- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
-				- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
-			- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-			- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
-			- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
-			- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
+- [ ] **Active Goals - Mar 1 Sprint - More Content**
+	- [ ] Carry over
+		- [ ] Debug malice. It seems to be always choosing Curse on the first activation no matter what.
+	- [ ] **New Bosses**
+	- [ ] **More Monsters**
+	- [ ] **More Coins**
+	- [ ] **More Characters**
+	- [ ] **Unlocks; both steady and an unlock for each character/nemesis**
 
 
-	- [ ] Stretch Goals
-		- [ ] **Scales of Themis**
-			- [ ] Shows overall 'heat' level of difficulty settings.
-			- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
-			- [ ] Tails chance
-			- [ ] Shop prices
-				- [ ] Affects both obol scaling and upgrades
-			- [ ] Tollgate prices
-				- [ ] flat increase based on round
-			- [ ] Monster strength
-			- [ ] Life penalties
-				- [ ] flat increase/decrease
-			- [ ] Strain
-				- [ ] flat increase/decrease
-		- [ ] **Orphic Tablets**
-			- [ ] Option unlocked on main menu once unlocked.
-			- [ ] New tablets unlocked in progression.
-			- [ ] Unlocked upon tutorial completion, populated with initial tutorials rehashing tutorial.
-			- [ ] Status - shows a list of all status icons and effects
-			- [ ] **Coin Gallery**
-				- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
+
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Coin Graphical Effects**
-- [ ] **More Content**
-	- [ ] **New bosses**
-	- [ ] **More Monsters**
-	- [ ] **More Coins +20**
-	- [ ] **More Characters +3**
-	- [ ] **Steady Unlocks** + **Unlocks for each character & nemesis**
+	- [ ] **Enhanced Monster Effects (Projectile animations)**
+		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
+		- [ ] Add projectiles for monster coins targetting coins in player's row. 
+			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+			- [ ] Just need to await for it to finish
+				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
 - [ ] **Basic Sound
 - [ ] **Additional Refactors**
 	- [ ] Separate out Global.gd into multiple files.
@@ -69,6 +31,26 @@
 			- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
 			- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
 		- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
+- [ ] **Orphic Tablets**
+	- [ ] Option unlocked on main menu once unlocked.
+	- [ ] New tablets unlocked in progression.
+	- [ ] Unlocked upon tutorial completion, populated with initial tutorials rehashing tutorial.
+	- [ ] Status - shows a list of all status icons and effects
+	- [ ] **Coin Gallery**
+		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
+- [ ] **Tutorial Tuning**
+	- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+	- [ ] The Shop Mat should be brought to front when introducing the shop.
+	- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
+	- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
+	- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
+	- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
+	- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
+		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+	- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
+	- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
+	- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
+	- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
 
 **Charon's Obol Release**
 - [ ] **Settings menu**
@@ -92,8 +74,20 @@
 	- [ ] Fundamentals - Absolutely no coins with Statuses.
 	- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 	- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
-
-
+- [ ] **Scales of Themis**
+	- [ ] Shows overall 'heat' level of difficulty settings.
+	- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
+	- [ ] Tails chance
+	- [ ] Shop prices
+		- [ ] Affects both obol scaling and upgrades
+	- [ ] Tollgate prices
+		- [ ] flat increase based on round
+	- [ ] Monster strength
+	- [ ] Life penalties
+		- [ ] flat increase/decrease
+	- [ ] Strain
+		- [ ] flat increase/decrease
+- 
 
 
 

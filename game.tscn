@@ -7530,8 +7530,7 @@ emitting = false
 amount = 50
 process_material = SubResource("ParticleProcessMaterial_m5kuv")
 texture = ExtResource("36_l5qg4")
-lifetime = 3.0
-preprocess = 5.0
+lifetime = 3.2
 
 [node name="MaliceDustRed" type="GPUParticles2D" parent="."]
 position = Vector2(159, -27)
@@ -7539,8 +7538,7 @@ emitting = false
 amount = 50
 process_material = SubResource("ParticleProcessMaterial_84yqa")
 texture = ExtResource("36_l5qg4")
-lifetime = 3.0
-preprocess = 5.0
+lifetime = 3.2
 
 [node name="DeathSpiral" type="GPUParticles2D" parent="."]
 visible = false

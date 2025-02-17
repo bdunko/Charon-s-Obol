@@ -271,6 +271,12 @@ func get_multi_filtered(filter_funcs: Array) -> Array:
 		ret = ret.filter(filt_func)
 	return ret
 
+func get_multi_filtered_randomized(filter_funcs: Array) -> Array:
+	var ret = get_randomized()
+	for filt_func in filter_funcs:
+		ret = ret.filter(filt_func)
+	return ret
+
 func has_coin(coin: Coin) -> bool:
 	return get_children().has(coin)
 

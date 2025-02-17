@@ -43,7 +43,7 @@ signal game_ended
 @onready var _NEMESIS_TINT_FX = $NemesisTint/FX
 @onready var _CHARON_TINT_FX = $CharonTint/FX
 const _TINT_TIME = 0.25
-const _TINT_ALPHA = 0.1
+const _TINT_ALPHA = 0.075
 @onready var _CHARON_FOG_FX = $CharonFog/FX
 
 @onready var _FOG_FX = $Fog/FX
@@ -1876,6 +1876,9 @@ func _on_coin_clicked(coin: Coin):
 						return
 					coin.clear_statuses()
 				Global.PATRON_POWER_FAMILY_HEPHAESTUS:
+					if row == _ENEMY_COIN_ROW:
+						_DIALOGUE.show_dialogue("Can't upgrade that...")
+						return
 					if not coin.can_upgrade():
 						_DIALOGUE.show_dialogue("Can't upgrade further...")
 						return
@@ -1998,13 +2001,13 @@ func _on_coin_clicked(coin: Coin):
 					return
 				if not coin.can_upgrade():
 					if coin.get_denomination() == Global.Denomination.TETROBOL or coin.get_denomination() == Global.Denomination.PENTOBOL:
-						_DIALOGUE.show_dialogue("Can't upgrade more...")
+						_DIALOGUE.show_dialogue("Can't upgrade further...")
 					else:
-						_DIALOGUE.show_dialogue("Can't upgrade that...")
+						_DIALOGUE.show_dialogue("Can't upgrade further...")
 					return
 				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
 				if Global.active_coin_power_coin.get_denomination_as_int() < coin.get_denomination_as_int():
-					_DIALOGUE.show_dialogue("Can't upgrade %ss..." % Global.denom_to_string(coin.get_denomination()))
+					_DIALOGUE.show_dialogue("This coin can't upgrade %ss..." % Global.denom_to_string(coin.get_denomination()))
 					return
 				coin.upgrade()
 				coin.ignite()
@@ -2421,7 +2424,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	
 	await _wait_for_dialogue("Enough!", 1.0)
 	if malice_activations_this_game == 0:
-		await _wait_for_dialogue("So, do you think yourself clever!")
+		await _wait_for_dialogue("So, do you think yourself clever?")
 		await _wait_for_dialogue("You believe you can beat me at my own game?")
 		await _wait_for_dialogue("Allow me to show you...")
 		await _wait_for_dialogue("Just how weak you truly are!")
@@ -2445,7 +2448,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var powers_reflip = count_tag.call(powers_used, Global.PowerFamily.Tag.REFLIP)
 	var powers_freeze = count_tag.call(powers_used, Global.PowerFamily.Tag.FREEZE)
 	var powers_lucky = count_tag.call(powers_used, Global.PowerFamily.Tag.LUCKY)
-	var powers_upgrade = count_tag.call(powers_used, Global.PowerFamily.Tag.UPGRADE)
+	var _powers_upgrade = count_tag.call(powers_used, Global.PowerFamily.Tag.UPGRADE)
 	var powers_gain = count_tag.call(powers_used, Global.PowerFamily.Tag.GAIN)
 	var powers_destroy = count_tag.call(powers_used, Global.PowerFamily.Tag.DESTROY)
 	var powers_heal = count_tag.call(powers_used, Global.PowerFamily.Tag.HEAL)
@@ -2473,22 +2476,23 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var tails_coins = _COIN_ROW.get_filtered(CoinRow.FILTER_TAILS).size()
 	var percentage_tails = tails_coins / float(_COIN_ROW.num_coins())
 	
-	var usable_powers = _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER)
-	var heads_payoffs = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_HEADS, CoinRow.FILTER_PAYOFF])
-	var percentage_payoffs_heads = heads_payoffs / float(_COIN_ROW.get_filtered([CoinRow.FILTER_PAYOFF]).size())
+	var usable_powers = _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER).size()
+	var heads_payoffs = _COIN_ROW.get_filtered(CoinRow.FILTER_PAYOFF).size()
 	
 	var empty_spaces = Global.COIN_LIMIT - _COIN_ROW.num_coins()
 	var num_monsters = _ENEMY_COIN_ROW.num_coins()
 	
 	var highest_valued_arr = _COIN_ROW.get_highest_valued()
+	var highest_valued = highest_valued_arr[0]
 	var is_highest_valued_singular = highest_valued_arr.size() == 0
 	var is_highest_valued_heads_power = highest_valued_arr[0].is_power()
-	var drachmas = _COIN_ROW.get_filtered(CoinRow.FILTER_DRACHMA)
-	var pentobols = _COIN_ROW.get_filtered(CoinRow.FILTER_PENTOBOL)
-	var tetrobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var triobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var diobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var obols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
+	var highest_denom = highest_valued_arr[0].get_denomination()
+	var _drachmas = _COIN_ROW.get_filtered(CoinRow.FILTER_DRACHMA)
+	var _pentobols = _COIN_ROW.get_filtered(CoinRow.FILTER_PENTOBOL)
+	var _tetrobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
+	var _triobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
+	var _diobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
+	var _obols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
 	
 	# choose the action
 	var actions = []
@@ -2500,6 +2504,11 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		(2 if percentage_heads >= 0.7 else 0) + (2 if percentage_heads >= 0.9 else 0)
 	if percentage_cursed >= 0.5: # if a lot are already cursed, reduce back to minimum
 		curse_weight = 0
+	
+	var spawn_monsters_weight = 1 + (3 * Global.monsters_destroyed_this_round) +\
+		(2 if num_monsters == 1 else 0) + (4 if num_monsters == 0.0 else 0)
+	if num_monsters >= 4:
+		spawn_monsters_weight = 0
 	
 	if activation_type == MaliceActivation.AFTER_PAYOFF:
 		# calculate a bunch of weights 
@@ -2517,7 +2526,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		if percentage_ignited > 0.5: # if a lot are already ignited, reduce back to minimum
 			ignite_weight = 1
 
-		var increase_penalty_weight = 1 + (7 * percentage_tails) +\
+		var increase_penalty_weight = 1 + (5 * percentage_tails) +\
 			(2 if tails_coins != 0 else 0) + (2 if tails_coins >= 4 else 0)
 		var legal_coins = 0
 		for coin in _COIN_ROW.get_children():
@@ -2527,7 +2536,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			increase_penalty_weight = 0
 		
 		var thorns_weight = 1 + (0.7 * empty_spaces) +\
-			(3 if powers_gain != 0 else 0) + (3 if powers_gain >= 6 else 0) + (3 if powers_gain >= 12 else 0)+\
+			(3 if powers_gain != 0 else 0) + (3 if powers_gain >= 6 else 0) + (3 if powers_gain >= 12 else 0) +\
 			(-8 if powers_destroy != 0 else 0)
 		if num_coins <= 3 or num_coins == 9: 
 			thorns_weight = 1
@@ -2543,8 +2552,11 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			stone_powers_weight = 0
 
 		var strengthen_monsters_weight = 1 + (2 * num_monsters)
-		
-		if num_monsters <= 1: #don't happen if not enough monsters
+		var upgradable_monsters = 0
+		for monster in _ENEMY_COIN_ROW.get_children():
+			if monster.can_upgrade():
+				upgradable_monsters += 1
+		if upgradable_monsters <= 2: #don't happen if not enough monsters
 			strengthen_monsters_weight = 0
 		if Global.is_current_round_nemesis(): #don't happen during nemesis rounds
 			strengthen_monsters_weight = 0
@@ -2564,12 +2576,12 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			[MaliceAction.INCREASE_PENALTY, increase_penalty_weight],
 			[MaliceAction.THORNS, thorns_weight],
 			[MaliceAction.STONE_POWERS, stone_powers_weight],
-			[MaliceAction.STRENGTHEN_MONSTERS, strengthen_monsters_weight]
+			[MaliceAction.STRENGTHEN_MONSTERS, strengthen_monsters_weight],
+			[MaliceAction.SPAWN_MONSTERS, spawn_monsters_weight]
 		]
 	elif activation_type == MaliceActivation.DURING_POWERS:
 		var turn_payoffs_weight = 1 + (2 * heads_payoffs) +\
-			(2 if percentage_payoffs_heads >= 0.6 else 0) + (3 if percentage_payoffs_heads == 1.0 else 0) +\
-			(2 if heads_payoffs >= 3 else 0) +\
+			(3 if heads_payoffs >= 3 else 0) +\
 			(3 if powers_freeze >= 7 else 0)
 		if heads_payoffs < 2:
 			turn_payoffs_weight = 1
@@ -2590,12 +2602,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		
 		var freeze_tails_weight = 1 + (3 * tails_coins) - (5 * percentage_ignited)
 		if percentage_heads < 0.5: # I'm not thaaaat mean, give you some counterplay
-			freeze_tails_weight = 1
-		
-		var spawn_monsters_weight = 1 + (3 * Global.monsters_destroyed_this_round) +\
-			(2 if num_monsters == 1 else 0) + (4 if num_monsters == 0.0 else 0)
-		if num_monsters >= 4:
-			spawn_monsters_weight = 0
+			freeze_tails_weight = 0
 		
 		var nuke_valuable_weight = 0
 		if is_highest_valued_singular and is_highest_valued_heads_power:
@@ -2624,21 +2631,33 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var sort_pairs = func(one: Array, two: Array) -> bool: # custom sort
 		return one[1] > two[1]
 	actions.sort_custom(sort_pairs)
-	actions = actions.slice(0, 3)
 	
-	# now choose one based on weights... but don't allow the same action as last time
-	while final_action == previous_malice_action:
-		final_action = Global.choose_one_weighted(
-			[actions[0][0], actions[1][0], actions[2][0]], #actions
-			[actions[0][1], actions [1][1], actions[2][1]] #weights
-		)
+	if actions.size() == 0: # if there are NO valid options, default to curse - this should be really rare or impossible
+		assert(false, "This really shouldn't happen.")
+		final_action = MaliceAction.CURSE
+	elif actions.size() == 1: # if there is only a single valid option, take it, ignoring duplication
+		final_action = actions[0][0]
+	else: # take the top 3 if possible (otherwise 2) and choose from them, avoiding the last action taken
+		actions = actions.slice(0, min(3, actions.size()))
+		
+		# now choose one based on weights... but don't allow the same action as last time
+		var acts = [] # array of possible actions
+		var weights = [] # array of corresponding weights
+		for i in range(0, actions.size()):
+			acts.append(actions[i][0])
+			weights.append(actions[i][1])
+		while final_action == previous_malice_action:
+			final_action = Global.choose_one_weighted(acts, weights)
 	
 	previous_malice_action = final_action
 	
+	print(final_action)
+	
 	# perform the action
+	const delay = 1.0
 	match final_action:
 		MaliceAction.UNLUCKY:
-			var unlucky_remaining = floor(num_coins/2.0)
+			var unlucky_remaining = max(1, floor(num_coins/2.0))
 			# aim for lucky coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_LUCKY), unlucky_remaining):
 				target.make_unlucky()
@@ -2648,9 +2667,9 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), unlucky_remaining):
 				target.make_unlucky()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Your luck falters!")
+			await _wait_for_dialogue("Your luck falters!", delay)
 		MaliceAction.CURSE:
-			var curses_remaining = floor(num_coins/2.0)
+			var curses_remaining = max(1, floor(num_coins/2.0))
 			# aim for blessed coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_BLESSED), curses_remaining):
 				target.curse()
@@ -2659,9 +2678,9 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED), curses_remaining):
 				target.curse()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Bear a heavy curse!")
+			await _wait_for_dialogue("Bear a heavy curse!", delay)
 		MaliceAction.IGNITE:
-			var ignites_remaining = floor(num_coins/2.0)
+			var ignites_remaining = max(1, floor(num_coins/2.0))
 			# attempt to ignite frozen coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_FROZEN), ignites_remaining):
 				target.ignite()
@@ -2670,32 +2689,69 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_IGNITED), ignites_remaining):
 				target.ignite()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("You shall burn!")
+			await _wait_for_dialogue("You shall burn!", delay)
 		MaliceAction.INCREASE_PENALTY:
 			for target in _COIN_ROW.get_children():
 				if target.can_change_life_penalty():
-					target.change_life_penalty_for_round(3)
+					target.change_life_penalty_for_round(2)
+					target.change_life_penalty_permanently(1)
 					target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("May your pain be amplified!")
+			await _wait_for_dialogue("May your pain be amplified!", delay)
 		MaliceAction.THORNS:
-			await _wait_for_dialogue("A small 'gift' for you...")
+			_make_and_gain_coin(Global.THORNS_FAMILY, highest_denom, _CHARON_NEW_COIN_POSITION)
+			await _wait_for_dialogue("I have a gift for you...", delay)
 		MaliceAction.STONE_POWERS:
-			await _wait_for_dialogue("Be turned to stone!")
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_NOT_STONE]), max(1, floor(num_coins/4.0))):
+				target.stone()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("Be turned to stone!", delay)
 		MaliceAction.STRENGTHEN_MONSTERS:
-			await _wait_for_dialogue("My minions grow stronger!")
+			for monster in _ENEMY_COIN_ROW.get_children():
+				if monster.can_upgrade():
+					monster.upgrade()
+					monster.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("My minions grow stronger!", delay)
 		MaliceAction.TURN_PAYOFFS:
-			await _wait_for_dialogue("These souls are mine! None for you!")
+			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_PAYOFF, CoinRow.FILTER_HEADS]):
+				target.turn()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("The souls are mine! None for you!", delay)
 		MaliceAction.DRAIN_POWERS:
-			await _wait_for_dialogue("I shall render you powerless!")
+			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER):
+				target.drain_power_uses_by(2)
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("I shall render you powerless!", delay)
 		MaliceAction.SPAWN_MONSTERS:
-			await _wait_for_dialogue("Rise, monsters of the underworld!")
+			var denom = Global.Denomination.OBOL
+			if Global.current_round_wave_strength() >= 12:
+				denom = Global.Denomination.DIOBOL
+			elif Global.current_round_wave_strength() >= 24:
+				denom = Global.Denomination.TRIOBOL
+			for i in range(0, 2):
+				spawn_enemy(Global.get_standard_monster(), denom)
+			await _wait_for_dialogue("Rise, monsters of the underworld!", delay)
 		MaliceAction.REFLIP_SCRAMBLE_ALL:
-			await _wait_for_dialogue("Scatter and fall!")
+			for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+				c = c as Coin
+				c.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				_safe_flip(c, false)
+			_COIN_ROW.shuffle()
+			_ENEMY_COIN_ROW.shuffle()
+			await _wait_for_dialogue("Scatter and fall!", delay)
 		MaliceAction.FREEZE_TAILS:
-			await _wait_for_dialogue("Your blood runs cold!")
+			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_TAILS):
+				target.freeze()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("Your blood runs cold!", delay)
 		MaliceAction.NUKE_VALUABLE:
-			await _wait_for_dialogue("I can read your intentions...")
+			if highest_valued.is_heads():
+				highest_valued.turn()
+			highest_valued.freeze()
+			highest_valued.curse()
+			highest_valued.unlucky()
+			await _wait_for_dialogue("I can read your intentions...", delay)
 	
+	# done, ending dialogue
 	if malice_activations_this_game == 0:
 		await _wait_for_dialogue("You look rather surprised.")
 		await _wait_for_dialogue("I never said I would play fair.")
@@ -2712,22 +2768,22 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 @onready var _MALICE_DUST : GPUParticles2D = $MaliceDust
 @onready var _MALICE_DUST_RED : GPUParticles2D = $MaliceDustRed
 func _on_malice_changed() -> void:
-	if Global.malice >= 50:
+	if Global.malice >= 40:
 		_MALICE_DUST.emitting = true
-		_MALICE_DUST.amount = lerp(10, 30, (Global.malice-50)/50.0)
+		_MALICE_DUST.amount = lerp(15, 40, (Global.malice-40)/60.0)
 	else:
 		_MALICE_DUST.emitting = false
 		
-	if Global.malice >= 70:
+	if Global.malice >= 60:
 		_MALICE_DUST_RED.emitting = true
-		_MALICE_DUST_RED.amount = lerp(10, 30, (Global.malice-75)/25.0)
+		_MALICE_DUST_RED.amount = lerp(10, 30, (Global.malice-60)/40.0)
 	else:
 		_MALICE_DUST_RED.emitting = false
 	
-	if Global.malice >= 80:
+	if Global.malice >= 75:
 		_LEFT_HAND.activate_malice_glow()
 		_RIGHT_HAND.activate_malice_glow()
-	elif Global.malice >= 95:
+	elif Global.malice >= 90:
 		_LEFT_HAND.activate_malice_glow_intense()
 		_RIGHT_HAND.activate_malice_glow_intense()
 	else:

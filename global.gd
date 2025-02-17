@@ -316,11 +316,11 @@ var ante_modifier_this_round: int:
 
 const MALICE_ACTIVATION_THRESHOLD_AFTER_POWER := 100
 const MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS := 95
-const MALICE_INCREASE_ON_POWER_USED := 0.33
-const MALICE_INCREASE_ON_HEADS_PAYOFF := 1.0
+const MALICE_INCREASE_ON_POWER_USED := 1.0
+const MALICE_INCREASE_ON_HEADS_PAYOFF := 3.0
 const MALICE_INCREASE_ON_TOSS_FINISHED := 5.0
 const MALICE_TRIAL_MULTIPLIER := 2.0
-const MALICE_MULTIPLIER_END_ROUND := 0.3
+const MALICE_MULTIPLIER_END_ROUND := 0.33
 var malice: float:
 	set(val):
 		if is_difficulty_active(Difficulty.HOSTILE2):
@@ -722,6 +722,15 @@ var _neutral_monster_pool = []
 var _standard_monster_pool = []
 var _elite_monster_pool = []
 
+func get_neutral_monster() -> CoinFamily:
+	return Global.choose_one(_neutral_monster_pool)
+
+func get_standard_monster() -> CoinFamily:
+	return Global.choose_one(_standard_monster_pool)
+
+func get_elite_monster() -> CoinFamily:
+	return Global.choose_one(_elite_monster_pool)
+
 func randomize_voyage() -> void:
 	# special case - hardcoded setup for tutorial
 	if is_character(Character.LADY):
@@ -814,6 +823,9 @@ func did_ante_increase() -> bool:
 	if round_count == 0 or round_count == 1:
 		return false
 	return VOYAGE[round_count-1].ante_formula != VOYAGE[round_count-2].ante_formula
+
+func current_round_wave_strength() -> int:
+	return VOYAGE[round_count-1].monsterWave.strength
 
 # returns an array of [monster_family, denom] pairs for current round
 const _TRIAL1_DENOM = Denomination.DIOBOL

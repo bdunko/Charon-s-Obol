@@ -1,3 +1,4 @@
+- [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
 - [ ] Need to clear tooltips when performing transitions, otherwise tooltips can get stuck on screen (try Embark -> hold mouse over difficulty skull)
 - [ ] Different coin art for the elite monsters and nemesis monsters. 
 - [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 

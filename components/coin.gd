@@ -419,7 +419,7 @@ func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
 		return false
 	
-	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS):
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS) or _owner == Owner.NEMESIS:
 		return _denomination != Global.Denomination.DRACHMA
 	
 	return _denomination != Global.Denomination.TETROBOL
@@ -761,6 +761,15 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	_update_appearance()
 	FX.flash(Color.LIGHT_PINK)
 
+func drain_power_uses_by(drain_amount: int) -> void:
+	assert(drain_amount < 0)
+	if is_heads():
+		_heads_power.charges = max(_heads_power.charges - drain_amount, 0)
+	else:
+		_tails_power.charges -= max(_tails_power.charges - drain_amount, 0)
+	_update_appearance()
+	FX.flash(Color.WEB_PURPLE)
+
 func make_lucky() -> void:
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HESTIA):
 		if _luck_state == _LuckState.SLIGHTLY_LUCKY:
@@ -908,7 +917,7 @@ func can_reduce_life_penalty() -> bool:
 	return can_reduce_heads or can_reduce_tails
 
 func change_life_penalty_permanently(amt: int) -> void:
-	assert(can_reduce_life_penalty())
+	assert(can_change_life_penalty())
 	_permanent_life_penalty_change += amt
 	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 		_heads_power.charges = max(_heads_power.charges - amt, 0)
