@@ -1869,7 +1869,7 @@ func _on_coin_clicked(coin: Coin):
 					if not coin.can_reduce_life_penalty():
 						_DIALOGUE.show_dialogue("No need...")
 						return
-					coin.reduce_life_penalty_permanently(2)
+					coin.change_life_penalty_permanently(-2)
 				Global.PATRON_POWER_FAMILY_APOLLO:
 					if not coin.has_status():
 						_DIALOGUE.show_dialogue("No need...")
@@ -1991,7 +1991,7 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_reduce_life_penalty():
 					_DIALOGUE.show_dialogue("No need...")
 					return
-				coin.reduce_life_penalty_for_round()
+				coin.change_life_penalty_for_round(-1)
 			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't upgrade that...")
@@ -2398,8 +2398,10 @@ enum MaliceActivation {
 	AFTER_PAYOFF, DURING_POWERS
 }
 enum MaliceAction {
-	NONE, UNLUCKY, IGNITE, CURSE, INCREASE_PENALTY, THORNS, STONE_POWERS, STRENGTHEN_MONSTERS, 
-	TURN_PAYOFFS, DRAIN_POWERS, SPAWN_MONSTERS, REFLIP_HEADS, FREEZE_TAILS, NUKE_VALUABLE, DOWNGRADE
+	NONE, 
+	CURSE,
+	UNLUCKY, IGNITE, INCREASE_PENALTY, THORNS, STONE_POWERS, STRENGTHEN_MONSTERS, 
+	TURN_PAYOFFS, DRAIN_POWERS, SPAWN_MONSTERS, REFLIP_SCRAMBLE_ALL, FREEZE_TAILS, NUKE_VALUABLE, 
 }
 var previous_malice_action = MaliceAction.NONE
 func activate_malice(activation_type: MaliceActivation) -> void:
@@ -2462,7 +2464,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var percentage_blessed = blessed_coins / float(_COIN_ROW.num_coins())
 	var percentage_cursed = _COIN_ROW.get_filtered(CoinRow.FILTER_CURSED).size() / float(_COIN_ROW.num_coins())
 	
-	var percentage_stoned = _COIN_ROW.get_filtered(CoinRow.FILTER_STONED).size() / float(_COIN_ROW.num_coins())
+	var percentage_stoned = _COIN_ROW.get_filtered(CoinRow.FILTER_STONE).size() / float(_COIN_ROW.num_coins())
 	
 	var num_coins = _COIN_ROW.num_coins()
 	
@@ -2473,10 +2475,14 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	
 	var usable_powers = _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER)
 	var heads_payoffs = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_HEADS, CoinRow.FILTER_PAYOFF])
+	var percentage_payoffs_heads = heads_payoffs / float(_COIN_ROW.get_filtered([CoinRow.FILTER_PAYOFF]).size())
 	
 	var empty_spaces = Global.COIN_LIMIT - _COIN_ROW.num_coins()
 	var num_monsters = _ENEMY_COIN_ROW.num_coins()
 	
+	var highest_valued_arr = _COIN_ROW.get_highest_valued()
+	var is_highest_valued_singular = highest_valued_arr.size() == 0
+	var is_highest_valued_heads_power = highest_valued_arr[0].is_power()
 	var drachmas = _COIN_ROW.get_filtered(CoinRow.FILTER_DRACHMA)
 	var pentobols = _COIN_ROW.get_filtered(CoinRow.FILTER_PENTOBOL)
 	var tetrobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
@@ -2487,6 +2493,14 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	# choose the action
 	var actions = []
 	var final_action = MaliceAction.CURSE
+	
+	# perform calculations for effects that may happen in either case
+	var curse_weight = 1 + (10 * (min(percentage_blessed, 0.5))) +\
+		(2 if powers_bless > 0 else 0) + (2 if powers_bless >= 10 else 0) +\
+		(2 if percentage_heads >= 0.7 else 0) + (2 if percentage_heads >= 0.9 else 0)
+	if percentage_cursed >= 0.5: # if a lot are already cursed, reduce back to minimum
+		curse_weight = 0
+	
 	if activation_type == MaliceActivation.AFTER_PAYOFF:
 		# calculate a bunch of weights 
 		var unlucky_weight = 1 + (5 * percentage_lucky) +\
@@ -2502,15 +2516,15 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			(2 if Global.lives >= 50 else 0) + (3 if Global.lives >= 100 else 0)
 		if percentage_ignited > 0.5: # if a lot are already ignited, reduce back to minimum
 			ignite_weight = 1
-		
-		var curse_weight = 1 + (10 * (min(percentage_blessed, 0.5))) +\
-			(2 if powers_bless > 0 else 0) + (2 if powers_bless >= 10 else 0) +\
-			(2 if percentage_heads >= 0.7 else 0) + (2 if percentage_heads >= 0.9 else 0)
-		if percentage_cursed >= 0.5: # if a lot are already cursed, reduce back to minimum
-			curse_weight = 0
-		
+
 		var increase_penalty_weight = 1 + (7 * percentage_tails) +\
 			(2 if tails_coins != 0 else 0) + (2 if tails_coins >= 4 else 0)
+		var legal_coins = 0
+		for coin in _COIN_ROW.get_children():
+			if coin.can_change_life_penalty():
+				legal_coins += 1
+		if legal_coins/float(num_coins) < 0.5:
+			increase_penalty_weight = 0
 		
 		var thorns_weight = 1 + (0.7 * empty_spaces) +\
 			(3 if powers_gain != 0 else 0) + (3 if powers_gain >= 6 else 0) + (3 if powers_gain >= 12 else 0)+\
@@ -2535,41 +2549,78 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		if Global.is_current_round_nemesis(): #don't happen during nemesis rounds
 			strengthen_monsters_weight = 0
 		
+		print("Curse weight: %d" % curse_weight)
 		print("Unlucky weight: %d" % unlucky_weight)
 		print("Ignite weight: %d" % ignite_weight)
-		print("Curse weight: %d" % curse_weight)
 		print("Increase penalty weight: %d" % increase_penalty_weight)
 		print("Thorns weight: %d" % thorns_weight)
 		print("Stone powers weight: %d" % stone_powers_weight)
 		print("Strengthen monsters weight: %d" % strengthen_monsters_weight)
 		
-		# now get the three highest...
 		actions = [
+			[MaliceAction.CURSE, curse_weight],
 			[MaliceAction.UNLUCKY, unlucky_weight],
 			[MaliceAction.IGNITE, ignite_weight],
-			[MaliceAction.CURSE, curse_weight],
 			[MaliceAction.INCREASE_PENALTY, increase_penalty_weight],
 			[MaliceAction.THORNS, thorns_weight],
 			[MaliceAction.STONE_POWERS, stone_powers_weight],
 			[MaliceAction.STRENGTHEN_MONSTERS, strengthen_monsters_weight]
 		]
-		
-
 	elif activation_type == MaliceActivation.DURING_POWERS:
-		pass
-		# turn payoffs to tails
-		# drain power charges from coins
-		# reflip coins on heads
-		# freeze coins on tails
-		# curse coins on tails
-		# blank some powers
-		# spawn monsters & flip them
-		# turn monsters to heads
-		# blank, curse, unlucky a single coin
-		# downgrade some coins
+		var turn_payoffs_weight = 1 + (2 * heads_payoffs) +\
+			(2 if percentage_payoffs_heads >= 0.6 else 0) + (3 if percentage_payoffs_heads == 1.0 else 0) +\
+			(2 if heads_payoffs >= 3 else 0) +\
+			(3 if powers_freeze >= 7 else 0)
+		if heads_payoffs < 2:
+			turn_payoffs_weight = 1
+		if heads_payoffs == 0:
+			turn_payoffs_weight = 0
+		
+		var drain_powers_weight = 1 + (1.5 * usable_powers) +\
+			(2 if usable_powers >= 3 else 0) + (3 if usable_powers >= 5 else 0)
+		if usable_powers < 2:
+			drain_powers_weight = 1
+		if usable_powers == 0:
+			drain_powers_weight = 0
+		
+		var reflip_scramble_all_weight = 1 + (2 * heads_coins) - (2 * tails_coins) +\
+			(2 if powers_positioning >= 3 else 0) + (3 if powers_positioning >= 10 else 0) +\
+			(3 * percentage_unlucky) - (5 * percentage_lucky) +\
+			(2 * percentage_cursed) - (3 * percentage_blessed)
+		
+		var freeze_tails_weight = 1 + (3 * tails_coins) - (5 * percentage_ignited)
+		if percentage_heads < 0.5: # I'm not thaaaat mean, give you some counterplay
+			freeze_tails_weight = 1
+		
+		var spawn_monsters_weight = 1 + (3 * Global.monsters_destroyed_this_round) +\
+			(2 if num_monsters == 1 else 0) + (4 if num_monsters == 0.0 else 0)
+		if num_monsters >= 4:
+			spawn_monsters_weight = 0
+		
+		var nuke_valuable_weight = 0
+		if is_highest_valued_singular and is_highest_valued_heads_power:
+			nuke_valuable_weight = 7
+		
+		
+		print("Curse weight: %d" % curse_weight)
+		print("Unlucky weight: %d" % turn_payoffs_weight)
+		print("Drain powers weight: %d" % drain_powers_weight)
+		print("Reflip scramble weight: %d" % reflip_scramble_all_weight)
+		print("Freeze tails weight: %d" % freeze_tails_weight)
+		print("Spawn monsters weight: %d" % spawn_monsters_weight)
+		print("Nuke valuable weight: %d" % nuke_valuable_weight)
+		
+		actions = [
+			[MaliceAction.CURSE, curse_weight],
+			[MaliceAction.TURN_PAYOFFS, turn_payoffs_weight],
+			[MaliceAction.DRAIN_POWERS, drain_powers_weight],
+			[MaliceAction.REFLIP_SCRAMBLE_ALL, reflip_scramble_all_weight],
+			[MaliceAction.FREEZE_TAILS, freeze_tails_weight],
+			[MaliceAction.SPAWN_MONSTERS, spawn_monsters_weight],
+			[MaliceAction.NUKE_VALUABLE, nuke_valuable_weight]
+		]
 	
-	
-	# now take the first three...
+	# now take the top 3...
 	var sort_pairs = func(one: Array, two: Array) -> bool: # custom sort
 		return one[1] > two[1]
 	actions.sort_custom(sort_pairs)
@@ -2587,15 +2638,44 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	# perform the action
 	match final_action:
 		MaliceAction.UNLUCKY:
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), 2):
+			var unlucky_remaining = floor(num_coins/2.0)
+			# aim for lucky coins if we can
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_LUCKY), unlucky_remaining):
+				target.make_unlucky()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				unlucky_remaining -= 1
+			# now take other coins
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), unlucky_remaining):
 				target.make_unlucky()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("Your luck falters!")
 		MaliceAction.CURSE:
-			await _wait_for_dialogue("Bear my curse!")
-		MaliceAction.CURSE:
+			var curses_remaining = floor(num_coins/2.0)
+			# aim for blessed coins if we can
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_BLESSED), curses_remaining):
+				target.curse()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				curses_remaining -= 1 
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED), curses_remaining):
+				target.curse()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			await _wait_for_dialogue("Bear a heavy curse!")
+		MaliceAction.IGNITE:
+			var ignites_remaining = floor(num_coins/2.0)
+			# attempt to ignite frozen coins if we can
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_FROZEN), ignites_remaining):
+				target.ignite()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				ignites_remaining -= 1 
+			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_IGNITED), ignites_remaining):
+				target.ignite()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("You shall burn!")
 		MaliceAction.INCREASE_PENALTY:
+			for target in _COIN_ROW.get_children():
+				if target.can_change_life_penalty():
+					target.change_life_penalty_for_round(3)
+					target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("May your pain be amplified!")
 		MaliceAction.THORNS:
 			await _wait_for_dialogue("A small 'gift' for you...")
@@ -2609,14 +2689,12 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			await _wait_for_dialogue("I shall render you powerless!")
 		MaliceAction.SPAWN_MONSTERS:
 			await _wait_for_dialogue("Rise, monsters of the underworld!")
-		MaliceAction.REFLIP_HEADS:
-			await _wait_for_dialogue(Global.replace_placeholders("So many (HEADS)... I don't think so!"))
+		MaliceAction.REFLIP_SCRAMBLE_ALL:
+			await _wait_for_dialogue("Scatter and fall!")
 		MaliceAction.FREEZE_TAILS:
-			await _wait_for_dialogue("I shall freeze your blood!")
+			await _wait_for_dialogue("Your blood runs cold!")
 		MaliceAction.NUKE_VALUABLE:
-			await _wait_for_dialogue("I see what you want to do...")
-		MaliceAction.DOWNGRADE:
-			await _wait_for_dialogue("Your greed shall be your undoing!")
+			await _wait_for_dialogue("I can read your intentions...")
 	
 	if malice_activations_this_game == 0:
 		await _wait_for_dialogue("You look rather surprised.")

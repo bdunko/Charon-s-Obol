@@ -301,9 +301,9 @@ var _material_state: _MaterialState:
 		elif _material_state == _MaterialState.NONE and not is_ignited():
 			FX.clear_tint()
 
-# stacks of the Athena god coin; reduces LIFE LOSS power charges by 1 permanently\
-var _round_tails_penalty_reduction = 0
-var _permanent_tails_penalty_reduction = 0
+# modifies life penalties
+var _round_life_penalty_change = 0
+var _permanent_life_penalty_change = 0 
 
 # roll that will be used the next time this coin is flipped; used so we can 'predict' flips
 var _next_flip_roll = Global.RNG.randi_range(1, 100)
@@ -378,8 +378,8 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_material_state = _MaterialState.NONE
 	_supercharged = false
-	_round_tails_penalty_reduction = 0
-	_permanent_tails_penalty_reduction = 0
+	_round_life_penalty_change = 0
+	_permanent_life_penalty_change = 0
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
 	reset_power_uses(true)
 	_on_state_changed() # a bit of a hack but it is a good catchall...
@@ -732,8 +732,8 @@ func spend_power_use() -> void:
 	FX.flash(Color.WHITE)
 
 func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_sapping: bool) -> int:
-	if power_family == Global.POWER_FAMILY_LOSE_LIFE:
-		return power_family.uses_for_denom[_denomination] - (_permanent_tails_penalty_reduction + _round_tails_penalty_reduction)
+	if power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
 	elif is_stone():
 		return current_charges
 	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_sapping: #recharge only by 1
@@ -899,27 +899,41 @@ func is_blank() -> bool:
 func is_supercharged() -> bool:
 	return _supercharged
 
+func can_change_life_penalty() -> bool:
+	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE
+
 func can_reduce_life_penalty() -> bool:
 	var can_reduce_heads = (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0)
 	var can_reduce_tails = (_tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _tails_power.charges != 0)
 	return can_reduce_heads or can_reduce_tails
 
-func reduce_life_penalty_permanently(amt: int = 1) -> void:
-	_permanent_tails_penalty_reduction += amt
-	var reduced_power = _heads_power if (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
-	reduced_power.charges = max(reduced_power.charges - amt, 0)
-	_update_appearance()
-	_generate_tooltip()
-	FX.flash(Color.SEA_GREEN)
-
-func reduce_life_penalty_for_round(amt: int = 1) -> void:
+func change_life_penalty_permanently(amt: int) -> void:
 	assert(can_reduce_life_penalty())
-	var reduced_power = _heads_power if (_heads_power.power_family == Global.POWER_FAMILY_LOSE_LIFE and _heads_power.charges != 0) else _tails_power
-	_round_tails_penalty_reduction += amt
-	reduced_power.charges = max(reduced_power.charges - amt, 0)
+	_permanent_life_penalty_change += amt
+	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		_heads_power.charges = max(_heads_power.charges - amt, 0)
+	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		_tails_power.charges = max(_tails_power.charges - amt, 0)
 	_update_appearance()
 	_generate_tooltip()
-	FX.flash(Color.SEA_GREEN)
+	if amt < 0:
+		FX.flash(Color.SEA_GREEN)
+	else:
+		FX.flash(Color.CRIMSON)
+
+func change_life_penalty_for_round(amt: int) -> void:
+	assert(can_reduce_life_penalty())
+	_round_life_penalty_change += amt
+	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		_heads_power.charges = max(_heads_power.charges - amt, 0)
+	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		_tails_power.charges = max(_tails_power.charges - amt, 0)
+	_update_appearance()
+	_generate_tooltip()
+	if amt < 0:
+		FX.flash(Color.SEA_GREEN)
+	else:
+		FX.flash(Color.CRIMSON)
 
 var _heads_power_overwritten = null
 var _tails_power_overwritten = null
@@ -1045,7 +1059,7 @@ func _generate_tooltip() -> void:
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root)
 
 func on_round_end() -> void:
-	_round_tails_penalty_reduction = 0
+	_round_life_penalty_change = 0
 	reset_power_uses(true)
 	# force to heads
 	if not _heads:
