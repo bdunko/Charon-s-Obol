@@ -3998,7 +3998,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_br56q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hihpw"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4125,7 +4125,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7g51n"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a62we"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4252,7 +4252,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rs5p1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w0wna"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4379,7 +4379,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1c3i2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdmun"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4506,7 +4506,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yw5tt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xw1in"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4633,7 +4633,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y3axy"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sg4v"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4760,7 +4760,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h6acp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xqv2g"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4887,7 +4887,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yieil"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wimt8"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5014,7 +5014,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyggw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5a1c4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5186,7 +5186,8 @@ hue_variation_max = 0.1
 hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
 [sub_resource type="Gradient" id="Gradient_3t6cd"]
-colors = PackedColorArray(0.737255, 0.290196, 0.607843, 1, 0.133333, 0.109804, 0.101961, 0)
+offsets = PackedFloat32Array(0, 0.78826, 1)
+colors = PackedColorArray(0.737255, 0.290196, 0.607843, 1, 0.737255, 0.290196, 0.607843, 1, 0.737255, 0.290196, 0.607843, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_w2m7r"]
 gradient = SubResource("Gradient_3t6cd")
@@ -5205,7 +5206,8 @@ orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_w2m7r")
 
 [sub_resource type="Gradient" id="Gradient_s4bh3"]
-colors = PackedColorArray(0.855481, 0.191814, 0.308257, 1, 0.133333, 0.109804, 0.101961, 0)
+offsets = PackedFloat32Array(0, 0.781971, 1)
+colors = PackedColorArray(0.854902, 0.192157, 0.309804, 1, 0.854902, 0.192157, 0.309804, 1, 0.854902, 0.192157, 0.309804, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_0eeor"]
 gradient = SubResource("Gradient_s4bh3")
@@ -7320,7 +7322,7 @@ offset_right = 320.0
 offset_bottom = 155.0
 
 [node name="EnemyRow" type="Node2D" parent="Table"]
-position = Vector2(0, 9)
+position = Vector2(0, 12)
 script = ExtResource("24_cds23")
 
 [node name="CoinRow" parent="Table/EnemyRow" instance=ExtResource("19_ym3ga")]
@@ -7403,48 +7405,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_br56q")
+material = SubResource("ShaderMaterial_hihpw")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_7g51n")
+material = SubResource("ShaderMaterial_a62we")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_rs5p1")
+material = SubResource("ShaderMaterial_w0wna")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_1c3i2")
+material = SubResource("ShaderMaterial_sdmun")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_yw5tt")
+material = SubResource("ShaderMaterial_xw1in")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_y3axy")
+material = SubResource("ShaderMaterial_5sg4v")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_h6acp")
+material = SubResource("ShaderMaterial_xqv2g")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -7452,14 +7454,14 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_yieil")
+material = SubResource("ShaderMaterial_wimt8")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_fyggw")
+material = SubResource("ShaderMaterial_5a1c4")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"
@@ -7525,20 +7527,18 @@ preprocess = 5.0
 trail_lifetime = 3.5
 
 [node name="MaliceDust" type="GPUParticles2D" parent="."]
-position = Vector2(159, -27)
-emitting = false
-amount = 50
+position = Vector2(159, -15)
+amount = 30
 process_material = SubResource("ParticleProcessMaterial_m5kuv")
 texture = ExtResource("36_l5qg4")
-lifetime = 3.2
+lifetime = 2.5
 
 [node name="MaliceDustRed" type="GPUParticles2D" parent="."]
-position = Vector2(159, -27)
-emitting = false
-amount = 50
+position = Vector2(159, -15)
+amount = 30
 process_material = SubResource("ParticleProcessMaterial_84yqa")
 texture = ExtResource("36_l5qg4")
-lifetime = 3.2
+lifetime = 2.5
 
 [node name="DeathSpiral" type="GPUParticles2D" parent="."]
 visible = false

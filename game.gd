@@ -2408,6 +2408,8 @@ enum MaliceAction {
 }
 var previous_malice_action = MaliceAction.NONE
 func activate_malice(activation_type: MaliceActivation) -> void:
+	const delay = 1.0
+	
 	# remove excess elements from recent powers used
 	while powers_used.size() > 30:
 		powers_used.pop_front()
@@ -2422,11 +2424,11 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
 	# screen shake
 	
-	await _wait_for_dialogue("Enough!", 1.0)
+	await _wait_for_dialogue("Enough!", delay)
 	if malice_activations_this_game == 0:
 		await _wait_for_dialogue("So, do you think yourself clever?")
-		await _wait_for_dialogue("You believe you can beat me at my own game?")
-		await _wait_for_dialogue("Allow me to show you...")
+		await _wait_for_dialogue("You hope to beat me at my own game?")
+		await _wait_for_dialogue("I will prove to you...")
 		await _wait_for_dialogue("Just how weak you truly are!")
 	else:
 		await _wait_for_dialogue("You dare stand against me?")
@@ -2435,6 +2437,8 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_PLAYER_TEXTBOXES.make_invisible()
 	while flips_pending != 0:
 		await Global.delay(0.05)
+	
+	_CHARON_FOG_FX.fade_out(_TINT_TIME)
 	
 	# create a bunch of heuristics to reference
 	# helper functions
@@ -2490,13 +2494,13 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var _drachmas = _COIN_ROW.get_filtered(CoinRow.FILTER_DRACHMA)
 	var _pentobols = _COIN_ROW.get_filtered(CoinRow.FILTER_PENTOBOL)
 	var _tetrobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var _triobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var _diobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
-	var _obols = _COIN_ROW.get_filtered(CoinRow.FILTER_TETROBOL)
+	var _triobols = _COIN_ROW.get_filtered(CoinRow.FILTER_TRIOBOL)
+	var _diobols = _COIN_ROW.get_filtered(CoinRow.FILTER_DIOBOL)
+	var _obols = _COIN_ROW.get_filtered(CoinRow.FILTER_OBOL)
 	
 	# choose the action
 	var actions = []
-	var final_action = MaliceAction.CURSE
+	var final_action = MaliceAction.NONE
 	
 	# perform calculations for effects that may happen in either case
 	var curse_weight = 1 + (10 * (min(percentage_blessed, 0.5))) +\
@@ -2568,6 +2572,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		print("Thorns weight: %d" % thorns_weight)
 		print("Stone powers weight: %d" % stone_powers_weight)
 		print("Strengthen monsters weight: %d" % strengthen_monsters_weight)
+		print("Spawn monsters weight: %d" % spawn_monsters_weight)
 		
 		actions = [
 			[MaliceAction.CURSE, curse_weight],
@@ -2610,7 +2615,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		
 		
 		print("Curse weight: %d" % curse_weight)
-		print("Unlucky weight: %d" % turn_payoffs_weight)
+		print("Turn powers weight: %d" % turn_payoffs_weight)
 		print("Drain powers weight: %d" % drain_powers_weight)
 		print("Reflip scramble weight: %d" % reflip_scramble_all_weight)
 		print("Freeze tails weight: %d" % freeze_tails_weight)
@@ -2646,6 +2651,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		for i in range(0, actions.size()):
 			acts.append(actions[i][0])
 			weights.append(actions[i][1])
+		final_action = Global.choose_one_weighted(acts, weights)
 		while final_action == previous_malice_action:
 			final_action = Global.choose_one_weighted(acts, weights)
 	
@@ -2654,7 +2660,6 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	print(final_action)
 	
 	# perform the action
-	const delay = 1.0
 	match final_action:
 		MaliceAction.UNLUCKY:
 			var unlucky_remaining = max(1, floor(num_coins/2.0))
@@ -2750,6 +2755,8 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			highest_valued.curse()
 			highest_valued.unlucky()
 			await _wait_for_dialogue("I can read your intentions...", delay)
+		_:
+			assert(false)
 	
 	# done, ending dialogue
 	if malice_activations_this_game == 0:
@@ -2776,16 +2783,17 @@ func _on_malice_changed() -> void:
 		
 	if Global.malice >= 60:
 		_MALICE_DUST_RED.emitting = true
-		_MALICE_DUST_RED.amount = lerp(10, 30, (Global.malice-60)/40.0)
+		_MALICE_DUST_RED.amount = lerp(10, 25, (Global.malice-60)/40.0)
 	else:
 		_MALICE_DUST_RED.emitting = false
 	
-	if Global.malice >= 75:
-		_LEFT_HAND.activate_malice_glow()
-		_RIGHT_HAND.activate_malice_glow()
-	elif Global.malice >= 90:
+	# during trials, start glowing slightly earlier because otherwise it's easy to get skipped over due to doubled malice
+	if Global.malice >= (90 if not Global.is_current_round_trial else 80):
 		_LEFT_HAND.activate_malice_glow_intense()
 		_RIGHT_HAND.activate_malice_glow_intense()
+	elif Global.malice >= (75 if not Global.is_current_round_trial else 63):
+		_LEFT_HAND.activate_malice_glow()
+		_RIGHT_HAND.activate_malice_glow()
 	else:
 		_LEFT_HAND.deactivate_malice_glow()
 		_RIGHT_HAND.deactivate_malice_glow()

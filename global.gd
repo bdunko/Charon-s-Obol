@@ -1447,7 +1447,7 @@ class ManagedTween:
 		if _tween:
 			_tween.kill()
 
-# helpers for moving something to a specific z index while remembering its previous z-index
+# helpers for moving something to a specific z index while remembering its previous z-indexdisplay_arrow
 # mostly useful for tutorials and the like
 var _z_map = {}
 func temporary_set_z(node: CanvasItem, z: int) -> void:
@@ -1458,7 +1458,6 @@ func restore_z(node: CanvasItem) -> void:
 	assert(_z_map.has(node))
 	node.z_index = _z_map[node]
 	_z_map.erase(node)
-
 
 # todo - this should be in another file, PatronData I think?
 class Patron:

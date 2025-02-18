@@ -1,7 +1,7 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
-	- [ ] Carry over
-		- [ ] Debug malice. It seems to be always choosing Curse on the first activation no matter what.
+	- [ ] Backlog
+		- [ ] Improved malice effects. Hand slam. Hand open when casting. Screen shake.
 	- [ ] **New Bosses**
 	- [ ] **More Monsters**
 	- [ ] **More Coins**

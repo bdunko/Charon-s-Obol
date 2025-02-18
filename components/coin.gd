@@ -920,9 +920,9 @@ func change_life_penalty_permanently(amt: int) -> void:
 	assert(can_change_life_penalty())
 	_permanent_life_penalty_change += amt
 	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-		_heads_power.charges = max(_heads_power.charges - amt, 0)
+		_heads_power.charges = max(_heads_power.charges + amt, 0)
 	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-		_tails_power.charges = max(_tails_power.charges - amt, 0)
+		_tails_power.charges = max(_tails_power.charges + amt, 0)
 	_update_appearance()
 	_generate_tooltip()
 	if amt < 0:
@@ -934,9 +934,9 @@ func change_life_penalty_for_round(amt: int) -> void:
 	assert(can_reduce_life_penalty())
 	_round_life_penalty_change += amt
 	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-		_heads_power.charges = max(_heads_power.charges - amt, 0)
+		_heads_power.charges = max(_heads_power.charges + amt, 0)
 	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-		_tails_power.charges = max(_tails_power.charges - amt, 0)
+		_tails_power.charges = max(_tails_power.charges + amt, 0)
 	_update_appearance()
 	_generate_tooltip()
 	if amt < 0:
