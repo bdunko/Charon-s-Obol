@@ -1,20 +1,16 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
 	- [ ] Backlog
-		- [ ] Improved malice effects. Hand slam. Hand open when casting. Screen shake.
-	- [ ] **New Bosses**
+		- [ ] Also make the hands glow while casting.
 	- [ ] **More Monsters**
+	- [ ] **New Bosses**
 	- [ ] **More Coins**
 	- [ ] **More Characters**
 	- [ ] **Unlocks; both steady and an unlock for each character/nemesis**
 
-
-
-
 **Charon's Obol Beta - Coalescence**
 - [ ] **Coin Graphical Effects**
 	- [ ] **Enhanced Monster Effects (Projectile animations)**
-		- [ ] Charon Hands have 2 new states - Open and Slam. Open and glowing while preparing for Malice. Slam + screen shake when he does it (then open while casting).
 		- [ ] Add projectiles for monster coins targetting coins in player's row. 
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish

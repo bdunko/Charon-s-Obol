@@ -17,17 +17,22 @@ enum HandType {
 @onready var _BASE_POSITION = position
 @onready var _RETRACTED_POSITION = position - Vector2(0, 30)
 @onready var _OFFSCREEN_POSITION = position - Vector2(0, 80)
+@onready var _FORWARD_POSITION = position + Vector2(0, 10)
+@onready var _SLAM_POSITION = position + Vector2(0, 40)
+@onready var _SLAM_PARTICLES = $SlamParticles
 
 const _ANIM_NORMAL = "normal"
 const _ANIM_POINTING = "pointing"
 
 var _lock := false
+var _hovering := true
 
 func _ready():
 	assert(_SPRITE)
 	assert(_BASE_POSITION)
 	assert(_MOUSE)
 	assert(_POINTING_OFFSET)
+	assert(_SLAM_PARTICLES)
 	
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
@@ -37,6 +42,12 @@ func _ready():
 	set_appearance(Appearance.NORMAL)
 
 const MOVEMENT_SPEED = 100
+
+func disable_hovering() -> void:
+	_hovering = false
+
+func enable_hovering() -> void:
+	_hovering = true
 
 func point_at(point: Vector2) -> void:
 	if _lock:
@@ -52,11 +63,26 @@ func unpoint() -> void:
 	set_appearance(Appearance.NORMAL)
 	move_to_default_position()
 
+func slam() -> void:
+	if _lock:
+		return
+	set_appearance(Appearance.NORMAL)
+	await _movementTween.tween(_SLAM_POSITION, 0.1, Tween.TRANS_QUART)
+	for child in _SLAM_PARTICLES.get_children():
+		child.emitting = true
+	await _movementTween.tween(_SLAM_POSITION - Vector2(0, 10), 0.05, Tween.TRANS_QUART)
+
 func move_to_default_position() -> void:
 	if _lock:
 		return
 	
 	await _movementTween.tween(_BASE_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+
+func move_to_forward_position() -> void:
+	if _lock:
+		return
+	
+	await _movementTween.tween(_FORWARD_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_to_retracted_position() -> void:
 	if _lock:
@@ -97,6 +123,12 @@ func activate_malice_glow_intense() -> void:
 func deactivate_malice_glow() -> void:
 	_FX.stop_glowing()
 
+func activate_malice_active_tint() -> void:
+	_FX.start_flashing(Color("#bc4a9b"))
+
+func deactivate_malice_active_tint() -> void:
+	_FX.stop_flashing()
+
 func _on_mouse_entered() -> void:
 	#UITooltip.create(_MOUSE, "This is Charon's hand!", get_global_mouse_position(), get_tree().root)
 	pass
@@ -105,8 +137,9 @@ func _on_mouse_exited() -> void:
 	pass
 
 func _process(_delta) -> void:
-	# constant 'up and down' oscillation
-	_SPRITE.position.y = _SPRITE_BASE_Y + (2 * sin(Time.get_ticks_msec()/1000.0 * 2.0))
+	if _hovering:
+		# constant 'up and down' oscillation
+		_SPRITE.position.y = _SPRITE_BASE_Y + (2 * sin(Time.get_ticks_msec()/1000.0 * 2.0))
 
 func lock() -> void:
 	_lock = true

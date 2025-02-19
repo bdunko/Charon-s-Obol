@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="4_xe0ox"]
-[ext_resource type="Texture2D" uid="uid://c3kmtpo1q45xo" path="res://assets/particles/circle.png" id="5_am4o3"]
+[ext_resource type="Texture2D" uid="uid://s66fx8py00k7" path="res://assets/particles/coin.png" id="5_c1g6o"]
 [ext_resource type="Texture2D" uid="uid://bjum64hb3chwq" path="res://assets/particles/sparkle.png" id="5_dj8go"]
 [ext_resource type="Texture2D" uid="uid://dykf4mi53b7pv" path="res://assets/main_menu/difficulty_skulls/difficulty_skull_spritesheet.png" id="14_yugwh"]
 [ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
@@ -555,7 +555,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hxnp0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_acdkm"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -899,7 +899,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mkev2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5lscm"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1026,7 +1026,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p3wox"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsbwy"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1181,7 +1181,6 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="UnlockUI" type="Node2D" parent="."]
-visible = false
 
 [node name="FallingCoins" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1190,7 +1189,7 @@ visible = false
 position = Vector2(153, -15)
 amount = 128
 process_material = SubResource("ParticleProcessMaterial_vbm6j")
-texture = ExtResource("5_am4o3")
+texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
@@ -1199,7 +1198,7 @@ trail_lifetime = 3.5
 position = Vector2(153, -15)
 amount = 64
 process_material = SubResource("ParticleProcessMaterial_6emgc")
-texture = ExtResource("5_am4o3")
+texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
@@ -1208,7 +1207,7 @@ trail_lifetime = 3.5
 position = Vector2(153, -15)
 amount = 64
 process_material = SubResource("ParticleProcessMaterial_ewdi3")
-texture = ExtResource("5_am4o3")
+texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
@@ -1216,7 +1215,7 @@ trail_lifetime = 3.5
 [node name="FallingCoinsBlue" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
 process_material = SubResource("ParticleProcessMaterial_i5que")
-texture = ExtResource("5_am4o3")
+texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
@@ -1234,6 +1233,7 @@ preprocess = 10.0
 trail_lifetime = 3.5
 
 [node name="CoinUI" type="Node2D" parent="UnlockUI"]
+visible = false
 
 [node name="Title" type="RichTextLabel" parent="UnlockUI/CoinUI"]
 offset_top = 16.0
@@ -1407,7 +1407,6 @@ position = Vector2(160, 75)
 texture = ExtResource("4_vorie")
 
 [node name="DifficultyUI" type="Node2D" parent="UnlockUI"]
-visible = false
 
 [node name="Title" type="RichTextLabel" parent="UnlockUI/DifficultyUI"]
 offset_top = 16.0
@@ -1461,11 +1460,12 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_hxnp0")
+material = SubResource("ShaderMaterial_acdkm")
 layout_mode = 2
 default_text = "Unlock"
 
 [node name="MainUI" type="Node2D" parent="."]
+visible = false
 
 [node name="EmbersCharacter" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
@@ -1752,12 +1752,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_mkev2")
+material = SubResource("ShaderMaterial_5lscm")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_p3wox")
+material = SubResource("ShaderMaterial_jsbwy")
 layout_mode = 2
 default_text = " Quit "
 

@@ -2420,7 +2420,12 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_disable_interaction_coins_and_patron()
 	_map_is_disabled = true
 	
-	# fist slam
+	_MALICE_DUST.emitting = false
+	_MALICE_DUST_RED.emitting = false
+	_LEFT_HAND.disable_hovering()
+	_RIGHT_HAND.disable_hovering()
+	_LEFT_HAND.slam()
+	_RIGHT_HAND.slam()
 	_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
 	# screen shake
 	
@@ -2439,6 +2444,17 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		await Global.delay(0.05)
 	
 	_CHARON_FOG_FX.fade_out(_TINT_TIME)
+	_LEFT_HAND.move_to_forward_position()
+	_RIGHT_HAND.move_to_forward_position()
+	
+	var skew_tween = create_tween().set_loops()
+	skew_tween.tween_property(_LEFT_HAND, "skew", PI/8, 0.5)
+	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", -PI/8, 0.5)
+	skew_tween.tween_property(_LEFT_HAND, "skew", 0, 0.5)
+	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", 0, 0.5)
+	_LEFT_HAND.activate_malice_active_tint()
+	_RIGHT_HAND.activate_malice_active_tint()
+	
 	
 	# create a bunch of heuristics to reference
 	# helper functions
@@ -2512,6 +2528,8 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var spawn_monsters_weight = 1 + (3 * Global.monsters_destroyed_this_round) +\
 		(2 if num_monsters == 1 else 0) + (4 if num_monsters == 0.0 else 0)
 	if num_monsters >= 4:
+		spawn_monsters_weight = 0
+	if Global.monsters_destroyed_this_round <= 1:
 		spawn_monsters_weight = 0
 	
 	if activation_type == MaliceActivation.AFTER_PAYOFF:
@@ -2612,7 +2630,6 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		var nuke_valuable_weight = 0
 		if is_highest_valued_singular and is_highest_valued_heads_power:
 			nuke_valuable_weight = 7
-		
 		
 		print("Curse weight: %d" % curse_weight)
 		print("Turn powers weight: %d" % turn_payoffs_weight)
@@ -2758,15 +2775,26 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		_:
 			assert(false)
 	
+	skew_tween.kill()
+	var fix_tween = create_tween()
+	fix_tween.tween_property(_LEFT_HAND, "skew", 0, 0.1)
+	fix_tween.tween_property(_RIGHT_HAND, "skew", 0, 0.1)
+	_LEFT_HAND.move_to_default_position()
+	_RIGHT_HAND.move_to_default_position()
+	_LEFT_HAND.enable_hovering()
+	_RIGHT_HAND.enable_hovering()
+	_LEFT_HAND.deactivate_malice_active_tint()
+	_RIGHT_HAND.deactivate_malice_active_tint()
+	Global.malice = 0.0
+	
 	# done, ending dialogue
 	if malice_activations_this_game == 0:
 		await _wait_for_dialogue("You look rather surprised.")
-		await _wait_for_dialogue("I never said I would play fair.")
+	await _wait_for_dialogue("I never said I would play fair...")
 	await _wait_for_dialogue("So what will you do now?")
 	_DIALOGUE.show_dialogue("Entertain me.")
 	
 	malice_activations_this_game += 1
-	Global.malice = 0.0
 	
 	_PLAYER_TEXTBOXES.make_visible()
 	_enable_interaction_coins_and_patron()
