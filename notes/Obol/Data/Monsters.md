@@ -39,3 +39,20 @@
 	- [ ] https://en.wikipedia.org/wiki/Giants_(Greek_mythology)
 	- [ ] "Events" - optional, 1 charge, always available coin (possibly use a new type of sprite for this) that appears in enemy row and does not occupy any monster-strength.
 		- [ ] Tempt Fate - Randomly turn all your coins into other coins of the same denomination and type.
+
+
+
+
+- [ ] Monster Coins
+	- [ ] ??? - -1/0; -1 becomes worse each time it resolves.
+	- [ ] ??? - -5/-1
+	- [ ] ??? - Adjacent coins have only 1 use of their powers.
+	- [ ] ??? - The first power you use this round is canceled, and that coin is fully drained.
+	- [ ] ??? - Randomly cursed coins
+	- [ ] ??? - Reflip random heads coins.
+	- [ ] ??? - Steals shards.
+	- [ ] ??? - Life costs; must use 10 powers uses on it to discard. Cancels powers used on it.
+	- [ ] ??? - Ignites a coin.
+	- [ ] ??? - Each toss, moves once to the left... if it moves to the far left, destroy the coin adjacent to it.
+	- [ ] ??? - At the end of round, downgrade the coin to the left and right.
+	- [ ] ??? - Lose god power charges.
