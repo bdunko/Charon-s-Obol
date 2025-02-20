@@ -1,9 +1,9 @@
+- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 - [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
 - [ ] Need to clear tooltips when performing transitions, otherwise tooltips can get stuck on screen (try Embark -> hold mouse over difficulty skull)
 - [ ] Different coin art for the elite monsters and nemesis monsters. 
 - [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 
 - [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip.
-- [ ] Custom mouse https://docs.godotengine.org/en/stable/tutorials/inputs/custom_mouse_cursor.html, if needed
 - [ ] Refactor - Colors as global references instead of interspersed all around
 - [ ] Art/FX - Power effects.
 - [ ] Improve payoff animation; coins raise one at a time and show number, stay raised, increase + or - number below count in pile; after all of type are up, move back down, all numbers vanish, below pile number moves up into number which changes as soul or life is given/taken
@@ -11,7 +11,6 @@
 - [ ] Vignette flash when taking damage. Pulsating vignette in black when lower on life.
 - [ ] "Zoom out" camera transition to table after the zoom in to patron scene.
 - [ ] Play with checkerboard full screen effect with light.
-- [ ] Bug - clicking and then moving away then releasing still triggers the button 
 - [ ] Art - Since the NUMBER does not change on Artemis/Demeter/Hades upgrades, perhaps change the ICON to indicate the power is stronger as well? Just minor graphical effect such as fancy pixels around the edges n stuff; maybe multiple arrows for Artemis or whatever.
 - [ ] FX - Lighting effects (experiment with)
 - [ ] FX - Rising text from payoffs (- souls, + souls, - life, etc)

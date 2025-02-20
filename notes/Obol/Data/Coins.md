@@ -1,10 +1,10 @@
 Unlockable coins + more coins
 - [ ] Payoff Coins
 	- [ ] NOTE - Power coins besides the basic one all have an icon and their heads face oscillates (fades) between showing the icon and showing the souls payoff for the coin.
-	- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-	- [x] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if all heads, destroyed
+	- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+	- [ ] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if all heads, destroyed
 	- [ ] Castor & Pollux - Paired coin. Whenever a power is used on one, also use it on the other. Whenever one is upgraded or destroyed, do the same to the other. Same for bless/curse and other statuses. Always lands on the same side as the other.
-	- [x] Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
+	- [ ] Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
 	- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 	- [ ] Daedalus - This coin can be infinitely upgraded and payoff increases each upgrade.
 	- [ ] Odysseus - Cannot be upgraded. At the end of each round, upgrades itself.
@@ -23,8 +23,8 @@ Unlockable coins + more coins
 	- [ ] ??? - Nullifying field - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff. 
 	- [ ] ??? - Crack this coin (1 charge). On the fifth crack, destroy and gain lots of souls.
 	- [ ] ??? - Every time this lands on tails, upgraded payout.
-	- [x] Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
-	- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+	- [ ] Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
+	- [ ] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
 	- [ ] ??? (payoff) - 1 soul per coin which has been destroyed or spent since the last payoff.
 	- [ ] ??? - 0/1/2/3 souls - Increased payoff by 2 each toss (resets at end of round)
 	- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
@@ -302,6 +302,77 @@ Unlockable coins + more coins
 	- [ ] ??? - Make a coin Unlucky and turn it to its other face.
 
 - [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
+
+
+
+
+**Potential coins to use - likely duplicated from above mostly**
+Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+Icarus - Waxen Wings, Melting - Shards based on number of heads; but if all heads, destroyed
+Hercules - Twelve Labors - Increased payoff each time it pays out in a row. Reset to 0 on tails. Base amount determined by denomination level.
+Tantalus - Whenever this card is on heads, gain souls then immediately turn it to tails.
+Helios - Sun Rise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+??? - +1 soul per 20/17/14/10 life you have.
+??? - At the end of the round, destroy this and gain a random coin of greater value. (low payoff)
+??? - 10/20/30/40 souls, reduced by 3/5/7/9 for each power you've used this toss.
+
+
+Perseus - Reflect the Gorgon's Gaze- Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
+??? - Blank 2 random tails coins.
+??? - This payoff, when you would lose life, gain that much instead. Requires 6/5/4/3 tosses to recharge.
+??? - Gain a random Obol/Diobol/Triobol/Tetrobol (on heads). It is Doomed (destroy at the end of the round).
+??? - Gain a coin with +5/-5 and flip it. After payoff, destroy it.
+??? - Hero - Downgrade a monster coin. If this destroys it, gain 10 souls. (diobol - 15 souls; triobol - double downgrade; tetrobol - 30 souls.)
+??? - Infinite uses. Reflip a coin, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
+Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+Notus - Southern Heat - Choose a coin. Swap positions with it, then reflip each coin between that coin and this coin. 
+Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
+Zephyros - Westward Breeze - Choose a coin. Move it to the left, then reflip its neighbors (but not it).
+Eurus - Eastern Turbulence - Choose a coin. Move it to the rightmost position. Reflip the leftmost and rightmost coins.
+Gaia - Gravitic Pull - pull a coin 1 space closer to this coin (pulls to other side if already adjacent), then flip both coins adjacent to this coin to their opposite side.
+Uranus - Sky Pulse - choose a coin. Push the coin to the left and right of that coin once away from it. Then reflip each coin to the left of the coin pushed left or the right of the coin pushed right.
+??? - Choose a coin. Pull it once closer to this coin. Then flip each coin that moved.
+??? - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
+Dolos - Choose a coin. This coin permanently becomes a copy of that coin.
+??? - Split a Diobol, Triobol, or Tetrobol into two coins of half value (cannot be used on Obols)
+??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
+??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded: Reflip, Bless, Freeze, Destroy, Stone
+??? - Reflip the coins to the left and right of this. Whenever you use a neighboring coin's power, it spends from here instead.
+Fickle Nymph - Coins to the left land on heads 10/12/15/18% more often; coins to the right land on tails more often. Power - move this randomly once to the left or right.
+	- [ ] Daedalus(?) - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin.
+		- [ ] Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face."
+??? - Daedalus - Copy another coin's power onto this coin's tails and give it +0/1/2/3 charges, but it does not recharge naturally.
+Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
+??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
+
+
+
+
+- [ ] Odysseus - The Hero's Return. A variety of stages in order must be completed. Always starts as Obol and upgrades at set points; cannot be upgraded in shop. Change flavor text each use.
+	- [ ] Reflip 2 random coins.
+	- [ ] Lose 5 shards.
+	- [ ] Bless a coin.
+	- [ ] Exchange a coin.
+	- [ ] Destroy a coin.
+	- [ ] Move a coin thrice to the left (must be able to move the coin).
+	- [ ] Curse a coin and its neighbors.
+	- [ ] Change a coin to heads.
+	- [ ] Reflip each coin on hjeads.
+	- [ ] Upgrade a coin.
+	- [ ] Destroy your highet value coin besides this, lose all god power charges, and gain an upgraded monster coin which cannot be destroyed or spent.
+	- [ ] Bury this coin. After 5 tosses, return, permanently change to heads, and annihilate all monster coins.
+	- [ ] Turn your souls into life. Flip all your coins to heads. Destroy this coin.
+
+
+- [ ] Pandora - 7 sins + hope (alt win condition)
+	- [ ] Wrath - Lose all your life (minimum 25)
+	- [ ] Sloth - End the round. Must be the first power you use this round.
+	- [ ] Greed - lose 100 souls.
+	- [ ] Gluttony - lose every charge from a heads coin (min 20), curse all coins.
+	- [ ] Lust - lose all your god power charges. permanently destroy your god statue.
+	- [ ] Pride - flip all your coins to tails and freeze them.
+	- [ ] Envy - transform every other coin into a random coin and reflip them.
+	- [ ] Hope - you win the game.
 
 
 

@@ -197,8 +197,9 @@ func _gui_input(event):
 				_mouse_down = true
 			else:
 				_mouse_down = false
-				emit_signal("clicked")
-				_reset_colors()
+				if _MOUSE.is_over():
+					emit_signal("clicked")
+					_reset_colors()
 
 func _on_mouse_entered():
 	_update_style()

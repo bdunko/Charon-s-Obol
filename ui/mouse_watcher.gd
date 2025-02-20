@@ -63,18 +63,23 @@ func _process(_delta) -> void:
 			print("changed mouse over state")
 		emit_signal("mouse_entered") if _mouse_over else emit_signal("mouse_exited")
 		emit_signal("changed")
-	
+
+var _mouse_down = false
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if _mouse_over:
-				if DEBUG:
-					print("emit clicked")
-				emit_signal("clicked")
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_mouse_down = true
 			else:
-				if DEBUG:
-					print("emit clicked elsewhere")
-				emit_signal("clicked_elsewhere")
+				_mouse_down = false
+				if _mouse_over:
+					emit_signal("clicked")
+					if DEBUG:
+						print("emit clicked")
+				else:
+					emit_signal("clicked_elsewhere")
+					if DEBUG:
+						print("emit clicked elsewhere")
 
 func is_over() -> bool:
 	return _mouse_over
