@@ -762,7 +762,7 @@ func recharge_power_uses_by(recharge_amount: int) -> void:
 	FX.flash(Color.LIGHT_PINK)
 
 func drain_power_uses_by(drain_amount: int) -> void:
-	assert(drain_amount < 0)
+	assert(drain_amount > 0)
 	if is_heads():
 		_heads_power.charges = max(_heads_power.charges - drain_amount, 0)
 	else:
