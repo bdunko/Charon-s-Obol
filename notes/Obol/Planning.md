@@ -3,38 +3,42 @@
 	- [ ] **More Coins**
 		- [ ] **Thursday + Friday - Choose coins and make art icons**
 			- [ ] 7 Payoffs
-				- [ ] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
-				- [ ] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
-				- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
-				- [ ] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
-				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
-				- [ ] Carpo - Abundant Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
+				- [x] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+				- [x] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
+				- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+				- [x] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
+				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
+				- [x] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
+				- [x] Carpo - Infinitem Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
 			- [ ] 23 Powers
-				- [ ] Perseus - Gorgan's Gaze, Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. Stone coins also lose 1 value.
-				- [ ] Hypnos - A Deeper Slumber - Blank 2 random tails coins.
-				- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-				- [ ] Triptolemus - Sow the Earth - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
-				- [ ] Antigone - Bury Thy Brother - Bury a coin for 1 payoff. Turn a random tails coin to heads.
-				- [ ] Khione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-				- [ ] Hecate - Witch's Spell - Choose a coin. Ignite it, Bless it, and make it Lucky.
-				- [ ] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
-				- [ ] Phaethon - Reckless Charioteer - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
-				- [ ] Erysichthon - Faustian Hunger - Infinite uses. Doesn't flip (use a separate sprite entirely to indicate this; it isn't a coin) Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. If you didn't use this at least once this round, curse this coin.
-				- [ ] Dolos - I Art Thou - Choose a coin. This coin permanently becomes a copy of that coin.
-				- [ ] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
-				- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
-				- [ ] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
-				- [ ] Daedalus - Erudite Inventor - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
-				- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
-				- [ ] Midas - Golden Touch - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
-				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
-				- [ ] Jason - Roving Argonaut - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
-				- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
-				- [ ] Perseus - Young Demigod/Great Hero - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
+				- [x] Perseus - Gorgon's Gaze Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
+				- [x] Hypnos - Bed of Poppies - Blank a tails coin.
+				- [x] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
+				- [x] Triptolemus - Sow the Earth - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
+				- [x] Antigone - Bury Thy Brother - Bury a coin for 1 payoff. Turn a random tails coin to heads.
+				- [x] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
+				- [x] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
+				- [x] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
+				- [x] Phaethon - Reckless Charioteer - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
+				- [x] Erysichthon - Faustian Hunger - Infinite uses. Doesn't flip (use a separate sprite entirely to indicate this; it isn't a coin) Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. If you didn't use this at least once this round, curse this coin.
+				- [x] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
+				- [x] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
+				- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+				- [x] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
+				- [x] Daedalus - Automata Builderm - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
+				- [x] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
+				- [x] Midas - Golden Touch - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
+				- [x] Dike - Fair & Balanced - Change each coin to its other side.
+				- [x] Jason - Roving Argonaut - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
+				- [x] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
+				- [x] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 		- [ ] **Weekend - Coin Implementations**
 
-
+- [ ] Atalanta - something to do with arrows.
+- [ ] Philoctetes - arrows again
+- [ ] Paris
+- [ ] Arcas
+- [ ] Orestes - madness
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Content Wave 2**

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dmndm4m2fuq4u"]
 
-[ext_resource type="Texture2D" uid="uid://blj71nts4230g" path="res://assets/icons/apollo_patron_icon.png" id="1_jned6"]
+[ext_resource type="Texture2D" uid="uid://blj71nts4230g" path="res://assets/icons/patron/apollo_patron_icon.png" id="1_jned6"]
 [ext_resource type="Script" path="res://particles/oneshot_particle.gd" id="2_o3geb"]
 
 [sub_resource type="Gradient" id="Gradient_eyh18"]

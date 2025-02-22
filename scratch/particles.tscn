@@ -1,9 +1,9 @@
 [gd_scene load_steps=64 format=3 uid="uid://c5s48jpqt4ob"]
 
 [ext_resource type="Texture2D" uid="uid://b2m4y4rkk3vja" path="res://scratch/particle_fade_out_color_ramp.tres" id="2_thj06"]
-[ext_resource type="Texture2D" uid="uid://evq36px6pl0r" path="res://assets/icons/zeus_icon.png" id="3_n8siq"]
+[ext_resource type="Texture2D" uid="uid://evq36px6pl0r" path="res://assets/icons/coin/zeus_icon.png" id="3_n8siq"]
 [ext_resource type="Texture2D" uid="uid://osmuebsyxiq" path="res://assets/icons/status/lucky_icon.png" id="4_2konj"]
-[ext_resource type="Texture2D" uid="uid://blj71nts4230g" path="res://assets/icons/apollo_patron_icon.png" id="4_6sge6"]
+[ext_resource type="Texture2D" uid="uid://blj71nts4230g" path="res://assets/icons/patron/apollo_patron_icon.png" id="4_6sge6"]
 [ext_resource type="Texture2D" uid="uid://cgxakogx7cj4l" path="res://assets/icons/soul_fragment_red_heal_icon.png" id="6_jh6ma"]
 [ext_resource type="Texture2D" uid="uid://dt2g54d34p2h6" path="res://assets/scratch/skeletalhands.png" id="6_s5vld"]
 

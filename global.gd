@@ -1161,20 +1161,20 @@ var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [0
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS)", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS)", [5, 7, 9, 11, 13, 15], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/demeter_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE])
-var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/artemis_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
-var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
-var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2, 3, 4], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
-var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Copy another coin's power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/aphrodite_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TRADE])
-var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
-var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
-var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING,"res://assets/icons/hades_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.DESTROY, PowerFamily.Tag.HEAL])
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/poseidon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE])
+var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hera_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
+var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
+var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2, 3, 4], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
+var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Copy another coin's power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hermes_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TRADE])
+var POWER_FAMILY_MAKE_LUCKY = PowerFamily.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hestia_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
+var POWER_FAMILY_GAIN_COIN = PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dionysus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
+var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING,"res://assets/icons/coin/hades_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.DESTROY, PowerFamily.Tag.HEAL])
 
 var POWER_FAMILY_ARROW_REFLIP = PowerFamily.new("Reflip a coin.", [0, 0, 0, 0, 0, 0], PowerType.POWER_TARGETTING, "res://assets/icons/arrow_icon.png", ONLY_SHOW_ICON)
 
@@ -1215,8 +1215,8 @@ var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, (CURSE) and (FR
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single power charge each toss.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1(LIFE) for each unspent power charge on a (HEADS) coin.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png", ONLY_SHOW_ICON)
 
-var CHARON_POWER_DEATH = PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/charon_death_icon.png", ONLY_SHOW_ICON)
-var CHARON_POWER_LIFE = PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/charon_life_icon.png", ONLY_SHOW_ICON)
+var CHARON_POWER_DEATH = PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", ONLY_SHOW_ICON)
+var CHARON_POWER_LIFE = PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
 
 func replace_placeholders(tooltip: String) -> String:
 	# images
@@ -1228,8 +1228,8 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")
 	tooltip = tooltip.replace("(SOULS)", "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]")
 	
-	tooltip = tooltip.replace("(CHARON_DEATH)", "[img=10x13]res://assets/icons/charon_death_icon.png[/img]")
-	tooltip = tooltip.replace("(CHARON_LIFE)", "[img=10x13]res://assets/icons/charon_life_icon.png[/img]")
+	tooltip = tooltip.replace("(CHARON_DEATH)", "[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img]")
+	tooltip = tooltip.replace("(CHARON_LIFE)", "[img=10x13]res://assets/icons/coin/charon_life_icon.png[/img]")
 	
 	# statuses
 	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
@@ -1491,22 +1491,22 @@ class Patron:
 		return Global.choose_one(_starting_coinpool)
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/apollo_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/ares_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/artemis_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/athena_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/demeter_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/dionysus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/hades_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hera_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/hermes_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/hestia_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/poseidon_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/zeus_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
 
-var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/charon_life_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [3, 3, 3, 3], PowerType.POWER_TARGETTING, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
 
 var immediate_patron_powers = [PATRON_POWER_FAMILY_DEMETER, PATRON_POWER_FAMILY_APOLLO, PATRON_POWER_FAMILY_ARTEMIS, PATRON_POWER_FAMILY_ARES, PATRON_POWER_FAMILY_APHRODITE, PATRON_POWER_FAMILY_DIONYSUS]
 
