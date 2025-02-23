@@ -1,44 +1,60 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
 	- [ ] **More Coins**
-		- [ ] **Thursday + Friday - Choose coins and make art icons**
-			- [ ] 7 Payoffs
-				- [x] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
-				- [x] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
-				- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-				- [x] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
-				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
-				- [x] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
-				- [x] Carpo - Infinitem Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
-			- [ ] 23 Powers
-				- [x] Perseus - Gorgon's Gaze Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
-				- [x] Hypnos - Bed of Poppies - Blank a tails coin.
-				- [x] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-				- [x] Triptolemus - Sow the Earth - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
-				- [x] Antigone - Bury Thy Brother - Bury a coin for 1 payoff. Turn a random tails coin to heads.
-				- [x] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-				- [x] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
-				- [x] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
-				- [x] Phaethon - Reckless Charioteer - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
-				- [x] Erysichthon - Faustian Hunger - Infinite uses. Doesn't flip (use a separate sprite entirely to indicate this; it isn't a coin) Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. If you didn't use this at least once this round, curse this coin.
-				- [x] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
-				- [x] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
-				- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
-				- [x] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
-				- [x] Daedalus - Automata Builderm - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
-				- [x] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
-				- [x] Midas - Golden Touch - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
-				- [x] Dike - Fair & Balanced - Change each coin to its other side.
-				- [x] Jason - Roving Argonaut - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
-				- [x] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
-				- [x] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
+		- [ ] Saturday: 
+			- [x] Add all coin families and such
+		- [ ] Sunday:
+			- [ ] Payoff coins should have their soul icon gradually fade between the soul icon and the power's representative icon (don't do this for basic obols)
+			- [ ] Payoff coins with changing soul amounts should have an icon in their tooltip for that 'power'. This is just aesthetic. 
+				- [ ] The tooltip should be (ICON) -> text. I believe monsters are already doing this? Can look for how they handle it for inspiration here. 
+			- [ ] Implement variable payoff coins. Logically, the coins themselves should update their values as things happen. Game informs all coins in row whenever an event happens (basically anything...) which may cause payoffs to change. Call update_payoff on all coins, passing in the coinrow and any other relevant args. The coin then calcualtes its payoff and uses this to update. Coins have a new private member payoff, (PAYOFF) will now correspond to this. Payoff coin tooltips will use (PAYOFF) instead of (CURRENT_CHARGES)/(MAX_CHARGES). Update face label if needed when we do this. Face labels which are payoff types will use the payoff member to determine amount. 
+			- [ ] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
+			- [ ] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
+		- [ ] Week:
+			- [ ] Work on implementing new power coins and their powers.
+			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
+		- [ ] Add Coins and their Powers
+			- [ ] 8 Payoffs
+				- [ ] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+				- [ ] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
+				- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
+				- [ ] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
+				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
+				- [ ] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
+				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
+			- [ ] 21 Powers
+				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
+				- [ ] Hypnos - Bed of Poppies - Blank a tails coin.
+				- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
+				- [ ] Triptolemus - Sow the Earth - Bury one of your coins for 3 payoffs. When it returns, gain souls and heal.
+				- [ ] Antigone - Bury Thy Brother - Bury one of your coins for 1 payoff. Turn a random tails coin to heads.
+				- [ ] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
+				- [ ] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
+				- [ ] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
+				- [ ] Phaethon - Smitten Upstart - Destroy this coin. Gain souls, arrows, life, and fully recharge patron. Upgrades each round.
+				- [ ] Erysichthon - Faustian Hunger - Infinite uses. Doesn't flip (use a separate sprite entirely to indicate this; it isn't a coin) Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. If you didn't use this at least once this round, curse this coin.
+				- [ ] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
+				- [ ] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
+				- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+				- [ ] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
+				- [ ] Daedalus - Automaton Builder - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
+				- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
+				- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
+				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
+				- [ ] Jason - Roving Argonaut - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
+				- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
+				- [ ] Proteus - Water Shifts Shapes - Transforms into a random power each toss. If the power is used, this face permanently becomes that power.
+					- [ ] make icon
+
 		- [ ] **Weekend - Coin Implementations**
 
-- [ ] Atalanta - something to do with arrows.
-- [ ] Philoctetes - arrows again
-- [ ] Paris
-- [ ] Arcas
-- [ ] Orestes - madness
+
+- [ ] Charon action ideas:
+	- [ ] Bury valuable coin.
+	- [ ] Ignite monsters.
+	- [ ] Lucky monsters. 
+	- [ ] Bless monsters.
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Content Wave 2**
@@ -53,18 +69,27 @@
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
 				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+- [ ] **QOL**
+	- [ ] Payoff coins with possibly changing amounts should have their text label flicker a bit. 
+	- [ ] Coins with a passive should have like, the cool rotating pixel thing around their edges.
+		- [ ] This is hard to do with shader (doable but tricky) - I'll just create an animation in aesprite and overlay it. 
+	- [ ] Add a hotkey which, when held, shows the icons of your coins. (shift or control probably)
+	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
+	- [ ] Settings menu
+	- [ ] **Tutorial Tuning**
+		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+		- [ ] The Shop Mat should be brought to front when introducing the shop.
+		- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
+		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
+		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
+		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
+		- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
+			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+		- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
+		- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
+		- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
+		- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
 - [ ] **Basic Sound
-- [ ] **Additional Refactors**
-	- [ ] Separate out Global.gd into multiple files.
-		- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
-	- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
-	- [ ] Cleanup coin.gd in the same way.
-	- [ ] **Coin Power Refactor**
-		- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife. 
-			- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
-			- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
-			- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
-		- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
 - [ ] **Orphic Tablets**
 	- [ ] Option unlocked on main menu once unlocked.
 	- [ ] New tablets unlocked in progression.
@@ -72,30 +97,16 @@
 	- [ ] Status - shows a list of all status icons and effects
 	- [ ] **Coin Gallery**
 		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
-- [ ] **Tutorial Tuning**
-	- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
-	- [ ] The Shop Mat should be brought to front when introducing the shop.
-	- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
-	- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
-	- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
-	- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
-	- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
-		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
-	- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-	- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
-	- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
-	- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
-- [ ] **Unlocks; both steady and an unlock for each character/nemesis**
+- [ ] **Revamped Unlock System**
 	- [ ] Achievement system for unlocks. Should appear on main menu. 
 
 **Charon's Obol Release**
-- [ ] **Settings menu**
 - [ ] **Controller Support**
 - [ ] **Coin Gallery**
 - [ ] **More Content**
 - [ ] **Polish**
 - [ ] **Bugs**
-- [ ] **Coinsets** - multiple options for what coins form the coinpool.
+- [ ] **Treasury of Atreus** - multiple options for what coins form the coinpool.
 	- [ ] Complete - everything
 	- [ ] Classic - Olympians (the 13 original)
 	- [ ] Classic+ - Classic with a few more additions, around ~25 coins.
@@ -125,7 +136,17 @@
 		- [ ] flat increase/decrease
 - [ ] Add custom seed option in main menu eventually
 	- [ ] Change RNG so that Trails/Boss/Charon, Shop, and coin RNG are all different.
-
+- [ ] **Additional Refactors**
+	- [ ] Separate out Global.gd into multiple files.
+		- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
+	- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
+	- [ ] Cleanup coin.gd in the same way.
+	- [ ] **Coin Power Refactor**
+		- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife. 
+			- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
+			- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
+			- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
+		- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
 
 
 https://en.wikipedia.org/wiki/Apega_of_Nabis

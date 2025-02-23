@@ -385,3 +385,8 @@ Characters I'd like to use
 - [ ] Pholus
 - [ ] Nereus
 - [ ] Chloris
+- [ ] Atalanta - something to do with arrows.
+- [ ] Philoctetes - arrows again
+- [ ] Paris
+- [ ] Arcas
+- [ ] Orestes - madness

@@ -986,6 +986,14 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 		
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
+	txt = txt.replace("(ICARUS_PER_HEADS)", str(Global.ICARUS_HEADS_MULTIPLIER[get_value()-1]))
+	txt = txt.replace("(CARPO_PER_PAYOFF)", str(Global.CARPO_ROUND_MULTIPLIER[get_value()-1]))
+	txt = txt.replace("(PHAETHON_SOULS)", str(Global.PHAETHON_REWARD_SOULS[get_value()-1]))
+	txt = txt.replace("(PHAETHON_LIFE)", str(Global.PHAETHON_REWARD_LIFE[get_value()-1]))
+	txt = txt.replace("(PHAETHON_ARROWS)", str(Global.PHAETHON_REWARD_ARROWS[get_value()-1]))
+	txt = txt.replace("(ERYSICHTHON_COST)", str("1 - this needs to change dynamically; todo")) #TODO
+	
+	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
 	
 	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
 	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
