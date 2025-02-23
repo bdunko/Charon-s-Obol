@@ -76,6 +76,7 @@
 	- [ ] Add a hotkey which, when held, shows the icons of your coins. (shift or control probably)
 	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
 	- [ ] Settings menu
+	- [ ] Can't accidentally mash through shop. Put a 1sec delay on entering shop and being allowed to press continue (don't show this visually, just ignore the click)
 	- [ ] **Tutorial Tuning**
 		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
 		- [ ] The Shop Mat should be brought to front when introducing the shop.

@@ -135,7 +135,12 @@ func _update_face_label() -> void:
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
 	var charges_str = "" if only_show_icon else ("%d" % get_active_power_charges())
-	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, get_active_power_family().icon_path]
+	
+	var icon_path = get_active_power_family().icon_path
+	# if this is a payoff coin and the current global style is to show souls, use souls icon instead
+	if is_payoff() and get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS and Global.current_face_label_icon == Global.CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON:
+		icon_path = "res://assets/icons/soul_fragment_blue_icon.png"
+	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
 	if only_show_icon:
@@ -325,6 +330,7 @@ func _ready():
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)
+	Global.coin_face_switched.connect(_update_appearance)
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint

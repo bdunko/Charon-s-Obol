@@ -20,7 +20,7 @@ func _ready():
 	assert(main_scene != null)
 
 func _input(_event):
-	if Global.DEBUG:
+	if Global.DEBUG_CONSOLE:
 		if Input.is_action_just_released("open_debug_console"):
 			_toggle()
 

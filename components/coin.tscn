@@ -1597,7 +1597,7 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 bbcode_enabled = true
-text = "[center][color=#b3b9d1]1[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img][/color][/center]"
+text = "[center][color=#b3b9d1]1[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][/color][/center]"
 fit_content = true
 scroll_active = false
 

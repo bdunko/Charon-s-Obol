@@ -1036,7 +1036,7 @@ func _advance_round() -> void:
 		Global.tutorialState = Global.TutorialState.ROUND5_INTRO
 	
 	# first round - point at the trials and nemesis
-	if Global.round_count == Global.FIRST_ROUND and Global.tutorialState == Global.TutorialState.INACTIVE:
+	if Global.round_count == Global.FIRST_ROUND and Global.tutorialState == Global.TutorialState.INACTIVE and not Global.DEBUG_SKIP_INTRO:
 		await _wait_for_dialogue("Take a moment to view our route...")
 		_DIALOGUE.show_dialogue("Observe the challenges which lie ahead.")
 		_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...

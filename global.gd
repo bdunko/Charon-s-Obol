@@ -1,7 +1,8 @@
 extends Node
 
-var DEBUG = true # utility flag for debugging mode
-var DEBUG_DONT_FORCE_FIRST_TOSS = false
+var DEBUG_CONSOLE = true # utility flag for debugging mode
+var DEBUG_DONT_FORCE_FIRST_TOSS = true # don't require the first toss each round
+var DEBUG_SKIP_INTRO = true # skip charon's trial intro
 
 signal state_changed
 signal round_changed
@@ -1159,23 +1160,27 @@ var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)."
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the right of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the right of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
+	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
-var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +2(ICARUS_PER_HEADS) for each of your other (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [1, 3, 5, 7, 9, 11],\
-	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this is on (HEADS), +(MAX_CHARGES)(SOULS) and turn this to (TAILS).", [4, 5, 6, 7, 8, 9], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(MAX_CHARGES)(SOULS)", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [3, 3, 3, 3, 3, 3], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+1(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/monster/stymphalian_birds_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your other (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [1, 3, 5, 7, 9, 11],\
+	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this is on (HEADS), +(MAX_CHARGES)(SOULS) and turn this to (TAILS).", [4, 5, 6, 7, 8, 9],\
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/tantalus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(MAX_CHARGES)(SOULS)", [3, 4, 5, 6, 7, 8],\
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [3, 3, 3, 3, 3, 3],\
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+1(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
-var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(CURRENT_CHARGES)(SOULS) [color=gray](Increases by (CARPO_PER_PAYOFF) after payoff! Resets each round.)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(CURRENT_CHARGES)(SOULS) [color=gray](Increases by (CARPO_PER_PAYOFF) after payoff! Resets each round.)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After 50 tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n(+CURRENT_CHARGES)(SOULS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
 
 
@@ -1227,7 +1232,7 @@ var POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA = PowerFamily.new("Choose a coin. Per
 var POWER_FAMILY_GAIN_PLUTUS_COIN = PowerFamily.new("Gain an Obol with \"(HEADS)+6(SOULS) and (TAILS)-6(LIFE)\" and flip it. After payoff, it is destroyed.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_GAIN_GOLDEN_COIN = PowerFamily.new("Gain a golden (THIS_DENOMINATION)![color=gray](Golden coins are blank on both sides.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_TURN_ALL = PowerFamily.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TURN])
-var POWER_FAMILY_GOLDEN_FLEECE = PowerFamily.new("Gain a wisp of Golden Fleece! [color=gray](For each wisp, coins in the shop cost -1(SOUL).)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/jason_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GOLDEN_FLEECE = PowerFamily.new("Gain a wisp of Golden Fleece! [color=gray](For each wisp, coins in the shop cost -1(SOULS).)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/jason_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PowerFamily.new("(IGNITE) a coin. If it was already (IGNITED), (BLESS) it. If it was already (BLESSED), destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.IGNITE, PowerFamily.Tag.BLESS, PowerFamily.Tag.DESTROY])
 var POWER_FAMILY_TRANSFORM_AND_LOCK = PowerFamily.new("Transforms into a random power each toss. If the power is used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
@@ -1350,9 +1355,9 @@ var _mouse_down = false
 var _last_any_input_time = 0.0
 const _MIN_TIME_BETWEEN_ANY_INPUT_MS = 100 #0.2 sec
 func _input(event: InputEvent) -> void:
-	if DEBUG and Input.is_key_pressed(KEY_SPACE):
+	if DEBUG_CONSOLE and Input.is_key_pressed(KEY_SPACE):
 		breakpoint
-	if DEBUG and Input.is_key_pressed(_SCREENSHOT_KEY):
+	if DEBUG_CONSOLE and Input.is_key_pressed(_SCREENSHOT_KEY):
 		take_screenshot()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -1788,7 +1793,7 @@ var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/
 	PRICY, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
 var HELIOS_FAMILY = CoinFamily.new(0, "Helios' (DENOM)", "[color=gray]Sunrises and Sets[/color]", NO_UNLOCK_TIP,\
-	PRICY, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
+	PRICY, POWER_FAMILY_GAIN_SOULS_HELIOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var ICARUS_FAMILY = CoinFamily.new(0, "Icarus' (DENOM)", "[color=gray]Waxen Wings Melting[/color]", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_ICARUS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var ACHILLES_FAMILY = CoinFamily.new(0, "Achilles' (DENOM)", "[color=gray]Held by the Heel[/color]", NO_UNLOCK_TIP,\
@@ -2193,3 +2198,24 @@ func _recursive_overwrite_dictionary(dict: Dictionary, dict_to_overwrite: Dictio
 func write_save() -> void:
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.WRITE)
 	file.store_var(_save_dict)
+
+
+signal coin_face_switched
+func _ready() -> void:
+	create_timer("COINFACE", 1.0).timeout.connect(_switch_coin_face)
+
+func _switch_coin_face() -> void:
+	match(current_face_label_icon):
+		CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON:
+			current_face_label_icon = CoinFaceLabelIcon.ICON
+		_:
+			current_face_label_icon = CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON
+	emit_signal("coin_face_switched")
+
+enum CoinFaceLabelIcon {
+	SOULS_IF_PAYOFF_ELSE_ICON, ICON
+}
+var current_face_label_icon = CoinFaceLabelIcon.ICON
+
+
+
