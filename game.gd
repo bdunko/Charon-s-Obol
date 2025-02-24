@@ -1852,10 +1852,6 @@ func _on_coin_clicked(coin: Coin):
 				Global.PATRON_POWER_FAMILY_ZEUS:
 					_safe_flip(coin, false)
 				Global.PATRON_POWER_FAMILY_HERA:
-					# necessary in case hera reflips itself
-					Global.active_coin_power_coin.spend_power_use()
-					spent_power_use = true
-					
 					_safe_flip(coin, false)
 					if left:
 						left.play_power_used_effect(Global.active_coin_power_family)
@@ -1980,6 +1976,9 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
 				# flip coin and neighbors
+				# necessary in case hera reflips itself
+				Global.active_coin_power_coin.spend_power_use()
+				spent_power_use = true
 				_safe_flip(coin, false)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)

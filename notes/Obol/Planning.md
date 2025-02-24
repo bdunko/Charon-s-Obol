@@ -4,12 +4,12 @@
 		- [ ] Saturday: 
 			- [x] Add all coin families and such
 		- [ ] Sunday:
-			- [ ] Payoff coins should have their soul icon gradually fade between the soul icon and the power's representative icon (don't do this for basic obols)
-			- [ ] Payoff coins with changing soul amounts should have an icon in their tooltip for that 'power'. This is just aesthetic. 
-				- [ ] The tooltip should be (ICON) -> text. I believe monsters are already doing this? Can look for how they handle it for inspiration here. 
+			- [x] Payoff coins should have their soul icon gradually fade between the soul icon and the power's representative icon (don't do this for basic obols)
+			- [x] Payoff coins with changing soul amounts should have an icon in their tooltip for that 'power'. This is just aesthetic. 
+				- [x] The tooltip should be (ICON) -> text. I believe monsters are already doing this? Can look for how they handle it for inspiration here. 
 			- [ ] Implement variable payoff coins. Logically, the coins themselves should update their values as things happen. Game informs all coins in row whenever an event happens (basically anything...) which may cause payoffs to change. Call update_payoff on all coins, passing in the coinrow and any other relevant args. The coin then calcualtes its payoff and uses this to update. Coins have a new private member payoff, (PAYOFF) will now correspond to this. Payoff coin tooltips will use (PAYOFF) instead of (CURRENT_CHARGES)/(MAX_CHARGES). Update face label if needed when we do this. Face labels which are payoff types will use the payoff member to determine amount. 
 			- [ ] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
-			- [ ] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
+			- [x] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
 		- [ ] Week:
 			- [ ] Work on implementing new power coins and their powers.
 			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 

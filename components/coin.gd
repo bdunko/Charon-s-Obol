@@ -137,9 +137,6 @@ func _update_face_label() -> void:
 	var charges_str = "" if only_show_icon else ("%d" % get_active_power_charges())
 	
 	var icon_path = get_active_power_family().icon_path
-	# if this is a payoff coin and the current global style is to show souls, use souls icon instead
-	if is_payoff() and get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS and Global.current_face_label_icon == Global.CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON:
-		icon_path = "res://assets/icons/soul_fragment_blue_icon.png"
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
@@ -330,7 +327,6 @@ func _ready():
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)
-	Global.coin_face_switched.connect(_update_appearance)
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
@@ -1053,19 +1049,29 @@ func _generate_tooltip() -> void:
 		if _tails_power.power_family.is_power():
 			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
-		const PAYOFF_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
-		const PAYOFF_FORMAT_ONE_CHARGE = "[img=10x13]%s[/img](POWERARROW)"
-		var exclude_powers = [Global.PowerType.PAYOFF_GAIN_SOULS, Global.PowerType.PAYOFF_LOSE_SOULS, Global.PowerType.PAYOFF_LOSE_LIFE]
-		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.power_type in exclude_powers:
-			if _heads_power.power_family.uses_for_denom[_denomination] <= 1:
-				heads_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % _heads_power.power_family.icon_path)
+		# safety asserts...
+		#TODODO make this path a const in global
+		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_blue_icon.png"))
+		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_heal_icon.png"))
+		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_icon.png"))
+		
+		const PAYOFF_POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
+		const PAYOFF_POWER_FORMAT_JUST_ICON = "[img=10x13]%s[/img](POWERARROW)"
+		
+		# case: show just [payoff]+X(SOULS) or [payoff]-X(LIVES) with NO power icon; we do this for specifically these basic powers
+		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png"]
+		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
+			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
+			if _heads_power.power_family.uses_for_denom[_denomination] <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
-				heads_power = _replace_placeholder_text(PAYOFF_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.power_type in exclude_powers:
-			if _tails_power.power_family.uses_for_denom[_denomination] <= 1:
-				tails_power = _replace_placeholder_text(PAYOFF_FORMAT_ONE_CHARGE % _tails_power.power_family.icon_path)
+				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+			
+		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
+			if _tails_power.power_family.uses_for_denom[_denomination] <= 1 or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
-				tails_power = _replace_placeholder_text(PAYOFF_FORMAT % _tails_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"

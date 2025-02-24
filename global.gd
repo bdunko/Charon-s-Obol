@@ -1159,14 +1159,14 @@ var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)
 var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [4, 8, 14, 20, 28, 38], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the right of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
@@ -2198,24 +2198,3 @@ func _recursive_overwrite_dictionary(dict: Dictionary, dict_to_overwrite: Dictio
 func write_save() -> void:
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.WRITE)
 	file.store_var(_save_dict)
-
-
-signal coin_face_switched
-func _ready() -> void:
-	create_timer("COINFACE", 1.0).timeout.connect(_switch_coin_face)
-
-func _switch_coin_face() -> void:
-	match(current_face_label_icon):
-		CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON:
-			current_face_label_icon = CoinFaceLabelIcon.ICON
-		_:
-			current_face_label_icon = CoinFaceLabelIcon.SOULS_IF_PAYOFF_ELSE_ICON
-	emit_signal("coin_face_switched")
-
-enum CoinFaceLabelIcon {
-	SOULS_IF_PAYOFF_ELSE_ICON, ICON
-}
-var current_face_label_icon = CoinFaceLabelIcon.ICON
-
-
-
