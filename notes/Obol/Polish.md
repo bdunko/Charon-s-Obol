@@ -1,3 +1,4 @@
+- [ ] can't activate demeter if no coins are showing a life penalty
 - [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 - [ ] After hand slam during malice, hand should shake a bit.
 - [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.

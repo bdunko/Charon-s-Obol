@@ -91,10 +91,47 @@ var _heads:
 class FacePower:
 	var charges: int = 0
 	var power_family: Global.PowerFamily
+	var souls_payoff: int = 0
 	
 	func _init(fam: Global.PowerFamily, starting_charges: int):
 		self.power_family = fam
 		self.charges = starting_charges
+	
+	func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow, _self: Coin, _denomination: Global.Denomination) -> void:
+		var in_shop = Global.state == Global.State.SHOP
+		if power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
+			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
+				if in_shop: # while in the shop, only show icon... we'll represent this with a special payoff I guess...
+					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+				else:
+					# +(USES) Souls for each coin to the left.
+					var souls_per_coin_on_left = power_family.uses_for_denom[_denomination]
+					souls_payoff = 0
+					assert(_coin_row.has_coin(_self))
+					for coin in _coin_row.get_children():
+						if coin == _self:
+							break
+						souls_payoff += souls_per_coin_on_left
+			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
+				if in_shop:
+					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+				else:
+					var base_payoff = power_family.uses_for_denom[_denomination]
+					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[_denomination]
+					souls_payoff = base_payoff + (souls_per_heads * (_coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
+			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
+				if in_shop:
+					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+				else:
+					var base_payoff = power_family.uses_for_denom[_denomination]
+					var round_multiplier = Global.CARPO_ROUND_MULTIPLIER[_denomination]
+					souls_payoff = base_payoff + (Global.payoffs_this_round * round_multiplier)
+			else: # all other ones don't have special scaling; just take number of uses
+				souls_payoff = power_family.uses_for_denom[_denomination]
+		elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_SOULS:
+			souls_payoff = power_family.uses_for_denom[_denomination]
+		else:
+			souls_payoff = 0
 
 var _heads_power: FacePower:
 	set(val):
@@ -133,15 +170,15 @@ func _update_face_label() -> void:
 			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
-	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
-	var number = _souls_payoff if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
-	var charges_str = "" if (only_show_icon or number == _SOULS_PAYOFF_ONLY_SHOW_ICON) else ("%d" % number)
+	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
+	var only_show_icon = (get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1) or number == _SOULS_PAYOFF_ONLY_SHOW_ICON
+	var charges_str = "" if only_show_icon else ("%d" % number)
 	
 	var icon_path = get_active_power_family().icon_path
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
-	if only_show_icon:
+	if only_show_icon or number:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION 
@@ -186,54 +223,15 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
 
-var _souls_payoff = 0:
-	set(val):
-		_souls_payoff = val
-		_update_appearance()
-
 const _SOULS_PAYOFF_ONLY_SHOW_ICON = -3431383
 
 func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
-	var in_shop = Global.state == Global.State.SHOP or _owner == Owner.SHOP
-	var active_power_family = get_active_power_family()
-	if active_power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
-		if active_power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
-			if in_shop: # while in the shop, only show icon... we'll represent this with a special payoff I guess...
-				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
-			else:
-				# +(USES) Souls for each coin to the left.
-				var souls_per_coin_on_left = active_power_family.uses_for_denom[_denomination]
-				_souls_payoff = 0
-				assert(_coin_row.has_coin(self))
-				for coin in _coin_row.get_children():
-					if coin == self:
-						break
-					_souls_payoff += souls_per_coin_on_left
-		elif active_power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
-			if in_shop:
-				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
-			else:
-				var base_payoff = active_power_family.uses_for_denom[_denomination]
-				var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[_denomination]
-				_souls_payoff = base_payoff + (souls_per_heads * (_coin_row.get_filtered(CoinRow.FILTER_HEADS).size()-1))
-		elif active_power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
-			if in_shop:
-				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
-			else:
-				var base_payoff = active_power_family.uses_for_denom[_denomination]
-				var round_multiplier = Global.CARPO_ROUND_MULTIPLIER[_denomination]
-				_souls_payoff = base_payoff + ((Global.tosses_this_round-1) * round_multiplier)
-			_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
-			pass #todo; remember to add +2 to base
-		else: # all other ones don't have special scaling; just take number of uses
-			_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
-	elif get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS:
-		_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
-	else:
-		_souls_payoff = 0
+	_heads_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
+	_tails_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
+	_update_appearance()
 
-func get_souls_payoff() -> int:
-	return _souls_payoff
+func get_active_souls_payoff() -> int:
+	return _get_active_power().souls_payoff
 
 func show_price() -> void:
 	_PRICE.modulate.a = 0.0
@@ -760,14 +758,20 @@ func destroy() -> void:
 func is_being_destroyed() -> bool:
 	return _marked_for_destruction
 
+func _get_active_power() -> FacePower:
+	return _heads_power if is_heads() else _tails_power
+
+func _get_inactive_power() -> FacePower:
+	return _heads_power if is_tails() else _tails_power
+
 func get_active_power_family() -> Global.PowerFamily:
-	return _heads_power.power_family if is_heads() else _tails_power.power_family
+	return _get_active_power().power_family
 
 func get_inactive_power_family() -> Global.PowerFamily:
-	return _heads_power.power_family if is_tails() else _heads_power.power_family
+	return _get_inactive_power().power_family
 
 func get_active_power_charges() -> int:
-	return _heads_power.charges if is_heads() else _tails_power.charges
+	return _get_active_power().charges
 
 func get_max_active_power_charges() -> int:
 	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.uses_for_denom[_denomination]
@@ -1020,21 +1024,19 @@ const NUMERICAL_ADVERB_DICT = {
 	9 : "Nine times", 
 	10 : "Ten times"
 }
-func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_charges: int = -100000) -> String:
-	assert((max_charges != -100000 and current_charges != -100000) or (max_charges == -100000 and current_charges == -100000),\
-		"If you provide either a max charges or current charges, you have to pass both (probably accidentally passed only 1 optional param)")
-	
+func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
-	if max_charges != -100000:
-		txt = txt.replace("(MAX_CHARGES)", str(max(0, max_charges)))
-	if current_charges != -100000:
-		var charges = max(0, current_charges)
+	if face_power != null:
+		txt = txt.replace("(MAX_CHARGES)", str(max(0, face_power.power_family.uses_for_denom[_denomination])))
+
+		var charges = max(0, face_power.charges)
 		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)
 		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
 		if charges != 0 and charges <= 10:
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
-		
+
+		txt = txt.replace("(SOULS_PAYOFF)", str(face_power.souls_payoff))
 		
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
@@ -1053,7 +1055,7 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	txt = txt.replace("(2_PER_DENOM)", str(get_denomination_as_int() * 2))
 	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + (get_denomination_as_int() * 2)))
 	
-	txt = txt.replace("(PAYOFF)", str(get_souls_payoff()))
+	
 	
 	var heph_str = func(denom_as_int: int) -> String:
 		match(denom_as_int):
@@ -1077,7 +1079,7 @@ func _generate_tooltip() -> void:
 		# (subtitle)
 		# (desc)
 		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n%s"
-		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power)
 		tooltip = PASSIVE_FORMAT % [get_coin_name(), get_subtitle(), desc]
 	else:
 		# (name)
@@ -1088,8 +1090,8 @@ func _generate_tooltip() -> void:
 		# get descriptions for powers
 		var heads_power_type = _heads_power.power_family.get_power_type_placeholder()
 		var tails_power_type = _tails_power.power_family.get_power_type_placeholder()
-		var heads_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
-		var tails_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+		var heads_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power)
+		var tails_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power)
 		
 		# N/N(icon)->   OR for certain powers,   N(icon)->
 		var heads_power = ""
@@ -1097,9 +1099,9 @@ func _generate_tooltip() -> void:
 		
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		if _heads_power.power_family.is_power():
-			heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+			heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
 		if _tails_power.power_family.is_power():
-			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# safety asserts...
 		#TODODO make this path a const in global
@@ -1117,13 +1119,13 @@ func _generate_tooltip() -> void:
 			if _heads_power.power_family.uses_for_denom[_denomination] <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
-				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _heads_power.charges)
+				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
 			
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
 			if _tails_power.power_family.uses_for_denom[_denomination] <= 1 or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
-				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _heads_power.power_family.uses_for_denom[_denomination], _tails_power.charges)
+				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"

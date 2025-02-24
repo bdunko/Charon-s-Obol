@@ -9,6 +9,7 @@
 		- [ ] ??? - Reduced payoff. No tails penalty. If this coin lands on tails, make another random coin Lucky.
 		- [ ] ??? - At the end of the round, destroy this and gain a random coin of greater value. (low payoff)
 		- [x] Orion - Souls on heads; Arrows on tails (souls payoff is minimal)
+		- [ ] ??? - Increases depending on how angry Charon is. Only appears on difficulties with malice. 
 	- [ ] **Highlander**
 		- [ ] ??? - Payoff. Gives more souls the fewer payoff coins you have (and a ton if this is the only one).
 		- [ ] ??? - More souls the fewer coins you have.
@@ -57,7 +58,7 @@
 	- [ ] **Temporary**
 		- [ ] ??? - Crack this coin (1 charge). On the fifth crack, destroy and gain lots of souls.
 	- [ ] **Positioning**
-		- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+		- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the left of this, then move once to the left. Also blesses coins as it passes.
 		- [ ] Selene - moon goddess - maybe move from east to west but curses during, higher payoff once it's all the way to the left?
 		- [ ] ??? (payoff) - Payoff 1 soul + souls equal to the combined value of neighboring coins denominations
 	- [ ] **Monsters**

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iwd4qg1dublk"
-path="res://.godot/imported/orion_icon.png-d5e1a7a549b667cfdff8493dbcc4a7e3.ctex"
+uid="uid://csrcutwqnqi2e"
+path="res://.godot/imported/aeneas_icon_UNUSED.png-a63b7f777023d3c565db30287ba9a8f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/orion_icon.png"
-dest_files=["res://.godot/imported/orion_icon.png-d5e1a7a549b667cfdff8493dbcc4a7e3.ctex"]
+source_file="res://assets/icons/coin/aeneas_icon_UNUSED.png"
+dest_files=["res://.godot/imported/aeneas_icon_UNUSED.png-a63b7f777023d3c565db30287ba9a8f3.ctex"]
 
 [params]
 

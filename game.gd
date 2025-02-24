@@ -269,6 +269,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
 	_COIN_ROW.show() #this is just to make the row visible if charon obol flip is not happening, for now...
+	_update_payoffs()
 	
 	if Global.state == Global.State.SHOP:
 		_TRIAL_TINT_FX.fade_out(_TINT_TIME)
@@ -752,7 +753,7 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.lives -= int(Global.lives / 2.0)
 				Global.PowerType.PAYOFF_GAIN_SOULS:
-					var payoff = payoff_coin.get_souls_payoff()
+					var payoff = payoff_coin.get_active_souls_payoff()
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 10 souls per payoff coin
 						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_LIMITATION)
 						payoff = 0 if payoff <= 10 else payoff
@@ -761,7 +762,7 @@ func _on_accept_button_pressed():
 						_earn_souls(payoff)
 						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
 				Global.PowerType.PAYOFF_LOSE_SOULS:
-					var payoff = payoff_coin.get_souls_payoff()
+					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
 					_lose_souls(payoff)
 				Global.PowerType.PAYOFF_GAIN_ARROWS:
@@ -823,6 +824,7 @@ func _on_accept_button_pressed():
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
 			if Global.lives < 0:
+				Global.payoffs_this_round += 1
 				return
 		
 		# unblank when it would payoff
@@ -842,6 +844,7 @@ func _on_accept_button_pressed():
 					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
 					if Global.lives < 0:
+						Global.payoffs_this_round += 1
 						return
 			resolved_ignite = true
 	
@@ -885,7 +888,9 @@ func _on_accept_button_pressed():
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.after_payoff()
+	Global.payoffs_this_round += 1
 	_update_payoffs()
+	
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED:
 		await _tutorial_fade_in([_LIFE_FRAGMENTS, _LIFE_LABEL])
@@ -914,7 +919,6 @@ func _on_accept_button_pressed():
 		# increase by 10 but cap at 95
 		Global.malice = min(Global.MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS,\
 			Global.malice + (Global.MALICE_INCREASE_ON_TOSS_FINISHED * Global.current_round_malice_multiplier()))
-	
 	
 	_enable_interaction_coins_and_patron()
 	_enable_or_disable_end_round_textbox()
@@ -2408,6 +2412,8 @@ func randomize_and_show_shop() -> void:
 	for coin in _SHOP_COIN_ROW.get_children():
 		coin.unhovered.connect(_on_coin_unhovered)
 		coin.hovered.connect(_on_coin_hovered)
+	
+	_update_payoffs()
 
 enum MaliceActivation {
 	AFTER_PAYOFF, DURING_POWERS

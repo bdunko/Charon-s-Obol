@@ -13,6 +13,7 @@ signal active_coin_power_coin_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
 signal tosses_this_round_changed
+signal payoffs_this_round_changed
 signal powers_this_round_changed
 signal monsters_destroyed_this_round_changed
 signal ante_changed
@@ -293,6 +294,11 @@ var lives:
 	set(val):
 		lives = val
 		emit_signal("life_count_changed")
+
+var payoffs_this_round: int:
+	set(val):
+		payoffs_this_round = val
+		emit_signal("payoffs_this_round_changed")
 
 var tosses_this_round: int:
 	set(val):
@@ -1161,24 +1167,24 @@ var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [
 var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
-var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(PAYOFF)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the right of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
-var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your other (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [1, 3, 5, 7, 9, 11],\
+var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this is on (HEADS), +(MAX_CHARGES)(SOULS) and turn this to (TAILS).", [4, 5, 6, 7, 8, 9],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/tantalus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(PAYOFF)(SOULS)", [3, 4, 5, 6, 7, 8],\
-	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(PAYOFF)(SOULS).", [3, 3, 3, 3, 3, 3],\
+var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS)", [3, 4, 5, 6, 7, 8],\
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [3, 3, 3, 3, 3, 3],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
-var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(PAYOFF)(SOULS) [color=gray](Increases by (CARPO_PER_PAYOFF) after payoff! Resets each round.)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(CARPO_PER_PAYOFF)(SOULS) for each payoff so far this round.", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After 50 tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n(+CURRENT_CHARGES)(SOULS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
 
 
@@ -1603,7 +1609,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Ares's Spear[/color]", "Reflip all coins.\n(PASSIVE)Monster coins on (TAILS) cost half as many (SOULS) to destroy.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
 	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to their other face.\n(PASSIVE)At the start of each round, +3(ARROW).", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
 	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's (LIFE) penalty by 2(LIFE).\n(PASSIVE)You can see what face each coin will land on when flipped.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
-	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin on (TAILS), +(HEAL) equal to its (LIFE) penalty.\n(PASSIVE)Whenever you heal (HEAL), also gain that many (SOULS).", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
+	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin showing a (LIFE) penalty, +(HEAL) equal to its (LIFE) penalty.\n(PASSIVE)Whenever you heal (HEAL), also gain that many (SOULS).", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
 	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "???\n(PASSIVE)When you gain a new coin, make it (LUCKY).", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
 	Patron.new("[color=slateblue]Hades[/color]", "[color=slateblue]Hades's Bident[/color]", "Destroy one of your coins. Gain (SOULS) and heal (LIFE) equal to %dx its value(COIN).\n(PASSIVE)Souls persist between rounds [color=gray](except before a Nemesis)[/color]." % HADES_PATRON_MULTIPLIER, PatronEnum.HADES, PATRON_POWER_FAMILY_HADES, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/hades.tscn"), [HADES_FAMILY]),
 	Patron.new("[color=sienna]Hephaestus[/color]", "[color=sienna]Hephaestus's Hammer[/color]", "Upgrade a coin and fully recharge it.\n(PASSIVE)Coins may be upgraded beyond Tetrobol [color=gray](to Pentobol and Drachma)[/color].", PatronEnum.HEPHAESTUS, PATRON_POWER_FAMILY_HEPHAESTUS, preload("res://components/patron_statues/hephaestus.tscn"), preload("res://components/patron_tokens/hephaestus.tscn"), [HEPHAESTUS_FAMILY]),
