@@ -7,7 +7,22 @@
 			- [x] Payoff coins should have their soul icon gradually fade between the soul icon and the power's representative icon (don't do this for basic obols)
 			- [x] Payoff coins with changing soul amounts should have an icon in their tooltip for that 'power'. This is just aesthetic. 
 				- [x] The tooltip should be (ICON) -> text. I believe monsters are already doing this? Can look for how they handle it for inspiration here. 
-			- [ ] Implement variable payoff coins. Logically, the coins themselves should update their values as things happen. Game informs all coins in row whenever an event happens (basically anything...) which may cause payoffs to change. Call update_payoff on all coins, passing in the coinrow and any other relevant args. The coin then calcualtes its payoff and uses this to update. Coins have a new private member payoff, (PAYOFF) will now correspond to this. Payoff coin tooltips will use (PAYOFF) instead of (CURRENT_CHARGES)/(MAX_CHARGES). Update face label if needed when we do this. Face labels which are payoff types will use the payoff member to determine amount. 
+			- [ ] Bug - carpo isn't working. Additionally, while on heads, (PAYOFF) in tooltips displays as 0. 
+				- [x] Add update_payoff function to coin.
+				- [x] Update coin's face label to use souls_payoff member
+					- [ ] if souls payoff = magic constant, don't show a number at all (used for Helios for example)
+				- [x] Update coin's tooltip to use souls_payoff member (add (PAYOFF) as an option when generating tooltip; this is used mostly for Carpo atm I believe)
+				- [x] In game, regularly call update_payoff on every coin in all rows. This is a relatively cheap operation, so it should be fine.
+					- [x] Whenever a coin finishes flipping.
+					- [x] At the end of each round.
+					- [x] After each coin actives in payoff.
+					- [x] After any power is used.
+					- [x] After patron is used.
+					- [x] After Charon activates. 
+					- [x] After a coin is purchased in the shop.
+					- [x] After a coin is destroyed or downgraded.
+				- [x] update_payoff should accept the coin row and the enemy row as params for now. add more in the future if needed.
+			- [x] We need to handle certain coins properly while they are in the shop. While in the shop, update_payoff needs to return specific thing (can check owner?)
 			- [ ] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
 			- [x] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
 		- [ ] Week:
@@ -16,13 +31,19 @@
 		- [ ] Add Coins and their Powers
 			- [ ] 8 Payoffs
 				- [ ] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
+					- [ ] update souls dynamically
+					- [ ] in payoff, after gaining souls - we need to specifically check for Helios and do the movement.
 				- [ ] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
+					- [ ] update souls dynamically
+					- [ ] in payoff, after gaining souls, need to check for all heads and destroy
 				- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
+					- [ ] in payoff, after losing life, check and destroy
 				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
-				- [ ] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
-				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
+				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
+				- [x] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
 				- [ ] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
 				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
+					- [ ] in payoff, after gaining souls, check for transform via metadata
 			- [ ] 21 Powers
 				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
 				- [ ] Hypnos - Bed of Poppies - Blank a tails coin.

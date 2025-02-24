@@ -18,9 +18,6 @@ func _ready():
 	var cost_per_length = 1
 	var max_length = 6
 	var output = []
-	
-	print(combination_sum(goal, values, cost_per_length, max_length))
-	
 
 
 

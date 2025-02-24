@@ -331,7 +331,7 @@ func _on_state_changed() -> void:
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		Global.flips_this_round = 0 # reduce ante to 0 for display purposes
+		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
 		Global.ante_modifier_this_round = 0
 		_ENEMY_COIN_ROW.clear()
 		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
@@ -435,7 +435,7 @@ func on_start() -> void: #reset
 	Global.arrows = 0
 	Global.active_coin_power_family = null
 	Global.active_coin_power_coin = null
-	Global.flips_this_round = 0
+	Global.tosses_this_round = 0
 	Global.ante_modifier_this_round = 0
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
@@ -493,6 +493,7 @@ var flips_pending = 0
 func _on_flip_complete() -> void:
 	flips_pending -= 1
 	assert(flips_pending >= 0)
+	_update_payoffs()
 	
 	if flips_pending == 0:
 		if Global.state == Global.State.AFTER_FLIP: #ignore reflips such as Zeus
@@ -537,7 +538,7 @@ func _on_flip_complete() -> void:
 				coin = coin as Coin
 				coin.on_toss_complete()
 			
-			Global.flips_this_round += 1
+			Global.tosses_this_round += 1
 			Global.state = Global.State.AFTER_FLIP
 			
 			if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
@@ -674,7 +675,7 @@ func _on_toss_button_clicked() -> void:
 			_safe_flip(coin, true, 1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
 			_safe_flip(coin, true, -1000000)
-		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO or (Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE and Global.flips_this_round % 2 == 0):
+		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO or (Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE and Global.tosses_this_round % 2 == 0):
 			if coin.get_coin_family() == Global.ZEUS_FAMILY:
 				_safe_flip(coin, true, 1000000)
 			else:
@@ -751,17 +752,18 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.lives -= int(Global.lives / 2.0)
 				Global.PowerType.PAYOFF_GAIN_SOULS:
-					var payoff = charges
+					var payoff = payoff_coin.get_souls_payoff()
 					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 10 souls per payoff coin
 						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_LIMITATION)
-						payoff = 0 if charges <= 10 else charges
+						payoff = 0 if payoff <= 10 else payoff
 					if payoff > 0:
 						payoff_coin.FX.flash(Color.AQUA)
 						_earn_souls(payoff)
 						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
 				Global.PowerType.PAYOFF_LOSE_SOULS:
+					var payoff = payoff_coin.get_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
-					_lose_souls(charges)
+					_lose_souls(payoff)
 				Global.PowerType.PAYOFF_GAIN_ARROWS:
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					Global.arrows = min(Global.arrows + charges, Global.ARROWS_LIMIT)
@@ -816,6 +818,7 @@ func _on_accept_button_pressed():
 					assert(false, "No matching case for power type!")
 				# END MATCH
 			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
+			_update_payoffs()
 			await Global.delay(0.15)
 			payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
@@ -834,6 +837,7 @@ func _on_accept_button_pressed():
 					possibly_ignited_coin.FX.flash(Color.RED)
 					possibly_ignited_coin.payoff_move_up()
 					Global.lives -= 3
+					_update_payoffs()
 					await Global.delay(0.15)
 					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
@@ -881,6 +885,7 @@ func _on_accept_button_pressed():
 	
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		payoff_coin.after_payoff()
+	_update_payoffs()
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED:
 		await _tutorial_fade_in([_LIFE_FRAGMENTS, _LIFE_LABEL])
@@ -1157,9 +1162,9 @@ func _on_end_round_button_pressed():
 	var first_round = Global.round_count == Global.FIRST_ROUND
 	const bad_luck_souls_first_round = 15
 	const average_souls = 17
-	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < bad_luck_souls_first_round and (Global.flips_this_round == 0 or Global.flips_this_round >= 7):
+	if Global.tutorialState == Global.TutorialState.INACTIVE and first_round and Global.souls < bad_luck_souls_first_round and (Global.tosses_this_round == 0 or Global.tosses_this_round >= 7):
 		var souls_awarded = 0
-		if Global.flips_this_round == 0:
+		if Global.tosses_this_round == 0:
 			await _wait_for_dialogue("Refusal to play is not an option!")
 			souls_awarded = average_souls
 		else:
@@ -1183,11 +1188,12 @@ func _on_end_round_button_pressed():
 		return
 	
 	Global.powers_this_round = 0
-	Global.flips_this_round = 0
+	Global.tosses_this_round = 0
 	Global.ante_modifier_this_round = 0
 	Global.souls_earned_this_round = 0
 	Global.monsters_destroyed_this_round = 0
 	Global.powers_this_round = 0
+	_update_payoffs()
 	
 	randomize_and_show_shop()
 	
@@ -1524,7 +1530,7 @@ func _enable_or_disable_end_round_textbox() -> void:
 		Global.TutorialState.ROUND3_PATRON_INTRO, # need a toss to explain patrons
 		Global.TutorialState.ROUND4_MONSTER_AFTER_TOSS] # need a toss to explain monsters
 	var first_round = Global.round_count == Global.FIRST_ROUND
-	var first_toss_of_round = Global.flips_this_round == 0
+	var first_toss_of_round = Global.tosses_this_round == 0
 	var disable_textbox = (not first_round and first_toss_of_round and not Global.DEBUG_DONT_FORCE_FIRST_TOSS) or Global.current_round_type() == Global.RoundType.NEMESIS or (Global.souls_earned_this_round < Global.current_round_quota()) or tutorial_disabled_states.has(Global.tutorialState)
 	_END_ROUND_TEXTBOX.disable() if disable_textbox else _END_ROUND_TEXTBOX.enable()
 
@@ -1631,6 +1637,7 @@ func _make_and_gain_coin(coin_family: Global.CoinFamily, denomination: Global.De
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DIONYSUS):
 		new_coin.make_lucky()
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DIONYSUS)
+	_update_payoffs()
 	return new_coin
 
 func _gain_coin_from_shop(coin: Coin) -> void:
@@ -1640,6 +1647,7 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 	coin.global_position = cur_pos
 	coin.mark_owned_by_player()
 	_init_new_coin_signals(coin)
+	_update_payoffs()
 
 func _init_new_coin_signals(coin: Coin) -> void:
 	coin.clicked.connect(_on_coin_clicked)
@@ -1668,6 +1676,7 @@ func downgrade_coin(coin: Coin) -> void:
 		destroy_coin(coin)
 	else:
 		coin.downgrade()
+		_update_payoffs()
 
 func destroy_coin(coin: Coin) -> void:
 	if coin.is_being_destroyed():
@@ -1680,6 +1689,7 @@ func destroy_coin(coin: Coin) -> void:
 		_remove_coin_from_row(coin)
 	# play destruction animation (coin will free itself after finishing)
 	coin.destroy()
+	_update_payoffs()
 	
 	# if nemesis round and the row is now empty, go ahead and end the round
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -1912,6 +1922,7 @@ func _on_coin_clicked(coin: Coin):
 					coin.supercharge()
 					Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
 			_patron_token.deactivate()
+			_update_payoffs()
 			if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_USED:
 				_map_is_disabled = false
 				Global.restore_z(_LEFT_HAND)
@@ -2079,6 +2090,7 @@ func _on_coin_clicked(coin: Coin):
 		Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
 		if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
 			await activate_malice(MaliceActivation.DURING_POWERS)
+		_update_payoffs()
 	
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
@@ -2127,6 +2139,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
 			if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
 				await activate_malice(MaliceActivation.DURING_POWERS)
+			_update_payoffs()
 		else: # otherwise, make this the active coin and coin power and await click on target
 			# prevent reactivating the coin after deactivating
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
@@ -2412,9 +2425,6 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	# remove excess elements from recent powers used
 	while powers_used.size() > 30:
 		powers_used.pop_front()
-	for p in powers_used:
-		var power: Global.PowerFamily = p
-		print(power.description)
 	
 	_disable_interaction_coins_and_patron()
 	_map_is_disabled = true
@@ -2673,8 +2683,6 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	
 	previous_malice_action = final_action
 	
-	print(final_action)
-	
 	# perform the action
 	match final_action:
 		MaliceAction.UNLUCKY:
@@ -2795,6 +2803,8 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	
 	malice_activations_this_game += 1
 	
+	_update_payoffs()
+	
 	_PLAYER_TEXTBOXES.make_visible()
 	_enable_interaction_coins_and_patron()
 	_map_is_disabled = false
@@ -2802,6 +2812,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 @onready var _MALICE_DUST : GPUParticles2D = $MaliceDust
 @onready var _MALICE_DUST_RED : GPUParticles2D = $MaliceDustRed
 func _on_malice_changed() -> void:
+	print(Global.malice)
 	if Global.malice >= 40:
 		_MALICE_DUST.emitting = true
 		_MALICE_DUST.amount = lerp(15, 40, (Global.malice-40)/60.0)
@@ -2824,3 +2835,7 @@ func _on_malice_changed() -> void:
 	else:
 		_LEFT_HAND.deactivate_malice_glow()
 		_RIGHT_HAND.deactivate_malice_glow()
+
+func _update_payoffs() -> void:
+	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW)

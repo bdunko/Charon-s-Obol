@@ -113,11 +113,9 @@ func set_appearance(appearance: Appearance) -> void:
 			_SPRITE.play(_ANIM_POINTING)
 
 func activate_malice_glow() -> void:
-	print("normal")
 	_FX.start_glowing(Color("#793a80"), 5, 1, 0.75)
 
 func activate_malice_glow_intense() -> void:
-	print("intense")
 	_FX.start_glowing(Color("#bc4a9b"), 20, 1, 0.9)
 
 func deactivate_malice_glow() -> void:

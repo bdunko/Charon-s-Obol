@@ -12,7 +12,7 @@ signal arrow_count_changed
 signal active_coin_power_coin_changed
 signal active_coin_power_family_changed
 signal toll_coins_changed
-signal flips_this_round_changed
+signal tosses_this_round_changed
 signal powers_this_round_changed
 signal monsters_destroyed_this_round_changed
 signal ante_changed
@@ -294,10 +294,10 @@ var lives:
 		lives = val
 		emit_signal("life_count_changed")
 
-var flips_this_round: int:
+var tosses_this_round: int:
 	set(val):
-		flips_this_round = val
-		emit_signal("flips_this_round_changed")
+		tosses_this_round = val
+		emit_signal("tosses_this_round_changed")
 		emit_signal("ante_changed")
 
 var powers_this_round: int:
@@ -326,8 +326,7 @@ var malice: float:
 	set(val):
 		if is_difficulty_active(Difficulty.HOSTILE2):
 			malice = val
-			print("malice = %d" % malice)
-			emit_signal("malice_changed")
+		emit_signal("malice_changed")
 
 const COIN_TWEEN_TIME := 0.22
 
@@ -427,36 +426,36 @@ func ante_cost() -> int:
 	
 	match(current_round_ante_formula()):
 		AnteFormula.THREE:
-			base_ante = flips_this_round * 3
+			base_ante = tosses_this_round * 3
 		AnteFormula.THREE_WITH_EXP:
-			base_ante = flips_this_round * 3
+			base_ante = tosses_this_round * 3
 			add_exp = true
 		AnteFormula.FOUR:
-			base_ante = flips_this_round * 4
+			base_ante = tosses_this_round * 4
 		AnteFormula.FOUR_WITH_EXP:
-			base_ante = flips_this_round * 4
+			base_ante = tosses_this_round * 4
 			add_exp = true
 		AnteFormula.FIVE:
-			base_ante = flips_this_round * 5 
+			base_ante = tosses_this_round * 5 
 		AnteFormula.FIVE_WITH_EXP:
-			base_ante = flips_this_round * 5 
+			base_ante = tosses_this_round * 5 
 			add_exp = true
 		AnteFormula.SIX:
-			base_ante = flips_this_round * 6
+			base_ante = tosses_this_round * 6
 		AnteFormula.SIX_WITH_EXP:
-			base_ante = flips_this_round * 6
+			base_ante = tosses_this_round * 6
 			add_exp = true
 		AnteFormula.SEVEN:
-			base_ante = flips_this_round * 7
+			base_ante = tosses_this_round * 7
 		AnteFormula.SEVEN_WITH_EXP:
-			base_ante = flips_this_round * 7
+			base_ante = tosses_this_round * 7
 			add_exp = true
 		_:
 			assert(false, "Invalid ante formula...")
 	
 	const EXP_STARTS_AT = 7
-	if add_exp and flips_this_round >= EXP_STARTS_AT:
-		base_ante += pow(2, flips_this_round - 5)
+	if add_exp and tosses_this_round >= EXP_STARTS_AT:
+		base_ante += pow(2, tosses_this_round - 5)
 	
 	return max(0, base_ante + ante_modifier_this_round)
 
@@ -1162,11 +1161,10 @@ var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [
 var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
+var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(PAYOFF)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
-var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-
-var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the right of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
@@ -1174,13 +1172,13 @@ var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(I
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this is on (HEADS), +(MAX_CHARGES)(SOULS) and turn this to (TAILS).", [4, 5, 6, 7, 8, 9],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/tantalus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(MAX_CHARGES)(SOULS)", [3, 4, 5, 6, 7, 8],\
+var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(PAYOFF)(SOULS)", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(MAX_CHARGES)(SOULS).", [3, 3, 3, 3, 3, 3],\
+var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(PAYOFF)(SOULS).", [3, 3, 3, 3, 3, 3],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+1(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
-var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(CURRENT_CHARGES)(SOULS) [color=gray](Increases by (CARPO_PER_PAYOFF) after payoff! Resets each round.)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(PAYOFF)(SOULS) [color=gray](Increases by (CARPO_PER_PAYOFF) after payoff! Resets each round.)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After 50 tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n(+CURRENT_CHARGES)(SOULS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
 
 

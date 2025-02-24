@@ -114,9 +114,9 @@ func _update_appearance() -> void:
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_passive())
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
-const _RED = "#e12f3b"
-const _BLUE = "#a6fcdb"
-const _YELLOW = "#ffd541"
+const _RED = "#f72534"
+const _BLUE = "#20d6c7"
+const _YELLOW = "#fffc40"
 const _GRAY = "#b3b9d1"
 func _update_face_label() -> void:
 	if _blank:
@@ -134,7 +134,8 @@ func _update_face_label() -> void:
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
-	var charges_str = "" if only_show_icon else ("%d" % get_active_power_charges())
+	var number = _souls_payoff if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
+	var charges_str = "" if (only_show_icon or number == _SOULS_PAYOFF_ONLY_SHOW_ICON) else ("%d" % number)
 	
 	var icon_path = get_active_power_family().icon_path
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
@@ -184,6 +185,55 @@ func _update_price_label() -> void:
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
+
+var _souls_payoff = 0:
+	set(val):
+		_souls_payoff = val
+		_update_appearance()
+
+const _SOULS_PAYOFF_ONLY_SHOW_ICON = -3431383
+
+func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
+	var in_shop = Global.state == Global.State.SHOP or _owner == Owner.SHOP
+	var active_power_family = get_active_power_family()
+	if active_power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
+		if active_power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
+			if in_shop: # while in the shop, only show icon... we'll represent this with a special payoff I guess...
+				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+			else:
+				# +(USES) Souls for each coin to the left.
+				var souls_per_coin_on_left = active_power_family.uses_for_denom[_denomination]
+				_souls_payoff = 0
+				assert(_coin_row.has_coin(self))
+				for coin in _coin_row.get_children():
+					if coin == self:
+						break
+					_souls_payoff += souls_per_coin_on_left
+		elif active_power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
+			if in_shop:
+				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+			else:
+				var base_payoff = active_power_family.uses_for_denom[_denomination]
+				var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[_denomination]
+				_souls_payoff = base_payoff + (souls_per_heads * (_coin_row.get_filtered(CoinRow.FILTER_HEADS).size()-1))
+		elif active_power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
+			if in_shop:
+				_souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+			else:
+				var base_payoff = active_power_family.uses_for_denom[_denomination]
+				var round_multiplier = Global.CARPO_ROUND_MULTIPLIER[_denomination]
+				_souls_payoff = base_payoff + ((Global.tosses_this_round-1) * round_multiplier)
+			_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
+			pass #todo; remember to add +2 to base
+		else: # all other ones don't have special scaling; just take number of uses
+			_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
+	elif get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS:
+		_souls_payoff = get_active_power_family().uses_for_denom[_denomination]
+	else:
+		_souls_payoff = 0
+
+func get_souls_payoff() -> int:
+	return _souls_payoff
 
 func show_price() -> void:
 	_PRICE.modulate.a = 0.0
@@ -1002,6 +1052,8 @@ func _replace_placeholder_text(txt: String, max_charges: int = -100000, current_
 	txt = txt.replace("(2+1_PER_DENOM)", str(get_denomination_as_int() + 2))
 	txt = txt.replace("(2_PER_DENOM)", str(get_denomination_as_int() * 2))
 	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + (get_denomination_as_int() * 2)))
+	
+	txt = txt.replace("(PAYOFF)", str(get_souls_payoff()))
 	
 	var heph_str = func(denom_as_int: int) -> String:
 		match(denom_as_int):
