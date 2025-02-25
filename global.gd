@@ -1925,35 +1925,35 @@ const NEMESIS_MEDUSA_APPEASE = [35, 44, 52, 60, 68, 77]
 # standard monsters
 var MONSTER_FAMILY = CoinFamily.new(1000, "[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", "res://assets/icons/coin/generic_icon.png", NO_UNLOCK_TIP,\
 	NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(1001, "[color=gray]Hellhound[/color]", "[color=purple]Infernal Pursurer[/color]", MONSTER_POWER_FAMILY_HELLHOUND.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(1001, "[color=gray]Hellhound's (DENOM)[/color]", "[color=purple]Infernal Pursurer[/color]", MONSTER_POWER_FAMILY_HELLHOUND.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos[/color]", "[color=purple]Obstreperous Scamp[/color]", MONSTER_POWER_FAMILY_KOBALOS.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_KOBALOS_FAMILY = CoinFamily.new(1002, "[color=gray]Kobalos's (DENOM)[/color]", "[color=purple]Obstreperous Scamp[/color]", MONSTER_POWER_FAMILY_KOBALOS.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_ARAE_FAMILY = CoinFamily.new(1003, "[color=gray]Arae[/color]", "[color=purple]Encumber With Guilt[/color]", MONSTER_POWER_FAMILY_ARAE.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_ARAE_FAMILY = CoinFamily.new(1003, "[color=gray]Arae's (DENOM)[/color]", "[color=purple]Encumber With Guilt[/color]", MONSTER_POWER_FAMILY_ARAE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy[/color]", "[color=purple]Shrieking Wind[/color]", MONSTER_POWER_FAMILY_HARPY.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_HARPY_FAMILY = CoinFamily.new(1004, "[color=gray]Harpy's (DENOM)[/color]", "[color=purple]Shrieking Wind[/color]", MONSTER_POWER_FAMILY_HARPY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 # neutral monsters
-var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
+var MONSTER_CENTAUR_FAMILY = CoinFamily.new(1005, "[color=gray]Centaur's (DENOM)[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Birds[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(1006, "[color=gray]Stymphalian Bird's (DENOM)[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 # elite monsters
-var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren[/color]", "[color=purple]Lure into Blue[/color]", MONSTER_POWER_FAMILY_SIREN.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_SIREN_FAMILY = CoinFamily.new(1007, "[color=gray]Siren's (DENOM)[/color]", "[color=purple]Lure into Blue[/color]", MONSTER_POWER_FAMILY_SIREN.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
-var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk[/color]", "[color=purple]Gaze of Death[/color]", MONSTER_POWER_FAMILY_BASILISK.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_BASILISK_FAMILY = CoinFamily.new(1008, "[color=gray]Basilisk's (DENOM)[/color]", "[color=purple]Gaze of Death[/color]", MONSTER_POWER_FAMILY_BASILISK.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
-var MONSTER_GORGON_FAMILY = CoinFamily.new(1009, "[color=gray]Gorgon[/color]", "[color=purple]Petrifying Beauty[/color]", MONSTER_POWER_FAMILY_GORGON.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_GORGON_FAMILY = CoinFamily.new(1009, "[color=gray]Gorgon's (DENOM)[/color]", "[color=purple]Petrifying Beauty[/color]", MONSTER_POWER_FAMILY_GORGON.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
-var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera[/color]", "[color=purple]Great Blaze[/color]", MONSTER_POWER_FAMILY_CHIMERA.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_CHIMERA_FAMILY = CoinFamily.new(1010, "[color=gray]Chimera's (DENOM)[/color]", "[color=purple]Great Blaze[/color]", MONSTER_POWER_FAMILY_CHIMERA.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, ELITE_APPEASE)
 
 # nemesis
-var MEDUSA_FAMILY = CoinFamily.new(2000, "[color=greenyellow]Medusa[/color]", "[color=purple]Mortal Sister[/color]", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path, NO_UNLOCK_TIP,\
+var MEDUSA_FAMILY = CoinFamily.new(2000, "[color=greenyellow]Medusa's (DENOM)[/color]", "[color=purple]Mortal Sister[/color]", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
-var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale[/color]", "[color=purple]Lamentful Cry[/color]", NEMESIS_POWER_FAMILY_EURYALE_STONE.icon_path, NO_UNLOCK_TIP,\
+var EURYALE_FAMILY = CoinFamily.new(2001, "[color=mediumaquamarine]Euryale's (DENOM)[/color]", "[color=purple]Lamentful Cry[/color]", NEMESIS_POWER_FAMILY_EURYALE_STONE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
-var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno[/color]", "[color=purple]Huntress of Man[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
+var STHENO_FAMILY = CoinFamily.new(2002, "[color=rosybrown]Stheno's (DENOM)[/color]", "[color=purple]Huntress of Man[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
 
 # trials
