@@ -536,7 +536,7 @@ func get_tails_icon_path() -> String:
 	return _coin_family.tails_icon_path
 
 func get_coin_name() -> String:
-	return "%s %s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]
+	return "%s%s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]
 
 func get_style_string() -> String:
 	return _coin_family.get_style_string()
