@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csrcutwqnqi2e"
-path="res://.godot/imported/aeneas_icon_UNUSED.png-a63b7f777023d3c565db30287ba9a8f3.ctex"
+uid="uid://bov453q5tvkao"
+path="res://.godot/imported/thorns_icon.png-d6ccff69315a458aa4534e3798f7db48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/aeneas_icon_UNUSED.png"
-dest_files=["res://.godot/imported/aeneas_icon_UNUSED.png-a63b7f777023d3c565db30287ba9a8f3.ctex"]
+source_file="res://assets/icons/coin/thorns_icon.png"
+dest_files=["res://.godot/imported/thorns_icon.png-d6ccff69315a458aa4534e3798f7db48.ctex"]
 
 [params]
 

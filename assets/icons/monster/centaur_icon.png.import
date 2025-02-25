@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iwd4qg1dublk"
-path="res://.godot/imported/orion_icon_UNUSED.png-f7cb76ae64a49427dfad7ee827547fdb.ctex"
+uid="uid://30mraopspdo8"
+path="res://.godot/imported/centaur_icon.png-8b61b5bca825e856c7c49975747d3f54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/orion_icon_UNUSED.png"
-dest_files=["res://.godot/imported/orion_icon_UNUSED.png-f7cb76ae64a49427dfad7ee827547fdb.ctex"]
+source_file="res://assets/icons/monster/centaur_icon.png"
+dest_files=["res://.godot/imported/centaur_icon.png-8b61b5bca825e856c7c49975747d3f54.ctex"]
 
 [params]
 

@@ -243,20 +243,21 @@ func _update_price_label() -> void:
 const _SOULS_PAYOFF_ONLY_SHOW_ICON = -3431383
 
 func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
-	var previous_souls_payoff = _get_active_power().souls_payoff
+	var previous_active_souls_payoff = _get_active_power().souls_payoff
+	var previous_inactive_souls_payoff = _get_inactive_power().souls_payoff
 	
 	_heads_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
 	_tails_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
 	
 	# flash when payoff changes on the active face
-	if _get_active_power().souls_payoff > previous_souls_payoff:
+	if _get_active_power().souls_payoff > previous_active_souls_payoff:
 		FX.flash(Color.AQUAMARINE)
-	elif _get_active_power().souls_payoff < previous_souls_payoff:
+	elif _get_active_power().souls_payoff < previous_active_souls_payoff:
 		FX.flash(Color.DEEP_PINK)
 	# otherwise if it changed on the inactive face, flash
-	elif _get_inactive_power().souls_payoff > previous_souls_payoff:
+	elif _get_inactive_power().souls_payoff > previous_inactive_souls_payoff:
 		FX.flash(Color.AQUAMARINE)
-	elif _get_inactive_power().souls_payoff < previous_souls_payoff:
+	elif _get_inactive_power().souls_payoff < previous_inactive_souls_payoff:
 		FX.flash(Color.DEEP_PINK)
 	
 	_update_appearance()
@@ -535,7 +536,7 @@ func get_tails_icon_path() -> String:
 	return _coin_family.tails_icon_path
 
 func get_coin_name() -> String:
-	return _replace_placeholder_text(_coin_family.coin_name)
+	return "%s %s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]
 
 func get_style_string() -> String:
 	return _coin_family.get_style_string()

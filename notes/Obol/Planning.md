@@ -1,32 +1,7 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
 	- [ ] **More Coins**
-		- [ ] Saturday: 
-			- [x] Add all coin families and such
-		- [ ] Sunday:
-			- [x] Payoff coins should have their soul icon gradually fade between the soul icon and the power's representative icon (don't do this for basic obols)
-			- [x] Payoff coins with changing soul amounts should have an icon in their tooltip for that 'power'. This is just aesthetic. 
-				- [x] The tooltip should be (ICON) -> text. I believe monsters are already doing this? Can look for how they handle it for inspiration here. 
-			- [x] Bug - carpo isn't working. Additionally, while on heads, (PAYOFF) in tooltips displays as 0. 
-				- [x] Add update_payoff function to coin.
-				- [x] Update coin's face label to use souls_payoff member
-					- [x] if souls payoff = magic constant, don't show a number at all (used for Helios for example)
-				- [x] Update coin's tooltip to use souls_payoff member (add (PAYOFF) as an option when generating tooltip; this is used mostly for Carpo atm I believe)
-				- [x] In game, regularly call update_payoff on every coin in all rows. This is a relatively cheap operation, so it should be fine.
-					- [x] Whenever a coin finishes flipping.
-					- [x] At the end of each round.
-					- [x] After each coin actives in payoff.
-					- [x] After any power is used.
-					- [x] After patron is used.
-					- [x] After Charon activates. 
-					- [x] After a coin is purchased in the shop.
-					- [x] After a coin is destroyed or downgraded.
-				- [x] update_payoff should accept the coin row and the enemy row as params for now. add more in the future if needed.
-			- [x] We need to handle certain coins properly while they are in the shop. While in the shop, update_payoff needs to return specific thing (can check owner?)
-			- [x] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
-				- [x] Carpo should use this.
-			- [ ] 
-			- [x] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
+		- [ ] Coins need a way to mark passives (used for Telemachus to prevent upgrading for example, this is associated with the COIN and not the POWER)
 		- [ ] Week:
 			- [ ] Work on implementing new power coins and their powers.
 			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
@@ -41,9 +16,10 @@
 				- [ ] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
 					- [ ] in payoff, after losing life, check and destroy
 				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
+					- [ ] add code to allow for 
 				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
 				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
-					- [ ] Tails tooltip shows charges but it probably doesn't need to.
+					- [ ] Tails tooltip shows charges but it shoujldn't just make it work liek souls payoffs (arrow payoffs should be treated the same; just +ARROW... but stymphanian bird keeps what it is... so IFF the icon is the arrow icon, don't show the power part)
 				- [x] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
 				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 					- [ ] in payoff, after gaining souls, check for transform via metadata
