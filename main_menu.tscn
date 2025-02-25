@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=103 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -555,7 +555,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j62ay"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_st6q0"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -701,25 +701,6 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_a3dpp")
 
-[sub_resource type="Gradient" id="Gradient_uuakr"]
-colors = PackedColorArray(0.47451, 0.227451, 0.501961, 0.470588, 0.737255, 0.290196, 0.607843, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_abrs7"]
-gradient = SubResource("Gradient_uuakr")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x8kox"]
-emission_shape = 3
-emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
-direction = Vector3(0, -1, 0)
-spread = 15.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 30.0
-initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-color_ramp = SubResource("GradientTexture1D_abrs7")
-
 [sub_resource type="Gradient" id="Gradient_yeap5"]
 colors = PackedColorArray(1, 0.054902, 0.152941, 0.470588, 0.737255, 0.290196, 0.607843, 0)
 
@@ -738,6 +719,63 @@ initial_velocity_max = 50.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_vhqf1")
+
+[sub_resource type="Gradient" id="Gradient_6h4l6"]
+colors = PackedColorArray(0.47451, 0.227451, 0.501961, 0.470588, 0.737255, 0.290196, 0.607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gltpk"]
+gradient = SubResource("Gradient_6h4l6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sis7g"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_gltpk")
+
+[sub_resource type="Gradient" id="Gradient_m8jfs"]
+colors = PackedColorArray(0.866926, 0.36309, 0.0752798, 0.470588, 0.737255, 0.290196, 0.607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7iqbu"]
+gradient = SubResource("Gradient_m8jfs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_phd0y"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 45.0
+initial_velocity_max = 65.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_7iqbu")
+
+[sub_resource type="Gradient" id="Gradient_durho"]
+colors = PackedColorArray(0.627451, 0.368627, 0.768627, 0.537255, 0.737255, 0.290196, 0.607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jab2q"]
+gradient = SubResource("Gradient_durho")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kwrpa"]
+emission_shape = 3
+emission_box_extents = Vector3(180, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 45.0
+initial_velocity_max = 65.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_jab2q")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vcrt"]
 atlas = ExtResource("14_yugwh")
@@ -899,7 +937,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvogi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5gtp"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1026,7 +1064,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ir076"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_obe5i"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1181,6 +1219,7 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="UnlockUI" type="Node2D" parent="."]
+visible = false
 
 [node name="FallingCoins" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1460,12 +1499,11 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_j62ay")
+material = SubResource("ShaderMaterial_st6q0")
 layout_mode = 2
 default_text = "Unlock"
 
 [node name="MainUI" type="Node2D" parent="."]
-visible = false
 
 [node name="EmbersCharacter" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
@@ -1475,20 +1513,31 @@ lifetime = 4.5
 preprocess = 10.0
 trail_lifetime = 4.5
 
-[node name="EmbersPurple" type="GPUParticles2D" parent="MainUI"]
-position = Vector2(153, 183)
-amount = 32
-process_material = SubResource("ParticleProcessMaterial_x8kox")
-lifetime = 4.5
-preprocess = 10.0
-trail_lifetime = 3.5
-
 [node name="EmbersRed" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_2cdev")
 lifetime = 3.5
-preprocess = 10.0
+
+[node name="EmbersPurple" type="GPUParticles2D" parent="MainUI"]
+position = Vector2(153, 183)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_sis7g")
+lifetime = 4.5
+trail_lifetime = 3.5
+
+[node name="EmbersMoreRed" type="GPUParticles2D" parent="MainUI"]
+position = Vector2(153, 183)
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_phd0y")
+lifetime = 3.5
+
+[node name="EmbersMorePurple" type="GPUParticles2D" parent="MainUI"]
+position = Vector2(153, 183)
+amount = 128
+process_material = SubResource("ParticleProcessMaterial_kwrpa")
+lifetime = 4.5
+trail_lifetime = 3.5
 
 [node name="Title" type="RichTextLabel" parent="MainUI"]
 offset_top = 16.0
@@ -1752,12 +1801,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_uvogi")
+material = SubResource("ShaderMaterial_t5gtp")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_ir076")
+material = SubResource("ShaderMaterial_obe5i")
 layout_mode = 2
 default_text = " Quit "
 

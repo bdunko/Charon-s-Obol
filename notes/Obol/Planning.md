@@ -23,8 +23,8 @@
 					- [x] After a coin is destroyed or downgraded.
 				- [x] update_payoff should accept the coin row and the enemy row as params for now. add more in the future if needed.
 			- [x] We need to handle certain coins properly while they are in the shop. While in the shop, update_payoff needs to return specific thing (can check owner?)
-			- [ ] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
-				- [ ] Carpo should use this.
+			- [x] Coins need to be able to store metadata for themselves. For example, erysichthon needs this for sure. And this would probably prove useful for certain payoffs as well in the future. Metadata stored in a map. Metadata map cleared on init coin. 
+				- [x] Carpo should use this.
 			- [ ] 
 			- [x] debug - comment out the cool intro bit - maybe just make this part of the debug flag in general for now.
 		- [ ] Week:
@@ -44,9 +44,7 @@
 				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
 				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
 					- [ ] Tails tooltip shows charges but it probably doesn't need to.
-				- [ ] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
-					- [ ] Refactor Carpo wording and functionality such that individual carpos track their required metadata. ie if I gain another carpo mid round, it should start at the base. This better simulates the growing aspect - individual coins grow.
-					- [ ] Carpo icon needs a rework too, it bumps the edge of the number. 
+				- [x] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
 				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 					- [ ] in payoff, after gaining souls, check for transform via metadata
 			- [ ] 21 Powers

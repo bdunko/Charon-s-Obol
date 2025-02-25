@@ -88,16 +88,19 @@ var _heads:
 		_heads = val
 		_update_appearance()
 
+const METADATA_CARPO = "CARPO"
+
 class FacePower:
 	var charges: int = 0
 	var power_family: Global.PowerFamily
 	var souls_payoff: int = 0
+	var _metadata = {}
 	
 	func _init(fam: Global.PowerFamily, starting_charges: int):
 		self.power_family = fam
 		self.charges = starting_charges
 	
-	func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow, _self: Coin, _denomination: Global.Denomination) -> void:
+	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
 		if power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
@@ -105,33 +108,47 @@ class FacePower:
 					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
 				else:
 					# +(USES) Souls for each coin to the left.
-					var souls_per_coin_on_left = power_family.uses_for_denom[_denomination]
+					var souls_per_coin_on_left = power_family.uses_for_denom[denomination]
 					souls_payoff = 0
-					assert(_coin_row.has_coin(_self))
-					for coin in _coin_row.get_children():
-						if coin == _self:
+					assert(coin_row.has_coin(coin))
+					for c in coin_row.get_children():
+						if c == coin:
 							break
 						souls_payoff += souls_per_coin_on_left
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
 				if in_shop:
 					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
 				else:
-					var base_payoff = power_family.uses_for_denom[_denomination]
-					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[_denomination]
-					souls_payoff = base_payoff + (souls_per_heads * (_coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
+					var base_payoff = power_family.uses_for_denom[denomination]
+					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[denomination]
+					souls_payoff = base_payoff + (souls_per_heads * (coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
 				if in_shop:
 					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
 				else:
-					var base_payoff = power_family.uses_for_denom[_denomination]
-					var round_multiplier = Global.CARPO_ROUND_MULTIPLIER[_denomination]
-					souls_payoff = base_payoff + (Global.payoffs_this_round * round_multiplier)
+					var base_payoff = power_family.uses_for_denom[denomination]
+					var growth = get_metadata(METADATA_CARPO, 0)
+					souls_payoff = base_payoff + growth
 			else: # all other ones don't have special scaling; just take number of uses
-				souls_payoff = power_family.uses_for_denom[_denomination]
+				souls_payoff = power_family.uses_for_denom[denomination]
 		elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_SOULS:
-			souls_payoff = power_family.uses_for_denom[_denomination]
+			souls_payoff = power_family.uses_for_denom[denomination]
 		else:
 			souls_payoff = 0
+	
+	func get_metadata(key, default = null) -> Variant:
+		if _metadata.has(key):
+			return _metadata[key]
+		return default
+
+	func set_metadata(key, data) -> void:
+		_metadata[key] = data
+
+	func clear_metadata(key) -> void:
+		_metadata.erase(key)
+
+	func clear_all_metadata() -> void:
+		_metadata = {}
 
 var _heads_power: FacePower:
 	set(val):
@@ -178,7 +195,7 @@ func _update_face_label() -> void:
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
 	
 	# this is a $HACK$ to center the icon better when no charges are shown
-	if only_show_icon or number:
+	if only_show_icon:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION - Vector2(1, 0)
 	else:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION 
@@ -226,8 +243,22 @@ func _update_price_label() -> void:
 const _SOULS_PAYOFF_ONLY_SHOW_ICON = -3431383
 
 func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
+	var previous_souls_payoff = _get_active_power().souls_payoff
+	
 	_heads_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
 	_tails_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
+	
+	# flash when payoff changes on the active face
+	if _get_active_power().souls_payoff > previous_souls_payoff:
+		FX.flash(Color.AQUAMARINE)
+	elif _get_active_power().souls_payoff < previous_souls_payoff:
+		FX.flash(Color.DEEP_PINK)
+	# otherwise if it changed on the inactive face, flash
+	elif _get_inactive_power().souls_payoff > previous_souls_payoff:
+		FX.flash(Color.AQUAMARINE)
+	elif _get_inactive_power().souls_payoff < previous_souls_payoff:
+		FX.flash(Color.DEEP_PINK)
+	
 	_update_appearance()
 
 func get_active_souls_payoff() -> int:
@@ -1153,6 +1184,12 @@ func on_round_end() -> void:
 		clear_statuses()
 	elif has_status():
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_APOLLO)
+	
+	# clear carpo metadata
+	for power in [_heads_power, _tails_power]:
+		power.clear_metadata(METADATA_CARPO)
+		#if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
+		#	power.clear
 
 func get_heads_icon() -> String:
 	return _heads_power.power_family.icon_path
@@ -1181,6 +1218,11 @@ func after_payoff() -> void:
 		FX.flash(Color.HOT_PINK)
 		_set_tails_power_to(_tails_power_overwritten)
 		_tails_power_overwritten = null
+	
+	# if either face is Carpo, grow payoff
+	for power in [_heads_power, _tails_power]:
+		if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
+			power.set_metadata(METADATA_CARPO, power.get_metadata(METADATA_CARPO, 0) + Global.CARPO_ROUND_MULTIPLIER[_denomination])
 
 func set_animation(anim: _Animation) -> void:
 	var denom_str = Global.denom_to_string(_denomination).to_lower()

@@ -8,6 +8,11 @@ signal start_game
 @onready var _DIFFICULTY_SELECTOR = $MainUI/Selector/Difficulty
 @onready var _MAIN_UI_EMBERS_CHARACTER = $MainUI/EmbersCharacter
 
+@onready var _MAIN_UI_EMBERS_RED = $MainUI/EmbersRed
+@onready var _MAIN_UI_EMBERS_PURPLE = $MainUI/EmbersPurple
+@onready var _MAIN_UI_EMBERS_MORE_RED = $MainUI/EmbersMoreRed
+@onready var _MAIN_UI_EMBERS_MORE_PURPLE = $MainUI/EmbersMorePurple
+
 @onready var _UNLOCK_UI = $UnlockUI
 
 @onready var _UNLOCK_CHARACTER_UI = $UnlockUI/CharacterUI
@@ -48,6 +53,12 @@ func _ready() -> void:
 	assert(_CHARACTER_DESCRIPTION)
 	assert(_DIFFICULTY_SELECTOR)
 
+	assert(_MAIN_UI_EMBERS_CHARACTER)
+	assert(_MAIN_UI_EMBERS_RED)
+	assert(_MAIN_UI_EMBERS_PURPLE)
+	assert(_MAIN_UI_EMBERS_MORE_RED)
+	assert(_MAIN_UI_EMBERS_MORE_PURPLE)
+	
 	assert(_UNLOCK_UI)
 
 	assert(_UNLOCK_CHARACTER_UI)
@@ -153,6 +164,11 @@ func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):
 	for difficultySkull in _DIFFICULTY_SELECTOR.get_children():
 		if difficultySkull != changed:
 			difficultySkull.unselect()
+	
+	_MAIN_UI_EMBERS_RED.emitting = Global.difficulty >= Global.Difficulty.HOSTILE2
+	_MAIN_UI_EMBERS_PURPLE.emitting = Global.difficulty >= Global.Difficulty.CRUEL3
+	_MAIN_UI_EMBERS_MORE_RED.emitting = Global.difficulty >= Global.Difficulty.GREEDY4
+	_MAIN_UI_EMBERS_MORE_PURPLE.emitting = Global.difficulty >= Global.Difficulty.UNFAIR5
 
 func queue_unlocks(unlocks) -> void:
 	# remove any unlocks that are already unlocked
