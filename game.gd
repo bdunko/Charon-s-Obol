@@ -754,6 +754,11 @@ func _on_accept_button_pressed():
 						Global.lives -= charges * 3
 					else:
 						Global.lives -= charges
+					
+					# handle special payoff actions
+					if payoff_power_family == Global.POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL:
+						destroy_coin(payoff_coin)
+					
 				Global.PowerType.PAYOFF_HALVE_LIFE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.lives -= int(Global.lives / 2.0)
@@ -2839,7 +2844,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 @onready var _MALICE_DUST : GPUParticles2D = $MaliceDust
 @onready var _MALICE_DUST_RED : GPUParticles2D = $MaliceDustRed
 func _on_malice_changed() -> void:
-	print(Global.malice)
+	#print(Global.malice)
 	if Global.malice >= 40:
 		_MALICE_DUST.emitting = true
 		_MALICE_DUST.amount = lerp(15, 40, (Global.malice-40)/60.0)
@@ -2864,5 +2869,5 @@ func _on_malice_changed() -> void:
 		_RIGHT_HAND.deactivate_malice_glow()
 
 func _update_payoffs() -> void:
-	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
 		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW)

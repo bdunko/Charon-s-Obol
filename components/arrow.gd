@@ -58,7 +58,7 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 
 func _on_clickable_area_mouse_entered():
 	if not _disable_interaction:
-		UITooltip.create(self, "[color=purple]Arrow of Night[/color] [color=yellow](%d/%d)[/color]\nReflip a coin." % [Global.arrows, Global.ARROWS_LIMIT], get_global_mouse_position(), get_tree().root)
+		UITooltip.create(self, "[color=purple]Arrow of Night[/color][img=10x13]res://assets/icons/arrow_icon.png[/img] [color=yellow](%d/%d)[/color]\nReflip a coin." % [Global.arrows, Global.ARROWS_LIMIT], get_global_mouse_position(), get_tree().root)
 	_mouse_over = true
 	
 func _on_clickable_area_mouse_exited():

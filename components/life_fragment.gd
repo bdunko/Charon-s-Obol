@@ -9,4 +9,4 @@ func _ready():
 	#_FX.start_glowing(Color.RED)
 
 func _on_mouse_entered():
-	UITooltip.create(self, "[color=crimson]Life Fragment (%d)[/color]\nDon't run out..." % Global.lives, get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, "[color=crimson]Life Fragment[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img] (%d)[/color]\nDon't run out..." % Global.lives, get_global_mouse_position(), get_tree().root)

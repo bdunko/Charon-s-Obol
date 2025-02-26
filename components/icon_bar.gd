@@ -65,7 +65,6 @@ func update_page() -> void:
 
 # this was a 'fix' but mabye not needed after fixing activate_icon to not have duplicates.
 #	for i in range(_page * MAX_ICONS_VISIBLE, _page * MAX_ICONS_VISIBLE + MAX_ICONS_VISIBLE):
-#		print(i)
 #		if _active_icons.size() - 1 >= i:
 #			_active_icons[i].show()
 	

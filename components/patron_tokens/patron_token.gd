@@ -89,7 +89,7 @@ func _on_mouse_entered():
 	if _disable_interaction:
 		return
 	
-	UITooltip.create(self, "%s\n%s" % [Global.patron.token_name, Global.patron.get_description()], get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, "%s[img=10x13]%s[/img]\n%s" % [Global.patron.token_name, Global.patron.get_icon_path(), Global.patron.get_description()], get_global_mouse_position(), get_tree().root)
 	
 	_update_effects()
 

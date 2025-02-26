@@ -90,6 +90,8 @@ var _heads:
 
 const METADATA_CARPO = "CARPO"
 
+const _SOULS_PAYOFF_INDETERMINANT = -12345
+
 class FacePower:
 	var charges: int = 0
 	var power_family: Global.PowerFamily
@@ -104,8 +106,8 @@ class FacePower:
 		var in_shop = Global.state == Global.State.SHOP
 		if power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
-				if in_shop: # while in the shop, only show icon... we'll represent this with a special payoff I guess...
-					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+				if in_shop: # while in the shop, show a question mark
+					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					# +(USES) Souls for each coin to the left.
 					var souls_per_coin_on_left = power_family.uses_for_denom[denomination]
@@ -117,16 +119,16 @@ class FacePower:
 						souls_payoff += souls_per_coin_on_left
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
 				if in_shop:
-					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					var base_payoff = power_family.uses_for_denom[denomination]
 					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[denomination]
 					souls_payoff = base_payoff + (souls_per_heads * (coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
+				var base_payoff = power_family.uses_for_denom[denomination]
 				if in_shop:
-					souls_payoff = _SOULS_PAYOFF_ONLY_SHOW_ICON
+					souls_payoff = base_payoff
 				else:
-					var base_payoff = power_family.uses_for_denom[denomination]
 					var growth = get_metadata(METADATA_CARPO, 0)
 					souls_payoff = base_payoff + growth
 			else: # all other ones don't have special scaling; just take number of uses
@@ -188,8 +190,8 @@ func _update_face_label() -> void:
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
-	var only_show_icon = (get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1) or number == _SOULS_PAYOFF_ONLY_SHOW_ICON
-	var charges_str = "" if only_show_icon else ("%d" % number)
+	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
+	var charges_str = "" if only_show_icon else "?" if number == _SOULS_PAYOFF_INDETERMINANT else ("%d" % number)
 	
 	var icon_path = get_active_power_family().icon_path
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
@@ -239,8 +241,6 @@ func _update_price_label() -> void:
 		var price = get_appeasal_price()
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
-
-const _SOULS_PAYOFF_ONLY_SHOW_ICON = -3431383
 
 func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
 	var previous_active_souls_payoff = _get_active_power().souls_payoff
@@ -1068,7 +1068,7 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
 
-		txt = txt.replace("(SOULS_PAYOFF)", str(face_power.souls_payoff))
+		txt = txt.replace("(SOULS_PAYOFF)", "?" if face_power.souls_payoff == _SOULS_PAYOFF_INDETERMINANT else str(face_power.souls_payoff))
 		
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))

@@ -958,7 +958,6 @@ func current_round_enemy_coin_data() -> Array:
 					for i in range(1, randomization_amount + 1):
 						possibilities += combination_sum(strength+i, values, min_monsters, max_monsters)
 						possibilities += combination_sum(strength-i, values, min_monsters, max_monsters)
-					print(possibilities)
 					
 					# if we absolutely cannot find anything in the desired range, start going up/down until we find SOMETHING possible
 					var force = randomization_amount
@@ -969,14 +968,12 @@ func current_round_enemy_coin_data() -> Array:
 					
 					# now choose a random combination and translate it into coin_data, rolling specific monster types
 					var combination = Global.choose_one(possibilities)
-					print(combination)
 					for val in combination:
 						if strength_to_denom_standard.has(val):
 							coin_data.append([Global.choose_one(_standard_monster_pool), strength_to_denom_standard[val]])
 						else:
 							assert(strength_to_denom_elite.has(val))
 							coin_data.append([Global.choose_one(_elite_monster_pool), strength_to_denom_elite[val]])
-	print(coin_data)
 	return coin_data
 
 # returns an array of arrays of combinations of 'values' that make up 'target' when summed.
@@ -1184,7 +1181,7 @@ var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [
 var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After 50 tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n+(MAX_CHARGES)(SOULS).", \
+var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After (TELEMACHUS_TOSSES_REMAINING) more tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n+(MAX_CHARGES)(SOULS).", \
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 
@@ -1556,6 +1553,9 @@ class Patron:
 	
 	func get_random_starting_coin_family() -> CoinFamily:
 		return Global.choose_one(_starting_coinpool)
+	
+	func get_icon_path() -> String:
+		return power_family.icon_path
 
 # placeholder powers... kinda a $HACK$
 var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
