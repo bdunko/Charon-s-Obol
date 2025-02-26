@@ -736,6 +736,9 @@ func _on_accept_button_pressed():
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		var payoff_power_family = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
+		var row = payoff_coin.get_parent()
+		var left = row.get_left_of(payoff_coin)
+		var right = row.get_right_of(payoff_coin)
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
 			payoff_coin.payoff_move_up()
@@ -761,6 +764,13 @@ func _on_accept_button_pressed():
 						payoff_coin.FX.flash(Color.AQUA)
 						_earn_souls(payoff)
 						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
+					
+					# handle special payoff actions
+					# helios - bless coin to the left and move to the left, if possible
+					if payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS and left:
+						left.bless()
+						row.swap_positions(payoff_coin, left)
+					
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)

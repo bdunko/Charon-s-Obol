@@ -7,9 +7,6 @@
 			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
 		- [ ] Add Coins and their Powers
 			- [ ] 8 Payoffs
-				- [ ] Helios - Sunrise and Set - Gain 1 soul, plus another 3 souls for every coin to the right of this, then move once to the left. Also blesses coins as it passes.
-					- [x] update souls dynamically
-					- [ ] in payoff, after gaining souls - we need to specifically check for Helios and do the movement.
 				- [ ] Icarus - Waxen Wings, Melting - Shards based on number of heads; but if every coins is on heads, destroyed
 					- [x] update souls dynamically
 					- [ ] in payoff, after gaining souls, need to check for all heads and destroy

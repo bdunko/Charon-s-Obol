@@ -11,6 +11,10 @@ func _on_child_exiting_tree(_node) -> void:
 	if _state == _State.EXPANDED:
 		call_deferred("expand")
 
+func _on_child_order_changed():
+	if _state == _State.EXPANDED:
+		call_deferred("expand")
+
 enum _State {
 	EXPANDED, RETRACTED
 }
@@ -295,6 +299,14 @@ func shuffle() -> void:
 	for c in all_coins:
 		add_child(c)
 
+func swap_positions(coin1: Coin, coin2: Coin) -> void:
+	assert(coin1.get_parent() == self)
+	assert(coin2.get_parent() == self)
+	var index1 = coin1.get_index()
+	var index2 = coin2.get_index()
+	move_child(coin1, index2)
+	move_child(coin2, index1)
+
 func retract(retract_point: Vector2) -> void:
 	_state = _State.RETRACTED
 	if get_child_count() == 0:
@@ -347,3 +359,4 @@ func enable_interaction() -> void:
 
 func num_coins() -> int:
 	return get_child_count()
+
