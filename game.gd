@@ -739,11 +739,13 @@ func _on_accept_button_pressed():
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)
 		var right = row.get_right_of(payoff_coin)
+		var is_last_player_coin = _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
 			payoff_coin.payoff_move_up()
 			var payoff_type = payoff_power_family.power_type
 			
+			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 			match(payoff_type):
 				Global.PowerType.PAYOFF_LOSE_LIFE:
 					payoff_coin.FX.flash(Color.RED)
@@ -770,6 +772,11 @@ func _on_accept_button_pressed():
 					if payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS and left:
 						left.bless()
 						row.swap_positions(payoff_coin, left)
+					# icarus - if every coin is heads, destroy
+					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
+						if row.get_filtered(CoinRow.FILTER_HEADS).size() == row.get_child_count():
+							payoff_coin.FX.flash(Color.YELLOW)
+							destroy_coin(payoff_coin)
 					
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
@@ -828,30 +835,34 @@ func _on_accept_button_pressed():
 				_:
 					assert(false, "No matching case for power type!")
 				# END MATCH
-			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 			_update_payoffs()
 			await Global.delay(0.15)
-			payoff_coin.payoff_move_down()
+			if is_instance_valid(payoff_coin): # it may have been destroyed by now; ex Achilles/Icarus
+				payoff_coin.payoff_move_down()
 			await Global.delay(0.15)
 			if Global.lives < 0:
 				Global.payoffs_this_round += 1
 				return
 		
 		# unblank when it would payoff
-		payoff_coin.unblank()
+		if is_instance_valid(payoff_coin): # may have been destroyed by now
+			payoff_coin.unblank()
 		
 		# $HACK$ - this is an extremely lazy way to make ignites happen
 		# after all player coins but before all enemy coins, but I don't care
-		if not resolved_ignite and _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin:
+		# the idea here is that this condition is true for the very last player coin.
+		# so in the time AFTER all player coins and BEFORE any enemy coins, we resolve ignites on all coins. 
+		# THEN, enemies activate. This is basically as player friendly as possible.
+		if not resolved_ignite and is_last_player_coin:
 			# resolve ignites
 			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
-					possibly_ignited_coin.payoff_move_up()
+					#possibly_ignited_coin.payoff_move_up()
 					Global.lives -= 3
 					_update_payoffs()
 					await Global.delay(0.15)
-					possibly_ignited_coin.payoff_move_down()
+					#possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
 					if Global.lives < 0:
 						Global.payoffs_this_round += 1
