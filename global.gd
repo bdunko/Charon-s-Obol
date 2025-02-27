@@ -1813,7 +1813,7 @@ var ORION_FAMILY = CoinFamily.new(10006, "Orion's (DENOM)", "[color=gray]Hunting
 	PRICY, POWER_FAMILY_GAIN_SOULS_ORION, POWER_FAMILY_GAIN_ARROWS_ORION, _SpriteStyle.PAYOFF)
 var CARPO_FAMILY = CoinFamily.new(10007, "Carpo's (DENOM)", "[color=gray]Limitless Harvest[/color]", "res://assets/icons/coin/carpo_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_CARPO, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var TELEMACHUS_FAMILY = CoinFamily.new(10007, "Telemachus's (DENOM)", "[color=gray]Following His Shadow[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
+var TELEMACHUS_FAMILY = CoinFamily.new(10008, "Telemachus's (DENOM)", "[color=gray]Following His Footsteps[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
 	CHEAP, POWER_FAMILY_GAIN_SOULS_BECOME_HERO, POWER_FAMILY_LOSE_LIFE_BECOME_HERO, _SpriteStyle.PAYOFF)
 
 # power coins
@@ -1864,47 +1864,47 @@ const HADES_MONSTER_COST = [7, 5, 3, 1, 0, 0]
 var HADES_FAMILY = CoinFamily.new(14, "(DENOM) of Hades", "[color=slateblue]Beyond the Pale[/color]", POWER_FAMILY_DOWNGRADE_FOR_LIFE.icon_path, NO_UNLOCK_TIP,\
 	CHEAP, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
-var PERSEUS_FAMILY = CoinFamily.new(14, "(DENOM) of Perseus", "[color=lightslategray]Gorgon's Gaze Mirrored[/color]", POWER_FAMILY_STONE.icon_path, NO_UNLOCK_TIP,\
+var PERSEUS_FAMILY = CoinFamily.new(15, "(DENOM) of Perseus", "[color=lightslategray]Gorgon's Gaze Mirrored[/color]", POWER_FAMILY_STONE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_STONE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HYPNOS_FAMILY = CoinFamily.new(15, "(DENOM) of Hypnos", "[color=crimson]Bed of Poppies[/color]", POWER_FAMILY_BLANK_TAILS.icon_path, NO_UNLOCK_TIP,\
+var HYPNOS_FAMILY = CoinFamily.new(16, "(DENOM) of Hypnos", "[color=crimson]Bed of Poppies[/color]", POWER_FAMILY_BLANK_TAILS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_BLANK_TAILS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var NIKE_FAMILY = CoinFamily.new(16, "(DENOM) of Nike", "[color=lawngreen]Victory Above All[/color]", POWER_FAMILY_CONSECRATE_AND_DOOM.icon_path, NO_UNLOCK_TIP,\
+var NIKE_FAMILY = CoinFamily.new(17, "(DENOM) of Nike", "[color=lawngreen]Victory Above All[/color]", POWER_FAMILY_CONSECRATE_AND_DOOM.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_CONSECRATE_AND_DOOM, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var TRIPTOLEMUS_FAMILY = CoinFamily.new(17, "(DENOM) of Triptolemus", "[color=olivedrab]Sow the Earth[/color]", POWER_FAMILY_BURY_HARVEST.icon_path, NO_UNLOCK_TIP,\
+var TRIPTOLEMUS_FAMILY = CoinFamily.new(18, "(DENOM) of Triptolemus", "[color=olivedrab]Sow the Earth[/color]", POWER_FAMILY_BURY_HARVEST.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_BURY_HARVEST, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ANTIGONE_FAMILY = CoinFamily.new(18, "(DENOM) of Antigone", "[color=sienna]Bury Thy Brother[/color]", POWER_FAMILY_BURY_TURN_TAILS.icon_path, NO_UNLOCK_TIP,\
+var ANTIGONE_FAMILY = CoinFamily.new(19, "(DENOM) of Antigone", "[color=sienna]Bury Thy Brother[/color]", POWER_FAMILY_BURY_TURN_TAILS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_BURY_TURN_TAILS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var CHIONE_FAMILY = CoinFamily.new(19, "(DENOM) of Chione", "[color=powderblue]Embracing Cold[/color]", POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY.icon_path, NO_UNLOCK_TIP,\
+var CHIONE_FAMILY = CoinFamily.new(20, "(DENOM) of Chione", "[color=powderblue]Embracing Cold[/color]", POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HECATE_FAMILY = CoinFamily.new(20, "(DENOM) of Hecate", "[color=plum]The Key to Magick[/color]", POWER_FAMILY_IGNITE_BLESS_LUCKY.icon_path, NO_UNLOCK_TIP,\
+var HECATE_FAMILY = CoinFamily.new(21, "(DENOM) of Hecate", "[color=plum]The Key to Magick[/color]", POWER_FAMILY_IGNITE_BLESS_LUCKY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_IGNITE_BLESS_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PROMETHEUS_FAMILY = CoinFamily.new(21, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_LIGHT_FIRE.icon_path, NO_UNLOCK_TIP,\
+var PROMETHEUS_FAMILY = CoinFamily.new(22, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_LIGHT_FIRE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_LIGHT_FIRE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PHAETHON_FAMILY = CoinFamily.new(22, "(DENOM) of Phaethon", "[color=orange]Smitten Upstart[/color]", POWER_FAMILY_DESTROY_FOR_REWARD.icon_path, NO_UNLOCK_TIP,\
+var PHAETHON_FAMILY = CoinFamily.new(23, "(DENOM) of Phaethon", "[color=orange]Smitten Upstart[/color]", POWER_FAMILY_DESTROY_FOR_REWARD.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_DESTROY_FOR_REWARD, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ERYSICHTHON_FAMILY = CoinFamily.new(23, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_REFLIP_HUNGER.icon_path, NO_UNLOCK_TIP,\
+var ERYSICHTHON_FAMILY = CoinFamily.new(24, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_REFLIP_HUNGER.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_INFINITE_REFLIP_HUNGER, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DOLOS_FAMILY = CoinFamily.new(24, "(DENOM) of Dolos", "[color=alicewhite]Behind Prosopon[/color]", POWER_FAMILY_PERMANENTLY_COPY.icon_path, NO_UNLOCK_TIP,\
+var DOLOS_FAMILY = CoinFamily.new(25, "(DENOM) of Dolos", "[color=alicewhite]Behind Prosopon[/color]", POWER_FAMILY_PERMANENTLY_COPY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_PERMANENTLY_COPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var ERIS_FAMILY = CoinFamily.new(25, "(DENOM) of Eris", "[color=gold]For the Fairest[/color]", POWER_FAMILY_FLIP_AND_TAG.icon_path, NO_UNLOCK_TIP,\
+var ERIS_FAMILY = CoinFamily.new(26, "(DENOM) of Eris", "[color=gold]For the Fairest[/color]", POWER_FAMILY_FLIP_AND_TAG.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_FLIP_AND_TAG, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var AEOLUS_FAMILY = CoinFamily.new(26, "(DENOM) of Aeolus", "[color=skyblue]The Winds Shall Obey[/color]", POWER_FAMILY_REFLIP_LEFT_ALTERNATING.icon_path, NO_UNLOCK_TIP,\
+var AEOLUS_FAMILY = CoinFamily.new(27, "(DENOM) of Aeolus", "[color=skyblue]The Winds Shall Obey[/color]", POWER_FAMILY_REFLIP_LEFT_ALTERNATING.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_REFLIP_LEFT_ALTERNATING, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var BOREAS_FAMILY = CoinFamily.new(27, "(DENOM) of Boreas", "[color=powderblue]Northern Hail[/color]", POWER_FAMILY_SWAP_REFLIP_NEIGHBORS.icon_path, NO_UNLOCK_TIP,\
+var BOREAS_FAMILY = CoinFamily.new(28, "(DENOM) of Boreas", "[color=powderblue]Northern Hail[/color]", POWER_FAMILY_SWAP_REFLIP_NEIGHBORS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_SWAP_REFLIP_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DAEDALUS_FAMILY = CoinFamily.new(28, "(DENOM) of Daedalus", "[color=peru]Automaton Builder[/color]", POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA.icon_path, NO_UNLOCK_TIP,\
+var DAEDALUS_FAMILY = CoinFamily.new(29, "(DENOM) of Daedalus", "[color=peru]Automaton Builder[/color]", POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA, POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA, _SpriteStyle.POWER)
-var PLUTUS_FAMILY = CoinFamily.new(29, "(DENOM) of Plutus", "[color=palegoldenrod]Greed is Blind[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
+var PLUTUS_FAMILY = CoinFamily.new(30, "(DENOM) of Plutus", "[color=palegoldenrod]Greed is Blind[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GAIN_PLUTUS_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var MIDAS_FAMILY = CoinFamily.new(30, "(DENOM) of Midas", "[color=gold]All that Glitters[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\
+var MIDAS_FAMILY = CoinFamily.new(31, "(DENOM) of Midas", "[color=gold]All that Glitters[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GAIN_GOLDEN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DIKE_FAMILY = CoinFamily.new(31, "(DENOM) of Dike", "[color=cornsilk]Fair & Balanced[/color]", POWER_FAMILY_TURN_ALL.icon_path, NO_UNLOCK_TIP,\
+var DIKE_FAMILY = CoinFamily.new(32, "(DENOM) of Dike", "[color=cornsilk]Fair & Balanced[/color]", POWER_FAMILY_TURN_ALL.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_TURN_ALL, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var JASON_FAMILY = CoinFamily.new(32, "(DENOM) of Jason", "[color=rosybrown]Roving Argonaut[/color]", POWER_FAMILY_GOLDEN_FLEECE.icon_path, NO_UNLOCK_TIP,\
+var JASON_FAMILY = CoinFamily.new(33, "(DENOM) of Jason", "[color=rosybrown]Roving Argonaut[/color]", POWER_FAMILY_GOLDEN_FLEECE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GOLDEN_FLEECE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var SARPEDON_FAMILY = CoinFamily.new(33, "(DENOM) of Sarpedon", "[color=papayawhip]Cleansing Pyre[/color]", POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE.icon_path, NO_UNLOCK_TIP,\
+var SARPEDON_FAMILY = CoinFamily.new(34, "(DENOM) of Sarpedon", "[color=papayawhip]Cleansing Pyre[/color]", POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PROTEUS_FAMILY = CoinFamily.new(34, "(DENOM) of Proteus", "[color=cornflowerblue]Water Shifts Shapes[/color]", POWER_FAMILY_TRANSFORM_AND_LOCK.icon_path, NO_UNLOCK_TIP,\
+var PROTEUS_FAMILY = CoinFamily.new(35, "(DENOM) of Proteus", "[color=cornflowerblue]Water Shifts Shapes[/color]", POWER_FAMILY_TRANSFORM_AND_LOCK.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_TRANSFORM_AND_LOCK, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters

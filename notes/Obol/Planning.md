@@ -12,7 +12,7 @@
 					- [ ] add code to allow for 
 				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
 					- [ ] Tails tooltip shows charges but it shouldn't just make it work liek souls payoffs (arrow payoffs should be treated the same; just +ARROW... but stymphanian bird keeps what it is... so IFF the icon is the arrow icon, don't show the power part)
-				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
+				- [ ] Telemachus - Following His Footsteps - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 					- [ ] in payoff, after gaining souls, check for transform via metadata
 			- [ ] 21 Powers
 				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
