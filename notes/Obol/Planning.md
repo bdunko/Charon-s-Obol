@@ -79,13 +79,8 @@
 		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
 		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
 		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
-		- [ ] Improve wording for enemy coins. Instead of "they may be affected by powers (sic)"; mention you can USE coin powers on them.
-			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
 		- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-		- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
-		- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
-		- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
-		- [ ] Better wording when explaining tollgate - "You must pay a certain value worth of coins" instead of a certain amount of coins.
 		- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
 - [ ] **Basic Sound
 - [ ] **Orphic Tablets**

@@ -1049,7 +1049,7 @@ func _advance_round() -> void:
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(7) + Vector2(6, 3))
 		await _wait_for_dialogue("Red dots are Trial rounds.")
 		await _wait_for_dialogue("A trial presents additional challenges to overcome...")
-		_DIALOGUE.show_dialogue("Mouse over the red dot to learn about the Trial...")
+		_DIALOGUE.show_dialogue("Mouse over the red icon to learn about the Trial...")
 		_PLAYER_TEXTBOXES.make_invisible() # necessary since wait for dialogue makes em visible...
 		await _VOYAGE_MAP.trial_hovered
 		await _wait_for_dialogue("To pass a trial...")
@@ -1057,7 +1057,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("And if you fail, you will perish.")
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(8) + Vector2(6, 1))
 		await _wait_for_dialogue("Lastly, this is a Tollgate...")
-		await _wait_for_dialogue(Global.replace_placeholders("You must pay coins(COIN) to pass the gate."))
+		await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay a certain value(COIN) worth of coins."))
 		await _wait_for_dialogue("If you cannot, you will perish.")
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_PLAYER_TEXTBOXES.make_invisible()
@@ -1960,8 +1960,8 @@ func _on_coin_clicked(coin: Coin):
 				Global.restore_z(_LEFT_HAND)
 				await _tutorial_fade_in([_COIN_ROW, _patron_token])
 				await _wait_for_dialogue("Useful, isn't it?")
-				await _wait_for_dialogue("This token doesn't flip coins...")
-				await _wait_for_dialogue("It simply turns them to their other side.")
+				await _wait_for_dialogue("This token doesn't simply flip coins...")
+				await _wait_for_dialogue("Instead, it directly turns them to their other face.")
 				await _wait_for_dialogue(Global.replace_placeholders("It also bestows the (LUCKY) Status."))
 				await _wait_for_dialogue("Coins can be affected by many Statuses...")
 				await _wait_for_dialogue(Global.replace_placeholders("(LUCKY) makes the coin land heads(HEADS) more often."))
