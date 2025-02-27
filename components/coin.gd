@@ -1136,16 +1136,18 @@ func _generate_tooltip() -> void:
 			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# safety asserts...
-		#TODODO make this path a const in global
+		# todo - would be anice little refactor - make this path a const in global
 		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_blue_icon.png"))
 		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_heal_icon.png"))
 		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_icon.png"))
+		assert(FileAccess.file_exists("res://assets/icons/arrow_icon.png"))
+		
 		
 		const PAYOFF_POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		const PAYOFF_POWER_FORMAT_JUST_ICON = "[img=10x13]%s[/img](POWERARROW)"
 		
 		# case: show just [payoff]+X(SOULS) or [payoff]-X(LIVES) with NO power icon; we do this for specifically these basic powers
-		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png"]
+		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png", "res://assets/icons/arrow_icon.png"]
 		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
 			if _heads_power.power_family.uses_for_denom[_denomination] <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:

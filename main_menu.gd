@@ -143,7 +143,6 @@ func _on_character_changed(characterName: String) -> void:
 		if character.name == characterName:
 			Global.character = character
 			_CHARACTER_DESCRIPTION.text = CHARACTER_FORMAT % character.description
-			_MAIN_UI_EMBERS_CHARACTER.process_material.color_ramp.gradient.set_color(0, Color(Global.get_character_color()))
 			
 			# update appearance of other skulls based on character...
 			_DIFFICULTY_SELECTOR.visible = not Global.is_character(Global.Character.LADY) # no difficulties for LADY
@@ -154,6 +153,8 @@ func _on_character_changed(characterName: String) -> void:
 				# and default to highest
 				if skull.difficulty <= highest_difficulty_unlocked:
 					skull.select()
+			
+			_update_sparks()
 			return
 	assert(false, "Did not find character with name %s!" % characterName)
 
@@ -165,10 +166,14 @@ func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):
 		if difficultySkull != changed:
 			difficultySkull.unselect()
 	
-	_MAIN_UI_EMBERS_RED.emitting = Global.difficulty >= Global.Difficulty.HOSTILE2
-	_MAIN_UI_EMBERS_PURPLE.emitting = Global.difficulty >= Global.Difficulty.CRUEL3
-	_MAIN_UI_EMBERS_MORE_RED.emitting = Global.difficulty >= Global.Difficulty.GREEDY4
-	_MAIN_UI_EMBERS_MORE_PURPLE.emitting = Global.difficulty >= Global.Difficulty.UNFAIR5
+	_update_sparks()
+
+func _update_sparks() -> void:
+	_MAIN_UI_EMBERS_CHARACTER.process_material.color_ramp.gradient.set_color(0, Color(Global.get_character_color()))
+	_MAIN_UI_EMBERS_RED.emitting = Global.difficulty >= Global.Difficulty.HOSTILE2 and not Global.is_character(Global.Character.LADY)
+	_MAIN_UI_EMBERS_PURPLE.emitting = Global.difficulty >= Global.Difficulty.CRUEL3 and not Global.is_character(Global.Character.LADY)
+	_MAIN_UI_EMBERS_MORE_RED.emitting = Global.difficulty >= Global.Difficulty.GREEDY4 and not Global.is_character(Global.Character.LADY)
+	_MAIN_UI_EMBERS_MORE_PURPLE.emitting = Global.difficulty >= Global.Difficulty.UNFAIR5 and not Global.is_character(Global.Character.LADY)
 
 func queue_unlocks(unlocks) -> void:
 	# remove any unlocks that are already unlocked
