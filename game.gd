@@ -406,6 +406,8 @@ func on_start() -> void: #reset
 	_VOYAGE_MAP.rotation_degrees = -90
 	
 	Global.tutorialState = Global.TutorialState.PROLOGUE_BEFORE_BOARDING if Global.is_character(Global.Character.LADY) else Global.TutorialState.INACTIVE
+	if Global.is_character(Global.Character.LADY): # ensure difficulty is minimum if playing as Lady
+		Global.difficulty = Global.Difficulty.INDIFFERENT1
 	Global.tutorial_warned_zeus_reflip = false
 	Global.tutorial_pointed_out_patron_passive = false
 	Global.tutorial_patron_passive_active = false
@@ -464,9 +466,9 @@ func on_start() -> void: #reset
 		await _tutorial_fade_in() #i'm cheating a bit here but it should be fine...
 		await _wait_for_dialogue("Ah, a surprise... (Click anywhere to continue)")
 		await _wait_for_dialogue("You grace us with your presence once more.")
-		await _wait_for_dialogue("He has been impatiently awaiting your arrival.")
+		await _wait_for_dialogue("He has been impatiently anticipating your arrival.")
 		await _wait_for_dialogue("Come aboard my ship and we shall be off.")
-		await _wait_for_dialogue("We wouldn't want to keep him waiting, would we?")
+		await _wait_for_dialogue("We wouldn't want to keep him waiting...")
 		await _tutorial_fade_out()
 		_DIALOGUE.show_dialogue("Noble one, will you board?")
 		Global.tutorialState = Global.TutorialState.PROLOGUE_AFTER_BOARDING

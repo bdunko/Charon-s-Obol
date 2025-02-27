@@ -12,7 +12,7 @@ const _TUTORIAL_NUM_POWER = 2
 
 const _STANDARD_NUM_PAYOFF = 1
 const _STANDARD_NUM_FLEX = 1
-const _STANDARD_NUM_POWER = 2
+const _STANDARD_NUM_POWER = 3
 
 const _MERCHANT_NUM_PAYOFF = 1
 const _MERCHANT_NUM_FLEX = 2
@@ -79,7 +79,9 @@ func randomize_and_show_shop() -> void:
 		return
 	
 	var payoff_coinpool = Global.get_payoff_coinpool()
+	assert(payoff_coinpool.size() != 0)
 	var power_coinpool = Global.get_power_coinpool()
+	assert(power_coinpool.size() != 0)
 	
 	# randomize the types of coins to add to stock
 	var to_stock = []

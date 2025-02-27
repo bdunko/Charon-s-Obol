@@ -482,7 +482,7 @@ class Round:
 	var ante_formula: AnteFormula
 	var malice_multiplier: float
 	
-	var trialDatas: Array[TrialData]
+	var trialDatas: Array
 	
 	func _init(roundTyp: RoundType, lifeRegn: int, shopDenms: Array, shopMult: float, tollCst: int, rndQuota: int, mWave: MonsterWave, anteForm: AnteFormula, maliceMult: float):
 		self.roundType = roundTyp
@@ -1167,7 +1167,7 @@ var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this. (BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
+var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this.\n(BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
 var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [2, 3, 4, 5, 6, 7],\
@@ -1796,24 +1796,24 @@ const NO_UNLOCK_TIP = ""
 	]
 
 # payoff coins
-var GENERIC_FAMILY = CoinFamily.new(0, "(DENOM)", "[color=gray]Common Currency[/color]", "res://assets/icons/coin/generic_icon.png", NO_UNLOCK_TIP,\
+var GENERIC_FAMILY = CoinFamily.new(10000, "(DENOM)", "[color=gray]Common Currency[/color]", "res://assets/icons/coin/generic_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
-var HELIOS_FAMILY = CoinFamily.new(0, "Helios's (DENOM)", "[color=gray]Sunrises and Sets[/color]", "res://assets/icons/coin/helios_icon.png", NO_UNLOCK_TIP,\
+var HELIOS_FAMILY = CoinFamily.new(10001, "Helios's (DENOM)", "[color=gray]Sunrises and Sets[/color]", "res://assets/icons/coin/helios_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_HELIOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var ICARUS_FAMILY = CoinFamily.new(0, "Icarus's (DENOM)", "[color=gray]Waxen Wings Melting[/color]", "res://assets/icons/coin/icarus_icon.png", NO_UNLOCK_TIP,\
+var ICARUS_FAMILY = CoinFamily.new(10002, "Icarus's (DENOM)", "[color=gray]Waxen Wings Melting[/color]", "res://assets/icons/coin/icarus_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_ICARUS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var ACHILLES_FAMILY = CoinFamily.new(0, "Achilles's (DENOM)", "[color=gray]Held by the Heel[/color]", "res://assets/icons/coin/achilles_icon.png", NO_UNLOCK_TIP,\
+var ACHILLES_FAMILY = CoinFamily.new(10003, "Achilles's (DENOM)", "[color=gray]Held by the Heel[/color]", "res://assets/icons/coin/achilles_icon.png", NO_UNLOCK_TIP,\
 	RICH, POWER_FAMILY_GAIN_SOULS_ACHILLES, POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL, _SpriteStyle.PAYOFF)
-var TANTALUS_FAMILY = CoinFamily.new(0, "Tantalus's (DENOM)", "[color=gray]Distant Fruit, Fading Water[/color]", "res://assets/icons/coin/tantalus_icon.png", NO_UNLOCK_TIP,\
+var TANTALUS_FAMILY = CoinFamily.new(10004, "Tantalus's (DENOM)", "[color=gray]Distant Fruit, Fading Water[/color]", "res://assets/icons/coin/tantalus_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_TANTALUS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var AENEAS_FAMILY = CoinFamily.new(0, "Aeneas's (DENOM)", "[color=gray]Wasn't Built in a Day[/color]", "res://assets/icons/coin/aeneas_icon.png", NO_UNLOCK_TIP,\
+var AENEAS_FAMILY = CoinFamily.new(10005, "Aeneas's (DENOM)", "[color=gray]Wasn't Built in a Day[/color]", "res://assets/icons/coin/aeneas_icon.png", NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GAIN_SOULS_AENEAS, POWER_FAMILY_GAIN_SOULS_AENEAS, _SpriteStyle.PAYOFF)
-var ORION_FAMILY = CoinFamily.new(0, "Orion's (DENOM)", "[color=gray]Hunting the Stars[/color]", "res://assets/icons/coin/orion_icon.png", NO_UNLOCK_TIP,\
+var ORION_FAMILY = CoinFamily.new(10006, "Orion's (DENOM)", "[color=gray]Hunting the Stars[/color]", "res://assets/icons/coin/orion_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_ORION, POWER_FAMILY_GAIN_ARROWS_ORION, _SpriteStyle.PAYOFF)
-var CARPO_FAMILY = CoinFamily.new(0, "Carpo's (DENOM)", "[color=gray]Limitless Harvest[/color]", "res://assets/icons/coin/carpo_icon.png", NO_UNLOCK_TIP,\
+var CARPO_FAMILY = CoinFamily.new(10007, "Carpo's (DENOM)", "[color=gray]Limitless Harvest[/color]", "res://assets/icons/coin/carpo_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_CARPO, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var TELEMACHUS_FAMILY = CoinFamily.new(0, "Telemachus's (DENOM)", "[color=gray]Following His Shadow[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
+var TELEMACHUS_FAMILY = CoinFamily.new(10007, "Telemachus's (DENOM)", "[color=gray]Following His Shadow[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
 	CHEAP, POWER_FAMILY_GAIN_SOULS_BECOME_HERO, POWER_FAMILY_LOSE_LIFE_BECOME_HERO, _SpriteStyle.PAYOFF)
 
 # power coins
@@ -2001,12 +2001,16 @@ func generate_coinpool() -> void:
 	assert(_COINPOOL.size() != 0)
 	# in the future, character specific coinpools can be set here
 	
+	assert(get_payoff_coinpool().size() != 0)
+	assert(get_power_coinpool().size() != 0)
+	
 	#for coin in _COINPOOL:
 	#	print(coin.coin_name)
 
 func get_payoff_coinpool() -> Array:
 	var payoffs = []
 	for coin in _COINPOOL:
+		# this needs to be handled better in the future...
 		if coin.heads_power_family.is_payoff():
 			payoffs.append(coin)
 	payoffs.shuffle()
@@ -2191,6 +2195,13 @@ func load_save() -> void:
 		assert(_save_dict[_SAVE_COIN_KEY][family.id] != null)
 	for chara in Character.values():
 		assert(_save_dict[_SAVE_CHAR_KEY][CHARACTERS[chara].id] != null)
+	
+	# more sanity - make sure no ids are duplicated
+	# this is n^2 but I don't really care that much
+	for coin in _ALL_PLAYER_COINS:
+		for coin2 in _ALL_PLAYER_COINS:
+			if coin != coin2:
+				assert(coin.id != coin2.id, "shared id %d" % coin.id)
 	
 	var file = FileAccess.open(_SAVE_PATH, FileAccess.READ)
 	

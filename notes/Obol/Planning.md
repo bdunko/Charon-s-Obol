@@ -2,6 +2,7 @@
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
 	- [ ] **More Coins**
 		- [ ] Coins need a way to mark passives (used for Telemachus to prevent upgrading for example, this is associated with the COIN and not the POWER)
+		- [ ] Determining if a coin is or isn't a payoff (particuolarly for get_payoff_coinpool and is_payoff) is really poorly handled. We look only at the heads family, as far as I can tell. We need a way to dictate if a specific type of coin is a payoff coin or power (probably an enum on the CoinFamily)
 		- [ ] Week:
 			- [ ] Work on implementing new power coins and their powers.
 			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
@@ -9,10 +10,8 @@
 			- [ ] 8 Payoffs
 				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
 					- [ ] add code to allow for 
-				- [x] Aeneas - Wasn't Built in a Day - Beneficial on both heads and tails, but lower payoff.
 				- [ ] Orion - Hunting for Stars - Souls on heads; Arrows on tails (souls payoff is minimal)
-					- [ ] Tails tooltip shows charges but it shoujldn't just make it work liek souls payoffs (arrow payoffs should be treated the same; just +ARROW... but stymphanian bird keeps what it is... so IFF the icon is the arrow icon, don't show the power part)
-				- [x] Carpo - Limitless Harvest - 0/2/4/6 souls - Increases by 2 each payoff (resets when the round ends).
+					- [ ] Tails tooltip shows charges but it shouldn't just make it work liek souls payoffs (arrow payoffs should be treated the same; just +ARROW... but stymphanian bird keeps what it is... so IFF the icon is the arrow icon, don't show the power part)
 				- [ ] Telemachus - Following His Shadow - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 					- [ ] in payoff, after gaining souls, check for transform via metadata
 			- [ ] 21 Powers
@@ -69,9 +68,13 @@
 	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
 	- [ ] Settings menu
 	- [ ] Can't accidentally mash through shop. Put a 1sec delay on entering shop and being allowed to press continue (don't show this visually, just ignore the click)
+	- [ ] Tooltip improvements/fixes (directional tooltips - tooltips prefer going in a specific direction depending on row etc)
 	- [ ] **Tutorial Tuning**
 		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+		- [ ] Don't show upgrade prices or allow upgrades in the first shop.
 		- [ ] The Shop Mat should be brought to front when introducing the shop.
+		- [ ] We shouldn't show the first power coin until Charon introduces the shop a bit more.
+		- [ ] Make sure prices are reasonable.
 		- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones. 
 		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs. 
 		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
@@ -82,6 +85,8 @@
 		- [ ] Better wording for "doesn't flip coins... it simply turns them to their other side" ('isn't that what flip means'?) perhaps, add the word randomly
 		- [ ] Make sure the Wait! when Zeusing a heads coin in tutorial does not trigger on monster coins (since that may be intended)
 		- [ ] If you click a button, drag off and release, the button shouldn't activate (but it does).
+		- [ ] Better wording when explaining tollgate - "You must pay a certain value worth of coins" instead of a certain amount of coins.
+		- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
 - [ ] **Basic Sound
 - [ ] **Orphic Tablets**
 	- [ ] Option unlocked on main menu once unlocked.
