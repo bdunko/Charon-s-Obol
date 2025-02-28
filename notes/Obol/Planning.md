@@ -7,7 +7,6 @@
 			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
 		- [ ] Add Coins and their Powers
 			- [ ] 8 Payoffs
-				- [ ] Tantalus - Distant Fruit, Fading Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
 				- [ ] Telemachus - Following His Footsteps - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
 					- [ ] in payoff, after gaining souls, check for transform via metadata
 			- [ ] 21 Powers

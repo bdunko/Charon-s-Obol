@@ -1172,7 +1172,7 @@ var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for 
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
 var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [2, 3, 4, 5, 6, 7],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this face is showing, immediately +(MAX_CHARGES)(SOULS) and turn this coin over.", [4, 5, 6, 7, 8, 9],\
+var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this face is showing, immediately +(MAX_CHARGES)(SOULS) and turn this coin over.", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PASSIVE, "res://assets/icons/coin/tantalus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS)", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
@@ -1215,7 +1215,7 @@ var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("Bury one of your coins for 1
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its (LIFE) penalty to 0 this round.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE, PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_IGNITE_BLESS_LUCKY = PowerFamily.new("Make a coin (LUCKY), (BLESS), and (IGNITE) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/hecate_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY, PowerFamily.Tag.BLESS, PowerFamily.Tag.IGNITE])
-var POWER_FAMILY_LIGHT_FIRE = PowerFamily.new("Stroke the fire. [color=gray]For each time you've done this, all your coins land on (HEADS) +0.5% more often.)[/color]", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_LIGHT_FIRE = PowerFamily.new("Stroke the fire. [color=gray](For each time you've done this, all your coins land on (HEADS) +0.5% more often.)[/color]", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
 const PHAETHON_REWARD_ARROWS = [2, 3, 4, 5, 6, 7]
@@ -1236,7 +1236,7 @@ var POWER_FAMILY_TURN_ALL = PowerFamily.new("Turn each coin to its other face.",
 var POWER_FAMILY_GOLDEN_FLEECE = PowerFamily.new("Gain a wisp of Golden Fleece! [color=gray](For each wisp, coins in the shop cost -1(SOULS).)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/jason_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PowerFamily.new("(IGNITE) a coin. If it was already (IGNITED), (BLESS) it. If it was already (BLESSED), destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.IGNITE, PowerFamily.Tag.BLESS, PowerFamily.Tag.DESTROY])
-var POWER_FAMILY_TRANSFORM_AND_LOCK = PowerFamily.new("Transforms into a random power each toss. If the power is used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
+var POWER_FAMILY_TRANSFORM_AND_LOCK = PowerFamily.new("Becomes a random power each toss. When used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/proteus_icon.png", ONLY_SHOW_ICON)
 
 
@@ -1910,7 +1910,7 @@ var JASON_FAMILY = CoinFamily.new(1032, CoinType.POWER, "(DENOM) of Jason", "[co
 	STANDARD, POWER_FAMILY_GOLDEN_FLEECE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var SARPEDON_FAMILY = CoinFamily.new(1033, CoinType.POWER, "(DENOM) of Sarpedon", "[color=papayawhip]Cleansing Pyre[/color]", POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PROTEUS_FAMILY = CoinFamily.new(1034, CoinType.POWER, "(DENOM) of Proteus", "[color=cornflowerblue]Water Shifts Shapes[/color]", POWER_FAMILY_TRANSFORM_AND_LOCK.icon_path, NO_UNLOCK_TIP,\
+var PROTEUS_FAMILY = CoinFamily.new(1034, CoinType.POWER, "(DENOM) of Proteus", "[color=cornflowerblue]Water Shifts Shape[/color]", POWER_FAMILY_TRANSFORM_AND_LOCK.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_TRANSFORM_AND_LOCK, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 # monsters
