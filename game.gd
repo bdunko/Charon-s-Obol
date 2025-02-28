@@ -619,7 +619,8 @@ func _on_flip_complete() -> void:
 					await _wait_for_dialogue(Global.replace_placeholders("It will make one of your coins (UNLUCKY)."))
 				else:
 					await _wait_for_dialogue(Global.replace_placeholders("It is going to deal damage to your (LIFE)."))
-				await _wait_for_dialogue("Powers may change this result, if you wish.")
+				await _wait_for_dialogue("As monsters are also coins, you may use your powers on them.")
+				await _wait_for_dialogue("You can reflip a monster to manipulate its behavior, for example.")
 				await _wait_for_dialogue("Lastly...")
 				_ENEMY_COIN_ROW.get_child(0).show_price()
 				await _wait_for_dialogue(Global.replace_placeholders("You may use souls(SOULS) to defeat monsters."))
@@ -1987,7 +1988,7 @@ func _on_coin_clicked(coin: Coin):
 				elif coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
-				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads():
+				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads() and not coin.is_monster():
 					await _tutorial_fade_in([_COIN_ROW])
 					await _wait_for_dialogue("Wait!")
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
