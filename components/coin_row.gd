@@ -234,16 +234,16 @@ static func FILTER_TAILS(c: Coin) -> bool:
 	return c.is_tails()
 
 static func FILTER_POWER(c: Coin) -> bool:
-	return c.is_power()
+	return c.is_power_coin()
 
-static func FILTER_PAYOFF(c: Coin) -> bool:
-	return c.is_payoff()
+static func FILTER_ACTIVE_PAYOFF(c: Coin) -> bool:
+	return c.is_active_face_payoff()
 
 static func FILTER_USABLE_POWER(c: Coin) -> bool:
-	return c.is_power() and c.get_active_power_charges() != 0
+	return c.is_power_coin() and c.get_active_power_charges() != 0
 
 static func FILTER_RECHARGABLE(c: Coin) -> bool:
-	return c.is_power() and c.get_active_power_charges() != c.get_max_active_power_charges()
+	return c.is_power_coin() and c.get_active_power_charges() != c.get_max_active_power_charges()
 
 static func FILTER_OBOL(c: Coin) -> bool:
 	return c.get_denomination() == Global.Denomination.OBOL
@@ -286,7 +286,7 @@ func has_coin(coin: Coin) -> bool:
 
 func has_a_power_coin() -> bool:
 	for c in get_children():
-		if c.is_power():
+		if c.is_power_coin():
 			return true
 	return false
 

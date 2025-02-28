@@ -2,6 +2,7 @@ class_name Coin
 extends Control
 
 signal flip_complete
+signal turn_complete
 signal hovered
 signal unhovered
 signal clicked
@@ -104,7 +105,11 @@ class FacePower:
 	
 	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
-		if power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
+		
+		# handle special tantalus case, since it's a passive and not a PAYOFF_GAIN_SOULS power
+		if power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
+			souls_payoff = power_family.uses_for_denom[denomination]
+		elif power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
 				if in_shop: # while in the shop, show a question mark
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
@@ -127,7 +132,7 @@ class FacePower:
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
 				var base_payoff = power_family.uses_for_denom[denomination]
 				if in_shop:
-					souls_payoff = base_payoff
+					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					var growth = get_metadata(METADATA_CARPO, 0)
 					souls_payoff = base_payoff + growth
@@ -167,7 +172,7 @@ func _update_appearance() -> void:
 	_update_face_label()
 	_update_price_label()
 	_update_glow()
-	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_passive())
+	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#f72534"
@@ -483,9 +488,6 @@ func mark_owned_by_player() -> void:
 func is_owned_by_player() -> bool:
 	return _owner == Owner.PLAYER
 
-func is_monster() -> bool:
-	return _owner == Owner.NEMESIS
-
 func get_store_price() -> int:
 	var upgrade_modifier = Global.get_cumulative_to_upgrade_to(_denomination)
 	return floor(_coin_family.base_price * Global.current_round_shop_multiplier()) + floor(upgrade_modifier * Global.STORE_UPGRADE_DISCOUNT)
@@ -623,17 +625,36 @@ func downgrade(no_flash: bool = false) -> void:
 	if not no_flash:
 		FX.flash(Color.DARK_GRAY)
 
-func is_passive() -> bool:
-	return get_active_power_family().is_passive()
+func is_trial_coin() -> bool:
+	return _coin_family.coin_type == Global.CoinType.TRIAL
 
-func is_payoff() -> bool:
-	return get_active_power_family().is_payoff()
+func is_payoff_coin() -> bool:
+	return _coin_family.coin_type == Global.CoinType.PAYOFF
 
-func is_power() -> bool:
+func is_power_coin() -> bool:
+	return _coin_family.coin_type == Global.CoinType.POWER
+
+func is_monster_coin() -> bool:
+	assert(_owner == Owner.NEMESIS) #safety assert for now
+	return _coin_family.coin_type == Global.CoinType.MONSTER
+
+func is_active_face_power() -> bool:
 	return get_active_power_family().is_power()
 
 func is_other_face_power() -> bool:
 	return get_inactive_power_family().is_power()
+
+func is_active_face_payoff() -> bool:
+	return get_active_power_family().is_payoff()
+
+func is_other_face_payoff() -> bool:
+	return get_inactive_power_family().is_payoff()
+
+func is_active_face_passive() -> bool:
+	return get_active_power_family().is_passive()
+
+func is_other_face_passive() -> bool:
+	return get_active_power_family().is_passive()
 	
 func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not _blank
@@ -644,7 +665,7 @@ const QUITE_LUCKY_MODIFIER = 26
 const INCREDIBLY_LUCKY_MODIFIER = 39
 const UNLUCKY_MODIFIER = -20
 func flip(is_toss: bool, bonus: int = 0) -> void:
-	if get_active_power_family().is_passive():
+	if is_trial_coin(): # trials don't flip
 		_freeze_ignite_state = _FreezeIgniteState.NONE
 		emit_signal("flip_complete")
 		return
@@ -721,9 +742,8 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 		await flip(is_toss)
 		return
 	
-	emit_signal("flip_complete")
-	
 	_disable_interaction = false
+	emit_signal("flip_complete", self)
 
 func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
@@ -762,6 +782,7 @@ func turn() -> void:
 	set_animation(_Animation.FLAT)
 	_FACE_LABEL.show()
 	_disable_interaction = false
+	emit_signal("turn_complete", self)
 
 # sets to heads without an animation
 func set_heads_no_anim() -> void:
@@ -1103,9 +1124,8 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 func _generate_tooltip() -> void:
 	var tooltip = ""
 	
-	# special case - use a shortened tooltip for passive coins
-	# later, if we add coins with passives, this will need to change. But it works fine for now, with only passive trials.
-	if get_active_power_family().power_type == Global.PowerType.PASSIVE:
+	# special case - use a shortened tooltip for trial coins (which are single faced)
+	if is_trial_coin():
 		assert(_heads_power.power_family == _tails_power.power_family, "Need to refactor!") # this is always true for trials; just a warning for myself if I forget to change this l8r
 		# (name)
 		# (subtitle)
@@ -1228,6 +1248,8 @@ func after_payoff() -> void:
 			power.set_metadata(METADATA_CARPO, power.get_metadata(METADATA_CARPO, 0) + Global.CARPO_ROUND_MULTIPLIER[_denomination])
 
 func set_animation(anim: _Animation) -> void:
+	if(_heads_power != null and _heads_power.power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS):
+		print("setting anim")
 	var denom_str = Global.denom_to_string(_denomination).to_lower()
 	
 	var anim_str = ""

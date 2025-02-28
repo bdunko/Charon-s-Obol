@@ -415,6 +415,7 @@ func on_start() -> void: #reset
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_COIN_ROW.add_child(charons_obol)
 	charons_obol.flip_complete.connect(_on_flip_complete)
+	charons_obol.turn_complete.connect(_on_turn_complete)
 	charons_obol.init_coin(Global.CHARON_OBOL_FAMILY, Global.Denomination.OBOL, Coin.Owner.NEMESIS)
 	_CHARON_COIN_ROW.hide()
 	
@@ -493,10 +494,13 @@ func _make_patron_token():
 	_TABLE.add_child(_patron_token)
 
 var flips_pending = 0
-func _on_flip_complete() -> void:
+func _on_flip_complete(flipped_coin: Coin) -> void:
 	flips_pending -= 1
 	assert(flips_pending >= 0)
 	_update_payoffs()
+	
+	_handle_tantalus(flipped_coin)
+
 	
 	if flips_pending == 0:
 		if Global.state == Global.State.AFTER_FLIP: #ignore reflips such as Zeus
@@ -638,6 +642,18 @@ func _on_flip_complete() -> void:
 			_map_is_disabled = false
 			_PLAYER_TEXTBOXES.make_visible()
 
+func _on_turn_complete(turned_coin: Coin) -> void:
+	_update_payoffs()
+	_handle_tantalus(turned_coin)
+
+# if tantalus is ever showing after a flip/turn, immediately turn to the other side and gain souls
+func _handle_tantalus(coin: Coin) -> void:
+	# and not here covers infinite case... we should just try to prevent this
+	if coin.get_active_power_family() == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS and not coin.get_inactive_power_family() == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
+		coin.play_power_used_effect(coin.get_active_power_family())
+		_earn_souls(coin.get_active_souls_payoff())
+		coin.turn()
+
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_COIN_ROW.get_children():
@@ -741,7 +757,7 @@ func _on_accept_button_pressed():
 		var charges = payoff_coin.get_active_power_charges()
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)
-		var right = row.get_right_of(payoff_coin)
+		var _right = row.get_right_of(payoff_coin)
 		var is_last_player_coin = _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
@@ -893,7 +909,7 @@ func _on_accept_button_pressed():
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_COLLAPSE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
-			if coin.is_power() and coin.is_heads():
+			if coin.is_active_face_power():
 				coin.FX.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_OVERLOAD)
@@ -1013,6 +1029,8 @@ func connect_enemy_coins() -> void:
 		var coin = c as Coin
 		if not coin.flip_complete.is_connected(_on_flip_complete):
 			coin.flip_complete.connect(_on_flip_complete)
+		if not coin.turn_complete.is_connected(_on_turn_complete):
+			coin.turn_complete.connect(_on_turn_complete)
 		if not coin.clicked.is_connected(_on_coin_clicked):
 			coin.clicked.connect(_on_coin_clicked)
 
@@ -1481,7 +1499,7 @@ func _on_voyage_continue_button_clicked():
 	
 	# activate trial modifiers
 	for coin in _ENEMY_COIN_ROW.get_children():
-		if coin.is_passive():
+		if coin.is_trial_coin():
 			match coin.get_coin_family():
 				Global.TRIAL_IRON_FAMILY:
 					while _COIN_ROW.get_child_count() > Global.COIN_LIMIT-2: # make space for thorns obols
@@ -1685,6 +1703,7 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 func _init_new_coin_signals(coin: Coin) -> void:
 	coin.clicked.connect(_on_coin_clicked)
 	coin.flip_complete.connect(_on_flip_complete)
+	coin.turn_complete.connect(_on_turn_complete)
 	coin.hovered.connect(_on_coin_hovered)
 	coin.unhovered.connect(_on_coin_unhovered)
 
@@ -1715,7 +1734,7 @@ func destroy_coin(coin: Coin) -> void:
 	if coin.is_being_destroyed():
 		return
 	
-	if coin.is_monster():
+	if coin.is_monster_coin():
 		Global.monsters_destroyed_this_round += 1
 	
 	if coin.get_parent() is CoinRow:
@@ -1777,7 +1796,7 @@ func _on_coin_clicked(coin: Coin):
 		if Global.tutorialState in no_upgrade_tutorial:
 			return
 		# prevent upgrading Zeus coin as first upgrade
-		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE and coin.is_power():
+		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE and coin.is_power_coin():
 			_DIALOGUE.show_dialogue("Click the other coin.")
 			return
 		
@@ -1865,8 +1884,8 @@ func _on_coin_clicked(coin: Coin):
 	if Global.active_coin_power_family != null:
 		var spent_power_use = false # some coins need to spend their charges before they activate to work properly
 		
-		# powers can't be used on passive coins
-		if coin.is_passive(): 
+		# powers can't be used on trial coins
+		if coin.is_trial_coin(): 
 			_DIALOGUE.show_dialogue("Can't use a power on that...")
 			return
 		
@@ -1875,7 +1894,7 @@ func _on_coin_clicked(coin: Coin):
 			var life_cost = Global.BLOOD_COST
 			# in the extremely rare case the power we're using itself has a life cost, factor that in before taking life...
 			if Global.active_coin_power_family == Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
-				if coin.is_monster():
+				if coin.is_monster_coin():
 					life_cost += Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
 			if Global.lives - life_cost < 0:
 				_DIALOGUE.show_dialogue("Not enough life...")
@@ -1988,7 +2007,7 @@ func _on_coin_clicked(coin: Coin):
 				elif coin.is_stone():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
-				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads() and not coin.is_monster():
+				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads() and not coin.is_monster_coin():
 					await _tutorial_fade_in([_COIN_ROW])
 					await _wait_for_dialogue("Wait!")
 					_LEFT_HAND.point_at(_hand_point_for_coin(Global.active_coin_power_coin))
@@ -2058,7 +2077,7 @@ func _on_coin_clicked(coin: Coin):
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				if coin.is_power(): # try to copy current face, if it's a power
+				if coin.is_active_face_power(): # try to copy current face, if it's a power
 					Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_active_power_family())
 					Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power...
 				elif coin.is_other_face_power(): # otherwise if the other face is a power, copy that
@@ -2085,7 +2104,7 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.make_lucky()
 			Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
-				if coin.is_monster():
+				if coin.is_monster_coin():
 					downgrade_coin(coin)
 					Global.lives -= Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
 				elif coin.is_owned_by_player():
@@ -2257,7 +2276,7 @@ func _on_patron_token_clicked():
 		Global.PATRON_POWER_FAMILY_APHRODITE:
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
-				if not as_coin.get_active_power_family().is_payoff():
+				if as_coin.is_active_face_power():
 					as_coin.recharge_power_uses_by(2)
 					as_coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
@@ -2541,7 +2560,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var percentage_tails = tails_coins / float(_COIN_ROW.num_coins())
 	
 	var usable_powers = _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER).size()
-	var heads_payoffs = _COIN_ROW.get_filtered(CoinRow.FILTER_PAYOFF).size()
+	var heads_payoffs = _COIN_ROW.get_filtered(CoinRow.FILTER_ACTIVE_PAYOFF).size()
 	
 	var empty_spaces = Global.COIN_LIMIT - _COIN_ROW.num_coins()
 	var num_monsters = _ENEMY_COIN_ROW.num_coins()
@@ -2549,7 +2568,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var highest_valued_arr = _COIN_ROW.get_highest_valued()
 	var highest_valued = highest_valued_arr[0]
 	var is_highest_valued_singular = highest_valued_arr.size() == 0
-	var is_highest_valued_heads_power = highest_valued_arr[0].is_power()
+	var is_highest_valued_heads_power = highest_valued_arr[0].is_active_face_power()
 	var highest_denom = highest_valued_arr[0].get_denomination()
 	var _drachmas = _COIN_ROW.get_filtered(CoinRow.FILTER_DRACHMA)
 	var _pentobols = _COIN_ROW.get_filtered(CoinRow.FILTER_PENTOBOL)
@@ -2776,7 +2795,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 					monster.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("My minions grow stronger!", delay)
 		MaliceAction.TURN_PAYOFFS:
-			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_PAYOFF, CoinRow.FILTER_HEADS]):
+			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_ACTIVE_PAYOFF):
 				target.turn()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("The souls are mine! None for you!", delay)
