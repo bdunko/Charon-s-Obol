@@ -801,12 +801,12 @@ func _on_accept_button_pressed():
 						if row.get_filtered(CoinRow.FILTER_HEADS).size() == row.get_child_count():
 							payoff_coin.FX.flash(Color.YELLOW)
 							destroy_coin(payoff_coin)
-					# telemachus - after 30 tosses, transform
+					# telemachus - after X tosses, transform
 					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_TELEMACHUS:
 						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
 						print(payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS))
 						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
-							payoff_coin.init_coin(Global.random_power_coin_family(), min(Global.Denomination.DRACHMA, payoff_coin.get_denomination() + 3), payoff_coin.get_current_owner())
+							payoff_coin.init_coin(Global.random_power_coin_family(), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
 							payoff_coin.consecrate()
 					
 				Global.PowerType.PAYOFF_LOSE_SOULS:

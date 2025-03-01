@@ -522,6 +522,9 @@ func can_upgrade() -> bool:
 	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
 		return false
 	
+	if _coin_family.has_tag(Global.CoinFamily.Tag.NO_UPGRADE):
+		return false
+	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS) or _owner == Owner.NEMESIS:
 		return _denomination != Global.Denomination.DRACHMA
 	
@@ -578,7 +581,7 @@ func get_value() -> int:
 			return 6
 	return 0
 
-func upgrade() -> void:
+func upgrade(no_flash: bool = false) -> void:
 	if not can_upgrade():
 		assert(false, "Trying to upgrade a coin that we shouldn't.")
 		return
@@ -609,7 +612,8 @@ func upgrade() -> void:
 	
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
-	FX.flash(Color.GOLDENROD)
+	if not no_flash:
+		FX.flash(Color.GOLDENROD)
 
 func downgrade(no_flash: bool = false) -> void:
 	if _denomination == Global.Denomination.OBOL:
@@ -643,6 +647,12 @@ func downgrade(no_flash: bool = false) -> void:
 	set_animation(_Animation.FLAT) # update sprite
 	if not no_flash:
 		FX.flash(Color.DARK_GRAY)
+
+func set_denomination(denom: Global.Denomination, no_flash: bool = false) -> void:
+	while _denomination < denom:
+		upgrade(no_flash)
+	while _denomination > denom:
+		downgrade(no_flash)
 
 func is_trial_coin() -> bool:
 	return _coin_family.coin_type == Global.CoinType.TRIAL

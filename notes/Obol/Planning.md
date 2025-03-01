@@ -5,14 +5,7 @@
 			- [ ] Implement doomed.
 			- [ ] Implement permanent statuses. 
 				- [ ] Array of statuses. When removing status, check if in permanent. If so, don't remove. Additionally, tooltip when hovering should show if permanent.
-			- [ ] Shorten telemachus tooltip to: In 30 more payoffs, transform into a random power (DENOM+3) and permanently Consecrate.
-			- [ ] telemachus probably should not be available in the second half of the game. we can code in a special case in the shop for him. 
-			- [ ] telemachus should only be available as an obol. if he is chosen as a coin, shop automatically downgrades him until obol.
 			- [ ] Work on implementing new power coins and their powers.
-			- [ ] Need a way to represent coins which cannot be upgraded. let's add a tag system to the coins themselves as well. it can be a simple array.
-				- [ ] in can_upgrade, check this array as well.
-				- [ ] in upgrade, assert it isn't unupgradable
-				- [ ] when generating tooltip, add this string IFF the tag exists
 
 		- [ ] Add Coins and their Powers
 			- [ ] 8 Payoffs

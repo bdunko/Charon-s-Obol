@@ -116,6 +116,10 @@ func randomize_and_show_shop() -> void:
 		coin.init_coin(family, Global.random_shop_denomination_for_round(), Coin.Owner.SHOP)
 		coin.clicked.connect(_on_try_coin_purchased)
 		
+		# telemachus is only available in obol
+		if coin.get_coin_family() == Global.TELEMACHUS_FAMILY:
+			coin.set_denomination(Global.Denomination.OBOL, true)
+		
 		# if the denomination offered by the shop is unaffordable, attempt to downgrade it until it is affordable
 		while coin.get_denomination() != Global.Denomination.OBOL and coin.get_store_price() > Global.souls:
 			coin.downgrade(true)

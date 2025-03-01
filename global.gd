@@ -1182,7 +1182,7 @@ var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
 var TELEMACHUS_TOSSES_TO_TRANSFORM = 30
-var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).", \
+var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and permanently (CONSECRATE).", \
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 
@@ -2054,6 +2054,9 @@ func get_payoff_coinpool() -> Array:
 	var payoffs = []
 	for coin_family in _COINPOOL:
 		if coin_family.coin_type == CoinType.PAYOFF:
+			# exception - no telemachus after round 3
+			if coin_family == TELEMACHUS_FAMILY and round_count > 3:
+				continue
 			payoffs.append(coin_family)
 	payoffs.shuffle()
 	return payoffs
