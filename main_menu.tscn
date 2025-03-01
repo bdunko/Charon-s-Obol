@@ -555,7 +555,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eejs6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jflta"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -937,7 +937,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_twmsj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w0qfn"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1064,7 +1064,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x60xs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x3px8"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1499,7 +1499,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_eejs6")
+material = SubResource("ShaderMaterial_jflta")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1801,12 +1801,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_twmsj")
+material = SubResource("ShaderMaterial_w0qfn")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_x60xs")
+material = SubResource("ShaderMaterial_x3px8")
 layout_mode = 2
 default_text = " Quit "
 

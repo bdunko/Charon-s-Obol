@@ -15,7 +15,7 @@ enum Owner {
 }
 
 enum _BlessCurseState {
-	NONE, BLESSED, CURSED
+	NONE, BLESSED, CURSED, CONSECRATED, DESECRATED
 }
 
 enum _LuckState {
@@ -48,6 +48,9 @@ enum _MaterialState {
 @onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Supercharge
 @onready var _STONE_ICON = $Sprite/StatusBar/Stone
 @onready var _BLANK_ICON = $Sprite/StatusBar/Blank
+@onready var _DOOMED_ICON = $Sprite/StatusBar/Doomed
+@onready var _CONSECRATE_ICON = $Sprite/StatusBar/Consecrate
+@onready var _DESECRATE_ICON = $Sprite/StatusBar/Desecrate
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -90,6 +93,7 @@ var _heads:
 		_update_appearance()
 
 const METADATA_CARPO = "CARPO"
+const METADATA_TELEMACHUS = "TELEMACHUS"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
 
@@ -319,6 +323,8 @@ var _bless_curse_state: _BlessCurseState:
 		_bless_curse_state = val
 		_STATUS_BAR.update_icon(_BLESS_ICON, _bless_curse_state == _BlessCurseState.BLESSED)
 		_STATUS_BAR.update_icon(_CURSE_ICON, _bless_curse_state == _BlessCurseState.CURSED)
+		_STATUS_BAR.update_icon(_DESECRATE_ICON, _bless_curse_state == _BlessCurseState.DESECRATED)
+		_STATUS_BAR.update_icon(_CONSECRATE_ICON, _bless_curse_state == _BlessCurseState.CONSECRATED)
 		
 		if _bless_curse_state == _BlessCurseState.BLESSED:
 			FX.flash(Color.YELLOW)
@@ -326,6 +332,12 @@ var _bless_curse_state: _BlessCurseState:
 		elif _bless_curse_state == _BlessCurseState.CURSED:
 			FX.flash(Color.PURPLE)
 			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
+		elif _bless_curse_state == _BlessCurseState.CONSECRATED:
+			FX.flash(Color.LIGHT_YELLOW)
+			_play_new_status_effect("res://assets/icons/status/consecrate_icon.png")
+		elif _bless_curse_state == _BlessCurseState.DESECRATED:
+			FX.flash(Color.FUCHSIA)
+			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
 		_update_appearance()
 
 var _freeze_ignite_state: _FreezeIgniteState:
@@ -408,6 +420,10 @@ func _ready():
 	assert(_BLESS_ICON)
 	assert(_CURSE_ICON)
 	assert(_SUPERCHARGE_ICON)
+	assert(_DOOMED_ICON)
+	assert(_CONSECRATE_ICON)
+	assert(_DESECRATE_ICON)
+	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
@@ -487,6 +503,9 @@ func mark_owned_by_player() -> void:
 
 func is_owned_by_player() -> bool:
 	return _owner == Owner.PLAYER
+
+func get_current_owner() -> Owner:
+	return _owner
 
 func get_store_price() -> int:
 	var upgrade_modifier = Global.get_cumulative_to_upgrade_to(_denomination)
@@ -659,6 +678,12 @@ func is_other_face_passive() -> bool:
 func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not _blank
 
+func set_active_face_metadata(key: String, value: Variant) -> void:
+	_get_active_power().set_metadata(key, value)
+
+func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
+	return _get_active_power().get_metadata(key, default)
+
 const LUCKY_MODIFIER = 20
 const SLIGHTLY_LUCKY_MODIFIER = 13
 const QUITE_LUCKY_MODIFIER = 26
@@ -694,6 +719,10 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERA)
+	elif is_consecrated():
+		FX.flash(Color.LIGHT_YELLOW)
+	elif is_desecrated():
+		FX.flash(Color.FUCHSIA)
 	elif is_blessed():
 		FX.flash(Color.PALE_GOLDENROD)
 		_bless_curse_state = _BlessCurseState.NONE
@@ -748,9 +777,9 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
 		return not _heads
-	elif is_blessed():
+	elif is_blessed() or is_consecrated():
 		return true
-	elif is_cursed():
+	elif is_cursed() or is_desecrated():
 		return false
 	return _get_percentage_success(bonus) >= _next_flip_roll 
 
@@ -911,10 +940,18 @@ func supercharge() -> void:
 	_supercharged = true
 
 func bless() -> void:
-	_bless_curse_state = _BlessCurseState.BLESSED
+	if _bless_curse_state != _BlessCurseState.CONSECRATED and _bless_curse_state != _BlessCurseState.DESECRATED:
+		_bless_curse_state = _BlessCurseState.BLESSED
 
 func curse() -> void:
-	_bless_curse_state = _BlessCurseState.CURSED
+	if _bless_curse_state != _BlessCurseState.CONSECRATED and _bless_curse_state != _BlessCurseState.DESECRATED:
+		_bless_curse_state = _BlessCurseState.CURSED
+
+func consecrate() -> void:
+	_bless_curse_state = _BlessCurseState.CONSECRATED
+
+func desecrate() -> void:
+	_bless_curse_state = _BlessCurseState.DESECRATED
 
 func freeze() -> void:
 	FX.flash(Color.CYAN) # flash ahead of time, even if effect fails
@@ -935,7 +972,7 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func has_status() -> bool:
-	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_supercharged()
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_supercharged() or is_consecrated() or is_desecrated()
 
 func clear_statuses() -> void:
 	if not has_status():
@@ -998,6 +1035,12 @@ func is_blessed() -> bool:
 
 func is_cursed() -> bool:
 	return _bless_curse_state == _BlessCurseState.CURSED
+
+func is_consecrated() -> bool:
+	return _bless_curse_state == _BlessCurseState.CONSECRATED
+
+func is_desecrated() -> bool:
+	return _bless_curse_state == _BlessCurseState.DESECRATED
 
 func is_unlucky() -> bool:
 	return _luck_state == _LuckState.UNLUCKY
@@ -1098,6 +1141,8 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(PHAETHON_SOULS)", str(Global.PHAETHON_REWARD_SOULS[get_value()-1]))
 	txt = txt.replace("(PHAETHON_LIFE)", str(Global.PHAETHON_REWARD_LIFE[get_value()-1]))
 	txt = txt.replace("(PHAETHON_ARROWS)", str(Global.PHAETHON_REWARD_ARROWS[get_value()-1]))
+	if face_power != null:
+		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
 	txt = txt.replace("(ERYSICHTHON_COST)", str("1 - this needs to change dynamically; todo")) #TODO
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
@@ -1186,12 +1231,19 @@ func _generate_tooltip() -> void:
 		var heads_power_str = FACE_FORMAT % ["(HEADS)", heads_power_type, heads_power, heads_desc]
 		var tails_power_str = FACE_FORMAT % ["(TAILS)", tails_power_type, tails_power, tails_desc]
 		
+		var extra_info =  ""
+		if _coin_family.has_tag(Global.CoinFamily.Tag.NO_UPGRADE):
+			extra_info += "Cannot be upgraded. "
+		if extra_info != "":
+			extra_info += "\n"
+		
 		# name
 		# subtitle
+		# extra info
 		# heads
 		# tails
-		const TOOLTIP_FORMAT = "%s\n%s\n%s\n%s"
-		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), heads_power_str, tails_power_str]
+		const TOOLTIP_FORMAT = "%s\n%s\n%s%s\n%s"
+		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), extra_info, heads_power_str, tails_power_str]
 	
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root)
 
@@ -1211,8 +1263,6 @@ func on_round_end() -> void:
 	# clear carpo metadata
 	for power in [_heads_power, _tails_power]:
 		power.clear_metadata(METADATA_CARPO)
-		#if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
-		#	power.clear
 
 func get_heads_icon() -> String:
 	return _heads_power.power_family.icon_path

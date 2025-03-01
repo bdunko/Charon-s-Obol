@@ -753,7 +753,7 @@ func _on_accept_button_pressed():
 	var resolved_ignite = false
 	# trigger payoffs
 	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		var payoff_power_family = payoff_coin.get_active_power_family()
+		var payoff_power_family: Global.PowerFamily = payoff_coin.get_active_power_family()
 		var charges = payoff_coin.get_active_power_charges()
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)
@@ -801,6 +801,13 @@ func _on_accept_button_pressed():
 						if row.get_filtered(CoinRow.FILTER_HEADS).size() == row.get_child_count():
 							payoff_coin.FX.flash(Color.YELLOW)
 							destroy_coin(payoff_coin)
+					# telemachus - after 30 tosses, transform
+					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_TELEMACHUS:
+						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
+						print(payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS))
+						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
+							payoff_coin.init_coin(Global.random_power_coin_family(), min(Global.Denomination.DRACHMA, payoff_coin.get_denomination() + 3), payoff_coin.get_current_owner())
+							payoff_coin.consecrate()
 					
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
@@ -1946,7 +1953,7 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					new_coin.play_power_used_effect(Global.active_coin_power_family)
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2094,7 +2101,7 @@ func _on_coin_clicked(coin: Coin):
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
 					return
-				var new_coin = _make_and_gain_coin(Global.random_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				new_coin.play_power_used_effect(Global.active_coin_power_family)
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2179,7 +2186,7 @@ func _on_coin_clicked(coin: Coin):
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, coin.global_position, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, coin.global_position, true)
 					new_coin.play_power_used_effect(coin.get_active_power_family())
 				_:
 					assert(false, "No matching power")
@@ -2314,7 +2321,7 @@ func _on_patron_token_clicked():
 					match(Global.RNG.randi_range(1, 12)):
 						1: # gain a coin
 							if _COIN_ROW.get_child_count() != Global.COIN_LIMIT and _COIN_ROW.get_child_count() != Global.COIN_LIMIT - 1:
-								var new_coin = _make_and_gain_coin(Global.random_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
+								var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
 								if Global.RNG.randi_range(1, 3) == 1:
 									new_coin.make_lucky()
 								if Global.RNG.randi_range(1, 2) == 1:

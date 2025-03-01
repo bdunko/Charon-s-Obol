@@ -1,10 +1,19 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 1 Sprint - More Content**
 	- [ ] **More Coins**
-		- [ ] Coins need a way to mark passives (used for Telemachus to prevent upgrading for example, this is associated with the COIN and not the POWER)
 		- [ ] Week:
+			- [ ] Implement doomed.
+			- [ ] Implement permanent statuses. 
+				- [ ] Array of statuses. When removing status, check if in permanent. If so, don't remove. Additionally, tooltip when hovering should show if permanent.
+			- [ ] Shorten telemachus tooltip to: In 30 more payoffs, transform into a random power (DENOM+3) and permanently Consecrate.
+			- [ ] telemachus probably should not be available in the second half of the game. we can code in a special case in the shop for him. 
+			- [ ] telemachus should only be available as an obol. if he is chosen as a coin, shop automatically downgrades him until obol.
 			- [ ] Work on implementing new power coins and their powers.
-			- [ ] Need to add a way to represent passives. Coins need an optional string for their passive, which shows above the power in their tooltip. Defaults to "". This is mostly needed for destroy for reward, but we can also slap rules text like "Doesn't flip" here for 
+			- [ ] Need a way to represent coins which cannot be upgraded. let's add a tag system to the coins themselves as well. it can be a simple array.
+				- [ ] in can_upgrade, check this array as well.
+				- [ ] in upgrade, assert it isn't unupgradable
+				- [ ] when generating tooltip, add this string IFF the tag exists
+
 		- [ ] Add Coins and their Powers
 			- [ ] 8 Payoffs
 				- [ ] Telemachus - Following His Footsteps - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
@@ -19,7 +28,9 @@
 				- [ ] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
 				- [ ] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
 				- [ ] Phaethon - Smitten Upstart - Destroy this coin. Gain souls, arrows, life, and fully recharge patron. Upgrades each round.
-				- [ ] Erysichthon - Faustian Hunger - Infinite uses. Doesn't flip (use a separate sprite entirely to indicate this; it isn't a coin) Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. If you didn't use this at least once this round, curse this coin.
+				- [ ] Erysichthon - Faustian Hunger - Infinite uses. Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1. 
+					- [ ] Tails - Turn this to heads. (this is also cute since Daedalus could copy it or something wacky :D)
+					- [ ] Need a way to represent infinite charges (can use a large negative magic number. don't draw a digit, but rather make a unique img for this and use that. when depleting charges, if infinite, don't)
 				- [ ] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
 				- [ ] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
 				- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
@@ -29,6 +40,7 @@
 				- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
 				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
 				- [ ] Jason - Roving Argonaut - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
+					- [ ] This should be a payoff coin. Let's move it to that. 
 				- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
 				- [ ] Proteus - Water Shifts Shapes - Transforms into a random power each toss. If the power is used, this face permanently becomes that power.
 					- [ ] make icon

@@ -1161,7 +1161,7 @@ var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)."
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_BECOME_HERO = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_ONE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
@@ -1174,14 +1174,15 @@ var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(I
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this face is showing, immediately +(MAX_CHARGES)(SOULS) and turn this coin over.", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PASSIVE, "res://assets/icons/coin/tantalus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS)", [3, 4, 5, 6, 7, 8],\
+var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [3, 3, 3, 3, 3, 3],\
+var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [4, 4, 4, 4, 4, 4],\
 	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_BECOME_HERO = PowerFamily.new("Cannot be upgraded. After (TELEMACHUS_TOSSES_REMAINING) more tosses, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).\n+(MAX_CHARGES)(SOULS).", \
+var TELEMACHUS_TOSSES_TO_TRANSFORM = 30
+var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power coin, upgrade thrice, and permanently (CONSECRATE).", \
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 
@@ -1234,7 +1235,7 @@ var POWER_FAMILY_GAIN_PLUTUS_COIN = PowerFamily.new("Gain an Obol with \"(HEADS)
 var POWER_FAMILY_GAIN_GOLDEN_COIN = PowerFamily.new("Gain a golden (THIS_DENOMINATION)![color=gray](Golden coins are blank on both sides.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_TURN_ALL = PowerFamily.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TURN])
 var POWER_FAMILY_GOLDEN_FLEECE = PowerFamily.new("Gain a wisp of Golden Fleece! [color=gray](For each wisp, coins in the shop cost -1(SOULS).)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/jason_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PowerFamily.new("(IGNITE) a coin. If it was already (IGNITED), (BLESS) it. If it was already (BLESSED), destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PowerFamily.new("(IGNITE) a coin. If you can't, (BLESS) it. If you can't, destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.IGNITE, PowerFamily.Tag.BLESS, PowerFamily.Tag.DESTROY])
 var POWER_FAMILY_TRANSFORM_AND_LOCK = PowerFamily.new("Becomes a random power each toss. When used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
 	PowerType.POWER_TARGETTING, "res://assets/icons/coin/proteus_icon.png", ONLY_SHOW_ICON)
@@ -1283,18 +1284,6 @@ var CHARON_POWER_DEATH = PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 
 var CHARON_POWER_LIFE = PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
 
 func replace_placeholders(tooltip: String) -> String:
-	# images
-	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
-	tooltip = tooltip.replace("(TAILS)", "[img=12x13]res://assets/icons/tails_icon.png[/img]")
-	tooltip = tooltip.replace("(COIN)", "[img=12x13]res://assets/icons/coin_icon.png[/img]")
-	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
-	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
-	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")
-	tooltip = tooltip.replace("(SOULS)", "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]")
-	
-	tooltip = tooltip.replace("(CHARON_DEATH)", "[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img]")
-	tooltip = tooltip.replace("(CHARON_LIFE)", "[img=10x13]res://assets/icons/coin/charon_life_icon.png[/img]")
-	
 	# statuses
 	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
 	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % ["red", "Ignite", "res://assets/icons/status/ignite_icon.png"])
@@ -1311,20 +1300,56 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % ["ghostwhite", "Blank", "res://assets/icons/status/blank_icon.png"])
 	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
+	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
+	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["red", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
 	
 	# used for the coin status indicator tooltips
 	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(D_IGNITED)", "Each payoff, -3(LIFE).")
 	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(D_FROZEN)", "The next time this coin would be flipped, it thaws out instead.")
 	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
+	tooltip = tooltip.replace("(D_LUCKY)", "This coin has a +20% chance to land on (HEADS).")
 	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % ["lawngreen", "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
+	tooltip = tooltip.replace("(D_SLIGHTLY_LUCKY)", "This coin has a +13% chance to land on (HEADS).")
 	tooltip = tooltip.replace("(S_QUITE_LUCKY)", STATUS_FORMAT % ["lawngreen", "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"])
+	tooltip = tooltip.replace("(D_QUITE_LUCKY)", "This coin has a +26% chance to land on (HEADS).")
 	tooltip = tooltip.replace("(S_INCREDIBLY_LUCKY)", STATUS_FORMAT % ["lawngreen", "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"])
+	tooltip = tooltip.replace("(D_INCREDIBLY_LUCKY)", "This coin has a +39% chance to land on (HEADS).")
 	tooltip = tooltip.replace("(S_UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
+	tooltip = tooltip.replace("(D_UNLUCKY)", "This coin has a +20% chance to land on (TAILS).")
 	tooltip = tooltip.replace("(S_BLESSED)", STATUS_FORMAT % ["palegoldenrod", "Blessed", "res://assets/icons/status/bless_icon.png"])
+	tooltip = tooltip.replace("(D_BLESSED)", "The next time this coin is flipped, it will land on (HEADS).")
 	tooltip = tooltip.replace("(S_CURSED)", STATUS_FORMAT % ["mediumorchid", "Cursed", "res://assets/icons/status/curse_icon.png"])
+	tooltip = tooltip.replace("(D_CURSED)", "The next time this coin is flipped, it will land on (TAILS).")
 	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % ["ghostwhite", "Blanked", "res://assets/icons/status/blank_icon.png"])
+	tooltip = tooltip.replace("(D_BLANKED)", "Until the end of a toss, this has no effects.")
 	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % ["yellow", "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
+	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next time this coin lands on (TAILS), reflip it.")
 	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % ["slategray", "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
+	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge naturally.")
+	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % ["lightyellow", "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
+	tooltip = tooltip.replace("(D_CONSECRATED)", "This coin will always land on (HEADS).")
+	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % ["red", "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
+	tooltip = tooltip.replace("(D_DESECRATED)", "This coin will always land on (TAILS).")
+	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(D_DOOMED)", "When the round ends, this coin is destroyed.")
+	
+	
+	# images
+	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
+	tooltip = tooltip.replace("(TAILS)", "[img=12x13]res://assets/icons/tails_icon.png[/img]")
+	tooltip = tooltip.replace("(COIN)", "[img=12x13]res://assets/icons/coin_icon.png[/img]")
+	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
+	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
+	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")
+	tooltip = tooltip.replace("(SOULS)", "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]")
+	
+	tooltip = tooltip.replace("(CHARON_DEATH)", "[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img]")
+	tooltip = tooltip.replace("(CHARON_LIFE)", "[img=10x13]res://assets/icons/coin/charon_life_icon.png[/img]")
+	
+
 	
 	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/ui/white_arrow.png[/img]")
 	tooltip = tooltip.replace("(PASSIVE)", "[img=36x13]res://assets/icons/ui/passive.png[/img]")
@@ -1685,6 +1710,10 @@ enum _SpriteStyle {
 }
 
 class CoinFamily:
+	enum Tag {
+		NO_UPGRADE
+	}
+	
 	var id: int
 	var coin_type: CoinType
 	
@@ -1701,10 +1730,12 @@ class CoinFamily:
 	
 	var _sprite_style: _SpriteStyle
 	
+	var tags: Array
+	
 	func _init(ide: int, typ: CoinType, nme: String, 
 			sub_title: String, icn_path: String, unlk_tip: String, b_price: int,
 			heads_pwr: PowerFamily, tails_pwr: PowerFamily,
-			style: _SpriteStyle, app_price := [NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE]) -> void:
+			style: _SpriteStyle, tgs := [], app_price := [NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE, NOT_APPEASEABLE_PRICE]) -> void:
 		id = ide
 		coin_type = typ
 		coin_name = nme
@@ -1715,6 +1746,9 @@ class CoinFamily:
 		heads_power_family = heads_pwr
 		tails_power_family = tails_pwr
 		appeasal_price_for_denom = app_price
+		for tg in tgs:
+			assert(tg is Tag)
+		tags = tgs
 		_sprite_style = style
 		assert(FileAccess.file_exists(icon_path))
 		assert(appeasal_price_for_denom.size() == 6)
@@ -1735,6 +1769,9 @@ class CoinFamily:
 				return "charons"
 		breakpoint
 		return ""
+	
+	func has_tag(tag: Tag) -> bool:
+		return tags.has(tag)
 
 const NO_PRICE = 0
 const CHEAP = 3
@@ -1819,8 +1856,8 @@ var ORION_FAMILY = CoinFamily.new(7, CoinType.PAYOFF, "Orion's (DENOM)", "[color
 	PRICY, POWER_FAMILY_GAIN_SOULS_ORION, POWER_FAMILY_GAIN_ARROWS_ORION, _SpriteStyle.PAYOFF)
 var CARPO_FAMILY = CoinFamily.new(8, CoinType.PAYOFF, "Carpo's (DENOM)", "[color=gray]Limitless Harvest[/color]", "res://assets/icons/coin/carpo_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_CARPO, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var TELEMACHUS_FAMILY = CoinFamily.new(9, CoinType.PAYOFF, "Telemachus's (DENOM)", "[color=gray]Following His Footsteps[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
-	CHEAP, POWER_FAMILY_GAIN_SOULS_BECOME_HERO, POWER_FAMILY_LOSE_LIFE_BECOME_HERO, _SpriteStyle.PAYOFF)
+var TELEMACHUS_FAMILY = CoinFamily.new(9, CoinType.PAYOFF, "Telemachus's (DENOM)", "[color=gray]Chasing His Footsteps[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
+	CHEAP, POWER_FAMILY_GAIN_SOULS_TELEMACHUS, POWER_FAMILY_LOSE_LIFE_ONE, _SpriteStyle.PAYOFF, [CoinFamily.Tag.NO_UPGRADE])
 
 # power coins
 var ZEUS_FAMILY = CoinFamily.new(1000, CoinType.POWER, "(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", POWER_FAMILY_REFLIP.icon_path, NO_UNLOCK_TIP,\
@@ -1882,7 +1919,7 @@ var ANTIGONE_FAMILY = CoinFamily.new(1018, CoinType.POWER, "(DENOM) of Antigone"
 	STANDARD, POWER_FAMILY_BURY_TURN_TAILS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var CHIONE_FAMILY = CoinFamily.new(1019, CoinType.POWER, "(DENOM) of Chione", "[color=powderblue]Embracing Cold[/color]", POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var HECATE_FAMILY = CoinFamily.new(1020, CoinType.POWER, "(DENOM) of Hecate", "[color=plum]The Key to Magick[/color]", POWER_FAMILY_IGNITE_BLESS_LUCKY.icon_path, NO_UNLOCK_TIP,\
+var HECATE_FAMILY = CoinFamily.new(1020, CoinType.POWER, "(DENOM) of Hecate", "[color=plum]The Keys to Magick[/color]", POWER_FAMILY_IGNITE_BLESS_LUCKY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_IGNITE_BLESS_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var PROMETHEUS_FAMILY = CoinFamily.new(1021, CoinType.POWER, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_LIGHT_FIRE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_LIGHT_FIRE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
@@ -1930,37 +1967,37 @@ const NEMESIS_MEDUSA_APPEASE = [35, 44, 52, 60, 68, 77]
 
 # standard monsters
 var MONSTER_FAMILY = CoinFamily.new(2000, CoinType.MONSTER, "[color=gray]Monster[/color]", "[color=purple]It Bars the Path[/color]", "res://assets/icons/coin/generic_icon.png", NO_UNLOCK_TIP,\
-	NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, POWER_FAMILY_LOSE_LIFE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_HELLHOUND_FAMILY = CoinFamily.new(2001, CoinType.MONSTER, "[color=gray]Hellhound's (DENOM)[/color]", "[color=purple]Infernal Pursurer[/color]", MONSTER_POWER_FAMILY_HELLHOUND.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_HELLHOUND, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_KOBALOS_FAMILY = CoinFamily.new(2002, CoinType.MONSTER, "[color=gray]Kobalos's (DENOM)[/color]", "[color=purple]Obstreperous Scamp[/color]", MONSTER_POWER_FAMILY_KOBALOS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_KOBALOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_ARAE_FAMILY = CoinFamily.new(2003, CoinType.MONSTER, "[color=gray]Arae's (DENOM)[/color]", "[color=purple]Encumber With Guilt[/color]", MONSTER_POWER_FAMILY_ARAE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_HARPY_FAMILY = CoinFamily.new(2004, CoinType.MONSTER, "[color=gray]Harpy's (DENOM)[/color]", "[color=purple]Shrieking Wind[/color]", MONSTER_POWER_FAMILY_HARPY.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 # neutral monsters
 var MONSTER_CENTAUR_FAMILY = CoinFamily.new(2005, CoinType.MONSTER, "[color=gray]Centaur's (DENOM)[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
 var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(2006, CoinType.MONSTER, "[color=gray]Stymphalian Bird's (DENOM)[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 # elite monsters
 var MONSTER_SIREN_FAMILY = CoinFamily.new(2007, CoinType.MONSTER, "[color=gray]Siren's (DENOM)[/color]", "[color=purple]Lure into Blue[/color]", MONSTER_POWER_FAMILY_SIREN.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
 var MONSTER_BASILISK_FAMILY = CoinFamily.new(2008, CoinType.MONSTER, "[color=gray]Basilisk's (DENOM)[/color]", "[color=purple]Gaze of Death[/color]", MONSTER_POWER_FAMILY_BASILISK.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
 var MONSTER_GORGON_FAMILY = CoinFamily.new(2009, CoinType.MONSTER, "[color=gray]Gorgon's (DENOM)[/color]", "[color=purple]Petrifying Beauty[/color]", MONSTER_POWER_FAMILY_GORGON.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
 var MONSTER_CHIMERA_FAMILY = CoinFamily.new(2010, CoinType.MONSTER, "[color=gray]Chimera's (DENOM)[/color]", "[color=purple]Great Blaze[/color]", MONSTER_POWER_FAMILY_CHIMERA.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, ELITE_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
 
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new(3000, CoinType.MONSTER, "[color=greenyellow]Medusa's (DENOM)[/color]", "[color=purple]Mortal Sister[/color]", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
 var EURYALE_FAMILY = CoinFamily.new(3001, CoinType.MONSTER, "[color=mediumaquamarine]Euryale's (DENOM)[/color]", "[color=purple]Lamentful Cry[/color]", NEMESIS_POWER_FAMILY_EURYALE_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
 var STHENO_FAMILY = CoinFamily.new(3002, CoinType.MONSTER, "[color=rosybrown]Stheno's (DENOM)[/color]", "[color=purple]Huntress of Man[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
 
 # trials
 var TRIAL_IRON_FAMILY = CoinFamily.new(4000, CoinType.TRIAL, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", TRIAL_POWER_FAMILY_IRON.icon_path, NO_UNLOCK_TIP,\
@@ -2029,20 +2066,26 @@ func get_power_coinpool() -> Array:
 	powers.shuffle()
 	return powers
 
-func random_family() -> CoinFamily:
+func random_coin_family() -> CoinFamily:
 	return choose_one(_COINPOOL)
 
-func random_family_excluding(excluded: Array) -> CoinFamily:
-	var roll = random_family()
+func random_coin_family_excluding(excluded: Array) -> CoinFamily:
+	var roll = random_coin_family()
 	if roll in excluded:
-		return random_family_excluding(excluded)
+		return random_coin_family_excluding(excluded)
 	return roll
 
-func random_god_family() -> CoinFamily:
-	var coin = random_family()
-	if coin.heads_power_family.is_power():
-		return coin
-	return random_god_family()
+func random_power_coin_family() -> CoinFamily:
+	var coin_family = random_coin_family()
+	if coin_family.coin_type == CoinType.POWER:
+		return coin_family
+	return random_power_coin_family()
+
+func random_payoff_coin_family() -> CoinFamily:
+	var coin_family = random_coin_family()
+	if coin_family.coin_type == CoinType.PAYOFF:
+		return coin_family
+	return random_payoff_coin_family()
 
 func random_shop_denomination_for_round() -> Denomination:
 	return choose_one(_current_round_shop_denoms())
