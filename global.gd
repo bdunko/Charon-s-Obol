@@ -285,7 +285,7 @@ var state := State.BEFORE_FLIP:
 		emit_signal("state_changed")
 
 const FIRST_ROUND = 2
-var round_count:
+var round_count = 0:
 	set(val):
 		round_count = val
 		emit_signal("round_changed")
@@ -372,6 +372,8 @@ func clear_toll_coins() -> void:
 @onready var TOLL_NEGATIVE_COIN_FAMILIES = [THORNS_FAMILY]
 # coins that cannot be upgraded
 @onready var UPGRADE_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY]
+# coins that cannot be obtained outside of the shop (through 'gaining' a random coin or transforming a coin to another)
+@onready var TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY, TELEMACHUS_FAMILY, DOLOS_FAMILY]
 
 func calculate_toll_coin_value() -> int:
 	var sum = 0
@@ -1181,8 +1183,8 @@ var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [
 var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
-var TELEMACHUS_TOSSES_TO_TRANSFORM = 30
-var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and permanently (CONSECRATE).", \
+var TELEMACHUS_TOSSES_TO_TRANSFORM = 20 #20 years - length of time Odyseeus is away
+var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and eternally (CONSECRATE).", \
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 
@@ -1230,7 +1232,7 @@ var POWER_FAMILY_FLIP_AND_TAG = PowerFamily.new("Reflip a coin, and each coin th
 var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PowerFamily.new("Reflip all coins to the left of this [color=gray](alternates direction each toss)[/color].", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PowerFamily.new("Reflip all coins to the right of this [color=gray](alternates direction each toss)[/color].", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PowerFamily.new("Choose a coin. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/boreas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA = PowerFamily.new("Choose a coin. Permanently copy its power to this face.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_PERMANENTLY_COPY_AUTOMATA = PowerFamily.new("Choose a coin. Permanently copy its power to this face.", [1, 1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_PLUTUS_COIN = PowerFamily.new("Gain an Obol with \"(HEADS)+6(SOULS) and (TAILS)-6(LIFE)\" and flip it. After payoff, it is destroyed.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_GAIN_GOLDEN_COIN = PowerFamily.new("Gain a golden (THIS_DENOMINATION)![color=gray](Golden coins are blank on both sides.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_TURN_ALL = PowerFamily.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TURN])
@@ -2055,7 +2057,7 @@ func get_payoff_coinpool() -> Array:
 	for coin_family in _COINPOOL:
 		if coin_family.coin_type == CoinType.PAYOFF:
 			# exception - no telemachus after round 3
-			if coin_family == TELEMACHUS_FAMILY and round_count > 3:
+			if coin_family == TELEMACHUS_FAMILY and round_count > FIRST_ROUND + 2:
 				continue
 			payoffs.append(coin_family)
 	payoffs.shuffle()
@@ -2084,11 +2086,23 @@ func random_power_coin_family() -> CoinFamily:
 		return coin_family
 	return random_power_coin_family()
 
+func random_power_coin_family_excluding(excluded: Array) -> CoinFamily:
+	var roll = random_power_coin_family()
+	if roll in excluded:
+		return random_power_coin_family_excluding(excluded)
+	return roll
+
 func random_payoff_coin_family() -> CoinFamily:
 	var coin_family = random_coin_family()
 	if coin_family.coin_type == CoinType.PAYOFF:
 		return coin_family
 	return random_payoff_coin_family()
+
+func random_payoff_coin_family_excluding(excluded: Array) -> CoinFamily:
+	var roll = random_payoff_coin_family()
+	if roll in excluded:
+		return random_payoff_coin_family_excluding(excluded)
+	return roll
 
 func random_shop_denomination_for_round() -> Denomination:
 	return choose_one(_current_round_shop_denoms())

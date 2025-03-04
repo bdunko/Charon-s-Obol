@@ -172,9 +172,9 @@ Unlockable coins + more coins
 		- [ ] Orion - Turn each other coin to tails. Gain 1/2/3/4 arrows, plus an additional arrow for each coin turned.
 		- [ ] ??? - Drain a charge from two random heads coins to gain an arrow. Many uses.
 	- [ ] **Copy**
-		- [ ] Dolos - Choose a coin. This coin permanently becomes a copy of that coin.
-		- [ ] Daedalus - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
-		- [ ] Daedalus 2 - Choose another coin. Replace this coin's other face with that coin's current face. It does not recharge naturally and has 1/2/3/4 charges.
+		- [ ] Dolos - Choose a coin. This coin permanently becomes a copy of that coin (including denominations). Only available as Triobol.
+		- [x] Daedalus - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
+		- [ ] Perdix - Choose another coin. Replace this coin's other face with that coin's current face. It does not recharge naturally and has 1/2/3/4 charges.
 		- [ ] ??? - After you use a power, this coin's heads face becomes a copy of that power.
 		- [ ] Nesoi - Choose a coin. Use that coin's power on both of its neighbors.
 	- [ ] **Random Powers/Chaos**
@@ -310,8 +310,8 @@ Perseus - Reflect the Gorgon's Gaze- Turn a coin to stone (never flips again, do
 Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
 Notus - Southern Heat - Choose a coin. Swap positions with it, then reflip each coin between that coin and this coin. 
 Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
-Zephyros - Westward Breeze - Choose a coin. Move it to the left, then reflip its neighbors (but not it).
-Eurus - Eastern Turbulence - Choose a coin. Move it to the rightmost position. Reflip the leftmost and rightmost coins.
+Zephyros - Western Turbulance - Choose a coin. Move it to the leftmost position. Reflip the leftmost and rightmost coins.
+Eurus - Eastward Breeze - Choose a coin. Move it to the right, then reflip its neighbors (but not it).
 Gaia - Gravitic Pull - pull a coin 1 space closer to this coin (pulls to other side if already adjacent), then flip both coins adjacent to this coin to their opposite side.
 Uranus - Sky Pulse - choose a coin. Push the coin to the left and right of that coin once away from it. Then reflip each coin to the left of the coin pushed left or the right of the coin pushed right.
 ??? - Choose a coin. Pull it once closer to this coin. Then flip each coin that moved.
@@ -319,7 +319,7 @@ Uranus - Sky Pulse - choose a coin. Push the coin to the left and right of that 
 Dolos - Choose a coin. This coin permanently becomes a copy of that coin.
 ??? - Split a Diobol, Triobol, or Tetrobol into two coins of half value (cannot be used on Obols)
 ??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
-??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded: Reflip, Bless, Freeze, Destroy, Stone
+??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded, available only as a diobol(?): Lucky, Bless, Freeze, Stone, Destroy, 
 ??? - Reflip the coins to the left and right of this. Whenever you use a neighboring coin's power, it spends from here instead.
 Fickle Nymph - Coins to the left land on heads 10/12/15/18% more often; coins to the right land on tails more often. Power - move this randomly once to the left or right.
 	- [ ] Daedalus(?) - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin.
@@ -361,6 +361,7 @@ Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but
 
 Characters I'd like to use
 - [ ] Prometheus
+- [ ] Thanatos
 - [ ] Daedalus
 - [ ] Cronus & Rhea
 - [ ] Circe

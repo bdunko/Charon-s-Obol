@@ -35,6 +35,8 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
+var _permanent_statuses = []
+
 @onready var _STATUS_BAR = $Sprite/StatusBar
 @onready var _LUCKY_ICON = $Sprite/StatusBar/Lucky
 @onready var _SLIGHTLY_LUCKY_ICON = $Sprite/StatusBar/SlightlyLucky
@@ -919,6 +921,9 @@ func drain_power_uses_by(drain_amount: int) -> void:
 	FX.flash(Color.WEB_PURPLE)
 
 func make_lucky() -> void:
+	if _is_permanent(_LuckState.UNLUCKY):
+		return
+	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HESTIA):
 		if _luck_state == _LuckState.SLIGHTLY_LUCKY:
 			_luck_state = _LuckState.QUITE_LUCKY
@@ -931,6 +936,9 @@ func make_lucky() -> void:
 	_luck_state = _LuckState.LUCKY
 
 func make_unlucky() -> void:
+	if _is_permanent(_LuckState.LUCKY) or _is_permanent(_LuckState.SLIGHTLY_LUCKY) or _is_permanent(_LuckState.QUITE_LUCKY) or _is_permanent(_LuckState.INCREDIBLY_LUCKY):
+		return
+	
 	if _luck_state == _LuckState.QUITE_LUCKY:
 		_luck_state = _LuckState.SLIGHTLY_LUCKY
 	elif _luck_state == _LuckState.INCREDIBLY_LUCKY:
@@ -942,6 +950,7 @@ func blank() -> void:
 	_blank = true
 
 func unblank() -> void:
+	# TODO - check permanent
 	if _blank:
 		FX.flash(Color.BISQUE)
 	_blank = false
@@ -950,21 +959,70 @@ func supercharge() -> void:
 	_supercharged = true
 
 func bless() -> void:
-	if _bless_curse_state != _BlessCurseState.CONSECRATED and _bless_curse_state != _BlessCurseState.DESECRATED:
-		_bless_curse_state = _BlessCurseState.BLESSED
+	if _is_permanent(_BlessCurseState.CURSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
+		return
+	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+		return
+	
+	_bless_curse_state = _BlessCurseState.BLESSED
 
 func curse() -> void:
-	if _bless_curse_state != _BlessCurseState.CONSECRATED and _bless_curse_state != _BlessCurseState.DESECRATED:
-		_bless_curse_state = _BlessCurseState.CURSED
+	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
+		return
+	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+		return
+	
+	_bless_curse_state = _BlessCurseState.CURSED
 
 func consecrate() -> void:
+	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CURSED) or _is_permanent(_BlessCurseState.DESECRATED):
+		return
 	_bless_curse_state = _BlessCurseState.CONSECRATED
 
+func permanently_consecrate() -> void:
+	_bless_curse_state = _BlessCurseState.CONSECRATED
+	_make_permanent(_BlessCurseState.CONSECRATED)
+
 func desecrate() -> void:
+	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.CURSED):
+		return
 	_bless_curse_state = _BlessCurseState.DESECRATED
+
+func _is_permanent(status) -> bool:
+	return _permanent_statuses.has(status)
+
+func _make_permanent(status) -> void:
+	# remove any opposing statuses
+	if status == _BlessCurseState.CONSECRATED:
+		_permanent_statuses.erase(_BlessCurseState.DESECRATED)
+	elif status == _BlessCurseState.DESECRATED:
+		_permanent_statuses.erase(_BlessCurseState.CONSECRATED)
+	elif status == _LuckState.LUCKY:
+		_permanent_statuses.erase(_LuckState.UNLUCKY)
+	elif status == _LuckState.SLIGHTLY_LUCKY:
+		_permanent_statuses.erase(_LuckState.UNLUCKY)
+	elif status == _LuckState.QUITE_LUCKY:
+		_permanent_statuses.erase(_LuckState.UNLUCKY)
+	elif status == _LuckState.INCREDIBLY_LUCKY:
+		_permanent_statuses.erase(_LuckState.UNLUCKY)
+	elif status == _LuckState.UNLUCKY:
+		_permanent_statuses.erase(_LuckState.LUCKY)
+	elif status == _FreezeIgniteState.IGNITED:
+		_permanent_statuses.erase(_FreezeIgniteState.FROZEN)
+	elif status == _FreezeIgniteState.FROZEN:
+		_permanent_statuses.erase(_FreezeIgniteState.IGNITED)
+	
+	_permanent_statuses.append(status)
+
+func _remove_permanent(status) -> void:
+	_permanent_statuses.erase(status)
 
 func freeze() -> void:
 	FX.flash(Color.CYAN) # flash ahead of time, even if effect fails
+	
+	if _is_permanent(_FreezeIgniteState.IGNITED):
+		return
+	
 	# if stoned, don't freeze
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.FROZEN
 	
@@ -974,10 +1032,18 @@ func freeze() -> void:
 
 func ignite() -> void:
 	FX.flash(Color.RED) # flash ahead of time, even if effect fails
+	
+	if _is_permanent(_FreezeIgniteState.FROZEN):
+		return
+	
 	# if stoned, don't ignite
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.IGNITED
 
 func stone() -> void:
+	# I don't love this but it is what it is; permanent always takes precedent
+	if _is_permanent(_FreezeIgniteState.IGNITED) or _is_permanent(_FreezeIgniteState.FROZEN):
+		return
+	
 	_material_state = _MaterialState.STONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
@@ -988,15 +1054,17 @@ func clear_statuses() -> void:
 	if not has_status():
 		return
 	FX.flash(Color.LIGHT_GREEN)
-	_blank = false
-	_supercharged = false
 	clear_blessed_cursed()
 	clear_freeze_ignite()
 	clear_material()
 	clear_lucky_unlucky()
+	clear_supercharged()
+	clear_blanked()
 
 func clear_lucky_unlucky() -> void:
 	if _luck_state == _LuckState.NONE:
+		return
+	if _permanent_statuses.has(_luck_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_luck_state = _LuckState.NONE
@@ -1004,11 +1072,15 @@ func clear_lucky_unlucky() -> void:
 func clear_blessed_cursed() -> void:
 	if _bless_curse_state == _BlessCurseState.NONE:
 		return
+	if _permanent_statuses.has(_bless_curse_state):
+		return
 	FX.flash(Color.LIGHT_GREEN)
 	_bless_curse_state = _BlessCurseState.NONE
 	
 func clear_freeze_ignite() -> void:
 	if _freeze_ignite_state == _FreezeIgniteState.NONE:
+		return
+	if _permanent_statuses.has(_freeze_ignite_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -1016,15 +1088,25 @@ func clear_freeze_ignite() -> void:
 func clear_material() -> void:
 	if _material_state == _MaterialState.NONE:
 		return
+	if _permanent_statuses.has(_material_state):
+		return
 	FX.flash(Color.LIGHT_GREEN)
 	_material_state = _MaterialState.NONE
 
 func clear_blanked() -> void:
+	# TODO - check permanent
 	if not _blank:
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_blank = false
-	
+
+func clear_supercharged() -> void:
+	# todo - check permanent
+	if not _supercharged:
+		return
+	FX.flash(Color.LIGHT_GREEN)
+	_supercharged = false
+
 func is_heads() -> bool:
 	if _heads == null:
 		return true

@@ -806,9 +806,8 @@ func _on_accept_button_pressed():
 						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
 						print(payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS))
 						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
-							payoff_coin.init_coin(Global.random_power_coin_family(), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
-							payoff_coin.consecrate()
-					
+							payoff_coin.init_coin(Global.random_power_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
+							payoff_coin.permanently_consecrate()
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
@@ -1253,12 +1252,11 @@ func _on_end_round_button_pressed():
 	Global.powers_this_round = 0
 	_update_payoffs()
 	
+	Global.state = Global.State.SHOP
 	randomize_and_show_shop()
 	
 	_RIGHT_HAND.move_offscreen()
 	_LEFT_HAND.move_to_retracted_position()
-	
-	Global.state = Global.State.SHOP
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
@@ -1953,7 +1951,7 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					new_coin.play_power_used_effect(Global.active_coin_power_family)
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2101,7 +2099,7 @@ func _on_coin_clicked(coin: Coin):
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
 					return
-				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				new_coin.play_power_used_effect(Global.active_coin_power_family)
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2186,7 +2184,7 @@ func _on_coin_clicked(coin: Coin):
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, coin.global_position, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, coin.global_position, true)
 					new_coin.play_power_used_effect(coin.get_active_power_family())
 				_:
 					assert(false, "No matching power")
@@ -2321,7 +2319,7 @@ func _on_patron_token_clicked():
 					match(Global.RNG.randi_range(1, 12)):
 						1: # gain a coin
 							if _COIN_ROW.get_child_count() != Global.COIN_LIMIT and _COIN_ROW.get_child_count() != Global.COIN_LIMIT - 1:
-								var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
+								var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
 								if Global.RNG.randi_range(1, 3) == 1:
 									new_coin.make_lucky()
 								if Global.RNG.randi_range(1, 2) == 1:

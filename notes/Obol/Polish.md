@@ -3,8 +3,8 @@
 - [ ] After hand slam during malice, hand should shake a bit.
 - [ ] Slight vignette flash red when taking damage. Vignette strength based on current health. Lightly persists even outside of damage taking.
 - [ ] Need to clear tooltips when performing transitions, otherwise tooltips can get stuck on screen (try Embark -> hold mouse over difficulty skull)
-- [ ] Different coin art for the elite monsters and nemesis monsters. 
-- [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text. 
+- [ ] Different coin art for the elite monsters and nemesis monsters.
+- [ ] Upgrading should have better tooltips (highlight the changed numbers/aspect somehow). Maybe add a hammer icon to the upgrade price line, and hovering it shows the upgraded text.
 - [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip.
 - [ ] Refactor - Colors as global references instead of interspersed all around
 - [ ] Art/FX - Power effects.
@@ -28,7 +28,7 @@
 - [ ] Graphics - River scrolls during voyage.
 - [ ] Graphics - Pile of life/souls should be in a circular pile instead of square.
 - [ ] Graphics - Coin shadows
-- [ ] Graphics - Skeletal hand shadows. 
+- [ ] Graphics - Skeletal hand shadows.
 - [ ] Graphics - Shard shadows while they're moving.
 - [ ] Graphics - Show purple bars (styx) on sides instead of black bars
 - [ ] Graphics - Player action buttons fade out quickly when clicked instead of vanishing immediately. (maybe the chosen button quickly moves around a bit or something while the others fade out? idk, something cool)
@@ -43,6 +43,7 @@
 - [ ] Animated icons for coin powers - flashing eyes for monsters for ex - only animate when active.
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] Zoom out from initial game scene when we spawn in?
+
 
 
 
