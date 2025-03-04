@@ -224,8 +224,8 @@ static func FILTER_NOT_STONE(c: Coin) -> bool:
 static func FILTER_STONE(c: Coin) -> bool:
 	return c.is_stone()
 
-static func FILTER_NOT_SUPERCHARGED(c: Coin) -> bool:
-	return c.is_supercharged()
+static func FILTER_NOT_CHARGED(c: Coin) -> bool:
+	return c.is_charged()
 
 static func FILTER_HEADS(c: Coin) -> bool:
 	return c.is_heads()

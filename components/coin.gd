@@ -35,6 +35,18 @@ enum _MaterialState {
 	NONE, STONE #GOLD, GLASS(?)
 }
 
+enum _BlankState {
+	NONE, BLANKED
+}
+
+enum _ChargeState {
+	NONE, CHARGED, SUPERCHARGED
+}
+
+enum _DoomState {
+	NONE, DOOMED
+}
+
 var _permanent_statuses = []
 
 @onready var _STATUS_BAR = $Sprite/StatusBar
@@ -48,6 +60,7 @@ var _permanent_statuses = []
 @onready var _BLESS_ICON = $Sprite/StatusBar/Bless
 @onready var _CURSE_ICON = $Sprite/StatusBar/Curse
 @onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Supercharge
+@onready var _CHARGE_ICON = $Sprite/StatusBar/Charge
 @onready var _STONE_ICON = $Sprite/StatusBar/Stone
 @onready var _BLANK_ICON = $Sprite/StatusBar/Blank
 @onready var _DOOMED_ICON = $Sprite/StatusBar/Doomed
@@ -186,7 +199,7 @@ const _BLUE = "#20d6c7"
 const _YELLOW = "#fffc40"
 const _GRAY = "#b3b9d1"
 func _update_face_label() -> void:
-	if _blank:
+	if _blank_state == _BlankState.BLANKED:
 		_FACE_LABEL.text = ""
 		return
 	
@@ -311,14 +324,35 @@ func _update_glow():
 	
 	FX.stop_glowing()
 
-var _blank: bool = false:
+var _blank_state: _BlankState:
 	set(val):
-		_blank = val
-		_STATUS_BAR.update_icon(_BLANK_ICON, _blank)
-		if _blank:
+		_blank_state = val
+		_STATUS_BAR.update_icon(_BLANK_ICON, _blank_state == _BlankState.BLANKED)
+		if _blank_state == _BlankState.BLANKED:
 			_play_new_status_effect("res://assets/icons/status/blank_icon.png")
 			FX.flash(Color.BISQUE)
 		_update_appearance()
+
+var _charge_state: _ChargeState:
+	set(val):
+		_charge_state = val
+		_STATUS_BAR.update_icon(_CHARGE_ICON, _charge_state == _ChargeState.CHARGED)
+		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _charge_state == _ChargeState.SUPERCHARGED)
+		if _charge_state == _ChargeState.CHARGED:
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/charge_icon.png")
+		if _charge_state == _ChargeState.SUPERCHARGED:
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
+
+var _doom_state: _DoomState:
+	set(val):
+		_doom_state = val
+		_STATUS_BAR.update_icon(_DOOMED_ICON, _doom_state == _DoomState.DOOMED)
+		if _doom_state == _DoomState.DOOMED:
+			FX.flash(Color.BLACK)
+			_play_new_status_effect("res://assets/icons/status/doomed_icon.png")
+			
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -358,15 +392,6 @@ var _freeze_ignite_state: _FreezeIgniteState:
 			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			FX.clear_tint()
-
-var _supercharged: bool:
-	set(val):
-		_supercharged = val
-		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _supercharged)
-		if _supercharged:
-			FX.flash(Color.YELLOW)
-			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
-			# TODO - add particles here
 
 var _luck_state: _LuckState:
 	set(val):
@@ -421,6 +446,7 @@ func _ready():
 	assert(_IGNITE_ICON)
 	assert(_BLESS_ICON)
 	assert(_CURSE_ICON)
+	assert(_CHARGE_ICON)
 	assert(_SUPERCHARGE_ICON)
 	assert(_DOOMED_ICON)
 	assert(_CONSECRATE_ICON)
@@ -477,12 +503,12 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_set_tails_power_to(_coin_family.tails_power_family)
 	_heads = true
 	_owner = owned_by
-	_blank = false
+	_blank_state = _BlankState.NONE
 	_luck_state = _LuckState.NONE
 	_bless_curse_state = _BlessCurseState.NONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_material_state = _MaterialState.NONE
-	_supercharged = false
+	_charge_state = _ChargeState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
@@ -688,7 +714,7 @@ func is_other_face_passive() -> bool:
 	return get_active_power_family().is_passive()
 	
 func can_activate_power() -> bool:
-	return get_active_power_family().is_power() and not _blank
+	return get_active_power_family().is_power() and not is_blank()
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
 	_get_active_power().set_metadata(key, value)
@@ -776,10 +802,15 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 		_PRICE.show()
 	_NEXT_FLIP_INDICATOR.update_visibility()
 	
-	# if supercharged and we landed on tails, flip again.
-	if _supercharged and not _heads:
+	# if charged and we landed on tails, flip again.
+	if not is_heads() and is_charged():
+		if _charge_state == _ChargeState.SUPERCHARGED:
+			_charge_state = _ChargeState.CHARGED
+		elif _charge_state == _ChargeState.CHARGED:
+			_charge_state = _ChargeState.NONE
+		else:
+			assert(false, "how?")
 		FX.flash(Color.YELLOW)
-		_supercharged = false
 		await flip(is_toss)
 		return
 	
@@ -947,16 +978,20 @@ func make_unlucky() -> void:
 		_luck_state = _LuckState.UNLUCKY
 
 func blank() -> void:
-	_blank = true
+	_blank_state = _BlankState.BLANKED
 
 func unblank() -> void:
-	# TODO - check permanent
-	if _blank:
+	if _is_permanent(_BlankState.BLANKED):
+		return
+	if _blank_state == _BlankState.BLANKED:
 		FX.flash(Color.BISQUE)
-	_blank = false
+	_blank_state = _BlankState.NONE
 
-func supercharge() -> void:
-	_supercharged = true
+func charge() -> void:
+	if _charge_state == _ChargeState.CHARGED:
+		_charge_state = _ChargeState.SUPERCHARGED
+	else:
+		_charge_state = _ChargeState.CHARGED
 
 func bless() -> void:
 	if _is_permanent(_BlessCurseState.CURSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
@@ -1048,7 +1083,7 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func has_status() -> bool:
-	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_supercharged() or is_consecrated() or is_desecrated()
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed()
 
 func clear_statuses() -> void:
 	if not has_status():
@@ -1058,13 +1093,14 @@ func clear_statuses() -> void:
 	clear_freeze_ignite()
 	clear_material()
 	clear_lucky_unlucky()
-	clear_supercharged()
-	clear_blanked()
+	clear_charge()
+	clear_doomed()
+	unblank()
 
 func clear_lucky_unlucky() -> void:
 	if _luck_state == _LuckState.NONE:
 		return
-	if _permanent_statuses.has(_luck_state):
+	if _is_permanent(_luck_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_luck_state = _LuckState.NONE
@@ -1072,7 +1108,7 @@ func clear_lucky_unlucky() -> void:
 func clear_blessed_cursed() -> void:
 	if _bless_curse_state == _BlessCurseState.NONE:
 		return
-	if _permanent_statuses.has(_bless_curse_state):
+	if _is_permanent(_bless_curse_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_bless_curse_state = _BlessCurseState.NONE
@@ -1080,7 +1116,7 @@ func clear_blessed_cursed() -> void:
 func clear_freeze_ignite() -> void:
 	if _freeze_ignite_state == _FreezeIgniteState.NONE:
 		return
-	if _permanent_statuses.has(_freeze_ignite_state):
+	if _is_permanent(_freeze_ignite_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_freeze_ignite_state = _FreezeIgniteState.NONE
@@ -1088,24 +1124,26 @@ func clear_freeze_ignite() -> void:
 func clear_material() -> void:
 	if _material_state == _MaterialState.NONE:
 		return
-	if _permanent_statuses.has(_material_state):
+	if _is_permanent(_material_state):
 		return
 	FX.flash(Color.LIGHT_GREEN)
 	_material_state = _MaterialState.NONE
 
-func clear_blanked() -> void:
-	# TODO - check permanent
-	if not _blank:
+func clear_charge() -> void:
+	if _is_permanent(_charge_state):
 		return
+	if _charge_state == _ChargeState.NONE:
+		return
+	_charge_state = _ChargeState.NONE
 	FX.flash(Color.LIGHT_GREEN)
-	_blank = false
 
-func clear_supercharged() -> void:
-	# todo - check permanent
-	if not _supercharged:
+func clear_doomed() -> void:
+	if _is_permanent(_doom_state):
 		return
+	if _doom_state == _DoomState.NONE:
+		return
+	_doom_state = _DoomState.NONE
 	FX.flash(Color.LIGHT_GREEN)
-	_supercharged = false
 
 func is_heads() -> bool:
 	if _heads == null:
@@ -1147,10 +1185,13 @@ func is_stone() -> bool:
 	return _material_state == _MaterialState.STONE
 
 func is_blank() -> bool:
-	return _blank
+	return _blank_state == _BlankState.BLANKED
 
-func is_supercharged() -> bool:
-	return _supercharged
+func is_charged() -> bool:
+	return _charge_state == _ChargeState.CHARGED or _charge_state == _ChargeState.SUPERCHARGED
+
+func is_doomed() -> bool:
+	return _doom_state == _DoomState.DOOMED
 
 func can_change_life_penalty() -> bool:
 	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE

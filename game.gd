@@ -877,6 +877,10 @@ func _on_accept_button_pressed():
 		# unblank when it would payoff
 		if is_instance_valid(payoff_coin): # may have been destroyed by now
 			payoff_coin.unblank()
+		# doomed coins destroyed at this point
+		if is_instance_valid(payoff_coin) and payoff_coin.is_doomed():
+			payoff_coin.FX.flash(Color.BLACK)
+			destroy_coin(payoff_coin)
 		
 		# $HACK$ - this is an extremely lazy way to make ignites happen
 		# after all player coins but before all enemy coins, but I don't care
@@ -1976,7 +1980,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.patron_used_this_toss = true
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
 				if not coin.is_being_destroyed():
-					coin.supercharge()
+					coin.charge()
 					Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
 			_patron_token.deactivate()
 			_update_payoffs()
@@ -2138,7 +2142,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.active_coin_power_coin.spend_power_use()
 		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
 			if not coin.is_being_destroyed():
-				coin.supercharge()
+				coin.charge()
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
 		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
 			Global.active_coin_power_coin = null
@@ -2370,7 +2374,7 @@ func _on_patron_token_clicked():
 									coin.clear_blessed_cursed()
 									coin.play_power_used_effect(Global.patron.power_family)
 								for coin in Global.choose_x(blank, Global.RNG.randi_range(2, 3)):
-									coin.clear_blanked()
+									coin.unblank()
 									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						7: # gain arrows
@@ -2404,11 +2408,11 @@ func _on_patron_token_clicked():
 									var coin = Global.choose_one(rechargable)
 									coin.recharge_power_uses_by(1)
 									coin.play_power_used_effect(Global.patron.power_family)
-						12: # supercharge coins
-							var chargeable = _COIN_ROW.get_filtered(CoinRow.FILTER_NOT_SUPERCHARGED)
+						12: # charge coins
+							var chargeable = _COIN_ROW.get_filtered(CoinRow.FILTER_NOT_CHARGED)
 							if chargeable.size() >= 3:
 								for coin in Global.choose_x(chargeable, Global.RNG.randi_range(2, 3)):
-									coin.supercharge()
+									coin.charge()
 									coin.play_power_used_effect(Global.patron.power_family)
 			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1

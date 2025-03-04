@@ -1300,6 +1300,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % ["mediumorchid", "Curse", "res://assets/icons/status/curse_icon.png"])
 	tooltip = tooltip.replace("(CURSED)", STATUS_FORMAT % ["mediumorchid", "Cursed", "res://assets/icons/status/curse_icon.png"])
 	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % ["ghostwhite", "Blank", "res://assets/icons/status/blank_icon.png"])
+	tooltip = tooltip.replace("(CHARGE)", STATUS_FORMAT % ["yellow", "Charge", "res://assets/icons/status/charge_icon.png"])
 	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
 	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
@@ -1327,8 +1328,10 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(D_CURSED)", "The next time this coin is flipped, it will land on (TAILS).")
 	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % ["ghostwhite", "Blanked", "res://assets/icons/status/blank_icon.png"])
 	tooltip = tooltip.replace("(D_BLANKED)", "Until the end of a toss, this has no effects.")
+	tooltip = tooltip.replace("(S_CHARGED)", STATUS_FORMAT % ["yellow", "Charged", "res://assets/icons/status/charge_icon.png"])
+	tooltip = tooltip.replace("(D_CHARGED)", "The next time this coin lands on (TAILS), reflip it.")
 	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % ["yellow", "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
-	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next time this coin lands on (TAILS), reflip it.")
+	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this coin lands on (TAILS), reflip it.")
 	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % ["slategray", "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
 	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge naturally.")
 	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % ["lightyellow", "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
@@ -1644,7 +1647,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightskyblue]Hermes[/color]", "[color=lightskyblue]Hermes's Caduceus[/color]", "Trade a coin for another of equal value.\n(PASSIVE)When you obtain a new coin during a round, it has a 20% chance to upgrade.", PatronEnum.HERMES, PATRON_POWER_FAMILY_HERMES, preload("res://components/patron_statues/hermes.tscn"), preload("res://components/patron_tokens/hermes.tscn"), [HERMES_FAMILY]),
 	Patron.new("[color=sandybrown]Hestia[/color]", "[color=sandybrown]Hestia's Warmth[/color]", "Make a coin\n(LUCKY).\n(PASSIVE)(LUCKY) has a lesser effect, but may be applied up to 3 times to the same coin.", PatronEnum.HESTIA, PATRON_POWER_FAMILY_HESTIA, preload("res://components/patron_statues/hestia.tscn"), preload("res://components/patron_tokens/hestia.tscn"), [HESTIA_FAMILY]),
 	Patron.new("[color=lightblue]Poseidon[/color]", "[color=lightblue]Poseidon's Trident[/color]", "(FREEZE) a coin.\n(PASSIVE)When you (FREEZE) a monster coin, also (BLANK) it.", PatronEnum.POSEIDON, PATRON_POWER_FAMILY_POSEIDON, preload("res://components/patron_statues/poseidon.tscn"), preload("res://components/patron_tokens/poseidon.tscn"), [POSEIDON_FAMILY]),
-	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin.\n(PASSIVE)When you use a power on a coin, (SUPERCHARGE) it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY]),
+	Patron.new("[color=yellow]Zeus[/color]", "[color=yellow]Zeus's Thunderbolt[/color]", "Reflip a coin.\n(PASSIVE)When you use a power on a coin, (CHARGE) it.", PatronEnum.ZEUS, PATRON_POWER_FAMILY_ZEUS, preload("res://components/patron_statues/zeus.tscn"), preload("res://components/patron_tokens/zeus.tscn"), [ZEUS_FAMILY]),
 ]
 
 @onready var CHARON_PATRON = Patron.new("[color=mediumorchid]Charon[/color]", "[color=mediumorchid]Charon's Oar[/color]", "Turn a coin to its other face and make it (LUCKY).\n(PASSIVE)After payoff, if every coin is on heads(HEADS), +5(SOULS).", PatronEnum.CHARON, PATRON_POWER_FAMILY_CHARON, preload("res://components/patron_statues/hades.tscn"), preload("res://components/patron_tokens/charon.tscn"), [HADES_FAMILY])
