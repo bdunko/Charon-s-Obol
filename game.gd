@@ -1921,8 +1921,14 @@ func _on_coin_clicked(coin: Coin):
 					coin.turn()
 					coin.make_lucky()
 				Global.PATRON_POWER_FAMILY_ZEUS:
+					if not coin.can_flip():
+						_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+						return
 					_safe_flip(coin, false)
 				Global.PATRON_POWER_FAMILY_HERA:
+					if (not coin.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
+						_DIALOGUE.show_dialogue("Can't flip stoned coins...")
+						return
 					_safe_flip(coin, false)
 					if left:
 						left.play_power_used_effect(Global.active_coin_power_family)
@@ -2013,8 +2019,8 @@ func _on_coin_clicked(coin: Coin):
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
 					_safe_flip(coin, false, 1000000)
-				elif coin.is_stone():
-					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+				elif not coin.can_flip():
+					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
 				elif Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_warned_zeus_reflip and coin.is_heads() and not coin.is_monster_coin():
 					await _tutorial_fade_in([_COIN_ROW])
@@ -2044,7 +2050,7 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.freeze()
 			Global.POWER_FAMILY_REFLIP_AND_NEIGHBORS:
-				if coin.is_stone() and left and left.is_stone() and right and right.is_stone():
+				if (not coin.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
 				# flip coin and neighbors
@@ -2083,22 +2089,15 @@ func _on_coin_clicked(coin: Coin):
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_COPY_FOR_TOSS:
-				if row == _ENEMY_COIN_ROW:
+				if row == _ENEMY_COIN_ROW or not coin.can_copy_power():
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				if coin.is_active_face_power(): # try to copy current face, if it's a power
-					Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_active_power_family())
-					Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power...
-				elif coin.is_other_face_power(): # otherwise if the other face is a power, copy that
-					Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_inactive_power_family())
-					Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power...
-				else:
-					_DIALOGUE.show_dialogue("Can't copy that...")
-					return
+				Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_copied_power_family())
+				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
 				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 					Global.active_coin_power_coin = null
 					Global.active_coin_power_family = null
-				return #special case - we copied a copy and don't want to drain a charge, so just immediately exit (but keep this selected; if it wasn't non-targetting)
+				spent_power_use = true
 			Global.POWER_FAMILY_EXCHANGE:
 				if row == _ENEMY_COIN_ROW:
 					_DIALOGUE.show_dialogue("Can't trade that...")
@@ -2125,9 +2124,44 @@ func _on_coin_clicked(coin: Coin):
 				else:
 					_DIALOGUE.show_dialogue("Can't downgrade that...")
 					return
-			Global.POWER_FAMILY_ARROW_REFLIP:
+			Global.POWER_FAMILY_STONE:
+				if not coin.is_owned_by_player():
+					_DIALOGUE.show_dialogue("Can't target monsters...")
+					return
 				if coin.is_stone():
-					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+					coin.clear_material()
+				else:
+					if not coin.can_stone():
+						_DIALOGUE.show_dialogue("Can't (STONE) that...")
+						return
+					coin.stone()
+			Global.POWER_FAMILY_BLANK_TAILS:
+				if not coin.is_tails():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't use on (HEADS) coins..."))
+					return
+				if not coin.can_blank():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't (BLANK) that..."))
+					return
+				coin.blank()
+			Global.POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY:
+				if not coin.can_reduce_life_penalty() and not coin.can_freeze() and coin.is_tails():
+					_DIALOGUE.show_dialogue("No need...")
+					return
+				coin.freeze()
+				if coin.is_owned_by_player():
+					coin.change_life_penalty_for_round(-500000)
+				if coin.is_heads():
+					coin.turn()
+			Global.POWER_FAMILY_IGNITE_BLESS_LUCKY:
+				if not coin.can_ignite() and not coin.can_bless() and not coin.can_make_lucky():
+					_DIALOGUE.show_dialogue("No need...")
+					return
+				coin.ignite()
+				coin.bless()
+				coin.make_lucky()
+			Global.POWER_FAMILY_ARROW_REFLIP:
+				if not coin.can_flip():
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't flip a (STONE) coin..."))
 					return
 				_safe_flip(coin, false)
 				coin.play_power_used_effect(Global.active_coin_power_family)
@@ -2144,7 +2178,7 @@ func _on_coin_clicked(coin: Coin):
 			if not coin.is_being_destroyed():
 				coin.charge()
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
-		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_heads():
+		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power():
 			Global.active_coin_power_coin = null
 			Global.active_coin_power_family = null
 		

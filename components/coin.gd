@@ -951,8 +951,13 @@ func drain_power_uses_by(drain_amount: int) -> void:
 	_update_appearance()
 	FX.flash(Color.WEB_PURPLE)
 
-func make_lucky() -> void:
+func can_make_lucky() -> bool:
 	if _is_permanent(_LuckState.UNLUCKY):
+		return false
+	return _luck_state != _LuckState.LUCKY and _luck_state != _LuckState.INCREDIBLY_LUCKY
+
+func make_lucky() -> void:
+	if not can_make_lucky():
 		return
 	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HESTIA):
@@ -966,8 +971,15 @@ func make_lucky() -> void:
 		return
 	_luck_state = _LuckState.LUCKY
 
-func make_unlucky() -> void:
+func can_make_unlucky() -> bool:
+	if is_unlucky():
+		return false
 	if _is_permanent(_LuckState.LUCKY) or _is_permanent(_LuckState.SLIGHTLY_LUCKY) or _is_permanent(_LuckState.QUITE_LUCKY) or _is_permanent(_LuckState.INCREDIBLY_LUCKY):
+		return false
+	return true
+
+func make_unlucky() -> void:
+	if not can_make_unlucky():
 		return
 	
 	if _luck_state == _LuckState.QUITE_LUCKY:
@@ -976,6 +988,11 @@ func make_unlucky() -> void:
 		_luck_state = _LuckState.QUITE_LUCKY
 	else:
 		_luck_state = _LuckState.UNLUCKY
+
+func can_blank() -> bool:
+	if _blank_state == _BlankState.BLANKED:
+		return false
+	return true
 
 func blank() -> void:
 	_blank_state = _BlankState.BLANKED
@@ -987,26 +1004,44 @@ func unblank() -> void:
 		FX.flash(Color.BISQUE)
 	_blank_state = _BlankState.NONE
 
+func can_charge() -> bool:
+	return _charge_state != _ChargeState.SUPERCHARGED
+
 func charge() -> void:
+	if not can_charge():
+		return
+	
 	if _charge_state == _ChargeState.CHARGED:
 		_charge_state = _ChargeState.SUPERCHARGED
 	else:
 		_charge_state = _ChargeState.CHARGED
 
-func bless() -> void:
+func can_bless() -> bool:
+	if is_blessed():
+		return false
 	if _is_permanent(_BlessCurseState.CURSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
-		return
+		return false
 	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+		return false
+	return true
+
+func can_curse() -> bool:
+	if is_cursed():
+		return false
+	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
+		return false
+	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+		return false
+	return true
+
+func bless() -> void:
+	if not can_bless():
 		return
-	
 	_bless_curse_state = _BlessCurseState.BLESSED
 
 func curse() -> void:
-	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
+	if not can_curse():
 		return
-	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
-		return
-	
 	_bless_curse_state = _BlessCurseState.CURSED
 
 func consecrate() -> void:
@@ -1052,10 +1087,17 @@ func _make_permanent(status) -> void:
 func _remove_permanent(status) -> void:
 	_permanent_statuses.erase(status)
 
+func can_freeze() -> bool:
+	if is_frozen():
+		return false
+	if _is_permanent(_FreezeIgniteState.IGNITED):
+		return false
+	return true
+
 func freeze() -> void:
 	FX.flash(Color.CYAN) # flash ahead of time, even if effect fails
 	
-	if _is_permanent(_FreezeIgniteState.IGNITED):
+	if not can_freeze():
 		return
 	
 	# if stoned, don't freeze
@@ -1065,20 +1107,41 @@ func freeze() -> void:
 		blank()
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_POSEIDON)
 
+func can_ignite() -> bool:
+	if is_ignited():
+		return false
+	if _is_permanent(_FreezeIgniteState.FROZEN):
+		return false
+	return true
+
 func ignite() -> void:
 	FX.flash(Color.RED) # flash ahead of time, even if effect fails
 	
-	if _is_permanent(_FreezeIgniteState.FROZEN):
+	if not can_ignite():
 		return
 	
 	# if stoned, don't ignite
 	_freeze_ignite_state = _FreezeIgniteState.NONE if is_stone() else _FreezeIgniteState.IGNITED
 
-func stone() -> void:
+func can_stone() -> bool:
+	if is_stone():
+		return false
 	# I don't love this but it is what it is; permanent always takes precedent
 	if _is_permanent(_FreezeIgniteState.IGNITED) or _is_permanent(_FreezeIgniteState.FROZEN):
+		return false
+	return true
+
+func can_flip() -> bool:
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
+		return can_turn()
+	return not is_stone()
+
+func can_turn() -> bool:
+	return true
+
+func stone() -> void:
+	if not can_stone():
 		return
-	
 	_material_state = _MaterialState.STONE
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
@@ -1152,9 +1215,6 @@ func is_heads() -> bool:
 
 func is_tails() -> bool:
 	return not _heads
-
-func can_make_lucky() -> bool:
-	return _luck_state != _LuckState.LUCKY and _luck_state != _LuckState.INCREDIBLY_LUCKY
 
 func is_lucky() -> bool:
 	return _luck_state == _LuckState.LUCKY or _luck_state == _LuckState.SLIGHTLY_LUCKY\
@@ -1479,6 +1539,13 @@ func disable_interaction() -> void:
 
 func enable_interaction() -> void:
 	_disable_interaction = false
+
+func can_copy_power() -> bool:
+	return is_active_face_power() or is_other_face_power()
+
+func get_copied_power_family() -> Global.PowerFamily:
+	assert(can_copy_power())
+	return get_active_power_family() if is_active_face_power() else get_inactive_power_family()
 
 @onready var _MOUSE = $Mouse
 

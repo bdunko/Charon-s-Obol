@@ -3,12 +3,18 @@
 	- [ ] **More Coins**
 		- [ ] Week:
 			- [ ] Work on implementing new power coins and their powers.
+		- [ ] **Coin Power Refactor**
+			- [ ] Each power should have a list of activation conditions
+				- [ ] "CanGainArrows" - not at arrow cap
+				- [ ] "CanGainCoin" - not at coin cap
+				- [ ] "EnemyCoin" - allows enemy coins to be selected
+				- [ ] "PlayerCoin" - allows player coins to be selected
 		- [ ] Add Coins and their Powers
 			- [ ] Trivial
-				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
-				- [ ] Hypnos - Bed of Poppies - Blank a tails coin.
-				- [ ] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-				- [ ] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
+				- [x] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
+				- [x] Hypnos - Bed of Poppies - Blank a tails coin.
+				- [x] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
+				- [x] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
 				- [ ] Phaethon - Smitten Upstart - Destroy this coin. Gain souls, arrows, life, and fully recharge patron. Upgrades each round.
 				- [ ] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
 					- [ ] Only and always available as a Triobol.
@@ -131,12 +137,7 @@
 		- [ ] VoyageInfo, Util, CoinInfo, PatronInfo, SaveLoad, EventBus
 	- [ ] Cleanup game.gd so that functions are ordered better; try to reduce size.
 	- [ ] Cleanup coin.gd in the same way.
-	- [ ] **Coin Power Refactor**
-		- [ ] Each power should specify a TargetType enum. "OwnCoins" "Auto" "EnemyCoins" "AnyCoin" "PayoffGainSouls" "PayoffLoseLife.
-			- [ ] If "Auto", that's how we know not to prompt for a target and to immediately activate
-			- [ ] The Payoff powers are used to determine if/how this coin resolves during payoff. Ie each lose life power would use PayoffLoseLife, but with a different charge count.
-			- [ ] Each Soul payoff coin could use PayoffGainSouls and automatically update its charges as required.
-		- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
+	- [ ] Powers should have a lambda function they call. We may need to change how certain functions such as destroy_coin, downgrade_coin, and safe_flip function to make this feasible. (these should probably not exist in game.gd. Rather, they should be part of flip, destroy, and downgrade in coin. We may need to add signal emits to let game.gd react - ie coinrow may need to perform cleanup, track active flips, etc. Event bus is probably appropriate.)
 
 https://en.wikipedia.org/wiki/Apega_of_Nabis
 https://en.wikipedia.org/wiki/Macaria
