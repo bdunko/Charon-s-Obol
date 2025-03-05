@@ -181,7 +181,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Every toss, change to a random god power.
 		- [ ] ??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
 		- [ ] ??? - One of the following, rotates every toss: Gain life. Gain souls. Recharge all other coins. Then destroy this coin. 
-		- [ ] ??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded: Reflip, Bless, Freeze, Destroy, Stone
+		- [x] ??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded: Reflip, Bless, Freeze, Destroy, Stone
 		- [ ] ??? - Use 10 random powers with random targets.
 		- [ ] ??? - Randomly apply bless/curse, freeze/ignite, gold/stone
 		- [ ] (God Power?) - Repeat the last 3 abilities you've used this turn on random targets.

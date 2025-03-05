@@ -5,16 +5,13 @@
 			- [ ] Work on implementing new power coins and their powers.
 		- [ ] **Coin Power Refactor**
 			- [ ] Each power should have a list of activation conditions
-				- [ ] "CanGainArrows" - not at arrow cap
-				- [ ] "CanGainCoin" - not at coin cap
-				- [ ] "EnemyCoin" - allows enemy coins to be selected
-				- [ ] "PlayerCoin" - allows player coins to be selected
+				- [ ] POWER_TARGETTING - find replace
+				- [ ] can target monster coin
+				- [ ] can target player coin
 		- [ ] Add Coins and their Powers
+			- [ ] Coin of the days
+				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
 			- [ ] Trivial
-				- [x] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
-				- [x] Hypnos - Bed of Poppies - Blank a tails coin.
-				- [x] Chione - Embracing Cold - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-				- [x] Hecate - The Key to Magick - Choose a coin. Ignite it, Bless it, and make it Lucky.
 				- [ ] Phaethon - Smitten Upstart - Destroy this coin. Gain souls, arrows, life, and fully recharge patron. Upgrades each round.
 				- [ ] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
 					- [ ] Only and always available as a Triobol.
@@ -38,11 +35,25 @@
 				- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
 				- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
 					- [ ] Create new coin sprite for this. Can share with Plutus.
-			- [ ] Possibly scrapped
-				- [ ] Jason - Roving Argonaut - Gain a golden fleece. Coins and upgrades cost 1 less soul for each golden fleece you have.
-					- [ ] This should be a payoff coin.
-					- [ ] Add a spot on the board and graphic for golden fleece.
-
+			- [ ] Rework
+				- [ ] Obol of the Argonauts
+					- [ ] "Jack of all trades" coin, rotates between different powers.
+						- [ ] ??? - 
+							- [ ] Iolcus - Bless
+								- [ ] The Quest Begins
+							- [ ] Propontis  - Destroy own coin and downgrade random monster.
+								- [ ] The Tragedy of Cyzicus
+							- [ ] Thrace - Blank
+								- [ ] Phineaus's Counsel
+							- [ ] Dia - Arrows
+								- [ ] Stymphalian Quills
+							- [ ] Aeetes - Golden Fleece
+								- [ ] Jason's Prize
+								- [ ] Coins and upgrades cost 1 less soul for each golden fleece you have. This should be a payoff. Needs special icon and appear on board.
+							- [ ] Sirens - Freeze
+								- [ ] Siren Song
+							- [ ] Iolcus - Bless
+								- [ ] The Quest Begins
 
 
 **Charon's Obol Beta - Coalescence**

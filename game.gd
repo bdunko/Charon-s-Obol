@@ -1893,9 +1893,23 @@ func _on_coin_clicked(coin: Coin):
 	if Global.active_coin_power_family != null:
 		var spent_power_use = false # some coins need to spend their charges before they activate to work properly
 		
+		# using a coin on itself deactivates it
+		if coin == Global.active_coin_power_coin:
+			_deactivate_active_power()
+			return
+		
 		# powers can't be used on trial coins
 		if coin.is_trial_coin(): 
 			_DIALOGUE.show_dialogue("Can't use a power on that...")
+			return
+		
+		# make sure we have a valid target
+		if coin.is_monster_coin() and not Global.active_coin_power_family.can_target_monster_coins():
+			_DIALOGUE.show_dialogue("Can't target monsters with that...")
+			return
+		
+		if coin.is_owned_by_player() and not Global.active_coin_power_family.can_target_player_coins():
+			_DIALOGUE.show_dialogue("Can't target your own coins with that...")
 			return
 		
 		# trial of blood - using powers costs 1 life (excluding arrows)
@@ -1910,11 +1924,6 @@ func _on_coin_clicked(coin: Coin):
 				return
 			Global.lives -= Global.BLOOD_COST
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
-		
-		# using a coin on itself deactivates it
-		if coin == Global.active_coin_power_coin:
-			_deactivate_active_power()
-			return
 		if Global.is_patron_power(Global.active_coin_power_family):
 			match(Global.active_coin_power_family):
 				Global.PATRON_POWER_FAMILY_CHARON:
@@ -1971,9 +1980,6 @@ func _on_coin_clicked(coin: Coin):
 						return
 					coin.make_lucky()
 				Global.PATRON_POWER_FAMILY_HADES:
-					if row == _ENEMY_COIN_ROW:
-						_DIALOGUE.show_dialogue("Can't destroy that...")
-						return
 					if _COIN_ROW.get_child_count() == 1: #destroying itself, and last coin
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
@@ -2073,14 +2079,11 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.change_life_penalty_for_round(-1)
 			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
-				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't upgrade that...")
-					return
 				if not coin.can_upgrade():
 					if coin.get_denomination() == Global.Denomination.TETROBOL or coin.get_denomination() == Global.Denomination.PENTOBOL:
 						_DIALOGUE.show_dialogue("Can't upgrade further...")
 					else:
-						_DIALOGUE.show_dialogue("Can't upgrade further...")
+						_DIALOGUE.show_dialogue("Can't upgrade that...")
 					return
 				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
 				if Global.active_coin_power_coin.get_denomination_as_int() < coin.get_denomination_as_int():
@@ -2089,7 +2092,7 @@ func _on_coin_clicked(coin: Coin):
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_COPY_FOR_TOSS:
-				if row == _ENEMY_COIN_ROW or not coin.can_copy_power():
+				if not coin.can_copy_power():
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
 				Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_copied_power_family())
@@ -2099,9 +2102,6 @@ func _on_coin_clicked(coin: Coin):
 					Global.active_coin_power_family = null
 				spent_power_use = true
 			Global.POWER_FAMILY_EXCHANGE:
-				if row == _ENEMY_COIN_ROW:
-					_DIALOGUE.show_dialogue("Can't trade that...")
-					return
 				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				new_coin.play_power_used_effect(Global.active_coin_power_family)
@@ -2122,12 +2122,8 @@ func _on_coin_clicked(coin: Coin):
 					downgrade_coin(coin)
 					_heal_life(Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1])
 				else:
-					_DIALOGUE.show_dialogue("Can't downgrade that...")
-					return
+					assert(false, "Shouldn't be able to get here...")
 			Global.POWER_FAMILY_STONE:
-				if not coin.is_owned_by_player():
-					_DIALOGUE.show_dialogue("Can't target monsters...")
-					return
 				if coin.is_stone():
 					coin.clear_material()
 				else:

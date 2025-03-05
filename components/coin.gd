@@ -692,7 +692,7 @@ func is_power_coin() -> bool:
 	return _coin_family.coin_type == Global.CoinType.POWER
 
 func is_monster_coin() -> bool:
-	assert(_owner == Owner.NEMESIS) #safety assert for now
+	assert(_coin_family.coin_type != Global.CoinType.MONSTER or _owner == Owner.NEMESIS) #safety assert for now
 	return _coin_family.coin_type == Global.CoinType.MONSTER
 
 func is_active_face_power() -> bool:
