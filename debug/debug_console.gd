@@ -154,7 +154,9 @@ func _on_text_submitted(txt):
 				var made = false
 				for coin in Global._ALL_PLAYER_COINS:
 					var coin_name = coin.coin_name.to_lower()
-					if coin_name.contains(args[1].to_lower()):
+					coin_name = coin_name.replace("(denom)", "").replace("of", "").replace(" ", "")
+					print(coin_name)
+					if coin_name.begins_with(args[1].to_lower()):
 						game._make_and_gain_coin(coin, denom-1, game._PLAYER_NEW_COIN_POSITION)
 						made = true
 						break

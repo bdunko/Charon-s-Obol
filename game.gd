@@ -2086,7 +2086,7 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't upgrade that...")
 					return
 				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
-				if Global.active_coin_power_coin.get_denomination_as_int() < coin.get_denomination_as_int():
+				if Global.active_coin_power_coin.get_denomination() < coin.get_denomination():
 					_DIALOGUE.show_dialogue("This coin can't upgrade %ss..." % Global.denom_to_string(coin.get_denomination()))
 					return
 				coin.upgrade()
@@ -2183,6 +2183,7 @@ func _on_coin_clicked(coin: Coin):
 			await activate_malice(MaliceActivation.DURING_POWERS)
 		_update_payoffs()
 	
+	# non targetting coins
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
 		# if this is a power which does not target, resolve it
@@ -2200,12 +2201,12 @@ func _on_coin_clicked(coin: Coin):
 			var spent_use = false
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
-					_heal_life(1 + (coin.get_denomination_as_int() * 2))
+					_heal_life(1 + ((coin.get_denomination()+1) * 2))
 				Global.POWER_FAMILY_GAIN_ARROW:
 					if Global.arrows == Global.ARROWS_LIMIT:
 						_DIALOGUE.show_dialogue("Too many arrows...")
 						return
-					Global.arrows = min(Global.arrows + coin.get_denomination_as_int(), Global.ARROWS_LIMIT)
+					Global.arrows = min(Global.arrows + (coin.get_denomination()+1), Global.ARROWS_LIMIT)
 				Global.POWER_FAMILY_REFLIP_ALL:
 					# reflip all coins
 					coin.spend_power_use() # do this ahead of time here since it might get flipped over...
@@ -2220,6 +2221,12 @@ func _on_coin_clicked(coin: Coin):
 						return
 					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, coin.global_position, true)
 					new_coin.play_power_used_effect(coin.get_active_power_family())
+				Global.POWER_FAMILY_DESTROY_FOR_REWARD:
+					_earn_souls(Global.PHAETHON_REWARD_SOULS[coin.get_denomination()])
+					_heal_life(Global.PHAETHON_REWARD_LIFE[coin.get_denomination()])
+					Global.arrows = min(Global.arrows + Global.PHAETHON_REWARD_ARROWS[coin.get_denomination()], Global.ARROWS_LIMIT)
+					Global.patron_uses = Global.patron.get_uses_per_round()
+					destroy_coin(coin)
 				_:
 					assert(false, "No matching power")
 			if not spent_use:
@@ -2931,4 +2938,4 @@ func _on_malice_changed() -> void:
 
 func _update_payoffs() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
-		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW)
+		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW, _SHOP_COIN_ROW)

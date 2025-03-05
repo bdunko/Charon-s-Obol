@@ -1238,7 +1238,7 @@ var POWER_FAMILY_LIGHT_FIRE = PowerFamily.new("Stroke the fire. [color=gray](For
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
 const PHAETHON_REWARD_ARROWS = [2, 3, 4, 5, 6, 7]
 const PHAETHON_REWARD_LIFE = [5, 10, 15, 20, 25, 30]
-var POWER_FAMILY_DESTROY_FOR_REWARD = PowerFamily.new("Upgrades at the end of each round.\nDestroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
+var POWER_FAMILY_DESTROY_FOR_REWARD = PowerFamily.new("Destroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
 	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/phaethon_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_INFINITE_REFLIP_HUNGER = PowerFamily.new("Infinite uses. Doesn't flip.\nReflip a coin and -(ERYSICHTHON_COST)(LIFE) [color=gray](Permanently increases each use. Resets when upgraded.)[/color].", [INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
@@ -1731,7 +1731,8 @@ enum _SpriteStyle {
 
 class CoinFamily:
 	enum Tag {
-		NO_UPGRADE
+		NO_UPGRADE,
+		AUTO_UPGRADE_END_OF_ROUND
 	}
 	
 	var id: int
@@ -1854,7 +1855,7 @@ enum CoinType {
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY,
 		
 		PERSEUS_FAMILY, HYPNOS_FAMILY, NIKE_FAMILY, TRIPTOLEMUS_FAMILY, ANTIGONE_FAMILY, CHIONE_FAMILY, HECATE_FAMILY, 
-		PROMETHEUS_FAMILY, ERYSICHTHON_FAMILY, DOLOS_FAMILY, ERIS_FAMILY, AEOLUS_FAMILY, BOREAS_FAMILY, DAEDALUS_FAMILY,
+		PROMETHEUS_FAMILY, PHAETHON_FAMILY, ERYSICHTHON_FAMILY, DOLOS_FAMILY, ERIS_FAMILY, AEOLUS_FAMILY, BOREAS_FAMILY, DAEDALUS_FAMILY,
 		PLUTUS_FAMILY, MIDAS_FAMILY, DIKE_FAMILY, JASON_FAMILY, SARPEDON_FAMILY, PROTEUS_FAMILY
 	]
 
@@ -1943,8 +1944,8 @@ var HECATE_FAMILY = CoinFamily.new(1020, CoinType.POWER, "(DENOM) of Hecate", "[
 	STANDARD, POWER_FAMILY_IGNITE_BLESS_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var PROMETHEUS_FAMILY = CoinFamily.new(1021, CoinType.POWER, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_LIGHT_FIRE.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_LIGHT_FIRE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PHAETHON_FAMILY = CoinFamily.new(1022, CoinType.POWER, "(DENOM) of Phaethon", "[color=orange]Smitten Upstart[/color]", POWER_FAMILY_DESTROY_FOR_REWARD.icon_path, NO_UNLOCK_TIP,\
-	STANDARD, POWER_FAMILY_DESTROY_FOR_REWARD, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var PHAETHON_FAMILY = CoinFamily.new(1022, CoinType.POWER, "(DENOM) of Phaethon", "[color=orange]The Son's Hubris[/color]", POWER_FAMILY_DESTROY_FOR_REWARD.icon_path, NO_UNLOCK_TIP,\
+	STANDARD, POWER_FAMILY_DESTROY_FOR_REWARD, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER, [CoinFamily.Tag.AUTO_UPGRADE_END_OF_ROUND])
 var ERYSICHTHON_FAMILY = CoinFamily.new(1023, CoinType.POWER, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_REFLIP_HUNGER.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_INFINITE_REFLIP_HUNGER, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var DOLOS_FAMILY = CoinFamily.new(1024, CoinType.POWER, "(DENOM) of Dolos", "[color=alicewhite]Behind Prosopon[/color]", POWER_FAMILY_PERMANENTLY_COPY.icon_path, NO_UNLOCK_TIP,\

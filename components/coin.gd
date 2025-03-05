@@ -122,8 +122,11 @@ class FacePower:
 		self.power_family = fam
 		self.charges = starting_charges
 	
-	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
+	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
+		
+		if not in_shop and _shop_row.has_coin(coin):
+			return #don't bother updating coins in the shop if we're not in the shop
 		
 		# handle special tantalus case, since it's a passive and not a PAYOFF_GAIN_SOULS power
 		if power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
@@ -266,12 +269,12 @@ func _update_price_label() -> void:
 		var color = AFFORDABLE_COLOR if Global.souls >= price else UNAFFORDABLE_COLOR
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
 
-func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow) -> void:
+func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow) -> void:
 	var previous_active_souls_payoff = _get_active_power().souls_payoff
 	var previous_inactive_souls_payoff = _get_inactive_power().souls_payoff
 	
-	_heads_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
-	_tails_power.update_payoff(_coin_row, _enemy_row, self, _denomination)
+	_heads_power.update_payoff(_coin_row, _enemy_row, _shop_row, self, _denomination)
+	_tails_power.update_payoff(_coin_row, _enemy_row, _shop_row, self, _denomination)
 	
 	# flash when payoff changes on the active face
 	if _get_active_power().souls_payoff > previous_active_souls_payoff:
@@ -560,23 +563,6 @@ func can_upgrade() -> bool:
 
 func get_denomination() -> Global.Denomination:
 	return _denomination
-
-func get_denomination_as_int() -> int:
-	match(_denomination):
-		Global.Denomination.OBOL:
-			return 1
-		Global.Denomination.DIOBOL:
-			return 2
-		Global.Denomination.TRIOBOL:
-			return 3
-		Global.Denomination.TETROBOL:
-			return 4
-		Global.Denomination.PENTOBOL:
-			return 5
-		Global.Denomination.DRACHMA:
-			return 6
-	assert(false)
-	return -9999
 
 func get_subtitle() -> String:
 		return _coin_family.subtitle
@@ -1340,13 +1326,11 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
 	
-	txt = txt.replace("(1_PER_DENOM)", str(get_denomination_as_int()))
-	txt = txt.replace("(1+1_PER_DENOM)", str(get_denomination_as_int() + 1))
-	txt = txt.replace("(2+1_PER_DENOM)", str(get_denomination_as_int() + 2))
-	txt = txt.replace("(2_PER_DENOM)", str(get_denomination_as_int() * 2))
-	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + (get_denomination_as_int() * 2)))
-	
-	
+	txt = txt.replace("(1_PER_DENOM)", str((get_denomination() + 1)))
+	txt = txt.replace("(1+1_PER_DENOM)", str((get_denomination() + 1) + 1))
+	txt = txt.replace("(2+1_PER_DENOM)", str((get_denomination() + 1) + 2))
+	txt = txt.replace("(2_PER_DENOM)", str((get_denomination() + 1) * 2))
+	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + ((get_denomination()+1) * 2)))
 	
 	var heph_str = func(denom_as_int: int) -> String:
 		match(denom_as_int):
@@ -1356,7 +1340,7 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 				return "an Obol or Diobol"
 			_:
 				return "a coin"
-	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination_as_int()))
+	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination()+1))
 	return txt
 
 func _generate_tooltip() -> void:
@@ -1427,6 +1411,8 @@ func _generate_tooltip() -> void:
 		var extra_info =  ""
 		if _coin_family.has_tag(Global.CoinFamily.Tag.NO_UPGRADE):
 			extra_info += "Cannot be upgraded. "
+		if _coin_family.has_tag(Global.CoinFamily.Tag.AUTO_UPGRADE_END_OF_ROUND):
+			extra_info += "Automatically upgrades when the round ends. "
 		if extra_info != "":
 			extra_info += "\n"
 		
@@ -1456,6 +1442,9 @@ func on_round_end() -> void:
 	# clear carpo metadata
 	for power in [_heads_power, _tails_power]:
 		power.clear_metadata(METADATA_CARPO)
+	
+	if _coin_family.has_tag(Global.CoinFamily.Tag.AUTO_UPGRADE_END_OF_ROUND) and can_upgrade():
+		upgrade()
 
 func get_heads_icon() -> String:
 	return _heads_power.power_family.icon_path
@@ -1485,8 +1474,9 @@ func after_payoff() -> void:
 		_set_tails_power_to(_tails_power_overwritten)
 		_tails_power_overwritten = null
 	
-	# if either face is Carpo, grow payoff
+	
 	for power in [_heads_power, _tails_power]:
+		# if either face is Carpo, grow payoff
 		if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
 			power.set_metadata(METADATA_CARPO, power.get_metadata(METADATA_CARPO, 0) + Global.CARPO_ROUND_MULTIPLIER[_denomination])
 

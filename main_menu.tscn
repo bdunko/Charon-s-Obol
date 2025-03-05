@@ -555,7 +555,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcvpn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qopu7"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -937,7 +937,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uiqbg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ijndh"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1064,7 +1064,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_upewh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xp4oq"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1499,7 +1499,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_rcvpn")
+material = SubResource("ShaderMaterial_qopu7")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1509,13 +1509,13 @@ default_text = "Unlock"
 position = Vector2(153, 183)
 amount = 64
 process_material = SubResource("ParticleProcessMaterial_unekx")
-lifetime = 4.5
+lifetime = 4.0
 preprocess = 10.0
 trail_lifetime = 4.5
 
 [node name="EmbersRed" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
-amount = 32
+amount = 64
 process_material = SubResource("ParticleProcessMaterial_2cdev")
 lifetime = 3.0
 
@@ -1528,15 +1528,15 @@ trail_lifetime = 3.5
 
 [node name="EmbersMoreRed" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
-amount = 64
+amount = 24
 process_material = SubResource("ParticleProcessMaterial_phd0y")
-lifetime = 2.5
+lifetime = 3.5
 
 [node name="EmbersMorePurple" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
-amount = 32
+amount = 24
 process_material = SubResource("ParticleProcessMaterial_kwrpa")
-lifetime = 2.0
+lifetime = 3.0
 trail_lifetime = 3.5
 
 [node name="Title" type="RichTextLabel" parent="MainUI"]
@@ -1801,12 +1801,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_uiqbg")
+material = SubResource("ShaderMaterial_ijndh")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_upewh")
+material = SubResource("ShaderMaterial_xp4oq")
 layout_mode = 2
 default_text = " Quit "
 

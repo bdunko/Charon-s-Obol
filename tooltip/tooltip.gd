@@ -16,7 +16,7 @@ const _TOOLTIP_OFFSET := Vector2(-73, 15)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
-const _MAX_WIDTH_THRESHOLD := 160
+const _MAX_WIDTH_THRESHOLD := 180
 
 const _FORMAT := "[center]%s[/center]"
 
