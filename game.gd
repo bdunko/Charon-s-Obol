@@ -1892,7 +1892,8 @@ func _on_coin_clicked(coin: Coin):
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
 		var spent_power_use = false # some coins need to spend their charges before they activate to work properly
-		
+		var skip_power_effect = false # some coins need to play their own effects (Dolos, Aphrodite, Daedalus)
+
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
 			_deactivate_active_power()
@@ -2092,10 +2093,39 @@ func _on_coin_clicked(coin: Coin):
 				coin.upgrade()
 				coin.ignite()
 			Global.POWER_FAMILY_COPY_FOR_TOSS:
-				if not coin.can_copy_power():
+				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
+				coin.play_power_used_effect(Global.active_coin_power_family)
+				skip_power_effect = true
 				Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_copied_power_family())
+				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
+				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
+					Global.active_coin_power_coin = null
+					Global.active_coin_power_family = null
+				spent_power_use = true
+			Global.POWER_FAMILY_PERMANENTLY_COPY:
+				if coin.get_copied_power_family() == Global.active_coin_power_family:
+					_DIALOGUE.show_dialogue("Can't copy that...")
+					return
+				if Global.active_coin_power_coin.get_denomination() != coin.get_denomination():
+					_DIALOGUE.show_dialogue("Can't copy a different denomination...")
+					return
+				coin.play_power_used_effect(Global.active_coin_power_family)
+				skip_power_effect = true
+				Global.active_coin_power_coin.init_coin(coin.get_coin_family(), coin.get_denomination(), Coin.Owner.PLAYER)
+				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
+				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
+					Global.active_coin_power_coin = null
+					Global.active_coin_power_family = null
+				spent_power_use = true
+			Global.POWER_FAMILY_PERMANENTLY_COPY_FACE:
+				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
+					_DIALOGUE.show_dialogue("Can't copy that...")
+					return
+				coin.play_power_used_effect(Global.active_coin_power_family)
+				skip_power_effect = true
+				Global.active_coin_power_coin.overwrite_active_face_power(coin.get_copied_power_family())
 				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
 				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 					Global.active_coin_power_coin = null
@@ -2155,6 +2185,36 @@ func _on_coin_clicked(coin: Coin):
 				coin.ignite()
 				coin.bless()
 				coin.make_lucky()
+			Global.POWER_FAMILY_CONSECRATE_AND_DOOM:
+				pass
+			Global.POWER_FAMILY_BURY_HARVEST:
+				pass
+			Global.POWER_FAMILY_BURY_TURN_TAILS:
+				pass
+			Global.POWER_FAMILY_INFINITE_REFLIP_HUNGER:
+				pass
+			Global.POWER_FAMILY_FLIP_AND_TAG:
+				pass
+			Global.POWER_FAMILY_SWAP_REFLIP_NEIGHBORS:
+				# necessary in case boreas reflips itself
+				Global.active_coin_power_coin.spend_power_use()
+				spent_power_use = true
+				row.swap_positions(Global.active_coin_power_coin, coin)
+				if left:
+					_safe_flip(left, false)
+				if right:
+					_safe_flip(right, false)
+			Global.POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE:
+				if not coin.is_ignited():
+					coin.ignite()
+				elif not coin.is_blessed():
+					coin.bless()
+				else:
+					destroy_coin(coin)
+					if _ENEMY_COIN_ROW.get_child_count() != 0:
+						var target = _ENEMY_COIN_ROW.get_random()
+						downgrade_coin(target)
+						downgrade_coin(target)
 			Global.POWER_FAMILY_ARROW_REFLIP:
 				if not coin.can_flip():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't flip a (STONE) coin..."))
@@ -2165,7 +2225,8 @@ func _on_coin_clicked(coin: Coin):
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
-		coin.play_power_used_effect(Global.active_coin_power_family)
+		if not skip_power_effect:
+			coin.play_power_used_effect(Global.active_coin_power_family)
 		powers_used.append(Global.active_coin_power_family)
 		Global.powers_this_round += 1
 		if not spent_power_use:
@@ -2227,6 +2288,19 @@ func _on_coin_clicked(coin: Coin):
 					Global.arrows = min(Global.arrows + Global.PHAETHON_REWARD_ARROWS[coin.get_denomination()], Global.ARROWS_LIMIT)
 					Global.patron_uses = Global.patron.get_uses_per_round()
 					destroy_coin(coin)
+				Global.POWER_FAMILY_LIGHT_FIRE:
+					pass
+				Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING:
+					pass
+				Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING:
+					pass
+				Global.POWER_FAMILY_GAIN_PLUTUS_COIN:
+					pass
+				Global.POWER_FAMILY_GAIN_GOLDEN_COIN:
+					pass
+				Global.POWER_FAMILY_TURN_ALL:
+					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+						c.turn()
 				_:
 					assert(false, "No matching power")
 			if not spent_use:

@@ -1,10 +1,5 @@
 
-
-- [ ] Define modifiers so we can reference if specific modifiers are activate instead of character names.
-	- [ ] ie; "doubled damage"; "double_souls" etc
 - [ ] Add a random button to the main menu on the character selector (probably to the right of the right arrow)
-
-
 - [ ] Base game
 - [ ] The shop becomes available between every toss but stocks only a single coin at a time.
 - [ ] Single currency - Shop coins and upgrades cost life instead of souls. When you gain souls, gain life instead. Souls and life are a single resource basically. End round whenever. Strain increases three times as fast.
@@ -55,7 +50,7 @@
 - [ ] You gain thrice as many souls. You take thrice as much damage. The number of rounds is reduced a lot.
 - [ ] The Archon - No life, limited flips, all coins are power coins but their BACK is soul generation.
 - [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. Whenever you buy a coin from the shop, the shop rerolls. There is no reroll button.
-- [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. No ante increases. 
+- [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. All prices are halved. You start with 2 additional random power coins.
 - [ ] Power coins are always on heads, but don't recharge at the end of the round. Upgrading a power coin refills charges. Tetrobols can be upgraded to refill them. Power coins are cheaper.
 - [ ] The Emperor - Power coins don't recharge until the end of the round, but have doubled charges.
 - [ ] The Prince - Power coins don't recharge and are destroyed when their charges reach 0. Power coins are much cheaper.

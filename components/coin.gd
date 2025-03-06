@@ -514,6 +514,8 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_charge_state = _ChargeState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
+	_heads_power_overwritten = null
+	_tails_power_overwritten = null
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
 	reset_power_uses(true)
 	_on_state_changed() # a bit of a hack but it is a good catchall...
@@ -1285,6 +1287,12 @@ func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -
 	else:
 		_tails_power_overwritten = _tails_power.power_family
 		_set_tails_power_to(temporary_power)
+
+func overwrite_active_face_power(new_power: Global.PowerFamily) -> void:
+	if is_heads():
+		_set_heads_power_to(new_power)
+	else:
+		_set_tails_power_to(new_power)
 
 
 const NUMERICAL_ADVERB_DICT = {

@@ -49,7 +49,7 @@
 	- [ ] **Coin Type**
 		- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
-		- [ ] ??? - Spice - payoff, more for each copy of this you have (starts appearing more often in shop when you have it)
+		- [ ] The Muses - payoff, more for each copy of this you have (starts appearing more often in shop when you have it)
 	- [ ] **Life**
 		- [ ] Bellerophon - +Souls the less life you have.
 		- [ ] ??? - +1 soul per 20/17/14/10 life you have.???
@@ -290,47 +290,7 @@ Unlockable coins + more coins
 
 
 
-
-
-
-**Potential coins to use - likely duplicated from above mostly**
-
-??? - +1 soul per 20/17/14/10 life you have.
-
-??? - 10/20/30/40 souls, reduced by 3/5/7/9 for each power you've used this toss.
-
-
-Perseus - Reflect the Gorgon's Gaze- Turn a coin to stone (never flips again, does not recharge) or unstone a coin. 
-??? - Blank 2 random tails coins.
-
-??? - Gain a random Obol/Diobol/Triobol/Tetrobol (on heads). It is Doomed (destroy at the end of the round).
-??? - Gain a coin with +5/-5 and flip it. After payoff, destroy it.
-??? - Hero - Downgrade a monster coin. If this destroys it, gain 10 souls. (diobol - 15 souls; triobol - double downgrade; tetrobol - 30 souls.)
-??? - Infinite uses. Reflip a coin, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
-Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
-Notus - Southern Heat - Choose a coin. Swap positions with it, then reflip each coin between that coin and this coin. 
-Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
-Zephyros - Western Turbulance - Choose a coin. Move it to the leftmost position. Reflip the leftmost and rightmost coins.
-Eurus - Eastward Breeze - Choose a coin. Move it to the right, then reflip its neighbors (but not it).
-Gaia - Gravitic Pull - pull a coin 1 space closer to this coin (pulls to other side if already adjacent), then flip both coins adjacent to this coin to their opposite side.
-Uranus - Sky Pulse - choose a coin. Push the coin to the left and right of that coin once away from it. Then reflip each coin to the left of the coin pushed left or the right of the coin pushed right.
-??? - Choose a coin. Pull it once closer to this coin. Then flip each coin that moved.
-??? - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
-Dolos - Choose a coin. This coin permanently becomes a copy of that coin.
-??? - Split a Diobol, Triobol, or Tetrobol into two coins of half value (cannot be used on Obols)
-??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
-??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded, available only as a diobol(?): Lucky, Bless, Freeze, Stone, Destroy, 
-??? - Reflip the coins to the left and right of this. Whenever you use a neighboring coin's power, it spends from here instead.
-Fickle Nymph - Coins to the left land on heads 10/12/15/18% more often; coins to the right land on tails more often. Power - move this randomly once to the left or right.
-	- [ ] Daedalus(?) - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin.
-		- [ ] Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face."
-??? - Daedalus - Copy another coin's power onto this coin's tails and give it +0/1/2/3 charges, but it does not recharge naturally.
-Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
-??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
-
-
-
-
+**Ideas**
 - [ ] Odysseus - The Hero's Return. A variety of stages in order must be completed. Always starts as Obol and upgrades at set points; cannot be upgraded in shop. Change flavor text each use.
 	- [ ] Reflip 2 random coins.
 	- [ ] Lose 5 shards.
@@ -345,8 +305,6 @@ Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but
 	- [ ] Destroy your highet value coin besides this, lose all god power charges, and gain an upgraded monster coin which cannot be destroyed or spent.
 	- [ ] Bury this coin. After 5 tosses, return, permanently change to heads, and annihilate all monster coins.
 	- [ ] Turn your souls into life. Flip all your coins to heads. Destroy this coin.
-
-
 - [ ] Pandora - 7 sins + hope (alt win condition)
 	- [ ] Wrath - Lose all your life (minimum 25)
 	- [ ] Sloth - End the round. Must be the first power you use this round.
@@ -356,6 +314,8 @@ Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but
 	- [ ] Pride - flip all your coins to tails and freeze them.
 	- [ ] Envy - transform every other coin into a random coin and reflip them.
 	- [ ] Hope - you win the game.
+- [ ] Coin which is bad until Tetrobol.
+- [ ] Heads - flip all your coins on heads. Tails - flip all your coins on tails.
 
 
 

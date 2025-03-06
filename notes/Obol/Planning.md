@@ -6,21 +6,17 @@
 		- [ ] Add Coins and their Powers
 			- [ ] Coin of the days
 				- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
-			- [ ] Trivial
-				- [ ] Phaethon - Smitten Upstart - Destroy this coin. Gain souls, arrows, life, and fully recharge patron. Upgrades each round.
-				- [ ] Dolos - Beneath Prosopon - Choose a coin. This coin permanently becomes a copy of that coin.
-					- [ ] Only and always available as a Triobol.
 				- [ ] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
-				- [ ] Daedalus - Automaton Builder - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
 				- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and fully recharge your patron token.
 				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
-			- [ ] Nontrivial
+			- [ ] Nontrivial - Weekend
 				- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 					- [ ] Implement doom.
 				- [ ] Triptolemus - Sow the Earth - Bury one of your coins for 3 payoffs. When it returns, gain souls and heal.
 				- [ ] Antigone - Bury Thy Brother - Bury one of your coins for 1 payoff. Turn a random tails coin to heads.
 					- [ ] Add Bury. Bury needs to change the graphic. Bury graphic should show a number of turns remaining. Additionally, bury tooltip should specify how many turns remain.
 				- [ ] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%).
+					- [ ] Implement fire.
 				- [ ] Erysichthon - Faustian Hunger - Infinite uses. Reflip a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1.
 					- [ ] Tails - Turn this to heads. (this is also cute since Daedalus could copy it or something wacky :D)
 					- [ ] Need a way to represent infinite charges (can use a large negative magic number. don't draw a digit, but rather make a unique img for this and use that. when depleting charges, if infinite, don't)
@@ -30,7 +26,9 @@
 				- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
 				- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
 					- [ ] Create new coin sprite for this. Can share with Plutus.
-			- [ ] Rework
+			- [ ] Reworks
+				- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
+				- [ ] Heph - instead of immediately upgrading, Prime a coin.
 				- [ ] Obol of the Argonauts
 					- [ ] "Jack of all trades" coin, rotates between different powers.
 						- [ ] ??? - 
