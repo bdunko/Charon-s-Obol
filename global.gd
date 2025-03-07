@@ -1226,9 +1226,9 @@ var POWER_FAMILY_STONE = PowerFamily.new("Turn one of your coins to or from (STO
 var POWER_FAMILY_BLANK_TAILS = PowerFamily.new("Choose a (TAILS) coin; (BLANK) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hypnos_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.ANTIMONSTER, PowerFamily.Tag.BLANK])
 var POWER_FAMILY_CONSECRATE_AND_DOOM = PowerFamily.new("(CONSECRATE) and (DOOM) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/nike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN, PowerFamily.Tag.CONSECRATE, PowerFamily.Tag.DOOM])
 const TRIPTOLEMUS_HARVEST = [5, 8, 11, 14, 17, 20]
-var POWER_FAMILY_BURY_HARVEST = PowerFamily.new("Bury one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
+var POWER_FAMILY_BURY_HARVEST = PowerFamily.new("(BURY) one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.HEAL])
-var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("Bury one of your coins for 1 toss. Immediately turn a random (TAILS) coin to (HEADS).", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("(BURY) one of your coins for 1 toss. Immediately turn a random (TAILS) coin to (HEADS).", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.TURN])
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its (LIFE) penalty to 0 this round.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE, PowerFamily.Tag.ANTIMONSTER])
@@ -1321,6 +1321,8 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["red", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
+	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["saddlebrown", "Bury", "res://assets/icons/status/bury_icon.png"])
+	
 	
 	# used for the coin status indicator tooltips
 	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
@@ -1356,7 +1358,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(D_DOOMED)", "When the round ends, this coin is destroyed.")
 	tooltip = tooltip.replace("(S_BURIED)", STATUS_FORMAT % ["peru", "Buried", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(D_BURIED)", "This coin is buried and cannot be interacted with. It will be exhumed in a certain number of tosses.")
+	tooltip = tooltip.replace("(D_BURIED)", "This coin cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
 	
 	# images
 	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")

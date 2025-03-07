@@ -1517,7 +1517,8 @@ func get_tails_icon() -> String:
 	return _tails_power.power_family.icon_path
 
 func on_toss_initiated() -> void:
-	reset_power_uses()
+	if not is_buried():
+		reset_power_uses()
 
 func on_toss_complete() -> void:
 	pass
