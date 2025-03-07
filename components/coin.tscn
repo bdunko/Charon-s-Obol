@@ -1,4 +1,4 @@
-[gd_scene load_steps=168 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=170 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b84mqhr3ieim2" path="res://assets/icons/status/charge_icon.png" id="21_ro1pk"]
 [ext_resource type="Script" path="res://components/icon_bar.gd" id="22_i4xsq"]
 [ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="23_ndo5s"]
+[ext_resource type="Texture2D" uid="uid://cqybe3tyqmixo" path="res://assets/icons/status/bury_icon.png" id="23_noblv"]
 [ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="23_u3o1j"]
 [ext_resource type="Texture2D" uid="uid://1yn4ki3gwv2q" path="res://assets/icons/status/stone_icon.png" id="24_gdnx8"]
 [ext_resource type="Texture2D" uid="uid://cxw40qsgq2x84" path="res://assets/icons/status/bless_icon.png" id="25_7omfm"]
@@ -153,6 +154,10 @@ shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebtkx"]
+atlas = ExtResource("3_61apl")
+region = Rect2(136, 360, 34, 36)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nfym2"]
 atlas = ExtResource("3_61apl")
@@ -704,6 +709,14 @@ region = Rect2(374, 72, 34, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w12pp"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebtkx")
+}],
+"loop": true,
+"name": &"buried",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nfym2")
@@ -1588,7 +1601,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_tte34")
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"thorns_triobol_flip"
+animation = &"buried"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]
@@ -1834,6 +1847,18 @@ _tooltip = "(S_SUPERCHARGED)
 
 [node name="Sprite2D" type="Sprite2D" parent="Sprite/StatusBar/Supercharge"]
 texture = ExtResource("31_efx5d")
+centered = false
+offset = Vector2(-1, -3)
+
+[node name="Bury" type="Control" parent="Sprite/StatusBar"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+script = ExtResource("23_u3o1j")
+_tooltip = "(S_BURIED)
+(D_BURIED)"
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite/StatusBar/Bury"]
+texture = ExtResource("23_noblv")
 centered = false
 offset = Vector2(-1, -3)
 

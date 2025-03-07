@@ -60,10 +60,12 @@ func get_heads() -> Array:
 	return heads
 
 # returns an array containing all coins of the highest denomination amongst coins in this row
-func get_highest_valued() -> Array:
+func get_highest_valued_that_can_be_targetted() -> Array:
 	assert(get_child_count() != 0)
 	var highestValues = []
 	for coin in get_children():
+		if not coin.can_target():
+			continue
 		if highestValues.is_empty() or highestValues[0].get_value() == coin.get_value():
 			highestValues.append(coin)
 		elif highestValues[0].get_value() < coin.get_value():
@@ -71,7 +73,7 @@ func get_highest_valued() -> Array:
 			highestValues.append(coin)
 	return highestValues
 
-func get_highest_valued_heads() -> Array:
+func get_highest_valued_heads_that_can_be_targetted() -> Array:
 	assert(get_child_count() != 0)
 	var highestValues = []
 	for coin in get_children():
@@ -227,6 +229,12 @@ static func FILTER_STONE(c: Coin) -> bool:
 static func FILTER_NOT_CHARGED(c: Coin) -> bool:
 	return c.is_charged()
 
+static func FILTER_BURIED(c: Coin) -> bool:
+	return c.is_buried()
+
+static func FILTER_NOT_BURIED(c: Coin) -> bool:
+	return not c.is_buried()
+
 static func FILTER_HEADS(c: Coin) -> bool:
 	return c.is_heads()
 
@@ -237,13 +245,13 @@ static func FILTER_POWER(c: Coin) -> bool:
 	return c.is_power_coin()
 
 static func FILTER_ACTIVE_PAYOFF(c: Coin) -> bool:
-	return c.is_active_face_payoff()
+	return c.is_active_face_payoff() and not c.is_buried()
 
 static func FILTER_USABLE_POWER(c: Coin) -> bool:
-	return c.is_power_coin() and c.get_active_power_charges() != 0
+	return c.is_power_coin() and c.get_active_power_charges() != 0 and not c.is_buried()
 
 static func FILTER_RECHARGABLE(c: Coin) -> bool:
-	return c.is_power_coin() and c.get_active_power_charges() != c.get_max_active_power_charges()
+	return c.is_power_coin() and c.get_active_power_charges() != c.get_max_active_power_charges() and not c.is_buried()
 
 static func FILTER_OBOL(c: Coin) -> bool:
 	return c.get_denomination() == Global.Denomination.OBOL
@@ -262,6 +270,9 @@ static func FILTER_PENTOBOL(c: Coin) -> bool:
 	
 static func FILTER_DRACHMA(c: Coin) -> bool:
 	return c.get_denomination() == Global.Denomination.DRACHMA
+
+static func FILTER_CAN_TARGET(c: Coin) -> bool:
+	return c.can_target()
 
 func get_filtered_randomized(filter_func) -> Array:
 	return get_randomized().filter(filter_func)
@@ -323,7 +334,7 @@ func retract_for_toss(retract_point: Vector2) -> void:
 		return
 	
 	# don't retract frozen or stoned coins
-	var coins_to_retract = get_children().filter(FILTER_NOT_STONE).filter(FILTER_NOT_FROZEN)
+	var coins_to_retract = get_multi_filtered([FILTER_NOT_STONE, FILTER_NOT_FROZEN, FILTER_NOT_BURIED])
 	
 	# do a very minor delay if nothing to retract
 	if coins_to_retract.size() == 0:

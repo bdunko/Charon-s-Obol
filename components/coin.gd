@@ -24,7 +24,7 @@ enum _LuckState {
 }
 
 enum _Animation {
-	FLAT, FLIP, SWAP
+	FLAT, FLIP, BURIED
 }
 
 enum _FreezeIgniteState {
@@ -47,6 +47,10 @@ enum _DoomState {
 	NONE, DOOMED
 }
 
+enum _BuryState {
+	NONE, BURIED
+}
+
 var _permanent_statuses = []
 
 @onready var _STATUS_BAR = $Sprite/StatusBar
@@ -66,6 +70,7 @@ var _permanent_statuses = []
 @onready var _DOOMED_ICON = $Sprite/StatusBar/Doomed
 @onready var _CONSECRATE_ICON = $Sprite/StatusBar/Consecrate
 @onready var _DESECRATE_ICON = $Sprite/StatusBar/Desecrate
+@onready var _BURY_ICON = $Sprite/StatusBar/Bury
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -205,6 +210,11 @@ func _update_face_label() -> void:
 	if _blank_state == _BlankState.BLANKED:
 		_FACE_LABEL.text = ""
 		return
+	if _bury_state == _BuryState.BURIED:
+		_FACE_LABEL.text = "[center][color=saddlebrown]%d[/color][/center]" % _buried_payoffs_until_exhume
+		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION + Vector2(-1, 2)
+		return
+		
 	
 	var color
 	match(get_active_power_family().power_type):
@@ -379,6 +389,22 @@ var _bless_curse_state: _BlessCurseState:
 			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
 		_update_appearance()
 
+var _bury_state:
+	set(val):
+		_bury_state = val
+		_STATUS_BAR.update_icon(_BURY_ICON, _bury_state == _BuryState.BURIED)
+		
+		FX.flash(Color.SADDLE_BROWN)
+		if _bury_state == _BuryState.BURIED:
+			assert(_buried_payoffs_until_exhume > 0, "didn't set a duration?")
+			set_animation(_Animation.BURIED)
+		else:
+			set_animation(_Animation.FLAT)
+		
+		_update_appearance()
+
+var _buried_payoffs_until_exhume := 0
+
 var _freeze_ignite_state: _FreezeIgniteState:
 	set(val):
 		_freeze_ignite_state = val
@@ -454,6 +480,7 @@ func _ready():
 	assert(_DOOMED_ICON)
 	assert(_CONSECRATE_ICON)
 	assert(_DESECRATE_ICON)
+	assert(_BURY_ICON)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
@@ -512,6 +539,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 	_material_state = _MaterialState.NONE
 	_charge_state = _ChargeState.NONE
+	_bury_state = _BuryState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
 	_heads_power_overwritten = null
@@ -718,17 +746,24 @@ const UNLUCKY_MODIFIER = -20
 func flip(is_toss: bool, bonus: int = 0) -> void:
 	if is_trial_coin(): # trials don't flip
 		_freeze_ignite_state = _FreezeIgniteState.NONE
-		emit_signal("flip_complete")
+		emit_signal("flip_complete", self)
 		return
 	
 	if is_frozen(): #don't flip if frozen
 		FX.flash(Color.AQUAMARINE)
 		_freeze_ignite_state = _FreezeIgniteState.NONE
-		emit_signal("flip_complete")
+		emit_signal("flip_complete", self)
+		return
+	
+	if is_buried(): #don't flip if buried, but do potentially exhume...
+		_buried_payoffs_until_exhume = max(0, _buried_payoffs_until_exhume - 1)
+		if _buried_payoffs_until_exhume == 0:
+			exhume()
+		emit_signal("flip_complete", self)
 		return
 	
 	if is_stone(): #don't flip if stoned
-		emit_signal("flip_complete")
+		emit_signal("flip_complete", self)
 		return
 		
 	_disable_interaction = true # ignore input while flipping
@@ -832,7 +867,7 @@ func _get_percentage_success(bonus: int = 0):
 
 # turn a coin to its other side
 func turn() -> void:
-	if is_stone():
+	if is_buried(): # can't turn if buried
 		return
 	_disable_interaction = true
 	_heads = not _heads
@@ -1037,6 +1072,15 @@ func consecrate() -> void:
 		return
 	_bless_curse_state = _BlessCurseState.CONSECRATED
 
+func bury(duration: int) -> void:
+	assert(duration > 0)
+	_buried_payoffs_until_exhume = duration
+	_bury_state = _BuryState.BURIED
+
+func exhume() -> void:
+	_buried_payoffs_until_exhume = 0
+	_bury_state = _BuryState.NONE
+
 func permanently_consecrate() -> void:
 	_bless_curse_state = _BlessCurseState.CONSECRATED
 	_make_permanent(_BlessCurseState.CONSECRATED)
@@ -1045,6 +1089,9 @@ func desecrate() -> void:
 	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.CURSED):
 		return
 	_bless_curse_state = _BlessCurseState.DESECRATED
+
+func doom() -> void:
+	_doom_state = _DoomState.DOOMED
 
 func _is_permanent(status) -> bool:
 	return _permanent_statuses.has(status)
@@ -1134,7 +1181,7 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func has_status() -> bool:
-	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed()
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed() or is_buried()
 
 func clear_statuses() -> void:
 	if not has_status():
@@ -1147,6 +1194,7 @@ func clear_statuses() -> void:
 	clear_charge()
 	clear_doomed()
 	unblank()
+	exhume()
 
 func clear_lucky_unlucky() -> void:
 	if _luck_state == _LuckState.NONE:
@@ -1241,6 +1289,12 @@ func is_charged() -> bool:
 func is_doomed() -> bool:
 	return _doom_state == _DoomState.DOOMED
 
+func is_buried() -> bool:
+	return _bury_state == _BuryState.BURIED
+
+func can_target() -> bool:
+	return not is_buried()
+
 func can_change_life_penalty() -> bool:
 	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE
 
@@ -1328,9 +1382,11 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(PHAETHON_SOULS)", str(Global.PHAETHON_REWARD_SOULS[get_value()-1]))
 	txt = txt.replace("(PHAETHON_LIFE)", str(Global.PHAETHON_REWARD_LIFE[get_value()-1]))
 	txt = txt.replace("(PHAETHON_ARROWS)", str(Global.PHAETHON_REWARD_ARROWS[get_value()-1]))
+	
 	if face_power != null:
 		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
 	txt = txt.replace("(ERYSICHTHON_COST)", str("1 - this needs to change dynamically; todo")) #TODO
+	#txt = txt.replace("(PAYOFFS_TIL_EXHUME)", str(_buried_payoffs_until_exhume))
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
 	
@@ -1482,7 +1538,6 @@ func after_payoff() -> void:
 		_set_tails_power_to(_tails_power_overwritten)
 		_tails_power_overwritten = null
 	
-	
 	for power in [_heads_power, _tails_power]:
 		# if either face is Carpo, grow payoff
 		if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
@@ -1491,6 +1546,12 @@ func after_payoff() -> void:
 func set_animation(anim: _Animation) -> void:
 	if(_heads_power != null and _heads_power.power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS):
 		print("setting anim")
+	
+	# if we're buried, no matter what, show the buried animation
+	if is_buried() or anim == _Animation.BURIED:
+		_SPRITE.play("buried")
+		return
+	
 	var denom_str = Global.denom_to_string(_denomination).to_lower()
 	
 	var anim_str = ""

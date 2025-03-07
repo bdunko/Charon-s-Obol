@@ -56,3 +56,27 @@
 	- [ ] ??? - Each toss, moves once to the left... if it moves to the far left, destroy the coin adjacent to it.
 	- [ ] ??? - At the end of round, downgrade the coin to the left and right.
 	- [ ] ??? - Lose god power charges.
+
+
+
+
+
+
+THIS WOULD BE GOOD AS A MONSTER
+- [ ] ??? - Merchant - Randomly transforms between the following 'powers'/'items', which cost souls to use
+	- [ ] Freeze a coin.
+	- [ ] Reflip a coin.
+	- [ ] Make a coin Lucky.
+	- [ ] Bless a coin.
+	- [ ] Change a coin to its other face.
+	- [ ] Clear negative statuses from a coin.
+??? - Many charges - Change a random coin to its other side.
+
+
+- [ ] Locked - Prevents the coin from flipping, payoff, or being activated for the rest of the round (bound in chains graphically).
+- [ ] Ward - Blocks the next power applied to this coin, then deletes the ward.
+- [ ] Reflip some heads coins.
+
+- [ ] Tap a coin - whenever a power on that coin is used, lose life.
+- [ ] Imprison a coin - locks up a coin (blank + doesn't flip); spend souls to unlock.
+- [ ] Sap - Coin does not naturally recharge each toss.

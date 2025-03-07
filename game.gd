@@ -760,7 +760,7 @@ func _on_accept_button_pressed():
 		var _right = row.get_right_of(payoff_coin)
 		var is_last_player_coin = _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin
 		
-		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank()) and charges > 0:
+		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank() and not payoff_coin.is_buried()) and charges > 0:
 			payoff_coin.payoff_move_up()
 			var payoff_type = payoff_power_family.power_type
 			
@@ -818,37 +818,38 @@ func _on_accept_button_pressed():
 					_disable_interaction_coins_and_patron() # stupid bad hack to make the arrow not light up
 				Global.PowerType.PAYOFF_LUCKY:
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.make_lucky()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_UNLUCKY:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.make_unlucky()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_CURSE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.curse()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_BLANK:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLANK), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLANK, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.blank()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_FREEZE_TAILS:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_tails():
-						coin.freeze()
-						coin.play_power_used_effect(payoff_coin.get_active_power_family())
+					for coin in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET]):
+						if coin.can_target():
+							coin.freeze()
+							coin.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_STONE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_STONE), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.stone()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_IGNITE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_STONE), charges):
+					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.ignite()
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_IGNITE_SELF:
@@ -856,7 +857,7 @@ func _on_accept_button_pressed():
 				Global.PowerType.PAYOFF_DOWNGRADE_MOST_VALUABLE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for i in range(0, charges):
-						var highest = _COIN_ROW.get_highest_valued()
+						var highest = _COIN_ROW.get_highest_valued_that_can_be_targetted()
 						highest.shuffle()
 						# don't downgrade if it's the last coin
 						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
@@ -877,10 +878,6 @@ func _on_accept_button_pressed():
 		# unblank when it would payoff
 		if is_instance_valid(payoff_coin): # may have been destroyed by now
 			payoff_coin.unblank()
-		# doomed coins destroyed at this point
-		if is_instance_valid(payoff_coin) and payoff_coin.is_doomed():
-			payoff_coin.FX.flash(Color.BLACK)
-			destroy_coin(payoff_coin)
 		
 		# $HACK$ - this is an extremely lazy way to make ignites happen
 		# after all player coins but before all enemy coins, but I don't care
@@ -905,10 +902,12 @@ func _on_accept_button_pressed():
 	
 	# post payoff actions
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
-		var coins = _COIN_ROW.get_highest_valued_heads()
+		var coins = _COIN_ROW.get_highest_valued_heads_that_can_be_targetted()
 		if not coins.is_empty():
-			Global.choose_one(coins).downgrade()
-			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
+			var target = Global.choose_one(coins)
+			if not (_COIN_ROW.get_child_count() == 1 and target.get_denomination() == Global.Denomination.OBOL):
+				downgrade_coin(Global.choose_one(coins))
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
 		_apply_misfortune_trial()
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
@@ -1215,6 +1214,11 @@ func _on_end_round_button_pressed():
 	_enable_interaction_coins_and_patron()
 	for coin in _COIN_ROW.get_children():
 		coin.on_round_end()
+		
+		# doomed coins destroyed at this point
+		if coin.is_doomed():
+			coin.FX.flash(Color.BLACK)
+			destroy_coin(coin)
 	
 	# reduce accumulated malice significantly (mult by 0.3)
 	Global.malice *= Global.MALICE_MULTIPLIER_END_ROUND
@@ -1359,7 +1363,7 @@ func _show_toll_dialogue() -> void:
 
 func _apply_misfortune_trial() -> void:
 	for i in Global.MISFORTUNE_QUANTITY:
-		var targets = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY)
+		var targets = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET])
 		if targets.size() != 0:
 			targets[0].make_unlucky()
 	Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
@@ -1731,6 +1735,11 @@ func _remove_coin_from_row_move_then_destroy(coin: Coin, point: Vector2) -> void
 	tween.tween_callback(destroy_coin.bind(coin)) 
 
 func downgrade_coin(coin: Coin) -> void:
+	# safety check
+	if _COIN_ROW.get_child_count() == 1 and _COIN_ROW.has_coin(coin) and coin.get_denomination() == Global.Denomination.OBOL:
+		assert(false, "trying to downgrade last coin and it's an obol!")
+		return
+	
 	if coin.is_being_destroyed():
 		return
 	if coin.get_denomination() == Global.Denomination.OBOL:
@@ -1740,6 +1749,10 @@ func downgrade_coin(coin: Coin) -> void:
 		_update_payoffs()
 
 func destroy_coin(coin: Coin) -> void:
+	if _COIN_ROW.get_child_count() == 1 and _COIN_ROW.has_coin(coin) and coin.get_denomination() == Global.Denomination.OBOL:
+		assert(false, "trying to destroy last coin!")
+		return
+	
 	if coin.is_being_destroyed():
 		return
 	
@@ -1902,6 +1915,13 @@ func _on_coin_clicked(coin: Coin):
 		# powers can't be used on trial coins
 		if coin.is_trial_coin(): 
 			_DIALOGUE.show_dialogue("Can't use a power on that...")
+			return
+		
+		if not coin.can_target():
+			if coin.is_buried():
+				_DIALOGUE.show_dialogue("Can't target a buried coin...")
+				return
+			_DIALOGUE.show_dialogue("Can't target that...")
 			return
 		
 		# make sure we have a valid target
@@ -2186,11 +2206,17 @@ func _on_coin_clicked(coin: Coin):
 				coin.bless()
 				coin.make_lucky()
 			Global.POWER_FAMILY_CONSECRATE_AND_DOOM:
-				pass
+				if coin.is_doomed() and coin.is_consecrated():
+					_DIALOGUE.show_diaogue("No need...")
+					return
+				coin.consecrate()
+				coin.doom()
 			Global.POWER_FAMILY_BURY_HARVEST:
-				pass
+				coin.bury(3)
+				#todo
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
-				pass
+				coin.bury(1)
+				#todo
 			Global.POWER_FAMILY_INFINITE_REFLIP_HUNGER:
 				pass
 			Global.POWER_FAMILY_FLIP_AND_TAG:
@@ -2201,8 +2227,10 @@ func _on_coin_clicked(coin: Coin):
 				spent_power_use = true
 				row.swap_positions(Global.active_coin_power_coin, coin)
 				if left:
+					left.play_power_used_effect(Global.active_coin_power_family)
 					_safe_flip(left, false)
 				if right:
+					right.play_power_used_effect(Global.active_coin_power_family)
 					_safe_flip(right, false)
 			Global.POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE:
 				if not coin.is_ignited():
@@ -2213,6 +2241,7 @@ func _on_coin_clicked(coin: Coin):
 					destroy_coin(coin)
 					if _ENEMY_COIN_ROW.get_child_count() != 0:
 						var target = _ENEMY_COIN_ROW.get_random()
+						target.play_power_used_effect(Global.active_coin_power_family)
 						downgrade_coin(target)
 						downgrade_coin(target)
 			Global.POWER_FAMILY_ARROW_REFLIP:
@@ -2301,6 +2330,7 @@ func _on_coin_clicked(coin: Coin):
 				Global.POWER_FAMILY_TURN_ALL:
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c.turn()
+						c.play_power_used_effect(Global.active_coin_power_family)
 				_:
 					assert(false, "No matching power")
 			if not spent_use:
@@ -2402,11 +2432,9 @@ func _on_patron_token_clicked():
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_DIONYSUS: # smart random behavior
-			var tails = _COIN_ROW.get_tails()
-			tails.shuffle()
-			var tails_powers = tails.filter(CoinRow.FILTER_POWER)
-			var heads = _COIN_ROW.get_heads()
-			heads.shuffle()
+			var tails = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET])
+			var tails_powers =  tails.filter(CoinRow.FILTER_POWER)
+			var heads = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_HEADS, CoinRow.FILTER_CAN_TARGET])
 			var _heads_powers = heads.filter(CoinRow.FILTER_POWER)
 			var n_coins = _COIN_ROW.get_child_count()
 			
@@ -2442,14 +2470,14 @@ func _on_patron_token_clicked():
 								new_coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						2: # make coins lucky
-							var not_lucky = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_LUCKY)
+							var not_lucky = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET])
 							if not_lucky.size() != 0:
 								for coin in Global.choose_x(not_lucky, Global.RNG.randi_range(1, 3)):
 									coin.make_lucky()
 									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						3: # make coins blessed
-							var not_blessed = _COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_BLESSED)
+							var not_blessed = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLESSED, CoinRow.FILTER_CAN_TARGET])
 							if not_blessed.size() != 0:
 								for coin in Global.choose_x(not_blessed, Global.RNG.randi_range(1, 3)):
 									coin.bless()
@@ -2463,8 +2491,8 @@ func _on_patron_token_clicked():
 									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						5: # clear ignite or frozen on tails
-							var ignited = _COIN_ROW.get_filtered(CoinRow.FILTER_IGNITED)
-							var frozen_tails = _COIN_ROW.get_filtered(CoinRow.FILTER_FROZEN).filter(CoinRow.FILTER_TAILS)
+							var ignited = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_IGNITED, CoinRow.FILTER_CAN_TARGET])
+							var frozen_tails = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_FROZEN, CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET])
 							if ignited.size() + frozen_tails.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
 								for coin in Global.choose_x(ignited, Global.RNG.randi_range(2, 3)):
 									coin.clear_freeze_ignite()
@@ -2474,9 +2502,9 @@ func _on_patron_token_clicked():
 									coin.play_power_used_effect(Global.patron.power_family)
 								boons += 1
 						6: # clear unlucky, cursed, or blank
-							var unlucky = _COIN_ROW.get_filtered(CoinRow.FILTER_UNLUCKY)
-							var cursed = _COIN_ROW.get_filtered(CoinRow.FILTER_CURSED)
-							var blank = _COIN_ROW.get_filtered(CoinRow.FILTER_BLANK)
+							var unlucky = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_UNLUCKY, CoinRow.FILTER_CAN_TARGET])
+							var cursed = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_CURSED, CoinRow.FILTER_CAN_TARGET])
+							var blank = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_BLANK, CoinRow.FILTER_CAN_TARGET])
 							if unlucky.size() + cursed.size() + blank.size() >= floor(_COIN_ROW.get_child_count() / 2.0):
 								for coin in Global.choose_x(unlucky, Global.RNG.randi_range(2, 3)):
 									coin.clear_lucky_unlucky()
@@ -2513,14 +2541,14 @@ func _on_patron_token_clicked():
 									_heal_life(max(6, Global.RNG.randi_range(Global.round_count * 2, 3 * Global.round_count)))
 							boons += 1
 						11: # recharge coins
-							var rechargable = _COIN_ROW.get_filtered(CoinRow.FILTER_RECHARGABLE)
+							var rechargable = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_RECHARGABLE, CoinRow.FILTER_CAN_TARGET])
 							if rechargable.size() >= 3:
 								for i in Global.RNG.randi_range(2, 4):
 									var coin = Global.choose_one(rechargable)
 									coin.recharge_power_uses_by(1)
 									coin.play_power_used_effect(Global.patron.power_family)
 						12: # charge coins
-							var chargeable = _COIN_ROW.get_filtered(CoinRow.FILTER_NOT_CHARGED)
+							var chargeable = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_NOT_CHARGED, CoinRow.FILTER_CAN_TARGET])
 							if chargeable.size() >= 3:
 								for coin in Global.choose_x(chargeable, Global.RNG.randi_range(2, 3)):
 									coin.charge()
@@ -2685,7 +2713,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	var empty_spaces = Global.COIN_LIMIT - _COIN_ROW.num_coins()
 	var num_monsters = _ENEMY_COIN_ROW.num_coins()
 	
-	var highest_valued_arr = _COIN_ROW.get_highest_valued()
+	var highest_valued_arr = _COIN_ROW.get_highest_valued_that_can_be_targetted()
 	var highest_valued = highest_valued_arr[0]
 	var is_highest_valued_singular = highest_valued_arr.size() == 0
 	var is_highest_valued_heads_power = highest_valued_arr[0].is_active_face_power()
@@ -2862,34 +2890,34 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		MaliceAction.UNLUCKY:
 			var unlucky_remaining = max(1, floor(num_coins/2.0))
 			# aim for lucky coins if we can
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_LUCKY), unlucky_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_LUCKY, CoinRow.FILTER_CAN_TARGET]), unlucky_remaining):
 				target.make_unlucky()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 				unlucky_remaining -= 1
 			# now take other coins
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_UNLUCKY), unlucky_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), unlucky_remaining):
 				target.make_unlucky()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("Your luck falters!", delay)
 		MaliceAction.CURSE:
 			var curses_remaining = max(1, floor(num_coins/2.0))
 			# aim for blessed coins if we can
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_BLESSED), curses_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_BLESSED, CoinRow.FILTER_CAN_TARGET]), curses_remaining):
 				target.curse()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 				curses_remaining -= 1 
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_CURSED), curses_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), curses_remaining):
 				target.curse()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("Bear a heavy curse!", delay)
 		MaliceAction.IGNITE:
 			var ignites_remaining = max(1, floor(num_coins/2.0))
 			# attempt to ignite frozen coins if we can
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_FROZEN), ignites_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_FROZEN, CoinRow.FILTER_CAN_TARGET]), ignites_remaining):
 				target.ignite()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 				ignites_remaining -= 1 
-			for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_IGNITED), ignites_remaining):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), ignites_remaining):
 				target.ignite()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("You shall burn!", delay)
@@ -2904,7 +2932,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			_make_and_gain_coin(Global.THORNS_FAMILY, highest_denom, _CHARON_NEW_COIN_POSITION)
 			await _wait_for_dialogue("I have a gift for you...", delay)
 		MaliceAction.STONE_POWERS:
-			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_NOT_STONE]), max(1, floor(num_coins/4.0))):
+			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), max(1, floor(num_coins/4.0))):
 				target.stone()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("Be turned to stone!", delay)
@@ -2915,12 +2943,12 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 					monster.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("My minions grow stronger!", delay)
 		MaliceAction.TURN_PAYOFFS:
-			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_ACTIVE_PAYOFF):
+			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_ACTIVE_PAYOFF, CoinRow.FILTER_CAN_TARGET]):
 				target.turn()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("The souls are mine! None for you!", delay)
 		MaliceAction.DRAIN_POWERS:
-			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_USABLE_POWER):
+			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_CAN_TARGET]):
 				target.drain_power_uses_by(2)
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("I shall render you powerless!", delay)
@@ -2942,7 +2970,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			_ENEMY_COIN_ROW.shuffle()
 			await _wait_for_dialogue("Scatter and fall!", delay)
 		MaliceAction.FREEZE_TAILS:
-			for target in _COIN_ROW.get_filtered(CoinRow.FILTER_TAILS):
+			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET]):
 				target.freeze()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			await _wait_for_dialogue("Your blood runs cold!", delay)

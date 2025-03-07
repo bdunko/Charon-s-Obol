@@ -352,3 +352,6 @@ Characters I'd like to use
 - [ ] Paris
 - [ ] Arcas
 - [ ] Orestes - madness
+
+https://en.wikipedia.org/wiki/Apega_of_Nabis
+https://en.wikipedia.org/wiki/Macaria
