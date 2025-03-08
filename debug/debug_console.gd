@@ -88,12 +88,12 @@ func _on_text_submitted(txt):
 			success = false
 		else:
 			var amt = int(args[1])
-			game._lose_souls(amt) if amt < 0 else game._earn_souls(amt)
+			Global.lose_souls(amt) if amt < 0 else Global.earn_souls(amt)
 	elif cmd == "life" or cmd == "lives" or cmd == "live":
 		if not args.size() == 2:
 			success = false
 		else:
-			game._heal_life(int(args[1]))
+			Global.heal_life(int(args[1]))
 	elif cmd == "arrows" or cmd == "arrow":
 		if not args.size() == 2:
 			success = false

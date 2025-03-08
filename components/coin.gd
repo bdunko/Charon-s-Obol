@@ -114,6 +114,7 @@ var _heads:
 
 const METADATA_CARPO = "CARPO"
 const METADATA_TELEMACHUS = "TELEMACHUS"
+const METADATA_TRIPTOLEMUS = "TRIPTOLEMUS"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
 
@@ -211,7 +212,7 @@ func _update_face_label() -> void:
 		_FACE_LABEL.text = ""
 		return
 	if _bury_state == _BuryState.BURIED:
-		_FACE_LABEL.text = "[center][color=saddlebrown]%d[/color][/center]" % _buried_payoffs_until_exhume
+		_FACE_LABEL.text = "[center][color=peru]%d[/color][/center]" % _buried_payoffs_until_exhume
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION + Vector2(-1, 2)
 		return
 		
@@ -730,7 +731,7 @@ func is_other_face_passive() -> bool:
 	return get_active_power_family().is_passive()
 	
 func can_activate_power() -> bool:
-	return get_active_power_family().is_power() and not is_blank()
+	return get_active_power_family().is_power() and not is_blank() and not is_buried()
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
 	_get_active_power().set_metadata(key, value)
@@ -1076,10 +1077,20 @@ func bury(duration: int) -> void:
 	assert(duration > 0)
 	_buried_payoffs_until_exhume = duration
 	_bury_state = _BuryState.BURIED
+	if _freeze_ignite_state == _FreezeIgniteState.IGNITED and not _is_permanent(_FreezeIgniteState.IGNITED):
+		_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func exhume() -> void:
 	_buried_payoffs_until_exhume = 0
 	_bury_state = _BuryState.NONE
+	
+	# if we were buried by Triptolemus, earn souls/life now...
+	for power in [_heads_power, _tails_power]:
+		var amt = power.get_metadata(METADATA_TRIPTOLEMUS, 0)
+		if amt != 0:
+			Global.earn_souls(amt)
+			Global.heal_life(amt)
+		power.clear_metadata(METADATA_TRIPTOLEMUS)
 
 func permanently_consecrate() -> void:
 	_bless_curse_state = _BlessCurseState.CONSECRATED
@@ -1386,6 +1397,7 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	if face_power != null:
 		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
 	txt = txt.replace("(ERYSICHTHON_COST)", str("1 - this needs to change dynamically; todo")) #TODO
+	txt = txt.replace("(TRIPTOLEMUS_HARVEST)", str(Global.TRIPTOLEMUS_HARVEST[_denomination])) #TODO
 	#txt = txt.replace("(PAYOFFS_TIL_EXHUME)", str(_buried_payoffs_until_exhume))
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))

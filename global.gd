@@ -265,6 +265,29 @@ var souls: int:
 		assert(souls >= 0)
 		emit_signal("souls_count_changed")
 
+func earn_souls(soul_amt: int) -> void:
+	assert(soul_amt >= 0)
+	if soul_amt == 0:
+		return
+	Global.souls += soul_amt
+	Global.souls_earned_this_round += soul_amt
+
+func heal_life(heal_amt: int) -> void:
+	assert(heal_amt >= 0)
+	if heal_amt == 0:
+		return
+	Global.lives += heal_amt
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DEMETER):
+		earn_souls(heal_amt)
+		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DEMETER)
+
+func lose_souls(soul_amt: int) -> void: 
+	assert(soul_amt >= 0)
+	if soul_amt == 0:
+		return
+	Global.souls = max(0, Global.souls - soul_amt)
+	Global.souls_earned_this_round -= soul_amt
+
 var souls_earned_this_round: int:
 	set(val):
 		souls_earned_this_round = val
@@ -1228,7 +1251,7 @@ var POWER_FAMILY_CONSECRATE_AND_DOOM = PowerFamily.new("(CONSECRATE) and (DOOM) 
 const TRIPTOLEMUS_HARVEST = [5, 8, 11, 14, 17, 20]
 var POWER_FAMILY_BURY_HARVEST = PowerFamily.new("(BURY) one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.HEAL])
-var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("(BURY) one of your coins for 1 toss. Immediately turn a random (TAILS) coin to (HEADS).", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("(BURY) one of your coins for 1 toss. Immediately turn one of your (TAILS) coins to (HEADS) at random.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.TURN])
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its (LIFE) penalty to 0 this round.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE, PowerFamily.Tag.ANTIMONSTER])
@@ -1321,7 +1344,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["red", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
-	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["saddlebrown", "Bury", "res://assets/icons/status/bury_icon.png"])
+	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])
 	
 	
 	# used for the coin status indicator tooltips
@@ -1418,6 +1441,8 @@ func _input(event: InputEvent) -> void:
 
 # Randomly return one element of the array
 func choose_one(arr: Array):
+	if arr.size() == 0:
+		return null
 	return arr[RNG.randi_range(0, arr.size()-1)]
 
 # Randomly return on element of the array, except the given exclude elements; returns null if impossible

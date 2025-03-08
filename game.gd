@@ -651,7 +651,7 @@ func _handle_tantalus(coin: Coin) -> void:
 	# and not here covers infinite case... we should just try to prevent this
 	if coin.get_active_power_family() == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS and not coin.get_inactive_power_family() == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
 		coin.play_power_used_effect(coin.get_active_power_family())
-		_earn_souls(coin.get_active_souls_payoff())
+		Global.earn_souls(coin.get_active_souls_payoff())
 		coin.turn()
 
 func _on_toss_button_clicked() -> void:
@@ -713,29 +713,6 @@ func _safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
 	_PLAYER_TEXTBOXES.make_invisible()
 	coin.flip(is_toss, bonus)
 
-func _earn_souls(soul_amt: int) -> void:
-	assert(soul_amt >= 0)
-	if soul_amt == 0:
-		return
-	Global.souls += soul_amt
-	Global.souls_earned_this_round += soul_amt
-
-func _heal_life(heal_amt: int) -> void:
-	assert(heal_amt >= 0)
-	if heal_amt == 0:
-		return
-	Global.lives += heal_amt
-	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DEMETER):
-		_earn_souls(heal_amt)
-		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DEMETER)
-
-func _lose_souls(soul_amt: int) -> void: 
-	assert(soul_amt >= 0)
-	if soul_amt == 0:
-		return
-	Global.souls = max(0, Global.souls - soul_amt)
-	Global.souls_earned_this_round -= soul_amt
-
 func _on_accept_button_pressed():
 	assert(Global.state == Global.State.AFTER_FLIP, "this shouldn't happen")
 	_patron_token.deactivate()
@@ -788,7 +765,7 @@ func _on_accept_button_pressed():
 						payoff = 0 if payoff <= 10 else payoff
 					if payoff > 0:
 						payoff_coin.FX.flash(Color.AQUA)
-						_earn_souls(payoff)
+						Global.earn_souls(payoff)
 						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
 					
 					# handle special payoff actions
@@ -804,14 +781,13 @@ func _on_accept_button_pressed():
 					# telemachus - after X tosses, transform
 					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_TELEMACHUS:
 						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
-						print(payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS))
 						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
 							payoff_coin.init_coin(Global.random_power_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
 							payoff_coin.permanently_consecrate()
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
-					_lose_souls(payoff)
+					Global.lose_souls(payoff)
 				Global.PowerType.PAYOFF_GAIN_ARROWS:
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					Global.arrows = min(Global.arrows + charges, Global.ARROWS_LIMIT)
@@ -933,7 +909,7 @@ func _on_accept_button_pressed():
 				await _wait_for_dialogue(Global.replace_placeholders("Your patron has a passive bonus for that..."))
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.unpoint()
-			_earn_souls(5)
+			Global.earn_souls(5)
 			if Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_pointed_out_patron_passive:
 				await _wait_for_dialogue(Global.replace_placeholders("You earn 5 extra souls(SOULS)."))
 				await _wait_for_dialogue(Global.replace_placeholders("Well played."))
@@ -1200,7 +1176,7 @@ func _on_continue_button_pressed():
 				await _wait_for_dialogue(Global.replace_placeholders("And give you a pittance of (HEAL) in exchange..."))
 			await _wait_for_dialogue(Global.replace_placeholders("Not a great exchange for you..."))
 			await _wait_for_dialogue(Global.replace_placeholders("But better than nothing."))
-		_heal_life(pity_life)
+		Global.heal_life(pity_life)
 
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
@@ -1828,7 +1804,7 @@ func _on_coin_clicked(coin: Coin):
 			if _COIN_ROW.get_child_count() == 1:
 				_DIALOGUE.show_dialogue("Can't sell last coin...")
 				return
-			_earn_souls(coin.get_sell_price())
+			Global.earn_souls(coin.get_sell_price())
 			destroy_coin(coin)
 			return
 		
@@ -2005,8 +1981,8 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
 					destroy_coin(coin)
-					_heal_life(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
-					_earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
+					Global.heal_life(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
+					Global.earn_souls(Global.HADES_PATRON_MULTIPLIER * coin.get_value())
 			coin.play_power_used_effect(Global.active_coin_power_family)
 			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
@@ -2170,7 +2146,7 @@ func _on_coin_clicked(coin: Coin):
 						_DIALOGUE.show_dialogue("Can't destroy last coin...")
 						return
 					downgrade_coin(coin)
-					_heal_life(Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1])
+					Global.heal_life(Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1])
 				else:
 					assert(false, "Shouldn't be able to get here...")
 			Global.POWER_FAMILY_STONE:
@@ -2207,16 +2183,20 @@ func _on_coin_clicked(coin: Coin):
 				coin.make_lucky()
 			Global.POWER_FAMILY_CONSECRATE_AND_DOOM:
 				if coin.is_doomed() and coin.is_consecrated():
-					_DIALOGUE.show_diaogue("No need...")
+					_DIALOGUE.show_dialogue("No need...")
 					return
 				coin.consecrate()
 				coin.doom()
 			Global.POWER_FAMILY_BURY_HARVEST:
 				coin.bury(3)
-				#todo
+				coin.set_active_face_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
+				var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
+				if target == null: #no valid targets
+					_DIALOGUE.show_dialogue("No need...")
+					return
 				coin.bury(1)
-				#todo
+				target.turn()
 			Global.POWER_FAMILY_INFINITE_REFLIP_HUNGER:
 				pass
 			Global.POWER_FAMILY_FLIP_AND_TAG:
@@ -2264,6 +2244,9 @@ func _on_coin_clicked(coin: Coin):
 			if not coin.is_being_destroyed():
 				coin.charge()
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
+		# update to ensure that the power family matches the active face, in case the coin turned but is still a power
+		Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family()
+		# if we're out of charges or no longer a power, cancel
 		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power():
 			Global.active_coin_power_coin = null
 			Global.active_coin_power_family = null
@@ -2291,7 +2274,7 @@ func _on_coin_clicked(coin: Coin):
 			var spent_use = false
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
-					_heal_life(1 + ((coin.get_denomination()+1) * 2))
+					Global.heal_life(1 + ((coin.get_denomination()+1) * 2))
 				Global.POWER_FAMILY_GAIN_ARROW:
 					if Global.arrows == Global.ARROWS_LIMIT:
 						_DIALOGUE.show_dialogue("Too many arrows...")
@@ -2312,8 +2295,8 @@ func _on_coin_clicked(coin: Coin):
 					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, coin.global_position, true)
 					new_coin.play_power_used_effect(coin.get_active_power_family())
 				Global.POWER_FAMILY_DESTROY_FOR_REWARD:
-					_earn_souls(Global.PHAETHON_REWARD_SOULS[coin.get_denomination()])
-					_heal_life(Global.PHAETHON_REWARD_LIFE[coin.get_denomination()])
+					Global.earn_souls(Global.PHAETHON_REWARD_SOULS[coin.get_denomination()])
+					Global.heal_life(Global.PHAETHON_REWARD_LIFE[coin.get_denomination()])
 					Global.arrows = min(Global.arrows + Global.PHAETHON_REWARD_ARROWS[coin.get_denomination()], Global.ARROWS_LIMIT)
 					Global.patron_uses = Global.patron.get_uses_per_round()
 					destroy_coin(coin)
@@ -2406,7 +2389,7 @@ func _on_patron_token_clicked():
 			for coin in _COIN_ROW.get_children():
 				var as_coin: Coin = coin
 				if as_coin.is_tails() and as_coin.get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-					_heal_life(as_coin.get_active_power_charges())
+					Global.heal_life(as_coin.get_active_power_charges())
 					as_coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
@@ -2536,9 +2519,9 @@ func _on_patron_token_clicked():
 						10: # gain souls/life, just a generic bonus
 							match(Global.RNG.randi_range(1, 2)):
 								1:
-									_earn_souls(max(4, Global.RNG.randi_range(Global.round_count, 2 * Global.round_count)))
+									Global.earn_souls(max(4, Global.RNG.randi_range(Global.round_count, 2 * Global.round_count)))
 								2:
-									_heal_life(max(6, Global.RNG.randi_range(Global.round_count * 2, 3 * Global.round_count)))
+									Global.heal_life(max(6, Global.RNG.randi_range(Global.round_count * 2, 3 * Global.round_count)))
 							boons += 1
 						11: # recharge coins
 							var rechargable = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_RECHARGABLE, CoinRow.FILTER_CAN_TARGET])

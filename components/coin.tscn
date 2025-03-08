@@ -1,4 +1,4 @@
-[gd_scene load_steps=170 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=175 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
@@ -178,6 +178,26 @@ region = Rect2(204, 216, 34, 36)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vqmqx"]
 atlas = ExtResource("3_61apl")
 region = Rect2(238, 216, 34, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ub2yh"]
+atlas = ExtResource("3_61apl")
+region = Rect2(136, 396, 34, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0bk8"]
+atlas = ExtResource("3_61apl")
+region = Rect2(136, 396, 34, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wx27k"]
+atlas = ExtResource("3_61apl")
+region = Rect2(170, 396, 34, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lu1p"]
+atlas = ExtResource("3_61apl")
+region = Rect2(204, 396, 34, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0751"]
+atlas = ExtResource("3_61apl")
+region = Rect2(238, 396, 34, 36)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l82by"]
 atlas = ExtResource("3_61apl")
@@ -740,6 +760,31 @@ animations = [{
 }],
 "loop": true,
 "name": &"charons_obol_flip",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ub2yh")
+}],
+"loop": true,
+"name": &"golden_flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0bk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx27k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lu1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0751")
+}],
+"loop": true,
+"name": &"golden_flip",
 "speed": 20.0
 }, {
 "frames": [{
@@ -1601,7 +1646,7 @@ script = ExtResource("1_eg3xp")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_tte34")
 sprite_frames = SubResource("SpriteFrames_w12pp")
-animation = &"buried"
+animation = &"golden_flip"
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]

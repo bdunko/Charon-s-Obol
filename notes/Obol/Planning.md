@@ -2,17 +2,6 @@
 - [ ] **Active Goals - Mar 9 Sprint - More Content**
 	- [ ] **More Coins**
 		- [ ] Add Coins and their Powers
-			- [x] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-				- [x] Implement doom.
-			- [ ] Triptolemus - Sow the Earth - Bury one of your coins for 3 payoffs. When it returns, gain souls and heal.
-			- [ ] Antigone - Bury Thy Brother - Bury one of your coins for 1 payoff. Turn a random tails coin to heads.
-				- [x] Add Bury. Bury needs to change the graphic. 
-				- [x] Bury graphic should show a number of turns remaining. 
-				- [x] monsters can't target buried (check can_target)
-				- [x] player can't target buried (check can_target)
-				- [x] charon can't target buried (check can_target)
-				- [x] add as filter to coin row
-				- [x] Additionally, bury tooltip should specify how many turns remain.
 			- [ ] Prometheus - The First Flame - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%).
 				- [ ] Implement fire.
 			- [ ] Erysichthon - Faustian Hunger - Infinite uses. Turn a coin, then lose 1 life and permanently increase this amount by 1. When upgraded, the life loss is reset to 1.
@@ -24,9 +13,13 @@
 			- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
 			- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
 				- [ ] Create new coin sprite for this. Can share with Plutus.
+				- [ ] added golden_flip and golden_flat
 			- [ ] **Reworks**
 				- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
 				- [ ] Heph - instead of immediately upgrading, Prime a coin.
+				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
+					- [ ] Change this power to a different coin. 
+					- [ ] Dike becomes "2/4/6/8 charges - Bless a coin that is not Cursed. (Alternates each use.)" alternates between blessing a coin which is not cursed and cursing a coin which is not blessed.
 			- [ ] Obol of the Argonauts
 				- [ ] "Jack of all trades" coin, rotates between different powers.
 					- [ ] ??? - 
@@ -50,7 +43,7 @@
 	- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
 	- [x] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
-	- [ ] Dike - Fair & Balanced - Change each coin to its other side.
+	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Content Wave 2 - 2 weeks**
