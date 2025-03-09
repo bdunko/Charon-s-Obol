@@ -32,6 +32,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -168,6 +172,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -303,6 +311,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -555,7 +567,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ivlp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ov33f"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -566,6 +578,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -937,7 +953,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6uu0t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_av7wr"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -948,6 +964,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -1064,7 +1084,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vqq1e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjqs0"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1075,6 +1095,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -1490,16 +1514,16 @@ texture = ExtResource("4_vorie")
 
 [node name="UnlockTextboxes" type="HBoxContainer" parent="UnlockUI"]
 z_index = 1
-offset_top = 157.0
+offset_top = 158.0
 offset_right = 320.0
-offset_bottom = 173.0
+offset_bottom = 174.0
 pivot_offset = Vector2(154, 8)
 mouse_filter = 2
 alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_5ivlp")
+material = SubResource("ShaderMaterial_ov33f")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1792,21 +1816,21 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Textboxes" type="HBoxContainer" parent="MainUI"]
 z_index = 1
-offset_top = 157.0
+offset_top = 158.0
 offset_right = 320.0
-offset_bottom = 173.0
+offset_bottom = 174.0
 pivot_offset = Vector2(154, 8)
 alignment = 1
 script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_6uu0t")
+material = SubResource("ShaderMaterial_av7wr")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_vqq1e")
+material = SubResource("ShaderMaterial_xjqs0")
 layout_mode = 2
 default_text = " Quit "
 

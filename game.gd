@@ -445,6 +445,7 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	Global.malice = 0
+	Global.flame_boost = 0.0
 	powers_used = []
 	malice_activations_this_game = 0
 	Global.monsters_destroyed_this_round = 0
@@ -784,6 +785,8 @@ func _on_accept_button_pressed():
 						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
 							payoff_coin.init_coin(Global.random_power_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
 							payoff_coin.permanently_consecrate()
+				Global.PowerType.PAYOFF_STOKE_FLAME:
+					Global.flame_boost = min(Global.FLAME_BOOST_LIMIT, Global.flame_boost + Global.PROMETHEUS_MULTIPLIER[payoff_coin.get_denomination()])
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
@@ -1878,11 +1881,11 @@ func _on_coin_clicked(coin: Coin):
 	var left = row.get_left_of(coin)
 	var right = row.get_right_of(coin)
 	
+	var spent_power_use = false # some coins need to spend their charges before they activate to work properly
+	var skip_power_effect = false # some coins need to play their own effects (Dolos, Aphrodite, Daedalus)
+	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
-		var spent_power_use = false # some coins need to spend their charges before they activate to work properly
-		var skip_power_effect = false # some coins need to play their own effects (Dolos, Aphrodite, Daedalus)
-
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
 			_deactivate_active_power()
@@ -1916,6 +1919,8 @@ func _on_coin_clicked(coin: Coin):
 			if Global.active_coin_power_family == Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
 				if coin.is_monster_coin():
 					life_cost += Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
+			elif Global.active_coin_power_family == Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
+				life_cost += Global.active_coin_power_coin.get_active_face_metadata(Coin.METADATA_ERYSICHTHON, 0)
 			if Global.lives - life_cost < 0:
 				_DIALOGUE.show_dialogue("Not enough life...")
 				return
@@ -2197,8 +2202,14 @@ func _on_coin_clicked(coin: Coin):
 					return
 				coin.bury(1)
 				target.turn()
-			Global.POWER_FAMILY_INFINITE_REFLIP_HUNGER:
-				pass
+			Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
+				if not coin.can_turn():
+					_DIALOGUE.show_dialogue("Can't turn that...")
+					return
+				var current_cost = Global.active_coin_power_coin.get_active_face_metadata(Coin.METADATA_ERYSICHTHON, 0)
+				Global.lives -= current_cost
+				Global.active_coin_power_coin.set_active_face_metadata(Coin.METADATA_ERYSICHTHON, current_cost + 1)
+				coin.turn()
 			Global.POWER_FAMILY_FLIP_AND_TAG:
 				pass
 			Global.POWER_FAMILY_SWAP_REFLIP_NEIGHBORS:
@@ -2258,7 +2269,7 @@ func _on_coin_clicked(coin: Coin):
 	
 	# non targetting coins
 	# otherwise we're attempting to activate a coin
-	elif coin.can_activate_power() and coin.get_active_power_charges() > 0:
+	elif coin.can_activate_power():
 		# if this is a power which does not target, resolve it
 		if coin.get_active_power_family().power_type == Global.PowerType.POWER_NON_TARGETTING:
 			# trial of blood - using powers costs 1 life
@@ -2300,8 +2311,12 @@ func _on_coin_clicked(coin: Coin):
 					Global.arrows = min(Global.arrows + Global.PHAETHON_REWARD_ARROWS[coin.get_denomination()], Global.ARROWS_LIMIT)
 					Global.patron_uses = Global.patron.get_uses_per_round()
 					destroy_coin(coin)
-				Global.POWER_FAMILY_LIGHT_FIRE:
-					pass
+				Global.POWER_FAMILY_TURN_SELF:
+					skip_power_effect = true
+					coin.play_power_used_effect(coin.get_active_power_family())
+					coin.spend_power_use()
+					spent_use = true
+					coin.turn()
 				Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING:
 					pass
 				Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING:
@@ -2318,7 +2333,8 @@ func _on_coin_clicked(coin: Coin):
 					assert(false, "No matching power")
 			if not spent_use:
 				coin.spend_power_use()
-			coin.play_power_used_effect(coin.get_active_power_family())
+			if not skip_power_effect:
+				coin.play_power_used_effect(coin.get_active_power_family())
 			powers_used.append(coin.get_active_power_family())
 			Global.powers_this_round += 1
 			Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()

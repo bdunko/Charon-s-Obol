@@ -115,6 +115,7 @@ var _heads:
 const METADATA_CARPO = "CARPO"
 const METADATA_TELEMACHUS = "TELEMACHUS"
 const METADATA_TRIPTOLEMUS = "TRIPTOLEMUS"
+const METADATA_ERYSICHTHON = "ERYSICHTHON"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
 
@@ -127,6 +128,9 @@ class FacePower:
 	func _init(fam: Global.PowerFamily, starting_charges: int):
 		self.power_family = fam
 		self.charges = starting_charges
+		
+		# populate metadata with some defaults
+		set_metadata(METADATA_ERYSICHTHON, 1)
 	
 	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
@@ -229,7 +233,15 @@ func _update_face_label() -> void:
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
 	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
-	var charges_str = "" if only_show_icon else "?" if number == _SOULS_PAYOFF_INDETERMINANT else ("%d" % number)
+	var charges_str = ""
+	if only_show_icon:
+		charges_str = ""
+	elif number == _SOULS_PAYOFF_INDETERMINANT:
+		charges_str = "?"
+	elif number == Global.INFINITE_CHARGES:
+		charges_str = "[img=11x13]res://assets/icons/infinity_icon.png[/img]"
+	else:
+		charges_str = "%d" % number
 	
 	var icon_path = get_active_power_family().icon_path
 	_FACE_LABEL.text = _FACE_FORMAT % [color, "%s" % charges_str, icon_path]
@@ -487,6 +499,7 @@ func _ready():
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)
+	Global.flame_boost_changed.connect(_on_flame_boost_changed)
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
@@ -659,6 +672,10 @@ func upgrade(no_flash: bool = false) -> void:
 	set_animation(_Animation.FLAT) # update sprite
 	if not no_flash:
 		FX.flash(Color.GOLDENROD)
+	
+	# when upgraded, reset life cost for Erysichthon
+	for power in [_heads_power, _tails_power]:
+		power.set_metadata(METADATA_ERYSICHTHON, 1)
 
 func downgrade(no_flash: bool = false) -> void:
 	if _denomination == Global.Denomination.OBOL:
@@ -731,7 +748,7 @@ func is_other_face_passive() -> bool:
 	return get_active_power_family().is_passive()
 	
 func can_activate_power() -> bool:
-	return get_active_power_family().is_power() and not is_blank() and not is_buried()
+	return get_active_power_family().is_power() and not is_blank() and not is_buried() and (get_active_power_charges() > 0 or get_active_power_charges() == Global.INFINITE_CHARGES)
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
 	_get_active_power().set_metadata(key, value)
@@ -852,7 +869,7 @@ func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
 
 func _get_percentage_success(bonus: int = 0):
 	# the % value to succeed
-	var percentage_success = 50 + bonus
+	var percentage_success = 50 + bonus + Global.flame_boost
 	match(_luck_state):
 		_LuckState.LUCKY:
 			percentage_success += LUCKY_MODIFIER
@@ -927,9 +944,13 @@ func get_max_active_power_charges() -> int:
 
 func spend_power_use() -> void:
 	if is_heads():
+		if _heads_power.charges == Global.INFINITE_CHARGES:
+			return # no need
 		assert(_heads_power.charges >= 0)
 		_heads_power.charges -= 1
 	else:
+		if _tails_power.charges == Global.INFINITE_CHARGES:
+			return # no need
 		assert(_tails_power.charges >= 0)
 		_tails_power.charges -= 1
 	
@@ -1396,9 +1417,10 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	
 	if face_power != null:
 		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
-	txt = txt.replace("(ERYSICHTHON_COST)", str("1 - this needs to change dynamically; todo")) #TODO
-	txt = txt.replace("(TRIPTOLEMUS_HARVEST)", str(Global.TRIPTOLEMUS_HARVEST[_denomination])) #TODO
-	#txt = txt.replace("(PAYOFFS_TIL_EXHUME)", str(_buried_payoffs_until_exhume))
+		txt = txt.replace("(ERYSICHTHON_COST)", str(face_power.get_metadata(METADATA_ERYSICHTHON, 0))) #TODO
+	
+	txt = txt.replace("(TRIPTOLEMUS_HARVEST)", str(Global.TRIPTOLEMUS_HARVEST[_denomination]))
+	txt = txt.replace("(PROMETHEUS_MULTIPLIER)", str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination]))
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
 	
@@ -1447,11 +1469,19 @@ func _generate_tooltip() -> void:
 		var heads_power = ""
 		var tails_power = ""
 		
+		const INFINITE_POWER_FORMAT = "[img=11x13]res://assets/icons/infinity_icon.png[/img][img=10x13]%s[/img](POWERARROW)"
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		if _heads_power.power_family.is_power():
-			heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+			if _heads_power.charges == Global.INFINITE_CHARGES:
+				heads_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+			else:
+				heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+			
 		if _tails_power.power_family.is_power():
-			tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+			if _tails_power.charges == Global.INFINITE_CHARGES:
+				tails_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+			else:
+				tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# safety asserts...
 		# todo - would be anice little refactor - make this path a const in global
@@ -1637,3 +1667,6 @@ func move_to(pos: Vector2, time: float) -> void:
 	#await _coin_movement_tween.tween(pos, time, Tween.TRANS_QUINT, Tween.EASE_OUT)
 	await _coin_movement_tween.tween(pos, time, Tween.TRANS_CUBIC)
 	
+func _on_flame_boost_changed() -> void:
+	# the odds have changed, so recalc
+	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())

@@ -12,7 +12,7 @@ static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(-_MAX_WIDTH_THRESHOLD/2, 15)
+const _TOOLTIP_OFFSET := Vector2(-_MAX_WIDTH_THRESHOLD/2.0, 15)
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.

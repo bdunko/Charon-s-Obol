@@ -10,8 +10,7 @@ signal tooltip_removed
 var _tooltip_visible = false
 
 func set_tooltip(new_tooltip: String) -> void:
-	_tooltip = new_tooltip
-	_tooltip = Global.replace_placeholders(_tooltip)
+	_tooltip = Global.replace_placeholders(new_tooltip)
 	
 	# if a tooltip is currently active, update its text
 	if _tooltip_visible:

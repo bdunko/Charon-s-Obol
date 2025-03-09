@@ -42,6 +42,11 @@ uniform vec3 exclude_color1: source_color = vec3(0.07843137254, 0.06274509803, 0
 uniform vec3 exclude_color2: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color3: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
 uniform vec3 exclude_color4: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color5: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color6: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color7: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+uniform vec3 exclude_color8: source_color = vec3(0.07843137254, 0.06274509803, 0.07450980392); // these floats are the numbers I like to use for borders
+
 
 // PAN/DISPLACE
 // Displaces all pixels by (displace_x, displace_y). Texture repeats if displace_repeat.
@@ -349,7 +354,7 @@ void fragment()
 		COLOR = texture(TEXTURE, adjUV);
 	
 	// EXCLUDE COLORS
-	bool is_exclude_color = use_exclude_colors && (vec3eq(COLOR.rgb, exclude_color1) || vec3eq(COLOR.rgb, exclude_color2) || vec3eq(COLOR.rgb, exclude_color3) || vec3eq(COLOR.rgb, exclude_color4));
+	bool is_exclude_color = use_exclude_colors && (vec3eq(COLOR.rgb, exclude_color1) || vec3eq(COLOR.rgb, exclude_color2) || vec3eq(COLOR.rgb, exclude_color3) || vec3eq(COLOR.rgb, exclude_color4) || vec3eq(COLOR.rgb, exclude_color5) || vec3eq(COLOR.rgb, exclude_color6) || vec3eq(COLOR.rgb, exclude_color7) || vec3eq(COLOR.rgb, exclude_color8));
 	
 	// RECOLOR
 	if (vec3eq(COLOR.rgb, replace_color1)) 

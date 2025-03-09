@@ -25,6 +25,7 @@ signal souls_earned_this_round_changed
 signal tutorial_state_changed
 signal game_loaded
 signal malice_changed
+signal flame_boost_changed
 
 signal passive_triggered
 
@@ -294,6 +295,12 @@ var souls_earned_this_round: int:
 		if souls_earned_this_round < 0:
 			souls_earned_this_round = 0
 		emit_signal("souls_earned_this_round_changed")
+
+const FLAME_BOOST_LIMIT = 20.0
+var flame_boost := 0.0:
+	set(val):
+		flame_boost = min(val, FLAME_BOOST_LIMIT)
+		emit_signal("flame_boost_changed")
 
 const ARROWS_LIMIT = 10
 var arrows: int:
@@ -1119,6 +1126,7 @@ enum PowerType {
 	PAYOFF_GAIN_SOULS, PAYOFF_LOSE_SOULS,
 	PAYOFF_LOSE_LIFE,
 	PAYOFF_GAIN_ARROWS, 
+	PAYOFF_STOKE_FLAME,
 	PAYOFF_IGNITE_SELF, PAYOFF_IGNITE, PAYOFF_UNLUCKY, PAYOFF_CURSE, PAYOFF_BLANK, PAYOFF_LUCKY, 
 	PAYOFF_FREEZE_TAILS, PAYOFF_HALVE_LIFE, PAYOFF_STONE, 
 	PAYOFF_DOWNGRADE_MOST_VALUABLE
@@ -1157,6 +1165,10 @@ class PowerFamily:
 				return "(PAYOFF_SOULS)"
 			elif power_type == PowerType.PAYOFF_LOSE_LIFE:
 				return "(PAYOFF_LIFE)"
+			elif power_type == PowerType.PAYOFF_STOKE_FLAME:
+				return "(PAYOFF_FLAME)"
+			elif power_type == PowerType.PAYOFF_GAIN_ARROWS:
+				return "(PAYOFF_OTHER)"
 			else:
 				return "(PAYOFF_PURPLE)"
 		assert(is_charon())
@@ -1193,7 +1205,7 @@ class PowerFamily:
 
 const ONLY_SHOW_ICON = true
 const ICON_AND_CHARGES = false
-const INFINITE_USES = -88888
+const INFINITE_CHARGES = -88888
 
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [2, 4, 7, 10, 14, 19], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [4, 6, 9, 12, 17, 22], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
@@ -1225,6 +1237,9 @@ var TELEMACHUS_TOSSES_TO_TRANSFORM = 20 #20 years - length of time Odyseeus is a
 var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and eternally (CONSECRATE).", \
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
+const PROMETHEUS_MULTIPLIER = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]
+var POWER_FAMILY_STOKE_FLAME = PowerFamily.new("Stoke the flame. [color=gray](All coins land on (HEADS) +(PROMETHEUS_MULTIPLIER)%% more often, up to +%d%%.)[/color]" % FLAME_BOOST_LIMIT, [1, 1, 1, 1, 1, 1],\
+	PowerType.PAYOFF_STOKE_FLAME, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
 
 var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
@@ -1256,15 +1271,15 @@ var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("(BURY) one of your coins for
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its (LIFE) penalty to 0 this round.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE, PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_IGNITE_BLESS_LUCKY = PowerFamily.new("Make a coin (LUCKY), (BLESS), and (IGNITE) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hecate_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY, PowerFamily.Tag.BLESS, PowerFamily.Tag.IGNITE])
-var POWER_FAMILY_LIGHT_FIRE = PowerFamily.new("Stroke the fire. [color=gray](For each time you've done this, all your coins land on (HEADS) +0.5% more often.)[/color]", [1, 2, 3, 4, 5, 6],\
-	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
 const PHAETHON_REWARD_ARROWS = [2, 3, 4, 5, 6, 7]
 const PHAETHON_REWARD_LIFE = [5, 10, 15, 20, 25, 30]
 var POWER_FAMILY_DESTROY_FOR_REWARD = PowerFamily.new("Destroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
 	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/phaethon_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_INFINITE_REFLIP_HUNGER = PowerFamily.new("Infinite uses. Doesn't flip.\nReflip a coin and -(ERYSICHTHON_COST)(LIFE) [color=gray](Permanently increases each use. Resets when upgraded.)[/color].", [INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES, INFINITE_USES],\
-	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_INFINITE_TURN_HUNGER = PowerFamily.new("Turn a coin and -(ERYSICHTHON_COST)(LIFE). [color=gray](Permanently increases by 1(LIFE) each use. Resets when upgraded.)[/color]", [INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES],\
+	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TURN])
+var POWER_FAMILY_TURN_SELF = PowerFamily.new("Turn this coin over.", [1, 1, 1, 1, 1, 1],\
+	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/turn_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_PERMANENTLY_COPY = PowerFamily.new("Choose one of your coins of the same denomination as this; transform into that type of coin.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/dolos_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_FLIP_AND_TAG = PowerFamily.new("Reflip a coin, and each coin this power has been used on this toss.", [3, 4, 5, 6, 7, 8], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PowerFamily.new("Reflip all coins to the left of this [color=gray](alternates direction each toss)[/color].", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
@@ -1399,10 +1414,14 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(PASSIVE)", "[img=36x13]res://assets/icons/ui/passive.png[/img]")
 	tooltip = tooltip.replace("(PAYOFF_SOULS)", "[img=32x13]res://assets/icons/ui/payoff_souls.png[/img]")
 	tooltip = tooltip.replace("(PAYOFF_LIFE)", "[img=32x13]res://assets/icons/ui/payoff_life.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_FLAME)", "[img=32x13]res://assets/icons/ui/payoff_flame.png[/img]")
+	tooltip = tooltip.replace("(PAYOFF_OTHER)", "[img=32x13]res://assets/icons/ui/payoff_other.png[/img]")
 	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=32x13]res://assets/icons/ui/payoff_purple.png[/img]")
 	tooltip = tooltip.replace("(POWER)", "[img=30x13]res://assets/icons/ui/power.png[/img]")
 	
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
+	
+	tooltip = tooltip.replace("(FLAME_INCREASE)", str("%.1d" % Global.flame_boost))
 	
 	return tooltip
 
@@ -1875,13 +1894,13 @@ enum CoinType {
 # stores a list of all player coins (coins that can be bought in shop)
 @onready var _ALL_PLAYER_COINS = [
 		GENERIC_FAMILY, 
-		HELIOS_FAMILY, ICARUS_FAMILY, ACHILLES_FAMILY, TANTALUS_FAMILY, AENEAS_FAMILY, ORION_FAMILY, CARPO_FAMILY, TELEMACHUS_FAMILY,
+		HELIOS_FAMILY, ICARUS_FAMILY, ACHILLES_FAMILY, TANTALUS_FAMILY, AENEAS_FAMILY, ORION_FAMILY, CARPO_FAMILY, TELEMACHUS_FAMILY, PROMETHEUS_FAMILY,
 	
 		ZEUS_FAMILY, HERA_FAMILY, POSEIDON_FAMILY, DEMETER_FAMILY, APOLLO_FAMILY, ARTEMIS_FAMILY,
 		ARES_FAMILY, ATHENA_FAMILY, HEPHAESTUS_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY, HADES_FAMILY,
 		
 		PERSEUS_FAMILY, HYPNOS_FAMILY, NIKE_FAMILY, TRIPTOLEMUS_FAMILY, ANTIGONE_FAMILY, CHIONE_FAMILY, HECATE_FAMILY, 
-		PROMETHEUS_FAMILY, PHAETHON_FAMILY, ERYSICHTHON_FAMILY, DOLOS_FAMILY, ERIS_FAMILY, AEOLUS_FAMILY, BOREAS_FAMILY, DAEDALUS_FAMILY,
+		PHAETHON_FAMILY, ERYSICHTHON_FAMILY, DOLOS_FAMILY, ERIS_FAMILY, AEOLUS_FAMILY, BOREAS_FAMILY, DAEDALUS_FAMILY,
 		PLUTUS_FAMILY, MIDAS_FAMILY, DIKE_FAMILY, JASON_FAMILY, SARPEDON_FAMILY, PROTEUS_FAMILY
 	]
 
@@ -1905,6 +1924,8 @@ var CARPO_FAMILY = CoinFamily.new(8, CoinType.PAYOFF, "Carpo's (DENOM)", "[color
 	PRICY, POWER_FAMILY_GAIN_SOULS_CARPO, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var TELEMACHUS_FAMILY = CoinFamily.new(9, CoinType.PAYOFF, "Telemachus's (DENOM)", "[color=gray]Chasing His Footsteps[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
 	CHEAP, POWER_FAMILY_GAIN_SOULS_TELEMACHUS, POWER_FAMILY_LOSE_LIFE_ONE, _SpriteStyle.PAYOFF, [CoinFamily.Tag.NO_UPGRADE])
+var PROMETHEUS_FAMILY = CoinFamily.new(10, CoinType.PAYOFF, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_STOKE_FLAME.icon_path, NO_UNLOCK_TIP,\
+	STANDARD, POWER_FAMILY_STOKE_FLAME, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
 # power coins
 var ZEUS_FAMILY = CoinFamily.new(1000, CoinType.POWER, "(DENOM) of Zeus", "[color=yellow]Lighting Strikes[/color]", POWER_FAMILY_REFLIP.icon_path, NO_UNLOCK_TIP,\
@@ -1968,12 +1989,11 @@ var CHIONE_FAMILY = CoinFamily.new(1019, CoinType.POWER, "(DENOM) of Chione", "[
 	STANDARD, POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var HECATE_FAMILY = CoinFamily.new(1020, CoinType.POWER, "(DENOM) of Hecate", "[color=plum]The Keys to Magick[/color]", POWER_FAMILY_IGNITE_BLESS_LUCKY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_IGNITE_BLESS_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var PROMETHEUS_FAMILY = CoinFamily.new(1021, CoinType.POWER, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_LIGHT_FIRE.icon_path, NO_UNLOCK_TIP,\
-	STANDARD, POWER_FAMILY_LIGHT_FIRE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+# extra space for - 1021
 var PHAETHON_FAMILY = CoinFamily.new(1022, CoinType.POWER, "(DENOM) of Phaethon", "[color=orange]The Son's Hubris[/color]", POWER_FAMILY_DESTROY_FOR_REWARD.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_DESTROY_FOR_REWARD, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER, [CoinFamily.Tag.AUTO_UPGRADE_END_OF_ROUND])
-var ERYSICHTHON_FAMILY = CoinFamily.new(1023, CoinType.POWER, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_REFLIP_HUNGER.icon_path, NO_UNLOCK_TIP,\
-	STANDARD, POWER_FAMILY_INFINITE_REFLIP_HUNGER, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var ERYSICHTHON_FAMILY = CoinFamily.new(1023, CoinType.POWER, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_TURN_HUNGER.icon_path, NO_UNLOCK_TIP,\
+	STANDARD, POWER_FAMILY_INFINITE_TURN_HUNGER, POWER_FAMILY_TURN_SELF, _SpriteStyle.POWER)
 var DOLOS_FAMILY = CoinFamily.new(1024, CoinType.POWER, "(DENOM) of Dolos", "[color=alicewhite]Behind Prosopon[/color]", POWER_FAMILY_PERMANENTLY_COPY.icon_path, NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_PERMANENTLY_COPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var ERIS_FAMILY = CoinFamily.new(1025, CoinType.POWER, "(DENOM) of Eris", "[color=gold]For the Fairest[/color]", POWER_FAMILY_FLIP_AND_TAG.icon_path, NO_UNLOCK_TIP,\
