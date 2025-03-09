@@ -2194,7 +2194,7 @@ func _on_coin_clicked(coin: Coin):
 				coin.doom()
 			Global.POWER_FAMILY_BURY_HARVEST:
 				coin.bury(3)
-				coin.set_active_face_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
+				coin.set_coin_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
 				var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
 				if target == null: #no valid targets
@@ -2211,11 +2211,28 @@ func _on_coin_clicked(coin: Coin):
 				Global.active_coin_power_coin.set_active_face_metadata(Coin.METADATA_ERYSICHTHON, current_cost + 1)
 				coin.turn()
 			Global.POWER_FAMILY_FLIP_AND_TAG:
-				pass
+				if not coin.can_flip():
+					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
+					return
+				spent_power_use = true
+				skip_power_effect = true
+				Global.active_coin_power_coin.spend_power_use()
+				Global.active_coin_power_coin.play_power_used_effect(Global.active_coin_power_family)
+				
+				# add metadata tag to targeted coin
+				coin.set_coin_metadata(Coin.METADATA_ERIS, true)
+				
+				# now reflip every coin with the metadata tag
+				for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+					if c.get_coin_metadata(Coin.METADATA_ERIS, false):
+						if c.can_flip():
+							c.play_power_used_effect(Global.active_coin_power_family)
+							_safe_flip(c, false)
 			Global.POWER_FAMILY_SWAP_REFLIP_NEIGHBORS:
 				# necessary in case boreas reflips itself
 				Global.active_coin_power_coin.spend_power_use()
 				spent_power_use = true
+				skip_power_effect = true
 				row.swap_positions(Global.active_coin_power_coin, coin)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)

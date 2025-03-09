@@ -116,8 +116,25 @@ const METADATA_CARPO = "CARPO"
 const METADATA_TELEMACHUS = "TELEMACHUS"
 const METADATA_TRIPTOLEMUS = "TRIPTOLEMUS"
 const METADATA_ERYSICHTHON = "ERYSICHTHON"
+const METADATA_ERIS = "ERIS"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
+
+var _metadata = {}
+
+func get_coin_metadata(key, default = null) -> Variant:
+	if _metadata.has(key):
+		return _metadata[key]
+	return default
+
+func set_coin_metadata(key, data) -> void:
+	_metadata[key] = data
+
+func clear_coin_metadata(key) -> void:
+	_metadata.erase(key)
+
+func clear_all_coin_metadata() -> void:
+	_metadata = {}
 
 class FacePower:
 	var charges: int = 0
@@ -543,6 +560,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 		Global.souls_count_changed.connect(_update_price_label)
 	if not Global.state_changed.is_connected(_on_state_changed):
 		Global.state_changed.connect(_on_state_changed)
+	clear_all_coin_metadata()
 	_set_heads_power_to(_coin_family.heads_power_family)
 	_set_tails_power_to(_coin_family.tails_power_family)
 	_heads = true
@@ -1106,12 +1124,11 @@ func exhume() -> void:
 	_bury_state = _BuryState.NONE
 	
 	# if we were buried by Triptolemus, earn souls/life now...
-	for power in [_heads_power, _tails_power]:
-		var amt = power.get_metadata(METADATA_TRIPTOLEMUS, 0)
-		if amt != 0:
-			Global.earn_souls(amt)
-			Global.heal_life(amt)
-		power.clear_metadata(METADATA_TRIPTOLEMUS)
+	var amt = get_coin_metadata(METADATA_TRIPTOLEMUS, 0)
+	if amt != 0:
+		Global.earn_souls(amt)
+		Global.heal_life(amt)
+	clear_coin_metadata(METADATA_TRIPTOLEMUS)
 
 func permanently_consecrate() -> void:
 	_bless_curse_state = _BlessCurseState.CONSECRATED
@@ -1585,6 +1602,10 @@ func after_payoff() -> void:
 		# if either face is Carpo, grow payoff
 		if power.power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
 			power.set_metadata(METADATA_CARPO, power.get_metadata(METADATA_CARPO, 0) + Global.CARPO_ROUND_MULTIPLIER[_denomination])
+		
+	
+	# clear eris
+	clear_coin_metadata(METADATA_ERIS)
 
 func set_animation(anim: _Animation) -> void:
 	if(_heads_power != null and _heads_power.power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS):
