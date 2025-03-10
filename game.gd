@@ -795,6 +795,8 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					Global.arrows = min(Global.arrows + charges, Global.ARROWS_LIMIT)
 					_disable_interaction_coins_and_patron() # stupid bad hack to make the arrow not light up
+				Global.PowerType.PAYOFF_DO_NOTHING:
+					pass #do nothing
 				Global.PowerType.PAYOFF_LUCKY:
 					payoff_coin.FX.flash(Color.GHOST_WHITE)
 					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), charges):
@@ -857,6 +859,10 @@ func _on_accept_button_pressed():
 		# unblank when it would payoff
 		if is_instance_valid(payoff_coin): # may have been destroyed by now
 			payoff_coin.unblank()
+			
+			if payoff_coin.is_fleeting():
+				payoff_coin.FX.flash(Color.WHITE)
+				destroy_coin(payoff_coin)
 		
 		# $HACK$ - this is an extremely lazy way to make ignites happen
 		# after all player coins but before all enemy coins, but I don't care
@@ -2315,7 +2321,7 @@ func _on_coin_clicked(coin: Coin):
 						c = c as Coin
 						c.play_power_used_effect(coin.get_active_power_family())
 						_safe_flip(c, false)
-				Global.POWER_FAMILY_GAIN_COIN:
+				Global.POWER_FAMILY_GAIN_POWER_COIN:
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
@@ -2360,9 +2366,20 @@ func _on_coin_clicked(coin: Coin):
 					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING)
 					coin.set_active_power_charges(chrgs)
 				Global.POWER_FAMILY_GAIN_PLUTUS_COIN:
-					pass
+					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+						_DIALOGUE.show_dialogue("Too many coins...")
+						return
+					var new_coin = _make_and_gain_coin(Global.GENERATED_PLUTUS_FAMILY, Global.Denomination.OBOL, coin.global_position, true)
+					new_coin.play_power_used_effect(coin.get_active_power_family())
+					new_coin.make_fleeting()
+					if new_coin.can_flip():
+						_safe_flip(new_coin, true)
 				Global.POWER_FAMILY_GAIN_GOLDEN_COIN:
-					pass
+					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
+						_DIALOGUE.show_dialogue("Too many coins...")
+						return
+					var new_coin = _make_and_gain_coin(Global.GENERATED_GOLDEN_FAMILY, coin.get_denomination(), coin.global_position, true)
+					new_coin.play_power_used_effect(coin.get_active_power_family())
 				Global.POWER_FAMILY_TURN_ALL:
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c.turn()

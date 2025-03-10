@@ -94,6 +94,7 @@ Unlockable coins + more coins
 		- [x] ??? - Sacrificed on the Pyre - Ignite a coin. If it isn't blessed, bless it. Otherwise, if it's on tail, flip it to heads. Otherwise, destroy it and gain god power charges based on its value.
 		- [ ] Hecate (something bless/curse) - ???
 		- [ ] Tantalus - Randomly curse or bless all your coins. Gain 1 soul for each coin cursed, lose 1 life for each coin blessed.
+		- [ ] Dike (possible rework) - Bless a coin that is not Cursed. (Alternates each use.)" alternates between blessing a coin which is not cursed and cursing a coin which is not blessed.
 	- [ ] **Status Copy**
 		- [ ] ??? - Copy this coin's status (freeze/ignite/lucky etc) to each other coin, then remove all statuses from this coin.
 		- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.

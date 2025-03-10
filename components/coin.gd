@@ -51,6 +51,10 @@ enum _BuryState {
 	NONE, BURIED
 }
 
+enum _FleetingState {
+	NONE, FLEETING
+}
+
 var _permanent_statuses = []
 
 @onready var _STATUS_BAR = $Sprite/StatusBar
@@ -71,6 +75,7 @@ var _permanent_statuses = []
 @onready var _CONSECRATE_ICON = $Sprite/StatusBar/Consecrate
 @onready var _DESECRATE_ICON = $Sprite/StatusBar/Desecrate
 @onready var _BURY_ICON = $Sprite/StatusBar/Bury
+@onready var _FLEETING_ICON = $Sprite/StatusBar/Fleeting
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -419,6 +424,18 @@ var _bless_curse_state: _BlessCurseState:
 			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
 		_update_appearance()
 
+var _fleeting_state:
+	set(val):
+		_fleeting_state = val
+		_STATUS_BAR.update_icon(_FLEETING_ICON, _fleeting_state == _FleetingState.FLEETING)
+		
+		FX.flash(Color.GHOST_WHITE)
+		
+		if _fleeting_state == _FleetingState.FLEETING:
+			FX.start_flickering(100)
+		else:
+			FX.stop_flickering()
+
 var _bury_state:
 	set(val):
 		_bury_state = val
@@ -511,6 +528,7 @@ func _ready():
 	assert(_CONSECRATE_ICON)
 	assert(_DESECRATE_ICON)
 	assert(_BURY_ICON)
+	assert(_FLEETING_ICON)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
@@ -572,6 +590,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_material_state = _MaterialState.NONE
 	_charge_state = _ChargeState.NONE
 	_bury_state = _BuryState.NONE
+	_fleeting_state = _FleetingState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
 	_heads_power_overwritten = null
@@ -1115,6 +1134,9 @@ func consecrate() -> void:
 		return
 	_bless_curse_state = _BlessCurseState.CONSECRATED
 
+func make_fleeting() -> void:
+	_fleeting_state = _FleetingState.FLEETING
+
 func bury(duration: int) -> void:
 	assert(duration > 0)
 	_buried_payoffs_until_exhume = duration
@@ -1233,7 +1255,7 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func has_status() -> bool:
-	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed() or is_buried()
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed() or is_buried() or is_fleeting()
 
 func clear_statuses() -> void:
 	if not has_status():
@@ -1247,6 +1269,7 @@ func clear_statuses() -> void:
 	clear_doomed()
 	unblank()
 	exhume()
+	clear_fleeting()
 
 func clear_lucky_unlucky() -> void:
 	if _luck_state == _LuckState.NONE:
@@ -1296,6 +1319,14 @@ func clear_doomed() -> void:
 	_doom_state = _DoomState.NONE
 	FX.flash(Color.LIGHT_GREEN)
 
+func clear_fleeting() -> void:
+	if _is_permanent(_fleeting_state):
+		return
+	if _fleeting_state == _FleetingState.NONE:
+		return
+	_fleeting_state = _FleetingState.NONE
+	FX.flash(Color.LIGHT_GREEN)
+
 func is_heads() -> bool:
 	if _heads == null:
 		return true
@@ -1343,6 +1374,9 @@ func is_doomed() -> bool:
 
 func is_buried() -> bool:
 	return _bury_state == _BuryState.BURIED
+
+func is_fleeting() -> bool:
+	return _fleeting_state == _FleetingState.FLEETING
 
 func can_target() -> bool:
 	return not is_buried()
@@ -1515,7 +1549,7 @@ func _generate_tooltip() -> void:
 		const PAYOFF_POWER_FORMAT_JUST_ICON = "[img=10x13]%s[/img](POWERARROW)"
 		
 		# case: show just [payoff]+X(SOULS) or [payoff]-X(LIVES) with NO power icon; we do this for specifically these basic powers
-		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png", "res://assets/icons/arrow_icon.png"]
+		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png", "res://assets/icons/arrow_icon.png", "res://assets/icons/coin/nothing_icon.png"]
 		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
 			if _heads_power.power_family.uses_for_denom[_denomination] <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:

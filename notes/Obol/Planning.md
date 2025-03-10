@@ -2,18 +2,17 @@
 - [ ] **Active Goals - Mar 9 Sprint - More Content**
 	- [ ] **More Coins**
 		- [ ] Add Coins and their Powers
-			- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
 			- [ ] Proteus - Water Shifts Shapes - Transforms into a random power each toss. If the power is used, this face permanently becomes that power.
-			- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
+			- [ ] Plutus - Greed is Blind - Gain an Ephemeral coin with +6/-6 and flip it. 
 			- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
-				- [ ] Create new coin sprite for this. Can share with Plutus.
-				- [ ] added golden_flip and golden_flat
+				- [ ] Add POWER_FAMILY_PAYOFF_DO_NOTHING
+					- [ ] "Nothing interesting happens."
 			- [ ] **Reworks**
 				- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
 				- [ ] Heph - instead of immediately upgrading, Prime a coin.
 				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
 					- [ ] Change this power to a different coin. 
-					- [ ] Dike becomes "2/4/6/8 charges - Bless a coin that is not Cursed. (Alternates each use.)" alternates between blessing a coin which is not cursed and cursing a coin which is not blessed.
+					- [ ] Dike becomes "2/4/6/8 charges - 
 			- [ ] Obol of the Argonauts
 				- [ ] "Jack of all trades" coin, rotates between different powers.
 					- [ ] ??? - 
@@ -35,9 +34,9 @@
 
 - [ ] Coin of the days
 	- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
-	- [x] Boreas - Northern Hail - Choose a coin. Swap positions with it, then reflip this coin's new neighbors.
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
+	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
 
 **Charon's Obol Beta - Coalescence**
 - [ ] **Content Wave 2 - 2 weeks**
