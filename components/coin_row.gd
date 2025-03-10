@@ -178,6 +178,32 @@ func get_right_of(coin: Coin) -> Coin:
 		return null
 	return get_child(coin.get_index() + 1)
 
+func get_all_left_of(coin: Coin) -> Array:
+	assert(get_children().has(coin))
+	var to_left = []
+	var current = coin
+	
+	var left = get_left_of(current)
+	while left != null:
+		to_left.append(left)
+		current = left
+		left = get_left_of(current)
+	
+	return to_left
+
+func get_all_right_of(coin: Coin) -> Array:
+	assert(get_children().has(coin))
+	var to_right = []
+	var current = coin
+	
+	var right = get_right_of(coin)
+	while right != null:
+		to_right.append(right)
+		current = right
+		right = get_right_of(current)
+	
+	return to_right
+
 static func FILTER_NOT_LUCKY(c: Coin) -> bool:
 	return not c.is_lucky()
 

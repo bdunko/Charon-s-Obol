@@ -957,6 +957,9 @@ func get_inactive_power_family() -> Global.PowerFamily:
 func get_active_power_charges() -> int:
 	return _get_active_power().charges
 
+func set_active_power_charges(amt: int) -> void:
+	_get_active_power().charges = amt
+
 func get_max_active_power_charges() -> int:
 	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.uses_for_denom[_denomination]
 

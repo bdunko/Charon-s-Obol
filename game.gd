@@ -2299,7 +2299,6 @@ func _on_coin_clicked(coin: Coin):
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
 			
 			# resolve the power
-			var spent_use = false
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
 					Global.heal_life(1 + ((coin.get_denomination()+1) * 2))
@@ -2311,7 +2310,7 @@ func _on_coin_clicked(coin: Coin):
 				Global.POWER_FAMILY_REFLIP_ALL:
 					# reflip all coins
 					coin.spend_power_use() # do this ahead of time here since it might get flipped over...
-					spent_use = true
+					spent_power_use = true
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c = c as Coin
 						c.play_power_used_effect(coin.get_active_power_family())
@@ -2332,12 +2331,34 @@ func _on_coin_clicked(coin: Coin):
 					skip_power_effect = true
 					coin.play_power_used_effect(coin.get_active_power_family())
 					coin.spend_power_use()
-					spent_use = true
+					spent_power_use = true
 					coin.turn()
 				Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING:
-					pass
+					var all_left = row.get_all_left_of(coin)
+					for c in all_left:
+						if c.can_flip():
+							_safe_flip(c, false)
+							c.play_power_used_effect(coin.get_active_power_family())
+					skip_power_effect = true
+					coin.play_power_used_effect(coin.get_active_power_family())
+							
+					var chrgs = coin.get_active_power_charges() - 1
+					spent_power_use = true
+					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING)
+					coin.set_active_power_charges(chrgs)
 				Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING:
-					pass
+					var all_right = row.get_all_right_of(coin)
+					for c in all_right:
+						if c.can_flip():
+							_safe_flip(c, false)
+							c.play_power_used_effect(coin.get_active_power_family())
+					skip_power_effect = true
+					coin.play_power_used_effect(coin.get_active_power_family())
+					
+					var chrgs = coin.get_active_power_charges() - 1
+					spent_power_use = true
+					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING)
+					coin.set_active_power_charges(chrgs)
 				Global.POWER_FAMILY_GAIN_PLUTUS_COIN:
 					pass
 				Global.POWER_FAMILY_GAIN_GOLDEN_COIN:
@@ -2348,7 +2369,7 @@ func _on_coin_clicked(coin: Coin):
 						c.play_power_used_effect(Global.active_coin_power_family)
 				_:
 					assert(false, "No matching power")
-			if not spent_use:
+			if not spent_power_use:
 				coin.spend_power_use()
 			if not skip_power_effect:
 				coin.play_power_used_effect(coin.get_active_power_family())

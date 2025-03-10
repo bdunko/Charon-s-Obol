@@ -2,8 +2,7 @@
 - [ ] **Active Goals - Mar 9 Sprint - More Content**
 	- [ ] **More Coins**
 		- [ ] Add Coins and their Powers
-			- [ ] Eris - For the Fairest - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
-			- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+			- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
 			- [ ] Proteus - Water Shifts Shapes - Transforms into a random power each toss. If the power is used, this face permanently becomes that power.
 			- [ ] Plutus - Greed is Blind - Gain a coin with +6/-6 and flip it. After payoff, destroy it. 1/2/3/4 charges.
 			- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
