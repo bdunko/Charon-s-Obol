@@ -1,59 +1,60 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Mar 9 Sprint - More Content**
-	- [ ] **More Coins**
-		- [ ] Add Coins and their Powers
-			- [ ] Proteus - Water Shifts Shapes - Transforms into a random power each toss. If the power is used, this face permanently becomes that power.
-			- [ ] Plutus - Greed is Blind - Gain an Ephemeral coin with +6/-6 and flip it. 
-			- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
-				- [ ] Add POWER_FAMILY_PAYOFF_DO_NOTHING
-					- [ ] "Nothing interesting happens."
-			- [ ] **Reworks**
-				- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
-				- [ ] Heph - instead of immediately upgrading, Prime a coin.
-				- [ ] Dike - Fair & Balanced - Change each coin to its other side.
-					- [ ] Change this power to a different coin. 
-					- [ ] Dike becomes "2/4/6/8 charges - 
-			- [ ] Obol of the Argonauts
-				- [ ] "Jack of all trades" coin, rotates between different powers.
-					- [ ] ??? - 
-						- [ ] Iolcus - Bless
-							- [ ] The Quest Begins
-						- [ ] Propontis  - Destroy own coin and downgrade random monster.
-							- [ ] The Tragedy of Cyzicus
-						- [ ] Thrace - Blank
-							- [ ] Phineaus's Counsel
-						- [ ] Dia - Arrows
-							- [ ] Stymphalian Quills
-						- [ ] Aeetes - Golden Fleece
-							- [ ] Jason's Prize
-							- [ ] Coins and upgrades cost 1 less soul for each golden fleece you have. This should be a payoff. Needs special icon and appear on board.
-						- [ ] Sirens - Freeze
-							- [ ] Siren Song
-						- [ ] Iolcus - Bless
-							- [ ] The Quest Begins
+- [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
+	- [ ] Cleanup
+		- [ ] Proteus - Use unique coin sprite to indicate that it is transforming/not locked. 
+			- [ ] also consider adding a note (Affected by Proteus) to the power's tooltip for that face if the metadata is set.
+		- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
+		- [ ] Heph - instead of immediately upgrading, Prime a coin.
+		- [ ] **After Power Refactor**
+			- [ ] We need to remember what the active face was before applying the power effect, because this is the one we need to subtract a power use from and play the power effect of. 
+				- [ ] Store the power family used and the face of the power coin.
+				- [ ] After using the power, 
+					- [ ] store the power family in powers_used.
+					- [ ] play the power used effect from the power family
+					- [ ] IF the coin's face (which we stored earlier) still has that power, THEN subtract a charge (if it does not have that power family, do nothing - it may have transformed etc.)
+					- [ ] IF that coin's face has PROTEUS, remove PROTEUS metadata so it locks
+				- [ ] Remove spent_power_use and skip_power_effect
+			- [ ] We have so much duplicated code here with targetting and nontargetting coins. We should move this shared code out into a function or see if we can otherwise remove it.
+		- [ ] **New Bosses (1 week)**
+			- [ ] 4 new bosses.
+				- [ ] Minotaur - Endurance
+				- [ ] Echidna & Typhoon - Spawn and buff monsters
+				- [ ] Cerberus - Damage race
+					- [ ] Left
+						- [ ] Permanently ignite one of Cerberus's heads
+						- [ ] Ignite 2 of your coins.
+					- [ ] Middle
+						- [ ] Increase ignite damage by 2 for the rest of this round.
+						- [ ] Increase penalty damage by 3 for the rest of this round.
+					- [ ] Right
+						- [ ] Take 10 damage.
+						- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
+				- [ ] Scylla and Charybdis - Negation
+		- [ ] **More Monsters (3 days)**
+			- [ ] 16 total standard monster types (10 additional)
+			- [ ] 8 elite monster types. (4 additional)
+		- [ ] **New Trials (2 days)**
+			- [ ] 10 trials per tier.
+		- [ ] **More Characters (2-3 days)**
+			- [ ] 4 new characters.
+				- [ ] The Merchant
+				- [ ] The Archon
+				- [ ] The Gardener
+				- [ ] The Child
+			- [ ] Coin exclusion list per character to block bad interactions.
+
 
 - [ ] Coin of the days
 	- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+	- [ ] Plutus - Greed is Blind - Gain an Ephemeral coin with +6/-6 and flip it. 
+	- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
+
+
 
 **Charon's Obol Beta - Coalescence**
-- [ ] **Content Wave 2 - 2 weeks**
-	- [ ] **New Bosses**
-		- [ ] 4 new bosses.
-	- [ ] **More Monsters**
-		- [ ] 16 total standard monster types (10 additional)
-		- [ ] 8 elite monster types. (4 additional)
-	- [ ] **New Trials**
-		- [ ] 10 trials per tier.
-	- [ ] **More Characters**
-		- [ ] 4 new characters.
-			- [ ] The Merchant
-			- [ ] The Archon
-			- [ ] The Gardener
-			- [ ] The Child
-		- [ ] Coin exclusion list per character to block bad interactions.
 - [ ] **Beta QOL - 1 week**
 	- [ ] Coins with a passive should have like, the cool rotating pixel thing around their edges.
 		- [ ] This is hard to do with shader (doable but tricky) - I'll just create an animation in aesprite and overlay it.

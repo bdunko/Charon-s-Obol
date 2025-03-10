@@ -122,6 +122,7 @@ const METADATA_TELEMACHUS = "TELEMACHUS"
 const METADATA_TRIPTOLEMUS = "TRIPTOLEMUS"
 const METADATA_ERYSICHTHON = "ERYSICHTHON"
 const METADATA_ERIS = "ERIS"
+const METADATA_PROTEUS = "PROTEUS"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
 
@@ -153,6 +154,9 @@ class FacePower:
 		
 		# populate metadata with some defaults
 		set_metadata(METADATA_ERYSICHTHON, 1)
+		
+		if fam == Global.POWER_FAMILY_TRANSFORM_AND_LOCK:
+			set_metadata(METADATA_PROTEUS, true)
 	
 	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
@@ -432,7 +436,7 @@ var _fleeting_state:
 		FX.flash(Color.GHOST_WHITE)
 		
 		if _fleeting_state == _FleetingState.FLEETING:
-			FX.start_flickering(100)
+			FX.start_flickering(200)
 		else:
 			FX.stop_flickering()
 
@@ -792,6 +796,9 @@ func set_active_face_metadata(key: String, value: Variant) -> void:
 
 func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
 	return _get_active_power().get_metadata(key, default)
+
+func clear_active_face_metadata(key: String) -> void:
+	_get_active_power().clear_metadata(key)
 
 const LUCKY_MODIFIER = 20
 const SLIGHTLY_LUCKY_MODIFIER = 13
@@ -1613,6 +1620,13 @@ func get_tails_icon() -> String:
 	return _tails_power.power_family.icon_path
 
 func on_toss_initiated() -> void:
+	# if face is proteus, transform into a random power
+	print(_heads_power.get_metadata(METADATA_PROTEUS, false))
+	if _heads_power.get_metadata(METADATA_PROTEUS, false):
+		_heads_power.power_family = Global.random_power_family()
+	if _tails_power.get_metadata(METADATA_PROTEUS, false):
+		_tails_power.power_family = Global.random_power_family()
+	
 	if not is_buried():
 		reset_power_uses()
 

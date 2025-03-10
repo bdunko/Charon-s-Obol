@@ -2268,12 +2268,14 @@ func _on_coin_clicked(coin: Coin):
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
+		if not spent_power_use:
+			Global.active_coin_power_coin.spend_power_use()
 		if not skip_power_effect:
 			coin.play_power_used_effect(Global.active_coin_power_family)
 		powers_used.append(Global.active_coin_power_family)
+		if coin.get_active_face_metadata(Coin.METADATA_PROTEUS, false): # remove proteus metadata to stop transforming, if this was Proteus
+			Global.active_coin_power_coin.clear_active_face_metadata(Coin.METADATA_PROTEUS)
 		Global.powers_this_round += 1
-		if not spent_power_use:
-			Global.active_coin_power_coin.spend_power_use()
 		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
 			if not coin.is_being_destroyed():
 				coin.charge()
@@ -2391,6 +2393,8 @@ func _on_coin_clicked(coin: Coin):
 			if not skip_power_effect:
 				coin.play_power_used_effect(coin.get_active_power_family())
 			powers_used.append(coin.get_active_power_family())
+			if coin.get_active_face_metadata(Coin.METADATA_PROTEUS, false): # remove proteus metadata to stop transforming, if this was Proteus
+				coin.clear_active_face_metadata(Coin.METADATA_PROTEUS)
 			Global.powers_this_round += 1
 			Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
 			if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:

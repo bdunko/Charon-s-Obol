@@ -1,8 +1,5 @@
 **Nemesis**
-- [ ] Gorgon Sisters Revamp
-	- [ ] Medusa: Stone/Curse 1 (or maybe Sap)
-	- [ ] Euryale: Stone/Unlucky 2
-	- [ ] the other one S: Stone/Drain Souls
+- [ ] Gorgon Sister
 - [ ] Minotaur
 	- [ ] TBD
 	- [ ] Multiple (4?) "Labyrinth Halls" coins where you must get each to heads 5 times to defeat the minotaur?
@@ -14,10 +11,12 @@
 	- [ ] Left head: Ignite a coin/5 damage
 	- [ ] Middle head: Increase damage of all heads by 3/5 damage
 	- [ ] Right head: Ignite a head/5 damage
-- [ ] https://en.wikipedia.org/wiki/Erinyes
+- [ ] https://en.wikipedia.org/wiki/Erinyes aka Furies
+	- [ ] something that escalates over time...
+	- [ ] 3 total
+	- [ ] both faces bad, but get stronger each time they resolve perhaps.
 - [ ] Scylla & Charybdis
 - [ ] Hydra
 	- [ ] Hydra Heads - (some negative status) Tails - Take damage. Increase this damage by 3 permanently. When destroyed - split into two Small Hydra
 	- [ ] Small Hydra Heads - (some negative status) Tails - Take damage. Increase this damage by 2 permanently. When destroyed - split into three Tiny Hydra
 	- [ ] Tiny Hydra Heads - (some minor negative status) Tails - Take damage. Increase this damage by 1 permanently.
-- [ ] Furies - Curse, unlucky, increasing tails focus; can spend souls to blank for 1 toss.

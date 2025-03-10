@@ -117,6 +117,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Bury a coin. In 10 payoffs, return it, bless it, freeze it, and upgrade it.
 	- [ ] **Gain Coins**
 		- [ ] ??? - Gain a random Obol/Diobol/Triobol/Tetrobol (on heads). It is Doomed (destroy at the end of the round).
+		- [ ] ??? - Gain a random power coin with 2 charges (on heads). it is Fleeting. (1/2/3/4 uses)
 		- [x] ??? - Gain a coin with +5/-5 and flip it. After payoff, destroy it.
 		- [ ] ??? - Gain an exact copy of this coin.
 		- [x] Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
@@ -179,7 +180,7 @@ Unlockable coins + more coins
 		- [ ] ??? - After you use a power, this coin's heads face becomes a copy of that power.
 		- [ ] Nesoi - Choose a coin. Use that coin's power on both of its neighbors.
 	- [ ] **Random Powers/Chaos**
-		- [ ] ??? - Every toss, change to a random god power.
+		- [ ] ??? - Every toss, changes to a random power (different power on each side).
 		- [ ] ??? - Transform into a random heads power coin every flip. The first time this power is used, permanently become that type of coin.
 		- [ ] ??? - One of the following, rotates every toss: Gain life. Gain souls. Recharge all other coins. Then destroy this coin. 
 		- [x] ??? - Jack of all coins - rotates between these powers each toss, only ever 1 activation, cannot be upgraded: Reflip, Bless, Freeze, Destroy, Stone
