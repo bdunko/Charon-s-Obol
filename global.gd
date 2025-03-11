@@ -1254,7 +1254,7 @@ var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other fac
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL, PowerFamily.Tag.ANTIMONSTER])
-var POWER_FAMILY_UPGRADE_AND_IGNITE = PowerFamily.new("Upgrade (HEPHAESTUS_OPTIONS) and (IGNITE) it.", [1, 1, 1, 2, 3, 4],\
+var POWER_FAMILY_PRIME_AND_IGNITE = PowerFamily.new("(IGNITE) and (PRIME) one of your coins.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
 var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_EXCHANGE = PowerFamily.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TRADE])
@@ -1364,6 +1364,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["red", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
 	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])
 	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % ["ghostwhite", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
+	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % ["orange", "Primed", "res://assets/icons/status/primed_icon.png"])
 	
 	
 	# used for the coin status indicator tooltips
@@ -1403,7 +1404,8 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(D_BURIED)", "This coin cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
 	tooltip = tooltip.replace("(S_FLEETING)", STATUS_FORMAT % ["white", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
 	tooltip = tooltip.replace("(D_FLEETING)", "This coin is destroyed during payoff.")
-	
+	tooltip = tooltip.replace("(S_PRIMED)", STATUS_FORMAT % ["orange", "Primed", "res://assets/icons/status/primed_icon.png"])
+	tooltip = tooltip.replace("(D_PRIMED)", "At the end of the round, this coin automatically upgrades.")
 	
 	# images
 	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
@@ -1704,7 +1706,7 @@ var _GODLESS_STATUE = preload("res://components/patron_statues/godless.tscn")
 	Patron.new("[color=lightpink]Aphrodite[/color]", "[color=lightpink]Aphrodite's Heart[/color]", "Add 2 charges to each of your coins.\n(PASSIVE)At the start of each round, half of your coins become (BLESSED).", PatronEnum.APHRODITE, PATRON_POWER_FAMILY_APHRODITE, preload("res://components/patron_statues/aphrodite.tscn"), preload("res://components/patron_tokens/aphrodite.tscn"), [APHRODITE_FAMILY]),
 	Patron.new("[color=orange]Apollo[/color]", "[color=orange]Apollo's Lyre[/color]", "Clear all statuses from a coin.\n(PASSIVE)Statuses are not cleared between rounds.", PatronEnum.APOLLO, PATRON_POWER_FAMILY_APOLLO, preload("res://components/patron_statues/apollo.tscn"), preload("res://components/patron_tokens/apollo.tscn"), [APOLLO_FAMILY]),
 	Patron.new("[color=indianred]Ares[/color]", "[color=indianred]Ares's Spear[/color]", "Reflip all coins.\n(PASSIVE)Monster coins on (TAILS) cost half as many (SOULS) to destroy.", PatronEnum.ARES, PATRON_POWER_FAMILY_ARES, preload("res://components/patron_statues/ares.tscn"), preload("res://components/patron_tokens/ares.tscn"), [ARES_FAMILY]),
-	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to their other face.\n(PASSIVE)At the start of each round, +3(ARROW).", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
+	Patron.new("[color=purple]Artemis[/color]", "[color=purple]Artemis's Bow[/color]", "Turn all coins to their other face.\n(PASSIVE)When a monster is destroyed, +2(ARROW).", PatronEnum.ARTEMIS, PATRON_POWER_FAMILY_ARTEMIS, preload("res://components/patron_statues/artemis.tscn"), preload("res://components/patron_tokens/artemis.tscn"), [ARTEMIS_FAMILY]),
 	Patron.new("[color=cyan]Athena[/color]", "[color=cyan]Athena's Aegis[/color]", "Permanently reduce a coin's (LIFE) penalty by 2(LIFE).\n(PASSIVE)You can see what face each coin will land on when flipped.", PatronEnum.ATHENA, PATRON_POWER_FAMILY_ATHENA, preload("res://components/patron_statues/athena.tscn"), preload("res://components/patron_tokens/athena.tscn"), [ATHENA_FAMILY]),
 	Patron.new("[color=lightgreen]Demeter[/color]", "[color=lightgreen]Demeter's Wheat[/color]", "For each coin showing a (LIFE) penalty, +(HEAL) equal to its (LIFE) penalty.\n(PASSIVE)Whenever you heal (HEAL), also gain that many (SOULS).", PatronEnum.DEMETER, PATRON_POWER_FAMILY_DEMETER, preload("res://components/patron_statues/demeter.tscn"), preload("res://components/patron_tokens/demeter.tscn"), [DEMETER_FAMILY]),
 	Patron.new("[color=plum]Dionysus[/color]", "[color=plum]Dionysus's Chalice[/color]", "???\n(PASSIVE)When you gain a new coin, make it (LUCKY).", PatronEnum.DIONYSUS, PATRON_POWER_FAMILY_DIONYSUS, preload("res://components/patron_statues/dionysus.tscn"), preload("res://components/patron_tokens/dionysus.tscn"), [DIONYSUS_FAMILY]),
@@ -1916,7 +1918,7 @@ enum CoinType {
 
 @onready var _ALL_PLAYER_POWERS = [
 	POWER_FAMILY_REFLIP, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_FREEZE, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_GAIN_ARROW,
-	POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_COPY_FOR_TOSS,
+	POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_PRIME_AND_IGNITE, POWER_FAMILY_COPY_FOR_TOSS,
 	POWER_FAMILY_EXCHANGE, POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_GAIN_POWER_COIN, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_STONE,
 	POWER_FAMILY_BLANK_TAILS, POWER_FAMILY_CONSECRATE_AND_DOOM, POWER_FAMILY_BURY_HARVEST, POWER_FAMILY_BURY_TURN_TAILS,
 	POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_IGNITE_BLESS_LUCKY, POWER_FAMILY_DESTROY_FOR_REWARD,
@@ -1975,9 +1977,9 @@ var ARES_FAMILY = CoinFamily.new(1006, CoinType.POWER, "(DENOM) of Ares", "[colo
 var ATHENA_FAMILY = CoinFamily.new(1007, CoinType.POWER, "(DENOM) of Athena", "[color=cyan]Phalanx Strategy[/color]", POWER_FAMILY_REDUCE_PENALTY.icon_path, NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
-var HEPHAESTUS_FAMILY = CoinFamily.new(1008, CoinType.POWER, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", POWER_FAMILY_UPGRADE_AND_IGNITE.icon_path, \
+var HEPHAESTUS_FAMILY = CoinFamily.new(1008, CoinType.POWER, "(DENOM) of Hephaestus", "[color=sienna]Forged With Fire[/color]", POWER_FAMILY_PRIME_AND_IGNITE.icon_path, \
 	"(IGNITE)(POWERARROW)You lose 3 (LIFE) each payoff.",\
-	RICH, POWER_FAMILY_UPGRADE_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+	RICH, POWER_FAMILY_PRIME_AND_IGNITE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
 var APHRODITE_FAMILY = CoinFamily.new(1009, CoinType.POWER, "(DENOM) of Aphrodite", "[color=lightpink]Two Lovers, United[/color]", POWER_FAMILY_COPY_FOR_TOSS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_COPY_FOR_TOSS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)

@@ -55,6 +55,10 @@ enum _FleetingState {
 	NONE, FLEETING
 }
 
+enum _PrimedState {
+	NONE, PRIMED
+}
+
 var _permanent_statuses = []
 
 @onready var _STATUS_BAR = $Sprite/StatusBar
@@ -76,6 +80,7 @@ var _permanent_statuses = []
 @onready var _DESECRATE_ICON = $Sprite/StatusBar/Desecrate
 @onready var _BURY_ICON = $Sprite/StatusBar/Bury
 @onready var _FLEETING_ICON = $Sprite/StatusBar/Fleeting
+@onready var _PRIMED_ICON = $Sprite/StatusBar/Primed
 
 @onready var _SPRITE = $Sprite
 @onready var _FACE_LABEL = $Sprite/FaceLabel
@@ -450,6 +455,18 @@ var _fleeting_state:
 		else:
 			FX.stop_flickering()
 
+var _primed_state:
+	set(val):
+		_primed_state = val
+		_STATUS_BAR.update_icon(_PRIMED_ICON, _primed_state == _PrimedState.PRIMED)
+		
+		FX.flash(Color.ORANGE_RED)
+	
+		if _primed_state == _PrimedState.PRIMED:
+			FX.start_flashing(Color.ORANGE_RED, 10, 0.3, 1.0)
+		else:
+			FX.stop_flashing()
+
 var _bury_state:
 	set(val):
 		_bury_state = val
@@ -543,6 +560,7 @@ func _ready():
 	assert(_DESECRATE_ICON)
 	assert(_BURY_ICON)
 	assert(_FLEETING_ICON)
+	assert(_PRIMED_ICON)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
@@ -605,6 +623,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_charge_state = _ChargeState.NONE
 	_bury_state = _BuryState.NONE
 	_fleeting_state = _FleetingState.NONE
+	_primed_state = _PrimedState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
 	_heads_power_overwritten = null
@@ -1169,6 +1188,9 @@ func consecrate() -> void:
 func make_fleeting() -> void:
 	_fleeting_state = _FleetingState.FLEETING
 
+func prime() -> void:
+	_primed_state = _PrimedState.PRIMED
+
 func bury(duration: int) -> void:
 	assert(duration > 0)
 	_buried_payoffs_until_exhume = duration
@@ -1287,7 +1309,9 @@ func stone() -> void:
 	_freeze_ignite_state = _FreezeIgniteState.NONE
 
 func has_status() -> bool:
-	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or is_desecrated() or is_doomed() or is_buried() or is_fleeting()
+	return is_blessed() or is_cursed() or is_blank() or is_frozen() or is_ignited() or\
+		is_lucky() or is_unlucky() or is_stone() or is_charged() or is_consecrated() or\
+		is_desecrated() or is_doomed() or is_buried() or is_fleeting() or is_primed()
 
 func clear_statuses() -> void:
 	if not has_status():
@@ -1302,6 +1326,7 @@ func clear_statuses() -> void:
 	unblank()
 	exhume()
 	clear_fleeting()
+	clear_primed()
 
 func clear_lucky_unlucky() -> void:
 	if _luck_state == _LuckState.NONE:
@@ -1351,6 +1376,12 @@ func clear_doomed() -> void:
 	_doom_state = _DoomState.NONE
 	FX.flash(Color.LIGHT_GREEN)
 
+func clear_primed() -> void:
+	if _primed_state == _PrimedState.NONE:
+		return
+	_primed_state = _PrimedState.NONE
+	FX.flash(Color.LIGHT_GREEN)
+
 func clear_fleeting() -> void:
 	if _is_permanent(_fleeting_state):
 		return
@@ -1394,6 +1425,9 @@ func is_ignited() -> bool:
 
 func is_stone() -> bool:
 	return _material_state == _MaterialState.STONE
+
+func is_primed() -> bool:
+	return _primed_state == _PrimedState.PRIMED
 
 func is_blank() -> bool:
 	return _blank_state == _BlankState.BLANKED
@@ -1516,15 +1550,15 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(2_PER_DENOM)", str((get_denomination() + 1) * 2))
 	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + ((get_denomination()+1) * 2)))
 	
-	var heph_str = func(denom_as_int: int) -> String:
-		match(denom_as_int):
-			1:
-				return "an Obol"
-			2:
-				return "an Obol or Diobol"
-			_:
-				return "a coin"
-	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination()+1))
+#	var heph_str = func(denom_as_int: int) -> String:
+#		match(denom_as_int):
+#			1:
+#				return "an Obol"
+#			2:
+#				return "an Obol or Diobol"
+#			_:
+#				return "a coin"
+#	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination()+1))
 	return txt
 
 func _generate_tooltip() -> void:

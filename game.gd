@@ -1198,12 +1198,17 @@ func _on_end_round_button_pressed():
 	_PLAYER_TEXTBOXES.make_invisible()
 	_enable_interaction_coins_and_patron()
 	for coin in _COIN_ROW.get_children():
-		coin.on_round_end()
-		
 		# doomed coins destroyed at this point
 		if coin.is_doomed():
 			coin.FX.flash(Color.BLACK)
 			destroy_coin(coin)
+		
+		if coin.is_primed():
+			coin.FX.flash(Color.ORANGE)
+			if coin.can_upgrade():
+				coin.upgrade()
+		
+		coin.on_round_end()
 	
 	# reduce accumulated malice significantly (mult by 0.3)
 	Global.malice *= Global.MALICE_MULTIPLIER_END_ROUND
@@ -1557,9 +1562,6 @@ func _on_voyage_continue_button_clicked():
 		for coin in _ENEMY_COIN_ROW.get_children():
 			coin.show_price() # bit of a $HACK$ to prevent nemesis price from being shown... reshow now
 	
-	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARTEMIS) and Global.arrows != Global.ARROWS_LIMIT:
-		Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + 3)
-		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_APHRODITE):
 		var randomized = _COIN_ROW.get_randomized()
 		for i in range(0, randomized.size(), 2):
@@ -1874,6 +1876,9 @@ func _on_coin_clicked(coin: Coin):
 			Global.souls -= coin.get_appeasal_price()
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARES) and coin.is_tails():
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARES)
+			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARTEMIS) and Global.arrows != Global.ARROWS_LIMIT:
+				Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + 2)
+				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
 			destroy_coin(coin)
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls...")
@@ -1886,10 +1891,7 @@ func _on_coin_clicked(coin: Coin):
 	var row = _get_row_for(coin)
 	var left = row.get_left_of(coin)
 	var right = row.get_right_of(coin)
-	
-	var coin_used: Coin
 	var used_face_power: Coin.FacePower
-	var was_heads: bool
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
@@ -1920,18 +1922,23 @@ func _on_coin_clicked(coin: Coin):
 			_DIALOGUE.show_dialogue("Can't target your own coins with that...")
 			return
 		
+		# make sure we can't kill ourselves with this activation
+		var life_cost = 0
+		if Global.active_coin_power_family == Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
+			if coin.is_monster_coin():
+				life_cost += Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
+		elif Global.active_coin_power_family == Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
+			life_cost += Global.active_coin_power_coin.get_active_face_metadata(Coin.METADATA_ERYSICHTHON, 0)
+		
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
+			life_cost += Global.BLOOD_COST
+		
+		if Global.lives - life_cost < 0:
+			_DIALOGUE.show_dialogue("Not enough life...")
+			return
+		
 		# trial of blood - using powers costs 1 life (excluding arrows); make sure we don't accidentally kill ourselves
-		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP: 
-			var life_cost = Global.BLOOD_COST
-			# in the extremely rare case the power we're using itself has a life cost, factor that in before taking life...
-			if Global.active_coin_power_family == Global.POWER_FAMILY_DOWNGRADE_FOR_LIFE:
-				if coin.is_monster_coin():
-					life_cost += Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
-			elif Global.active_coin_power_family == Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
-				life_cost += Global.active_coin_power_coin.get_active_face_metadata(Coin.METADATA_ERYSICHTHON, 0)
-			if Global.lives - life_cost < 0:
-				_DIALOGUE.show_dialogue("Not enough life...")
-				return
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
 			Global.lives -= Global.BLOOD_COST
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
 		
@@ -2085,18 +2092,11 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("No need...")
 					return
 				coin.change_life_penalty_for_round(-1)
-			Global.POWER_FAMILY_UPGRADE_AND_IGNITE:
-				if not coin.can_upgrade():
-					if coin.get_denomination() == Global.Denomination.TETROBOL or coin.get_denomination() == Global.Denomination.PENTOBOL:
-						_DIALOGUE.show_dialogue("Can't upgrade further...")
-					else:
-						_DIALOGUE.show_dialogue("Can't upgrade that...")
+			Global.POWER_FAMILY_PRIME_AND_IGNITE:
+				if coin.is_primed() and coin.is_ignited():
+					_DIALOGUE.show_dialogue("No need...")
 					return
-				# Heph Obol can only upgrade Obols; Diobol can only upgrade Obol + Diobol
-				if Global.active_coin_power_coin.get_denomination() < coin.get_denomination():
-					_DIALOGUE.show_dialogue("This coin can't upgrade %ss..." % Global.denom_to_string(coin.get_denomination()))
-					return
-				coin.upgrade()
+				coin.prime()
 				coin.ignite()
 			Global.POWER_FAMILY_COPY_FOR_TOSS:
 				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
@@ -2260,8 +2260,10 @@ func _on_coin_clicked(coin: Coin):
 		used_face_power = coin.get_active_face_power()
 		
 		# if this is a power which does not target, resolve it
+		
+		# make sure we can't kill ourselves - this is duplicate code and pretty ugly tbh
 		if coin.get_active_power_family().power_type == Global.PowerType.POWER_NON_TARGETTING:
-			# trial of blood - using powers costs 1 life
+			# trial of blood - using powers costs life
 			if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD): 
 				var life_cost = Global.BLOOD_COST
 				if Global.lives - life_cost < 0:
@@ -3041,7 +3043,7 @@ func _update_payoffs() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
 		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW, _SHOP_COIN_ROW)
 
-func after_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
+func after_power_used(_used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
 	powers_used.append(used_face_power.power_family)
 	Global.powers_this_round += 1
 	used_face_power.spend_charges(1)

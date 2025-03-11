@@ -3,18 +3,10 @@
 	- [ ] Cleanup
 		- [ ] Proteus - Use unique coin sprite to indicate that it is transforming/not locked. 
 			- [ ] also consider adding a note (Affected by Proteus) to the power's tooltip for that face if the metadata is set.
-		- [ ] Artemis patron power - when you destroy a monster, gain 2 arrows.
 		- [ ] Heph - instead of immediately upgrading, Prime a coin.
-		- [ ] **After Power Refactor**
-			- [ ] We need to remember what the active face was before applying the power effect, because this is the one we need to subtract a power use from and play the power effect of. 
-				- [ ] Store the power family used and the face of the power coin.
-				- [ ] After using the power, 
-					- [ ] store the power family in powers_used.
-					- [ ] play the power used effect from the power family
-					- [ ] IF the coin's face (which we stored earlier) still has that power, THEN subtract a charge (if it does not have that power family, do nothing - it may have transformed etc.)
-					- [ ] IF that coin's face has PROTEUS, remove PROTEUS metadata so it locks
-				- [ ] Remove spent_power_use and skip_power_effect
-			- [ ] We have so much duplicated code here with targetting and nontargetting coins. We should move this shared code out into a function or see if we can otherwise remove it.
+			- [ ] S primed dprimed primed
+			- [ ] remove (HEPHAESTUS_OPTIONS)
+		- [ ] Tuesday - Minor refactor
 			- [ ] We should really remove Global.active_coin_power_family and just get it from the coin when needed.
 		- [ ] **New Bosses (1 week)**
 			- [ ] 4 new bosses.
