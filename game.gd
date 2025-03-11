@@ -1887,11 +1887,14 @@ func _on_coin_clicked(coin: Coin):
 	var left = row.get_left_of(coin)
 	var right = row.get_right_of(coin)
 	
-	var spent_power_use = false # some coins need to spend their charges before they activate to work properly
-	var skip_power_effect = false # some coins need to play their own effects (Dolos, Aphrodite, Daedalus)
+	var coin_used: Coin
+	var used_face_power: Coin.FacePower
+	var was_heads: bool
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
+		used_face_power = Global.active_coin_power_coin.get_active_face_power()
+		
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
 			_deactivate_active_power()
@@ -1913,12 +1916,11 @@ func _on_coin_clicked(coin: Coin):
 		if coin.is_monster_coin() and not Global.active_coin_power_family.can_target_monster_coins():
 			_DIALOGUE.show_dialogue("Can't target monsters with that...")
 			return
-		
 		if coin.is_owned_by_player() and not Global.active_coin_power_family.can_target_player_coins():
 			_DIALOGUE.show_dialogue("Can't target your own coins with that...")
 			return
 		
-		# trial of blood - using powers costs 1 life (excluding arrows)
+		# trial of blood - using powers costs 1 life (excluding arrows); make sure we don't accidentally kill ourselves
 		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP: 
 			var life_cost = Global.BLOOD_COST
 			# in the extremely rare case the power we're using itself has a life cost, factor that in before taking life...
@@ -1932,6 +1934,7 @@ func _on_coin_clicked(coin: Coin):
 				return
 			Global.lives -= Global.BLOOD_COST
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
+		
 		if Global.is_patron_power(Global.active_coin_power_family):
 			match(Global.active_coin_power_family):
 				Global.PATRON_POWER_FAMILY_CHARON:
@@ -2067,10 +2070,6 @@ func _on_coin_clicked(coin: Coin):
 				if (not coin.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
-				# flip coin and neighbors
-				# necessary in case hera reflips itself
-				Global.active_coin_power_coin.spend_power_use()
-				spent_power_use = true
 				_safe_flip(coin, false)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)
@@ -2103,14 +2102,11 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				coin.play_power_used_effect(Global.active_coin_power_family)
-				skip_power_effect = true
 				Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_copied_power_family())
 				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
 				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 					Global.active_coin_power_coin = null
 					Global.active_coin_power_family = null
-				spent_power_use = true
 			Global.POWER_FAMILY_PERMANENTLY_COPY:
 				if coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
@@ -2118,26 +2114,20 @@ func _on_coin_clicked(coin: Coin):
 				if Global.active_coin_power_coin.get_denomination() != coin.get_denomination():
 					_DIALOGUE.show_dialogue("Can't copy a different denomination...")
 					return
-				coin.play_power_used_effect(Global.active_coin_power_family)
-				skip_power_effect = true
 				Global.active_coin_power_coin.init_coin(coin.get_coin_family(), coin.get_denomination(), Coin.Owner.PLAYER)
 				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
 				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 					Global.active_coin_power_coin = null
 					Global.active_coin_power_family = null
-				spent_power_use = true
 			Global.POWER_FAMILY_PERMANENTLY_COPY_FACE:
 				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
-				coin.play_power_used_effect(Global.active_coin_power_family)
-				skip_power_effect = true
 				Global.active_coin_power_coin.overwrite_active_face_power(coin.get_copied_power_family())
 				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
 				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 					Global.active_coin_power_coin = null
 					Global.active_coin_power_family = null
-				spent_power_use = true
 			Global.POWER_FAMILY_EXCHANGE:
 				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
@@ -2220,10 +2210,6 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_flip():
 					_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 					return
-				spent_power_use = true
-				skip_power_effect = true
-				Global.active_coin_power_coin.spend_power_use()
-				Global.active_coin_power_coin.play_power_used_effect(Global.active_coin_power_family)
 				
 				# add metadata tag to targeted coin
 				coin.set_coin_metadata(Coin.METADATA_ERIS, true)
@@ -2236,9 +2222,6 @@ func _on_coin_clicked(coin: Coin):
 							_safe_flip(c, false)
 			Global.POWER_FAMILY_SWAP_REFLIP_NEIGHBORS:
 				# necessary in case boreas reflips itself
-				Global.active_coin_power_coin.spend_power_use()
-				spent_power_use = true
-				skip_power_effect = true
 				row.swap_positions(Global.active_coin_power_coin, coin)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)
@@ -2268,33 +2251,14 @@ func _on_coin_clicked(coin: Coin):
 				if Global.arrows == 0:
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
-		if not spent_power_use:
-			Global.active_coin_power_coin.spend_power_use()
-		if not skip_power_effect:
-			coin.play_power_used_effect(Global.active_coin_power_family)
-		powers_used.append(Global.active_coin_power_family)
-		if coin.get_active_face_metadata(Coin.METADATA_PROTEUS, false): # remove proteus metadata to stop transforming, if this was Proteus
-			Global.active_coin_power_coin.clear_active_face_metadata(Coin.METADATA_PROTEUS)
-		Global.powers_this_round += 1
-		if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
-			if not coin.is_being_destroyed():
-				coin.charge()
-				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
-		# update to ensure that the power family matches the active face, in case the coin turned but is still a power
-		Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family()
-		# if we're out of charges or no longer a power, cancel
-		if Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power():
-			Global.active_coin_power_coin = null
-			Global.active_coin_power_family = null
 		
-		Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
-		if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
-			await activate_malice(MaliceActivation.DURING_POWERS)
-		_update_payoffs()
-	
+		after_power_used(Global.active_coin_power_coin, coin, used_face_power)
+
 	# non targetting coins
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power():
+		used_face_power = coin.get_active_face_power()
+		
 		# if this is a power which does not target, resolve it
 		if coin.get_active_power_family().power_type == Global.PowerType.POWER_NON_TARGETTING:
 			# trial of blood - using powers costs 1 life
@@ -2317,8 +2281,6 @@ func _on_coin_clicked(coin: Coin):
 					Global.arrows = min(Global.arrows + (coin.get_denomination()+1), Global.ARROWS_LIMIT)
 				Global.POWER_FAMILY_REFLIP_ALL:
 					# reflip all coins
-					coin.spend_power_use() # do this ahead of time here since it might get flipped over...
-					spent_power_use = true
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c = c as Coin
 						c.play_power_used_effect(coin.get_active_power_family())
@@ -2336,10 +2298,6 @@ func _on_coin_clicked(coin: Coin):
 					Global.patron_uses = Global.patron.get_uses_per_round()
 					destroy_coin(coin)
 				Global.POWER_FAMILY_TURN_SELF:
-					skip_power_effect = true
-					coin.play_power_used_effect(coin.get_active_power_family())
-					coin.spend_power_use()
-					spent_power_use = true
 					coin.turn()
 				Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING:
 					var all_left = row.get_all_left_of(coin)
@@ -2347,11 +2305,7 @@ func _on_coin_clicked(coin: Coin):
 						if c.can_flip():
 							_safe_flip(c, false)
 							c.play_power_used_effect(coin.get_active_power_family())
-					skip_power_effect = true
-					coin.play_power_used_effect(coin.get_active_power_family())
-							
 					var chrgs = coin.get_active_power_charges() - 1
-					spent_power_use = true
 					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING)
 					coin.set_active_power_charges(chrgs)
 				Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING:
@@ -2360,11 +2314,8 @@ func _on_coin_clicked(coin: Coin):
 						if c.can_flip():
 							_safe_flip(c, false)
 							c.play_power_used_effect(coin.get_active_power_family())
-					skip_power_effect = true
-					coin.play_power_used_effect(coin.get_active_power_family())
 					
 					var chrgs = coin.get_active_power_charges() - 1
-					spent_power_use = true
 					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_LEFT_ALTERNATING)
 					coin.set_active_power_charges(chrgs)
 				Global.POWER_FAMILY_GAIN_PLUTUS_COIN:
@@ -2388,20 +2339,10 @@ func _on_coin_clicked(coin: Coin):
 						c.play_power_used_effect(Global.active_coin_power_family)
 				_:
 					assert(false, "No matching power")
-			if not spent_power_use:
-				coin.spend_power_use()
-			if not skip_power_effect:
-				coin.play_power_used_effect(coin.get_active_power_family())
-			powers_used.append(coin.get_active_power_family())
-			if coin.get_active_face_metadata(Coin.METADATA_PROTEUS, false): # remove proteus metadata to stop transforming, if this was Proteus
-				coin.clear_active_face_metadata(Coin.METADATA_PROTEUS)
-			Global.powers_this_round += 1
-			Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
-			if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
-				await activate_malice(MaliceActivation.DURING_POWERS)
-			_update_payoffs()
+			
+			after_power_used(coin, coin, used_face_power)
 		else: # otherwise, make this the active coin and coin power and await click on target
-			# prevent reactivating the coin after deactivating
+			# prevent reactivating the coin after deactivatingspent
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
 				_DIALOGUE.show_dialogue("Accept the result.")
 				return
@@ -3099,3 +3040,34 @@ func _on_malice_changed() -> void:
 func _update_payoffs() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
 		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW, _SHOP_COIN_ROW)
+
+func after_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
+	powers_used.append(used_face_power.power_family)
+	Global.powers_this_round += 1
+	used_face_power.spend_charges(1)
+	
+	target_coin.play_power_used_effect(used_face_power.power_family)
+	
+	# remove proteus metadata to stop transforming, if this was Proteus
+	if used_face_power.get_metadata(Coin.METADATA_PROTEUS, false): 
+		used_face_power.clear_metadata(Coin.METADATA_PROTEUS)
+	
+	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):
+		if not target_coin.is_being_destroyed():
+			target_coin.charge()
+			Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ZEUS)
+	
+	_update_payoffs()
+	
+	# if we're out of charges or no longer a power, cancel
+	if Global.active_coin_power_coin and (Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power()):
+		Global.active_coin_power_coin = null
+		Global.active_coin_power_family = null
+	
+	# update to ensure that the power family matches the active face, in case the coin turned but is still a power
+	if Global.active_coin_power_coin:
+		Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family()
+	
+	Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
+	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:
+		await activate_malice(MaliceActivation.DURING_POWERS)

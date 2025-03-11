@@ -158,6 +158,16 @@ class FacePower:
 		if fam == Global.POWER_FAMILY_TRANSFORM_AND_LOCK:
 			set_metadata(METADATA_PROTEUS, true)
 	
+	func spend_charges(amt: int) -> void:
+		if charges == Global.INFINITE_CHARGES:
+			return # no need
+		charges = max(0, charges - amt)
+	
+	func gain_charges(amt: int) -> void:
+		if charges == Global.INFINITE_CHARGES:
+			return # no need
+		charges += amt
+	
 	func update_payoff(coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow, coin: Coin, denomination: Global.Denomination) -> void:
 		var in_shop = Global.state == Global.State.SHOP
 		
@@ -319,27 +329,27 @@ func _update_price_label() -> void:
 		_PRICE.text = Global.replace_placeholders(_APPEASE_FORMAT % [color, price])
 
 func update_payoff(_coin_row: CoinRow, _enemy_row: CoinRow, _shop_row: CoinRow) -> void:
-	var previous_active_souls_payoff = _get_active_power().souls_payoff
-	var previous_inactive_souls_payoff = _get_inactive_power().souls_payoff
+	var previous_active_souls_payoff = get_active_face_power().souls_payoff
+	var previous_inactive_souls_payoff = get_inactive_face_power().souls_payoff
 	
 	_heads_power.update_payoff(_coin_row, _enemy_row, _shop_row, self, _denomination)
 	_tails_power.update_payoff(_coin_row, _enemy_row, _shop_row, self, _denomination)
 	
 	# flash when payoff changes on the active face
-	if _get_active_power().souls_payoff > previous_active_souls_payoff:
+	if get_active_face_power().souls_payoff > previous_active_souls_payoff:
 		FX.flash(Color.AQUAMARINE)
-	elif _get_active_power().souls_payoff < previous_active_souls_payoff:
+	elif get_active_face_power().souls_payoff < previous_active_souls_payoff:
 		FX.flash(Color.DEEP_PINK)
 	# otherwise if it changed on the inactive face, flash
-	elif _get_inactive_power().souls_payoff > previous_inactive_souls_payoff:
+	elif get_inactive_face_power().souls_payoff > previous_inactive_souls_payoff:
 		FX.flash(Color.AQUAMARINE)
-	elif _get_inactive_power().souls_payoff < previous_inactive_souls_payoff:
+	elif get_inactive_face_power().souls_payoff < previous_inactive_souls_payoff:
 		FX.flash(Color.DEEP_PINK)
 	
 	_update_appearance()
 
 func get_active_souls_payoff() -> int:
-	return _get_active_power().souls_payoff
+	return get_active_face_power().souls_payoff
 
 func show_price() -> void:
 	_PRICE.modulate.a = 0.0
@@ -792,13 +802,13 @@ func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not is_blank() and not is_buried() and (get_active_power_charges() > 0 or get_active_power_charges() == Global.INFINITE_CHARGES)
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
-	_get_active_power().set_metadata(key, value)
+	get_active_face_power().set_metadata(key, value)
 
 func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
-	return _get_active_power().get_metadata(key, default)
+	return get_active_face_power().get_metadata(key, default)
 
 func clear_active_face_metadata(key: String) -> void:
-	_get_active_power().clear_metadata(key)
+	get_active_face_power().clear_metadata(key)
 
 const LUCKY_MODIFIER = 20
 const SLIGHTLY_LUCKY_MODIFIER = 13
@@ -968,29 +978,44 @@ func destroy() -> void:
 func is_being_destroyed() -> bool:
 	return _marked_for_destruction
 
-func _get_active_power() -> FacePower:
+func get_active_face_power() -> FacePower:
 	return _heads_power if is_heads() else _tails_power
 
-func _get_inactive_power() -> FacePower:
+func get_inactive_face_power() -> FacePower:
 	return _heads_power if is_tails() else _tails_power
 
 func get_active_power_family() -> Global.PowerFamily:
-	return _get_active_power().power_family
+	return get_active_face_power().power_family
 
 func get_inactive_power_family() -> Global.PowerFamily:
-	return _get_inactive_power().power_family
+	return get_inactive_face_power().power_family
 
 func get_active_power_charges() -> int:
-	return _get_active_power().charges
+	return get_active_face_power().charges
 
 func set_active_power_charges(amt: int) -> void:
-	_get_active_power().charges = amt
+	get_active_face_power().charges = amt
 
 func get_max_active_power_charges() -> int:
 	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.uses_for_denom[_denomination]
 
-func spend_power_use() -> void:
+func spend_active_face_power_use() -> void:
 	if is_heads():
+		if _heads_power.charges == Global.INFINITE_CHARGES:
+			return # no need
+		assert(_heads_power.charges >= 0)
+		_heads_power.charges -= 1
+	else:
+		if _tails_power.charges == Global.INFINITE_CHARGES:
+			return # no need
+		assert(_tails_power.charges >= 0)
+		_tails_power.charges -= 1
+	
+	_update_appearance()
+	FX.flash(Color.WHITE)
+
+func spend_inactive_face_power_use() -> void:
+	if not is_heads():
 		if _heads_power.charges == Global.INFINITE_CHARGES:
 			return # no need
 		assert(_heads_power.charges >= 0)
@@ -1028,18 +1053,18 @@ func reset_power_uses(ignore_sapping: bool = false) -> void:
 func recharge_power_uses_by(recharge_amount: int) -> void:
 	assert(recharge_amount > 0)
 	if is_heads():
-		_heads_power.charges += recharge_amount
+		_heads_power.gain_charges(recharge_amount)
 	else:
-		_tails_power.charges += recharge_amount
+		_tails_power.gain_charges(recharge_amount)
 	_update_appearance()
 	FX.flash(Color.LIGHT_PINK)
 
 func drain_power_uses_by(drain_amount: int) -> void:
 	assert(drain_amount > 0)
 	if is_heads():
-		_heads_power.charges = max(_heads_power.charges - drain_amount, 0)
+		_heads_power.spend_charges(drain_amount)
 	else:
-		_tails_power.charges -= max(_tails_power.charges - drain_amount, 0)
+		_tails_power.spend_charges(drain_amount)
 	_update_appearance()
 	FX.flash(Color.WEB_PURPLE)
 

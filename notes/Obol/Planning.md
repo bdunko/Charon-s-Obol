@@ -15,6 +15,7 @@
 					- [ ] IF that coin's face has PROTEUS, remove PROTEUS metadata so it locks
 				- [ ] Remove spent_power_use and skip_power_effect
 			- [ ] We have so much duplicated code here with targetting and nontargetting coins. We should move this shared code out into a function or see if we can otherwise remove it.
+			- [ ] We should really remove Global.active_coin_power_family and just get it from the coin when needed.
 		- [ ] **New Bosses (1 week)**
 			- [ ] 4 new bosses.
 				- [ ] Minotaur - Endurance
