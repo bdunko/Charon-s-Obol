@@ -3,9 +3,6 @@
 	- [ ] Cleanup
 		- [ ] Proteus - Use unique coin sprite to indicate that it is transforming/not locked. 
 			- [ ] also consider adding a note (Affected by Proteus) to the power's tooltip for that face if the metadata is set.
-		- [ ] Heph - instead of immediately upgrading, Prime a coin.
-			- [ ] S primed dprimed primed
-			- [ ] remove (HEPHAESTUS_OPTIONS)
 		- [ ] Tuesday - Minor refactor
 			- [ ] We should really remove Global.active_coin_power_family and just get it from the coin when needed.
 		- [ ] **New Bosses (1 week)**
@@ -42,7 +39,6 @@
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
-	- [ ] Plutus - Greed is Blind - Gain an Ephemeral coin with +6/-6 and flip it. 
 	- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
 
 
