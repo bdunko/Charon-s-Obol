@@ -2103,10 +2103,6 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
 				Global.active_coin_power_coin.overwrite_active_face_power_for_toss(coin.get_copied_power_family())
-				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
-				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
-					Global.active_coin_power_coin = null
-					Global.active_coin_power_family = null
 			Global.POWER_FAMILY_PERMANENTLY_COPY:
 				if coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
@@ -2115,19 +2111,11 @@ func _on_coin_clicked(coin: Coin):
 					_DIALOGUE.show_dialogue("Can't copy a different denomination...")
 					return
 				Global.active_coin_power_coin.init_coin(coin.get_coin_family(), coin.get_denomination(), Coin.Owner.PLAYER)
-				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
-				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
-					Global.active_coin_power_coin = null
-					Global.active_coin_power_family = null
 			Global.POWER_FAMILY_PERMANENTLY_COPY_FACE:
 				if not coin.can_copy_power() or coin.get_copied_power_family() == Global.active_coin_power_family:
 					_DIALOGUE.show_dialogue("Can't copy that...")
 					return
 				Global.active_coin_power_coin.overwrite_active_face_power(coin.get_copied_power_family())
-				Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family() #overwrite with new power..
-				if Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
-					Global.active_coin_power_coin = null
-					Global.active_coin_power_family = null
 			Global.POWER_FAMILY_EXCHANGE:
 				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
@@ -3068,8 +3056,14 @@ func after_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.
 		Global.active_coin_power_family = null
 	
 	# update to ensure that the power family matches the active face, in case the coin turned but is still a power
+	# or in case the power was transformed
 	if Global.active_coin_power_coin:
 		Global.active_coin_power_family = Global.active_coin_power_coin.get_active_power_family()
+	
+	# now, in the case where the power or face changed and the new power family does not target, deselect coin.
+	if Global.active_coin_power_family != null and Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
+		Global.active_coin_power_coin = null
+		Global.active_coin_power_family = null
 	
 	Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
 	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:

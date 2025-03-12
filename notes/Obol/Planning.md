@@ -1,38 +1,32 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] Cleanup
-		- [ ] Midas - Golden coins could have roman numerals on their sprite to differentiate.
-			- [ ] add 'numeral_golden' variant to animation player
-			- [ ] add as new spritestyle just for midas
-		- [ ] Tuesday - Minor refactor
-			- [ ] We should really remove Global.active_coin_power_family and just get it from the coin when needed.
-		- [ ] **New Bosses (1 week)**
-			- [ ] 4 new bosses.
-				- [ ] Minotaur - Endurance
-				- [ ] Echidna & Typhoon - Spawn and buff monsters
-				- [ ] Cerberus - Damage race
-					- [ ] Left
-						- [ ] Permanently ignite one of Cerberus's heads
-						- [ ] Ignite 2 of your coins.
-					- [ ] Middle
-						- [ ] Increase ignite damage by 2 for the rest of this round.
-						- [ ] Increase penalty damage by 3 for the rest of this round.
-					- [ ] Right
-						- [ ] Take 10 damage.
-						- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
-				- [ ] Scylla and Charybdis - Negation
-		- [ ] **More Monsters (3 days)**
-			- [ ] 16 total standard monster types (10 additional)
-			- [ ] 8 elite monster types. (4 additional)
-		- [ ] **New Trials (2 days)**
-			- [ ] 10 trials per tier.
-		- [ ] **More Characters (2-3 days)**
-			- [ ] 4 new characters.
-				- [ ] The Merchant
-				- [ ] The Archon
-				- [ ] The Gardener
-				- [ ] The Child
-			- [ ] Coin exclusion list per character to block bad interactions.
+	- [ ] **New Bosses (1 week)**
+		- [ ] 4 new bosses.
+			- [ ] Minotaur - Endurance
+			- [ ] Echidna & Typhoon - Spawn and buff monsters
+			- [ ] Cerberus - Damage race
+				- [ ] Left
+					- [ ] Permanently ignite one of Cerberus's heads
+					- [ ] Ignite 2 of your coins.
+				- [ ] Middle
+					- [ ] Increase ignite damage by 2 for the rest of this round.
+					- [ ] Increase penalty damage by 3 for the rest of this round.
+				- [ ] Right
+					- [ ] Take 10 damage.
+					- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
+			- [ ] Scylla and Charybdis - Negation
+	- [ ] **More Monsters (3 days)**
+		- [ ] 16 total standard monster types (10 additional)
+		- [ ] 8 elite monster types. (4 additional)
+	- [ ] **New Trials (2 days)**
+		- [ ] 10 trials per tier.
+	- [ ] **More Characters (2-3 days)**
+		- [ ] 4 new characters.
+			- [ ] The Merchant
+			- [ ] The Archon
+			- [ ] The Gardener
+			- [ ] The Child
+		- [ ] Coin exclusion list per character to block bad interactions.
 
 
 - [ ] Coin of the days

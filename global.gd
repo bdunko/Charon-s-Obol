@@ -417,8 +417,10 @@ func calculate_toll_coin_value() -> int:
 var active_coin_power_coin: Coin = null:
 	set(val):
 		active_coin_power_coin = val
+		if active_coin_power_coin != null:
+			active_coin_power_family = active_coin_power_coin.get_active_power_family()
 		emit_signal("active_coin_power_coin_changed")
-		
+
 var active_coin_power_family: PowerFamily:
 	set(val):
 		active_coin_power_family = val
