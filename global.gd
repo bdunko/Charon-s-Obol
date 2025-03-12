@@ -1780,7 +1780,7 @@ func denom_to_string(denom: Denomination) -> String:
 	return "ERROR"
 
 enum _SpriteStyle {
-	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS, CHARONS, GOLDEN
+	PAYOFF, POWER, PASSIVE, NEMESIS, THORNS, CHARONS, GOLDEN, GOLDEN_NUMERAL
 }
 
 class CoinFamily:
@@ -1844,6 +1844,8 @@ class CoinFamily:
 				return "charons"
 			_SpriteStyle.GOLDEN:
 				return "golden"
+			_SpriteStyle.GOLDEN_NUMERAL:
+				return "golden_numeral"
 		breakpoint
 		return ""
 	
@@ -2041,9 +2043,9 @@ var PROTEUS_FAMILY = CoinFamily.new(1034, CoinType.POWER, "(DENOM) of Proteus", 
 	CHEAP, POWER_FAMILY_TRANSFORM_AND_LOCK, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 var GENERATED_PLUTUS_FAMILY = CoinFamily.new(11000, CoinType.PAYOFF, "(DENOM), Gifted from Plutus", "[color=palegoldenrod]Greed is Good[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
-	RICH, POWER_FAMILY_GAIN_SOULS_PLUTUS, POWER_FAMILY_LOSE_LIFE_PLUTUS, _SpriteStyle.PAYOFF)
+	RICH, POWER_FAMILY_GAIN_SOULS_PLUTUS, POWER_FAMILY_LOSE_LIFE_PLUTUS, _SpriteStyle.GOLDEN)
 var GENERATED_GOLDEN_FAMILY = CoinFamily.new(11001, CoinType.PAYOFF, "Golden (DENOM)", "[color=gold]Boon or Bane?[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\
-	RICH, POWER_FAMILY_DO_NOTHING, POWER_FAMILY_DO_NOTHING, _SpriteStyle.GOLDEN)
+	RICH, POWER_FAMILY_DO_NOTHING, POWER_FAMILY_DO_NOTHING, _SpriteStyle.GOLDEN_NUMERAL)
 
 # monsters
 const NOT_APPEASEABLE_PRICE = -888
