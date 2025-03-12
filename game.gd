@@ -3043,7 +3043,7 @@ func _update_payoffs() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
 		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW, _SHOP_COIN_ROW)
 
-func after_power_used(_used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
+func after_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
 	powers_used.append(used_face_power.power_family)
 	Global.powers_this_round += 1
 	used_face_power.spend_charges(1)
@@ -3052,6 +3052,7 @@ func after_power_used(_used_coin: Coin, target_coin: Coin, used_face_power: Coin
 	
 	# remove proteus metadata to stop transforming, if this was Proteus
 	if used_face_power.get_metadata(Coin.METADATA_PROTEUS, false): 
+		used_coin.FX.flash(Color.AQUA)
 		used_face_power.clear_metadata(Coin.METADATA_PROTEUS)
 	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ZEUS):

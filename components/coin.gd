@@ -83,6 +83,7 @@ var _permanent_statuses = []
 @onready var _PRIMED_ICON = $Sprite/StatusBar/Primed
 
 @onready var _SPRITE = $Sprite
+@onready var _PROTEUS_OVERLAY = $Sprite/ProteusOverlay
 @onready var _FACE_LABEL = $Sprite/FaceLabel
 @onready var _PRICE = $Sprite/Price
 
@@ -246,6 +247,12 @@ func _update_appearance() -> void:
 	_update_price_label()
 	_update_glow()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
+	
+	# if the coin is flat and proteus is active, add extra overlay to indicate this.
+	if _current_animation == _Animation.FLAT and get_active_face_metadata(METADATA_PROTEUS, false):
+		_PROTEUS_OVERLAY.show()
+	else:
+		_PROTEUS_OVERLAY.hide()
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#f72534"
@@ -1634,6 +1641,13 @@ func _generate_tooltip() -> void:
 		var heads_power_str = FACE_FORMAT % ["(HEADS)", heads_power_type, heads_power, heads_desc]
 		var tails_power_str = FACE_FORMAT % ["(TAILS)", tails_power_type, tails_power, tails_desc]
 		
+		# Add additional note if affected by Proteus. (but not to Proteus itself of course)
+		const _PROTEUS_STR = " [color=gray](Transforms each toss. Locks when used.)[/color]"
+		if _heads_power.get_metadata(METADATA_PROTEUS, false) and not _heads_power.power_family == Global.POWER_FAMILY_TRANSFORM_AND_LOCK:
+			heads_power_str += _PROTEUS_STR
+		if _tails_power.get_metadata(METADATA_PROTEUS, false) and not _heads_power.power_family == Global.POWER_FAMILY_TRANSFORM_AND_LOCK:
+			tails_power_str += _PROTEUS_STR
+		
 		var extra_info =  ""
 		if _coin_family.has_tag(Global.CoinFamily.Tag.NO_UPGRADE):
 			extra_info += "Cannot be upgraded. "
@@ -1717,9 +1731,9 @@ func after_payoff() -> void:
 	# clear eris
 	clear_coin_metadata(METADATA_ERIS)
 
+var _current_animation = _Animation.FLAT
 func set_animation(anim: _Animation) -> void:
-	if(_heads_power != null and _heads_power.power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS):
-		print("setting anim")
+	_current_animation = anim
 	
 	# if we're buried, no matter what, show the buried animation
 	if is_buried() or anim == _Animation.BURIED:

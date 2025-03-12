@@ -1284,13 +1284,13 @@ var POWER_FAMILY_INFINITE_TURN_HUNGER = PowerFamily.new("Turn a coin and -(ERYSI
 var POWER_FAMILY_TURN_SELF = PowerFamily.new("Turn this coin over.", [1, 1, 1, 1, 1, 1],\
 	PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/turn_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_PERMANENTLY_COPY = PowerFamily.new("Choose one of your coins of the same denomination as this; transform into that type of coin.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/dolos_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_FLIP_AND_TAG = PowerFamily.new("Reflip a coin, and also each coin this power has been used on this toss.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_FLIP_AND_TAG = PowerFamily.new("Reflip a coin. Also reflip each other coin this power has been used on this toss.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PowerFamily.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PowerFamily.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PowerFamily.new("Choose one of your coins. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/boreas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP, PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_PERMANENTLY_COPY_FACE = PowerFamily.new("Choose one of your coins. Permanently copy its power to this face.", [1, 1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_PLUTUS_COIN = PowerFamily.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
-var POWER_FAMILY_GAIN_GOLDEN_COIN = PowerFamily.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on either face.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
+var POWER_FAMILY_GAIN_GOLDEN_COIN = PowerFamily.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN])
 var POWER_FAMILY_TURN_ALL = PowerFamily.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.TURN])
 var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PowerFamily.new("(IGNITE) a coin. If you can't, (BLESS) it. If you can't, destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.IGNITE, PowerFamily.Tag.BLESS, PowerFamily.Tag.DESTROY])
@@ -2041,7 +2041,7 @@ var PROTEUS_FAMILY = CoinFamily.new(1034, CoinType.POWER, "(DENOM) of Proteus", 
 	CHEAP, POWER_FAMILY_TRANSFORM_AND_LOCK, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 
 var GENERATED_PLUTUS_FAMILY = CoinFamily.new(11000, CoinType.PAYOFF, "(DENOM), Gifted from Plutus", "[color=palegoldenrod]Greed is Good[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
-	RICH, POWER_FAMILY_GAIN_SOULS_PLUTUS, POWER_FAMILY_LOSE_LIFE_PLUTUS, _SpriteStyle.GOLDEN)
+	RICH, POWER_FAMILY_GAIN_SOULS_PLUTUS, POWER_FAMILY_LOSE_LIFE_PLUTUS, _SpriteStyle.PAYOFF)
 var GENERATED_GOLDEN_FAMILY = CoinFamily.new(11001, CoinType.PAYOFF, "Golden (DENOM)", "[color=gold]Boon or Bane?[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\
 	RICH, POWER_FAMILY_DO_NOTHING, POWER_FAMILY_DO_NOTHING, _SpriteStyle.GOLDEN)
 

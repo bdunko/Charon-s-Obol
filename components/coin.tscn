@@ -1,8 +1,9 @@
-[gd_scene load_steps=202 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=203 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
 [ext_resource type="Texture2D" uid="uid://b4agtqc74rbqp" path="res://assets/coins/coins_spritesheet.png" id="3_61apl"]
+[ext_resource type="Texture2D" uid="uid://b7fxfxpopif5b" path="res://assets/coins/proteus_overlay.png" id="4_5g7if"]
 [ext_resource type="Texture2D" uid="uid://c2jhvysrq3v74" path="res://assets/icons/status/consecrate_icon.png" id="9_g8h0e"]
 [ext_resource type="Texture2D" uid="uid://c1loeacx63ofh" path="res://assets/icons/status/doomed_icon.png" id="10_yn4y1"]
 [ext_resource type="Texture2D" uid="uid://4qebm4orj3yq" path="res://assets/icons/status/desecrate_icon.png" id="11_s01xa"]
@@ -1882,6 +1883,10 @@ script = ExtResource("1_eg3xp")
 material = SubResource("ShaderMaterial_tte34")
 sprite_frames = SubResource("SpriteFrames_w12pp")
 animation = &"golden_triobol_flip"
+centered = false
+
+[node name="ProteusOverlay" type="Sprite2D" parent="Sprite"]
+texture = ExtResource("4_5g7if")
 centered = false
 
 [node name="FaceLabel" type="RichTextLabel" parent="Sprite"]

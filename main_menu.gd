@@ -151,11 +151,15 @@ func _on_character_changed(characterName: String) -> void:
 				skull.visible = skull.difficulty <= highest_difficulty_unlocked
 				skull.set_vanquished(skull.difficulty < highest_difficulty_unlocked)
 				# and default to highest
-				if skull.difficulty <= highest_difficulty_unlocked:
-					skull.select()
+				#if skull.difficulty <= highest_difficulty_unlocked:
+				#	skull.select()
 			
 			_update_sparks()
 			return
+			
+			# select the lowest difficulty skull by default
+			_DIFFICULTY_SELECTOR.get_child(0).select()
+			
 	assert(false, "Did not find character with name %s!" % characterName)
 
 func _on_difficulty_changed(changed: Control, newDifficulty: Global.Difficulty):

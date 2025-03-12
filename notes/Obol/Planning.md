@@ -1,8 +1,9 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] Cleanup
-		- [ ] Proteus - Use unique coin sprite to indicate that it is transforming/not locked. 
-			- [ ] also consider adding a note (Affected by Proteus) to the power's tooltip for that face if the metadata is set.
+		- [ ] Midas - Golden coins could have roman numerals on their sprite to differentiate.
+			- [ ] add 'numeral_golden' variant to animation player
+			- [ ] add as new spritestyle just for midas
 		- [ ] Tuesday - Minor refactor
 			- [ ] We should really remove Global.active_coin_power_family and just get it from the coin when needed.
 		- [ ] **New Bosses (1 week)**
