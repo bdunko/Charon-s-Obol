@@ -49,7 +49,7 @@
 - [ ] Exact number of flips must be performed each mode, no life. Tails penalties are to lose some number of souls instead.
 - [ ] You gain thrice as many souls. You take thrice as much damage. The number of rounds is reduced a lot.
 - [ ] The Archon - No life, limited flips, all coins are power coins but their BACK is soul generation.
-- [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. Whenever you buy a coin from the shop, the shop rerolls. There is no reroll button.
+- [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. You can only reroll three times per shop, but rerolls are free.
 - [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. All prices are halved. You start with 2 additional random power coins.
 - [ ] Power coins are always on heads, but don't recharge at the end of the round. Upgrading a power coin refills charges. Tetrobols can be upgraded to refill them. Power coins are cheaper.
 - [ ] The Emperor - Power coins don't recharge until the end of the round, but have doubled charges.
@@ -112,4 +112,5 @@
 - [ ] The Archer - Powers cost arrows to use instead of charges. You start with an additional coin which generates arrows. (something something something...)
 - [ ] The coin limit is increased. All coins are Diobols.
 - [ ] Adherent - Only a single type of power coin is available (limit the possible types to reasonable ones), randomly chosen. (All possible payoff coins are available)
-- [ ] Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +1% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
+- [ ] Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +2% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
+- [ ] ??? - Payoffs also resolve an additional time immediately after the initial toss. (so payoffs resolve twice per toss.)

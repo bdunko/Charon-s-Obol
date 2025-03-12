@@ -126,7 +126,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Gain a random power coin with 1/2/3/4 charges; does not recharge, once fully used, destroy it.
 		- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
 	- [ ] **Face Control**
-		- [ ] ??? - Supercharge a coin. 
+		- [ ] ??? - Charge a coin. 
 		- [ ] ??? - Reflip 2 other random coins. (2/3/4/5 uses)
 		- [ ] Oedipus - Make a coin Unlucky and turn it to its other face.
 		- [ ] ??? - Choose a coin. Bless it.
@@ -265,34 +265,15 @@ Unlockable coins + more coins
 	- [ ] **Theseus** - Six Labours - Power: Spawn a terrible monster. After six are destroyed, you win the game.
 		- [ ] Periphetes, Sinis, Crommyonian Sow, Sciron, Cercyon, Procrustes
 
-**todo monster ideas**
-- [ ] ??? - Ultimate Gamble - This coin always lands on heads. Destroy this coin, then (50%) turn all coins to heads and bless them, or (50%) turn all coins to tails and curse them.
-- [ ] Tyche - Tempt Fate - greek god of luck; Flip all your coins. Randomly make all your coins lucky or unlucky. Randomly bless/curse your coins. Gain a random amount of life or souls (scales with coin level). Transform all your other coins into random other coins of the same value. 1 charge always.
-- [ ] ??? - Chaos - Transform 1/2/3/4 random coins and upgrade them once.
-- [ ] **Merchant** - Randomly transforms between the following 'powers'/'items', which cost souls to use
-	- [ ] Freeze a coin.
-	- [ ] Reflip a coin.
-	- [ ] Make a coin Lucky.
-	- [ ] Bless a coin.
-	- [ ] Change a coin to its other face.
-	- [ ] Clear negative statuses from a coin.
-- [ ] ??? - Transform all your coins into random coins of the same denomination. (including this)
-
-
-- [ ] **Ideas**
-	- [ ] Doomed - This coin is destroyed when it lands on tails or the round ends.
-	- [ ] Banish - Remove until the end of the round.
-	- [ ] ??? - 0 reflips; increase by 1 every 1/2/3/4 tosses this round; resets each round.
-	- [ ] ??? - Turn all your other coins to heads. Banish this coin for the rest of the round.
-	- [ ] ??? - Increase the max charges of another coin this round. (this one seems kinda crazy? not sure.)
-	- [ ] ??? - Make a coin Unlucky. The next time it lands on heads, upgrade it (alternatively - Prime it. Primed coins automatically upgrade at the end of the round.)
 
 
 
 
 
 
-**Ideas**
+
+
+**Unsorted/Assorted Ideas**
 - [ ] Odysseus - The Hero's Return. A variety of stages in order must be completed. Always starts as Obol and upgrades at set points; cannot be upgraded in shop. Change flavor text each use.
 	- [ ] Reflip 2 random coins.
 	- [ ] Lose 5 shards.
@@ -318,7 +299,20 @@ Unlockable coins + more coins
 	- [ ] Hope - you win the game.
 - [ ] Coin which is bad until Tetrobol.
 - [ ] Heads - flip all your coins on heads. Tails - flip all your coins on tails.
-
+- [ ] Payoff - Gain souls for each status. Tails - lose life for each status.
+- [ ] Payoff - Gain souls. Increases (stacking) if this coin is blessed or lucky or frozen or charged or consecrated. / Gain life. Increases if this coin is Ignited or Cursed or Unlucky or Desecrated or Doomed.
+- [ ] Payoff - Gain souls when this is targeted by a coin effect which hasn't been used on it before. Permanently increase this amount.
+- [ ] Payoff - highlander - if this is your only coin, gain souls. Payoff based on the combined value of your other coins.
+- [ ] Payoff - pinata - when this is destroyed, gain souls. Heads - increase this amount. Tails - destroy this (power).
+- [ ] **Snowflakes**
+	- [ ] Power - Heads gain a snowflake. Tails lose life. If this is frozen, heal (more) life instead.
+	- [ ] Power - Freeze one of your coins. If it's already frozen, shatter it (destroy it and gain 1/2/3/4 snowflakes). Flat 2 uses.
+- [ ] Power - Blank all monsters. Bury this for 4 tosses.
+- [ ] **New Status: Banish** - Remove until the end of the round.
+- [ ] ??? - 0 reflips; increase by 1 every 1/2/3/4 tosses this round; resets each round.
+- [ ] ??? - Turn all your other coins to heads. Banish this coin for the rest of the round.
+- [ ] ??? - Increase the max charges of another coin this round. (this one seems kinda crazy? not sure.)
+- [ ] ??? - Make a coin Unlucky and Prime it.
 
 
 Characters I'd like to use

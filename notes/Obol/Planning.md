@@ -2,8 +2,13 @@
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **New Bosses (1 week)**
 		- [ ] 4 new bosses.
-			- [ ] Minotaur - Endurance
 			- [ ] Echidna & Typhoon - Spawn and buff monsters
+				- [ ] Echidna
+					- [ ] Spawn a random monster Diobol.
+					- [ ] Spawn three random fleeting monster Obols.
+				- [ ] Typhoon
+					- [ ] Upgrade each monster.
+					- [ ] Bless each monster.
 			- [ ] Cerberus - Damage race
 				- [ ] Left
 					- [ ] Permanently ignite one of Cerberus's heads
@@ -15,7 +20,31 @@
 					- [ ] Take 10 damage.
 					- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
 			- [ ] Scylla and Charybdis - Negation
+				- [ ] Scylla
+					- [ ] Shuffle your coins. Reset the damage this coin's tails power deals to 4.
+					- [ ] Take 4 damage. Increase this number by 4.
+				- [ ] Charybdis
+					- [ ] Blank the left half of your coins.
+					- [ ] Blank the right half of your coins.
+			- [ ] Minotaur - Endurance
+				- [ ] Lost in the Labyrinth (passive)
+					- [ ] Destroy 15 more Labyrinth Walls to escape. There is no ante.
+					- [ ] Labyrinth Walls (3 copies, start with one of each) (can be destroyed by souls, but the price is unrealistically high - you will not win just doing this)
+						- [ ] Heads - Destroy this and spawn a random Labyrinth Walls.
+						- [ ] Tails - Make this Unlucky.
+						- [ ] Tails - Curse this.
+						- [ ] Tails - Freeze this.
+						- [ ] Tails - Bury this for one toss.
+						- [ ] Tails - Lose 10 life.
+					- [ ] Minotaur - cannot be destroyed or downgraded.
+						- [ ] Heads - Take 5 damage. Double this number.
+						- [ ] Tails - X times, a random coin becomes Cursed, Unlucky, or is Buried for one toss. Increase this number by 1.
 	- [ ] **More Monsters (3 days)**
+		- [ ] Monster spawning rework - 'encounter' style monsters.
+			- [ ] Monsters that are about neutral in impact. Both beneficial and harmful in equal measure, or purely opt in abilities.
+				- [ ] Centaur, Stymphalian Birds are existing ones.
+				- [ ] Add a few more for variety. 
+				- [ ] On higher waves, specifically spawn 2 of the same for Centaur/Stymphalian Birds.
 		- [ ] 16 total standard monster types (10 additional)
 		- [ ] 8 elite monster types. (4 additional)
 	- [ ] **New Trials (2 days)**
