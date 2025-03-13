@@ -105,7 +105,7 @@
 - [ ] Heir - You start with 50 souls and at a shop. Your life is halved in all rounds.
 - [ ] Merchant - You cannot upgrade coins in the shop. You may sell coins back to the shop for half their price.
 - [ ] ??? - All coins start as Tetrobols, are much cheaper, and downgrade at the end of each round. 
-- [ ] ??? - All coins start as Obols and upgrade at the end of each round.
+- [ ] ??? - All coins start as Obols. Coins automatically upgrade every other round.
 - [ ] Phrygian (King Midas) - Coins have an infinite number of charges. When a coin is deactivated after using its power, turn it to gold! (Destroy it and gain souls based on its value).
 - [ ] Banker - No monsters, many tollgates.
 - [ ] The Architect - There are no payoff coins. You start with Hermes, Hephaestus, and Dionysus. There is no monsters or final boss, but there are more tollgates and trials.

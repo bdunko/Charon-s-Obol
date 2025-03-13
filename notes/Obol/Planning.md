@@ -1,5 +1,7 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
+	- [ ] Antigone can't target buried coins (don't allow buried coins to be targeted at random)
+	- [ ] Allow ANtigone even if all coins are on heads (in case you just want to bury)
 	- [ ] **New Bosses (1 week)**
 		- [ ] 4 new bosses.
 			- [ ] Echidna & Typhoon - Spawn and buff monsters
@@ -45,6 +47,7 @@
 				- [ ] Centaur, Stymphalian Birds are existing ones.
 				- [ ] Add a few more for variety. 
 				- [ ] On higher waves, specifically spawn 2 of the same for Centaur/Stymphalian Birds.
+			- [ ] Possibly - assign different difficulty rates per monster. Most will be Standard; Centaur/Stymphalian/etc will count as half. Special ones might count as 0 (but only one 0 can spawn per wave, and they are rare; 0s also cannot replace normal monster spaces)
 		- [ ] 16 total standard monster types (10 additional)
 		- [ ] 8 elite monster types. (4 additional)
 	- [ ] **New Trials (2 days)**
@@ -63,7 +66,6 @@
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
-	- [ ] Midas - All that Glitters - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities.
 
 
 
@@ -140,6 +142,7 @@
 		- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 		- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
 - [ ] **Polish & Balance - 4 weeks**
+- [ ] **Tartarus Bonus Boss - 1 week**
 
 
 

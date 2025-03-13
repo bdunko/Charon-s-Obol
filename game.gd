@@ -1895,7 +1895,11 @@ func _on_coin_clicked(coin: Coin):
 	
 	# if we have a coin power active, we're using a power on this coin; do that
 	if Global.active_coin_power_family != null:
-		used_face_power = Global.active_coin_power_coin.get_active_face_power()
+		
+		# EXCEPTION - patron and arrows do not have an associated active_coin_power_coin, so face_power will be null.
+		# in these cases, we early return and don't call after_coin_apower_used.
+		if Global.active_coin_power_coin != null:
+			used_face_power = Global.active_coin_power_coin.get_active_face_power()
 		
 		# using a coin on itself deactivates it
 		if coin == Global.active_coin_power_coin:
@@ -2091,7 +2095,7 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_reduce_life_penalty():
 					_DIALOGUE.show_dialogue("No need...")
 					return
-				coin.change_life_penalty_for_round(-1)
+				coin.change_life_penalty_for_round(-2)
 			Global.POWER_FAMILY_PRIME_AND_IGNITE:
 				if coin.is_primed() and coin.is_ignited():
 					_DIALOGUE.show_dialogue("No need...")
@@ -2180,11 +2184,8 @@ func _on_coin_clicked(coin: Coin):
 				coin.bury(3)
 				coin.set_coin_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
-				var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
-				if target == null: #no valid targets
-					_DIALOGUE.show_dialogue("No need...")
-					return
 				coin.bury(1)
+				var target = Global.choose_one(row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
 				target.turn()
 			Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
 				if not coin.can_turn():
@@ -2240,7 +2241,7 @@ func _on_coin_clicked(coin: Coin):
 					Global.active_coin_power_family = null
 				return #special case - this power is not from a coin, so just exit immediately
 		
-		after_power_used(Global.active_coin_power_coin, coin, used_face_power)
+		after_coin_power_used(Global.active_coin_power_coin, coin, used_face_power)
 
 	# non targetting coins
 	# otherwise we're attempting to activate a coin
@@ -2263,7 +2264,7 @@ func _on_coin_clicked(coin: Coin):
 			# resolve the power
 			match coin.get_active_power_family():
 				Global.POWER_FAMILY_GAIN_LIFE:
-					Global.heal_life(1 + ((coin.get_denomination()+1) * 2))
+					Global.heal_life(Global.DEMETER_GAIN[coin.get_denomination()])
 				Global.POWER_FAMILY_GAIN_ARROW:
 					if Global.arrows == Global.ARROWS_LIMIT:
 						_DIALOGUE.show_dialogue("Too many arrows...")
@@ -2330,7 +2331,7 @@ func _on_coin_clicked(coin: Coin):
 				_:
 					assert(false, "No matching power")
 			
-			after_power_used(coin, coin, used_face_power)
+			after_coin_power_used(coin, coin, used_face_power)
 		else: # otherwise, make this the active coin and coin power and await click on target
 			# prevent reactivating the coin after deactivatingspent
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
@@ -3031,7 +3032,11 @@ func _update_payoffs() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children() + _SHOP_COIN_ROW.get_children():
 		coin.update_payoff(_COIN_ROW, _ENEMY_COIN_ROW, _SHOP_COIN_ROW)
 
-func after_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
+func after_coin_power_used(used_coin: Coin, target_coin: Coin, used_face_power: Coin.FacePower):
+	assert(used_face_power != null)
+	assert(used_coin != null)
+	assert(target_coin != null)
+	
 	powers_used.append(used_face_power.power_family)
 	Global.powers_this_round += 1
 	used_face_power.spend_charges(1)

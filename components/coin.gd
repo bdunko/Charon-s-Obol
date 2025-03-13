@@ -247,12 +247,6 @@ func _update_appearance() -> void:
 	_update_price_label()
 	_update_glow()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
-	
-	# if the coin is flat and proteus is active, add extra overlay to indicate this.
-	if _current_animation == _Animation.FLAT and get_active_face_metadata(METADATA_PROTEUS, false):
-		_PROTEUS_OVERLAY.show()
-	else:
-		_PROTEUS_OVERLAY.hide()
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#f72534"
@@ -829,8 +823,12 @@ func can_activate_power() -> bool:
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
 	get_active_face_power().set_metadata(key, value)
+	if key == METADATA_PROTEUS and value == false:
+		_PROTEUS_OVERLAY.hide()
 
 func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
+	if get_active_face_power() == null:
+		return default
 	return get_active_face_power().get_metadata(key, default)
 
 func clear_active_face_metadata(key: String) -> void:
@@ -1533,7 +1531,8 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
 
 		txt = txt.replace("(SOULS_PAYOFF)", "?" if face_power.souls_payoff == _SOULS_PAYOFF_INDETERMINANT else str(face_power.souls_payoff))
-		
+	
+	txt = txt.replace("(DEMETER_GAIN)", str(Global.DEMETER_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
 	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
 	txt = txt.replace("(ICARUS_PER_HEADS)", str(Global.ICARUS_HEADS_MULTIPLIER[get_value()-1]))
@@ -1577,9 +1576,9 @@ func _generate_tooltip() -> void:
 		# (name)
 		# (subtitle)
 		# (desc)
-		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n%s"
+		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n[img=10x13]%s[/img](POWERARROW)%s"
 		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power)
-		tooltip = PASSIVE_FORMAT % [get_coin_name(), get_subtitle(), desc]
+		tooltip = PASSIVE_FORMAT % [get_coin_name(), get_subtitle(), _heads_power.power_family.icon_path, desc]
 	else:
 		# (name)
 		# (subtitle)
@@ -1596,6 +1595,7 @@ func _generate_tooltip() -> void:
 		var heads_power = ""
 		var tails_power = ""
 		
+		const PASSIVE_FORMAT = "[img=10x13]%s[/img](POWERARROW)"
 		const INFINITE_POWER_FORMAT = "[img=11x13]res://assets/icons/infinity_icon.png[/img][img=10x13]%s[/img](POWERARROW)"
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		if _heads_power.power_family.is_power():
@@ -1603,12 +1603,16 @@ func _generate_tooltip() -> void:
 				heads_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
 			else:
 				heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
-			
+		elif _heads_power.power_family.is_passive():
+			heads_power = _replace_placeholder_text(PASSIVE_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+		
 		if _tails_power.power_family.is_power():
 			if _tails_power.charges == Global.INFINITE_CHARGES:
 				tails_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 			else:
 				tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+		elif _tails_power.power_family.is_passive():
+			tails_power = _replace_placeholder_text(PASSIVE_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# safety asserts...
 		# todo - would be anice little refactor - make this path a const in global
@@ -1731,9 +1735,18 @@ func after_payoff() -> void:
 	# clear eris
 	clear_coin_metadata(METADATA_ERIS)
 
-var _current_animation = _Animation.FLAT
+var _current_animation = _Animation.FLAT:
+	set(val):
+		_current_animation = val
+		
 func set_animation(anim: _Animation) -> void:
 	_current_animation = anim
+	
+	# if the coin is flat and proteus is active, add extra overlay to indicate this.
+	if _current_animation == _Animation.FLAT and get_active_face_metadata(METADATA_PROTEUS, false):
+		_PROTEUS_OVERLAY.show()
+	else:
+		_PROTEUS_OVERLAY.hide()
 	
 	# if we're buried, no matter what, show the buried animation
 	if is_buried() or anim == _Animation.BURIED:

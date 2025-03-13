@@ -1246,7 +1246,8 @@ var POWER_FAMILY_STOKE_FLAME = PowerFamily.new("Stoke the flame. [color=gray](Al
 	PowerType.PAYOFF_STOKE_FLAME, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
 var POWER_FAMILY_DO_NOTHING = PowerFamily.new("Nothing interesting happens.", [0, 0, 0, 0, 0, 0], PowerType.PAYOFF_DO_NOTHING, "res://assets/icons/coin/nothing_icon.png", ONLY_SHOW_ICON)
 
-var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(1_PLUS_2_PER_DENOM)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
+const DEMETER_GAIN = [3, 5, 7, 9, 11, 13]
+var POWER_FAMILY_GAIN_LIFE = PowerFamily.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL])
 var POWER_FAMILY_REFLIP = PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_FREEZE = PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE])
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6],\
@@ -1255,7 +1256,7 @@ var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty for this round.", [2, 3, 4, 5, 6, 7], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL, PowerFamily.Tag.ANTIMONSTER])
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty by 2 for this round.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL, PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_PRIME_AND_IGNITE = PowerFamily.new("(IGNITE) and (PRIME) one of your coins.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
 var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)

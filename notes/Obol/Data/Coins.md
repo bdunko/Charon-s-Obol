@@ -45,7 +45,7 @@
 		- [ ] Orion - Reduced payoff; At payoff, dispels each lucky, bless, unlucky, or curse on a coin you control, then gain life for each bless/lucky removed and souls for each curse/unlucky removed.
 		- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
 		- [ ] ??? - Smoker coin - Gives more than normal, but every heads, ignite.
-		- [ ] ??? - Nullifying field - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff on both sides.
+		- [ ] ??? - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff on both sides.
 	- [ ] **Coin Type**
 		- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
