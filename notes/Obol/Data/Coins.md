@@ -1,6 +1,5 @@
 
 - [ ] Payoff Coins
-	- [ ] **NOTE** - Power coins besides the basic one all have an icon and their heads face oscillates (fades) between showing the icon and showing the souls payoff for the coin.
 	- [ ] **Simple**
 		- [x] Bouzyges - Beneficial on both heads and tails, but lower payoff.
 		- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
@@ -46,6 +45,7 @@
 		- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
 		- [ ] ??? - Smoker coin - Gives more than normal, but every heads, ignite.
 		- [ ] ??? - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff on both sides.
+		- [ ] ??? - Ignite a random coin. Gain X.
 	- [ ] **Coin Type**
 		- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
@@ -55,8 +55,6 @@
 		- [ ] ??? - +1 soul per 20/17/14/10 life you have.???
 		- [ ] ??? - Payoff - Upgrades after you lose a certain amount of life.
 		- [ ] ??? - Payoff 1 soul, or 8 souls if you have 30 or more life.
-	- [ ] **Temporary**
-		- [ ] ??? - Crack this coin (1 charge). On the fifth crack, destroy and gain lots of souls.
 	- [ ] **Positioning**
 		- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the left of this, then move once to the left. Also blesses coins as it passes.
 		- [ ] Selene - moon goddess - maybe move from east to west but curses during, higher payoff once it's all the way to the left?
