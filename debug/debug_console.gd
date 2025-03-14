@@ -127,6 +127,7 @@ func _on_text_submitted(txt):
 			success = false
 		else:
 			# search all monsters and trials...
+			var found = false
 			for monster_or_trial in Global._ALL_MONSTER_AND_TRIAL_COINS:
 				var coin_name = monster_or_trial.coin_name.to_lower()
 				if coin_name.contains(args[1].to_lower()):
@@ -134,7 +135,9 @@ func _on_text_submitted(txt):
 					if args.size() == 3:
 						denom = clamp(int(args[2]), 1, 6)
 					game.spawn_enemy(monster_or_trial, denom-1)
+					found = true
 					break
+			success = found
 	elif cmd == "coin" or cmd == "gain" or cmd == "gaincoin" or cmd == "give" or cmd == "givecoin" or cmd == "get" or cmd == "getcoin":
 		if not (args.size() == 2 or args.size() == 3):
 			success = false

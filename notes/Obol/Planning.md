@@ -1,9 +1,37 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] Antigone can't target buried coins (don't allow buried coins to be targeted at random)
-	- [ ] Allow ANtigone even if all coins are on heads (in case you just want to bury)
 	- [ ] **New Bosses (1 week)**
-		- [ ] 4 new bosses.
+		- [ ] Create new icons.
+			- [ ] Echidna
+				- [ ] echidna
+				- [ ] Tails - spawn three fleeting
+			- [ ] Typhon
+				- [ ] typhon
+				- [ ] bless monsters
+			- [ ] Cerberus Left/Middle/Right
+				- [ ] left head
+				- [ ] ignite coins
+				- [ ] middle head
+				- [ ] enhance damage
+				- [ ] right head
+				- [ ] desecrate
+			- [ ] Scylla
+				- [ ] scylla
+				- [x] damage (just use lose life)
+			- [ ] Charybdis
+				- [ ] blank left whirlpool
+				- [ ] blank right whirlpool
+			- [ ] Minotaur
+				- [ ] minotaur
+			- [ ] Labyrinth Passive
+			- [ ] Labyrinth Walls (Unlucky/Curse/Freeze/Bury/Life)
+				- [ ] find a way out
+				- [ ] unlucky
+				- [ ] curse
+				- [ ] freeze
+				- [ ] bury
+				- [ ] life
+		- [ ] Implement powers:
 			- [ ] Echidna & Typhoon - Spawn and buff monsters
 				- [ ] Echidna
 					- [ ] Spawn a random monster Diobol.
@@ -34,7 +62,6 @@
 					- [ ] Labyrinth Walls (3 copies, start with one of each) (can be destroyed by souls, but the price is unrealistically high - you will not win just doing this)
 						- [ ] Heads - Destroy this and spawn a random Labyrinth Walls.
 						- [ ] Tails - Make this Unlucky.
-						- [ ] Tails - Curse this.
 						- [ ] Tails - Freeze this.
 						- [ ] Tails - Bury this for one toss.
 						- [ ] Tails - Lose 10 life.

@@ -1526,6 +1526,8 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 		var charges = max(0, face_power.charges)
 		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)
 		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
+		txt = txt.replace("(CURRENT_CHARGES_PAYOFFS)", "%d %s" % [charges, "payoff" if charges == 1 else "payoffs"])
+		
 		if charges != 0 and charges <= 10:
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
 			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
