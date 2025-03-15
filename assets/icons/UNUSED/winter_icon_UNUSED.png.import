@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhsvqvupf71ce"
-path="res://.godot/imported/auxo_icon.png-20b2ff5e380467a120cbfae46ea59bf0.ctex"
+uid="uid://dfnx7mc8o4e6y"
+path="res://.godot/imported/winter_icon_UNUSED.png-7b5699ca899790544f74f8c17515755d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/auxo_icon.png"
-dest_files=["res://.godot/imported/auxo_icon.png-20b2ff5e380467a120cbfae46ea59bf0.ctex"]
+source_file="res://assets/icons/UNUSED/winter_icon_UNUSED.png"
+dest_files=["res://.godot/imported/winter_icon_UNUSED.png-7b5699ca899790544f74f8c17515755d.ctex"]
 
 [params]
 

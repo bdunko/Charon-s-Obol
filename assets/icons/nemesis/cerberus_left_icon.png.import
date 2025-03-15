@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c024ent20hdcl"
-path="res://.godot/imported/UNUSED_CRYSTAL_ICON.png-3f1b65f5e38efd9099394a2c3e99734e.ctex"
+uid="uid://dksjx02b52apm"
+path="res://.godot/imported/cerberus_left_icon.png-2c403d125e56eb0def3366c5fd3e9215.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/UNUSED_CRYSTAL_ICON.png"
-dest_files=["res://.godot/imported/UNUSED_CRYSTAL_ICON.png-3f1b65f5e38efd9099394a2c3e99734e.ctex"]
+source_file="res://assets/icons/nemesis/cerberus_left_icon.png"
+dest_files=["res://.godot/imported/cerberus_left_icon.png-2c403d125e56eb0def3366c5fd3e9215.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1j7cxkbydg1l"
-path="res://.godot/imported/ante_icon.png-4105dd1f381d22ac8ac3c268547fee46.ctex"
+uid="uid://ccx6s21bqkfri"
+path="res://.godot/imported/freeze_icon.png-70f91c217ca14462b460efd3e8baf42b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/nemesis/ante_icon.png"
-dest_files=["res://.godot/imported/ante_icon.png-4105dd1f381d22ac8ac3c268547fee46.ctex"]
+source_file="res://assets/icons/nemesis/freeze_icon.png"
+dest_files=["res://.godot/imported/freeze_icon.png-70f91c217ca14462b460efd3e8baf42b.ctex"]
 
 [params]
 

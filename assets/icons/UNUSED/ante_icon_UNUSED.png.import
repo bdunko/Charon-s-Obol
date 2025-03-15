@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1l28x16re6qs"
-path="res://.godot/imported/summer_icon_UNUSED.png-49c9bfe8d85674ff267eb58e3785e206.ctex"
+uid="uid://c1j7cxkbydg1l"
+path="res://.godot/imported/ante_icon_UNUSED.png-45324df44ed4d749da1e5086c9a85343.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/summer_icon_UNUSED.png"
-dest_files=["res://.godot/imported/summer_icon_UNUSED.png-49c9bfe8d85674ff267eb58e3785e206.ctex"]
+source_file="res://assets/icons/UNUSED/ante_icon_UNUSED.png"
+dest_files=["res://.godot/imported/ante_icon_UNUSED.png-45324df44ed4d749da1e5086c9a85343.ctex"]
 
 [params]
 

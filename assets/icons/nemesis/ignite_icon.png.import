@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjocbusg1ducp"
-path="res://.godot/imported/UNUSED_TIME_ICON.png-cc443704884121bd406ac94508a57094.ctex"
+uid="uid://yvtvosxpy875"
+path="res://.godot/imported/ignite_icon.png-bf2eebfc2a2ffeb5de915715f9fe641b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/UNUSED_TIME_ICON.png"
-dest_files=["res://.godot/imported/UNUSED_TIME_ICON.png-cc443704884121bd406ac94508a57094.ctex"]
+source_file="res://assets/icons/nemesis/ignite_icon.png"
+dest_files=["res://.godot/imported/ignite_icon.png-bf2eebfc2a2ffeb5de915715f9fe641b.ctex"]
 
 [params]
 

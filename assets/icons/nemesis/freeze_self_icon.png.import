@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfnx7mc8o4e6y"
-path="res://.godot/imported/winter_icon_UNUSED.png-fbb1aa871e46b0a1f449ad30d40b875d.ctex"
+uid="uid://cjp80mr61esoj"
+path="res://.godot/imported/freeze_self_icon.png-c9cfc8a6b668773c735e93a093f4835c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/winter_icon_UNUSED.png"
-dest_files=["res://.godot/imported/winter_icon_UNUSED.png-fbb1aa871e46b0a1f449ad30d40b875d.ctex"]
+source_file="res://assets/icons/nemesis/freeze_self_icon.png"
+dest_files=["res://.godot/imported/freeze_self_icon.png-c9cfc8a6b668773c735e93a093f4835c.ctex"]
 
 [params]
 

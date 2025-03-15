@@ -1331,35 +1331,35 @@ var NEMESIS_POWER_FAMILY_STHENO_STONE = PowerFamily.new("Turn (CURRENT_CHARGES) 
 var NEMESIS_POWER_FAMILY_STHENO_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
 
 # echidna & typhon
-var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG = PowerFamily.new("Birth a monster Diobol.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING = PowerFamily.new("Birth (CURRENT_CHARGES) (FLEETING) Obols.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PowerFamily.new("Upgrade all monsters (except Echidna and Typhon).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PowerFamily.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG = PowerFamily.new("Birth a monster (ECHIDNA_SPAWN_DENOM).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/echidna_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING = PowerFamily.new("Birth (CURRENT_CHARGES) (FLEETING) Obols.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/echidna_eggs_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PowerFamily.new("Upgrade all monsters (except Echidna and Typhon).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/typhon_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PowerFamily.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/bless_monster_icon.png", ONLY_SHOW_ICON)
 
 # scylla & charybdis
-var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PowerFamily.new("Shuffle the position of each of your coins. Reset this coin's other face's penalty to -4(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PowerFamily.new("Shuffle the position of each of your coins.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/scylla_icon.png", ONLY_SHOW_ICON)
 const SCYLLA_INCREASE = [1, 2, 3, 4, 5, 6]
-var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this number by 4 permanently.", [4, 4, 4, 4, 4, 4], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PowerFamily.new("The coins in the left half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PowerFamily.new("The coins in the right half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this number by (SCYLLA_INCREASE) permanently.", [4, 4, 4, 4, 4, 4], PowerType.PAYOFF_STONE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PowerFamily.new("The coins in the left half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/charbydis_left_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PowerFamily.new("The coins in the right half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/charbydis_right_icon.png", ONLY_SHOW_ICON)
 
 # cerberus
-var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PowerFamily.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PowerFamily.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PowerFamily.new("Increase (IGNITE) damage by (CURRENT_CHARGES) for the rest of the round.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase (LIFE) penalty damage by (CURRENT_CHARGES) for the rest of the round..", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PowerFamily.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PowerFamily.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PowerFamily.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/ignite_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PowerFamily.new("Increase (IGNITE) damage by (CURRENT_CHARGES) for the rest of the round.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase (LIFE) penalty damage by (CURRENT_CHARGES) for the rest of the round..", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PowerFamily.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/desecrate_icon.png", ONLY_SHOW_ICON)
 
 # minotaur
-var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Double this penalty.", [2, 3, 4, 5, 6, 7], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY = PowerFamily.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), a random coin becomes (CURSED) or (UNLUCKY). Increase this number by 1.", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH = PowerFamily.new("Destroy (CURRENT_CHARGES) more Labyrinth Walls to escape.\nThere is no Ante.", [13, 13, 15, 15, 20, 20], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_ESCAPE = PowerFamily.new("You're on the right path! Destroy this coin and spawn a random Labyrinth Wall.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PowerFamily.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PowerFamily.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY = PowerFamily.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), a random coin becomes (CURSED) or (UNLUCKY). Increase this number by 1.", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/minotaur_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Double this penalty.", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_STONE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH = PowerFamily.new("Destroy (CURRENT_CHARGES) more Labyrinth Walls to escape!\nThere is no Ante.", [12, 13, 14, 15, 17, 21], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/lost_in_the_labyrinth_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_ESCAPE = PowerFamily.new("You're heading the right direction! Destroy this coin and spawn a random Labyrinth Wall.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/a_way_out_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/unlucky_self_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PowerFamily.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/freeze_self_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PowerFamily.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/bury_self_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PowerType.PAYOFF_STONE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", ONLY_SHOW_ICON)
 const MISFORTUNE_QUANTITY = 2
@@ -2151,9 +2151,9 @@ var STHENO_FAMILY = CoinFamily.new(3002, CoinType.MONSTER, "[color=rosybrown]Sth
 	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
 
 var ECHIDNA_FAMILY = CoinFamily.new(3003, CoinType.MONSTER, "[color=chartreuse]Echidna's (DENOM)[/color]", "[color=purple]Mother of Monstrosities[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_ECHIDNA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING, _SpriteStyle.NEMESIS, [], NEMESIS_ECHIDNA_APPEASE)
 var TYPHON_FAMILY = CoinFamily.new(3004, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Father of Fiends[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS, NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
 
 var CERBERUS_LEFT_FAMILY = CoinFamily.new(3005, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Flaming Jaws that Bite[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)

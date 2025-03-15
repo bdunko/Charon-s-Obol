@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doxuo605x13cs"
-path="res://.godot/imported/spring_icon_UNUSED.png-7849835e66a80a210212905f35b980db.ctex"
+uid="uid://b1gj7seigxfj3"
+path="res://.godot/imported/UNUSED_ICON.png-573c0b44d58870a815638d84e2bbd9c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/coin/spring_icon_UNUSED.png"
-dest_files=["res://.godot/imported/spring_icon_UNUSED.png-7849835e66a80a210212905f35b980db.ctex"]
+source_file="res://assets/icons/UNUSED/UNUSED_ICON.png"
+dest_files=["res://.godot/imported/UNUSED_ICON.png-573c0b44d58870a815638d84e2bbd9c6.ctex"]
 
 [params]
 

@@ -1,38 +1,16 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **New Bosses (1 week)**
-		- [ ] Create new icons.
-			- [ ] Echidna
-				- [ ] echidna
-				- [ ] Tails - spawn three fleeting
-			- [ ] Typhon
-				- [ ] typhon
-				- [ ] bless monsters
-			- [ ] Cerberus Left/Middle/Right
-				- [ ] left head
-				- [ ] ignite coins
-				- [ ] middle head
-				- [ ] enhance damage
-				- [ ] right head
-				- [ ] desecrate
-			- [ ] Scylla
-				- [ ] scylla
-				- [x] damage (just use lose life)
-			- [ ] Charybdis
-				- [ ] blank left whirlpool
-				- [ ] blank right whirlpool
-			- [ ] Minotaur
-				- [ ] minotaur
-			- [ ] Labyrinth Passive
-			- [ ] Labyrinth Walls (Unlucky/Curse/Freeze/Bury/Life)
-				- [ ] find a way out
-				- [ ] unlucky
-				- [ ] curse
-				- [ ] freeze
-				- [ ] bury
-				- [ ] life
+		- [ ] Add one extra setup round at the start of the game.
+		- [ ] Change fleeting to flash more slowly (but in smaller range)
+		- [ ] Possible bug - Medusa as Drachma should show charges, otherwise should not. ONLY_SHOW_ICON - does it always only show icon, or does it try to only show icon if charges is 1? I want to only show icon if charges is 1, otherwise show icon and number. I think it might already do that. 
+		- [ ] Add new payoff types to PowerType.
+		- [ ] Add new cases in payoff.
+		- [ ] Add to possible nemesis spawns in global.
 		- [ ] Implement powers:
 			- [ ] Echidna & Typhoon - Spawn and buff monsters
+				- [ ] Echidna - denomination of SPAWN_STRONG based on curr charges
+					- [ ] (ECHIDNA_SPAWN_DENOM)
 				- [ ] Echidna
 					- [ ] Spawn a random monster Diobol.
 					- [ ] Spawn three random fleeting monster Obols.
@@ -45,11 +23,13 @@
 					- [ ] Ignite 2 of your coins.
 				- [ ] Middle
 					- [ ] Increase ignite damage by 2 for the rest of this round.
+						- [ ] needs a visual indicator somewhere, maybe can fit in top left with prometheus (make this a list so that only the top one shows if there is only one; also makes this a more flexible system for the future potentially)
 					- [ ] Increase penalty damage by 3 for the rest of this round.
 				- [ ] Right
 					- [ ] Take 10 damage.
 					- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
 			- [ ] Scylla and Charybdis - Negation
+				- [ ] Scylla damage increase should scale with denom
 				- [ ] Scylla
 					- [ ] Shuffle your coins. Reset the damage this coin's tails power deals to 4.
 					- [ ] Take 4 damage. Increase this number by 4.
@@ -89,7 +69,6 @@
 
 
 - [ ] Coin of the days
-	- [ ] Perseus - Gorgon's Gaze Reflected - Turn a coin to or from stone.
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)

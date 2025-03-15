@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1gj7seigxfj3"
-path="res://.godot/imported/UNUSED_ICON.png-2aa5bf4218490bb19d27e10484c736b0.ctex"
+uid="uid://p8bfvl8tvxla"
+path="res://.godot/imported/lost_in_the_labyrinth_icon.png-0a3a03c5a85e39c8285115d386b25bdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/status/UNUSED_ICON.png"
-dest_files=["res://.godot/imported/UNUSED_ICON.png-2aa5bf4218490bb19d27e10484c736b0.ctex"]
+source_file="res://assets/icons/nemesis/lost_in_the_labyrinth_icon.png"
+dest_files=["res://.godot/imported/lost_in_the_labyrinth_icon.png-0a3a03c5a85e39c8285115d386b25bdb.ctex"]
 
 [params]
 
