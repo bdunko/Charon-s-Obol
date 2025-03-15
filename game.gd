@@ -475,7 +475,7 @@ func on_start() -> void: #reset
 		_DIALOGUE.show_dialogue("Noble one, will you board?")
 		Global.tutorialState = Global.TutorialState.PROLOGUE_AFTER_BOARDING
 	else:
-		await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead.")
+		await _wait_for_dialogue("I am the ferryman Charon, shephard of the dead!")
 		await _wait_for_dialogue("Fool from Eleusis, you wish to cross?")
 		await _wait_for_dialogue("I cannot take the living across the river Styx...")
 		await _wait_for_dialogue("But this could yet prove entertaining...")

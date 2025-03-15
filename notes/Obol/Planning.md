@@ -1,10 +1,14 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
+
+
+	PAYOFF_SPAWN_STRONG, PAYOFF_SPAWN_FLEETING, PAYOFF_UPGRADE_MONSTERS, PAYOFF_BLESS_MONSTERS,
+	PAYOFF_PERMANENTLY_IGNITE_MONSTER, PAYOFF_AMPLIFY_IGNITE, PAYOFF_INCREASE_PENALTY, PAYOFF_DESECRATE,
+	PAYOFF_SHUFFLE, PAYOFF_LOSE_LIFE_SCALING_SCYLLA, PAYOFF_BLANK_LEFT_HALF, PAYOFF_BLANK_RIGHT_HALF,
+	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_LOSE_LIFESCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF
+
 	- [ ] **New Bosses (1 week)**
-		- [x] Add one extra setup round at the start of the game.
-		- [x] Change fleeting to flash more slowly (but in smaller range)
-		- [ ] Possible bug - Medusa as Drachma should show charges, otherwise should not. ONLY_SHOW_ICON - does it always only show icon, or does it try to only show icon if charges is 1? I want to only show icon if charges is 1, otherwise show icon and number. I think it might already do that. 
-		- [ ] Add new payoff types to PowerType.
+		- [ ] 
 		- [ ] Add new cases in payoff.
 		- [ ] Add to possible nemesis spawns in global.
 		- [ ] Implement powers:

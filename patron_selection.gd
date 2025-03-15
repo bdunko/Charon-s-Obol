@@ -62,7 +62,7 @@ func _on_statue_clicked(statue: PatronStatue):
 		statue.disable_except_tooltip()
 	
 	_PLAYER_DIALOGUE.clear_dialogue()
-	await _PATRON_DIALOGUE.show_dialogue_and_wait("You've made a wise decision.")
+	await _PATRON_DIALOGUE.show_dialogue_and_wait("You have made a wise decision.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We walk into darkness.")
