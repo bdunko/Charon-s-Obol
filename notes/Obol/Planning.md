@@ -1,8 +1,8 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **New Bosses (1 week)**
-		- [ ] Add one extra setup round at the start of the game.
-		- [ ] Change fleeting to flash more slowly (but in smaller range)
+		- [x] Add one extra setup round at the start of the game.
+		- [x] Change fleeting to flash more slowly (but in smaller range)
 		- [ ] Possible bug - Medusa as Drachma should show charges, otherwise should not. ONLY_SHOW_ICON - does it always only show icon, or does it try to only show icon if charges is 1? I want to only show icon if charges is 1, otherwise show icon and number. I think it might already do that. 
 		- [ ] Add new payoff types to PowerType.
 		- [ ] Add new cases in payoff.

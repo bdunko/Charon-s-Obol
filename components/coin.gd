@@ -452,7 +452,7 @@ var _fleeting_state:
 		FX.flash(Color.GHOST_WHITE)
 		
 		if _fleeting_state == _FleetingState.FLEETING:
-			FX.start_flickering(200)
+			FX.start_flickering(20, 0.5, 1.0)
 		else:
 			FX.stop_flickering()
 
