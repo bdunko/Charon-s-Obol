@@ -155,10 +155,11 @@ func _on_character_changed(characterName: String) -> void:
 				#	skull.select()
 			
 			_update_sparks()
-			return
 			
 			# select the lowest difficulty skull by default
 			_DIFFICULTY_SELECTOR.get_child(0).select()
+			
+			return
 			
 	assert(false, "Did not find character with name %s!" % characterName)
 

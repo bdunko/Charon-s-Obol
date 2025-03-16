@@ -441,6 +441,7 @@ func on_start() -> void: #reset
 	Global.active_coin_power_coin = null
 	Global.tosses_this_round = 0
 	Global.ante_modifier_this_round = 0
+	Global.ignite_damage = Global.DEFAULT_IGNITE_DAMAGE
 	Global.shop_rerolls = 0
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
@@ -844,6 +845,56 @@ func _on_accept_button_pressed():
 						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
 							highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
 							downgrade_coin(highest[0])
+				Global.PowerType.PAYOFF_SPAWN_STRONG:
+					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[payoff_coin.get_denomination()], true)
+				Global.PowerType.PAYOFF_SPAWN_FLEETING:
+					for i in range(0, charges):
+						var enemy = spawn_enemy(Global.get_standard_monster(), Global.Denomination.OBOL, true)
+						if enemy != null: #may have not had space to spawn the monster, if so, returned null
+							enemy.make_fleeting()
+				Global.PowerType.PAYOFF_UPGRADE_MONSTERS:
+					for enemy in _ENEMY_COIN_ROW.get_children():
+						if enemy.get_coin_family() in [Global.ECHIDNA_FAMILY, Global.TYPHON_FAMILY]:
+							continue
+						if enemy.can_upgrade():
+							enemy.upgrade()
+				Global.PowerType.PAYOFF_BLESS_MONSTERS:
+					for enemy in _ENEMY_COIN_ROW.get_children():
+						enemy.bless()
+				Global.PowerType.PAYOFF_PERMANENTLY_IGNITE_MONSTER:
+					for target in Global.choose_x(_ENEMY_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_IGNITED), charges):
+						target.permanently_ignite()
+				Global.PowerType.PAYOFF_AMPLIFY_IGNITE:
+					Global.ignite_damage += charges
+				Global.PowerType.PAYOFF_INCREASE_PENALTY:
+					for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+						if coin.can_change_life_penalty():
+							coin.change_life_penalty_for_round(charges)
+				Global.PowerType.PAYOFF_DESECRATE:
+					for target in Global.choose_x(_ENEMY_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_NOT_DESECRATED), charges):
+						target.desecrate()
+				Global.PowerType.PAYOFF_SHUFFLE:
+					_COIN_ROW.shuffle()
+				Global.PowerType.PAYOFF_LOSE_LIFE_SCALING_SCYLLA:
+					pass
+				Global.PowerType.PAYOFF_BLANK_LEFT_HALF:
+					pass
+				Global.PowerType.PAYOFF_BLANK_RIGHT_HALF:
+					pass
+				Global.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
+					pass
+				Global.PowerType.PAYOFF_LOSE_LIFE_SCALING_MINOTAUR:
+					pass
+				Global.PowerType.PAYOFF_A_WAY_OUT:
+					pass
+				Global.PowerType.PAYOFF_UNLUCKY_SELF:
+					pass
+				Global.PowerType.PAYOFF_FREEZE_SELF:
+					pass
+				Global.PowerType.PAYOFF_BURY_SELF:
+					pass
+				Global.PowerType.PAYOFF_SPAWN_STRONG:
+					pass
 				_:
 					assert(false, "No matching case for power type!")
 				# END MATCH
@@ -1028,9 +1079,10 @@ func connect_enemy_coins() -> void:
 		if not coin.clicked.is_connected(_on_coin_clicked):
 			coin.clicked.connect(_on_coin_clicked)
 
-func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination) -> void:
-	_ENEMY_ROW.spawn_enemy(family, denom)
+func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, at_front: bool = false) -> Coin:
+	var new_enemy = _ENEMY_ROW.spawn_enemy(family, denom, at_front)
 	connect_enemy_coins()
+	return new_enemy
 
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
@@ -1244,6 +1296,7 @@ func _on_end_round_button_pressed():
 	
 	Global.powers_this_round = 0
 	Global.tosses_this_round = 0
+	Global.ignite_damage = Global.DEFAULT_IGNITE_DAMAGE
 	Global.ante_modifier_this_round = 0
 	Global.souls_earned_this_round = 0
 	Global.monsters_destroyed_this_round = 0

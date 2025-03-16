@@ -238,8 +238,9 @@ func _force_position_onto_screen():
 
 func destroy_tooltip():
 	var fade_out = create_tween()
-	fade_out.tween_property(self, "modulate:a", 0.0, 0.05)
-	_ALL_TOOLTIPS.erase(self)
-	await fade_out.finished
+	if fade_out:
+		fade_out.tween_property(self, "modulate:a", 0.0, 0.05)
+		_ALL_TOOLTIPS.erase(self)
+		await fade_out.finished
 	assert(is_instance_valid(self), "This tooltip has already been destroyed?")
 	queue_free()

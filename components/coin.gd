@@ -1215,8 +1215,14 @@ func exhume() -> void:
 	clear_coin_metadata(METADATA_TRIPTOLEMUS)
 
 func permanently_consecrate() -> void:
-	_bless_curse_state = _BlessCurseState.CONSECRATED
-	_make_permanent(_BlessCurseState.CONSECRATED)
+	consecrate()
+	if is_consecrated():
+		_make_permanent(_BlessCurseState.CONSECRATED)
+
+func permanently_ignite() -> void:
+	ignite()
+	if is_ignited():
+		_make_permanent(_FreezeIgniteState.IGNITED)
 
 func desecrate() -> void:
 	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.CURSED):
@@ -1542,13 +1548,14 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(PHAETHON_SOULS)", str(Global.PHAETHON_REWARD_SOULS[get_value()-1]))
 	txt = txt.replace("(PHAETHON_LIFE)", str(Global.PHAETHON_REWARD_LIFE[get_value()-1]))
 	txt = txt.replace("(PHAETHON_ARROWS)", str(Global.PHAETHON_REWARD_ARROWS[get_value()-1]))
-	
-	if face_power != null:
-		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
-		txt = txt.replace("(ERYSICHTHON_COST)", str(face_power.get_metadata(METADATA_ERYSICHTHON, 0))) #TODO
-	
 	txt = txt.replace("(TRIPTOLEMUS_HARVEST)", str(Global.TRIPTOLEMUS_HARVEST[_denomination]))
 	txt = txt.replace("(PROMETHEUS_MULTIPLIER)", str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination]))
+	txt = txt.replace("(ECHIDNA_SPAWN_DENOM)", str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination])))
+	txt = txt.replace("(SCYLLA_INCREASE)", str(Global.SCYLLA_INCREASE[_denomination]))
+	
+	if face_power != null: # ones that require metadata
+		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
+		txt = txt.replace("(ERYSICHTHON_COST)", str(face_power.get_metadata(METADATA_ERYSICHTHON, 0))) #TODO
 	
 	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
 	
@@ -1700,7 +1707,6 @@ func get_tails_icon() -> String:
 
 func on_toss_initiated() -> void:
 	# if face is proteus, transform into a random power
-	print(_heads_power.get_metadata(METADATA_PROTEUS, false))
 	if _heads_power.get_metadata(METADATA_PROTEUS, false):
 		_heads_power.power_family = Global.random_power_family()
 	if _tails_power.get_metadata(METADATA_PROTEUS, false):

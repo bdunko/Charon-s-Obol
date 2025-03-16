@@ -253,7 +253,10 @@ static func FILTER_STONE(c: Coin) -> bool:
 	return c.is_stone()
 
 static func FILTER_NOT_CHARGED(c: Coin) -> bool:
-	return c.is_charged()
+	return not c.is_charged()
+
+static func FILTER_NOT_DESECRATED(c: Coin) -> bool:
+	return not c.is_desecrated()
 
 static func FILTER_BURIED(c: Coin) -> bool:
 	return c.is_buried()

@@ -1,33 +1,24 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-
-
-	PAYOFF_SPAWN_STRONG, PAYOFF_SPAWN_FLEETING, PAYOFF_UPGRADE_MONSTERS, PAYOFF_BLESS_MONSTERS,
-	PAYOFF_PERMANENTLY_IGNITE_MONSTER, PAYOFF_AMPLIFY_IGNITE, PAYOFF_INCREASE_PENALTY, PAYOFF_DESECRATE,
-	PAYOFF_SHUFFLE, PAYOFF_LOSE_LIFE_SCALING_SCYLLA, PAYOFF_BLANK_LEFT_HALF, PAYOFF_BLANK_RIGHT_HALF,
-	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_LOSE_LIFESCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF
-
 	- [ ] **New Bosses (1 week)**
-		- [ ] 
+		- [ ] Gamebreaking bug - hold mouse over coin during payoff, after payoff ends, it gets stuck weirdly (maybe mouse counts as both entering and leaving or something... ideally we should spawn the tooltip but have it properly disappear later)
+			- [ ] seems to also sometimes happen regardless of where the mouse is. need to investigate. i wonder if the hitbox of the coin is off?
+		- [ ] Desecrate should be purple I guess
 		- [ ] Add new cases in payoff.
-		- [ ] Add to possible nemesis spawns in global.
 		- [ ] Implement powers:
 			- [ ] Echidna & Typhoon - Spawn and buff monsters
-				- [ ] Echidna - denomination of SPAWN_STRONG based on curr charges
-					- [ ] (ECHIDNA_SPAWN_DENOM)
 				- [ ] Echidna
-					- [ ] Spawn a random monster Diobol.
-					- [ ] Spawn three random fleeting monster Obols.
+					- [x] Spawn a random monster Diobol.
+					- [x] Spawn three random fleeting monster Obols.
 				- [ ] Typhoon
-					- [ ] Upgrade each monster.
-					- [ ] Bless each monster.
+					- [x] Upgrade each monster.
+					- [x] Bless each monster.
 			- [ ] Cerberus - Damage race
 				- [ ] Left
-					- [ ] Permanently ignite one of Cerberus's heads
-					- [ ] Ignite 2 of your coins.
+					- [x] Permanently ignite one of Cerberus's heads
+					- [x] Ignite 2 of your coins.
 				- [ ] Middle
-					- [ ] Increase ignite damage by 2 for the rest of this round.
-						- [ ] needs a visual indicator somewhere, maybe can fit in top left with prometheus (make this a list so that only the top one shows if there is only one; also makes this a more flexible system for the future potentially)
+					- [x] Increase ignite damage by 2 for the rest of this round.
 					- [ ] Increase penalty damage by 3 for the rest of this round.
 				- [ ] Right
 					- [ ] Take 10 damage.
@@ -43,6 +34,9 @@
 			- [ ] Minotaur - Endurance
 				- [ ] Lost in the Labyrinth (passive)
 					- [ ] Destroy 15 more Labyrinth Walls to escape. There is no ante.
+						- [ ] Show amount remaining in both tooltip and on coin as number.
+						- [ ] Whenever a coin is destroyed (in game.gd) - if this passive is active, we check if the destroyed coin is a Labyrinth Wall and, if so, decrement it by 1. If zero, destroy both this and minotaur and advance the round.
+						- [ ] ensure passive coins don't recharge naturally. 
 					- [ ] Labyrinth Walls (3 copies, start with one of each) (can be destroyed by souls, but the price is unrealistically high - you will not win just doing this)
 						- [ ] Heads - Destroy this and spawn a random Labyrinth Walls.
 						- [ ] Tails - Make this Unlucky.
@@ -75,7 +69,7 @@
 - [ ] Coin of the days
 	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-	- [ ] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
+	- [ ] Dike
 
 
 
