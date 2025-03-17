@@ -760,7 +760,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ulhwu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m7qhh"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
@@ -1002,7 +1002,7 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(313, 80)
+position = Vector2(313, 81)
 limit_left = 0
 limit_top = 0
 limit_right = 320
@@ -1019,7 +1019,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_ulhwu")
+material = SubResource("ShaderMaterial_m7qhh")
 layout_mode = 2
 default_text = "Victory!"
 

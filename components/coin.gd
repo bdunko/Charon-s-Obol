@@ -129,6 +129,7 @@ const METADATA_TRIPTOLEMUS = "TRIPTOLEMUS"
 const METADATA_ERYSICHTHON = "ERYSICHTHON"
 const METADATA_ERIS = "ERIS"
 const METADATA_PROTEUS = "PROTEUS"
+const METADATA_MINOTAUR_CURSE = "MINOTAUR_CURSE"
 
 const _SOULS_PAYOFF_INDETERMINANT = -12345
 
@@ -1458,9 +1459,16 @@ func is_fleeting() -> bool:
 func can_target() -> bool:
 	return not is_buried()
 
-func can_change_life_penalty() -> bool:
-	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE
+func clear_round_life_penalty() -> void:
+	_round_life_penalty_change = 0
 
+func get_round_life_penalty() -> int:
+	return _round_life_penalty_change
+
+func can_change_life_penalty() -> bool:
+	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE\
+		or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE
+	
 func can_reduce_life_penalty() -> bool:
 	var can_reduce_heads = (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0)
 	var can_reduce_tails = (_tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _tails_power.charges != 0)
@@ -1577,6 +1585,12 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	return txt
 
 func _generate_tooltip() -> void:
+	# prevent a tooltip from being generated in the case that life penalty was reduced while not over.
+	# normally we regenerate a tooltip in this case, but only if the mouse is over.
+	# We basically never want to make a tooltip unless we're over the coin, so this is a nice safety check regardless.
+	if not _MOUSE.is_over():
+		return
+	
 	var tooltip = ""
 	
 	# special case - use a shortened tooltip for trial coins (which are single faced)

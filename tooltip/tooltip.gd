@@ -184,6 +184,14 @@ func _process(_delta):
 	if source != null and source is Control:
 		if not Rect2(source.global_position, source.size).has_point(mouse_position):
 			destroy_tooltip() # if the source has moved away from mouse, destroy the tooltip
+	
+	# hack - for some reason sometimes tooltips can get stuck on screen...
+	# THIS SHOULD NOT HAPPEN!!!!
+	#if source != null and source is MouseWatcher:
+	#	if not source.is_over():
+	#		hide()
+	#		destroy_tooltip()
+	
 	# $HACK$? - I guess we don't need this Area2D case - dunno, seems to work without it...
 	#elif source is Area2D:
 	#	var area = source as Area2D

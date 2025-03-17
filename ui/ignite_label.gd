@@ -7,8 +7,8 @@ func _ready():
 	Global.ignite_damage_changed.connect(_on_ignite_changed)
 	_FX.hide()
 
-const _FORMAT = "[center][img=10x13]res://assets/icons/status/ignite_icon.png[/img]%d[/center]"
-const _TOOLTIP_STR = "(IGNITE) damage is increased by (IGNITE_INCREASE)."
+const _FORMAT = "[center][img=10x13]res://assets/icons/status/ignite_icon.png[/img]+%d[/center]"
+const _TOOLTIP_STR = "(IGNITE) damage is increased\nby +(IGNITE_INCREASE)."
 func _on_ignite_changed() -> void:
 	text = _FORMAT % (Global.ignite_damage - Global.DEFAULT_IGNITE_DAMAGE)
 	_TOOLTIP.set_tooltip(_TOOLTIP_STR) #need to reset here so (FLAME_INCREASE) updates

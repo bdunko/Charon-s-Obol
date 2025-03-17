@@ -731,8 +731,10 @@ func _on_accept_button_pressed():
 		
 	var resolved_ignite = false
 	# trigger payoffs
-	for payoff_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+	for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		var payoff_coin: Coin = c as Coin
 		var payoff_power_family: Global.PowerFamily = payoff_coin.get_active_power_family()
+		var denom = payoff_coin.get_denomination()
 		var charges = payoff_coin.get_active_power_charges()
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)
@@ -756,6 +758,10 @@ func _on_accept_button_pressed():
 					# handle special payoff actions
 					if payoff_power_family == Global.POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL:
 						destroy_coin(payoff_coin)
+					elif payoff_power_family == Global.NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE:
+						payoff_coin.change_life_penalty_for_round(Global.SCYLLA_INCREASE[denom])
+					elif payoff_power_family == Global.NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE:
+						payoff_coin.change_life_penalty_for_round(charges)
 					
 				Global.PowerType.PAYOFF_HALVE_LIFE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
@@ -787,7 +793,7 @@ func _on_accept_button_pressed():
 							payoff_coin.init_coin(Global.random_power_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
 							payoff_coin.permanently_consecrate()
 				Global.PowerType.PAYOFF_STOKE_FLAME:
-					Global.flame_boost = min(Global.FLAME_BOOST_LIMIT, Global.flame_boost + Global.PROMETHEUS_MULTIPLIER[payoff_coin.get_denomination()])
+					Global.flame_boost = min(Global.FLAME_BOOST_LIMIT, Global.flame_boost + Global.PROMETHEUS_MULTIPLIER[denom])
 				Global.PowerType.PAYOFF_LOSE_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
 					payoff_coin.FX.flash(Color.DARK_BLUE)
@@ -846,7 +852,7 @@ func _on_accept_button_pressed():
 							highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
 							downgrade_coin(highest[0])
 				Global.PowerType.PAYOFF_SPAWN_STRONG:
-					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[payoff_coin.get_denomination()], true)
+					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[denom], true)
 				Global.PowerType.PAYOFF_SPAWN_FLEETING:
 					for i in range(0, charges):
 						var enemy = spawn_enemy(Global.get_standard_monster(), Global.Denomination.OBOL, true)
@@ -875,15 +881,18 @@ func _on_accept_button_pressed():
 						target.desecrate()
 				Global.PowerType.PAYOFF_SHUFFLE:
 					_COIN_ROW.shuffle()
-				Global.PowerType.PAYOFF_LOSE_LIFE_SCALING_SCYLLA:
-					pass
+					payoff_coin.clear_round_life_penalty()
 				Global.PowerType.PAYOFF_BLANK_LEFT_HALF:
-					pass
+					var left_to_right = _COIN_ROW.get_leftmost_to_rightmost()
+					var n_affected = floor(_COIN_ROW.get_child_count() / 2.0)
+					for i in n_affected:
+						left_to_right[i].blank()
 				Global.PowerType.PAYOFF_BLANK_RIGHT_HALF:
-					pass
+					var right_to_left = _COIN_ROW.get_rightmost_to_leftmost()
+					var n_affected = floor(_COIN_ROW.get_child_count() / 2.0)
+					for i in n_affected:
+						right_to_left[i].blank()
 				Global.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
-					pass
-				Global.PowerType.PAYOFF_LOSE_LIFE_SCALING_MINOTAUR:
 					pass
 				Global.PowerType.PAYOFF_A_WAY_OUT:
 					pass

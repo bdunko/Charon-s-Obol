@@ -49,6 +49,7 @@ func _on_text_submitted(txt):
 	
 	var game = main_scene.GAME_SCENE
 	var coin_row = game._COIN_ROW
+	var enemy_coin_row = game._ENEMY_COIN_ROW
 	var main_menu = main_scene.MAIN_MENU_SCENE
 	var god_selection = main_scene.GOD_SELECTION_SCENE
 	
@@ -62,6 +63,7 @@ func _on_text_submitted(txt):
 	# arrows (#)			<- gain # arrows
 	# kill					<- kill self
 	# clear					<- destroys all of your coins but leftmost
+	# clearm				<- destroys monsters
 	# patron "NAME"			<- set patron to NAME
 	# monster "NAME"		<- spawn monster NAME (Tetrobol)
 	# monster "NAME" (#)	<- spawn monster NAME (Tetrobol)
@@ -109,6 +111,9 @@ func _on_text_submitted(txt):
 	elif cmd == "clear" or cmd == "wipe" or cmd == "destroy" or cmd == "clearall" or cmd == "destroyall":
 		while coin_row.get_child_count() != 1: 
 			game.destroy_coin(coin_row.get_rightmost_to_leftmost()[0])
+	elif cmd == "clearm" or cmd == "clearmonsters" or cmd == "clearmon" or cmd == "clearmn":
+		while enemy_coin_row.get_child_count() != 0:
+			game.destroy_coin(enemy_coin_row.get_leftmost_to_rightmost()[0])
 	elif cmd == "patron" or cmd == "token":
 		if not args.size() == 2:
 			success = false
@@ -140,6 +145,9 @@ func _on_text_submitted(txt):
 			else:
 				for monster_or_trial in Global._ALL_MONSTER_AND_TRIAL_COINS:
 					var coin_name = monster_or_trial.coin_name.to_lower()
+					# strip [color=###]
+					coin_name = coin_name.get_slice("]", 1)
+					
 					if coin_name.contains(args[1].to_lower()):
 						game.spawn_enemy(monster_or_trial, denom-1)
 						found = true

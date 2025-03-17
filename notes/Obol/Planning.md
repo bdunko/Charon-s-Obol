@@ -3,26 +3,9 @@
 	- [ ] **New Bosses (1 week)**
 		- [ ] Gamebreaking bug - hold mouse over coin during payoff, after payoff ends, it gets stuck weirdly (maybe mouse counts as both entering and leaving or something... ideally we should spawn the tooltip but have it properly disappear later)
 			- [ ] seems to also sometimes happen regardless of where the mouse is. need to investigate. i wonder if the hitbox of the coin is off?
-		- [ ] Desecrate should be purple I guess
-		- [ ] Add new cases in payoff.
 		- [ ] Implement powers:
-			- [ ] Echidna & Typhoon - Spawn and buff monsters
-				- [ ] Echidna
-					- [x] Spawn a random monster Diobol.
-					- [x] Spawn three random fleeting monster Obols.
-				- [ ] Typhoon
-					- [x] Upgrade each monster.
-					- [x] Bless each monster.
-			- [ ] Cerberus - Damage race
-				- [ ] Left
-					- [x] Permanently ignite one of Cerberus's heads
-					- [x] Ignite 2 of your coins.
-				- [ ] Middle
-					- [x] Increase ignite damage by 2 for the rest of this round.
-					- [ ] Increase penalty damage by 3 for the rest of this round.
-				- [ ] Right
-					- [ ] Take 10 damage.
-					- [ ] Desecrate your cheapest coin (it always lands on tails for the rest of the round).
+			- [x] Echidna & Typhoon - Spawn and buff monsters
+			- [x] Cerberus - Damage race
 			- [ ] Scylla and Charybdis - Negation
 				- [ ] Scylla damage increase should scale with denom
 				- [ ] Scylla

@@ -1087,11 +1087,11 @@ class TrialData:
 		return load(_icon_path)
 
 @onready var NEMESES = [
-	TrialData.new("[color=lightgreen]The Gorgon Sisters[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "Three accursed sisters. Be rendered helpless by their petrifying gaze.", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path),
-	TrialData.new("[color=crimson]Cerberus, the Gatekeeper[/color]", [CERBERUS_LEFT_FAMILY, CERBERUS_MIDDLE_FAMILY, CERBERUS_RIGHT_FAMILY], "The three-headed beast's flaming maws draw blood. A fight to the death.", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path),
-	TrialData.new("[color=paleturquoise]Scylla and Charybdis[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "To the left or to the right? Half the crew cowers in fear, and scatter.", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path),
-	TrialData.new("[color=springgreen]Mother and Father[/color]", [ECHIDNA_FAMILY, TYPHON_FAMILY], "From the progenitors of monsters, they swarm and evolve.", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path),
-	TrialData.new("[color=lightsteelblue]Escape the Labyrinth[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "An immortal pursuer, darkness and dread. Seek your path to the light.", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path)
+	TrialData.new("[color=lightgreen]The Gorgon Sisters[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "Three sisters shunned by the heavens. Be rendered helpless by their petrifying gaze.", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path),
+	TrialData.new("[color=crimson]Cerberus, the Gatekeeper[/color]", [CERBERUS_LEFT_FAMILY, CERBERUS_MIDDLE_FAMILY, CERBERUS_RIGHT_FAMILY], "The three-headed beast's flaming maws draw blood. A fight to the death, intensity amplifying.", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path),
+	TrialData.new("[color=paleturquoise]Scylla and Charybdis[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "To the left or to the right? Half the crew cowers in fear, and scatters.", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path),
+	TrialData.new("[color=springgreen]Mother and Father[/color]", [ECHIDNA_FAMILY, TYPHON_FAMILY], "Born from the progenitors of monsters, they swarm and grow.", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path),
+	TrialData.new("[color=lightsteelblue]Escape the Labyrinth[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "An immortal pursuer, darkness and dread. Seek a path to the light.", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path)
 
 ]
 
@@ -1156,8 +1156,8 @@ enum PowerType {
 	PAYOFF_STONE, PAYOFF_DOWNGRADE_MOST_VALUABLE,
 	PAYOFF_SPAWN_STRONG, PAYOFF_SPAWN_FLEETING, PAYOFF_UPGRADE_MONSTERS, PAYOFF_BLESS_MONSTERS,
 	PAYOFF_PERMANENTLY_IGNITE_MONSTER, PAYOFF_AMPLIFY_IGNITE, PAYOFF_INCREASE_PENALTY, PAYOFF_DESECRATE,
-	PAYOFF_SHUFFLE, PAYOFF_LOSE_LIFE_SCALING_SCYLLA, PAYOFF_BLANK_LEFT_HALF, PAYOFF_BLANK_RIGHT_HALF,
-	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_LOSE_LIFE_SCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF
+	PAYOFF_SHUFFLE, PAYOFF_BLANK_LEFT_HALF, PAYOFF_BLANK_RIGHT_HALF,
+	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF
 }
 
 class PowerFamily:
@@ -1236,7 +1236,6 @@ const ICON_AND_CHARGES = false
 const INFINITE_CHARGES = -88888
 
 var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [2, 4, 7, 10, 14, 19], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_INCREASED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [4, 6, 9, 12, 17, 22], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [4, 8, 14, 20, 28, 38], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
@@ -1363,9 +1362,9 @@ var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PowerFamily.new("Upgrade all 
 var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PowerFamily.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLESS_MONSTERS, "res://assets/icons/nemesis/bless_monster_icon.png", ONLY_SHOW_ICON)
 
 # scylla & charybdis
-var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PowerFamily.new("Shuffle the position of each of your coins.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_SHUFFLE, "res://assets/icons/nemesis/scylla_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PowerFamily.new("Shuffle the position of each of your coins. Reset this coin's (LIFE) penalty.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_SHUFFLE, "res://assets/icons/nemesis/scylla_icon.png", ONLY_SHOW_ICON)
 const SCYLLA_INCREASE = [1, 2, 3, 4, 5, 6]
-var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this number by (SCYLLA_INCREASE) permanently.", [4, 4, 4, 4, 4, 4], PowerType.PAYOFF_LOSE_LIFE_SCALING_SCYLLA, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this number by (SCYLLA_INCREASE) permanently.", [4, 4, 4, 4, 4, 4], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PowerFamily.new("The coins in the left half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLANK_LEFT_HALF, "res://assets/icons/nemesis/charbydis_left_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PowerFamily.new("The coins in the right half of your row become (BLANK).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLANK_RIGHT_HALF, "res://assets/icons/nemesis/charbydis_right_icon.png", ONLY_SHOW_ICON)
 
@@ -1379,7 +1378,7 @@ var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PowerFamily.new("-(CURRENT_CHAR
 
 # minotaur
 var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY = PowerFamily.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), a random coin becomes (CURSED) or (UNLUCKY). Increase this number by 1.", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, "res://assets/icons/nemesis/minotaur_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Double this penalty.", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE_SCALING_MINOTAUR, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Double this penalty.", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH = PowerFamily.new("Destroy (CURRENT_CHARGES) more Labyrinth Walls to escape!\nThere is no Ante.", [12, 13, 14, 15, 17, 21], PowerType.PASSIVE, "res://assets/icons/nemesis/lost_in_the_labyrinth_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_ESCAPE = PowerFamily.new("You're heading the right direction! Destroy this coin and spawn a random Labyrinth Wall.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_A_WAY_OUT, "res://assets/icons/nemesis/a_way_out_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY_SELF, "res://assets/icons/nemesis/unlucky_self_icon.png", ONLY_SHOW_ICON)
@@ -1423,9 +1422,9 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(CHARGE)", STATUS_FORMAT % ["yellow", "Charge", "res://assets/icons/status/charge_icon.png"])
 	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["mediumpurple", "Doomed", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
-	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["red", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
+	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["fuchsia", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
 	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])
 	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % ["ghostwhite", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
 	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % ["orange", "Prime", "res://assets/icons/status/primed_icon.png"])

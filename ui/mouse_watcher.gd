@@ -46,6 +46,8 @@ func _update_mouse_over() -> void:
 			print(_mouse_over)
 
 func _process(_delta) -> void:
+	assert(watched)
+	
 	# if we aren't visible in tree, make it clear the mouse exited and early return
 	if not is_visible_in_tree():
 		if DEBUG:

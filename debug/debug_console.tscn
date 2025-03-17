@@ -44,17 +44,22 @@ lives [x]  - Gain x life
 arrows [x]  - Gain x arrows
 
 coin [god]  - get coin of god (\"coin coin\" for generic)
+coin [god] [1-6] - get coin of denom; 1=Obol, 2=Diobol...
 spawn [monster]  - spawn monster (or trial)
+spawn [monster] [1-6] - spawn monster of denom
 patron [god]  - patron becomes god
 
+malice [x] - Sets Charon's malice
+kill - set life to 0
 clear - clears row
-kill         exit                r - repeats last command
+clearm - clears monster row
+
+exit  - closes game
+r - repeats last command
 
 Shorthand works for names (ex: \"coin ap\" will find the first coin starting with ap, which is Apollo.)
 
-Nothing is case sensitive. 
-
-Use at your own peril (can cause game crash if you make weird situations)"
+Nothing is case sensitive. "
 
 [connection signal="debug_console_closed" from="." to="." method="_on_debug_console_closed"]
 [connection signal="debug_console_opened" from="." to="." method="_on_debug_console_opened"]
