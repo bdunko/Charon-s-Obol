@@ -682,8 +682,7 @@ func _on_toss_button_clicked() -> void:
 	
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true
-	if not Global.is_current_round_trial(): #obviously don't move trial coins up, we only want that for enemy coins
-		_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
+	_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
 	await _COIN_ROW.retract_for_toss(_PLAYER_FLIP_POSITION)
 	_COIN_ROW.expand()
 	_ENEMY_COIN_ROW.expand()
@@ -852,10 +851,10 @@ func _on_accept_button_pressed():
 							highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
 							downgrade_coin(highest[0])
 				Global.PowerType.PAYOFF_SPAWN_STRONG:
-					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[denom], true)
+					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[denom], 0)
 				Global.PowerType.PAYOFF_SPAWN_FLEETING:
 					for i in range(0, charges):
-						var enemy = spawn_enemy(Global.get_standard_monster(), Global.Denomination.OBOL, true)
+						var enemy = spawn_enemy(Global.get_standard_monster(), Global.Denomination.OBOL, 0)
 						if enemy != null: #may have not had space to spawn the monster, if so, returned null
 							enemy.make_fleeting()
 				Global.PowerType.PAYOFF_UPGRADE_MONSTERS:
@@ -893,17 +892,15 @@ func _on_accept_button_pressed():
 					for i in n_affected:
 						right_to_left[i].blank()
 				Global.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
-					pass
+					
 				Global.PowerType.PAYOFF_A_WAY_OUT:
-					pass
+					destroy_coin(payoff_coin)
 				Global.PowerType.PAYOFF_UNLUCKY_SELF:
-					pass
+					payoff_coin.make_unlucky()
 				Global.PowerType.PAYOFF_FREEZE_SELF:
-					pass
+					payoff_coin.freeze()
 				Global.PowerType.PAYOFF_BURY_SELF:
-					pass
-				Global.PowerType.PAYOFF_SPAWN_STRONG:
-					pass
+					payoff_coin.bury(1)
 				_:
 					assert(false, "No matching case for power type!")
 				# END MATCH
@@ -1088,8 +1085,8 @@ func connect_enemy_coins() -> void:
 		if not coin.clicked.is_connected(_on_coin_clicked):
 			coin.clicked.connect(_on_coin_clicked)
 
-func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, at_front: bool = false) -> Coin:
-	var new_enemy = _ENEMY_ROW.spawn_enemy(family, denom, at_front)
+func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: int = -1) -> Coin:
+	var new_enemy = _ENEMY_ROW.spawn_enemy(family, denom, index)
 	connect_enemy_coins()
 	return new_enemy
 
@@ -1808,11 +1805,35 @@ func destroy_coin(coin: Coin) -> void:
 	if coin.is_monster_coin():
 		Global.monsters_destroyed_this_round += 1
 	
+	var index = coin.get_index() # take now before removing
+	
 	if coin.get_parent() is CoinRow:
 		_remove_coin_from_row(coin)
 	# play destruction animation (coin will free itself after finishing)
 	coin.destroy()
 	_update_payoffs()
+	
+	if Global.is_passive_active(Global.NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH):
+		if coin.get_coin_family().has_tag(Global.CoinFamily.Tag.LABYRINTH_WALL):
+			# find coin...
+			var lost_in_lab_coin = _ENEMY_COIN_ROW.find_first_of_family(Global.LABYRINTH_PASSIVE_FAMILY)
+			assert(lost_in_lab_coin)
+			if lost_in_lab_coin.get_active_power_charges() <= 0:
+				return # prevent bad recursion when clearing row...
+			
+			# subtract a charge
+			lost_in_lab_coin.spend_active_face_power_use()
+			
+			# if we are done, destroy everything
+			if lost_in_lab_coin.get_active_power_charges() <= 0:
+				# we win. remove all coins from enemy coin row.
+				for c in _ENEMY_COIN_ROW.get_children():
+					destroy_coin(c)
+			# otherweise make a new wall
+			else:
+				var denom = coin.get_denomination()
+				var new_family = [Global.LABYRINTH_WALLS1_FAMILY, Global.LABYRINTH_WALLS2_FAMILY, Global.LABYRINTH_WALLS3_FAMILY, Global.LABYRINTH_WALLS4_FAMILY][Global.RNG.randi_range(0, 3)]
+				spawn_enemy(new_family, denom, index)
 	
 	# if nemesis round and the row is now empty, go ahead and end the round
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -2304,7 +2325,7 @@ func _on_coin_clicked(coin: Coin):
 				return #special case - this power is not from a coin, so just exit immediately
 		
 		after_coin_power_used(Global.active_coin_power_coin, coin, used_face_power)
-
+		
 	# non targetting coins
 	# otherwise we're attempting to activate a coin
 	elif coin.can_activate_power():

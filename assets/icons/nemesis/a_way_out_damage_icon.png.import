@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0lkfx1n6jd2y"
-path="res://.godot/imported/coins_spritesheetold.png-5efd965234e9706537d9b1f8789496ee.ctex"
+uid="uid://xfmsfocq65dr"
+path="res://.godot/imported/a_way_out_damage_icon.png-8f6c390206e027295ee0874600c25afa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/coins/coins_spritesheetold.png"
-dest_files=["res://.godot/imported/coins_spritesheetold.png-5efd965234e9706537d9b1f8789496ee.ctex"]
+source_file="res://assets/icons/nemesis/a_way_out_damage_icon.png"
+dest_files=["res://.godot/imported/a_way_out_damage_icon.png-8f6c390206e027295ee0874600c25afa.ctex"]
 
 [params]
 

@@ -1055,10 +1055,11 @@ func spend_inactive_face_power_use() -> void:
 	FX.flash(Color.WHITE)
 
 func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_sapping: bool) -> int:
-	if power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
-		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
-	elif is_stone():
+	# passive coins or stone coins do not recharge
+	if power_family.power_type == Global.PowerType.PASSIVE or is_stone():
 		return current_charges
+	elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
 	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_sapping: #recharge only by 1
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SAPPING)
 		return min(current_charges + 1, power_family.uses_for_denom[_denomination])
@@ -1307,12 +1308,14 @@ func can_stone() -> bool:
 	return true
 
 func can_flip() -> bool:
+	if get_coin_family().has_tag(Global.CoinFamily.Tag.NO_FLIP):
+		return false
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
 		return can_turn()
-	return not is_stone()
+	return not is_stone() and not is_buried()
 
 func can_turn() -> bool:
-	return true
+	return not is_buried()
 
 func stone() -> void:
 	if not can_stone():
@@ -1457,6 +1460,9 @@ func is_fleeting() -> bool:
 	return _fleeting_state == _FleetingState.FLEETING
 
 func can_target() -> bool:
+	if _coin_family.has_tag(Global.CoinFamily.Tag.CANT_TARGET):
+		return false
+	
 	return not is_buried()
 
 func clear_round_life_penalty() -> void:
@@ -1524,13 +1530,6 @@ const NUMERICAL_ADVERB_DICT = {
 	1 : "Once",
 	2 : "Twice", 
 	3 : "Thrice",
-	4 : "Four times",
-	5 : "Five times",
-	6 : "Six times",
-	7 : "Seven times",
-	8 : "Eight times",
-	9 : "Nine times", 
-	10 : "Ten times"
 }
 func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
@@ -1543,8 +1542,9 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 		txt = txt.replace("(CURRENT_CHARGES_PAYOFFS)", "%d %s" % [charges, "payoff" if charges == 1 else "payoffs"])
 		
 		if charges != 0 and charges <= 10:
-			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", NUMERICAL_ADVERB_DICT[charges])
-			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", NUMERICAL_ADVERB_DICT[charges].to_lower())
+			var adverb = "%d times" % charges if not NUMERICAL_ADVERB_DICT.has(charges) else NUMERICAL_ADVERB_DICT[charges]
+			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", adverb)
+			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", adverb.to_lower())
 
 		txt = txt.replace("(SOULS_PAYOFF)", "?" if face_power.souls_payoff == _SOULS_PAYOFF_INDETERMINANT else str(face_power.souls_payoff))
 	
@@ -1680,6 +1680,8 @@ func _generate_tooltip() -> void:
 			extra_info += "Cannot be upgraded. "
 		if _coin_family.has_tag(Global.CoinFamily.Tag.AUTO_UPGRADE_END_OF_ROUND):
 			extra_info += "Automatically upgrades when the round ends. "
+		if _coin_family.has_tag(Global.CoinFamily.Tag.CANT_TARGET):
+			extra_info += "Cannot be targetted. "
 		if extra_info != "":
 			extra_info += "\n"
 		

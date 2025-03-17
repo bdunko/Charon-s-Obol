@@ -264,6 +264,9 @@ static func FILTER_BURIED(c: Coin) -> bool:
 static func FILTER_NOT_BURIED(c: Coin) -> bool:
 	return not c.is_buried()
 
+static func FILTER_FLIPPABLE(c: Coin) -> bool:
+	return c.can_flip()
+
 static func FILTER_HEADS(c: Coin) -> bool:
 	return c.is_heads()
 
@@ -363,7 +366,7 @@ func retract_for_toss(retract_point: Vector2) -> void:
 		return
 	
 	# don't retract frozen or stoned coins
-	var coins_to_retract = get_multi_filtered([FILTER_NOT_STONE, FILTER_NOT_FROZEN, FILTER_NOT_BURIED])
+	var coins_to_retract = get_multi_filtered([FILTER_NOT_STONE, FILTER_FLIPPABLE])
 	
 	# do a very minor delay if nothing to retract
 	if coins_to_retract.size() == 0:
@@ -400,3 +403,9 @@ func enable_interaction() -> void:
 func num_coins() -> int:
 	return get_child_count()
 
+# returns the first coin with the given family, or null if none exist
+func find_first_of_family(family: Global.CoinFamily) -> Coin:
+	for coin in get_children():
+		if coin.get_coin_family() == family:
+			return coin
+	return null

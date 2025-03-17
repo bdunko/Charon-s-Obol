@@ -131,7 +131,7 @@ func _on_text_submitted(txt):
 		if not (args.size() == 2 or args.size() == 3):
 			success = false
 		else:
-			var denom = Global.Denomination.TETROBOL
+			var denom = Global.Denomination.PENTOBOL #this gets -1'd to tetrobol - ugly but w/e
 			if args.size() == 3:
 				denom = clamp(int(args[2]), 1, 6)
 			
@@ -158,8 +158,8 @@ func _on_text_submitted(txt):
 			success = false
 		elif coin_row.get_child_count() == Global.COIN_LIMIT:
 			success = false
-		else:
-			var denom = Global.Denomination.TETROBOL
+		else: 
+			var denom = Global.Denomination.PENTOBOL #this gets -1'd to tetrobol - ugly but w/e
 			if args.size() == 3:
 				denom = clamp(int(args[2]), 1, 6)
 			# special case thorns

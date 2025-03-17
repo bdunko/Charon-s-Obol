@@ -1,34 +1,17 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **New Bosses (1 week)**
-		- [ ] Gamebreaking bug - hold mouse over coin during payoff, after payoff ends, it gets stuck weirdly (maybe mouse counts as both entering and leaving or something... ideally we should spawn the tooltip but have it properly disappear later)
-			- [ ] seems to also sometimes happen regardless of where the mouse is. need to investigate. i wonder if the hitbox of the coin is off?
 		- [ ] Implement powers:
 			- [x] Echidna & Typhoon - Spawn and buff monsters
 			- [x] Cerberus - Damage race
 			- [ ] Scylla and Charybdis - Negation
-				- [ ] Scylla damage increase should scale with denom
-				- [ ] Scylla
-					- [ ] Shuffle your coins. Reset the damage this coin's tails power deals to 4.
-					- [ ] Take 4 damage. Increase this number by 4.
 				- [ ] Charybdis
-					- [ ] Blank the left half of your coins.
-					- [ ] Blank the right half of your coins.
+					- [ ] cant target
 			- [ ] Minotaur - Endurance
-				- [ ] Lost in the Labyrinth (passive)
-					- [ ] Destroy 15 more Labyrinth Walls to escape. There is no ante.
-						- [ ] Show amount remaining in both tooltip and on coin as number.
-						- [ ] Whenever a coin is destroyed (in game.gd) - if this passive is active, we check if the destroyed coin is a Labyrinth Wall and, if so, decrement it by 1. If zero, destroy both this and minotaur and advance the round.
-						- [ ] ensure passive coins don't recharge naturally. 
-					- [ ] Labyrinth Walls (3 copies, start with one of each) (can be destroyed by souls, but the price is unrealistically high - you will not win just doing this)
-						- [ ] Heads - Destroy this and spawn a random Labyrinth Walls.
-						- [ ] Tails - Make this Unlucky.
-						- [ ] Tails - Freeze this.
-						- [ ] Tails - Bury this for one toss.
-						- [ ] Tails - Lose 10 life.
-					- [ ] Minotaur - cannot be destroyed or downgraded.
-						- [ ] Heads - Take 5 damage. Double this number.
-						- [ ] Tails - X times, a random coin becomes Cursed, Unlucky, or is Buried for one toss. Increase this number by 1.
+				- [ ] Minotaur - cannot be destroyed or downgraded.
+					- [x] Heads - Take 5 damage. Double this penalty.
+					- [ ] Tails - X times, a random coin becomes Cursed or Unlucky. Double this number.
+					- [ ] Add change_max_charges_this_round
 	- [ ] **More Monsters (3 days)**
 		- [ ] Monster spawning rework - 'encounter' style monsters.
 			- [ ] Monsters that are about neutral in impact. Both beneficial and harmful in equal measure, or purely opt in abilities.

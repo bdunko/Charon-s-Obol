@@ -27,14 +27,14 @@ func current_round_setup() -> void:
 	for coinDataPair in Global.current_round_enemy_coin_data():
 		spawn_enemy(coinDataPair[0], coinDataPair[1])
 
-func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, at_front: bool = false) -> Coin:
+func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: int = -1) -> Coin:
 	if _ROW.get_child_count() >= MAX_ENEMIES:
 		return # don't spawn more than max
 	
 	var coin = _COIN_SCENE.instantiate()
 	_ROW.add_child(coin)
-	if at_front:
-		_ROW.move_child(coin, 0)
+	if index != -1:
+		_ROW.move_child(coin, index)
 	coin.global_position = _coin_spawn_point
 	coin.init_coin(family, denom, Coin.Owner.NEMESIS)
 	return coin
