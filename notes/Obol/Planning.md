@@ -2,11 +2,6 @@
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **New Bosses (1 week)**
 		- [ ] Implement powers:
-			- [x] Echidna & Typhoon - Spawn and buff monsters
-			- [x] Cerberus - Damage race
-			- [ ] Scylla and Charybdis - Negation
-				- [ ] Charybdis
-					- [ ] cant target
 			- [ ] Minotaur - Endurance
 				- [ ] Minotaur - cannot be destroyed or downgraded.
 					- [x] Heads - Take 5 damage. Double this penalty.
@@ -33,9 +28,11 @@
 
 
 - [ ] Coin of the days
-	- [ ] Sarpedon - Purifying Pyre - Ignite a coin. If it was already ignited, Bless it. If it was already blessed, destroy it and downgrade a random monster twice.
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Dike
+	- [ ] Charybdis
+	- [ ] Cerberus
+	- [ ] Echidna
 
 
 
