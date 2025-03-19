@@ -185,6 +185,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Use 10 random powers with random targets.
 		- [ ] ??? - Randomly apply bless/curse, freeze/ignite, gold/stone
 		- [ ] (God Power?) - Repeat the last 3 abilities you've used this turn on random targets.
+		- [ ] Tyche - Tempt Fate - greek god of luck; Flip all your coins. Randomly make all your coins lucky or unlucky. Randomly bless/curse your coins. Gain a random amount of life or souls (scales with coin level). Transform all your other coins into random other coins of the same value. 1 charge always.
 	- [ ] **Shop**
 		- [x] Jason - Golden fleece - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
 	- [ ] **Recharge**

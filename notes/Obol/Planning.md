@@ -1,19 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] **New Bosses (1 week)**
-		- [ ] Implement powers:
-			- [ ] Minotaur - Endurance
-				- [ ] Minotaur - cannot be destroyed or downgraded.
-					- [x] Heads - Take 5 damage. Double this penalty.
-					- [ ] Tails - X times, a random coin becomes Cursed or Unlucky. Double this number.
-					- [ ] Add change_max_charges_this_round
 	- [ ] **More Monsters (3 days)**
-		- [ ] Monster spawning rework - 'encounter' style monsters.
-			- [ ] Monsters that are about neutral in impact. Both beneficial and harmful in equal measure, or purely opt in abilities.
-				- [ ] Centaur, Stymphalian Birds are existing ones.
-				- [ ] Add a few more for variety. 
-				- [ ] On higher waves, specifically spawn 2 of the same for Centaur/Stymphalian Birds.
-			- [ ] Possibly - assign different difficulty rates per monster. Most will be Standard; Centaur/Stymphalian/etc will count as half. Special ones might count as 0 (but only one 0 can spawn per wave, and they are rare; 0s also cannot replace normal monster spaces)
 		- [ ] 16 total standard monster types (10 additional)
 		- [ ] 8 elite monster types. (4 additional)
 	- [ ] **New Trials (2 days)**
