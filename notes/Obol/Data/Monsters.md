@@ -5,15 +5,16 @@
 	- [x] Kobalos - Unlucky/damage
 	- [x] Arae - Curse/no damage
 	- [x] Harpy - Blank/damage
-	- [ ] Trojan Horse - Destroy this and spawn two smaller monsters (Obol spawns Obol, but don't allow this to spawn as Obol if possible) / Blank a coin.
+	- [ ] Trojan Horse - Destroy this and spawn two smaller monsters (Obol spawns Obol, but don't allow this to spawn as Obol if possible) / no damage
 	- [ ] Eidolon - Make each enemy coin Unlucky + Damage
 	- [ ] Hyperborean - Freeze random + Lose Souls
 	- [ ] Gadfly - Gain Thorns / small damage. increase this damage slightly.
+		- [ ] scale the obol to diobol for higher denoms
+		- [ ] damage scaling should be handled uniquely
 	- [ ] Strix - Increase tails penalty (by a substantial amount, more than damage)+ Damage
 	- [ ] Lamia - bury a coin for 2 payoffs / lose souls
-	- [ ] 11
-	- [ ] 12
-	- [ ] 13
+	- [ ] Erymanthian Boar - 2x damage/Bury this coin for 2 payoffs.
+	- [ ] Spartoi - upgrade this/damage
 - [ ] Elite - happy with these
 	- [x] Chimera - Ignite/2x damage
 	- [x] Siren - Freeze tails/curse
@@ -29,9 +30,9 @@
 	- [x] Centaur - Lucky/Unlucky
 	- [x] Stymphalian Birds - +Arrow/2x Damage
 	- [ ] Colchian Dragon - Gain Souls + damage
-	- [ ] Phoenix - When this coin is destroyed: spawn a Phoenix. Heal + Ignite.
+	- [ ] Phoenix - When this coin is destroyed: spawn a Phoenix (cheap to destroy). Heal + Ignite self.
 	- [ ] Oread - Lucky / Bury a random coin for 3 payoffs
-	- [ ] Empusa - Transform a coin into another coin of the same type and denomination / Gain life
+	- [ ] Empusa - Transform a coin into another coin of the same type and denomination / lose souls
 	- [ ] Hamadryad - Bless / Heal. Becomes upset when a monster is destroyed and transforms into...
 		- [ ] Meliae - Curse / damage
 	- [ ] Satyr - Gain random Obol / Blank
@@ -47,6 +48,7 @@
 	- [ ] ??? - passive - coins have 1 fewer use. / damage
 	- [ ] Blasphemer (find a cooler term) - Lose 1 patron charge / lose souls
 	- [ ] Aeternae
+	- [ ] 
 - [ ] Elite
 	- [ ] Gigantes
 	- [ ] Griffin - Blank / ???
@@ -66,7 +68,7 @@
 		- [ ] Bless a coin.
 		- [ ] Change a coin to its other face.
 		- [ ] Clear negative statuses from a coin.
-	- [ ] 
+	- [ ] Downgrade your highest value coin. Upgrade your lowest value coin.
 	- [ ] ??? - Chaos - Transform 1/2/3/4 random coins and upgrade them once.
 	- [ ] ??? - Ultimate Gamble - This coin always lands on heads. Destroy this coin, then (50%) turn all coins to heads and bless them, or (50%) turn all coins to tails and curse them.
 - [ ] Ideas

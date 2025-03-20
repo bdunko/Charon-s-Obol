@@ -1,8 +1,19 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
+	- [ ] **Boss Adjustments**
+		- [ ] Minotaur - no strain (check for labyrinth passive, if so, turn strain off)
+		- [ ] Minotaur - no downgrade/destroy flag.
+		- [ ] Charbydis - round down (makes middle coin better/more fair)
+		- [ ] Typhon - enrage (transform) when Echidna is destroyed.
+		- [ ] Cerb - improve description
+		- [ ] Move the no tollgate flag to be a coin flag instead of a list.
+			- [ ] same for no upgrade
 	- [ ] **More Monsters (3 days)**
-		- [ ] 16 total standard monster types (10 additional)
-		- [ ] 8 elite monster types. (4 additional)
+		- [ ] Add power families.
+		- [ ] Add coin families.
+		- [ ] Add powertypes.
+		- [ ] Create icons.
+		- [ ] Implement powertypes.
 	- [ ] **New Trials (2 days)**
 		- [ ] 10 trials per tier.
 	- [ ] **More Characters (2-3 days)**
@@ -17,7 +28,6 @@
 - [ ] Coin of the days
 	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 	- [ ] Dike
-	- [ ] Charybdis
 	- [ ] Cerberus
 	- [ ] Echidna
 
@@ -44,10 +54,6 @@
 		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
 		- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
 		- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
-
-**Maybe**
-- [ ] **Tooltip Shrinking - 1 week**
-	- [ ] Reduce the size of the tooltips by increasing base game size.
 
 **Charon's Obol Release**
 - [ ] **Sound - 8 weeks**
