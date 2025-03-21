@@ -1144,19 +1144,25 @@ enum PowerType {
 	
 	CHARON,
 	
+	# monsters
 	PAYOFF_GAIN_SOULS, PAYOFF_LOSE_SOULS,
-	PAYOFF_LOSE_LIFE,
+	PAYOFF_LOSE_LIFE, PAYOFF_GAIN_LIFE,
 	PAYOFF_GAIN_ARROWS, 
 	PAYOFF_STOKE_FLAME,
 	PAYOFF_DO_NOTHING,
-	PAYOFF_IGNITE_SELF, PAYOFF_IGNITE, PAYOFF_UNLUCKY, PAYOFF_CURSE, PAYOFF_BLANK, PAYOFF_LUCKY, 
-	PAYOFF_FREEZE_TAILS, PAYOFF_HALVE_LIFE, 
+	PAYOFF_IGNITE_SELF, PAYOFF_IGNITE, PAYOFF_UNLUCKY, PAYOFF_CURSE, PAYOFF_BLANK, PAYOFF_LUCKY, PAYOFF_BURY_SELF_BOAR,
+	PAYOFF_TROJAN_HORSE, PAYOFF_ALL_MONSTER_UNLUCKY, PAYOFF_FREEZE, PAYOFF_GAIN_THORNS_GADFLY, PAYOFF_LOSE_LIFE_SCALING_GADFLY,
+	PAYOFF_INCREASE_PENALTY, PAYOFF_BURY_LAMIA, PAYOFF_BURY_OREAD, PAYOFF_TRANSFORM, PAYOFF_BLESS, PAYOFF_GAIN_OBOL,
+	PAYOFF_DECREASE_COST, PAYOFF_INCREASE_COST, PAYOFF_DESTROY_SELF, PAYOFF_CURSE_SELF, PAYOFF_DOWNGRADE, PAYOFF_DOOM_RIGHTMOST,
+	PAYOFF_GAIN_THORNS_SPHINX, PAYOFF_DOWNGRADE_AND_PRIME, PAYOFF_BURY_CYCLOPES, PAYOFF_FREEZE_TAILS, PAYOFF_HALVE_LIFE, 
+	PAYOFF_UPGRADE_SELF,
 	
+	# nemesis
 	PAYOFF_STONE, PAYOFF_DOWNGRADE_MOST_VALUABLE,
 	PAYOFF_SPAWN_STRONG, PAYOFF_SPAWN_FLEETING, PAYOFF_UPGRADE_MONSTERS, PAYOFF_BLESS_MONSTERS,
-	PAYOFF_PERMANENTLY_IGNITE_MONSTER, PAYOFF_AMPLIFY_IGNITE, PAYOFF_INCREASE_PENALTY, PAYOFF_DESECRATE,
+	PAYOFF_PERMANENTLY_IGNITE_MONSTER, PAYOFF_AMPLIFY_IGNITE, PAYOFF_INCREASE_ALL_PENALTY, PAYOFF_DESECRATE,
 	PAYOFF_SHUFFLE, PAYOFF_BLANK_LEFT_HALF, PAYOFF_BLANK_RIGHT_HALF,
-	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF
+	PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR, PAYOFF_A_WAY_OUT, PAYOFF_UNLUCKY_SELF, PAYOFF_FREEZE_SELF, PAYOFF_BURY_SELF_LABYRINTH
 }
 
 class PowerFamily:
@@ -1333,10 +1339,43 @@ var MONSTER_POWER_FAMILY_KOBALOS = PowerFamily.new("Make (CURRENT_CHARGES_COINS)
 var MONSTER_POWER_FAMILY_ARAE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/arae_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_HARPY = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
 
+var MONSTER_POWER_FAMILY_TROJAN_HORSE_DESTROY = PowerFamily.new("Destroy this coin. Spawn (CURRENT_CHARGES) monsters.", [2, 2, 2, 3, 3, 3], PowerType.PAYOFF_TROJAN_HORSE, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_EIDOLON_UNLUCKY_SELF = PowerFamily.new("All monsters become (UNLUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_ALL_MONSTER_UNLUCKY, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HYPERBOREAN_FREEZE = PowerFamily.new("(FREEZE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_FREEZE, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HYPERBOREAN_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var GADFLY_THORNS_DENOM = [Denomination.OBOL, Denomination.OBOL, Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL]
+var MONSTER_POWER_FAMILY_GADFLY_THORNS = PowerFamily.new("Gain an (GADFLY_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_THORNS_GADFLY, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by 1.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_LOSE_LIFE_SCALING_GADFLY, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PowerFamily.new("Increase a coin's (LIFE) penalty for this round by (CURRENT_CHARGES).", [4, 5, 6, 7, 8, 9], PowerType.PAYOFF_INCREASE_PENALTY, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
+var MONSTER_POWER_FAMILY_LAMIA_BURY = PowerFamily.new("(BURY) a coin for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_LAMIA, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var BOAR_BURY = [2, 2, 2, 1, 1, 1]
+var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PowerFamily.new("(BURY) this coin for (BOAR_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_SELF_BOAR, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF = PowerFamily.new("Upgrade this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UPGRADE_SELF, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+
 # encounters
 var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (LUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LUCKY, "res://assets/icons/monster/centaur_heads_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/centaur_tails_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PowerFamily.new("+1(ARROW).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/monster/stymphalian_birds_icon.png", ONLY_SHOW_ICON)
+
+var MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS = PowerFamily.new("+(CURRENT_CHARGES)(SOULS).", [5, 7, 9, 11, 13, 15], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_PHOENIX_HEAL = PowerFamily.new("+(CURRENT_CHARGES)(HEAL).", [4, 5, 6, 7, 8, 9], PowerType.PAYOFF_GAIN_LIFE, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_PHOENIX_IGNITE_SELF = PowerFamily.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_IGNITE_SELF, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_OREAD_LUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (LUCKY).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LUCKY, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+const OREAD_BURY = [1, 1, 1, 1, 1, 1]
+var MONSTER_POWER_FAMILY_OREAD_BURY = PowerFamily.new("(BURY) a coin for (OREAD_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_OREAD, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM = PowerFamily.new("Transform a coin into a random coin of the same denomination and type.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_TRANSFORM, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_EMPUSA_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HAMADYRAD_BLESS = PowerFamily.new("(BLESS) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLESS, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HAMADYRAD_HEAL = PowerFamily.new("+(CURRENT_CHARGES)(HEAL).", [2, 3, 4, 5, 6, 7], PowerType.PAYOFF_GAIN_LIFE, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MELIAE_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SATYR_GAIN = PowerFamily.new("Gain a random Obol.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_OBOL, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SATYR_BLANK = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_RELIQUARY_DECREASE_COST = PowerFamily.new("Increase the cost to destroy this.", [4, 6, 8, 10, 13, 15], PowerType.PAYOFF_DECREASE_COST, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_RELIQUARY_INCREASE_COST = PowerFamily.new("Decrease the cost to destroy this.", [2, 3, 4, 5, 6, 7], PowerType.PAYOFF_INCREASE_COST, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_AETERNAE_HEADS = PowerFamily.new("WEELLDKI EJTNEM FOEEANDARXL!", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DESTROY_SELF, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_AETERNAE_TAILS = PowerFamily.new("HWTINRTROSOPIUS OFTWSTOEHADO BONE!", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DESTROY_SELF, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
 
 # elites
 var MONSTER_POWER_FAMILY_CHIMERA = PowerFamily.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_IGNITE, "res://assets/icons/monster/chimera_icon.png", ONLY_SHOW_ICON)
@@ -1344,6 +1383,21 @@ var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each (TAILS) coin.", 
 var MONSTER_POWER_FAMILY_SIREN_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 3, 3, 4], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_HALVE_LIFE, "res://assets/icons/monster/basilisk_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
+
+var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES) this round.", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_DESECRATE = PowerFamily.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PowerType.PAYOFF_DESECRATE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MANTICORE_CURSE_SELF = PowerFamily.new("(CURSE) this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_CURSE_SELF, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MANTICORE = PowerFamily.new("Downgrade a coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOWNGRADE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_FURIES_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_FURIES_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SPHINX_DOOMED = PowerFamily.new("Make the rightmost eligible coin (DOOMED). [color=gray](It is destroyed when the round ends.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOOM_RIGHTMOST, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+const SPHINX_DENOM = [Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL, Denomination.TETROBOL]
+var MONSTER_POWER_FAMILY_SPHINX_THORNS = PowerFamily.new("Gain an (SPHINX_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_THORNS_SPHINX, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CYCLOPES_DOWNGRADE = PowerFamily.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_DOWNGRADE_AND_PRIME, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+const BURY_CYCLOPES = [4, 4, 5, 5, 6, 6]
+var MONSTER_POWER_FAMILY_CYCLOPES_BURY = PowerFamily.new("(BURY) a coin for (CURRENT_CHARGES) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_CYCLOPES, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 
 # medusa
 var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
@@ -1371,7 +1425,7 @@ var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PowerFamily.new("(BLANK) the right ha
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PowerFamily.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_PERMANENTLY_IGNITE_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PowerFamily.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_IGNITE, "res://assets/icons/nemesis/ignite_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PowerFamily.new("Increase (IGNITE) damage by (CURRENT_CHARGES) for the rest of the round.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_AMPLIFY_IGNITE, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase (LIFE) penalty damage by (CURRENT_CHARGES) for the rest of the round..", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_INCREASE_PENALTY, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES) this round.", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PowerFamily.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DESECRATE,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
@@ -1385,7 +1439,7 @@ var NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE = PowerFamily.new("You walk towa
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE = PowerFamily.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_A_WAY_OUT, "res://assets/icons/nemesis/a_way_out_damage_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY_SELF, "res://assets/icons/nemesis/unlucky_self_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PowerFamily.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_FREEZE_SELF, "res://assets/icons/nemesis/freeze_self_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PowerFamily.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BURY_SELF, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PowerFamily.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BURY_SELF_LABYRINTH, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 var TRIAL_POWER_FAMILY_IRON = PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", ONLY_SHOW_ICON)

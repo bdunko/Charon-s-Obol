@@ -1,6 +1,53 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] **Boss Adjustments**
+	- [ ] **More Monsters (Thursday/Friday/Saturday)**
+		- [x] Add power families.
+		- [ ] Add coin families. **Thursday**
+		- [x] Add powertypes. **Thursday**
+		- [ ] Create icons. **Friday**
+		- [ ] Implement powertypes. **Saturday**
+			- [ ] Hamadyrad - transform when another monster is destroyed
+			- [ ] Reliquary - increase cost and decrease cost
+		- [ ] Standard
+			- [x] Hellhound - Ignite self/damage
+			- [x] Kobalos - Unlucky/damage
+			- [x] Arae - Curse/no damage
+			- [x] Harpy - Blank/damage
+			- [ ] Trojan Horse - Destroy this and spawn two smaller monsters (Obol spawns Obol, but don't allow this to spawn as Obol if possible) / no damage
+			- [ ] Eidolon - Make each enemy coin Unlucky + Damage
+			- [ ] Hyperborean - Freeze random + Lose Souls
+			- [ ] Gadfly - Gain Thorns / small damage. increase this damage slightly.
+				- [ ] scale the obol to diobol for higher denoms
+				- [ ] damage scaling should be handled uniquely
+			- [ ] Strix - Increase tails penalty (by a substantial amount, more than damage)+ Damage
+			- [ ] Lamia - bury a coin for 2 payoffs / lose souls
+			- [ ] Erymanthian Boar - 2x damage/Bury this coin for 2 payoffs.
+			- [ ] Spartoi - upgrade this/damage
+		- [ ] Elite - happy with these
+			- [x] Chimera - Ignite/2x damage
+			- [x] Siren - Freeze tails/curse
+			- [x] Basilisk - Half life/no damage
+			- [ ] Gorgon - Stone/Unlucky
+			- [ ] Keres - Increase penalty of all coins + Desecrate
+			- [ ] Teumessian fox - Cannot be appeased. 3 Blank + 1 Blank
+			- [ ] Manticore - Curse self + Downgrade (Venomous Tail)
+			- [ ] Furies - Curse 2 + Unlucky 2
+			- [ ] Sphynx - Rightmost possible coin becomes Doomed / gain thorns (the gimmick here is that you can gain thorns then let it become doomed to avoid negatives; to solve the riddle so to speak)
+			- [ ] Cyclopes - Downgrade+Prime + Bury a coin for 5 payoffs
+		- [ ] Encounter
+			- [x] Centaur - Lucky/Unlucky
+			- [x] Stymphalian Birds - +Arrow/2x Damage
+			- [ ] Colchian Dragon - Gain Souls + damage
+			- [ ] Phoenix - When this coin is destroyed: spawn a Phoenix (cheap to destroy). Heal + Ignite self.
+			- [ ] Oread - Lucky / Bury a random coin for 3 payoffs
+			- [ ] Empusa - Transform a coin into another coin of the same type and denomination / lose souls
+			- [ ] Hamadryad - Bless / Heal. Becomes upset when a monster is destroyed and transforms into...
+				- [ ] Meliae - Curse / damage
+			- [ ] Satyr - Gain random Obol / Blank
+			- [ ] Chest - If destroyed, gain a random Obol/Diobol/...; Heads +Souls/Tails -Souls
+				- [ ] needs a custom appease price to be approximately the price of the given coin
+			- [ ] Aeternae - extremely rare, garbled text, destroys itself after the first payoff. Just used for a fun easter egg/achievement.
+	- [ ] **Boss Adjustments - Sunday**
 		- [ ] Minotaur - no strain (check for labyrinth passive, if so, turn strain off)
 		- [ ] Minotaur - no downgrade/destroy flag.
 		- [ ] Charbydis - round down (makes middle coin better/more fair)
@@ -8,21 +55,11 @@
 		- [ ] Cerb - improve description
 		- [ ] Move the no tollgate flag to be a coin flag instead of a list.
 			- [ ] same for no upgrade
-	- [ ] **More Monsters (3 days)**
-		- [ ] Add power families.
-		- [ ] Add coin families.
-		- [ ] Add powertypes.
-		- [ ] Create icons.
-		- [ ] Implement powertypes.
-	- [ ] **New Trials (2 days)**
+	- [ ] **New Trials (Sunday)**
 		- [ ] 10 trials per tier.
-	- [ ] **More Characters (2-3 days)**
-		- [ ] 4 new characters.
-			- [ ] The Merchant
-			- [ ] The Archon
-			- [ ] The Gardener
-			- [ ] The Child
-		- [ ] Coin exclusion list per character to block bad interactions.
+
+
+
 
 
 - [ ] Coin of the days
@@ -34,6 +71,13 @@
 
 
 **Charon's Obol Beta - Coalescence**
+- [ ] **More Characters (2-3 days)**
+	- [ ] 4 new characters.
+		- [ ] The Merchant
+		- [ ] The Archon
+		- [ ] The Gardener
+		- [ ] The Child
+	- [ ] Coin exclusion list per character to block bad interactions.
 - [ ] **Beta QOL - 1 week**
 	- [ ] Coins with a passive should have like, the cool rotating pixel thing around their edges.
 		- [ ] This is hard to do with shader (doable but tricky) - I'll just create an animation in aesprite and overlay it.

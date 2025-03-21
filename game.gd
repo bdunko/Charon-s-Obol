@@ -877,7 +877,7 @@ func _on_accept_button_pressed():
 				Global.PowerType.PAYOFF_AMPLIFY_IGNITE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					Global.ignite_damage += charges
-				Global.PowerType.PAYOFF_INCREASE_PENALTY:
+				Global.PowerType.PAYOFF_INCREASE_ALL_PENALTY:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						if coin.can_change_life_penalty():
@@ -924,9 +924,53 @@ func _on_accept_button_pressed():
 				Global.PowerType.PAYOFF_FREEZE_SELF:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					payoff_coin.freeze()
-				Global.PowerType.PAYOFF_BURY_SELF:
+				Global.PowerType.PAYOFF_BURY_SELF_LABYRINTH:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					payoff_coin.bury(1)
+				Global.PowerType.PAYOFF_TROJAN_HORSE:
+					pass
+				Global.PowerType.PAYOFF_ALL_MONSTER_UNLUCKY:
+					pass
+				Global.PowerType.PAYOFF_FREEZE:
+					pass
+				Global.PowerType.PAYOFF_GAIN_THORNS_GADFLY:
+					pass
+				Global.PowerType.PAYOFF_LOSE_LIFE_SCALING_GADFLY:
+					pass
+				Global.PowerType.PAYOFF_BURY_LAMIA:
+					pass
+				Global.PowerType.PAYOFF_GAIN_LIFE:
+					pass
+				Global.PowerType.PAYOFF_BURY_OREAD:
+					pass
+				Global.PowerType.PAYOFF_TRANSFORM:
+					pass
+				Global.PowerType.PAYOFF_BLESS:
+					pass
+				Global.PowerType.PAYOFF_GAIN_OBOL:
+					pass
+				Global.PowerType.PAYOFF_DECREASE_COST:
+					pass
+				Global.PowerType.PAYOFF_INCREASE_COST:
+					pass
+				Global.PowerType.PAYOFF_DESTROY_SELF:
+					pass
+				Global.PowerType.PAYOFF_CURSE_SELF:
+					pass
+				Global.PowerType.PAYOFF_DOWNGRADE:
+					pass
+				Global.PowerType.PAYOFF_DOOM_RIGHTMOST:
+					pass
+				Global.PowerType.PAYOFF_GAIN_THORNS_SPHINX:
+					pass
+				Global.PowerType.PAYOFF_DOWNGRADE_AND_PRIME:
+					pass
+				Global.PowerType.PAYOFF_BURY_CYCLOPES:
+					pass
+				Global.PowerType.PAYOFF_BURY_SELF_BOAR:
+					pass
+				Global.PowerType.PAYOFF_UPGRADE_SELF:
+					pass
 				_:
 					assert(false, "No matching case for power type!")
 				# END MATCH
