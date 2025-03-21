@@ -1480,6 +1480,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
 	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["mediumpurple", "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(DOOM)", STATUS_FORMAT % ["mediumpurple", "Doom", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["fuchsia", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
 	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])

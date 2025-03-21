@@ -2,7 +2,7 @@
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
 	- [ ] **More Monsters (Thursday/Friday/Saturday)**
 		- [x] Add power families.
-		- [ ] Add coin families. **Thursday**
+		- [x] Add coin families. **Thursday**
 		- [x] Add powertypes. **Thursday**
 		- [ ] Create icons. **Friday**
 		- [ ] Implement powertypes. **Saturday**
