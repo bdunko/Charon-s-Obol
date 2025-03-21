@@ -965,7 +965,7 @@ func _on_accept_button_pressed():
 					pass
 				Global.PowerType.PAYOFF_DOWNGRADE_AND_PRIME:
 					pass
-				Global.PowerType.PAYOFF_BURY_CYCLOPES:
+				Global.PowerType.PAYOFF_BURY_CYCLOPS:
 					pass
 				Global.PowerType.PAYOFF_BURY_SELF_BOAR:
 					pass

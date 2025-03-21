@@ -1154,7 +1154,7 @@ enum PowerType {
 	PAYOFF_TROJAN_HORSE, PAYOFF_ALL_MONSTER_UNLUCKY, PAYOFF_FREEZE, PAYOFF_GAIN_THORNS_GADFLY, PAYOFF_LOSE_LIFE_SCALING_GADFLY,
 	PAYOFF_INCREASE_PENALTY, PAYOFF_BURY_LAMIA, PAYOFF_BURY_OREAD, PAYOFF_TRANSFORM, PAYOFF_BLESS, PAYOFF_GAIN_OBOL,
 	PAYOFF_DECREASE_COST, PAYOFF_INCREASE_COST, PAYOFF_DESTROY_SELF, PAYOFF_CURSE_SELF, PAYOFF_DOWNGRADE, PAYOFF_DOOM_RIGHTMOST,
-	PAYOFF_GAIN_THORNS_SPHINX, PAYOFF_DOWNGRADE_AND_PRIME, PAYOFF_BURY_CYCLOPES, PAYOFF_FREEZE_TAILS, PAYOFF_HALVE_LIFE, 
+	PAYOFF_GAIN_THORNS_SPHINX, PAYOFF_DOWNGRADE_AND_PRIME, PAYOFF_BURY_CYCLOPS, PAYOFF_FREEZE_TAILS, PAYOFF_HALVE_LIFE, 
 	PAYOFF_UPGRADE_SELF,
 	
 	# nemesis
@@ -1383,21 +1383,22 @@ var MONSTER_POWER_FAMILY_SIREN = PowerFamily.new("(FREEZE) each (TAILS) coin.", 
 var MONSTER_POWER_FAMILY_SIREN_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 3, 3, 4], PowerType.PAYOFF_CURSE, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_BASILISK = PowerFamily.new("Lose half your(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_HALVE_LIFE, "res://assets/icons/monster/basilisk_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
 
 var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES) this round.", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_KERES_DESECRATE = PowerFamily.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PowerType.PAYOFF_DESECRATE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_MANTICORE_CURSE_SELF = PowerFamily.new("(CURSE) this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_CURSE_SELF, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_MANTICORE = PowerFamily.new("Downgrade a coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOWNGRADE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE = PowerFamily.new("Downgrade a coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOWNGRADE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_FURIES_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_FURIES_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_SPHINX_DOOMED = PowerFamily.new("Make the rightmost eligible coin (DOOMED). [color=gray](It is destroyed when the round ends.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOOM_RIGHTMOST, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 const SPHINX_DENOM = [Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL, Denomination.TETROBOL]
 var MONSTER_POWER_FAMILY_SPHINX_THORNS = PowerFamily.new("Gain an (SPHINX_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_THORNS_SPHINX, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_CYCLOPES_DOWNGRADE = PowerFamily.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_DOWNGRADE_AND_PRIME, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
-const BURY_CYCLOPES = [4, 4, 5, 5, 6, 6]
-var MONSTER_POWER_FAMILY_CYCLOPES_BURY = PowerFamily.new("(BURY) a coin for (CURRENT_CHARGES) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_CYCLOPES, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE = PowerFamily.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_DOWNGRADE_AND_PRIME, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
+const BURY_CYCLOPS = [4, 4, 5, 5, 6, 6]
+var MONSTER_POWER_FAMILY_CYCLOPS_BURY = PowerFamily.new("(BURY) a coin for (CURRENT_CHARGES) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_CYCLOPS, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
 
 # medusa
 var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_STONE, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
@@ -2188,6 +2189,8 @@ const NEMESIS_CERBERUS_APPEASE = [45, 55, 65, 75, 85, 95]
 @warning_ignore("unused_private_class_variable")
 @onready var _ALL_MONSTER_AND_TRIAL_COINS = [
 	MONSTER_HELLHOUND_FAMILY, MONSTER_KOBALOS_FAMILY, MONSTER_ARAE_FAMILY, MONSTER_HARPY_FAMILY, 
+	MONSTER_TROJAN_HORSE_FAMILY, MONSTER_EIDOLON_FAMILY,MONSTER_HYPERBOREAN_FAMILY, MONSTER_GADFLY_FAMILY,
+	MONSTER_STRIX_FAMILY, MONSTER_LAMIA_FAMILY, MONSTER_ERYMANTHIAN_BOAR_FAMILY, MONSTER_SPARTOI_FAMILY, 
 	
 	MONSTER_CENTAUR_FAMILY, MONSTER_STYMPHALIAN_BIRDS_FAMILY,
 	
@@ -2214,20 +2217,71 @@ var MONSTER_ARAE_FAMILY = CoinFamily.new(2003, CoinType.MONSTER, "[color=gray]Ar
 	NO_PRICE, MONSTER_POWER_FAMILY_ARAE, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_HARPY_FAMILY = CoinFamily.new(2004, CoinType.MONSTER, "[color=gray]Harpy's (DENOM)[/color]", "[color=purple]Shrieking Wind[/color]", MONSTER_POWER_FAMILY_HARPY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_HARPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+
+var MONSTER_TROJAN_HORSE_FAMILY = CoinFamily.new(2005, CoinType.MONSTER, "[color=gray]Trojan Horse's (DENOM)[/color]", "[color=purple]A Gift?[/color]", MONSTER_POWER_FAMILY_TROJAN_HORSE_DESTROY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_TROJAN_HORSE_DESTROY, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_EIDOLON_FAMILY = CoinFamily.new(2006, CoinType.MONSTER, "[color=gray]Eidolon's (DENOM)[/color]", "[color=purple]Wailing Regrets[/color]", MONSTER_POWER_FAMILY_EIDOLON_UNLUCKY_SELF.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_EIDOLON_UNLUCKY_SELF, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_HYPERBOREAN_FAMILY = CoinFamily.new(2007, CoinType.MONSTER, "[color=gray]Hyperborean's (DENOM)[/color]", "[color=purple]Beyond the Ice[/color]", MONSTER_POWER_FAMILY_HYPERBOREAN_FREEZE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_HYPERBOREAN_FREEZE, MONSTER_POWER_FAMILY_HYPERBOREAN_LOSE_SOULS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_GADFLY_FAMILY = CoinFamily.new(2008, CoinType.MONSTER, "[color=gray]Gadfly's (DENOM)[/color]", "[color=purple]Obnoxious Pest[/color]", MONSTER_POWER_FAMILY_GADFLY_THORNS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_GADFLY_THORNS, MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_STRIX_FAMILY = CoinFamily.new(2009, CoinType.MONSTER, "[color=gray]Strix's (DENOM)[/color]", "[color=purple]Sordid and Silent[/color]", MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_LAMIA_FAMILY = CoinFamily.new(2010, CoinType.MONSTER, "[color=gray]Lamia's (DENOM)[/color]", "[color=purple]Jealous Lover[/color]", MONSTER_POWER_FAMILY_LAMIA_BURY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_LAMIA_BURY, MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_ERYMANTHIAN_BOAR_FAMILY = CoinFamily.new(2011, CoinType.MONSTER, "[color=gray]Erymanthian Boar's (DENOM)[/color]", "[color=purple]Raging Tusks[/color]", MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_SPARTOI_FAMILY = CoinFamily.new(2012, CoinType.MONSTER, "[color=gray]Spartoi's (DENOM)[/color]", "[color=purple]Born from the Dragon[/color]", MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+
 # neutral monsters
-var MONSTER_CENTAUR_FAMILY = CoinFamily.new(2005, CoinType.MONSTER, "[color=gray]Centaur's (DENOM)[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
+var MONSTER_CENTAUR_FAMILY = CoinFamily.new(2500, CoinType.MONSTER, "[color=gray]Centaur's (DENOM)[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
-var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(2006, CoinType.MONSTER, "[color=gray]Stymphalian Bird's (DENOM)[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(2501, CoinType.MONSTER, "[color=gray]Stymphalian Bird's (DENOM)[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_COLCHIAN_DRAGON_FAMILY = CoinFamily.new(2502, CoinType.MONSTER, "[color=gray]Colchian Dragon's (DENOM)[/color]", "[color=purple]Guardian of Fleece[/color]", MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_PHOENIX_FAMILY = CoinFamily.new(2503, CoinType.MONSTER, "[color=gray]Phoenix's (DENOM)[/color]", "[color=purple]Ashes to Ashes[/color]", MONSTER_POWER_FAMILY_PHOENIX_HEAL.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_PHOENIX_HEAL, MONSTER_POWER_FAMILY_PHOENIX_IGNITE_SELF, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_OREAD_FAMILY = CoinFamily.new(2504, CoinType.MONSTER, "[color=gray]Oread's (DENOM)[/color]", "[color=purple]Mountain Momma[/color]", MONSTER_POWER_FAMILY_OREAD_BURY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_OREAD_BURY, MONSTER_POWER_FAMILY_OREAD_BURY, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_EMPUSA_FAMILY = CoinFamily.new(2505, CoinType.MONSTER, "[color=gray]Empusa's (DENOM)[/color]", "[color=purple]Seductive Shifter[/color]", MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM, MONSTER_POWER_FAMILY_EMPUSA_LOSE_SOULS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_HAMADRYAD_FAMILY = CoinFamily.new(2506, CoinType.MONSTER, "[color=gray]Hamadryad's (DENOM)[/color]", "[color=purple]Rooted Guardian[/color]", MONSTER_POWER_FAMILY_HAMADYRAD_BLESS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_HAMADYRAD_BLESS, MONSTER_POWER_FAMILY_HAMADYRAD_HEAL, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_MELIAE_FAMILY = CoinFamily.new(2507, CoinType.MONSTER, "[color=gray]Meliae's (DENOM)[/color]", "[color=purple]Nature's Wrath[/color]", MONSTER_POWER_FAMILY_MELIAE_CURSE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_MELIAE_CURSE, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_SATYR_FAMILY = CoinFamily.new(2508, CoinType.MONSTER, "[color=gray]Satyr's (DENOM)[/color]", "[color=purple]Dancing Drunkard[/color]", MONSTER_POWER_FAMILY_SATYR_GAIN.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_SATYR_GAIN, MONSTER_POWER_FAMILY_SATYR_BLANK, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_RELIQUARY_FAMILY = CoinFamily.new(2509, CoinType.MONSTER, "[color=gray]Reliquary (DENOM)[/color]", "[color=purple]A Lucky Find?[/color]", MONSTER_POWER_FAMILY_RELIQUARY_DECREASE_COST.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_RELIQUARY_DECREASE_COST, MONSTER_POWER_FAMILY_RELIQUARY_INCREASE_COST, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+var MONSTER_AETERNAE_FAMILY = CoinFamily.new(2510, CoinType.MONSTER, "[color=gray]AETERNAE'S (DENOM)[/color]", "[color=purple]ENGAICGTMBNEII[/color]", MONSTER_POWER_FAMILY_AETERNAE_HEADS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_AETERNAE_HEADS, MONSTER_POWER_FAMILY_AETERNAE_TAILS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
+
+
 # elite monsters
-var MONSTER_SIREN_FAMILY = CoinFamily.new(2007, CoinType.MONSTER, "[color=gray]Siren's (DENOM)[/color]", "[color=purple]Lure into Blue[/color]", MONSTER_POWER_FAMILY_SIREN.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_SIREN_FAMILY = CoinFamily.new(2502, CoinType.MONSTER, "[color=gray]Siren's (DENOM)[/color]", "[color=purple]Lure into Blue[/color]", MONSTER_POWER_FAMILY_SIREN.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_SIREN, MONSTER_POWER_FAMILY_SIREN_CURSE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
-var MONSTER_BASILISK_FAMILY = CoinFamily.new(2008, CoinType.MONSTER, "[color=gray]Basilisk's (DENOM)[/color]", "[color=purple]Gaze of Death[/color]", MONSTER_POWER_FAMILY_BASILISK.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_BASILISK_FAMILY = CoinFamily.new(2503, CoinType.MONSTER, "[color=gray]Basilisk's (DENOM)[/color]", "[color=purple]Gaze of Death[/color]", MONSTER_POWER_FAMILY_BASILISK.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_BASILISK, POWER_FAMILY_LOSE_ZERO_LIFE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
-var MONSTER_GORGON_FAMILY = CoinFamily.new(2009, CoinType.MONSTER, "[color=gray]Gorgon's (DENOM)[/color]", "[color=purple]Petrifying Beauty[/color]", MONSTER_POWER_FAMILY_GORGON.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_GORGON, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
-var MONSTER_CHIMERA_FAMILY = CoinFamily.new(2010, CoinType.MONSTER, "[color=gray]Chimera's (DENOM)[/color]", "[color=purple]Great Blaze[/color]", MONSTER_POWER_FAMILY_CHIMERA.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_GORGON_FAMILY = CoinFamily.new(2504, CoinType.MONSTER, "[color=gray]Gorgon's (DENOM)[/color]", "[color=purple]Petrifying Beauty[/color]", MONSTER_POWER_FAMILY_GORGON.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_GORGON, MONSTER_POWER_FAMILY_GORGON_UNLUCKY, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_CHIMERA_FAMILY = CoinFamily.new(2505, CoinType.MONSTER, "[color=gray]Chimera's (DENOM)[/color]", "[color=purple]Great Blaze[/color]", MONSTER_POWER_FAMILY_CHIMERA.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_CHIMERA, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+
+var MONSTER_KERES_FAMILY = CoinFamily.new(2506, CoinType.MONSTER, "[color=gray]Kere's (DENOM)[/color]", "[color=purple]Death Comes Swiftly[/color]", MONSTER_POWER_FAMILY_KERES_PENALTY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_KERES_PENALTY, MONSTER_POWER_FAMILY_KERES_DESECRATE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_TEUMESSIAN_FOX_FAMILY = CoinFamily.new(2507, CoinType.MONSTER, "[color=gray]Teumessian Fox's (DENOM)[/color]", "[color=purple]Uncatchable Quarry[/color]", MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE, MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_MANTICORE_FAMILY = CoinFamily.new(2508, CoinType.MONSTER, "[color=gray]Manticore's (DENOM)[/color]", "[color=purple]Venomous Stinger[/color]", MONSTER_POWER_FAMILY_MANTICORE_CURSE_SELF.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_MANTICORE_CURSE_SELF, MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_FURIES_FAMILY = CoinFamily.new(2509, CoinType.MONSTER, "[color=gray]Furies's (DENOM)[/color]", "[color=purple]Vengeance on the Betrayer[/color]", MONSTER_POWER_FAMILY_FURIES_CURSE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_FURIES_CURSE, MONSTER_POWER_FAMILY_FURIES_UNLUCKY, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_SPHINX_FAMILY = CoinFamily.new(2510, CoinType.MONSTER, "[color=gray]Sphinx's (DENOM)[/color]", "[color=purple]Presenting a Riddle[/color]", MONSTER_POWER_FAMILY_SPHINX_DOOMED.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_SPHINX_DOOMED, MONSTER_POWER_FAMILY_SPHINX_THORNS, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
+var MONSTER_CYCLOPS_FAMILY = CoinFamily.new(2511, CoinType.MONSTER, "[color=gray]Cyclops's (DENOM)[/color]", "[color=purple]One-eyed Smith[/color]", MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE, MONSTER_POWER_FAMILY_CYCLOPS_BURY, _SpriteStyle.NEMESIS, [], ELITE_APPEASE)
 
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new(3000, CoinType.MONSTER, "[color=greenyellow]Medusa's (DENOM)[/color]", "[color=purple]Mortal Sister[/color]", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path, NO_UNLOCK_TIP,\

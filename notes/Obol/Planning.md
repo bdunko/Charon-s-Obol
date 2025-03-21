@@ -27,12 +27,12 @@
 			- [x] Chimera - Ignite/2x damage
 			- [x] Siren - Freeze tails/curse
 			- [x] Basilisk - Half life/no damage
-			- [ ] Gorgon - Stone/Unlucky
+			- [x] Gorgon - Stone/Unlucky
 			- [ ] Keres - Increase penalty of all coins + Desecrate
 			- [ ] Teumessian fox - Cannot be appeased. 3 Blank + 1 Blank
 			- [ ] Manticore - Curse self + Downgrade (Venomous Tail)
 			- [ ] Furies - Curse 2 + Unlucky 2
-			- [ ] Sphynx - Rightmost possible coin becomes Doomed / gain thorns (the gimmick here is that you can gain thorns then let it become doomed to avoid negatives; to solve the riddle so to speak)
+			- [ ] Sphinx - Rightmost possible coin becomes Doomed / gain thorns (the gimmick here is that you can gain thorns then let it become doomed to avoid negatives; to solve the riddle so to speak)
 			- [ ] Cyclopes - Downgrade+Prime + Bury a coin for 5 payoffs
 		- [ ] Encounter
 			- [x] Centaur - Lucky/Unlucky
