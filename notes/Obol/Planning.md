@@ -4,7 +4,7 @@
 		- [x] Add power families.
 		- [x] Add coin families. **Thursday**
 		- [x] Add powertypes. **Thursday**
-		- [ ] Create icons. **Friday**
+		- [x] Create icons. **Friday**
 		- [ ] Implement powertypes. **Saturday**
 			- [ ] Hamadyrad - transform when another monster is destroyed
 			- [ ] Reliquary - increase cost and decrease cost
