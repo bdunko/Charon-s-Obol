@@ -1,53 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] **More Monsters (Thursday/Friday/Saturday)**
-		- [x] Add power families.
-		- [x] Add coin families. **Thursday**
-		- [x] Add powertypes. **Thursday**
-		- [x] Create icons. **Friday**
-		- [ ] Implement powertypes. **Saturday**
-			- [ ] Hamadyrad - transform when another monster is destroyed
-			- [ ] Reliquary - increase cost and decrease cost
-		- [ ] Standard
-			- [x] Hellhound - Ignite self/damage
-			- [x] Kobalos - Unlucky/damage
-			- [x] Arae - Curse/no damage
-			- [x] Harpy - Blank/damage
-			- [ ] Trojan Horse - Destroy this and spawn two smaller monsters (Obol spawns Obol, but don't allow this to spawn as Obol if possible) / no damage
-			- [ ] Eidolon - Make each enemy coin Unlucky + Damage
-			- [ ] Hyperborean - Freeze random + Lose Souls
-			- [ ] Gadfly - Gain Thorns / small damage. increase this damage slightly.
-				- [ ] scale the obol to diobol for higher denoms
-				- [ ] damage scaling should be handled uniquely
-			- [ ] Strix - Increase tails penalty (by a substantial amount, more than damage)+ Damage
-			- [ ] Lamia - bury a coin for 2 payoffs / lose souls
-			- [ ] Erymanthian Boar - 2x damage/Bury this coin for 2 payoffs.
-			- [ ] Spartoi - upgrade this/damage
-		- [ ] Elite - happy with these
-			- [x] Chimera - Ignite/2x damage
-			- [x] Siren - Freeze tails/curse
-			- [x] Basilisk - Half life/no damage
-			- [x] Gorgon - Stone/Unlucky
-			- [ ] Keres - Increase penalty of all coins + Desecrate
-			- [ ] Teumessian fox - Cannot be appeased. 3 Blank + 1 Blank
-			- [ ] Manticore - Curse self + Downgrade (Venomous Tail)
-			- [ ] Furies - Curse 2 + Unlucky 2
-			- [ ] Sphinx - Rightmost possible coin becomes Doomed / gain thorns (the gimmick here is that you can gain thorns then let it become doomed to avoid negatives; to solve the riddle so to speak)
-			- [ ] Cyclopes - Downgrade+Prime + Bury a coin for 5 payoffs
-		- [ ] Encounter
-			- [x] Centaur - Lucky/Unlucky
-			- [x] Stymphalian Birds - +Arrow/2x Damage
-			- [ ] Colchian Dragon - Gain Souls + damage
-			- [ ] Phoenix - When this coin is destroyed: spawn a Phoenix (cheap to destroy). Heal + Ignite self.
-			- [ ] Oread - Lucky / Bury a random coin for 3 payoffs
-			- [ ] Empusa - Transform a coin into another coin of the same type and denomination / lose souls
-			- [ ] Hamadryad - Bless / Heal. Becomes upset when a monster is destroyed and transforms into...
-				- [ ] Meliae - Curse / damage
-			- [ ] Satyr - Gain random Obol / Blank
-			- [ ] Chest - If destroyed, gain a random Obol/Diobol/...; Heads +Souls/Tails -Souls
-				- [ ] needs a custom appease price to be approximately the price of the given coin
-			- [ ] Aeternae - extremely rare, garbled text, destroys itself after the first payoff. Just used for a fun easter egg/achievement.
-	- [ ] **Boss Adjustments - Sunday**
+	- [ ] make debug clearm able to delete phoenix (just hard check for it after we delte and remove)
+	- [ ] maybe make monster label text (when there is a number) purple? it's currently yellow, but negative payoff powers should probably be purple. 
+	- [ ] improve the transform effect - new coin should spawn at position of previous instead of from charon (for meliae AND empusa)
+	- [ ] add debug command which sets up my row with useful testing coins;
+		- [ ] 4 zeus
+		- [ ] 1 payoff
+		- [ ] heph
+		- [ ] hermes
+		- [ ] 3 hades
+	- [ ] **Boss Adjustments (Sunday)**
 		- [ ] Minotaur - no strain (check for labyrinth passive, if so, turn strain off)
 		- [ ] Minotaur - no downgrade/destroy flag.
 		- [ ] Charbydis - round down (makes middle coin better/more fair)
@@ -63,14 +25,15 @@
 
 
 - [ ] Coin of the days
-	- [ ] Nike - Victory Above All - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-	- [ ] Dike
 	- [ ] Cerberus
-	- [ ] Echidna
 
 
 
 **Charon's Obol Beta - Coalescence**
+- [ ] enemy coins don't light up properly when hovered with a power (probably because they are ALWAYS flashing purple - we just need to change the case so taht flashing white for hover power takes precedence)
+- [ ] Freeze nerf - do not recharge if frozen
+	- [ ] don't retract frozen coins as part of signaling this
+- [ ] Add monsters to map.
 - [ ] **More Characters (2-3 days)**
 	- [ ] 4 new characters.
 		- [ ] The Merchant

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n2t1o3vh20rx"
-path="res://.godot/imported/bury_icon_UNUSED.png-bbd1c5bf390b70e65fde73ea20458197.ctex"
+uid="uid://cy2vu0g062fyl"
+path="res://.godot/imported/colchian_dragon_icon.png-c2dac2a90e511139614ab3a53f1884b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/UNUSED/bury_icon_UNUSED.png"
-dest_files=["res://.godot/imported/bury_icon_UNUSED.png-bbd1c5bf390b70e65fde73ea20458197.ctex"]
+source_file="res://assets/icons/monster/colchian_dragon_icon.png"
+dest_files=["res://.godot/imported/colchian_dragon_icon.png-c2dac2a90e511139614ab3a53f1884b1.ctex"]
 
 [params]
 

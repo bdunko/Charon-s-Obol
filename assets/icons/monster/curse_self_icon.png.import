@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy2vu0g062fyl"
-path="res://.godot/imported/colchian_dragon.png-d88e52fb1701968c979b2de030242556.ctex"
+uid="uid://c3btt3iuh88ja"
+path="res://.godot/imported/curse_self_icon.png-c27b92622525adcaaa81fc392cdf5a94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/monster/colchian_dragon.png"
-dest_files=["res://.godot/imported/colchian_dragon.png-d88e52fb1701968c979b2de030242556.ctex"]
+source_file="res://assets/icons/monster/curse_self_icon.png"
+dest_files=["res://.godot/imported/curse_self_icon.png-c27b92622525adcaaa81fc392cdf5a94.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm8olwfoh2x7"
-path="res://.godot/imported/gadfly.png-9666d4b1c141bef0c8e331460fdf9097.ctex"
+uid="uid://n2t1o3vh20rx"
+path="res://.godot/imported/bury_icon.png-7cda5048d738ef8392529358902b1729.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/monster/gadfly.png"
-dest_files=["res://.godot/imported/gadfly.png-9666d4b1c141bef0c8e331460fdf9097.ctex"]
+source_file="res://assets/icons/monster/bury_icon.png"
+dest_files=["res://.godot/imported/bury_icon.png-7cda5048d738ef8392529358902b1729.ctex"]
 
 [params]
 

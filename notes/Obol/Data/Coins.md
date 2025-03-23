@@ -106,6 +106,8 @@ Unlockable coins + more coins
 		- [x] ??? - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
 		- [ ] ??? - Return a coin to its default state (removes curse, freeze, stone, ignite, etc; removes Athena; reverts payoff coins to their base values; etc - basically destroy and recreate that coin in place as if you just bought it.)
 		- [ ] ??? - Gain 1 life. If not used, increase this by 1/2/3/4 this round. Resets at end of round.
+		- [ ] ??? - When you run out of life, destroy this and heal 1 Life. Payoff - increase this by 1/2/3/4/5/6.
+			- [ ] ??? - alternatively - heal 1 life. Increase by 1/2/3/4/5/6 each payoff. Resets when used.
 	- [ ] **Bury**
 		- [x] ??? - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
 		- [ ] ??? - Bury a coin. After 2 payoffs, bring it back on the heads side. (it still occupies a slot while phased out; but cannot be sold, upgraded, or targetted)

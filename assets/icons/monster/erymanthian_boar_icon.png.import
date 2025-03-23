@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3wocvmkbajvi"
-path="res://.godot/imported/tmp.png-b8fd6a05f80653f1cc75836577919495.ctex"
+uid="uid://0rvpjid4nndo"
+path="res://.godot/imported/erymanthian_boar_icon.png-8e1145931a55e4daedf2b92006d1a01b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/tmp.png"
-dest_files=["res://.godot/imported/tmp.png-b8fd6a05f80653f1cc75836577919495.ctex"]
+source_file="res://assets/icons/monster/erymanthian_boar_icon.png"
+dest_files=["res://.godot/imported/erymanthian_boar_icon.png-8e1145931a55e4daedf2b92006d1a01b.ctex"]
 
 [params]
 

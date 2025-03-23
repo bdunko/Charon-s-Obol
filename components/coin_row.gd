@@ -282,6 +282,9 @@ static func FILTER_ACTIVE_PAYOFF(c: Coin) -> bool:
 static func FILTER_USABLE_POWER(c: Coin) -> bool:
 	return c.is_power_coin() and c.get_active_power_charges() != 0 and not c.is_buried()
 
+static func FILTER_CAN_INCREASE_PENALTY(c: Coin) -> bool:
+	return c.can_change_life_penalty()
+
 static func FILTER_RECHARGABLE(c: Coin) -> bool:
 	return c.is_power_coin() and c.get_active_power_charges() != c.get_max_active_power_charges() and not c.is_buried()
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6hup3mtfk3kd"
-path="res://.godot/imported/MONSTER_TEMP.png-f893cfba19b77b09e58c2cca623c790b.ctex"
+uid="uid://b3ht6k8mts3n1"
+path="res://.godot/imported/hyperborean_icon.png-012626db127759c6b00734ae0d6f802c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/monster/MONSTER_TEMP.png"
-dest_files=["res://.godot/imported/MONSTER_TEMP.png-f893cfba19b77b09e58c2cca623c790b.ctex"]
+source_file="res://assets/icons/monster/hyperborean_icon.png"
+dest_files=["res://.godot/imported/hyperborean_icon.png-012626db127759c6b00734ae0d6f802c.ctex"]
 
 [params]
 

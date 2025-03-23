@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btxxmw2vpk53t"
-path="res://.godot/imported/aeternae_icon.png-6cc7b8b842784791b91cf6d76b849254.ctex"
+uid="uid://b6aoqp613y8bt"
+path="res://.godot/imported/aeternae_icon_tails.png-03e93c29ef65db711949cc97f0c94997.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/monster/aeternae_icon.png"
-dest_files=["res://.godot/imported/aeternae_icon.png-6cc7b8b842784791b91cf6d76b849254.ctex"]
+source_file="res://assets/icons/monster/aeternae_icon_tails.png"
+dest_files=["res://.godot/imported/aeternae_icon_tails.png-03e93c29ef65db711949cc97f0c94997.ctex"]
 
 [params]
 

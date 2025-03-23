@@ -253,6 +253,7 @@ const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _RED = "#f72534"
 const _BLUE = "#20d6c7"
 const _YELLOW = "#fffc40"
+const _GREEN = "#59c135"
 const _GRAY = "#b3b9d1"
 func _update_face_label() -> void:
 	if _blank_state == _BlankState.BLANKED:
@@ -270,7 +271,9 @@ func _update_face_label() -> void:
 			color = _RED
 		Global.PowerType.PAYOFF_GAIN_SOULS:
 			color = _BLUE
-		Global.PowerType.PASSIVE:
+		Global.PowerType.PAYOFF_GAIN_LIFE:
+			color = _GREEN
+		Global.PowerType.PASSIVE, Global.PowerType.PAYOFF_GAIN_ARROWS:
 			color = _GRAY
 		_:
 			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
@@ -546,6 +549,9 @@ var _permanent_life_penalty_change = 0
 var _round_charge_change = 0
 var _permanent_charge_change = 0
 
+# changes the cost to appease (destroy) this monster
+var _monster_appeasal_price_modifier = 0
+
 # roll that will be used the next time this coin is flipped; used so we can 'predict' flips
 var _next_flip_roll = Global.RNG.randi_range(1, 100)
 
@@ -634,6 +640,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_primed_state = _PrimedState.NONE
 	_round_life_penalty_change = 0
 	_permanent_life_penalty_change = 0
+	_monster_appeasal_price_modifier = 0
 	_round_charge_change = 0
 	_permanent_charge_change = 0
 	_heads_power_overwritten = null
@@ -643,9 +650,13 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_on_state_changed() # a bit of a hack but it is a good catchall...
 
 func get_appeasal_price() -> int:
+	if _coin_family.appeasal_price_for_denom[_denomination] == Global.NOT_APPEASEABLE_PRICE:
+		return Global.NOT_APPEASEABLE_PRICE
+	
+	var base_price = max(0, _coin_family.appeasal_price_for_denom[_denomination] + _monster_appeasal_price_modifier)
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARES) and is_tails():
-		return _coin_family.appeasal_price_for_denom[_denomination] / 2
-	return _coin_family.appeasal_price_for_denom[_denomination]
+		return base_price / 2
+	return base_price
 
 func is_appeaseable() -> bool:
 	return get_appeasal_price() != Global.NOT_APPEASEABLE_PRICE and _owner == Owner.NEMESIS
@@ -674,9 +685,6 @@ func get_sell_price() -> int:
 	return max(1, ceil(get_store_price() * _SELL_MULT))
 
 func can_upgrade() -> bool:
-	if _coin_family in Global.UPGRADE_EXCLUDE_COIN_FAMILIES:
-		return false
-	
 	if _coin_family.has_tag(Global.CoinFamily.Tag.NO_UPGRADE):
 		return false
 	
@@ -1544,6 +1552,14 @@ func change_charge_modifier_for_permanently(amt: int) -> void:
 	else:
 		FX.flash(Color.LIGHT_YELLOW)
 
+func change_monster_appease_price(amt: int) -> void:
+	_monster_appeasal_price_modifier += amt
+	_update_appearance()
+	if amt < 0:
+		FX.flash(Color.PURPLE)
+	else:
+		FX.flash(Color.WHITE)
+
 var _heads_power_overwritten = null
 var _tails_power_overwritten = null
 func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -> void:
@@ -1596,6 +1612,16 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(PROMETHEUS_MULTIPLIER)", str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination]))
 	txt = txt.replace("(ECHIDNA_SPAWN_DENOM)", str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination])))
 	txt = txt.replace("(SCYLLA_INCREASE)", str(Global.SCYLLA_INCREASE[_denomination]))
+	txt = txt.replace("(LAMIA_BURY)", str(Global.LAMIA_BURY[_denomination]))
+	txt = txt.replace("(BOAR_BURY)", str(Global.BOAR_BURY[_denomination]))
+	txt = txt.replace("(OREAD_BURY)", str(Global.OREAD_BURY[_denomination]))
+	txt = txt.replace("(CYCLOPS_BURY)", str(Global.CYCLOPS_BURY[_denomination]))
+	txt = txt.replace("(STRIX_INCREASE)", str(Global.STRIX_INCREASE[_denomination]))
+	txt = txt.replace("(KERES_INCREASE)", str(Global.KERES_INCREASE[_denomination]))
+	txt = txt.replace("(GADFLY_INCREASE)", str(Global.GADFLY_INCREASE[_denomination]))
+	txt = txt.replace("(GADFLY_DENOM)", str(Global.denom_to_string(Global.GADFLY_THORNS_DENOM[_denomination])))
+	txt = txt.replace("(SPHINX_DENOM)", str(Global.denom_to_string(Global.SPHINX_THORNS_DENOM[_denomination])))
+	
 	
 	if face_power != null: # ones that require metadata
 		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
@@ -1718,6 +1744,12 @@ func _generate_tooltip() -> void:
 			extra_info += "Automatically upgrades when the round ends. "
 		if _coin_family.has_tag(Global.CoinFamily.Tag.CANT_TARGET):
 			extra_info += "Cannot be targetted. "
+		if _coin_family.has_tag(Global.CoinFamily.Tag.GAIN_COIN_ON_DESTROY):
+			extra_info += _replace_placeholder_text("Destroy to get a random (DENOM)! ")
+		if _coin_family.has_tag(Global.CoinFamily.Tag.REBORN_ON_DESTROY):
+			extra_info += "Rises from the ashes when destroyed."
+		if _coin_family.has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
+			extra_info += "Becomes enraged when a monster is destroyed. "
 		if extra_info != "":
 			extra_info += "\n"
 		

@@ -9,8 +9,6 @@
 	- [ ] Eidolon - Make each enemy coin Unlucky + Damage
 	- [ ] Hyperborean - Freeze random + Lose Souls
 	- [ ] Gadfly - Gain Thorns / small damage. increase this damage slightly.
-		- [ ] scale the obol to diobol for higher denoms
-		- [ ] damage scaling should be handled uniquely
 	- [ ] Strix - Increase tails penalty (by a substantial amount, more than damage)+ Damage
 	- [ ] Lamia - bury a coin for 2 payoffs / lose souls
 	- [ ] Erymanthian Boar - 2x damage/Bury this coin for 2 payoffs.

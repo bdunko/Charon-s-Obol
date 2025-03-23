@@ -114,3 +114,4 @@
 - [ ] Adherent - Only a single type of power coin is available (limit the possible types to reasonable ones), randomly chosen. (All possible payoff coins are available)
 - [ ] Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +2% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
 - [ ] ??? - Payoffs also resolve an additional time immediately after the initial toss. (so payoffs resolve twice per toss.)
+- [ ] The shop has no coins. You get a coin whenever you destroy a monster. More monsters spawn. You can sell coins back to the shop for extra life.
