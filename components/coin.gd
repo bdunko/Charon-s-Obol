@@ -254,6 +254,7 @@ const _RED = "#f72534"
 const _BLUE = "#20d6c7"
 const _YELLOW = "#fffc40"
 const _GREEN = "#59c135"
+const _PURPLE = "#e86a73"
 const _GRAY = "#b3b9d1"
 func _update_face_label() -> void:
 	if _blank_state == _BlankState.BLANKED:
@@ -264,7 +265,6 @@ func _update_face_label() -> void:
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION + Vector2(-1, 2)
 		return
 		
-	
 	var color
 	match(get_active_power_family().power_type):
 		Global.PowerType.PAYOFF_LOSE_LIFE, Global.PowerType.PAYOFF_LOSE_SOULS:
@@ -275,8 +275,10 @@ func _update_face_label() -> void:
 			color = _GREEN
 		Global.PowerType.PASSIVE, Global.PowerType.PAYOFF_GAIN_ARROWS:
 			color = _GRAY
-		_:
+		Global.PowerType.POWER_TARGETTING_ANY_COIN, Global.PowerType.POWER_TARGETTING_MONSTER_COIN, Global.PowerType.POWER_TARGETTING_PLAYER_COIN, Global.PowerType.POWER_NON_TARGETTING:
 			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
+		_: # monsters
+			color = _PURPLE
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
@@ -328,11 +330,11 @@ func _update_price_label() -> void:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
 		# if the coin cannot be offered at a tollgate, show nothing
-		if _coin_family in Global.TOLL_EXCLUDE_COIN_FAMILIES:
+		if _coin_family.has_tag(Global.CoinFamily.Tag.NO_TOLL):
 			_PRICE.text = ""
 			return
 		var value = get_value()
-		if _coin_family in Global.TOLL_NEGATIVE_COIN_FAMILIES:
+		if _coin_family.has_tag(Global.CoinFamily.Tag.NEGATIVE_TOLL_VALUE):
 			value = -value
 		_PRICE.text = Global.replace_placeholders(_TOLL_FORMAT % value)
 	elif is_appeaseable():
@@ -1750,6 +1752,8 @@ func _generate_tooltip() -> void:
 			extra_info += "Rises from the ashes when destroyed."
 		if _coin_family.has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
 			extra_info += "Becomes enraged when a monster is destroyed. "
+		if _coin_family.has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED):
+			extra_info += "Becomes enraged if Echidna is destroyed."
 		if extra_info != "":
 			extra_info += "\n"
 		

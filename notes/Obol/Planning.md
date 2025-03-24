@@ -1,28 +1,8 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] make debug clearm able to delete phoenix (just hard check for it after we delte and remove)
-	- [ ] maybe make monster label text (when there is a number) purple? it's currently yellow, but negative payoff powers should probably be purple. 
-	- [ ] improve the transform effect - new coin should spawn at position of previous instead of from charon (for meliae AND empusa)
-	- [ ] add debug command which sets up my row with useful testing coins;
-		- [ ] 4 zeus
-		- [ ] 1 payoff
-		- [ ] heph
-		- [ ] hermes
-		- [ ] 3 hades
 	- [ ] **Boss Adjustments (Sunday)**
-		- [ ] Minotaur - no strain (check for labyrinth passive, if so, turn strain off)
-		- [ ] Minotaur - no downgrade/destroy flag.
-		- [ ] Charbydis - round down (makes middle coin better/more fair)
-		- [ ] Typhon - enrage (transform) when Echidna is destroyed.
-		- [ ] Cerb - improve description
-		- [ ] Move the no tollgate flag to be a coin flag instead of a list.
-			- [ ] same for no upgrade
 	- [ ] **New Trials (Sunday)**
 		- [ ] 10 trials per tier.
-
-
-
-
 
 - [ ] Coin of the days
 	- [ ] Cerberus

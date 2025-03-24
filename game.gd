@@ -793,7 +793,7 @@ func _on_accept_button_pressed():
 					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_TELEMACHUS:
 						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
 						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
-							payoff_coin.init_coin(Global.random_power_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
+							payoff_coin.init_coin(Global.random_power_coin_family(), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
 							payoff_coin.permanently_consecrate()
 				Global.PowerType.PAYOFF_STOKE_FLAME:
 					Global.flame_boost = min(Global.FLAME_BOOST_LIMIT, Global.flame_boost + Global.PROMETHEUS_MULTIPLIER[denom])
@@ -877,7 +877,7 @@ func _on_accept_button_pressed():
 						enemy.bless()
 				Global.PowerType.PAYOFF_PERMANENTLY_IGNITE_MONSTER:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_ENEMY_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), charges):
+					for target in Global.choose_x(_ENEMY_COIN_ROW.get_multi_filtered_erandomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), charges):
 						target.permanently_ignite()
 				Global.PowerType.PAYOFF_AMPLIFY_IGNITE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
@@ -1000,14 +1000,12 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var target = Global.choose_one(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_CAN_TARGET))
 					if target:
-						var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([target.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), target.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
-						new_coin.get_parent().move_child(new_coin, target.get_index())
-						new_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-						_remove_coin_from_row_move_then_destroy(target, _CHARON_NEW_COIN_POSITION)
+						target.init_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), Coin.Owner.NEMESIS)
+						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_GAIN_OBOL:
 					payoff_coin.FX.flash(Color.WHITE)
 					if _COIN_ROW.get_child_count() != Global.COIN_LIMIT:
-						var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, payoff_coin.global_position, true)
+						var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, payoff_coin.global_position, true)
 						new_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_DECREASE_COST:
 					payoff_coin.FX.flash(Color.WHITE)
@@ -1999,19 +1997,17 @@ func destroy_coin(coin: Coin) -> void:
 			spawn_enemy(new_family, denom, index)
 	
 	if gain_coin_on_destroy and _COIN_ROW.get_child_count() != Global.COIN_LIMIT:
-		_make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), denom, global_pos, true)
+		_make_and_gain_coin(Global.random_coin_family(), denom, global_pos, true)
 	
 	if reborn_on_destroy:
 		spawn_enemy(family, denom, index)
 				
-	# search for Hamadryads...
+	# search for enrages (hamadryad and typhon)
 	for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
-			# transform into Meliae
-			var meliae_denom = c.get_denomination()
-			var meliae_index = c.get_index()
-			destroy_coin(c)
-			spawn_enemy(Global.MONSTER_MELIAE_FAMILY, meliae_denom, meliae_index)
+			c.init_coin(Global.MONSTER_MELIAE_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
+		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED):
+			c.init_coin(Global.TYPHON_ENRAGED_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
 	
 	# if nemesis round and the row is now empty, go ahead and end the round
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -2046,7 +2042,7 @@ func _on_coin_clicked(coin: Coin):
 
 	if Global.state == Global.State.TOLLGATE:
 		# if this coin cannot be offered at a toll, error message and return
-		if coin.get_coin_family() in Global.TOLL_EXCLUDE_COIN_FAMILIES:
+		if coin.get_coin_family().has_tag(Global.CoinFamily.Tag.NO_TOLL):
 			_DIALOGUE.show_dialogue("Don't want that...")
 			return
 		# if this coin is in the toll offering, remove it
@@ -2253,7 +2249,7 @@ func _on_coin_clicked(coin: Coin):
 					if row == _ENEMY_COIN_ROW:
 						_DIALOGUE.show_dialogue("Can't trade that...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 					new_coin.get_parent().move_child(new_coin, coin.get_index())
 					new_coin.play_power_used_effect(Global.active_coin_power_family)
 					_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2382,7 +2378,7 @@ func _on_coin_clicked(coin: Coin):
 					return
 				Global.active_coin_power_coin.overwrite_active_face_power(coin.get_copied_power_family())
 			Global.POWER_FAMILY_EXCHANGE:
-				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()] + Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
+				var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding([coin.get_coin_family()]), coin.get_denomination(), _CHARON_NEW_COIN_POSITION, true)
 				new_coin.get_parent().move_child(new_coin, coin.get_index())
 				new_coin.play_power_used_effect(Global.active_coin_power_family)
 				_remove_coin_from_row_move_then_destroy(coin, _CHARON_NEW_COIN_POSITION)
@@ -2541,7 +2537,7 @@ func _on_coin_clicked(coin: Coin):
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
 						return
-					var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, coin.global_position, true)
+					var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, coin.global_position, true)
 					new_coin.play_power_used_effect(coin.get_active_power_family())
 				Global.POWER_FAMILY_DESTROY_FOR_REWARD:
 					Global.earn_souls(Global.PHAETHON_REWARD_SOULS[coin.get_denomination()])
@@ -2713,7 +2709,7 @@ func _on_patron_token_clicked():
 					match(Global.RNG.randi_range(1, 12)):
 						1: # gain a coin
 							if _COIN_ROW.get_child_count() != Global.COIN_LIMIT and _COIN_ROW.get_child_count() != Global.COIN_LIMIT - 1:
-								var new_coin = _make_and_gain_coin(Global.random_coin_family_excluding(Global.TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
+								var new_coin = _make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, _PATRON_TOKEN_POSITION)
 								if Global.RNG.randi_range(1, 3) == 1:
 									new_coin.make_lucky()
 								if Global.RNG.randi_range(1, 2) == 1:

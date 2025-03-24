@@ -402,18 +402,11 @@ func remove_toll_coin(coin) -> void:
 func clear_toll_coins() -> void:
 	toll_coins_offered.clear()
 	emit_signal("toll_coins_changed")
-
-# coins that cannot be offered at tolls
-@onready var TOLL_EXCLUDE_COIN_FAMILIES = []
-# coins with a negative value at tolls
-@onready var TOLL_NEGATIVE_COIN_FAMILIES = [THORNS_FAMILY]
-# coins that cannot be obtained outside of the shop (through 'gaining' a random coin or transforming a coin to another)
-@onready var TRANSFORM_OR_GAIN_EXCLUDE_COIN_FAMILIES = [THORNS_FAMILY, TELEMACHUS_FAMILY, DOLOS_FAMILY]
-
+	
 func calculate_toll_coin_value() -> int:
 	var sum = 0
 	for coin in toll_coins_offered:
-		if coin.get_coin_family() in Global.TOLL_NEGATIVE_COIN_FAMILIES:
+		if coin.get_coin_family().has_tag(CoinFamily.Tag.NEGATIVE_TOLL_VALUE):
 			sum -= coin.get_value()
 		else:
 			sum += coin.get_value()
@@ -1095,10 +1088,10 @@ class TrialData:
 
 @onready var NEMESES = [
 	TrialData.new("[color=lightgreen]The Gorgon Sisters[/color]", [EURYALE_FAMILY, MEDUSA_FAMILY, STHENO_FAMILY], "Three sisters shunned by the heavens. Be rendered helpless by their petrifying gaze.", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path),
-	TrialData.new("[color=crimson]Cerberus, the Gatekeeper[/color]", [CERBERUS_LEFT_FAMILY, CERBERUS_MIDDLE_FAMILY, CERBERUS_RIGHT_FAMILY], "The three-headed beast's flaming maws draw blood. A fight to the death, intensity amplifying.", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path),
+	TrialData.new("[color=crimson]Cerberus, the Gatekeeper[/color]", [CERBERUS_LEFT_FAMILY, CERBERUS_MIDDLE_FAMILY, CERBERUS_RIGHT_FAMILY], "The three-headed beast's flaming maws draw blood. A fight to the death, intensity rising.", "res://assets/icons/nemesis/cerberus_icon.png"),
 	TrialData.new("[color=paleturquoise]Scylla and Charybdis[/color]", [SCYLLA_FAMILY, CHARYBDIS_FAMILY], "To the left or to the right? Half the crew cowers in fear, and scatters.", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path),
-	TrialData.new("[color=springgreen]Mother and Father[/color]", [ECHIDNA_FAMILY, TYPHON_FAMILY], "Born from the progenitors of monsters, they swarm and grow.", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path),
-	TrialData.new("[color=lightsteelblue]Escape the Labyrinth[/color]", [MINOTAUR_FAMILY, LABYRINTH_PASSIVE_FAMILY, LABYRINTH_WALLS1_FAMILY, LABYRINTH_WALLS2_FAMILY, LABYRINTH_WALLS3_FAMILY, LABYRINTH_WALLS4_FAMILY], "An immortal pursuer, in stygian dread. Seek a path to the light.", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path)
+	TrialData.new("[color=springgreen]Echidna and Typhon[/color]", [ECHIDNA_FAMILY, TYPHON_FAMILY], "Born from the mother and father of all monsters, they swarm and grow.", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path),
+	TrialData.new("[color=lightsteelblue]Escape the Minotaur[/color]", [MINOTAUR_FAMILY, LABYRINTH_PASSIVE_FAMILY, LABYRINTH_WALLS1_FAMILY, LABYRINTH_WALLS2_FAMILY, LABYRINTH_WALLS3_FAMILY, LABYRINTH_WALLS4_FAMILY], "An immortal pursuer stalks you in stygian dread. Seek a path to the light.", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path)
 ]
 
 # extra reference to this for use in tutorial
@@ -1424,6 +1417,7 @@ var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG = PowerFamily.new("Birth a monster
 var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING = PowerFamily.new("Birth (CURRENT_CHARGES) monster Obols with (FLEETING).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_SPAWN_FLEETING, "res://assets/icons/nemesis/echidna_eggs_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PowerFamily.new("Upgrade all monsters (except Echidna and Typhon).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UPGRADE_MONSTERS, "res://assets/icons/nemesis/typhon_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PowerFamily.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BLESS_MONSTERS, "res://assets/icons/nemesis/bless_monster_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_TYPHON_ENRAGED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [5, 7, 8, 10, 12, 15], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 # scylla & charybdis
 var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PowerFamily.new("Shuffle the position of each of your coins. Reset this coin's (LIFE) penalty.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_SHUFFLE, "res://assets/icons/nemesis/scylla_icon.png", ONLY_SHOW_ICON)
@@ -1917,6 +1911,9 @@ enum _SpriteStyle {
 
 class CoinFamily:
 	enum Tag {
+		NO_TOLL, #unused; can't be offered at toll
+		NEGATIVE_TOLL_VALUE, #thorns; toll value is negative
+		CANNOT_GET_FROM_TRANSFORM_OR_GAIN, #thorns, telemachus, dolos - cannot be obtained by random generation
 		NO_UPGRADE, #thorns, telemachus
 		AUTO_UPGRADE_END_OF_ROUND, #phaethon
 		LABYRINTH_WALL, #labyrinth
@@ -1925,6 +1922,7 @@ class CoinFamily:
 		REBORN_ON_DESTROY, #phoenix
 		GAIN_COIN_ON_DESTROY, #reliquary
 		MELIAE_ON_MONSTER_DESTROYED, #hamadryad
+		ENRAGE_ON_ECHIDNA_DESTROYED, #typhon
 	}
 	
 	var id: int
@@ -2088,7 +2086,7 @@ var ORION_FAMILY = CoinFamily.new(7, CoinType.PAYOFF, "Orion's (DENOM)", "[color
 var CARPO_FAMILY = CoinFamily.new(8, CoinType.PAYOFF, "Carpo's (DENOM)", "[color=gray]Limitless Harvest[/color]", "res://assets/icons/coin/carpo_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_CARPO, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var TELEMACHUS_FAMILY = CoinFamily.new(9, CoinType.PAYOFF, "Telemachus's (DENOM)", "[color=gray]Chasing His Footsteps[/color]", "res://assets/icons/coin/telemachus_icon.png", NO_UNLOCK_TIP,\
-	CHEAP, POWER_FAMILY_GAIN_SOULS_TELEMACHUS, POWER_FAMILY_LOSE_LIFE_ONE, _SpriteStyle.PAYOFF, [CoinFamily.Tag.NO_UPGRADE])
+	CHEAP, POWER_FAMILY_GAIN_SOULS_TELEMACHUS, POWER_FAMILY_LOSE_LIFE_ONE, _SpriteStyle.PAYOFF, [CoinFamily.Tag.NO_UPGRADE, CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN])
 var PROMETHEUS_FAMILY = CoinFamily.new(10, CoinType.PAYOFF, "(DENOM) of Prometheus", "[color=orangered]The First Flame[/color]", POWER_FAMILY_STOKE_FLAME.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_STOKE_FLAME, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 
@@ -2160,7 +2158,7 @@ var PHAETHON_FAMILY = CoinFamily.new(1022, CoinType.POWER, "(DENOM) of Phaethon"
 var ERYSICHTHON_FAMILY = CoinFamily.new(1023, CoinType.POWER, "(DENOM) of Erysichthon", "[color=palegoldenrod]Faustian Hunger[/color]", POWER_FAMILY_INFINITE_TURN_HUNGER.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_INFINITE_TURN_HUNGER, POWER_FAMILY_TURN_SELF, _SpriteStyle.POWER)
 var DOLOS_FAMILY = CoinFamily.new(1024, CoinType.POWER, "(DENOM) of Dolos", "[color=alicewhite]Behind Prosopon[/color]", POWER_FAMILY_PERMANENTLY_COPY.icon_path, NO_UNLOCK_TIP,\
-	PRICY, POWER_FAMILY_PERMANENTLY_COPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+	PRICY, POWER_FAMILY_PERMANENTLY_COPY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER, [CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN])
 var ERIS_FAMILY = CoinFamily.new(1025, CoinType.POWER, "(DENOM) of Eris", "[color=gold]For the Fairest[/color]", POWER_FAMILY_FLIP_AND_TAG.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_FLIP_AND_TAG, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var AEOLUS_FAMILY = CoinFamily.new(1026, CoinType.POWER, "(DENOM) of Aeolus", "[color=skyblue]The Winds Shall Obey[/color]", POWER_FAMILY_REFLIP_LEFT_ALTERNATING.icon_path, NO_UNLOCK_TIP,\
@@ -2224,7 +2222,7 @@ const NEMESIS_CERBERUS_APPEASE = [45, 55, 65, 75, 85, 95]
 	MONSTER_SPHINX_FAMILY, MONSTER_CYCLOPS_FAMILY,
 	
 	MEDUSA_FAMILY, EURYALE_FAMILY, STHENO_FAMILY, 
-	ECHIDNA_FAMILY, TYPHON_FAMILY,
+	ECHIDNA_FAMILY, TYPHON_FAMILY, 
 	CERBERUS_LEFT_FAMILY, CERBERUS_RIGHT_FAMILY, CERBERUS_MIDDLE_FAMILY,
 	SCYLLA_FAMILY, CHARYBDIS_FAMILY,
 	MINOTAUR_FAMILY, LABYRINTH_PASSIVE_FAMILY, LABYRINTH_WALLS1_FAMILY, LABYRINTH_WALLS2_FAMILY, LABYRINTH_WALLS3_FAMILY, LABYRINTH_WALLS4_FAMILY,
@@ -2318,41 +2316,43 @@ var EURYALE_FAMILY = CoinFamily.new(3001, CoinType.MONSTER, "[color=mediumaquama
 var STHENO_FAMILY = CoinFamily.new(3002, CoinType.MONSTER, "[color=rosybrown]Stheno's (DENOM)[/color]", "[color=purple]Huntress of Man[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
 
-var ECHIDNA_FAMILY = CoinFamily.new(3003, CoinType.MONSTER, "[color=chartreuse]Echidna's (DENOM)[/color]", "[color=purple]Mother of Monstrosities[/color]", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path, NO_UNLOCK_TIP,\
+var ECHIDNA_FAMILY = CoinFamily.new(3010, CoinType.MONSTER, "[color=chartreuse]Echidna's (DENOM)[/color]", "[color=purple]Mother of Monstrosities[/color]", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING, _SpriteStyle.NEMESIS, [], NEMESIS_ECHIDNA_APPEASE)
-var TYPHON_FAMILY = CoinFamily.new(3004, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Father of Fiends[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS, NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
+var TYPHON_FAMILY = CoinFamily.new(3011, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Father of Fiends[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS, NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS, _SpriteStyle.NEMESIS, [CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED], NEMESIS_TYPHON_APPEASE)
+var TYPHON_ENRAGED_FAMILY = CoinFamily.new(3012, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Hatred Outlives the Hateful[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
 
-var CERBERUS_LEFT_FAMILY = CoinFamily.new(3005, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Flaming Jaws that Bite[/color]", NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF.icon_path, NO_UNLOCK_TIP,\
+var CERBERUS_LEFT_FAMILY = CoinFamily.new(3020, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Flaming Jaws that Bite[/color]", NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
-var CERBERUS_MIDDLE_FAMILY = CoinFamily.new(3006, CoinType.MONSTER, "[color=violet]Cerberus's Middle (DENOM)[/color]", "[color=purple]Hellish Howls that Haunt[/color]", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path, NO_UNLOCK_TIP,\
+var CERBERUS_MIDDLE_FAMILY = CoinFamily.new(3021, CoinType.MONSTER, "[color=violet]Cerberus's Middle (DENOM)[/color]", "[color=purple]Hellish Howls that Haunt[/color]", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
-var CERBERUS_RIGHT_FAMILY = CoinFamily.new(3007, CoinType.MONSTER, "[color=crimson]Cerberus's Right (DENOM)[/color]", "[color=purple]Accursed Claws that Catch[/color]", NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE.icon_path, NO_UNLOCK_TIP,\
+var CERBERUS_RIGHT_FAMILY = CoinFamily.new(3022, CoinType.MONSTER, "[color=crimson]Cerberus's Right (DENOM)[/color]", "[color=purple]Accursed Claws that Catch[/color]", NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
 
-var SCYLLA_FAMILY = CoinFamily.new(3008, CoinType.MONSTER, "[color=palegreen]Scylla's (DENOM)[/color]", "[color=purple]Between a Rock...[/color]", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path, NO_UNLOCK_TIP,\
+var SCYLLA_FAMILY = CoinFamily.new(3030, CoinType.MONSTER, "[color=palegreen]Scylla's (DENOM)[/color]", "[color=purple]Between a Rock...[/color]", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE, NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE, _SpriteStyle.NEMESIS, [], NEMESIS_SCYLLA_APPEASE)
-var CHARYBDIS_FAMILY = CoinFamily.new(3009, CoinType.MONSTER, "[color=aqua]Charybdis's (DENOM)[/color]", "[color=purple]...and a Hard Place[/color]", NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT.icon_path, NO_UNLOCK_TIP,\
+var CHARYBDIS_FAMILY = CoinFamily.new(3031, CoinType.MONSTER, "[color=aqua]Charybdis's (DENOM)[/color]", "[color=purple]...and a Hard Place[/color]", NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT, NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT, _SpriteStyle.NEMESIS, [CoinFamily.Tag.CANT_TARGET], NEMESIS_CHARYBDIS_APPEASE)
 
-var MINOTAUR_FAMILY = CoinFamily.new(3010, CoinType.MONSTER, "[color=chocolate]The Minotaur's (DENOM)[/color]", "[color=purple]Unrelenting Beast[/color]", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path, NO_UNLOCK_TIP,\
+var MINOTAUR_FAMILY = CoinFamily.new(3040, CoinType.MONSTER, "[color=chocolate]The Minotaur's (DENOM)[/color]", "[color=purple]Unrelenting Beast[/color]", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE, _SpriteStyle.NEMESIS, [])
-var LABYRINTH_PASSIVE_FAMILY = CoinFamily.new(4005, CoinType.TRIAL, "[color=white]Lost in the Labyrinth[/color]", "[color=lightsteelblue]Seek a Way Out![/color]", NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH.icon_path, NO_UNLOCK_TIP,\
+var LABYRINTH_PASSIVE_FAMILY = CoinFamily.new(3041, CoinType.TRIAL, "[color=white]Lost in the Labyrinth[/color]", "[color=lightsteelblue]Seek a Way Out![/color]", NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH, NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var LABYRINTH_WALLS1_FAMILY = CoinFamily.new(3011, CoinType.MONSTER, "[color=lightsteelblue]Dark Labyrinth (DENOM)[/color]", "[color=purple]One Wrong Turn[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE.icon_path, NO_UNLOCK_TIP,\
+var LABYRINTH_WALLS1_FAMILY = CoinFamily.new(3042, CoinType.MONSTER, "[color=lightsteelblue]Dark Labyrinth (DENOM)[/color]", "[color=purple]One Wrong Turn[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY, _SpriteStyle.LABYRINTH, [CoinFamily.Tag.LABYRINTH_WALL], NEMESIS_LABYRINTH_APPEASE)
-var LABYRINTH_WALLS2_FAMILY = CoinFamily.new(3013, CoinType.MONSTER, "[color=lightsteelblue]Cold Labyrinth (DENOM)[/color]", "[color=purple]Bone Cold Corridor[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE.icon_path, NO_UNLOCK_TIP,\
+var LABYRINTH_WALLS2_FAMILY = CoinFamily.new(3043, CoinType.MONSTER, "[color=lightsteelblue]Cold Labyrinth (DENOM)[/color]", "[color=purple]Bone Cold Corridor[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE, _SpriteStyle.LABYRINTH, [CoinFamily.Tag.LABYRINTH_WALL], NEMESIS_LABYRINTH_APPEASE)
-var LABYRINTH_WALLS3_FAMILY = CoinFamily.new(3014, CoinType.MONSTER, "[color=lightsteelblue]Muddy Labyrinth (DENOM)[/color]", "[color=purple]Quagmire Underfoot[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE.icon_path, NO_UNLOCK_TIP,\
+var LABYRINTH_WALLS3_FAMILY = CoinFamily.new(3044, CoinType.MONSTER, "[color=lightsteelblue]Muddy Labyrinth (DENOM)[/color]", "[color=purple]Quagmire Underfoot[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY, _SpriteStyle.LABYRINTH, [CoinFamily.Tag.LABYRINTH_WALL], NEMESIS_LABYRINTH_APPEASE)
-var LABYRINTH_WALLS4_FAMILY = CoinFamily.new(3015, CoinType.MONSTER, "[color=lightsteelblue]Broken Labyrinth (DENOM)[/color]", "[color=purple]Crumbling Masonry Collapses[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE.icon_path, NO_UNLOCK_TIP,\
+var LABYRINTH_WALLS4_FAMILY = CoinFamily.new(3045, CoinType.MONSTER, "[color=lightsteelblue]Broken Labyrinth (DENOM)[/color]", "[color=purple]Crumbling Masonry Collapses[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE, _SpriteStyle.LABYRINTH, [CoinFamily.Tag.LABYRINTH_WALL], NEMESIS_LABYRINTH_APPEASE)
 
 # trials
 var TRIAL_IRON_FAMILY = CoinFamily.new(4000, CoinType.TRIAL, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", TRIAL_POWER_FAMILY_IRON.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var THORNS_FAMILY = CoinFamily.new(9000, CoinType.PAYOFF, "(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", "res://assets/icons/coin/thorns_icon.png", NO_UNLOCK_TIP,\
-	NO_PRICE, POWER_FAMILY_LOSE_SOULS_THORNS, POWER_FAMILY_LOSE_LIFE_THORNS, _SpriteStyle.THORNS, [CoinFamily.Tag.NO_UPGRADE])
+	NO_PRICE, POWER_FAMILY_LOSE_SOULS_THORNS, POWER_FAMILY_LOSE_LIFE_THORNS, _SpriteStyle.THORNS, [CoinFamily.Tag.NO_UPGRADE, CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN, CoinFamily.Tag.NEGATIVE_TOLL_VALUE])
 var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new(4001, CoinType.TRIAL, "[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", TRIAL_POWER_FAMILY_MISFORTUNE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_PAIN_FAMILY = CoinFamily.new(4002, CoinType.TRIAL, "[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", TRIAL_POWER_FAMILY_PAIN.icon_path, NO_UNLOCK_TIP,\
@@ -2419,6 +2419,9 @@ func get_power_coinpool() -> Array:
 	return powers
 
 func random_coin_family() -> CoinFamily:
+	var roll = choose_one(_COINPOOL)
+	if roll.has_tag(CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN):
+		return random_coin_family()
 	return choose_one(_COINPOOL)
 
 func random_coin_family_excluding(excluded: Array) -> CoinFamily:
@@ -2429,7 +2432,7 @@ func random_coin_family_excluding(excluded: Array) -> CoinFamily:
 
 func random_power_coin_family() -> CoinFamily:
 	var coin_family = random_coin_family()
-	if coin_family.coin_type == CoinType.POWER:
+	if coin_family.coin_type == CoinType.POWER :
 		return coin_family
 	return random_power_coin_family()
 

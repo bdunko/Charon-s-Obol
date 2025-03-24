@@ -178,6 +178,18 @@ func _on_text_submitted(txt):
 						made = true
 						break
 				success = made
+	elif cmd == "setup":
+		# clear everything
+		while coin_row.get_child_count() != 1: 
+			game.destroy_coin(coin_row.get_rightmost_to_leftmost()[0])
+		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.HERMES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game._make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
 
 	# repeat the previous command
 	elif last_command != null and (cmd == "r" or cmd == "repeat"):
