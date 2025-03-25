@@ -325,8 +325,7 @@ func _update_price_label() -> void:
 		_PRICE.text = Global.replace_placeholders((_UPGRADE_SELL_FORMAT if _owner == Owner.PLAYER else _BUY_FORMAT) % [color, price])
 		
 		# hide upgrade label during some parts of tutorial
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO]
-		if _owner == Owner.PLAYER and Global.tutorialState in no_upgrade_tutorial:
+		if _owner == Owner.PLAYER and Global.tutorialState in Global.TUTORIAL_NO_UPGRADE:
 			_PRICE.text = ""
 	elif Global.state == Global.State.TOLLGATE:
 		# if the coin cannot be offered at a tollgate, show nothing
@@ -1709,6 +1708,7 @@ func _generate_tooltip() -> void:
 		assert(FileAccess.file_exists("res://assets/icons/arrow_icon.png"))
 		
 		
+		const PAYOFF_POWER_MONSTER_FORMAT = "[color=#e86a73](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		const PAYOFF_POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		const PAYOFF_POWER_FORMAT_JUST_ICON = "[img=10x13]%s[/img](POWERARROW)"
 		
@@ -1719,13 +1719,19 @@ func _generate_tooltip() -> void:
 			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
-				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+				if is_monster_coin(): #purple charges text
+					heads_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+				else:
+					heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
 			
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
 			if _tails_power.charges <= 1 or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
-				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+				if is_monster_coin(): #purple charges text
+					tails_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % tails_power.power_family.icon_path, tails_power)
+				else:
+					tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"

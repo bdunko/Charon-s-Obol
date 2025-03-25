@@ -164,6 +164,7 @@ enum TutorialState {
 	
 	ENDING # ending text
 }
+var TUTORIAL_NO_UPGRADE = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_INTRO, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE]
 var tutorial_warned_zeus_reflip := false
 var tutorial_pointed_out_patron_passive := false
 var tutorial_patron_passive_active := false
@@ -441,8 +442,27 @@ func set_custom_mouse_cursor_to_icon(icon_path: String) -> void:
 	assert(img is Image)
 	# remove the leftmost y... this is a transparent column used for spacing the img; don't need for cursor
 	img = img.get_region(Rect2(Vector2i(1, 0), img.get_size() - Vector2i(1, 0)))
+	
+	# for a 1920x1080 window, I like a scale factor of 5. Use the x size of the window to determine a reasonable scaling factor.
+	var scale_factor = get_window().size.x * (5.0/1920.0)
+	
+	# now, if either dimension is above 256, we have to reduce it to 256 and scale down the other accordingly...
+	var width = img.get_width() * scale_factor
+	var height = img.get_height() * scale_factor
+	if width > 255:
+		var m = 255.0/width
+		width *= m
+		height *= m
+	if height > 255:
+		var m = 255.0/height
+		width *= m
+		height *= m
+	
+	assert(width <= 256)
+	assert(height <= 256)
+	
 	# resize it up a bit... starts at 9x13; resize this by 5x or so
-	img.resize(img.get_width() * 5, img.get_height() * 5, Image.INTERPOLATE_NEAREST)
+	img.resize(width, height, Image.INTERPOLATE_NEAREST)
 	Input.set_custom_mouse_cursor(ImageTexture.create_from_image(img), Input.CURSOR_ARROW, img.get_size() / 2.0)
 
 func clear_custom_mouse_cursor() -> void:
@@ -750,11 +770,11 @@ var _VOYAGE_INTERSPERSED = [
 var _VOYAGE_TUTORIAL = [
 	Round.new(RoundType.BOARDING, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), 
 	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT2, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT3, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT4, 0, 0, _MONSTER_WAVE_TUTORIAL1, _ANTE_LOW, _MALICE_LOW),
-	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT5, 0, 0, _MONSTER_WAVE_TUTORIAL2, _ANTE_LOW, _MALICE_LOW),
-	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT6, 0, 70, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP1, _SHOP_MULT1, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP12, _SHOP_MULT2, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT2, 0, 0, _MONSTER_WAVE_TUTORIAL1, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.NORMAL, 100, _SHOP23, _SHOP_MULT3, 0, 0, _MONSTER_WAVE_TUTORIAL2, _ANTE_LOW, _MALICE_LOW),
+	Round.new(RoundType.TRIAL1, 100, _SHOP23, _SHOP_MULT3, 0, 70, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW),
 	Round.new(RoundType.TOLLGATE, 0, _NOSHOP, _NOMULT, 8, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW), #8 is intentional to prevent possible bugs, don't increase
 	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_LOW, _MALICE_LOW)
 ]
@@ -1285,7 +1305,7 @@ var POWER_FAMILY_GAIN_ARROW = PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1
 var POWER_FAMILY_TURN_AND_BLURSE = PowerFamily.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BLESS, PowerFamily.Tag.TURN, PowerFamily.Tag.CURSE])
 var POWER_FAMILY_REFLIP_ALL = PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's (LIFE) penalty by 2 for this round.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL, PowerFamily.Tag.ANTIMONSTER])
+var POWER_FAMILY_REDUCE_PENALTY = PowerFamily.new("Reduce a coin's penalty by 2(LIFE) for this round.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.HEAL, PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_PRIME_AND_IGNITE = PowerFamily.new("(IGNITE) and (PRIME) one of your coins.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.UPGRADE, PowerFamily.Tag.IGNITE])
 var POWER_FAMILY_COPY_FOR_TOSS = PowerFamily.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)
@@ -1303,7 +1323,7 @@ var POWER_FAMILY_BURY_HARVEST = PowerFamily.new("(BURY) one of your coins for 3 
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.HEAL])
 var POWER_FAMILY_BURY_TURN_TAILS = PowerFamily.new("(BURY) one of your coins for 1 toss. Immediately turn one of your (TAILS) coins to (HEADS) at random.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.BURY, PowerFamily.Tag.TURN])
-var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its (LIFE) penalty to 0 this round.", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PowerFamily.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its penalty to 0(LIFE) this round.", [1, 2, 3, 4, 5, 6],\
 	PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.FREEZE, PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_IGNITE_BLESS_LUCKY = PowerFamily.new("Make a coin (LUCKY), (BLESS), and (IGNITE) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hecate_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY, PowerFamily.Tag.BLESS, PowerFamily.Tag.IGNITE])
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
@@ -1348,7 +1368,7 @@ var MONSTER_POWER_FAMILY_GADFLY_THORNS = PowerFamily.new("Gain an (GADFLY_DENOM)
 var GADFLY_INCREASE = [1, 2, 3, 4, 5, 6]
 var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (GADFLY_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var STRIX_INCREASE = [4, 5, 6, 7, 8, 9]
-var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PowerFamily.new("Increase a coin's (LIFE) penalty for this round by (STRIX_INCREASE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_PENALTY, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PowerFamily.new("Increase a coin's penalty for this round by (STRIX_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_PENALTY, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
 var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
 var MONSTER_POWER_FAMILY_LAMIA_BURY = PowerFamily.new("(BURY) a coin for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_LAMIA, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
@@ -1388,7 +1408,7 @@ var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) 
 var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/nemesis/unlucky_icon.png", ONLY_SHOW_ICON)
 
 const KERES_INCREASE = [3, 4, 5, 6, 7, 8]
-var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES) this round.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the penalty of all coins by (CURRENT_CHARGES)(LIFE) this round.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_KERES_DESECRATE = PowerFamily.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PowerType.PAYOFF_DESECRATE, "res://assets/icons/nemesis/desecrate_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/blank_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/teumessian_fox_icon.png", ONLY_SHOW_ICON)
@@ -1429,9 +1449,9 @@ var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PowerFamily.new("(BLANK) the right ha
 # cerberus
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PowerFamily.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_PERMANENTLY_IGNITE_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PowerFamily.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_IGNITE, "res://assets/icons/nemesis/ignite_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PowerFamily.new("Increase (IGNITE) damage by (CURRENT_CHARGES) for the rest of the round.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_AMPLIFY_IGNITE, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES)(PENALTY) this round.", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PowerFamily.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DESECRATE,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PowerFamily.new("Increase (IGNITE) damage by (CURRENT_CHARGES) this round.", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_AMPLIFY_IGNITE, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PowerFamily.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES)(LIFE) this round.", [1, 2, 2, 3, 3, 4], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PowerFamily.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)[/color]", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DESECRATE,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 # minotaur
@@ -1552,6 +1572,8 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(PAYOFF_OTHER)", "[img=32x13]res://assets/icons/ui/payoff_other.png[/img]")
 	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=32x13]res://assets/icons/ui/payoff_purple.png[/img]")
 	tooltip = tooltip.replace("(POWER)", "[img=30x13]res://assets/icons/ui/power.png[/img]")
+	tooltip = tooltip.replace("(POWER_PATRON)", "[img=30x13]res://assets/icons/ui/power_patron.png[/img]")
+	
 	
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
 	
@@ -1771,7 +1793,7 @@ class Patron:
 	
 	func get_description(show_full_charges: bool = false) -> String:
 		var n_charges = get_uses_per_round() if show_full_charges else Global.patron_uses
-		return Global.replace_placeholders("(POWER)[color=yellow]%d/%d[/color][img=10x13]%s[/img](POWERARROW)%s" % [n_charges, get_uses_per_round(), power_family.icon_path, _description])
+		return Global.replace_placeholders("(POWER_PATRON)[color=yellow]%d/%d[/color][img=10x13]%s[/img](POWERARROW)%s" % [n_charges, get_uses_per_round(), power_family.icon_path, _description])
 	
 	func get_uses_per_round() -> int:
 		return power_family.uses_for_denom[0]
@@ -1783,22 +1805,22 @@ class Patron:
 		return power_family.icon_path
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APHRODITE = PowerFamily.new("Aphrodite", [2, 2, 2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APOLLO = PowerFamily.new("Apollo", [3, 3, 3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARES = PowerFamily.new("Ares", [2, 2, 2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARTEMIS = PowerFamily.new("Artemis", [2, 2, 2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ATHENA = PowerFamily.new("Athena", [2, 2, 2, 2, 2, 2], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DEMETER = PowerFamily.new("Demeter", [1, 1, 1, 1, 1, 1], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DIONYSUS = PowerFamily.new("Dionysus", [2, 2, 2, 2, 2, 2], PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HADES = PowerFamily.new("Hades", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HEPHAESTUS = PowerFamily.new("Hephaestus", [1, 1, 1, 1, 1, 1], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERA = PowerFamily.new("Hera", [2, 2, 2, 2, 2, 2], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERMES = PowerFamily.new("Hermes", [2, 2, 2, 2, 2, 2], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HESTIA = PowerFamily.new("Hestia", [3, 3, 3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_POSEIDON = PowerFamily.new("Poseidon", [3, 3, 3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ZEUS = PowerFamily.new("Zeus", [3, 3, 3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
 
-var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_CHARON = PowerFamily.new("Charon", [3, 3, 3, 3, 3, 3], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
 
 var immediate_patron_powers = [PATRON_POWER_FAMILY_DEMETER, PATRON_POWER_FAMILY_APOLLO, PATRON_POWER_FAMILY_ARTEMIS, PATRON_POWER_FAMILY_ARES, PATRON_POWER_FAMILY_APHRODITE, PATRON_POWER_FAMILY_DIONYSUS]
 
@@ -1996,23 +2018,29 @@ const STANDARD = 5
 const PRICY = 7
 const RICH = 10
 
+
 const _UPGRADE_TO_DIOBOL = 20
 const _UPGRADE_TO_TRIOBOL = 45
 const _UPGRADE_TO_TETROBOL = 75
 const _UPGRADE_TO_PENTOBOL = 115
 const _UPGRADE_TO_DRACHMA = 160
+const _TUTORIAL_UPGRADE_TO_DIOBOL = 10
+const _TUTORIAL_UPGRADE_TO_TRIOBOL = 20
+const _TUTORIAL_UPGRADE_TO_TETROBOL = 40
+const _TUTORIAL_UPGRADE_TO_PENTOBOL = 70
+const _TUTORIAL_UPGRADE_TO_DRACHMA = 100
 func get_price_to_upgrade(denom: Denomination) -> int:
 	match(denom):
 		Denomination.OBOL:
-			return _UPGRADE_TO_DIOBOL + (_GREEDY_DIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
+			return _UPGRADE_TO_DIOBOL + (_GREEDY_DIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0) if tutorialState == TutorialState.INACTIVE else _TUTORIAL_UPGRADE_TO_DIOBOL
 		Denomination.DIOBOL:
-			return _UPGRADE_TO_TRIOBOL + (_GREEDY_TRIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
+			return _UPGRADE_TO_TRIOBOL + (_GREEDY_TRIOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0) if tutorialState == TutorialState.INACTIVE else _TUTORIAL_UPGRADE_TO_TRIOBOL
 		Denomination.TRIOBOL: 
-			return _UPGRADE_TO_TETROBOL + (_GREEDY_TETROBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
+			return _UPGRADE_TO_TETROBOL + (_GREEDY_TETROBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0) if tutorialState == TutorialState.INACTIVE else _TUTORIAL_UPGRADE_TO_TETROBOL
 		Denomination.TETROBOL:
-			return _UPGRADE_TO_PENTOBOL + (_GREEDY_PENTOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
+			return _UPGRADE_TO_PENTOBOL + (_GREEDY_PENTOBOL_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0) if tutorialState == TutorialState.INACTIVE else _TUTORIAL_UPGRADE_TO_PENTOBOL
 		Denomination.PENTOBOL:
-			return _UPGRADE_TO_DRACHMA + (_GREEDY_DRACHMA_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0)
+			return _UPGRADE_TO_DRACHMA + (_GREEDY_DRACHMA_INCREASE if is_difficulty_active(Difficulty.GREEDY4) else 0) if tutorialState == TutorialState.INACTIVE else _TUTORIAL_UPGRADE_TO_DRACHMA
 		Denomination.DRACHMA:
 			return 0
 	assert(false, "No matching case?")
@@ -2055,6 +2083,11 @@ enum CoinType {
 		PLUTUS_FAMILY, MIDAS_FAMILY, DIKE_FAMILY, SARPEDON_FAMILY, PROTEUS_FAMILY,
 		# JASON_FAMILY
 	]
+
+var _TUTORIAL_COINPOOL = [
+	GENERIC_FAMILY,
+	ZEUS_FAMILY, HERA_FAMILY, DEMETER_FAMILY, ARES_FAMILY, ATHENA_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY,
+]
 
 @onready var _ALL_PLAYER_POWERS = [
 	POWER_FAMILY_REFLIP, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_FREEZE, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_GAIN_ARROW,
@@ -2323,11 +2356,11 @@ var TYPHON_FAMILY = CoinFamily.new(3011, CoinType.MONSTER, "[color=palevioletred
 var TYPHON_ENRAGED_FAMILY = CoinFamily.new(3012, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Hatred Outlives the Hateful[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
 
-var CERBERUS_LEFT_FAMILY = CoinFamily.new(3020, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Flaming Jaws that Bite[/color]", NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF.icon_path, NO_UNLOCK_TIP,\
+var CERBERUS_LEFT_FAMILY = CoinFamily.new(3020, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Blazing Bites that Burn[/color]", NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
 var CERBERUS_MIDDLE_FAMILY = CoinFamily.new(3021, CoinType.MONSTER, "[color=violet]Cerberus's Middle (DENOM)[/color]", "[color=purple]Hellish Howls that Haunt[/color]", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
-var CERBERUS_RIGHT_FAMILY = CoinFamily.new(3022, CoinType.MONSTER, "[color=crimson]Cerberus's Right (DENOM)[/color]", "[color=purple]Accursed Claws that Catch[/color]", NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE.icon_path, NO_UNLOCK_TIP,\
+var CERBERUS_RIGHT_FAMILY = CoinFamily.new(3022, CoinType.MONSTER, "[color=crimson]Cerberus's Right (DENOM)[/color]", "[color=purple]Cruel Claws that Catch[/color]", NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
 
 var SCYLLA_FAMILY = CoinFamily.new(3030, CoinType.MONSTER, "[color=palegreen]Scylla's (DENOM)[/color]", "[color=purple]Between a Rock...[/color]", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path, NO_UNLOCK_TIP,\
@@ -2385,14 +2418,16 @@ var _COINPOOL = []
 func generate_coinpool() -> void:
 	_COINPOOL.clear()
 	
-	# generate based on unlocks
-	for coin_family in _ALL_PLAYER_COINS:
-		if is_coin_unlocked(coin_family):
-			_COINPOOL.append(coin_family)
+	# coinpool may vary based on character
+	match get_character():
+		Character.LADY:
+			_COINPOOL = _TUTORIAL_COINPOOL
+		_:
+			for coin_family in _ALL_PLAYER_COINS:
+				if is_coin_unlocked(coin_family):
+					_COINPOOL.append(coin_family)
 	
 	assert(_COINPOOL.size() != 0)
-	# in the future, character specific coinpools can be set here
-	
 	assert(get_payoff_coinpool().size() != 0)
 	assert(get_power_coinpool().size() != 0)
 	

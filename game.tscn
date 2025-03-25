@@ -7699,7 +7699,7 @@ offset_right = 320.0
 offset_bottom = 155.0
 
 [node name="EnemyRow" type="Node2D" parent="Table"]
-position = Vector2(0, 12)
+position = Vector2(0, 15)
 script = ExtResource("24_cds23")
 
 [node name="CoinRow" parent="Table/EnemyRow" instance=ExtResource("19_ym3ga")]

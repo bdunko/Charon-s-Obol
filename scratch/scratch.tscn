@@ -1,14 +1,14 @@
 [gd_scene load_steps=15 format=3 uid="uid://b65ykf244ptkj"]
 
-[ext_resource type="Script" path="res://scratch/scratch.gd" id="1_w2w5w"]
-[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_bwwgy"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_pt7r6"]
-[ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="4_3phlp"]
-[ext_resource type="Texture2D" uid="uid://bduk12k8ehsxm" path="res://assets/ui/cursor.png" id="5_pqvvn"]
-[ext_resource type="Script" path="res://scratch/power_mouse_particles.gd" id="6_5fmic"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="8_hjgr1"]
-[ext_resource type="Texture2D" uid="uid://ddtcm0ip6v4we" path="res://assets/icons/nemesis/medusa_icon.png" id="9_wny26"]
-[ext_resource type="PackedScene" uid="uid://3ekqb04wjjw8" path="res://settings_menu.tscn" id="10_0y3q0"]
+[ext_resource type="Script" path="res://scratch/scratch.gd" id="1_01u1e"]
+[ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="2_u6l5r"]
+[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="3_wukf4"]
+[ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="4_secg7"]
+[ext_resource type="Texture2D" uid="uid://bduk12k8ehsxm" path="res://assets/ui/cursor.png" id="5_3va7y"]
+[ext_resource type="Script" path="res://scratch/power_mouse_particles.gd" id="6_18g23"]
+[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="7_wqu0h"]
+[ext_resource type="Texture2D" uid="uid://ddtcm0ip6v4we" path="res://assets/icons/nemesis/medusa_icon.png" id="8_um7y2"]
+[ext_resource type="PackedScene" uid="uid://3ekqb04wjjw8" path="res://settings_menu.tscn" id="9_ma06r"]
 
 [sub_resource type="Gradient" id="Gradient_y1sh4"]
 offsets = PackedFloat32Array(0, 0.825036, 0.991465)
@@ -35,7 +35,7 @@ hue_variation_min = -0.03
 hue_variation_max = 0.04
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_adb6m"]
-shader = ExtResource("8_hjgr1")
+shader = ExtResource("7_wqu0h")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -44,6 +44,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -161,7 +165,7 @@ shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aof5t"]
-shader = ExtResource("8_hjgr1")
+shader = ExtResource("7_wqu0h")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -170,6 +174,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -287,7 +295,7 @@ shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
 [node name="Scratch" type="Node2D"]
-script = ExtResource("1_w2w5w")
+script = ExtResource("1_01u1e")
 
 [node name="Test" type="Control" parent="."]
 visible = false
@@ -299,7 +307,7 @@ offset_right = 225.0
 offset_bottom = 111.0
 rotation = 0.750492
 
-[node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_bwwgy")]
+[node name="MouseWatcher" parent="Test" node_paths=PackedStringArray("watched") instance=ExtResource("2_u6l5r")]
 watched = NodePath("../Hitbox")
 
 [node name="Hitbox" type="CollisionPolygon2D" parent="Test"]
@@ -318,11 +326,11 @@ offset_left = 22.0
 offset_top = 19.0
 offset_right = 30.0
 offset_bottom = 27.0
-script = ExtResource("3_pt7r6")
+script = ExtResource("3_wukf4")
 _tooltip = "[center][p][color=slategray]Stone[/color][/p][p]This coin does not flip and its powers cannot be activated.[/p][/center]"
 
 [node name="Sprite2D" type="Sprite2D" parent="Blank2"]
-texture = ExtResource("4_3phlp")
+texture = ExtResource("4_secg7")
 centered = false
 offset = Vector2(-1, -3)
 
@@ -337,8 +345,8 @@ text = "[color=red][b]bold[/b][/color]"
 visible = false
 z_index = 4096
 position = Vector2(67, 29)
-texture = ExtResource("5_pqvvn")
-script = ExtResource("6_5fmic")
+texture = ExtResource("5_3va7y")
+script = ExtResource("6_18g23")
 
 [node name="MouseFollowParticles" type="GPUParticles2D" parent="Cursor"]
 position = Vector2(-4, -4)
@@ -351,15 +359,15 @@ local_coords = true
 visible = false
 material = SubResource("ShaderMaterial_adb6m")
 position = Vector2(16, 105)
-texture = ExtResource("9_wny26")
+texture = ExtResource("8_um7y2")
 
 [node name="New" type="Sprite2D" parent="."]
 visible = false
 material = SubResource("ShaderMaterial_aof5t")
 position = Vector2(39, 124)
-texture = ExtResource("9_wny26")
+texture = ExtResource("8_um7y2")
 
-[node name="SettingsMenu" parent="." instance=ExtResource("10_0y3q0")]
+[node name="SettingsMenu" parent="." instance=ExtResource("9_ma06r")]
 
 [connection signal="mouse_entered" from="Test/MouseWatcher" to="Test" method="_on_mouse_watcher_mouse_entered"]
 [connection signal="mouse_exited" from="Test/MouseWatcher" to="Test" method="_on_mouse_watcher_mouse_exited"]

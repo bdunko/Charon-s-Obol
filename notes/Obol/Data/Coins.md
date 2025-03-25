@@ -265,6 +265,7 @@ Unlockable coins + more coins
 		- [ ] 20 - Upgrade a coin.
 	- [ ] **Theseus** - Six Labours - Power: Spawn a terrible monster. After six are destroyed, you win the game.
 		- [ ] Periphetes, Sinis, Crommyonian Sow, Sciron, Cercyon, Procrustes
+	- [ ] obol-triobol: payoff upgrade this coin. tetrobol+: Upgrade your patron and fully recharge it. (it visually changes color - we can just do a color replacement shader for this - additionally it gets +1 charge. We can use the fact that each patron has an array of denomination values for this; ie baseline is Obol, 'virtully' upgrade the patron to diobol, triobol, etc, then pull the number of charges from the array)
 
 
 

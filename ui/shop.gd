@@ -67,7 +67,7 @@ func _num_power() -> int:
 func randomize_and_show_shop() -> void:
 	_remove_children()
 	
-	if Global.tutorialState != Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE:
+	if Global.tutorialState != Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE and Global.tutorialState != Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
 		_SHOP_ROW.expand()
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN:
@@ -126,6 +126,9 @@ func randomize_and_show_shop() -> void:
 
 func retract() -> void:
 	await _SHOP_ROW.retract(_coin_spawn_point)
+
+func expand() -> void:
+	await _SHOP_ROW.expand()
 
 func _on_try_coin_purchased(coin: Coin) -> void:
 	emit_signal("coin_purchased", coin, coin.get_store_price())

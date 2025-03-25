@@ -138,9 +138,9 @@ func _on_text_submitted(txt):
 			# search all monsters and trials...
 			var found = false
 			if "cerberus".contains(args[1].to_lower()):
-				game.spawn_enemy(Global.CERBERUS_LEFT_FAMILY, denom)
-				game.spawn_enemy(Global.CERBERUS_MIDDLE_FAMILY, denom)
-				game.spawn_enemy(Global.CERBERUS_RIGHT_FAMILY, denom)
+				game.spawn_enemy(Global.CERBERUS_LEFT_FAMILY, denom-1)
+				game.spawn_enemy(Global.CERBERUS_MIDDLE_FAMILY, denom-1)
+				game.spawn_enemy(Global.CERBERUS_RIGHT_FAMILY, denom-1)
 				found = true
 			else:
 				for monster_or_trial in Global._ALL_MONSTER_AND_TRIAL_COINS:
@@ -159,7 +159,7 @@ func _on_text_submitted(txt):
 		elif coin_row.get_child_count() == Global.COIN_LIMIT:
 			success = false
 		else: 
-			var denom = Global.Denomination.PENTOBOL #this gets -1'd to tetrobol - ugly but w/e
+			var denom = Global.Denomination.TETROBOL #this gets -1'd to tetrobol - ugly but w/e
 			if args.size() == 3:
 				denom = clamp(int(args[2]), 1, 6)
 			# special case thorns

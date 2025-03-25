@@ -4,6 +4,7 @@ signal game_ended
 
 @onready var _COIN_ROW: CoinRow = $Table/CoinRow
 @onready var _SHOP: Shop = $Table/Shop
+@onready var _SHOP_MAT = $Table/ShopMat
 @onready var _SHOP_COIN_ROW: CoinRow = $Table/Shop/ShopRow
 @onready var _ENEMY_ROW: EnemyRow = $Table/EnemyRow
 @onready var _ENEMY_COIN_ROW: CoinRow = $Table/EnemyRow/CoinRow
@@ -134,6 +135,7 @@ var malice_activations_this_game := 0
 func _ready() -> void:
 	assert(_COIN_ROW)
 	assert(_SHOP)
+	assert(_SHOP_MAT)
 	assert(_SHOP_COIN_ROW)
 	assert(_ENEMY_ROW)
 	assert(_ENEMY_COIN_ROW)
@@ -603,7 +605,7 @@ func _on_flip_complete(flipped_coin: Coin) -> void:
 				await _wait_for_dialogue("This is a patron token.")
 				await _wait_for_dialogue("It calls upon the power of a higher being.")
 				await _wait_for_dialogue("Patron tokens are always available.")
-				await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated power and a (PASSIVE)."))
+				await _wait_for_dialogue(Global.replace_placeholders("Tokens have both an activated (POWER_PATRON) and a (PASSIVE)."))
 				await _wait_for_dialogue(Global.replace_placeholders("For its (PASSIVE), which is always active..."))
 				await _wait_for_dialogue(Global.replace_placeholders("If all your coins end on (HEADS), you'll earn an extra 5(SOULS)."))
 				await _wait_for_dialogue(Global.replace_placeholders("And for its power..."))
@@ -1473,13 +1475,15 @@ func _on_end_round_button_pressed():
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_LEFT_HAND.lock()
 		_SHOP_COIN_ROW.get_child(0).hide_price()
-		await _tutorial_fade_in([_SHOP_COIN_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
+		await _tutorial_fade_in([_SHOP_COIN_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL, _SHOP_MAT])
 		await _wait_for_dialogue("Now we move to the next part of the game...")
-		await _wait_for_dialogue("This is the Shop.")
+		await _wait_for_dialogue("Welcome to the shop.")
 		await _wait_for_dialogue("Between each round of tosses...")
-		await _wait_for_dialogue("You may [color=white]purchase new coins[/color] here.")
+		await _wait_for_dialogue("You may purchase new coins here.")
 		await _wait_for_dialogue(Global.replace_placeholders("I shall accept souls(SOULS) in exchange."))
 		await _wait_for_dialogue("Let me show you a new type of coin...")
+		_PLAYER_TEXTBOXES.make_invisible() # necessary since wait for dialogue makes em visible...
+		await _SHOP.expand()
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.point_at(_hand_point_for_coin(_SHOP_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
@@ -1542,7 +1546,7 @@ func _hand_point_for_coin(coin: Coin) -> Vector2:
 func _on_coin_hovered(coin: Coin) -> void:
 	# hovering coin in shop updates mouse cursor, and if shop coin, charon points
 	if not _map_open and Global.state == Global.State.SHOP:
-		if coin.is_owned_by_player():
+		if coin.is_owned_by_player() :
 			Global.set_custom_mouse_cursor_to_icon("res://assets/icons/ui/sell.png" if Global.is_character(Global.Character.MERCHANT) else "res://assets/icons/ui/upgrade.png")
 		else:
 			Global.set_custom_mouse_cursor_to_icon("res://assets/icons/ui/buy.png")
@@ -1619,19 +1623,19 @@ func _on_voyage_continue_button_clicked():
 		var coin = _make_and_gain_coin(Global.GENERIC_FAMILY, Global.Denomination.OBOL, _CHARON_NEW_COIN_POSITION) # make a single starting coin
 		_tutorial_show(coin)
 		await _wait_for_dialogue("Take this Coin...")
-		await _wait_for_dialogue("This is a game about tossing Coins.")
+		await _wait_for_dialogue("This is a game about tossing coins.")
 		await _wait_for_dialogue("Each Round will consist of multiple Tosses.")
 		_LEFT_HAND.point_at(_hand_point_for_coin(_COIN_ROW.get_child(0)))
 		var souls_earned = _COIN_ROW.get_child(0).get_active_power_charges()
 		Global.souls += souls_earned
 		_SOUL_LABEL.fade_in()
-		await _wait_for_dialogue(Global.replace_placeholders("If the coin lands on Heads(HEADS), you earn +%d Souls(SOULS)." % souls_earned))
+		await _wait_for_dialogue(Global.replace_placeholders("If the coin lands on Heads(HEADS), the payoff is +%d Souls(SOULS)." % souls_earned))
 		_COIN_ROW.get_child(0).turn()
 		Global.souls -= souls_earned
 		var life_loss = _COIN_ROW.get_child(0).get_active_power_charges()
 		Global.lives += life_loss
 		_LIFE_LABEL.fade_in()
-		await _wait_for_dialogue(Global.replace_placeholders("If it [color=white]lands on Tails(TAILS), you lose %d Life(LIFE)[/color]." % life_loss))
+		await _wait_for_dialogue(Global.replace_placeholders("If it lands on Tails(TAILS), the penalty is %d Life(LIFE)." % life_loss))
 		Global.lives += Global.current_round_life_regen() - life_loss
 		_LEFT_HAND.unpoint()
 		_COIN_ROW.get_child(0).turn()
@@ -2058,8 +2062,7 @@ func _on_coin_clicked(coin: Coin):
 
 	if Global.state == Global.State.SHOP:
 		# prevent upgrading coins before tutorial is ready
-		var no_upgrade_tutorial = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN, Global.TutorialState.ROUND2_POWER_INTRO, Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE]
-		if Global.tutorialState in no_upgrade_tutorial:
+		if Global.tutorialState in Global.TUTORIAL_NO_UPGRADE:
 			return
 		# prevent upgrading Zeus coin as first upgrade
 		if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE and coin.is_power_coin():
