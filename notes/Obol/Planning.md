@@ -1,19 +1,32 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Mar 23 Sprint - More Content (Bosses, Monsters, Trials, Characters)**
-	- [ ] **Boss Adjustments (Sunday)**
-	- [ ] **New Trials (Sunday)**
-		- [ ] 10 trials per tier.
+- [ ] **Active Goals - Mar 30 Sprint**
+	- [ ] **Content**
+		- [ ] enemy coins don't light up properly when hovered with a power (probably because they are ALWAYS flashing purple - we just need to change the case so taht flashing white for hover power takes precedence)
+		- [ ] Freeze nerf - do not recharge if frozen
+			- [ ] don't retract frozen coins as part of signaling this
+		- [ ] Add monsters to map.
+		- [ ] **New Trials**
+	- [ ] **QoL**
+		- [ ]  Add a hotkey which, when held, shows the icons of your coins. (shift or control probably)
+		- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
+		- [ ] Can't accidentally mash through shop. Put a 1sec delay on entering shop and being allowed to press continue (don't show this visually, just ignore the click)
+		- [ ] Tooltip improvements/fixes (directional tooltips - tooltips prefer going in a specific direction depending on row etc)
+		- [ ] Coins with passives need some way of signalling. Maybe flashing icon...? 
+		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
+	- [ ] **Tutorial Tuning**
+		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+		- [ ] Don't show upgrade prices or allow upgrades in the first shop.
+		- [ ] The Shop Mat should be brought to front when introducing the shop.
+		- [ ] We shouldn't show the first power coin until Charon introduces the shop a bit more.
+		- [ ] Make sure prices are reasonable. (possibly reduce them significantly during tutorial?)
+		- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones.
+		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
+		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
+		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+		- [ ] Change POWER on patron tokens to a different color to imply it is different from other powers and does not recharge each toss like coins do.
+		- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
 
-- [ ] Coin of the days
-	- [ ] Cerberus
-
-
-
-**Charon's Obol Beta - Coalescence**
-- [ ] enemy coins don't light up properly when hovered with a power (probably because they are ALWAYS flashing purple - we just need to change the case so taht flashing white for hover power takes precedence)
-- [ ] Freeze nerf - do not recharge if frozen
-	- [ ] don't retract frozen coins as part of signaling this
-- [ ] Add monsters to map.
+**Backlog**
 - [ ] **More Characters (2-3 days)**
 	- [ ] 4 new characters.
 		- [ ] The Merchant
@@ -21,26 +34,6 @@
 		- [ ] The Gardener
 		- [ ] The Child
 	- [ ] Coin exclusion list per character to block bad interactions.
-- [ ] **Beta QOL - 1 week**
-	- [ ] Coins with a passive should have like, the cool rotating pixel thing around their edges.
-		- [ ] This is hard to do with shader (doable but tricky) - I'll just create an animation in aesprite and overlay it.
-	- [ ] Add a hotkey which, when held, shows the icons of your coins. (shift or control probably)
-	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
-	- [ ] Can't accidentally mash through shop. Put a 1sec delay on entering shop and being allowed to press continue (don't show this visually, just ignore the click)
-	- [ ] Tooltip improvements/fixes (directional tooltips - tooltips prefer going in a specific direction depending on row etc)
-	- [ ] **Tutorial Tuning**
-		- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
-		- [ ] Don't show upgrade prices or allow upgrades in the first shop.
-		- [ ] The Shop Mat should be brought to front when introducing the shop.
-		- [ ] We shouldn't show the first power coin until Charon introduces the shop a bit more.
-		- [ ] Make sure prices are reasonable.
-		- [ ] Mouse cursor replacements need scaling based on the size of the window. Right now they are constant size. This makes them very large on smaller monitors and smaller on large ones.
-		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
-		- [ ] "Patrons have both an activated power" <- use POWER icon here instead of the word power
-		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop.
-		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
-		- [ ] Change POWER on patron token to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-		- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
 
 **Charon's Obol Release**
 - [ ] **Sound - 8 weeks**

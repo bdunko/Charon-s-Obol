@@ -1,109 +1,37 @@
 **Trial**
-- [ ] Trial
-	- [ ] Lv1
-		- [ ] Fossilization - Stone your highest value coin.
-		- [ ] Silence - Blank your leftmost (or rightmost, at random) 2 coins this round.
-		- [ ] Exhaustion - Every 3 payoffs, destroy the lowest value coin.
-		- [ ] Draining - Using a power also drains a charge from each adjacent coin.
-		- [ ] Suffering - Strain starts at 4 instead of 0.
-		- [ ] Restraint - After using a power, the coin becomes Locked (you must spend 3 souls to clear the lock).
-			- [ ] Locked - cost depends on the denom of the coin!
-	- [ ] Lv2
-		- [ ] Vainglory - At start of the round, destroy all Obols and Diobols.
-		- [ ] Petrification - At the start of the round, Stone your 2 most valuable coins.
-		- [ ] Fate - Coins cannot be reflipped.
-		- [ ] Gating - When a payoff coin would give you 10 souls or fewer, you gain none.
-		- [ ] Impatience - Exactly 3 tosses total this round.
-		- [ ] Flames - Ignite all your coins. 
-		- [ ] Malaise - At the end of each payoff, blank the leftmost non-blank coin.
-		- [ ] Poverty  - Your payoff coins have a 90% chance to land on tails.
-		- [ ] Chaos - All coin powers have random targeting.
-		- [ ] Singularity - Every power coin has only a single charge.
-		- [ ] Recklessness - You cannot end the round until your life is 5 or fewer.
-		- [ ] Adversity - Gain a random monster coin with permanent. If there isn't enough space, destroy the lowest value coin. 
-		- [ ] Fury - Charon's Malice increases three time as fast this round.
-		- [ ] Chains - At the start of the round, each of your non-payoff coins becomes Locked.
-		- [ ] Transfiguration - Randomly transform 3 of your coins into different coins of the same value.
-		- [ ] Torment - You cannot use the same power twice in a row.
-		- [ ] ??? - Only activate 5 powers per toss.
+- [ ] Level 1
+	- [ ] Iron - gives thorns
+	- [ ] Misfortune - applies unlucky over time
+	- [ ] Equivalence - applies lucky/unlucky 'randomly'
+	- [ ] Pain - triple downside
+	- [ ] Blood - powers cost life
+- [ ] Level 2
+	- [ ] Famine - no healing before this round
+	- [ ] Torture - downgrade each round
+	- [ ] Limitation - reduce payoffs less than 10 to 1
+	- [ ] Collapse - curse and freeze coins on tails
+	- [ ] Sapping - replenish only a single power charge each toss
+	- [ ] Overload - lose life for each unspent power charge
 
+New ideas
+- [ ] Level 1
+	- [ ] Torment - You cannot use the same power twice in a row.
+	- [ ] Fatigue - Whenever you use a power, all your coins lose a charge.
+	- [ ] ??? - At the start of the round: Banish your leftmost 2 coins. (banish - removed until the end of the round)
+	- [ ] ??? - After you activate a coin's power, Ignite it.
+	- [ ] ??? - After payoff, curse your highest value coin.
+- [ ] Level 2
+	- [ ] Fossilization - Turn all power coins to stone (applies at start of round, and also after each payoff)
+	- [ ] Silence - After each payoff, Banish the leftmost coin.
+	- [ ] Poverty - Payoff coins land on tails 90% of the time.
+	- [ ] Singularity - Power coins have only a single charge.
+	- [ ] Gating - reduce payoffs greater than 10 to 1.
+	- [ ] Fate - Coins cannot be reflipped.
+	- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+	- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+	- [ ] ??? - After a coin lands on heads: Curse it.
 
-More ideas
-- [ ] Tribulations - Randomly apply negative statuses to 2 coins after each toss.
-- [ ] ??? - After each toss, clear all beneficial statuses.
-
-
-old trail ideas
-Level 1 Trials
-- [ ] Gain a monster coin. If there isn't enough space, destroy the lowest value coin until there is.
-- [ ] Make all your coins unlucky.
-- [ ] Ignite all your coins.
-- [ ] Stone the leftmost and rightmost coins.
-- [ ] Your Diobols are blank this round.
-- [ ] You must perform exactly 6 tosses.
-- [ ] Blank the rightmost 2 coins this round.
-- [ ] Ignite the leftmost 2 coins.
-- [ ] Every 3 flips, destroy the lowest value coin.
-- [ ] Level 2 Trials
-	- [ ] All future shop coins will be cursed, frozen, and start on their tails side.
-	- [ ] Future shops will contain only 1 coin.
-	- [ ] Future shops obscure the coins (you can see price, but not effect or tooltip)
-	- [ ] After each payoff, destroy a random Obol or Diobol.
-	- [ ] At the end of each payoff, blank the leftmost coin.
-	- [ ] Gain 3 monster coins to your row. If there isn't enough space, destroy the lowest value coins until there is.
-	- [ ] Curse all coins.
-	- [ ] Ignite all coins.
-	- [ ] After a coin lands on tails, bless it. After a coin lands on heads, curse it.
-	- [ ] Destroy your two cheapest coins.
-	- [ ] Destroy your most expensive coin.
-	- [ ] Activating a god power costs 1 life.
-	- [ ] Gain a monster coin. If there isn't enough space, destroy the lowest value coin. It gains indestructable.
-	- [ ] Your lowest value coin gains indestructible and cannot be upgraded or spent for a toll.
-	- [ ] You don't replenish life at the start of this round. 
-- [ ] Level 3 Trials
-	- [ ] Create a dark cloud which covers some coins. The cloud moves from side to side each toss.
-	- [ ] All abilities have random targetting.
-	- [ ] Your payoff coins have a 90% chance to land on tails.
-	- [ ] Stone your 2 most valuable coins.
-	- [ ] You lose 1 life for each unspent God power.
-	- [ ] After a coin lands on tails, corrupt it (it will always land on tails)
-	- [ ] Each payoff, ignite each heads coin.
-	- [ ] Can't end round until you've earned 250 souls.
-	- [ ] No strain, but you only have 1 life.
-	- [ ] Strain is always 5 life.
-	- [ ] Using a power costs 1 life.
-	- [ ] Using a power also drains a power charge from each adjacent coin.
-	- [ ] Every coin has only a single charge.
-	- [ ] Exactly 10 flips.
-	- [ ] Exactly 3 flips.
-	- [ ] Destroy all Obols and Diobols.
-	- [ ] Destroy all Tetrobols.
-	- [ ] After activating a coin's power, ignite it.
-	- [ ] Coins cannot be reflipped or flipped outside of the toss.
-	- [ ] Strain increases thrice as fast.
-	- [ ] You cannot end the round until your life is 3 or fewer.
-	- [ ] You can earn no more than 5 souls per payoff coin.
-	- [ ] When a payoff coin would give you 10 souls or fewer, you gain none.
-	- [ ] The left/rightmost 3 coins always land on tails. Swaps every flip.
-	- [ ] Stone all power coins.
-	- [ ] You cannot lose life this round. After 5 tosses, lose all your souls and the round ends.
-	- [ ] All coins are permanently ignited.
-	- [ ] Downgrade a coin.
-	- [ ] You cannot end this round until you've used 100 powers.
-
-- [ ] Retheme Trials
-	- [ ] Retheme the existing trials to be 'types of suffering' for tier 1 and 'causes of death' for tier 2.
-		- [ ] T1
-			- [ ] Iron - Impaling
-			- [ ] Misfortune
-			- [ ] Polarization (maybe remove this one)
-			- [ ] Pain - Pain
-			- [ ] Blood - Bloodletting
-			- [ ] Equivalence - Injustice (maybe remove the bless component)
-		- [ ] t2
-			- [ ] Famine - Starvation
-			- [ ] Torture - Flaying
-			- [ ] Limitation - Vivisepulture
-			- [ ] Collapse - Asphyxiation 
-			- [ ] Sapping - Exsanguination
-			- [ ] Overload - Eruption
+Changes:
+- [ ] Sapping to level 1
+- [ ] Limitation to level 1
+- [ ] Collapse - desecrates instead of curse/freeze

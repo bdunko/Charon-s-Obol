@@ -373,12 +373,7 @@ func hide_price() -> void:
 	_PRICE.modulate.a = 0.0
 
 func _update_glow():
-	# if this coin is an enemy coin, glow purple at all times
-	if _owner == Owner.NEMESIS:
-		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
-		return
-	
-	# if coin is disabled or another coin is activated right now, don't glow at all
+	# if coin is disabled, don't glow at all
 	if _disable_interaction:
 		FX.stop_glowing()
 		return
@@ -396,6 +391,11 @@ func _update_glow():
 	# if this coin can be activated, glow white (solid if mouse over)
 	if Global.state == Global.State.AFTER_FLIP and get_active_power_charges() != 0 and can_activate_power() and Global.active_coin_power_coin == null:
 		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0 if _MOUSE.is_over() else FX.FAST_GLOW_MINIMUM, false)
+		return
+	
+	# if this coin is a nemesis coin (and not being hovered) glow purple
+	if _owner == Owner.NEMESIS:
+		FX.start_glowing(Color.MEDIUM_PURPLE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, FX.FAST_GLOW_MINIMUM, false)
 		return
 	
 	FX.stop_glowing()

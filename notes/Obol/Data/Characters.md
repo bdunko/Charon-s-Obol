@@ -115,3 +115,4 @@
 - [ ] Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +2% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
 - [ ] ??? - Payoffs also resolve an additional time immediately after the initial toss. (so payoffs resolve twice per toss.)
 - [ ] The shop has no coins. You get a coin whenever you destroy a monster. More monsters spawn. You can sell coins back to the shop for extra life.
+- [ ] ??? - monsters are randomly generated with a COIN power on heads and a monster effect on tails. More monsters spawn each round. Power coins are much more expensive. Cannot pay souls to destroy monsters.
