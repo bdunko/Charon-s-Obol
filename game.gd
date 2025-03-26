@@ -80,6 +80,9 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _EMBERS_PARTICLES = $Embers
 @onready var _TRIAL_EMBERS_PARTICLES = $TrialEmbers
 
+const _SHOP_CONTINUE_DELAY_TIMER = "SHOP_CONTINUE_DELAY_TIMER"
+const _SHOP_CONTINUE_DELAY = 1.0 #seconds
+
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
 const _TUTORIAL_FADE_ALPHA = 0.45
 const _TUTORIAL_FADE_TIME = 0.15
@@ -413,6 +416,7 @@ func on_start() -> void: #reset
 	Global.tutorial_warned_zeus_reflip = false
 	Global.tutorial_pointed_out_patron_passive = false
 	Global.tutorial_patron_passive_active = false
+	Global.tutorial_pointed_out_can_destroy_monster = false
 	
 	var charons_obol = _COIN_SCENE.instantiate()
 	_CHARON_COIN_ROW.add_child(charons_obol)
@@ -1164,6 +1168,18 @@ func _on_accept_button_pressed():
 		await _tutorial_fade_out()
 		Global.tutorialState = Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN
 	
+	if Global.tutorial_pointed_out_can_destroy_monster == false and not _ENEMY_COIN_ROW.is_empty():
+		await _tutorial_fade_in([_ENEMY_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
+		await _wait_for_dialogue("Ah, you've acquired a decent number of souls(SOULS)...")
+		await _wait_for_dialogue("You can use them to destroy this monster.")
+		await _wait_for_dialogue("Simply click on the monster to banish it.")
+		var price = _ENEMY_COIN_ROW.get_child(0).get_appeasal_price()
+		await _wait_for_dialogue("Of course, that will cost you %d souls(SOULS)..." % price)
+		await _wait_for_dialogue("It's up to you whether you destroy the monster or not.")
+		await _wait_for_dialogue("You may prefer to save your souls for the shop.")
+		await _wait_for_dialogue("Now then...")
+		Global.tutorial_pointed_out_can_destroy_monster = true
+	
 	# if malice is >= 95.0 before increase, go ahead and activate with a post-payoff malice effect.
 	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS:
 		await activate_malice(MaliceActivation.AFTER_PAYOFF)
@@ -1370,6 +1386,11 @@ func _on_board_button_clicked():
 
 func _on_continue_button_pressed():
 	assert(Global.state == Global.State.SHOP)
+	
+	if Global.get_timer(_SHOP_CONTINUE_DELAY_TIMER).time_left > 0.0:
+		return # can't continue before a certain delay
+	
+	
 	_RIGHT_HAND.move_to_default_position()
 	_LEFT_HAND.move_to_default_position()
 	_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
@@ -1538,6 +1559,8 @@ func _on_end_round_button_pressed():
 		Global.tutorialState = Global.TutorialState.ROUND7_TOLLGATE_INTRO
 	else:
 		_DIALOGUE.show_dialogue("Buying or upgrading...?")
+		
+	Global.create_timer(_SHOP_CONTINUE_DELAY_TIMER, _SHOP_CONTINUE_DELAY) # create a 1sec delay before we can advance
 	_PLAYER_TEXTBOXES.make_visible()
 
 func _hand_point_for_coin(coin: Coin) -> Vector2:

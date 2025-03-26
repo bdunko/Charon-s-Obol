@@ -23,8 +23,8 @@
 			- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
 			- [ ] We shouldn't show the first power coin until Charon introduces the shop a bit more.
 			- [ ] Make sure prices are reasonable. (possibly reduce them significantly during tutorial?)
-		- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop. don't need to show player disabled, just prevent clickty
-		- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+			- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop. don't need to show player disabled, just prevent clickty
 
 **Backlog**
 - [ ] **More Characters (2-3 days)**

@@ -168,6 +168,7 @@ var TUTORIAL_NO_UPGRADE = [Global.TutorialState.ROUND1_SHOP_AFTER_BUYING_COIN,  
 var tutorial_warned_zeus_reflip := false
 var tutorial_pointed_out_patron_passive := false
 var tutorial_patron_passive_active := false
+var tutorial_pointed_out_can_destroy_monster := false
 
 var tutorialState: TutorialState:
 	set(val):
