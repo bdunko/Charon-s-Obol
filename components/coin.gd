@@ -1716,7 +1716,7 @@ func _generate_tooltip() -> void:
 		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png", "res://assets/icons/arrow_icon.png", "res://assets/icons/coin/nothing_icon.png"]
 		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
-			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFgetF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text

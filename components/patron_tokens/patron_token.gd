@@ -11,12 +11,15 @@ const _SPEED = 5000
 const _RETURN_SPEED = 500
 const _ROTATION_TIME = 0.15
 
+var _disable_tooltip = false:
+	set(val):
+		if _disable_tooltip:
+			UITooltip.clear_tooltip_for(self)
+
 var _disable_interaction = false:
 	set(val):
 		_disable_interaction = val
 		_update_effects()
-		if _disable_interaction:
-			UITooltip.clear_tooltip_for(self)
 
 var _can_activate = false:
 	set(val):
@@ -75,9 +78,16 @@ func _update_effects() -> void:
 
 func disable_interaction() -> void:
 	_disable_interaction = true
+	_disable_tooltip = true
+
+# used for the tutorial specifically...
+func disable_interaction_enable_tooltip() -> void:
+	_disable_interaction = true
+	_disable_tooltip = false
 
 func enable_interaction() -> void:
 	_disable_interaction = false
+	_disable_tooltip = false
 
 func _on_mouse_clicked():
 	if _disable_interaction:
@@ -86,10 +96,11 @@ func _on_mouse_clicked():
 	emit_signal("clicked")
 
 func _on_mouse_entered():
+	if not _disable_tooltip:
+		UITooltip.create(self, "%s[img=10x13]%s[/img]\n%s" % [Global.patron.token_name, Global.patron.get_icon_path(), Global.patron.get_description()], get_global_mouse_position(), get_tree().root)
+	
 	if _disable_interaction:
 		return
-	
-	UITooltip.create(self, "%s[img=10x13]%s[/img]\n%s" % [Global.patron.token_name, Global.patron.get_icon_path(), Global.patron.get_description()], get_global_mouse_position(), get_tree().root)
 	
 	_update_effects()
 

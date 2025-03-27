@@ -15,16 +15,19 @@
 		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
 	- [ ] **Tutorial Tuning**
 		- [ ] fixed?
-			- [ ] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
-			- [ ] Don't show upgrade prices or allow upgrades in the first shop.
-			- [ ] The Shop Mat should be brought to front when introducing the shop.
-			- [ ]  "Patrons have both an activated power" <- use POWER icon here instead of the word power
-			- [ ] Change POWER on patron tokens to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-			- [ ] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
-			- [ ] We shouldn't show the first power coin until Charon introduces the shop a bit more.
-			- [ ] Make sure prices are reasonable. (possibly reduce them significantly during tutorial?)
+			- [x] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
+			- [x] Don't show upgrade prices or allow upgrades in the first shop.
+			- [x] The Shop Mat should be brought to front when introducing the shop.
+			- [x]  "Patrons have both an activated power" <- use POWER icon here instead of the word power
+			- [x] Change POWER on patron tokens to a different color to imply it is different from other powers and does not recharge each toss like coins do.
+			- [x] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
+			- [x] We shouldn't show the first power coin until Charon introduces the shop a bit more.
+			- [x] Make sure prices are reasonable. (possibly reduce them significantly during tutorial?)
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
 			- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop. don't need to show player disabled, just prevent clickty
+			- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
+			- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
+			- [ ] Monster text is too long
 
 **Backlog**
 - [ ] **More Characters (2-3 days)**

@@ -1707,17 +1707,18 @@ var _timers = {}
 
 # creates a new timer with the given wait_time. 
 # if a timer with this key already exists, returns it instead and update the wait_time.
-func create_timer(key: String, wait_time: float, autostart: bool = true) -> Timer:
+func create_timer(key: String, wait_time: float, one_shot: bool = false) -> Timer:
 	if _timers.has(key):
 		_timers[key].wait_time = wait_time
+		_timers[key].one_shot = one_shot
+		_timers[key].start()
 		return _timers[key]
 	var timer = Timer.new()
-	timer.autostart = autostart
 	timer.wait_time = wait_time
+	timer.one_shot = one_shot
 	_timers[key] = timer
 	add_child(timer)
-	if autostart:
-		timer.start()
+	_timers[key].start()
 	return timer
 
 func get_timer(key: String) -> Timer:
@@ -2085,7 +2086,7 @@ enum CoinType {
 		# JASON_FAMILY
 	]
 
-var _TUTORIAL_COINPOOL = [
+@onready var _TUTORIAL_COINPOOL = [
 	GENERIC_FAMILY,
 	ZEUS_FAMILY, HERA_FAMILY, DEMETER_FAMILY, ARES_FAMILY, ATHENA_FAMILY, APHRODITE_FAMILY, HERMES_FAMILY, HESTIA_FAMILY, DIONYSUS_FAMILY,
 ]
