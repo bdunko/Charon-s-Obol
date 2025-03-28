@@ -52,7 +52,7 @@
 - [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. You can only reroll three times per shop, but rerolls are free.
 - [ ] The Child - 5 mode blitz, like the prototype; single tollgate, trial on 4 boss on 5. All prices are halved. You start with 2 additional random power coins.
 - [ ] Power coins are always on heads, but don't recharge at the end of the round. Upgrading a power coin refills charges. Tetrobols can be upgraded to refill them. Power coins are cheaper.
-- [ ] The Emperor - Power coins don't recharge until the end of the round, but have doubled charges.
+- [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
 - [ ] The Prince - Power coins don't recharge and are destroyed when their charges reach 0. Power coins are much cheaper.
 	- [ ] Alternative/in addition - power coins in the shop may start with more charges than normal. (obols may have +1, diobols may have +1-2, triobol +1-4, tetrobol +1-6 etc)
 - [ ] The Wanderlust - Endless mode; shop + tollgate every round.

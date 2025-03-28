@@ -81,7 +81,7 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _TRIAL_EMBERS_PARTICLES = $TrialEmbers
 
 const _SHOP_CONTINUE_DELAY_TIMER = "SHOP_CONTINUE_DELAY_TIMER"
-const _SHOP_CONTINUE_DELAY = 1.0 #seconds
+const _SHOP_CONTINUE_DELAY = 0.5#seconds
 
 @onready var _TUTORIAL_FADE_FX: FX = $TutorialFade/FX
 const _TUTORIAL_FADE_ALPHA = 0.45
@@ -1115,8 +1115,7 @@ func _on_accept_button_pressed():
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
 			if coin.is_tails():
-				coin.curse()
-				coin.freeze()
+				coin.desecrate()
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_COLLAPSE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
 		for coin in _COIN_ROW.get_children():
@@ -1172,12 +1171,17 @@ func _on_accept_button_pressed():
 	if Global.tutorial_pointed_out_can_destroy_monster == false and _ENEMY_COIN_ROW.get_child_count() != 0 and Global.souls >= _ENEMY_COIN_ROW.get_child(0).get_appeasal_price():
 		await _tutorial_fade_in([_ENEMY_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
 		await _wait_for_dialogue(Global.replace_placeholders("Ah, you've acquired a decent number of souls(SOULS)..."))
-		await _wait_for_dialogue("You can use them to destroy this monster.")
-		await _wait_for_dialogue("Simply click on the monster to banish it.")
+		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
+		_LEFT_HAND.lock()
+		await _wait_for_dialogue("Souls(SOULS) can be used to destroy monsters.")
+		_LEFT_HAND.unlock()
+		_LEFT_HAND.unpoint()
+		await _wait_for_dialogue("You may click on this monster to banish it.")
 		var price = _ENEMY_COIN_ROW.get_child(0).get_appeasal_price()
 		await _wait_for_dialogue(Global.replace_placeholders("Of course, that will cost you %d souls(SOULS)..." % price))
-		await _wait_for_dialogue("It's up to you whether you destroy the monster or not.")
+		await _wait_for_dialogue("Is the benefit worth the price?")
 		await _wait_for_dialogue("You may prefer to save your souls for the shop.")
+		await _wait_for_dialogue("This choice is yours to make.")
 		await _wait_for_dialogue("Now then...")
 		Global.tutorial_pointed_out_can_destroy_monster = true
 	
@@ -1724,7 +1728,7 @@ func _on_voyage_continue_button_clicked():
 		await Global.delay(Global.COIN_TWEEN_TIME)
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
-		await _wait_for_dialogue("This is a Monster Coin.")
+		await _wait_for_dialogue("This is a Monster coin.")
 		await _wait_for_dialogue("Each time you toss your coins...")
 		await _wait_for_dialogue("I will toss the monsters as well.")
 		await _wait_for_dialogue("And during each payoff...")

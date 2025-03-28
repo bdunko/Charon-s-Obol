@@ -1120,41 +1120,18 @@ class TrialData:
 @onready var LV1_TRIALS = [
 	TrialData.new(TRIAL_IRON_FAMILY.coin_name, [TRIAL_IRON_FAMILY], TRIAL_POWER_FAMILY_IRON.description, TRIAL_POWER_FAMILY_IRON.icon_path),
 	TrialData.new(TRIAL_MISFORTUNE_FAMILY.coin_name, [TRIAL_MISFORTUNE_FAMILY], TRIAL_POWER_FAMILY_MISFORTUNE.description, TRIAL_POWER_FAMILY_MISFORTUNE.icon_path),
-	#TrialData.new("Fossilization", [GENERIC_FAMILY], "When the trial begins, your highest value coin is turned to Stone."),
-	#TrialData.new("Silence", [GENERIC_FAMILY], "Your leftmost 2 coins are Blank."),
-	#TrialData.new("Silence", [GENERIC_FAMILY], "Your rightmost 2 coins are Blank."),
-	#TrialData.new("Exhaustion", [GENERIC_FAMILY], "Every 3 payoffs, your lowest value coin is destroyed."),
 	TrialData.new(TRIAL_EQUIVALENCE_FAMILY.coin_name, [TRIAL_EQUIVALENCE_FAMILY], TRIAL_POWER_FAMILY_EQUIVALENCE.description, TRIAL_POWER_FAMILY_EQUIVALENCE.icon_path),
 	_PAIN_TRIAL,
 	TrialData.new(TRIAL_BLOOD_FAMILY.coin_name, [TRIAL_BLOOD_FAMILY], TRIAL_POWER_FAMILY_BLOOD.description, TRIAL_POWER_FAMILY_BLOOD.icon_path),
-	#TrialData.new("Draining", [GENERIC_FAMILY], "Using a power also drains a charge from each adjacent coin."),
-	#TrialData.new("Suffering", [GENERIC_FAMILY], "Ante starts at 4."),
-	#TrialData.new("Restraint", [GENERIC_FAMILY], "After using a coin's power, that coin becomes Locked."),
+	TrialData.new(TRIAL_LIMITATION_FAMILY.coin_name, [TRIAL_LIMITATION_FAMILY], TRIAL_POWER_FAMILY_LIMITATION.description, TRIAL_POWER_FAMILY_LIMITATION.icon_path),
+	TrialData.new(TRIAL_SAPPING_FAMILY.coin_name, [TRIAL_SAPPING_FAMILY], TRIAL_POWER_FAMILY_SAPPING.description, TRIAL_POWER_FAMILY_SAPPING.icon_path),
 ]
 
 @onready var LV2_TRIALS = [
 	TrialData.new(TRIAL_FAMINE_FAMILY.coin_name, [TRIAL_FAMINE_FAMILY], TRIAL_POWER_FAMILY_FAMINE.description, TRIAL_POWER_FAMILY_FAMINE.icon_path),
-	#TrialData.new("Vainglory", [GENERIC_FAMILY], "When the trial begins, your Obols and Diobols are destroyed."),
 	TrialData.new(TRIAL_TORTURE_FAMILY.coin_name, [TRIAL_TORTURE_FAMILY], TRIAL_POWER_FAMILY_TORTURE.description, TRIAL_POWER_FAMILY_TORTURE.icon_path),
-	#TrialData.new("Petrification", [GENERIC_FAMILY], "When the trial begins, your two highest value coins are turned to Stone."),
-	#TrialData.new("Fate", [GENERIC_FAMILY], "Coins cannot be reflipped by powers."),
-	TrialData.new(TRIAL_LIMITATION_FAMILY.coin_name, [TRIAL_LIMITATION_FAMILY], TRIAL_POWER_FAMILY_LIMITATION.description, TRIAL_POWER_FAMILY_LIMITATION.icon_path),
-	#TrialData.new("Gating", [GENERIC_FAMILY], "During payoff, any coin which earns more than 10 Souls earns 0 instead."),
-	#TrialData.new("Impatience", [GENERIC_FAMILY], "You must perform exactly 3 total tosses this round."),
-	#TrialData.new("Immolation", [GENERIC_FAMILY], "When the trial begins, all your coins Ignite."),
-	#TrialData.new("Aging", [GENERIC_FAMILY], "After payoff, your leftmost non-Blank coin becomes Blank."),
-	# todo - rename resistance to poverty and redo icon
-	#TrialData.new("Resistance", [GENERIC_FAMILY], "Your payoff coins land on tails 90% of the time."),
 	TrialData.new(TRIAL_COLLAPSE_FAMILY.coin_name, [TRIAL_COLLAPSE_FAMILY], TRIAL_POWER_FAMILY_COLLAPSE.description, TRIAL_POWER_FAMILY_COLLAPSE.icon_path),
-	#TrialData.new("Chaos", [GENERIC_FAMILY], "All coin powers have random targets when activated."),
 	TrialData.new(TRIAL_OVERLOAD_FAMILY.coin_name, [TRIAL_OVERLOAD_FAMILY], TRIAL_POWER_FAMILY_OVERLOAD.description, TRIAL_POWER_FAMILY_OVERLOAD.icon_path),
-	TrialData.new(TRIAL_SAPPING_FAMILY.coin_name, [TRIAL_SAPPING_FAMILY], TRIAL_POWER_FAMILY_SAPPING.description, TRIAL_POWER_FAMILY_SAPPING.icon_path),
-	#TrialData.new("Singularity", [GENERIC_FAMILY], "Every power coin has only a single charge."),
-	#TrialData.new("Recklessness", [GENERIC_FAMILY], "You cannot end the round until your life is 5 or fewer."),
-	#TrialData.new("Adversity", [GENERIC_FAMILY], "Gain a random permanent Monster coin. (If not enough space, destroy coins until there is.)"),
-	#TrialData.new("Fury", [GENERIC_FAMILY], "Charon's Malice increases 3 times as fast."),
-	#TrialData.new("Chains", [GENERIC_FAMILY], "When the trial begins, each of your non-payoff coins becomes Locked."),
-	#TrialData.new("Transfiguration", [GENERIC_FAMILY], "When the trial begicns, 3 of your non-payoff coins are randomly transformed into different coins of the same value."),
 ]
 
 enum PowerType {
@@ -1479,7 +1456,7 @@ var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on (HEA
 var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish (HEAL) at the start of the round.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value (HEADS) coin is downgraded.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less than 10(SOULS) to 0.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, (CURSE) and (FREEZE) each coin on (TAILS).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, (DESECRATE) each coin on (TAILS).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single power charge each toss.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1(LIFE) for each unspent power charge on a (HEADS) coin.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png", ONLY_SHOW_ICON)
 
@@ -2384,10 +2361,9 @@ var LABYRINTH_WALLS4_FAMILY = CoinFamily.new(3045, CoinType.MONSTER, "[color=lig
 	NO_PRICE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE, NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE, _SpriteStyle.LABYRINTH, [CoinFamily.Tag.LABYRINTH_WALL], NEMESIS_LABYRINTH_APPEASE)
 
 # trials
+#l v1
 var TRIAL_IRON_FAMILY = CoinFamily.new(4000, CoinType.TRIAL, "[color=darkgray]Trial of Iron[/color]", "[color=lightgray]Weighted Down[/color]", TRIAL_POWER_FAMILY_IRON.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_IRON, TRIAL_POWER_FAMILY_IRON, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var THORNS_FAMILY = CoinFamily.new(9000, CoinType.PAYOFF, "(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", "res://assets/icons/coin/thorns_icon.png", NO_UNLOCK_TIP,\
-	NO_PRICE, POWER_FAMILY_LOSE_SOULS_THORNS, POWER_FAMILY_LOSE_LIFE_THORNS, _SpriteStyle.THORNS, [CoinFamily.Tag.NO_UPGRADE, CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN, CoinFamily.Tag.NEGATIVE_TOLL_VALUE])
 var TRIAL_MISFORTUNE_FAMILY = CoinFamily.new(4001, CoinType.TRIAL, "[color=purple]Trial of Misfortune[/color]", "[color=lightgray]Against the Odds[/color]", TRIAL_POWER_FAMILY_MISFORTUNE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_MISFORTUNE, TRIAL_POWER_FAMILY_MISFORTUNE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_PAIN_FAMILY = CoinFamily.new(4002, CoinType.TRIAL, "[color=tomato]Trial of Pain[/color]", "[color=lightgray]Pulse Amplifier[/color]", TRIAL_POWER_FAMILY_PAIN.icon_path, NO_UNLOCK_TIP,\
@@ -2396,6 +2372,10 @@ var TRIAL_BLOOD_FAMILY = CoinFamily.new(4003, CoinType.TRIAL, "[color=crimson]Tr
 	NO_PRICE, TRIAL_POWER_FAMILY_BLOOD, TRIAL_POWER_FAMILY_BLOOD, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_EQUIVALENCE_FAMILY = CoinFamily.new(4004, CoinType.TRIAL, "[color=gold]Trial of Equivalence[/color]", "[color=lightgray]Fair, in a Way[/color]", TRIAL_POWER_FAMILY_EQUIVALENCE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_EQUIVALENCE, TRIAL_POWER_FAMILY_EQUIVALENCE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+
+
+
+# lv2
 var TRIAL_FAMINE_FAMILY = CoinFamily.new(4005, CoinType.TRIAL, "[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", TRIAL_POWER_FAMILY_FAMINE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_FAMINE, TRIAL_POWER_FAMILY_FAMINE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_TORTURE_FAMILY = CoinFamily.new(4006, CoinType.TRIAL, "[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", TRIAL_POWER_FAMILY_TORTURE.icon_path, NO_UNLOCK_TIP,\
@@ -2408,6 +2388,9 @@ var TRIAL_SAPPING_FAMILY = CoinFamily.new(4009, CoinType.TRIAL, "[color=paleturq
 	NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(4010, CoinType.TRIAL, "[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", TRIAL_POWER_FAMILY_OVERLOAD.icon_path, NO_UNLOCK_TIP, \
 	NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+
+var THORNS_FAMILY = CoinFamily.new(9000, CoinType.PAYOFF, "(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", "res://assets/icons/coin/thorns_icon.png", NO_UNLOCK_TIP,\
+	NO_PRICE, POWER_FAMILY_LOSE_SOULS_THORNS, POWER_FAMILY_LOSE_LIFE_THORNS, _SpriteStyle.THORNS, [CoinFamily.Tag.NO_UPGRADE, CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN, CoinFamily.Tag.NEGATIVE_TOLL_VALUE])
 
 var CHARON_OBOL_FAMILY = CoinFamily.new(10000, CoinType.PAYOFF, "[color=magenta]Charon's Obol[/color]", "Last Chance", CHARON_POWER_DEATH.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, CHARON_POWER_LIFE, CHARON_POWER_DEATH, _SpriteStyle.CHARONS)

@@ -17,12 +17,12 @@ New ideas
 - [ ] Level 1
 	- [ ] Torment - You cannot use the same power twice in a row.
 	- [ ] Fatigue - Whenever you use a power, all your coins lose a charge.
-	- [ ] ??? - At the start of the round: Banish your leftmost 2 coins. (banish - removed until the end of the round)
+	- [ ] ??? - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
 	- [ ] ??? - After you activate a coin's power, Ignite it.
 	- [ ] ??? - After payoff, curse your highest value coin.
 - [ ] Level 2
 	- [ ] Fossilization - Turn all power coins to stone (applies at start of round, and also after each payoff)
-	- [ ] Silence - After each payoff, Banish the leftmost coin.
+	- [ ] Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
 	- [ ] Poverty - Payoff coins land on tails 90% of the time.
 	- [ ] Singularity - Power coins have only a single charge.
 	- [ ] Gating - reduce payoffs greater than 10 to 1.
@@ -30,8 +30,3 @@ New ideas
 	- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
 	- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
 	- [ ] ??? - After a coin lands on heads: Curse it.
-
-Changes:
-- [ ] Sapping to level 1
-- [ ] Limitation to level 1
-- [ ] Collapse - desecrates instead of curse/freeze

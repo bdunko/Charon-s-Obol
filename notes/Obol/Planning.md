@@ -1,44 +1,32 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 30 Sprint**
-	- [ ] **Content**
+	- [ ] **Content - Thursday/Friday**
 		- [ ] Freeze nerf - do not recharge if frozen
 			- [ ] don't retract frozen coins as part of signaling this
 		- [ ] Add monsters to map.
 		- [ ] **New Trials**
-	- [ ] **QoL**
-		- [ ]  Add a hotkey which, when held, shows the icons of your coins. (shift or control probably)
-		- [ ] Add a button to disable tooltips. (tab probably, also visible on screen).
-		- [ ] Can't accidentally mash through shop. Put a 1sec delay on entering shop and being allowed to press continue (don't show this visually, just ignore the click)
-		- [ ] Tooltip improvements/fixes (directional tooltips - tooltips prefer going in a specific direction depending on row etc)
-		- [ ] Need some visual effect to denote passive
-			- [ ] ideal - rotating pixel around edge, but we would need to do a lot of annoying handling for this; it is not generalizable. We would need to hand-make an animation for each possible coin shape that has a passive. This is doable but inconvenient, especially for trials. In this case, we may as well just make the trial coin size uniform. There isn't really a good reason for them to be differnet like they are now tbh.
-		- [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
+		- [ ] 4 new characters.
+			- [ ] The Merchant - can sell coins to shop, no upgrade.
+			- [ ] The Archon - All lose life powers are replaced with (simple) gain souls. Monsters with lose life become lose souls. 7 life, 1 life per toss (no ante). Boss is 10 life.
+				- [ ] absolutely no gain life powers; also remove athena
+			- [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
+			- [ ] The Child - uses shorter 5 length voyage; earn twice as many souls; you start with three random additional coins depending on your patron choice.
+		- [ ] Coin exclusion list per character to block bad interactions.
 	- [ ] **Tutorial Tuning**
 		- [ ] fixed?
-			- [x] Don't show UPGRADE mouse cursor change during tutorial until it is unlocked.
-			- [x] Don't show upgrade prices or allow upgrades in the first shop.
-			- [x] The Shop Mat should be brought to front when introducing the shop.
-			- [x]  "Patrons have both an activated power" <- use POWER icon here instead of the word power
-			- [x] Change POWER on patron tokens to a different color to imply it is different from other powers and does not recharge each toss like coins do.
-			- [x] Force default tutorial coinpool when playing the tutorial (don't use any unlocks)
-			- [x] We shouldn't show the first power coin until Charon introduces the shop a bit more.
-			- [x] Make sure prices are reasonable. (possibly reduce them significantly during tutorial?)
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
-			- [ ] When entering the shop, add a delay before you can click to leave (0.5 second should be plenty). Prevent accidental rushing through shop. don't need to show player disabled, just prevent clickty
 			- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
 			- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
 			- [ ] Monster text is too long
 
-**Backlog**
-- [ ] **More Characters (2-3 days)**
-	- [ ] 4 new characters.
-		- [ ] The Merchant
-		- [ ] The Archon
-		- [ ] The Gardener
-		- [ ] The Child
-	- [ ] Coin exclusion list per character to block bad interactions.
-
 **Charon's Obol Release**
+- [ ] **Tooltip Evolution - 1 week**
+	- [ ] Change native game size so that smaller tooltip are possible. Use multiple CanvasLayers (or scaling) for this. 
+	- [ ] Secondary tooltips - a tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
+		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
+		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
+	- [ ] Directional tooltips - can specify preferred orientation for the tooltip (instead of always trying to go down, allow it to prefer to the left, right, or above the mouse).
+	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen). - maybe unnecessary now
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
@@ -49,9 +37,6 @@
 	- [ ] Status - shows a list of all status icons and effects
 	- [ ] **Coin Gallery**
 		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
-- [ ] **Settings Menu & Controller Support - 2 weeks**
-	- [ ] Add settings menu.
-	- [ ] Add support for controllers.
 - [ ] **More Content - 8 weeks**
 	- [ ] **20 Characters**
 	- [ ] **100 Coins**
@@ -68,7 +53,7 @@
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
 				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-- [ ] **Gameplay Options - 1 week**
+- [ ] **Gameplay Customization Enhancements - 1 week**
 	- [ ] **Treasury of Atreus** - multiple options for what coins form the coinpool.
 		- [ ] Complete - everything
 		- [ ] Classic - Olympians (the 13 original)
@@ -84,25 +69,24 @@
 		- [ ] Fundamentals - Absolutely no coins with Statuses.
 		- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 		- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
-- [ ] **Polish & Balance - 4 weeks**
-- [ ] **Tartarus Bonus Boss - 1 week**
-
-
-
-
-**Post Launch Dreams**
-- [ ] **Scales of Themis**
-	- [ ] Shows overall 'heat' level of difficulty settings.
-	- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
-	- [ ] Tails chance
-	- [ ] Shop prices
-		- [ ] Affects both obol scaling and upgrades
-	- [ ] Tollgate prices
-		- [ ] flat increase based on round
-	- [ ] Monster strength
-	- [ ] Life penalties
-		- [ ] flat increase/decrease
-	- [ ] Strain
-		- [ ] flat increase/decrease
-- [ ] **Custom Seed**
+	- [ ] **Scales of Themis**
+		- [ ] Shows overall 'heat' level of difficulty settings.
+		- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
+		- [ ] Tails chance
+		- [ ] Shop prices
+			- [ ] Affects both obol scaling and upgrades
+		- [ ] Tollgate prices
+			- [ ] flat increase based on round
+		- [ ] Monster strength
+		- [ ] Life penalties
+			- [ ] flat increase/decrease
+		- [ ] Strain
+			- [ ] flat increase/decrease
+		- [ ] **Custom Seed**
 	- [ ] Change RNG so that Trails/Boss/Charon, Shop, and coin RNG are all different.
+- [ ] **Tartarus Bonus Boss - 1 week**
+- [ ] **Settings Menu & Controller Support - 2 weeks**
+	- [ ] Add settings menu.
+	- [ ] Add support for controllers.
+- [ ] **Polish - 4 weeks**
+- [ ] **Balance - Indeterminant**
