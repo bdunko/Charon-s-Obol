@@ -1125,6 +1125,11 @@ class TrialData:
 	TrialData.new(TRIAL_BLOOD_FAMILY.coin_name, [TRIAL_BLOOD_FAMILY], TRIAL_POWER_FAMILY_BLOOD.description, TRIAL_POWER_FAMILY_BLOOD.icon_path),
 	TrialData.new(TRIAL_LIMITATION_FAMILY.coin_name, [TRIAL_LIMITATION_FAMILY], TRIAL_POWER_FAMILY_LIMITATION.description, TRIAL_POWER_FAMILY_LIMITATION.icon_path),
 	TrialData.new(TRIAL_SAPPING_FAMILY.coin_name, [TRIAL_SAPPING_FAMILY], TRIAL_POWER_FAMILY_SAPPING.description, TRIAL_POWER_FAMILY_SAPPING.icon_path),
+	TrialData.new(TRIAL_TORMENT_FAMILY.coin_name, [TRIAL_TORMENT_FAMILY], TRIAL_POWER_FAMILY_TORMENT.description, TRIAL_POWER_FAMILY_TORMENT.icon_path),
+	TrialData.new(TRIAL_MALAISE_FAMILY.coin_name, [TRIAL_MALAISE_FAMILY], TRIAL_POWER_FAMILY_MALAISE.description, TRIAL_POWER_FAMILY_MALAISE.icon_path),
+	TrialData.new(TRIAL_VIVISEPULTURE_FAMILY.coin_name, [TRIAL_VIVISEPULTURE_FAMILY], TRIAL_POWER_FAMILY_VIVISEPULTURE.description, TRIAL_POWER_FAMILY_VIVISEPULTURE.icon_path),
+	TrialData.new(TRIAL_IMMOLATION_FAMILY.coin_name, [TRIAL_IMMOLATION_FAMILY], TRIAL_POWER_FAMILY_IMMOLATION.description, TRIAL_POWER_FAMILY_IMMOLATION.icon_path),
+	TrialData.new(TRIAL_VENGEANCE_FAMILY.coin_name, [TRIAL_VENGEANCE_FAMILY], TRIAL_POWER_FAMILY_VENGEANCE.description, TRIAL_POWER_FAMILY_VENGEANCE.icon_path),
 ]
 
 @onready var LV2_TRIALS = [
@@ -1132,6 +1137,16 @@ class TrialData:
 	TrialData.new(TRIAL_TORTURE_FAMILY.coin_name, [TRIAL_TORTURE_FAMILY], TRIAL_POWER_FAMILY_TORTURE.description, TRIAL_POWER_FAMILY_TORTURE.icon_path),
 	TrialData.new(TRIAL_COLLAPSE_FAMILY.coin_name, [TRIAL_COLLAPSE_FAMILY], TRIAL_POWER_FAMILY_COLLAPSE.description, TRIAL_POWER_FAMILY_COLLAPSE.icon_path),
 	TrialData.new(TRIAL_OVERLOAD_FAMILY.coin_name, [TRIAL_OVERLOAD_FAMILY], TRIAL_POWER_FAMILY_OVERLOAD.description, TRIAL_POWER_FAMILY_OVERLOAD.icon_path),
+	TrialData.new(TRIAL_PETRIFICATION_FAMILY.coin_name, [TRIAL_PETRIFICATION_FAMILY], TRIAL_POWER_FAMILY_PETRIFICATION.description, TRIAL_PETRIFICATION_FAMILY.icon_path),
+	TrialData.new(TRIAL_SILENCE_FAMILY.coin_name, [TRIAL_SILENCE_FAMILY], TRIAL_POWER_FAMILY_SILENCE.description, TRIAL_POWER_FAMILY_SILENCE.icon_path),
+	TrialData.new(TRIAL_POLARIZATION_FAMILY.coin_name, [TRIAL_POLARIZATION_FAMILY], TRIAL_POWER_FAMILY_POLARIZATION.description, TRIAL_POWER_FAMILY_POLARIZATION.icon_path),
+	TrialData.new(TRIAL_SINGULARITY_FAMILY.coin_name, [TRIAL_SINGULARITY_FAMILY], TRIAL_POWER_FAMILY_SINGULARITY.description, TRIAL_POWER_FAMILY_SINGULARITY.icon_path),
+	TrialData.new(TRIAL_GATING_FAMILY.coin_name, [TRIAL_GATING_FAMILY], TRIAL_POWER_FAMILY_GATING.description, TRIAL_POWER_FAMILY_GATING.icon_path),
+	TrialData.new(TRIAL_FATE_FAMILY.coin_name, [TRIAL_FATE_FAMILY], TRIAL_POWER_FAMILY_FATE.description, TRIAL_POWER_FAMILY_FATE.icon_path),
+	TrialData.new(TRIAL_ADVERSITY_FAMILY.coin_name, [TRIAL_ADVERSITY_FAMILY], TRIAL_POWER_FAMILY_ADVERSITY.description, TRIAL_POWER_FAMILY_ADVERSITY.icon_path),
+	TrialData.new(TRIAL_TRIBULATIONS_FAMILY.coin_name, [TRIAL_TRIBULATIONS_FAMILY], TRIAL_POWER_FAMILY_TRIBULATIONS.description, TRIAL_POWER_FAMILY_TRIBULATIONS.icon_path),
+	TrialData.new(TRIAL_VAINGLORY_FAMILY.coin_name, [TRIAL_VAINGLORY_FAMILY], TRIAL_POWER_FAMILY_VAINGLORY.description, TRIAL_POWER_FAMILY_VAINGLORY.icon_path),
+	
 ]
 
 enum PowerType {
@@ -1452,6 +1467,11 @@ var TRIAL_POWER_FAMILY_PAIN = PowerFamily.new("Damage you take from (LIFE) penal
 const BLOOD_COST = 1
 var TRIAL_POWER_FAMILY_BLOOD = PowerFamily.new("Using a power costs %d(LIFE)." % BLOOD_COST, [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_EQUIVALENCE = PowerFamily.new("After a coin lands on (HEADS), it becomes (UNLUCKY). After a coin lands on (TAILS), it becomes (LUCKY).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_TORMENT = PowerFamily.new("You cannot use the same (POWER) twice in a row.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torment_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_MALAISE = PowerFamily.new("When you use a power, all your coins lose a charge.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/malaise_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VIVISEPULTURE = PowerFamily.new("When the trial begins, your two leftmost coins are (BURIED) for 20 payoffs.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/vivisepulture_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_IMMOLATION = PowerFamily.new("After you use a coin's power, that coin (IGNITES).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/immolation_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VENGEANCE = PowerFamily.new("After payoff, (CURSE) your highest value (HEADS) coin.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/vengeance_icon.png", ONLY_SHOW_ICON)
 
 var TRIAL_POWER_FAMILY_FAMINE = PowerFamily.new("You do not replenish (HEAL) at the start of the round.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_TORTURE = PowerFamily.new("After payoff, your highest value (HEADS) coin is downgraded.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png", ONLY_SHOW_ICON)
@@ -1459,6 +1479,15 @@ var TRIAL_POWER_FAMILY_LIMITATION = PowerFamily.new("Reduce any payoffs less tha
 var TRIAL_POWER_FAMILY_COLLAPSE = PowerFamily.new("After payoff, (DESECRATE) each coin on (TAILS).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_SAPPING = PowerFamily.new("Coins replenish only a single power charge each toss.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_OVERLOAD = PowerFamily.new("After payoff, you lose 1(LIFE) for each unspent power charge on a (HEADS) coin.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_PETRIFICATION = PowerFamily.new("When the trial begins, all power coins are turned to (STONE).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/petrification_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_SILENCE = PowerFamily.new("After each payoff, (BURY) the leftmost possible coin for 10 payoffs.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/silence_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_POLARIZATION = PowerFamily.new("Payoff coins land on (TAILS) +40% more often.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_SINGULARITY = PowerFamily.new("Power coins have only a single charge.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/singularity_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_GATING = PowerFamily.new("Payoffs greater than 10(SOULS) become 1(SOULS).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/gating_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_FATE = PowerFamily.new("Coins cannot be reflipped.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/fate_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_ADVERSITY = PowerFamily.new("When the trial begins and after each payoff, spawn a monster Triobol.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/adversity_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_TRIBULATIONS = PowerFamily.new("Apply 4 random negative statuses to random coins after each toss.", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/tribulations_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VAINGLORY = PowerFamily.new("After a coin lands on (HEADS), it becomes (CURSED).", [0, 0, 0, 0, 0, 0], PowerType.PASSIVE, "res://assets/icons/trial/vainglory_icon.png", ONLY_SHOW_ICON)
 
 var CHARON_POWER_DEATH = PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", ONLY_SHOW_ICON)
 var CHARON_POWER_LIFE = PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
@@ -1468,6 +1497,7 @@ func replace_placeholders(tooltip: String) -> String:
 	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
 	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % ["red", "Ignite", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(IGNITES)", STATUS_FORMAT % ["red", "Ignites", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
@@ -1486,6 +1516,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["fuchsia", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
 	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])
+	tooltip = tooltip.replace("(BURIED)", STATUS_FORMAT % ["peru", "Buried", "res://assets/icons/status/bury_icon.png"])
 	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % ["ghostwhite", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
 	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % ["orange", "Prime", "res://assets/icons/status/primed_icon.png"])
 	
@@ -2373,21 +2404,49 @@ var TRIAL_BLOOD_FAMILY = CoinFamily.new(4003, CoinType.TRIAL, "[color=crimson]Tr
 var TRIAL_EQUIVALENCE_FAMILY = CoinFamily.new(4004, CoinType.TRIAL, "[color=gold]Trial of Equivalence[/color]", "[color=lightgray]Fair, in a Way[/color]", TRIAL_POWER_FAMILY_EQUIVALENCE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_EQUIVALENCE, TRIAL_POWER_FAMILY_EQUIVALENCE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 
+var TRIAL_TORMENT_FAMILY = CoinFamily.new(4005, CoinType.TRIAL, "[color=floralwhite]Trial of Torment[/color]", "[color=lightgray]Vary or Die[/color]", TRIAL_POWER_FAMILY_TORMENT.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_TORMENT, TRIAL_POWER_FAMILY_TORMENT, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_MALAISE_FAMILY = CoinFamily.new(4006, CoinType.TRIAL, "[color=silver]Trial of Malaise[/color]", "[color=lightgray]Unnatural Fatigue[/color]", TRIAL_POWER_FAMILY_MALAISE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_MALAISE, TRIAL_POWER_FAMILY_MALAISE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_VIVISEPULTURE_FAMILY = CoinFamily.new(4007, CoinType.TRIAL, "[color=peru]Trial of Vivisepulture[/color]", "[color=lightgray]Buried Alive[/color]", TRIAL_POWER_FAMILY_VIVISEPULTURE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_VIVISEPULTURE, TRIAL_POWER_FAMILY_VIVISEPULTURE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_IMMOLATION_FAMILY = CoinFamily.new(4008, CoinType.TRIAL, "[color=orangered]Trial of Immolation[/color]", "[color=lightgray]Burn Bright and Fast[/color]", TRIAL_POWER_FAMILY_IMMOLATION.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_IMMOLATION, TRIAL_POWER_FAMILY_IMMOLATION, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_VENGEANCE_FAMILY = CoinFamily.new(4009, CoinType.TRIAL, "[color=plum]Trial of Vengeance[/color]", "[color=lightgray]Wronging a Right[/color]", TRIAL_POWER_FAMILY_VENGEANCE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_VENGEANCE, TRIAL_POWER_FAMILY_VENGEANCE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_LIMITATION_FAMILY = CoinFamily.new(4510, CoinType.TRIAL, "[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", TRIAL_POWER_FAMILY_LIMITATION.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_SAPPING_FAMILY = CoinFamily.new(4511, CoinType.TRIAL, "[color=paleturquoise]Trial of Sapping[/color]", "[color=lightgray]Energy Drain[/color]", TRIAL_POWER_FAMILY_SAPPING.icon_path, NO_UNLOCK_TIP, \
+	NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 
 
 # lv2
-var TRIAL_FAMINE_FAMILY = CoinFamily.new(4005, CoinType.TRIAL, "[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", TRIAL_POWER_FAMILY_FAMINE.icon_path, NO_UNLOCK_TIP,\
+var TRIAL_FAMINE_FAMILY = CoinFamily.new(4500, CoinType.TRIAL, "[color=burlywood]Trial of Famine[/color]", "[color=lightgray]Endless Hunger[/color]", TRIAL_POWER_FAMILY_FAMINE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_FAMINE, TRIAL_POWER_FAMILY_FAMINE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_TORTURE_FAMILY = CoinFamily.new(4006, CoinType.TRIAL, "[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", TRIAL_POWER_FAMILY_TORTURE.icon_path, NO_UNLOCK_TIP,\
+var TRIAL_TORTURE_FAMILY = CoinFamily.new(4501, CoinType.TRIAL, "[color=darkred]Trial of Torture[/color]", "[color=lightgray]Boiling Veins[/color]", TRIAL_POWER_FAMILY_TORTURE.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_TORTURE, TRIAL_POWER_FAMILY_TORTURE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_LIMITATION_FAMILY = CoinFamily.new(4007, CoinType.TRIAL, "[color=lightgray]Trial of Limitation[/color]", "[color=lightgray]Less is Less[/color]", TRIAL_POWER_FAMILY_LIMITATION.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, TRIAL_POWER_FAMILY_LIMITATION, TRIAL_POWER_FAMILY_LIMITATION, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_COLLAPSE_FAMILY = CoinFamily.new(4008, CoinType.TRIAL, "[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", TRIAL_POWER_FAMILY_COLLAPSE.icon_path, NO_UNLOCK_TIP, \
+var TRIAL_COLLAPSE_FAMILY = CoinFamily.new(4502, CoinType.TRIAL, "[color=moccasin]Trial of Collapse[/color]", "[color=lightgray]Falling Down[/color]", TRIAL_POWER_FAMILY_COLLAPSE.icon_path, NO_UNLOCK_TIP, \
 	NO_PRICE, TRIAL_POWER_FAMILY_COLLAPSE, TRIAL_POWER_FAMILY_COLLAPSE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_SAPPING_FAMILY = CoinFamily.new(4009, CoinType.TRIAL, "[color=paleturquoise]Trial of Sapping[/color]", "[color=lightgray]Unnatural Fatigue[/color]", TRIAL_POWER_FAMILY_SAPPING.icon_path, NO_UNLOCK_TIP, \
-	NO_PRICE, TRIAL_POWER_FAMILY_SAPPING, TRIAL_POWER_FAMILY_SAPPING, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(4010, CoinType.TRIAL, "[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", TRIAL_POWER_FAMILY_OVERLOAD.icon_path, NO_UNLOCK_TIP, \
+var TRIAL_OVERLOAD_FAMILY = CoinFamily.new(4503, CoinType.TRIAL, "[color=steelblue]Trial of Overload[/color]", "[color=lightgray]Energy Untethered[/color]", TRIAL_POWER_FAMILY_OVERLOAD.icon_path, NO_UNLOCK_TIP, \
 	NO_PRICE, TRIAL_POWER_FAMILY_OVERLOAD, TRIAL_POWER_FAMILY_OVERLOAD, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_PETRIFICATION_FAMILY = CoinFamily.new(4504, CoinType.TRIAL, "[color=burlywood]Trial of Petrification[/color]", "[color=lightgray]Gorgon's Curse[/color]", TRIAL_POWER_FAMILY_PETRIFICATION.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_PETRIFICATION, TRIAL_POWER_FAMILY_PETRIFICATION, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_SILENCE_FAMILY = CoinFamily.new(4505, CoinType.TRIAL, "[color=burlywood]Trial of Silence[/color]", "[color=lightgray]With a Whimper[/color]", TRIAL_POWER_FAMILY_SILENCE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_SILENCE, TRIAL_POWER_FAMILY_SILENCE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_POLARIZATION_FAMILY = CoinFamily.new(4506, CoinType.TRIAL, "[color=burlywood]Trial of Polarization[/color]", "[color=lightgray]Imbalanced Scales[/color]", TRIAL_POWER_FAMILY_POLARIZATION.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_POLARIZATION, TRIAL_POWER_FAMILY_POLARIZATION, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_SINGULARITY_FAMILY = CoinFamily.new(4507, CoinType.TRIAL, "[color=burlywood]Trial of Singularity[/color]", "[color=lightgray]All is One[/color]", TRIAL_POWER_FAMILY_SINGULARITY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_SINGULARITY, TRIAL_POWER_FAMILY_SINGULARITY, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_GATING_FAMILY = CoinFamily.new(4508, CoinType.TRIAL, "[color=burlywood]Trial of Gating[/color]", "[color=lightgray]Behind Tall Walls[/color]", TRIAL_POWER_FAMILY_GATING.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_GATING, TRIAL_POWER_FAMILY_GATING, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_FATE_FAMILY = CoinFamily.new(4509, CoinType.TRIAL, "[color=burlywood]Trial of Fate[/color]", "[color=lightgray]Will of the Moirai[/color]", TRIAL_POWER_FAMILY_FATE.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_FATE, TRIAL_POWER_FAMILY_FATE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_ADVERSITY_FAMILY = CoinFamily.new(4510, CoinType.TRIAL, "[color=burlywood]Trial of Adversity[/color]", "[color=lightgray]Looming Shadow[/color]", TRIAL_POWER_FAMILY_ADVERSITY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_ADVERSITY, TRIAL_POWER_FAMILY_ADVERSITY, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_TRIBULATIONS_FAMILY = CoinFamily.new(4511, CoinType.TRIAL, "[color=burlywood]Trial of Tribulations[/color]", "[color=lightgray]Chaotic Force[/color]", TRIAL_POWER_FAMILY_TRIBULATIONS.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_TRIBULATIONS, TRIAL_POWER_FAMILY_TRIBULATIONS, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
+var TRIAL_VAINGLORY_FAMILY = CoinFamily.new(4512, CoinType.TRIAL, "[color=burlywood]Trial of Vainglory[/color]", "[color=lightgray]Insidious Pride[/color]", TRIAL_POWER_FAMILY_VAINGLORY.icon_path, NO_UNLOCK_TIP,\
+	NO_PRICE, TRIAL_POWER_FAMILY_VAINGLORY, TRIAL_POWER_FAMILY_VAINGLORY, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 
 var THORNS_FAMILY = CoinFamily.new(9000, CoinType.PAYOFF, "(DENOM) of Thorns", "[color=darkgray]Metallic Barb[/color]\nCannot pay tolls.", "res://assets/icons/coin/thorns_icon.png", NO_UNLOCK_TIP,\
 	NO_PRICE, POWER_FAMILY_LOSE_SOULS_THORNS, POWER_FAMILY_LOSE_LIFE_THORNS, _SpriteStyle.THORNS, [CoinFamily.Tag.NO_UPGRADE, CoinFamily.Tag.CANNOT_GET_FROM_TRANSFORM_OR_GAIN, CoinFamily.Tag.NEGATIVE_TOLL_VALUE])

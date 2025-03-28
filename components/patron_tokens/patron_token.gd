@@ -13,6 +13,7 @@ const _ROTATION_TIME = 0.15
 
 var _disable_tooltip = false:
 	set(val):
+		_disable_tooltip = val
 		if _disable_tooltip:
 			UITooltip.clear_tooltip_for(self)
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm5njsknkc5bl"
-path="res://.godot/imported/suffering_icon.png-35f308b5ccb923201d3b0ee9ca225611.ctex"
+uid="uid://c3wdh58c7pone"
+path="res://.godot/imported/immolation_icon.png-b6eb89ec5ea1dde86ae5e3f5218258a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/suffering_icon.png"
-dest_files=["res://.godot/imported/suffering_icon.png-35f308b5ccb923201d3b0ee9ca225611.ctex"]
+source_file="res://assets/icons/trial/immolation_icon.png"
+dest_files=["res://.godot/imported/immolation_icon.png-b6eb89ec5ea1dde86ae5e3f5218258a6.ctex"]
 
 [params]
 

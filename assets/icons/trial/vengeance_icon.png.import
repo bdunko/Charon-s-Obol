@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg0q7f1ikf8uk"
-path="res://.godot/imported/resistance_icon.png-32063d6d448bd50ce6acd09ba2919e7d.ctex"
+uid="uid://d01nej5vr8bi7"
+path="res://.godot/imported/vengeance_icon.png-916df33699b2bda881e00728ff8aeb34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/resistance_icon.png"
-dest_files=["res://.godot/imported/resistance_icon.png-32063d6d448bd50ce6acd09ba2919e7d.ctex"]
+source_file="res://assets/icons/trial/vengeance_icon.png"
+dest_files=["res://.godot/imported/vengeance_icon.png-916df33699b2bda881e00728ff8aeb34.ctex"]
 
 [params]
 

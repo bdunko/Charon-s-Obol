@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d01nej5vr8bi7"
-path="res://.godot/imported/fury_icon.png-5fd0b43327944ae142ae6cb220f291d5.ctex"
+uid="uid://bruqjrbwo1utg"
+path="res://.godot/imported/torment_icon.png-02fcd0032cf6eedaec5065d13ade0db7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/fury_icon.png"
-dest_files=["res://.godot/imported/fury_icon.png-5fd0b43327944ae142ae6cb220f291d5.ctex"]
+source_file="res://assets/icons/trial/torment_icon.png"
+dest_files=["res://.godot/imported/torment_icon.png-02fcd0032cf6eedaec5065d13ade0db7.ctex"]
 
 [params]
 

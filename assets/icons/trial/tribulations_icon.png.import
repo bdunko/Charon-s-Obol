@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bruqjrbwo1utg"
-path="res://.godot/imported/exhaustion_icon.png-17335da469697eb19ec270e8cfb7227b.ctex"
+uid="uid://cm5njsknkc5bl"
+path="res://.godot/imported/tribulations_icon.png-6b5899d703c27a82f7f138c65b0eb3a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/exhaustion_icon.png"
-dest_files=["res://.godot/imported/exhaustion_icon.png-17335da469697eb19ec270e8cfb7227b.ctex"]
+source_file="res://assets/icons/trial/tribulations_icon.png"
+dest_files=["res://.godot/imported/tribulations_icon.png-6b5899d703c27a82f7f138c65b0eb3a5.ctex"]
 
 [params]
 

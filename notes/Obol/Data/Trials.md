@@ -5,28 +5,28 @@
 	- [ ] Equivalence - applies lucky/unlucky 'randomly'
 	- [ ] Pain - triple downside
 	- [ ] Blood - powers cost life
+	- [ ] Sapping - replenish only a single power charge each toss
+	- [ ] Limitation - reduce payoffs less than 10 to 1
 - [ ] Level 2
 	- [ ] Famine - no healing before this round
 	- [ ] Torture - downgrade each round
-	- [ ] Limitation - reduce payoffs less than 10 to 1
-	- [ ] Collapse - curse and freeze coins on tails
-	- [ ] Sapping - replenish only a single power charge each toss
+	- [ ] Collapse - desecrate on tails
 	- [ ] Overload - lose life for each unspent power charge
 
 New ideas
 - [ ] Level 1
 	- [ ] Torment - You cannot use the same power twice in a row.
-	- [ ] Fatigue - Whenever you use a power, all your coins lose a charge.
-	- [ ] ??? - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
-	- [ ] ??? - After you activate a coin's power, Ignite it.
-	- [ ] ??? - After payoff, curse your highest value coin.
+	- [ ] Malaise - Whenever you use a power, all your coins lose a charge.
+	- [ ] Vivisepulture - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
+	- [ ] Immolation - After you activate a coin's power, Ignite it.
+	- [ ] Vengeance - After payoff, curse your highest value heads coin.
 - [ ] Level 2
-	- [ ] Fossilization - Turn all power coins to stone (applies at start of round, and also after each payoff)
+	- [ ] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
 	- [ ] Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
-	- [ ] Poverty - Payoff coins land on tails 90% of the time.
+	- [ ] Polarization - Payoff coins land on tails 90% of the time.
 	- [ ] Singularity - Power coins have only a single charge.
 	- [ ] Gating - reduce payoffs greater than 10 to 1.
 	- [ ] Fate - Coins cannot be reflipped.
 	- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
 	- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
-	- [ ] ??? - After a coin lands on heads: Curse it.
+	- [ ] Vainglory - After a coin lands on heads: Curse it.

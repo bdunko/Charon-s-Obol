@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3wdh58c7pone"
-path="res://.godot/imported/flames_icon.png-56df7e1509b522af6351a579d82873fb.ctex"
+uid="uid://dvb5ngpwu0blq"
+path="res://.godot/imported/vivisepulture_icon.png-dc0d176c3dcf1280aa2faf06ca8f2c97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/flames_icon.png"
-dest_files=["res://.godot/imported/flames_icon.png-56df7e1509b522af6351a579d82873fb.ctex"]
+source_file="res://assets/icons/trial/vivisepulture_icon.png"
+dest_files=["res://.godot/imported/vivisepulture_icon.png-dc0d176c3dcf1280aa2faf06ca8f2c97.ctex"]
 
 [params]
 

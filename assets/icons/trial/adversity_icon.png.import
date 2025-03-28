@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://61qu2ta7mnnj"
-path="res://.godot/imported/fossilization_icon.png-641deb610af87061c4fc58accf5f919f.ctex"
+uid="uid://cg0q7f1ikf8uk"
+path="res://.godot/imported/adversity_icon.png-288cb190642b716a777cd46d52823673.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/trial/fossilization_icon.png"
-dest_files=["res://.godot/imported/fossilization_icon.png-641deb610af87061c4fc58accf5f919f.ctex"]
+source_file="res://assets/icons/trial/adversity_icon.png"
+dest_files=["res://.godot/imported/adversity_icon.png-288cb190642b716a777cd46d52823673.ctex"]
 
 [params]
 
