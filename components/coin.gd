@@ -598,6 +598,8 @@ func _play_new_status_effect(icon_path: String) -> void:
 	_STATUS_ICON_SHRINK_POINT.add_child(particle)
 
 func _on_passive_triggered(passive: Global.PowerFamily) -> void:
+	if _heads_power == null or _tails_power == null:
+		return #stupid hack to fix a crash from adding a coin via debug when certain trials (polarization) are active
 	if _heads_power.power_family == passive or _tails_power.power_family == passive:
 		if _owner == Owner.NEMESIS:
 			FX.flash(Color.PURPLE)
@@ -918,9 +920,13 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 		#prnt("roll %d, success chance %d; unlucky mattered" % [roll, percentage_success])
 		FX.flash(Color.ORANGE_RED) # failed because of unlucky
 	
-	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, curse, if tails, bless
-		_luck_state = _LuckState.UNLUCKY if _heads else _LuckState.LUCKY
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, unlucky, if tails, lucky
+		make_unlucky() if _heads else make_lucky()
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_EQUIVALENCE)
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VAINGLORY):
+		if is_heads():
+			curse()
+			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VAINGLORY)
 	
 	# roll new RNG number
 	_next_flip_roll = Global.RNG.randi_range(1, 100)
@@ -965,7 +971,18 @@ func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
 
 func _get_percentage_success(bonus: int = 0):
 	# the % value to succeed
-	var percentage_success = 50 + bonus + Global.flame_boost
+	var percentage_success
+	
+	# base success is 50, UNLESS affected by trials
+	if is_payoff_coin() and Global.is_passive_active(Global.TRIAL_POWER_FAMILY_POLARIZATION): #polarization trial - payoffs 90% tails
+		percentage_success = 10
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_POLARIZATION)
+	else:
+		percentage_success = 50
+	
+	percentage_success += bonus
+	percentage_success += Global.flame_boost #prometheus
+	
 	match(_luck_state):
 		_LuckState.LUCKY:
 			percentage_success += LUCKY_MODIFIER
@@ -1071,20 +1088,22 @@ func spend_inactive_face_power_use() -> void:
 	_update_appearance()
 	FX.flash(Color.WHITE)
 
-func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_sapping: bool) -> int:
-	# passive coins or stone coins do not recharge
-	if power_family.power_type == Global.PowerType.PASSIVE or is_stone() or is_frozen():
+func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_trials: bool) -> int:
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SINGULARITY) and not ignore_trials: # max 1 charge
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SINGULARITY)
+		return min(1, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
+	elif power_family.power_type == Global.PowerType.PASSIVE or is_stone() or is_frozen(): # passive coins or stone coins do not recharge
 		return current_charges
 	elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
-	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_sapping: #recharge only by 1
+	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_trials: #recharge only by 1
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SAPPING)
 		return min(current_charges + 1, power_family.uses_for_denom[_denomination] + (_permanent_charge_change + _round_charge_change))
 	return power_family.uses_for_denom[_denomination] + (_permanent_charge_change + _round_charge_change)
 
-func reset_power_uses(ignore_sapping: bool = false) -> void:
-	var new_heads_charges = _calculate_charge_amount(_heads_power.power_family, _heads_power.charges, ignore_sapping)
-	var new_tails_charges = _calculate_charge_amount(_tails_power.power_family, _tails_power.charges, ignore_sapping)
+func reset_power_uses(ignore_trials: bool = false) -> void:
+	var new_heads_charges = _calculate_charge_amount(_heads_power.power_family, _heads_power.charges, ignore_trials)
+	var new_tails_charges = _calculate_charge_amount(_tails_power.power_family, _tails_power.charges, ignore_trials)
 	
 	if _heads_power.charges < new_heads_charges or _tails_power.charges < new_tails_charges:
 		FX.flash(Color.LIGHT_PINK)
@@ -1479,7 +1498,6 @@ func is_fleeting() -> bool:
 func can_target() -> bool:
 	if _coin_family.has_tag(Global.CoinFamily.Tag.CANT_TARGET):
 		return false
-	
 	return not is_buried()
 
 func clear_round_life_penalty() -> void:

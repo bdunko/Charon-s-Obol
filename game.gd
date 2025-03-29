@@ -790,9 +790,12 @@ func _on_accept_button_pressed():
 					Global.lives += charges
 				Global.PowerType.PAYOFF_GAIN_SOULS:
 					var payoff = payoff_coin.get_active_souls_payoff()
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - min 10 souls per payoff coin
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - payoffs < 10 become 0
 						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_LIMITATION)
-						payoff = 0 if payoff <= 10 else payoff
+						payoff = 0 if payoff < 10 else payoff
+					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_GATING): # gating trial - payoffs > 10 become 1
+						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_GATING)
+						payoff = 1 if payoff > 10 else payoff
 					if payoff > 0:
 						payoff_coin.FX.flash(Color.AQUA)
 						Global.earn_souls(payoff)
@@ -1129,6 +1132,12 @@ func _on_accept_button_pressed():
 		for c in Global.choose_x(_COIN_ROW.get_highest_valued_heads_that_can_be_targetted(), 1):
 			c.curse()
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VENGEANCE)
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SILENCE): # every payoff, bury leftmost coin for 10 tosses
+		for c in _COIN_ROW.get_children():
+			if c.can_target():
+				c.bury(10)
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SILENCE)
+				break
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
 			if coin.is_tails():
@@ -1811,6 +1820,10 @@ func _on_voyage_continue_button_clicked():
 				Global.TRIAL_OVERLOAD_FAMILY:
 					await _wait_for_dialogue("You may have power, but beware the Overload!")
 				Global.TRIAL_PETRIFICATION_FAMILY:
+					# turn powers to stone
+					for c in _COIN_ROW.get_filtered(CoinRow.FILTER_POWER):
+						c.stone()
+					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_PETRIFICATION)
 					await _wait_for_dialogue("Feel the strain of Petrification!")
 				Global.TRIAL_SILENCE_FAMILY:
 					await _wait_for_dialogue("You must fear my Vengeance!")

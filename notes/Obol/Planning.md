@@ -10,16 +10,19 @@
 				- [x] Immolation - After you activate a coin's power, Ignite it.
 				- [x] Vengeance - After payoff, curse your highest value heads coin.
 			- [ ] Level 2
-				- [ ] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
-				- [ ] Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
-				- [ ] Singularity - Power coins have only a single charge.
-				- [ ] Gating - reduce payoffs greater than 10 to 1.
-				- [ ] Vainglory - After a coin lands on heads: Curse it.
-				- [ ] later
-					- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
-					- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
-					- [ ] Fate - Coins cannot be reflipped.
-					- [ ] Polarization - Payoff coins land on tails 90% of the time.
+				- [x] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
+				- [x]  Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
+				- [x]  Singularity - Power coins have only a single charge.
+					- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
+				- [x]  Gating - reduce payoffs greater than 10 to 1.
+				- [x] Vainglory - After a coin lands on heads: Curse it.
+					- [ ] might not be lighting up properly but idk, check
+				- [x] Polarization - Payoff coins land on tails 90% of the time.
+					- [ ] might not be lighting up properly but idk
+			- [ ] later; level 2
+				- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+				- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+				- [ ] Fate - Coins cannot be reflipped.
 	- [ ] **Tutorial Tuning**
 		- [ ] fixed?
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
