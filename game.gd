@@ -7,7 +7,7 @@ signal game_ended
 @onready var _SHOP_MAT = $Table/ShopMat
 @onready var _SHOP_COIN_ROW: CoinRow = $Table/Shop/ShopRow
 @onready var _ENEMY_ROW: EnemyRow = $Table/EnemyRow
-@onready var _ENEMY_COIN_ROW: CoinRow = $Table/EnemyRow/CoinRow
+@onready var _ENEMY_COIN_ROW: CoinRow = $Table/EnemyRow/CoinRow;
 @onready var _CHARON_COIN_ROW: CoinRow = $Table/CharonObolRow
 
 @onready var _LIFE_LABEL = $Table/LivesLabel
@@ -131,8 +131,21 @@ var _RIVER_COLORS = [River.ColorStyle.PURPLE, River.ColorStyle.GREEN, River.Colo
 
 const SOUL_TO_LIFE_CONVERSION_RATE = 5.0
 
-
 var powers_used = []
+func last_coin_power_used_this_round() -> Global.PowerFamily:
+	if Global.powers_this_round == 0: #if no powers have been used, nothing is the last power used this round
+		return null
+	
+	# this is lazy but whatever
+	var rev = powers_used.duplicate()
+	rev.reverse()
+	
+	for power in rev:
+		# arrows don't count for this
+		if power != Global.POWER_FAMILY_ARROW_REFLIP:
+			return power 
+	return null
+
 var malice_activations_this_game := 0
 
 func _ready() -> void:
@@ -1112,6 +1125,10 @@ func _on_accept_button_pressed():
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
 		_apply_misfortune_trial()
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VENGEANCE): # every payoff, curse highest value heads
+		for c in Global.choose_x(_COIN_ROW.get_highest_valued_heads_that_can_be_targetted(), 1):
+			c.curse()
+			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VENGEANCE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
 			if coin.is_tails():
@@ -1168,7 +1185,7 @@ func _on_accept_button_pressed():
 		await _tutorial_fade_out()
 		Global.tutorialState = Global.TutorialState.ROUND1_SHOP_BEFORE_BUYING_COIN
 	
-	if Global.tutorial_pointed_out_can_destroy_monster == false and _ENEMY_COIN_ROW.get_child_count() != 0 and Global.souls >= _ENEMY_COIN_ROW.get_child(0).get_appeasal_price():
+	if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorial_pointed_out_can_destroy_monster == false and _ENEMY_COIN_ROW.get_child_count() != 0 and Global.souls >= _ENEMY_COIN_ROW.get_child(0).get_appeasal_price():
 		await _tutorial_fade_in([_ENEMY_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL])
 		await _wait_for_dialogue(Global.replace_placeholders("Ah, you've acquired a decent number of souls(SOULS)..."))
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
@@ -1183,6 +1200,7 @@ func _on_accept_button_pressed():
 		await _wait_for_dialogue("You may prefer to save your souls for the shop.")
 		await _wait_for_dialogue("This choice is yours to make.")
 		await _wait_for_dialogue("Now then...")
+		await _tutorial_fade_out()
 		Global.tutorial_pointed_out_can_destroy_monster = true
 	
 	# if malice is >= 95.0 before increase, go ahead and activate with a post-payoff malice effect.
@@ -1758,15 +1776,30 @@ func _on_voyage_continue_button_clicked():
 					await _wait_for_dialogue("You shall be bound in Iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
 					#_apply_misfortune_trial() # note - removed the initial application, for balance for now at least
-					await _wait_for_dialogue("You shall be shrouded in Misfortune!")
+					await _wait_for_dialogue("Be shrouded in Misfortune!")
 				Global.TRIAL_PAIN_FAMILY:
-					await _wait_for_dialogue("You shall writhe in Pain!")
+					await _wait_for_dialogue("You flesh writhes in Pain!")
 				Global.TRIAL_BLOOD_FAMILY:
 					await _wait_for_dialogue("Your Blood shall boil!")
 				Global.TRIAL_EQUIVALENCE_FAMILY:
 					await _wait_for_dialogue("Each flip will be one of Equivalence!")
 				Global.TRIAL_FAMINE_FAMILY:
 					await _wait_for_dialogue("Feel the hunger of Famine!")
+				Global.TRIAL_TORMENT_FAMILY:
+					await _wait_for_dialogue("You shall be Tormented!")
+				Global.TRIAL_MALAISE_FAMILY:
+					await _wait_for_dialogue("Feel a deep Malaise!")
+				Global.TRIAL_VIVISEPULTURE_FAMILY:
+					# bury for 20
+					var left_to_right = _COIN_ROW.get_leftmost_to_rightmost()
+					for i in min(2, left_to_right.size()):
+						left_to_right[i].bury(20)
+					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VIVISEPULTURE)
+					await _wait_for_dialogue("Perish by Vivisepulture!")
+				Global.TRIAL_IMMOLATION_FAMILY:
+					await _wait_for_dialogue("Be Immolated in flames!")
+				Global.TRIAL_VENGEANCE_FAMILY:
+					await _wait_for_dialogue("You must fear my Vengeance!")
 				Global.TRIAL_TORTURE_FAMILY:
 					await _wait_for_dialogue("Can you withstand this Torture?")
 				Global.TRIAL_LIMITATION_FAMILY:
@@ -1777,6 +1810,24 @@ func _on_voyage_continue_button_clicked():
 					await _wait_for_dialogue("Your energy shall be Sapping.")
 				Global.TRIAL_OVERLOAD_FAMILY:
 					await _wait_for_dialogue("You may have power, but beware the Overload!")
+				Global.TRIAL_PETRIFICATION_FAMILY:
+					await _wait_for_dialogue("Feel the strain of Petrification!")
+				Global.TRIAL_SILENCE_FAMILY:
+					await _wait_for_dialogue("You must fear my Vengeance!")
+				Global.TRIAL_POLARIZATION_FAMILY:
+					await _wait_for_dialogue("Your coins shall be Polarized!")
+				Global.TRIAL_SINGULARITY_FAMILY:
+					await _wait_for_dialogue("The Singularity beckons...")
+				Global.TRIAL_GATING_FAMILY:
+					await _wait_for_dialogue("You must pass through the gate!")
+				Global.TRIAL_FATE_FAMILY:
+					await _wait_for_dialogue("All is up to Fate!")
+				Global.TRIAL_ADVERSITY_FAMILY:
+					await _wait_for_dialogue("Before you stands Adversity!")
+				Global.TRIAL_TRIBULATIONS_FAMILY:
+					await _wait_for_dialogue("You must overcome many Tribulations!")
+				Global.TRIAL_VAINGLORY_FAMILY:
+					await _wait_for_dialogue("Beware the insidious Vainglory!")
 	
 	if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_INTRO and Global.is_current_round_trial():
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
@@ -2175,6 +2226,11 @@ func _on_coin_clicked(coin: Coin):
 	
 	# only use coin powers during after flip
 	if Global.state != Global.State.AFTER_FLIP:
+		return
+	
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORMENT) and last_coin_power_used_this_round() == coin.get_active_face_power().power_family:
+		_DIALOGUE.show_dialogue("Can't activate that power due to trial...")
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORMENT)
 		return
 	
 	var row = _get_row_for(coin)
@@ -3331,7 +3387,19 @@ func after_coin_power_used(used_coin: Coin, target_coin: Coin, used_face_power: 
 	
 	powers_used.append(used_face_power.power_family)
 	Global.powers_this_round += 1
-	used_face_power.spend_charges(1)
+	
+	# malaise trial - subtracts from ALL coins
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MALAISE):
+		for coin in _COIN_ROW.get_children():
+			if coin.get_active_face_power().power_family.is_power():
+				coin.get_active_face_power().spend_charges(1)
+				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MALAISE)
+	else:
+		used_face_power.spend_charges(1)
+	
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_IMMOLATION):
+		used_coin.ignite()
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_IMMOLATION)
 	
 	target_coin.play_power_used_effect(used_face_power.power_family)
 	
@@ -3348,7 +3416,8 @@ func after_coin_power_used(used_coin: Coin, target_coin: Coin, used_face_power: 
 	_update_payoffs()
 	
 	# if we're out of charges or no longer a power, cancel
-	if Global.active_coin_power_coin and (Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power()):
+	# also, always cancel for torment trial
+	if Global.active_coin_power_coin and (Global.active_coin_power_coin.get_active_power_charges() == 0 or not Global.active_coin_power_coin.is_active_face_power() or Global.active_coin_power_coin.is_being_destroyed()):
 		Global.active_coin_power_coin = null
 		Global.active_coin_power_family = null
 	
@@ -3361,6 +3430,12 @@ func after_coin_power_used(used_coin: Coin, target_coin: Coin, used_face_power: 
 	if Global.active_coin_power_family != null and Global.active_coin_power_family.power_type == Global.PowerType.POWER_NON_TARGETTING: # if we copied a non-targetting power, deactivate
 		Global.active_coin_power_coin = null
 		Global.active_coin_power_family = null
+	
+	# torment trial - if the last coin power used matches the current power, deactivate
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORMENT) and last_coin_power_used_this_round() == Global.active_coin_power_family:
+		Global.active_coin_power_coin = null
+		Global.active_coin_power_family = null
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORMENT)
 	
 	Global.malice += Global.MALICE_INCREASE_ON_POWER_USED * Global.current_round_malice_multiplier()
 	if Global.malice >= Global.MALICE_ACTIVATION_THRESHOLD_AFTER_POWER:

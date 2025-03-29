@@ -1,24 +1,25 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 30 Sprint**
 	- [ ] **Content - Thursday/Friday**
-		- [ ] Add monsters to map.
-		- [ ] **New Trials**
+		- [ ] **New Trials** Global.is_passive_active(Global.TRIAL_MALAISE_FAMILY)
+		- [ ] Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
 			- [ ] Level 1
-				- [ ] Torment - You cannot use the same power twice in a row.
-				- [ ] Malaise - Whenever you use a power, all your coins lose a charge.
-				- [ ] Vivisepulture - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
-				- [ ] Immolation - After you activate a coin's power, Ignite it.
-				- [ ] Vengeance - After payoff, curse your highest value heads coin.
+				- [x] Torment - You cannot use the same power twice in a row.
+				- [x] Malaise - Whenever you use a power, all your coins lose a charge.
+				- [x] Vivisepulture - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
+				- [x] Immolation - After you activate a coin's power, Ignite it.
+				- [x] Vengeance - After payoff, curse your highest value heads coin.
 			- [ ] Level 2
 				- [ ] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
 				- [ ] Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
-				- [ ] Polarization - Payoff coins land on tails 90% of the time.
 				- [ ] Singularity - Power coins have only a single charge.
 				- [ ] Gating - reduce payoffs greater than 10 to 1.
-				- [ ] Fate - Coins cannot be reflipped.
-				- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
-				- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
 				- [ ] Vainglory - After a coin lands on heads: Curse it.
+				- [ ] later
+					- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+					- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+					- [ ] Fate - Coins cannot be reflipped.
+					- [ ] Polarization - Payoff coins land on tails 90% of the time.
 	- [ ] **Tutorial Tuning**
 		- [ ] fixed?
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
