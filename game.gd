@@ -428,7 +428,7 @@ func on_start() -> void: #reset
 	# randomize and set up the nemesis & trials
 	Global.randomize_voyage()
 	Global.generate_coinpool()
-	_VOYAGE_MAP.update_tooltips()
+	_VOYAGE_MAP.update()
 	
 	if Global.patron == null: # tutorial - use Charon
 		Global.patron = Global.patron_for_enum(Global.PatronEnum.CHARON)

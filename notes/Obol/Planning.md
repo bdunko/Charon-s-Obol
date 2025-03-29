@@ -1,23 +1,38 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Mar 30 Sprint**
 	- [ ] **Content - Thursday/Friday**
-		- [ ] Freeze nerf - do not recharge if frozen
-			- [ ] don't retract frozen coins as part of signaling this
 		- [ ] Add monsters to map.
 		- [ ] **New Trials**
-		- [ ] 4 new characters.
-			- [ ] The Merchant - can sell coins to shop, no upgrade.
-			- [ ] The Archon - All lose life powers are replaced with (simple) gain souls. Monsters with lose life become lose souls. 7 life, 1 life per toss (no ante). Boss is 10 life.
-				- [ ] absolutely no gain life powers; also remove athena
-			- [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
-			- [ ] The Child - uses shorter 5 length voyage; earn twice as many souls; you start with three random additional coins depending on your patron choice.
-		- [ ] Coin exclusion list per character to block bad interactions.
+			- [ ] Level 1
+				- [ ] Torment - You cannot use the same power twice in a row.
+				- [ ] Malaise - Whenever you use a power, all your coins lose a charge.
+				- [ ] Vivisepulture - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
+				- [ ] Immolation - After you activate a coin's power, Ignite it.
+				- [ ] Vengeance - After payoff, curse your highest value heads coin.
+			- [ ] Level 2
+				- [ ] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
+				- [ ] Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
+				- [ ] Polarization - Payoff coins land on tails 90% of the time.
+				- [ ] Singularity - Power coins have only a single charge.
+				- [ ] Gating - reduce payoffs greater than 10 to 1.
+				- [ ] Fate - Coins cannot be reflipped.
+				- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+				- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+				- [ ] Vainglory - After a coin lands on heads: Curse it.
 	- [ ] **Tutorial Tuning**
 		- [ ] fixed?
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
 			- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
 			- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
 			- [ ] Monster text is too long
+
+	- [ ] **New Characters**
+		- [ ] The Merchant - can sell coins to shop, no upgrade.
+		- [ ] The Archon - All lose life powers are replaced with (simple) gain souls. Monsters with lose life become lose souls. 7 life, 1 life per toss (no ante). Boss is 10 life.
+			- [ ] absolutely no gain life powers; also remove athena
+		- [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
+		- [ ] The Child - uses shorter 5 length voyage; earn twice as many souls; you start with three random additional coins depending on your patron choice.
+	- [ ] Coin exclusion list per character to block bad interactions.
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**

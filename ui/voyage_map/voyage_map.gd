@@ -13,6 +13,14 @@ signal closed
 @onready var _ANIMATION_PLAYER = $AnimationPlayer
 @onready var _FX = $Map/FX
 
+@onready var _M1 = $Map/Monsters/Monster1
+@onready var _M2 = $Map/Monsters/Monster2
+@onready var _M3 = $Map/Monsters/Monster3
+@onready var _M4 = $Map/Monsters/Monster4
+@onready var _M5 = $Map/Monsters/Monster5
+@onready var _M6 = $Map/Monsters/Monster6
+@onready var _MONSTERS = [_M1, _M2, _M3, _M4, _M5, _M6]
+
 static var _NODE_SCENE = preload("res://ui/voyage_map/voyage_node.tscn")
 
 func _ready() -> void:
@@ -21,6 +29,9 @@ func _ready() -> void:
 	assert(_SHIP)
 	assert(_CLICK_DETECTOR)
 	assert(_X_BUTTON)
+	assert(_MONSTERS)
+	for node in _MONSTERS:
+		assert(node)
 	
 	Global.state_changed.connect(_on_state_changed)
 	
@@ -47,7 +58,7 @@ const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+(SOULS)."
 const _NEMESIS_FORMAT = "%s\n%s\n\nYou must be victorious."
 const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d(COIN)."
 
-func update_tooltips() -> void:
+func update() -> void:
 	Global.free_children(_NODES)
 	
 	# create the left end
@@ -74,6 +85,12 @@ func update_tooltips() -> void:
 				_add_node(VoyageNode.VoyageNodeType.NEMESIS, [_NEMESIS_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description]], 0, rnd.get_icons())
 			Global.RoundType.END:
 				_add_node(VoyageNode.VoyageNodeType.RIGHT_END)
+	
+	var monsters = Global.get_standard_monster_pool() + Global.get_elite_monster_pool()
+	var i = 0
+	for monster in monsters:
+		_MONSTERS[i].texture = load(monster.icon_path)
+		i += 1
 	
 	# move ship to initial position...
 	call_deferred("_set_boat_start")

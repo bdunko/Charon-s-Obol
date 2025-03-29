@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dgds4d2p6hdb6"]
+[gd_scene load_steps=31 format=3 uid="uid://dgds4d2p6hdb6"]
 
 [ext_resource type="Script" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
 [ext_resource type="Texture2D" uid="uid://fjrkwngxhq1o" path="res://assets/table/voyage_map/scroll.png" id="2_hf6u5"]
@@ -14,6 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://2pxf10ev6f5n" path="res://assets/table/voyage_map/voyage_x.png" id="10_igmxh"]
 [ext_resource type="Texture2D" uid="uid://cq2hx5dttl12u" path="res://assets/table/voyage_map/voyage_x_pressed.png" id="11_jxgs3"]
 [ext_resource type="Texture2D" uid="uid://c0qtq8p5ssg5o" path="res://assets/table/voyage_map/voyage_x_hover.png" id="12_d5gro"]
+[ext_resource type="Material" uid="uid://78equru7mwye" path="res://shaders/sepia.tres" id="15_hjxvn"]
+[ext_resource type="Texture2D" uid="uid://bm8olwfoh2x7" path="res://assets/icons/monster/gadfly_icon.png" id="16_h8pgb"]
+[ext_resource type="Texture2D" uid="uid://0rvpjid4nndo" path="res://assets/icons/monster/erymanthian_boar_icon.png" id="17_jvlcc"]
+[ext_resource type="Texture2D" uid="uid://c6hcjmlregiou" path="res://assets/icons/monster/eidolon_icon.png" id="18_k3mda"]
+[ext_resource type="Texture2D" uid="uid://cv1b2eo1lvj3f" path="res://assets/icons/monster/arae_icon.png" id="19_yp3gh"]
+[ext_resource type="Texture2D" uid="uid://3deuumnek40v" path="res://assets/icons/monster/keres_icon.png" id="20_ak4bn"]
+[ext_resource type="Texture2D" uid="uid://daoot4x4e4w2d" path="res://assets/icons/monster/manticore_icon.png" id="21_k1r7f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ifvxe"]
 shader = ExtResource("2_yx6tr")
@@ -25,6 +32,10 @@ shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -2130,6 +2141,50 @@ offset_bottom = 21.0
 texture_normal = ExtResource("10_igmxh")
 texture_pressed = ExtResource("11_jxgs3")
 texture_hover = ExtResource("12_d5gro")
+
+[node name="Monsters" type="HBoxContainer" parent="Map"]
+offset_left = 24.0
+offset_top = 14.0
+offset_right = 184.0
+offset_bottom = 27.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Monster1" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("16_h8pgb")
+stretch_mode = 2
+
+[node name="Monster2" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("17_jvlcc")
+stretch_mode = 2
+
+[node name="Monster3" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("18_k3mda")
+stretch_mode = 2
+
+[node name="Monster4" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("19_yp3gh")
+stretch_mode = 2
+
+[node name="Monster5" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("20_ak4bn")
+stretch_mode = 2
+
+[node name="Monster6" type="TextureRect" parent="Map/Monsters"]
+material = ExtResource("15_hjxvn")
+layout_mode = 2
+texture = ExtResource("21_k1r7f")
+stretch_mode = 2
 
 [node name="FX" parent="Map" instance=ExtResource("8_wyum8")]
 

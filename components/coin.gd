@@ -1073,7 +1073,7 @@ func spend_inactive_face_power_use() -> void:
 
 func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_sapping: bool) -> int:
 	# passive coins or stone coins do not recharge
-	if power_family.power_type == Global.PowerType.PASSIVE or is_stone():
+	if power_family.power_type == Global.PowerType.PASSIVE or is_stone() or is_frozen():
 		return current_charges
 	elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
 		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))

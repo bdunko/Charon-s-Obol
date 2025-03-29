@@ -369,7 +369,7 @@ func retract_for_toss(retract_point: Vector2) -> void:
 		return
 	
 	# don't retract frozen or stoned coins
-	var coins_to_retract = get_multi_filtered([FILTER_NOT_STONE, FILTER_FLIPPABLE])
+	var coins_to_retract = get_multi_filtered([FILTER_NOT_STONE, FILTER_NOT_FROZEN, FILTER_FLIPPABLE])
 	
 	# do a very minor delay if nothing to retract
 	if coins_to_retract.size() == 0:

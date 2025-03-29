@@ -807,6 +807,12 @@ func get_standard_monster_excluding(excluded: Array) -> CoinFamily:
 func get_elite_monster() -> CoinFamily:
 	return Global.choose_one(_elite_monster_pool)
 
+func get_standard_monster_pool() -> Array:
+	return _standard_monster_pool
+
+func get_elite_monster_pool() -> Array:
+	return _elite_monster_pool
+
 func randomize_voyage() -> void:
 	# special case - hardcoded setup for tutorial
 	if is_character(Character.LADY):
@@ -1525,7 +1531,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(D_IGNITED)", "Each payoff, -3(LIFE).")
 	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(D_FROZEN)", "The next time this coin would be flipped, it thaws out instead.")
+	tooltip = tooltip.replace("(D_FROZEN)", "The next time this coin would be flipped, it thaws out instead. Does not recharge during the toss.")
 	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
 	tooltip = tooltip.replace("(D_LUCKY)", "This coin has a +20% chance to land on (HEADS).")
 	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % ["lawngreen", "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
@@ -1547,7 +1553,7 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % ["yellow", "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this coin lands on (TAILS), reflip it.")
 	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % ["slategray", "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge naturally.")
+	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge during the toss.")
 	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % ["lightyellow", "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(D_CONSECRATED)", "This coin will always land on (HEADS).")
 	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % ["red", "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
