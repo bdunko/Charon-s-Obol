@@ -1,26 +1,31 @@
 [gd_scene load_steps=27 format=3 uid="uid://358hx2cun580"]
 
-[ext_resource type="Script" path="res://shaders/shader_test.gd" id="1_1a6s1"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="1_j17hv"]
+[ext_resource type="Script" uid="uid://bdtb6ar1udge1" path="res://shaders/shader_test.gd" id="1_1a6s1"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="1_j17hv"]
 [ext_resource type="Texture2D" uid="uid://2pf5r8texxrf" path="res://assets/patron_choice/background/cloud_layer_back.png" id="2_vb8gb"]
 [ext_resource type="Texture2D" uid="uid://ce0gftxajuwdt" path="res://assets/patron_choice/background/cloud_layer_front.png" id="3_36qem"]
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_wabw4"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="6_tt4g1"]
 [ext_resource type="Texture2D" uid="uid://di6ewinnoex3n" path="res://shaders/test_coin.png" id="7_ccctr"]
 [ext_resource type="Texture2D" uid="uid://4ievnrt5nh4v" path="res://shaders/test_coin2.png" id="9_gc8jb"]
-[ext_resource type="Shader" path="res://shaders/shader_test.gdshader" id="9_yc3uv"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="10_l1joy"]
-[ext_resource type="Shader" path="res://shaders/post.gdshader" id="11_hifs3"]
+[ext_resource type="Shader" uid="uid://btfirt7opw4fr" path="res://shaders/shader_test.gdshader" id="9_yc3uv"]
+[ext_resource type="Script" uid="uid://et7ln1i88f6n" path="res://ui/tooltip_emitter.gd" id="10_l1joy"]
+[ext_resource type="Shader" uid="uid://i1mlomdvyw6d" path="res://shaders/post.gdshader" id="11_hifs3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cgal"]
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -37,6 +42,12 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
@@ -135,11 +146,16 @@ shader_parameter/auto_flicker_start_time = 0.0
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -156,6 +172,12 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
@@ -255,11 +277,16 @@ resource_local_to_scene = true
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -276,6 +303,12 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(0, 0, 0, 1)
@@ -387,11 +420,16 @@ noise = SubResource("FastNoiseLite_l00lw")
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -408,6 +446,12 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -464,10 +508,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_xkxr8")
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(-0.02, 0)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_xkxr8")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -518,11 +562,16 @@ noise = SubResource("FastNoiseLite_pk8pl")
 shader = ExtResource("1_j17hv")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -539,6 +588,12 @@ shader_parameter/replace_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color5 = Color(0, 0, 0, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -595,10 +650,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_eavw0")
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(-0.02, 0)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_eavw0")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -722,10 +777,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = false
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ahuhp")
 shader_parameter/fog_opacity = 0.37
 shader_parameter/fog_density = 0.634
 shader_parameter/fog_speed = Vector2(-0.02, 0)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ahuhp")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0

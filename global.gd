@@ -255,7 +255,7 @@ enum State {
 }
 
 func reroll_cost() -> int:
-	return (shop_rerolls) * (shop_rerolls)
+	return min((shop_rerolls) * (shop_rerolls), shop_rerolls * 5)
 
 var shop_rerolls: int:
 	set(val):
@@ -611,7 +611,7 @@ var _MONSTER_WAVE_TUTORIAL1 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE
 var _MONSTER_WAVE_TUTORIAL2 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
 
 
-const STORE_UPGRADE_DISCOUNT = 0.75
+const STORE_UPGRADE_DISCOUNT = 0.5
 
 const _ANTE_LOW = AnteFormula.THREE_WITH_EXP
 const _ANTE_MID = AnteFormula.FIVE_WITH_EXP
@@ -1286,7 +1286,7 @@ var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
 var TELEMACHUS_TOSSES_TO_TRANSFORM = 20 #20 years - length of time Odyseeus is away
 var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and eternally (CONSECRATE).", \
-	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_PLUTUS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [6, 9, 12, 15, 18, 21], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_PLUTUS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [6, 9, 12, 15, 18, 21], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 const PROMETHEUS_MULTIPLIER = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]

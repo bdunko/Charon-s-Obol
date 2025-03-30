@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://bqfaj14sdjdpo"]
 
-[ext_resource type="Script" path="res://ui/voyage_map/voyage_node.gd" id="1_0aijh"]
+[ext_resource type="Script" uid="uid://cdsfgd4b8y4mr" path="res://ui/voyage_map/voyage_node.gd" id="1_0aijh"]
 [ext_resource type="Texture2D" uid="uid://cjhxmaumlkkeb" path="res://assets/table/voyage_map/node/path_full.png" id="1_ej6my"]
 [ext_resource type="Texture2D" uid="uid://dffkewydym05w" path="res://assets/table/voyage_map/node/trial.png" id="1_qbcvo"]
 [ext_resource type="Texture2D" uid="uid://ch8erjvvcx1lo" path="res://assets/table/voyage_map/node/path_left.png" id="2_46jub"]
@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cg6adekv6r53e" path="res://assets/table/voyage_map/node/tollgate.png" id="8_stfbt"]
 [ext_resource type="PackedScene" uid="uid://b68ccb5fvw5is" path="res://ui/tooltip_emitter.tscn" id="10_h4dkl"]
 [ext_resource type="Texture2D" uid="uid://ddtcm0ip6v4we" path="res://assets/icons/nemesis/medusa_icon.png" id="11_5pejp"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="11_g4sfw"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="11_g4sfw"]
 [ext_resource type="Texture2D" uid="uid://d0xwty1w1wwst" path="res://assets/icons/trial/polymorph_icon.png" id="12_eaa88"]
 [ext_resource type="Texture2D" uid="uid://cdm7dvpo624ip" path="res://assets/icons/trial/misfortune_icon.png" id="12_hh83o"]
 

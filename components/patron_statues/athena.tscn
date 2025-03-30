@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bc4yi0sdnq0am"]
 
-[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_065in"]
+[ext_resource type="Script" uid="uid://cib8s5oyddit1" path="res://components/patron_statues/god_statue.gd" id="1_065in"]
 [ext_resource type="Texture2D" uid="uid://cxpq5xxpxqp26" path="res://assets/patron_choice/athena_statue.png" id="2_vopgh"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_r2h1x"]
 

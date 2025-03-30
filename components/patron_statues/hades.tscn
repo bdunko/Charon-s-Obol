@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqwkxt1uaga76"]
 
-[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_onw2l"]
+[ext_resource type="Script" uid="uid://cib8s5oyddit1" path="res://components/patron_statues/god_statue.gd" id="1_onw2l"]
 [ext_resource type="Texture2D" uid="uid://jmen6j0gdejk" path="res://assets/patron_choice/hades_statue.png" id="2_0ah0p"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_i1txr"]
 

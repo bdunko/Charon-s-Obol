@@ -1,8 +1,6 @@
 class_name OneshotParticle
 extends GPUParticles2D
 
-signal finished
-
 func _ready() -> void:
 	# if we exit tree, free ourselves
 	tree_exited.connect(queue_free)

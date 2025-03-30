@@ -1303,8 +1303,9 @@ func _advance_round() -> void:
 	Global.round_count += 1
 	
 	# setup the enemy row
-	_ENEMY_ROW.current_round_setup()
-	connect_enemy_coins()
+	if not Global.is_current_round_end():
+		_ENEMY_ROW.current_round_setup()
+		connect_enemy_coins()
 	
 	if Global.tutorialState == Global.TutorialState.PROLOGUE_AFTER_BOARDING:
 		await _wait_for_dialogue("We have quite the voyage ahead of us.")
@@ -2063,6 +2064,8 @@ func destroy_coin(coin: Coin) -> void:
 	var index = coin.get_index() 
 	var denom = coin.get_denomination()
 	
+	var destroyed_monster = coin.is_monster_coin()
+	var destroyed_echidna = coin.get_coin_family() == Global.ECHIDNA_FAMILY
 	var reborn_on_destroy = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.REBORN_ON_DESTROY)
 	var is_labyrinth_wall = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.LABYRINTH_WALL)
 	var gain_coin_on_destroy = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.GAIN_COIN_ON_DESTROY)
@@ -2101,10 +2104,10 @@ func destroy_coin(coin: Coin) -> void:
 				
 	# search for enrages (hamadryad and typhon)
 	for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
+		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED) and destroyed_monster:
 			c.init_coin(Global.MONSTER_MELIAE_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
-		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED):
-			c.init_coin(Global.TYPHON_ENRAGED_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
+		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED) and destroyed_echidna:
+			c.init_coin(Global.TYPHON_ENRAGED_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into mad Typhon
 	
 	# if nemesis round and the row is now empty, go ahead and end the round
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -2543,8 +2546,8 @@ func _on_coin_clicked(coin: Coin):
 				coin.set_coin_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
 				coin.bury(1)
-				var target = Global.choose_one(row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
-				target.turn()
+				for target in Global.choose_one(row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS])):
+					target.turn()
 			Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
 				if not coin.can_turn():
 					_DIALOGUE.show_dialogue("Can't turn that...")

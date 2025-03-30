@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://kw0850n3cqvo"]
 
-[ext_resource type="Script" path="res://components/coin_row.gd" id="1_kg7i3"]
+[ext_resource type="Script" uid="uid://mhpoc4kgw616" path="res://components/coin_row.gd" id="1_kg7i3"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="2_exv03"]
 
 [node name="CoinRow" type="Control"]

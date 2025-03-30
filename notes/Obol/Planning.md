@@ -106,6 +106,8 @@
 - [ ] **Tartarus Bonus Boss - 1 week**
 - [ ] **Settings Menu & Controller Support - 2 weeks**
 	- [ ] Add settings menu.
+		- [ ] Fast mode
+		- [ ] Turn off effects
 	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
 - [ ] **Balance - Indeterminant**

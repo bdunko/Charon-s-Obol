@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbv55bmqvao37"]
 
-[ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_6g2er"]
+[ext_resource type="Script" uid="uid://cib8s5oyddit1" path="res://components/patron_statues/god_statue.gd" id="1_6g2er"]
 [ext_resource type="Texture2D" uid="uid://li2creu1als0" path="res://assets/patron_choice/hera_statue.png" id="2_ewxjh"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_wj6ft"]
 

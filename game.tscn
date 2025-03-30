@@ -1,43 +1,43 @@
 [gd_scene load_steps=96 format=3 uid="uid://btdousdmcb6d3"]
 
-[ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
+[ext_resource type="Script" uid="uid://b0xb7grc4pmb6" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="2_82tsr"]
-[ext_resource type="Script" path="res://ui/river.gd" id="3_icqna"]
+[ext_resource type="Script" uid="uid://kfcio65xmhyl" path="res://ui/river.gd" id="3_icqna"]
 [ext_resource type="Material" uid="uid://cbfa6d74evufb" path="res://assets/table/river_shader.tres" id="3_lg24x"]
 [ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/table/table.png" id="3_uvdwv"]
 [ext_resource type="Texture2D" uid="uid://b08n3j31id5vm" path="res://assets/table/river_purple.png" id="4_hxf6a"]
 [ext_resource type="PackedScene" uid="uid://cr6fktifdg2pi" path="res://ui/dialogue_system.tscn" id="4_sixhk"]
-[ext_resource type="Script" path="res://player_textboxes.gd" id="5_6g64w"]
+[ext_resource type="Script" uid="uid://c5g2o4ao0a17q" path="res://player_textboxes.gd" id="5_6g64w"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="5_703wq"]
 [ext_resource type="Texture2D" uid="uid://buds51eoanr08" path="res://assets/table/river_green.png" id="6_df67t"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="6_gfndp"]
-[ext_resource type="Script" path="res://ui/flip_button.gd" id="6_rf73a"]
-[ext_resource type="Script" path="res://ui/accept_button.gd" id="7_2acd8"]
-[ext_resource type="Script" path="res://shaders/fx.gd" id="7_4br5g"]
+[ext_resource type="Script" uid="uid://d0rf1ijhxvmyf" path="res://ui/flip_button.gd" id="6_rf73a"]
+[ext_resource type="Script" uid="uid://cm22vxitqed8x" path="res://ui/accept_button.gd" id="7_2acd8"]
+[ext_resource type="Script" uid="uid://balg5k73panhq" path="res://shaders/fx.gd" id="7_4br5g"]
 [ext_resource type="Texture2D" uid="uid://c83k55kmpa2b4" path="res://assets/table/river_red.png" id="7_5tpvh"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="7_aonp5"]
-[ext_resource type="Script" path="res://ui/shop_continue_button.gd" id="8_leu43"]
-[ext_resource type="Script" path="res://ui/shop_reroll_button.gd" id="9_cd2hg"]
-[ext_resource type="Script" path="res://ui/end_round_button.gd" id="9_d50av"]
-[ext_resource type="Script" path="res://ui/die_button.gd" id="10_oe7lm"]
-[ext_resource type="Script" path="res://ui/pay_toll_button.gd" id="11_mcnia"]
-[ext_resource type="Script" path="res://ui/voyage_map/voyage_continue_button.gd" id="12_dxqog"]
-[ext_resource type="Script" path="res://ui/board_button.gd" id="13_6rw3p"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="7_aonp5"]
+[ext_resource type="Script" uid="uid://ds7wvqfs62x4e" path="res://ui/shop_continue_button.gd" id="8_leu43"]
+[ext_resource type="Script" uid="uid://ds1j2bf6pinhp" path="res://ui/shop_reroll_button.gd" id="9_cd2hg"]
+[ext_resource type="Script" uid="uid://bdq2apb0vgs6r" path="res://ui/end_round_button.gd" id="9_d50av"]
+[ext_resource type="Script" uid="uid://5lxbavfveos2" path="res://ui/die_button.gd" id="10_oe7lm"]
+[ext_resource type="Script" uid="uid://c7rqnkwa7snn1" path="res://ui/pay_toll_button.gd" id="11_mcnia"]
+[ext_resource type="Script" uid="uid://ck7p0b1hesvhb" path="res://ui/voyage_map/voyage_continue_button.gd" id="12_dxqog"]
+[ext_resource type="Script" uid="uid://10t0hsmtnw7" path="res://ui/board_button.gd" id="13_6rw3p"]
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="14_om374"]
-[ext_resource type="Script" path="res://ui/flame_label.gd" id="15_nixm5"]
-[ext_resource type="Script" path="res://ui/lives_label.gd" id="15_wj7tb"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="16_1vi63"]
+[ext_resource type="Script" uid="uid://cnk15ijlq66rs" path="res://ui/flame_label.gd" id="15_nixm5"]
+[ext_resource type="Script" uid="uid://djuifres4xafj" path="res://ui/lives_label.gd" id="15_wj7tb"]
+[ext_resource type="Script" uid="uid://et7ln1i88f6n" path="res://ui/tooltip_emitter.gd" id="16_1vi63"]
 [ext_resource type="PackedScene" uid="uid://cmc1jbioa2xwp" path="res://components/charon_hand.tscn" id="16_32esb"]
-[ext_resource type="Script" path="res://ui/fragments_label.gd" id="16_ee6yk"]
-[ext_resource type="Script" path="res://ui/shop_mat.gd" id="16_i4s2h"]
-[ext_resource type="Script" path="res://ui/ignite_label.gd" id="17_msny5"]
+[ext_resource type="Script" uid="uid://iqmun8lmqdox" path="res://ui/fragments_label.gd" id="16_ee6yk"]
+[ext_resource type="Script" uid="uid://3bp6kf0morta" path="res://ui/shop_mat.gd" id="16_i4s2h"]
+[ext_resource type="Script" uid="uid://bca8pqgb172nn" path="res://ui/ignite_label.gd" id="17_msny5"]
 [ext_resource type="PackedScene" uid="uid://dgds4d2p6hdb6" path="res://ui/voyage_map/voyage_map.tscn" id="18_vo2di"]
 [ext_resource type="PackedScene" uid="uid://kw0850n3cqvo" path="res://components/coin_row.tscn" id="19_ym3ga"]
-[ext_resource type="Script" path="res://ui/shop.gd" id="20_xqqdj"]
+[ext_resource type="Script" uid="uid://bfk0ecpcmoeg1" path="res://ui/shop.gd" id="20_xqqdj"]
 [ext_resource type="Texture2D" uid="uid://cdmwcxsmmcl4n" path="res://assets/table/shop_mat.png" id="21_brubq"]
-[ext_resource type="Script" path="res://enemy_row.gd" id="24_cds23"]
+[ext_resource type="Script" uid="uid://5wp5tewgjc80" path="res://enemy_row.gd" id="24_cds23"]
 [ext_resource type="PackedScene" uid="uid://bcwxsw4cf46jj" path="res://components/patron_tokens/zeus.tscn" id="24_k7xdm"]
-[ext_resource type="Script" path="res://speedrun_timer.gd" id="34_5jlkt"]
+[ext_resource type="Script" uid="uid://cwovfuvs6oppu" path="res://speedrun_timer.gd" id="34_5jlkt"]
 [ext_resource type="Texture2D" uid="uid://0ycixrey3lc3" path="res://assets/particles/hollow_spike.png" id="36_l5qg4"]
 [ext_resource type="Texture2D" uid="uid://c3kmtpo1q45xo" path="res://assets/particles/circle.png" id="36_lon5y"]
 
@@ -5449,7 +5449,7 @@ shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="Curve" id="Curve_ue0n8"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0752841, -1), 0.0, 0.0, 0, 0, Vector2(0.140625, 1), 0.0, 0.0, 0, 0, Vector2(0.272727, -1), 0.0, 0.0, 0, 0, Vector2(0.394886, 1), 0.0, 0.0, 0, 0, Vector2(0.53125, -1), 0.0, 0.0, 0, 0, Vector2(0.610795, 1), 0.0, 0.0, 0, 0, Vector2(0.742898, -1), 0.0, 0.0, 0, 0, Vector2(0.81392, 1), 0.0, 0.0, 0, 0, Vector2(0.920455, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 11
 
@@ -5457,21 +5457,19 @@ point_count = 11
 curve = SubResource("Curve_ue0n8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t5ya3"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 100, 1)
-particle_flag_disable_z = true
 spread = 10.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 110.0
 initial_velocity_max = 150.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 hue_variation_min = -0.1
 hue_variation_max = 0.1
 hue_variation_curve = SubResource("CurveTexture_wm5f8")
 
 [sub_resource type="Curve" id="Curve_i7mii"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0752841, -1), 0.0, 0.0, 0, 0, Vector2(0.140625, 1), 0.0, 0.0, 0, 0, Vector2(0.272727, -1), 0.0, 0.0, 0, 0, Vector2(0.394886, 1), 0.0, 0.0, 0, 0, Vector2(0.53125, -1), 0.0, 0.0, 0, 0, Vector2(0.610795, 1), 0.0, 0.0, 0, 0, Vector2(0.742898, -1), 0.0, 0.0, 0, 0, Vector2(0.81392, 1), 0.0, 0.0, 0, 0, Vector2(0.920455, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 11
 
@@ -5479,15 +5477,13 @@ point_count = 11
 curve = SubResource("Curve_i7mii")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1e2v"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 100, 1)
-particle_flag_disable_z = true
 spread = 10.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 110.0
 initial_velocity_max = 150.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 hue_variation_min = -0.1
 hue_variation_max = 0.1
 hue_variation_curve = SubResource("CurveTexture_m4xxc")
@@ -5500,16 +5496,14 @@ colors = PackedColorArray(0.737255, 0.290196, 0.607843, 1, 0.737255, 0.290196, 0
 gradient = SubResource("Gradient_3t6cd")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m5kuv"]
+particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 11.82
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 20.0
 initial_velocity_max = 40.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_w2m7r")
 
 [sub_resource type="Gradient" id="Gradient_s4bh3"]
@@ -5520,16 +5514,14 @@ colors = PackedColorArray(0.854902, 0.192157, 0.309804, 1, 0.854902, 0.192157, 0
 gradient = SubResource("Gradient_s4bh3")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84yqa"]
+particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 11.82
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 20.0
 initial_velocity_max = 40.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_0eeor")
 
 [sub_resource type="Gradient" id="Gradient_6mqet"]
@@ -5540,7 +5532,7 @@ colors = PackedColorArray(0.309804, 0.92549, 1, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_6mqet")
 
 [sub_resource type="Curve" id="Curve_cwxbc"]
-max_value = 5.0
+_limits = [0.0, 5.0, 0.0, 1.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -5551,12 +5543,12 @@ curve = SubResource("Curve_cwxbc")
 particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 20.0
 initial_velocity_max = 50.0
 angular_velocity_max = 5.0
 orbit_velocity_min = 10.0
 orbit_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_12aw4")
 color_ramp = SubResource("GradientTexture1D_o567j")
 hue_variation_max = 0.1
@@ -5661,10 +5653,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ycsoo")
 shader_parameter/fog_opacity = 0.06
 shader_parameter/fog_density = 0.0
 shader_parameter/fog_speed = Vector2(0, -0.05)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ycsoo")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -5800,10 +5792,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_64mkb")
 shader_parameter/fog_opacity = 0.07
 shader_parameter/fog_density = 0.09
 shader_parameter/fog_speed = Vector2(0, -0.015)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_64mkb")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -5931,10 +5923,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_64mkb")
 shader_parameter/fog_opacity = 0.351
 shader_parameter/fog_density = 0.23
 shader_parameter/fog_speed = Vector2(0, -0.3)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_64mkb")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0

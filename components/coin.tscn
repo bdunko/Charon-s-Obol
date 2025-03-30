@@ -1,7 +1,7 @@
 [gd_scene load_steps=263 format=3 uid="uid://bkl5p2djoo52i"]
 
-[ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
+[ext_resource type="Script" uid="uid://6ibe6wrslpkj" path="res://components/coin.gd" id="1_eg3xp"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="2_14jmd"]
 [ext_resource type="Texture2D" uid="uid://b4agtqc74rbqp" path="res://assets/coins/coins_spritesheet.png" id="3_61apl"]
 [ext_resource type="Texture2D" uid="uid://b7fxfxpopif5b" path="res://assets/coins/proteus_overlay.png" id="4_5g7if"]
 [ext_resource type="Texture2D" uid="uid://c2jhvysrq3v74" path="res://assets/icons/status/consecrate_icon.png" id="9_g8h0e"]
@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="17_tmr1x"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="18_x8c4t"]
 [ext_resource type="Texture2D" uid="uid://b84mqhr3ieim2" path="res://assets/icons/status/charge_icon.png" id="21_ro1pk"]
-[ext_resource type="Script" path="res://components/icon_bar.gd" id="22_i4xsq"]
+[ext_resource type="Script" uid="uid://ce2akjmcqorhh" path="res://components/icon_bar.gd" id="22_i4xsq"]
 [ext_resource type="Texture2D" uid="uid://7vswiefodkdx" path="res://assets/icons/status/blank_icon.png" id="23_ndo5s"]
 [ext_resource type="Texture2D" uid="uid://cqybe3tyqmixo" path="res://assets/icons/status/bury_icon.png" id="23_noblv"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="23_u3o1j"]
+[ext_resource type="Script" uid="uid://et7ln1i88f6n" path="res://ui/tooltip_emitter.gd" id="23_u3o1j"]
 [ext_resource type="Texture2D" uid="uid://1yn4ki3gwv2q" path="res://assets/icons/status/stone_icon.png" id="24_gdnx8"]
 [ext_resource type="Texture2D" uid="uid://25gl8na8catp" path="res://assets/icons/status/fleeting_icon.png" id="24_qp57l"]
 [ext_resource type="Texture2D" uid="uid://cxw40qsgq2x84" path="res://assets/icons/status/bless_icon.png" id="25_7omfm"]
@@ -29,7 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://dyc6n3hgf85qd" path="res://assets/icons/status/supercharge_icon.png" id="31_efx5d"]
 [ext_resource type="Texture2D" uid="uid://cpi4fvthcwpfc" path="res://assets/icons/heads_icon.png" id="33_byqkj"]
 [ext_resource type="Texture2D" uid="uid://bw6cnrxu4imi" path="res://assets/icons/tails_icon.png" id="34_bwsju"]
-[ext_resource type="Script" path="res://components/next_flip_indicator.gd" id="35_2vs3w"]
+[ext_resource type="Script" uid="uid://caaftv5eqjde3" path="res://components/next_flip_indicator.gd" id="35_2vs3w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true

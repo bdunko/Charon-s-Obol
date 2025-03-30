@@ -1,11 +1,11 @@
 [gd_scene load_steps=31 format=3 uid="uid://dgds4d2p6hdb6"]
 
-[ext_resource type="Script" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
+[ext_resource type="Script" uid="uid://cp73iniifl4e6" path="res://ui/voyage_map/voyage_map.gd" id="1_5qb4k"]
 [ext_resource type="Texture2D" uid="uid://fjrkwngxhq1o" path="res://assets/table/voyage_map/scroll.png" id="2_hf6u5"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_yx6tr"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="2_yx6tr"]
 [ext_resource type="Texture2D" uid="uid://c2f812jn0jyma" path="res://assets/table/voyage_map/voyage_sun.png" id="3_ep1xb"]
 [ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_map/voyage_ship.png" id="3_xhs1r"]
-[ext_resource type="Script" path="res://ui/river.gd" id="5_u1b6x"]
+[ext_resource type="Script" uid="uid://kfcio65xmhyl" path="res://ui/river.gd" id="5_u1b6x"]
 [ext_resource type="Texture2D" uid="uid://cybgjvdmpfd2w" path="res://assets/table/voyage_map/voyage_river_purple.png" id="6_cbihi"]
 [ext_resource type="PackedScene" uid="uid://bqfaj14sdjdpo" path="res://ui/voyage_map/voyage_node.tscn" id="7_qdi6m"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="8_wyum8"]
@@ -2024,7 +2024,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g6o5y"]
 _data = {
-"boat": SubResource("Animation_bgtnn")
+&"boat": SubResource("Animation_bgtnn")
 }
 
 [node name="VoyageMap" type="Node2D"]

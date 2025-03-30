@@ -1,19 +1,19 @@
 [gd_scene load_steps=103 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
-[ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
+[ext_resource type="Script" uid="uid://c40sjl4pmtqu0" path="res://main_menu.gd" id="1_yp8j4"]
 [ext_resource type="Texture2D" uid="uid://cnvv5rolt6bt3" path="res://shaders/black.png" id="3_0wssj"]
 [ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="3_76g51"]
 [ext_resource type="PackedScene" uid="uid://du5exoe518pkf" path="res://ui/main_menu/arrow_selector.tscn" id="3_trmuq"]
-[ext_resource type="Script" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
+[ext_resource type="Script" uid="uid://cya42hb4hkufl" path="res://ui/main_menu/difficulty_skull_button.gd" id="4_13483"]
 [ext_resource type="Texture2D" uid="uid://b3p2p8jak31ht" path="res://assets/main_menu/difficulty_skulls/skull1.png" id="4_vorie"]
 [ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="4_xe0ox"]
 [ext_resource type="Texture2D" uid="uid://s66fx8py00k7" path="res://assets/particles/coin.png" id="5_c1g6o"]
 [ext_resource type="Texture2D" uid="uid://bjum64hb3chwq" path="res://assets/particles/sparkle.png" id="5_dj8go"]
 [ext_resource type="Texture2D" uid="uid://dykf4mi53b7pv" path="res://assets/main_menu/difficulty_skulls/difficulty_skull_spritesheet.png" id="14_yugwh"]
-[ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
+[ext_resource type="Script" uid="uid://c5g2o4ao0a17q" path="res://player_textboxes.gd" id="25_r145h"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="27_x0p8j"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ct364"]
 
@@ -114,10 +114,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_2nbrm")
 shader_parameter/fog_opacity = 0.04
 shader_parameter/fog_density = 0.276
 shader_parameter/fog_speed = Vector2(0, 0.01)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_2nbrm")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -254,10 +254,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_44jct")
 shader_parameter/fog_opacity = 0.15
 shader_parameter/fog_density = 0.0
 shader_parameter/fog_speed = Vector2(0, 0.07)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_44jct")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -393,10 +393,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_jw2gs")
 shader_parameter/fog_opacity = 0.04
 shader_parameter/fog_density = 0.143
 shader_parameter/fog_speed = Vector2(0, 0.2)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_jw2gs")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -439,16 +439,14 @@ colors = PackedColorArray(0.443137, 0.254902, 0.231373, 0.427451, 0.56587, 0.001
 gradient = SubResource("Gradient_njw1q")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vbm6j"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 40.0
 initial_velocity_max = 60.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_8kiev")
 
 [sub_resource type="Gradient" id="Gradient_vwro8"]
@@ -458,16 +456,14 @@ colors = PackedColorArray(0.545098, 0.576471, 0.686275, 0.427451, 0.56587, 0.001
 gradient = SubResource("Gradient_vwro8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6emgc"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 40.0
 initial_velocity_max = 60.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_4h7iw")
 
 [sub_resource type="Gradient" id="Gradient_io4ic"]
@@ -478,16 +474,14 @@ colors = PackedColorArray(0.980392, 0.415686, 0.0392157, 0.427451, 0.56587, 0.00
 gradient = SubResource("Gradient_io4ic")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ewdi3"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 40.0
 initial_velocity_max = 60.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_ioi0n")
 
 [sub_resource type="Gradient" id="Gradient_ohibo"]
@@ -497,16 +491,14 @@ colors = PackedColorArray(0.141176, 0.623529, 0.870588, 0.427451, 0.56587, 0.001
 gradient = SubResource("Gradient_ohibo")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i5que"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 40.0
 initial_velocity_max = 60.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_ngnkn")
 
 [sub_resource type="Gradient" id="Gradient_nfok0"]
@@ -517,16 +509,14 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.784314, 0.56587, 0.00171702, 0.
 gradient = SubResource("Gradient_nfok0")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lfqgr"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 100, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 3.0
 initial_velocity_max = 5.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_686p2")
 
 [sub_resource type="Gradient" id="Gradient_xrnau"]
@@ -536,16 +526,14 @@ colors = PackedColorArray(0, 0.72549, 0, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_xrnau")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hg2hb"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 30.0
 initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_npvja")
 
 [sub_resource type="Gradient" id="Gradient_3dbe7"]
@@ -555,16 +543,14 @@ colors = PackedColorArray(0, 0.72549, 0, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_3dbe7")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qtsmj"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 30.0
 initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dy0wp"]
@@ -705,16 +691,14 @@ colors = PackedColorArray(0.101961, 0.839216, 0.211765, 1, 0.737255, 0.290196, 0
 gradient = SubResource("Gradient_feawb")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_unekx"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 30.0
 initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_a3dpp")
 
 [sub_resource type="Gradient" id="Gradient_yeap5"]
@@ -724,16 +708,14 @@ colors = PackedColorArray(1, 0.054902, 0.152941, 0.470588, 0.737255, 0.290196, 0
 gradient = SubResource("Gradient_yeap5")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2cdev"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 30.0
 initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_vhqf1")
 
 [sub_resource type="Gradient" id="Gradient_6h4l6"]
@@ -743,16 +725,14 @@ colors = PackedColorArray(0.47451, 0.227451, 0.501961, 0.470588, 0.737255, 0.290
 gradient = SubResource("Gradient_6h4l6")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sis7g"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 30.0
 initial_velocity_max = 50.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_gltpk")
 
 [sub_resource type="Gradient" id="Gradient_m8jfs"]
@@ -762,16 +742,14 @@ colors = PackedColorArray(0.866926, 0.36309, 0.0752798, 0.470588, 0.737255, 0.29
 gradient = SubResource("Gradient_m8jfs")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_phd0y"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 45.0
 initial_velocity_max = 65.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_7iqbu")
 
 [sub_resource type="Gradient" id="Gradient_durho"]
@@ -781,16 +759,14 @@ colors = PackedColorArray(0.627451, 0.368627, 0.768627, 0.537255, 0.737255, 0.29
 gradient = SubResource("Gradient_durho")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kwrpa"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(180, 1, 1)
-particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 15.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 45.0
 initial_velocity_max = 65.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_jab2q")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vcrt"]
@@ -1243,7 +1219,6 @@ offset_bottom = 180.0
 mouse_filter = 2
 
 [node name="UnlockUI" type="Node2D" parent="."]
-visible = false
 
 [node name="FallingCoins" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1251,37 +1226,37 @@ visible = false
 [node name="FallingCoinsBronze" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
 amount = 128
-process_material = SubResource("ParticleProcessMaterial_vbm6j")
 texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_vbm6j")
 
 [node name="FallingCoinsSilver" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_6emgc")
 texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_6emgc")
 
 [node name="FallingCoinsGold" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_ewdi3")
 texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_ewdi3")
 
 [node name="FallingCoinsBlue" type="GPUParticles2D" parent="UnlockUI/FallingCoins"]
 position = Vector2(153, -15)
-process_material = SubResource("ParticleProcessMaterial_i5que")
 texture = ExtResource("5_c1g6o")
 lifetime = 8.0
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_i5que")
 
 [node name="Sparkle" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1289,11 +1264,11 @@ visible = false
 [node name="Sparkle" type="GPUParticles2D" parent="UnlockUI/Sparkle"]
 position = Vector2(164, 95)
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_lfqgr")
 texture = ExtResource("5_dj8go")
 lifetime = 2.0
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_lfqgr")
 
 [node name="CoinUI" type="Node2D" parent="UnlockUI"]
 visible = false
@@ -1314,10 +1289,10 @@ fit_content = true
 offset_top = 38.0
 offset_right = 320.0
 offset_bottom = 51.0
-theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center]Coin Family[/center]"
@@ -1329,8 +1304,8 @@ offset_top = 53.0
 offset_right = 320.0
 offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center]Coin Description[/center]"
@@ -1342,8 +1317,8 @@ offset_top = 71.0
 offset_right = 320.0
 offset_bottom = 111.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center]Arrows can be used to reflip coins.
@@ -1375,19 +1350,19 @@ visible = false
 [node name="CharacterEmbers" type="GPUParticles2D" parent="UnlockUI/CharacterUI"]
 position = Vector2(153, 183)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_hg2hb")
 lifetime = 4.5
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_hg2hb")
 
 [node name="CharacterEmbersFancy" type="GPUParticles2D" parent="UnlockUI/CharacterUI"]
 position = Vector2(153, 183)
 amount = 16
-process_material = SubResource("ParticleProcessMaterial_qtsmj")
 texture = ExtResource("5_dj8go")
 lifetime = 4.5
 preprocess = 10.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_qtsmj")
 
 [node name="Title" type="RichTextLabel" parent="UnlockUI/CharacterUI"]
 offset_top = 16.0
@@ -1405,10 +1380,10 @@ fit_content = true
 offset_top = 38.0
 offset_right = 320.0
 offset_bottom = 51.0
-theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center][color=green]Character Name[/color][/center]"
@@ -1444,10 +1419,10 @@ fit_content = true
 offset_top = 38.0
 offset_right = 320.0
 offset_bottom = 51.0
-theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center][color=gold]Harder Difficulty Unlocked for The Eleusinian![/color][/center]"
@@ -1470,6 +1445,7 @@ position = Vector2(160, 75)
 texture = ExtResource("4_vorie")
 
 [node name="DifficultyUI" type="Node2D" parent="UnlockUI"]
+visible = false
 
 [node name="Title" type="RichTextLabel" parent="UnlockUI/DifficultyUI"]
 offset_top = 16.0
@@ -1487,10 +1463,10 @@ fit_content = true
 offset_top = 38.0
 offset_right = 320.0
 offset_bottom = 51.0
-theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.227451, 0.74902, 0.345098)
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 text = "[center][color=gold]Harder Difficulty Unlocked for The Eleusinian![/color][/center]"
@@ -1532,36 +1508,36 @@ default_text = "Unlock"
 [node name="EmbersCharacter" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_unekx")
 lifetime = 4.0
 preprocess = 10.0
 trail_lifetime = 4.5
+process_material = SubResource("ParticleProcessMaterial_unekx")
 
 [node name="EmbersRed" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_2cdev")
 lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_2cdev")
 
 [node name="EmbersPurple" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_sis7g")
 lifetime = 3.5
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_sis7g")
 
 [node name="EmbersMoreRed" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 24
-process_material = SubResource("ParticleProcessMaterial_phd0y")
 lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_phd0y")
 
 [node name="EmbersMorePurple" type="GPUParticles2D" parent="MainUI"]
 position = Vector2(153, 183)
 amount = 24
-process_material = SubResource("ParticleProcessMaterial_kwrpa")
 lifetime = 3.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_kwrpa")
 
 [node name="Title" type="RichTextLabel" parent="MainUI"]
 offset_top = 16.0

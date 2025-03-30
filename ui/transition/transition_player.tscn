@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxcix76s2drag"]
 
-[ext_resource type="Script" path="res://ui/transition/transition_player.gd" id="1_xu3p7"]
+[ext_resource type="Script" uid="uid://d365gfb6alai1" path="res://ui/transition/transition_player.gd" id="1_xu3p7"]
 
 [node name="Transitions" type="Node2D"]
 script = ExtResource("1_xu3p7")

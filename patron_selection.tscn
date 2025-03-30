@@ -1,10 +1,10 @@
 [gd_scene load_steps=37 format=3 uid="uid://08gavqs15dvr"]
 
-[ext_resource type="Script" path="res://patron_selection.gd" id="1_bldrb"]
+[ext_resource type="Script" uid="uid://bdkik1nqbp8bt" path="res://patron_selection.gd" id="1_bldrb"]
 [ext_resource type="Texture2D" uid="uid://bxkmd340vnsbd" path="res://assets/patron_choice/background/withered_background.png" id="2_djeuf"]
 [ext_resource type="PackedScene" uid="uid://cr6fktifdg2pi" path="res://ui/dialogue_system.tscn" id="2_uhgja"]
 [ext_resource type="PackedScene" uid="uid://dsx4mxqxqbpwf" path="res://components/patron_statues/godless.tscn" id="3_a302y"]
-[ext_resource type="Shader" path="res://shaders/shader.gdshader" id="3_jc04v"]
+[ext_resource type="Shader" uid="uid://c1432ql3cxfp3" path="res://shaders/shader.gdshader" id="3_jc04v"]
 [ext_resource type="Texture2D" uid="uid://2pf5r8texxrf" path="res://assets/patron_choice/background/cloud_layer_back.png" id="3_kr0hu"]
 [ext_resource type="Texture2D" uid="uid://cddpxdsre4t0m" path="res://assets/patron_choice/background/peaceful_background.png" id="4_5llq3"]
 [ext_resource type="Texture2D" uid="uid://ce0gftxajuwdt" path="res://assets/patron_choice/background/cloud_layer_front.png" id="5_k0wgb"]
@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://ck31yg12emdjm" path="res://assets/patron_choice/background/eyes.png" id="6_kttg8"]
 [ext_resource type="Texture2D" uid="uid://cgof7rvyy8ooc" path="res://assets/patron_choice/background/flowers.png" id="7_xij8r"]
 [ext_resource type="Texture2D" uid="uid://bklbq2rd5wq1q" path="res://assets/patron_choice/background/ship.png" id="9_in8ic"]
-[ext_resource type="Script" path="res://player_textboxes.gd" id="13_8yqjs"]
+[ext_resource type="Script" uid="uid://c5g2o4ao0a17q" path="res://player_textboxes.gd" id="13_8yqjs"]
 [ext_resource type="Texture2D" uid="uid://divdjx3egkbkg" path="res://assets/patron_choice/background/heavy_rain.png" id="13_e5xt1"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="14_id8ra"]
 
@@ -721,10 +721,10 @@ shader_parameter/disintegrate_alpha_bound2 = 0.0
 shader_parameter/disintegrate_as_static = false
 shader_parameter/auto_disintegrate_random_seed_speed = 0.0
 shader_parameter/fog_enabled = true
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ljegw")
 shader_parameter/fog_opacity = 0.151
 shader_parameter/fog_density = 0.0
 shader_parameter/fog_speed = Vector2(-0.5, 0)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_ljegw")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0

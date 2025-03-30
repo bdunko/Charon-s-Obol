@@ -1747,7 +1747,7 @@ func _generate_tooltip() -> void:
 				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text
-					tails_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % tails_power.power_family.icon_path, tails_power)
+					tails_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 				else:
 					tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
 		
@@ -1925,7 +1925,6 @@ func can_copy_power() -> bool:
 	return is_active_face_power() or is_other_face_power()
 
 func get_copied_power_family() -> Global.PowerFamily:
-	assert(can_copy_power())
 	return get_active_power_family() if is_active_face_power() else get_inactive_power_family()
 
 @onready var _MOUSE = $Mouse
