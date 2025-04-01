@@ -1,10 +1,10 @@
 **Monsters**
 **Added**
 - [ ] Standard
-	- [x] Hellhound - Ignite self/damage
-	- [x] Kobalos - Unlucky/damage
-	- [x] Arae - Curse/no damage
-	- [x] Harpy - Blank/damage
+	- [ ] Hellhound - Ignite self/damage
+	- [ ] Kobalos - Unlucky/damage
+	- [ ] Arae - Curse/no damage
+	- [ ] Harpy - Blank/damage
 	- [ ] Trojan Horse - Destroy this and spawn two smaller monsters (Obol spawns Obol, but don't allow this to spawn as Obol if possible) / no damage
 	- [ ] Eidolon - Make each enemy coin Unlucky + Damage
 	- [ ] Hyperborean - Freeze random + Lose Souls
@@ -13,10 +13,10 @@
 	- [ ] Lamia - bury a coin for 2 payoffs / lose souls
 	- [ ] Erymanthian Boar - 2x damage/Bury this coin for 2 payoffs.
 	- [ ] Spartoi - upgrade this/damage
-- [ ] Elite - happy with these
-	- [x] Chimera - Ignite/2x damage
-	- [x] Siren - Freeze tails/curse
-	- [x] Basilisk - Half life/no damage
+- [ ] Elite
+	- [ ] Chimera - Ignite/2x damage
+	- [ ] Siren - Freeze tails/curse
+	- [ ] Basilisk - Half life/no damage
 	- [ ] Gorgon - Stone/Unlucky
 	- [ ] Keres - Increase penalty of all coins + Desecrate
 	- [ ] Teumessian fox - Cannot be appeased. 3 Blank + 1 Blank
@@ -25,8 +25,8 @@
 	- [ ] Sphynx - Rightmost possible coin becomes Doomed / gain thorns (the gimmick here is that you can gain thorns then let it become doomed to avoid negatives; to solve the riddle so to speak)
 	- [ ] Cyclopes - Downgrade+Prime + Bury a coin for 5 payoffs
 - [ ] Encounter
-	- [x] Centaur - Lucky/Unlucky
-	- [x] Stymphalian Birds - +Arrow/2x Damage
+	- [ ] Centaur - Lucky/Unlucky
+	- [ ] Stymphalian Birds - +Arrow/2x Damage
 	- [ ] Colchian Dragon - Gain Souls + damage
 	- [ ] Phoenix - When this coin is destroyed: spawn a Phoenix (cheap to destroy). Heal + Ignite self.
 	- [ ] Oread - Lucky / Bury a random coin for 3 payoffs

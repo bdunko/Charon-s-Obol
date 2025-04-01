@@ -3,7 +3,7 @@
 	- [ ] **Simple**
 		- [x] Bouzyges - Beneficial on both heads and tails, but lower payoff.
 		- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-		- [ ] ??? - Payoff. High souls. Doomed (single round coin)
+		- [ ] ??? - Payoff. High souls. Destroys itself at end of the round.
 		- [ ] ??? - High payout permanently goes to 0 after one round, upgrading restores it for another round.
 		- [ ] ??? - Reduced payoff. No tails penalty. If this coin lands on tails, make another random coin Lucky.
 		- [ ] ??? - At the end of the round, destroy this and gain a random coin of greater value. (low payoff)
@@ -14,7 +14,6 @@
 		- [ ] ??? - More souls the fewer coins you have.
 	- [ ] **Power Focused**
 		- [ ] ??? - Payoff - Increase the payoff for this toss by for every 3 power used.
-		- [ ] ??? - Insanely high amount of souls, but 0 if you use any powers this round.
 		- [ ] Actaeon - +Shards for each power coin with zero uses remaining.
 		- [ ] ??? - 10/20/30/40 souls, reduced by 3/5/7/9 for each power you've used this toss.
 		- [ ] Arachne - +Shard and +Life for each unused god power charge.
@@ -39,7 +38,7 @@
 			- [ ] ??? - Every time this lands on tails, upgraded payout permanently.
 		- [ ] ??? - Increased payoff & penalty. Reversed heads & tails effect  (lose life on heads, gain souls on tails).
 		- [ ]  ??? - -Shards/+Life
-		- [ ] Tantalus - Tantalizing Fruit, Cold Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
+		- [x] Tantalus - Tantalizing Fruit, Cold Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
 	- [ ] **Status**
 		- [ ] Orion - Reduced payoff; At payoff, dispels each lucky, bless, unlucky, or curse on a coin you control, then gain life for each bless/lucky removed and souls for each curse/unlucky removed.
 		- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
@@ -51,13 +50,11 @@
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
 		- [ ] The Muses - payoff, more for each copy of this you have (starts appearing more often in shop when you have it)
 	- [ ] **Life**
-		- [ ] Bellerophon - +Souls the less life you have.
-		- [ ] ??? - +1 soul per 20/17/14/10 life you have.???
-		- [ ] ??? - Payoff - Upgrades after you lose a certain amount of life.
-		- [ ] ??? - Payoff 1 soul, or 8 souls if you have 30 or more life.
+		- [ ] Bellerophon - Upgrades after you lose a certain amount of life.
+		- [ ] ??? - +1 soul per 20/17/14/10 life you have.
 	- [ ] **Positioning**
 		- [x] Helios - Rises in the east, sets in the west - Sun Chariot - Gain 1 soul, plus another 3 souls for every coin to the left of this, then move once to the left. Also blesses coins as it passes.
-		- [ ] Selene - moon goddess - maybe move from east to west but curses during, higher payoff once it's all the way to the left?
+		- [ ] Selene - moon goddess - maybe move from east to west but curses during, higher payoff once it's all the way to the left? Then blows itself up.
 		- [ ] ??? (payoff) - Payoff 1 soul + souls equal to the combined value of neighboring coins denominations
 	- [ ] **Monsters**
 		- [ ] ??? - +souls for each monster destroyed this round.
@@ -79,10 +76,7 @@ Unlockable coins + more coins
 	- [ ] **Status**
 		- [x] Perseus - Gorgan's Gaze, Reflected - Turn a coin to stone (never flips again, does not recharge) or unstone a coin. Stone coins also lose 1 value.
 		- [ ] Midas - Turn a coin to Gold! Golden coins get +1 value and can be resold to Charon in the shop (new option appears) for full value. They also have -1 charge.
-		- [ ] ??? - Blank a coin.
-		- [x] ??? - Blank 2 random tails coins.
 		- [x] ??? - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
-		- [ ] ??? - Mist coin - Cover a coin in mist. Mist cancels the next time that coin is affected by curse, freeze, stone, glass, or ignited.
 		- [ ] ??? - Turn a coin to glass (exclusive with stone/gold). After a glass coin is flipped outside of the toss, it breaks (destroy it). Glass coins gain +1 power charge.
 		- [ ] ??? - Choose a coin. Change its denomination to an Obol. It cannot be upgraded and always lands on heads. (permanently Immutable and permanently Consecrated)
 		- [x] ??? - Choose a coin. Ignite it, Bless it, and make it Lucky.
@@ -90,9 +84,7 @@ Unlockable coins + more coins
 	- [ ] **Bless/Curse**
 		- [ ] ??? - Destroy a coin. Bless all your coins besides this one.
 		- [x] ??? - Sacrificed on the Pyre - Ignite a coin. If it isn't blessed, bless it. Otherwise, if it's on tail, flip it to heads. Otherwise, destroy it and gain god power charges based on its value.
-		- [ ] Hecate (something bless/curse) - ???
-		- [ ] Tantalus - Randomly curse or bless all your coins. Gain 1 soul for each coin cursed, lose 1 life for each coin blessed.
-		- [ ] Dike (possible rework) - Bless a coin that is not Cursed. (Alternates each use.)" alternates between blessing a coin which is not cursed and cursing a coin which is not blessed.
+		- [ ] Dike (possible rework) - Bless a coin. Another random coin becomes Cursed.
 	- [ ] **Status Copy**
 		- [ ] ??? - Copy this coin's status (freeze/ignite/lucky etc) to each other coin, then remove all statuses from this coin.
 		- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.
@@ -104,13 +96,14 @@ Unlockable coins + more coins
 		- [ ] ??? - This payoff, when you would lose life, gain that much instead. Requires 6/5/4/3 tosses to recharge.
 		- [ ] ??? - Whenever you would take damage while this is on heads, this loses that many charges instead. 5/10/15/20 charges. Recharges at the end of the round instead of each toss.
 		- [x] ??? - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-		- [ ] ??? - Return a coin to its default state (removes curse, freeze, stone, ignite, etc; removes Athena; reverts payoff coins to their base values; etc - basically destroy and recreate that coin in place as if you just bought it.)
+		- [ ] ??? - Remove all statuses from a coin.
 		- [ ] ??? - Gain 1 life. If not used, increase this by 1/2/3/4 this round. Resets at end of round.
 		- [ ] ??? - When you run out of life, destroy this and heal 1 Life. Payoff - increase this by 1/2/3/4/5/6.
 			- [ ] ??? - alternatively - heal 1 life. Increase by 1/2/3/4/5/6 each payoff. Resets when used.
+		- [ ] ??? - Drain all charges from your coins. Heal 1 life for each life removed (scaling could be 0.5 life, 1 life, 1.5 life, 2 life). For infinite use coins, drain counts as 1.
 	- [ ] **Bury**
 		- [x] ??? - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
-		- [ ] ??? - Bury a coin. After 2 payoffs, bring it back on the heads side. (it still occupies a slot while phased out; but cannot be sold, upgraded, or targetted)
+		- [ ] ??? - Choose a coin. Bury it for 3 payoffs, or if it's already buried dig it back up.
 		- [ ] ??? - Bury a coin. After the next toss, it returns (does not recharge, keeps same side and state.)
 		- [x] ??? - Bury a coin until after payoff. Turn a random tails coin to heads.
 		- [ ] ??? - Bury a coin. At the start of the next tollgate, it returns and upgrades.
@@ -142,7 +135,7 @@ Unlockable coins + more coins
 		- [ ] Atlas - Flip the coins adjacent to this coin. For each that lands on heads, flip a random monster coin.
 	- [ ] **Spend**
 		- [ ] ??? - Infinite uses. Spend 4/3/2/1 souls to do something helpful. Soul cost increases by 1 each use, resets at end of round. (tails - reflip, athena, gain life equal to cost; heads - freeze, bless, rarely upgrade, recharge if god)
-		- [ ] ??? - Infinite uses. Flip a coin to heads, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
+		- [x] ??? - Infinite uses. Flip a coin to heads, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
 	- [ ] **Positioning**
 		- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
 		- [ ] Notus - Southern Heat - Choose a coin. Swap positions with it, then reflip each coin between that coin and this coin. 
@@ -219,6 +212,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Gain a favor token. Favor tokens can be spent to perform a miracle! (favors are spent all at once and do good stuff depending on how many are spent, sort of a yog-saron of good effects)
 		- [x] Prometheus - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
 		- [ ] Fickle Nymph - Coins to the left land on heads 10/12/15/18% more often; coins to the right land on tails more often. Power - move this randomly once to the left or right.
+		- [ ] ??? - Choose a coin. Swap its heads and tails effect.
 	- [ ] **Odysseus** - The Hero's Return. A variety of stages in order must be completed. Always starts as Obol and upgrades at set points; cannot be upgraded in shop. Change flavor text each use.
 		- [ ] Reflip 2 random coins.
 		- [ ] Lose 5 shards.
@@ -241,6 +235,7 @@ Unlockable coins + more coins
 		- [ ] Lust - lose all your god power charges. permanently destroy your god statue.
 		- [ ] Pride - flip all your coins to tails and freeze them.
 		- [ ] Envy - transform every other coin into a random coin and reflip them.
+		- [ ] ??? - The shop is no longer open.
 		- [ ] Hope - you win the game.
 	- [ ] **D20** - Power changes randomly each toss. When you use this coin, reflip it. Infinite charges. No value for tolls. Cannot be upgraded. (potential idea - if you don't use the power, it triggers automatically at the end of the round on a random coin; remove reflip on use and infinite charges if so)
 		- [ ] 1 - Destroy this. Automatically triggered (?)
