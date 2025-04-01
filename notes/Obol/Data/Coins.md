@@ -84,8 +84,7 @@ Unlockable coins + more coins
 	- [ ] **Bless/Curse**
 		- [ ] ??? - Destroy a coin. Bless all your coins besides this one.
 		- [x] ??? - Sacrificed on the Pyre - Ignite a coin. If it isn't blessed, bless it. Otherwise, if it's on tail, flip it to heads. Otherwise, destroy it and gain god power charges based on its value.
-		- [ ] Tantalus - Randomly curse or bless all your coins. Gain 1 soul for each coin cursed, lose 1 life for each coin blessed.
-		- [ ] Dike (possible rework) - Bless a coin that is not Cursed. (Alternates each use.)" alternates between blessing a coin which is not cursed and cursing a coin which is not blessed.
+		- [ ] Dike (possible rework) - Bless a coin. Another random coin becomes Cursed.
 	- [ ] **Status Copy**
 		- [ ] ??? - Copy this coin's status (freeze/ignite/lucky etc) to each other coin, then remove all statuses from this coin.
 		- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.
@@ -97,10 +96,11 @@ Unlockable coins + more coins
 		- [ ] ??? - This payoff, when you would lose life, gain that much instead. Requires 6/5/4/3 tosses to recharge.
 		- [ ] ??? - Whenever you would take damage while this is on heads, this loses that many charges instead. 5/10/15/20 charges. Recharges at the end of the round instead of each toss.
 		- [x] ??? - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-		- [ ] ??? - Return a coin to its default state (removes curse, freeze, stone, ignite, etc; removes Athena; reverts payoff coins to their base values; etc - basically destroy and recreate that coin in place as if you just bought it.)
+		- [ ] ??? - Remove all statuses from a coin.
 		- [ ] ??? - Gain 1 life. If not used, increase this by 1/2/3/4 this round. Resets at end of round.
 		- [ ] ??? - When you run out of life, destroy this and heal 1 Life. Payoff - increase this by 1/2/3/4/5/6.
 			- [ ] ??? - alternatively - heal 1 life. Increase by 1/2/3/4/5/6 each payoff. Resets when used.
+		- [ ] ??? - Drain all charges from your coins. Heal 1 life for each life removed (scaling could be 0.5 life, 1 life, 1.5 life, 2 life). For infinite use coins, drain counts as 1.
 	- [ ] **Bury**
 		- [x] ??? - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
 		- [ ] ??? - Choose a coin. Bury it for 3 payoffs, or if it's already buried dig it back up.

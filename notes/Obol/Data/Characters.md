@@ -2,12 +2,13 @@
 	- [ ] also add Protwous (always transforms randomly, on both sides) 
 - [ ] better coinpool selector
 - [ ] Add a random button to the main menu on the character selector (probably to the right of the right arrow)
+- [ ] Add exclusion list per character. should contain monsters, coins, and trials.
 
-- [ ] Base game
+- [ ] The Eleusinian - base game
 - [ ] The Urchin - The shop is always available (in the corner of the screen) but stocks only a single coin at a time.
 - [ ] Draft Build - Draft coins every round after ending round. No shop. Shard minimum to progress.
 	- [ ] No way to upgrade coins; may choose to destroy coins in the shop at any time - if you do, the currently available coins are upgraded by 1 tier.
-- [ ] Gladiator mode - Fight against waves of Charon's monster coins. Damage monster coins with special Weapon coins (function similarly to power coins, use and target). Random coin drops from monster to add to row. No shop (but can destroy own coins at any time probably; maybe you start with a coin that can destroy other coins in exchange for life and doesn't flip? or an item.). Wave based; more/stronger monster coins each round which damage or otherwise hurt you when they are flipped; win by surviving all waves. Life replenishes between rounds.
+- [ ] The Gladiator - Fight against waves of Charon's monster coins. Damage monster coins with special Weapon coins (function similarly to power coins, use and target). Random coin drops from monster to add to row. No shop (but can destroy own coins at any time probably; maybe you start with a coin that can destroy other coins in exchange for life and doesn't flip? or an item.). Wave based; more/stronger monster coins each round which damage or otherwise hurt you when they are flipped; win by surviving all waves. Life replenishes between rounds.
 	- [ ] New coins to deal damage
 		- [ ] Doru (lizard killer/sauroter)- Basic damage. Pierces armor.
 		- [ ] Kopis (chopper)- Damage all but less
@@ -26,14 +27,12 @@
 		- [ ] Pelte (light shield) -
 	- [ ] Monster can have 'armor', reduces damage dealt by 1.
 	- [ ] More simple idea given the monster rework: Monsters are more numerous. You cannot end the round until all monsters are slain. Once all monsters are slain, the round ends automatically. Possibly for thematic purposes, we can still use the 'weapon' coins up there instead of typical payoff coins. You have a set number of souls to spend in shops and earn souls for killing monsters. 
-- [ ] Mythical Hero - Your coins land on heads 99% of the time. Every round is a trial. Monsters are more numerous and must be destroyed to progress.
+- [ ] The Hero - Your coins land on heads 99% of the time. Every round is a trial. Monsters are more numerous and must be destroyed to progress.
 - [ ] Cube Draft - Coins last only a single round, then are destroyed. Select a new set of 5 coins from a selection of 8 in the shop every round. Shard quota per round.
 	- [ ] Since souls don't matter (if we remove soul quota), instead have monsters spawn infinitely and a certain amount of monsters must be destroyed
 	- [ ] maybe - using powers on monsters reduces their soul cost to destroy
 	- [ ] start with 1 basic obol, automatically upgrades over time
-- [ ] Bag mode (maybe) - Bag building - All coins placed in bag, then a certain number are drawn (depending on how far you are in the game, or maybe upgradable?) and flipped each round. Basically a bit of bag building with the coin game. No coin upgrading. Bag itself appears in the row. At tollgates, coins are randomly drawn until the toll is paid. You start with 8 preset coins in the bag (possibly a few configurations).
-	- [ ] Alternatively, only one toll at the end which has a much higher requirement.
-- [ ] Build order mode - Start with 1 Obol and 9 random No-bols which never charge (one is always a payoff, rest random); Shop reroll button affects all unpurchased coins. No tollgates. 
+- [ ] The Engineer - Start with 1 Obol and 9 random No-bols which never charge (one is always a payoff, rest random); Shop reroll button affects all unpurchased coins. No tollgates. 
 - [ ] The Idealist - You start with 25 Arrows of Night and no life. Every tails effect is replaced with Death. Monsters which would lose life instead take souls. There is no strain. You must perform exactly 5 flips per round.
 - [ ] The Archon - No life, limited flips, all coins are power coins but their BACK is soul generation.
 - [ ] The Merchant - No upgrading in shop, but can sell coins back. Shop has a bigger selection. You can only reroll three times per shop, but rerolls are free.
@@ -42,21 +41,16 @@
 - [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
 - [ ] The Prince - Power coins don't recharge and are destroyed when their charges reach 0. Power coins are much cheaper.
 	- [ ] Alternative/in addition - power coins in the shop may start with more charges than normal. (obols may have +1, diobols may have +1-2, triobol +1-4, tetrobol +1-6 etc)
-- [ ] The Wanderlust - Endless mode; shop + tollgate every round. No victory, just go until you give up. After 10th tollgate, option to continue/go to tollgate.
+- [ ] The Wanderer - Endless mode; shop + tollgate every round. No victory, just go until you give up. After 10th tollgate, option to continue/go to tollgate.
 - [ ] The Blasphemer - No god coins, only payoffs, random spell selection each run. Basically you have like 6 patron tokens but no powers.
 - [ ] The Heretic - Same thing as Blasphemer but spells available change each time one is used, with a reroll button.
 - [ ] The Fading - At the end of each round, destroy all your coins and regain half their value back. The store restocks immediately when coins are bought. And has a larger stock.
 	- [ ] Indestructobol - start with one common obol
-- [ ] Whenever you buy or obtain a coin, you gain 2 copies instead which are Linked. Upgrade prices are doubled.
-- [ ] Engineer - You must spend souls to unlock everything. Buy additional coin slots, buy additional shop stock spaces, buy trial/map info, buy life between rounds. Coins are free.
-- [ ] Challenger - 2 free rounds, then trials. All souls are tripled.
-- [ ] Wanderer - Daily run mode with differnet mods.
-- [ ] ??? - Designer challenges. Variety of mixes of different stuff. One a week for a year, 52 challenges, can replay older ones. Rotates weekly as well. 
-- [ ] You only have 5 coins slots. Coins may be upgraded infinitely (Tetrobol +1/2/3...). Upgrading  a payoff coin costs less.
-- [ ] Twins - You have two rows of coins. Alternate between them each toss (in shop, a swap row button appears which switches between the rows when purchasing. In tollgate, prices are halves but both rows must pay the coins.) You also start with a coin which can swap itself for any coin in the other row (indestructable). basically when you activate the power, it shows the other row, you pick one, then it swaps the two. 6-7 coins per row...
-- [ ] Physician - You start with 500 life (slightly less than normal total sum). Healing is doubled. Unspent souls get converted to life. You do not replenish life each round.
+- [ ] The Challenger - 2 free rounds, then trials. All souls are tripled.
+- [ ] The Epilektoi - You only have 5 coins slots. Coins may be upgraded infinitely (Tetrobol +1/2/3...). Upgrading  a payoff coin costs less.
+- [ ] The Twins - You have two rows of coins. Alternate between them each toss (in shop, a swap row button appears which switches between the rows when purchasing. In tollgate, prices are halves but both rows must pay the coins.) You also start with a coin which can swap itself for any coin in the other row (indestructable). basically when you activate the power, it shows the other row, you pick one, then it swaps the two. 6-7 coins per row...
+- [ ] The Physician - You start with 500 life (slightly less than normal total sum). Healing is doubled. Unspent souls get converted to life. You do not replenish life each round.
 	- [ ] Alternative/replacement - Titan - You start with tons and tons of life, but you never gain more and strain never resets.
-- [ ] Philosopher - Except for the first toss each round, when flipped, coins always land on their opposite face. All tails penalties are reduced to 1.
 - [ ] The Champion - 3 rounds, all boss rounds, you get 500 souls at the start to build a board in the shop before the first round.
 - [ ] The Devoted - You start with 3 permanent Obol copies of a random god coin (chosen based on your patron). All other coins and coin upgrades costs 1.5x as many souls.
 - [ ] The Magus - Only payoff coins (but still a few different types probably, and some that cast a 'power' on payoff such as Luckying or Blessing other coins.). Your only power is flipping a coin and its neighbors. You can use that power a limited number of times each toss. In the shop you can permanently upgrade this limit at an increasing soul cost.
@@ -64,24 +58,33 @@
 - [ ] The Alchemist - Souls and life are the same. Strain increases faster.
 - [ ] The Bard - Only payoff coins in shop. A random set of coins appears each round in a separate row. You can use them for the round. at the end of the round, keep the last one you used. In shop, you can still upgrade like normal.
 	- [ ] Same thing but only with payoff coins and you don't keep them, so random powers each round basically.
-- [ ] Storyteller - Given a set of coins and life, go for the souls highscore. Mutliple preset puzzles with highscore tracking.
-- [ ] Wounded - Your life saps away in real time. No ante.
+- [ ] The Storyteller - Given a set of coins and life, go for the souls highscore. Mutliple preset puzzles with highscore tracking.
+- [ ] The Wounded - Your life saps away in real time. No ante.
 - [ ] ??? - You gain 4 souls for each unspent power on a heads coin. No payoff coins. Start with 3 random power coins. Shop only has Obols (Diobols in later rounds), but they're free. 
 - [ ] The Begger - Ante is always 1. Coins do not recharge between tosses.
-- [ ] The Gardener - Your coins automatically upgrade after you've owned them for a certain number of tosses (Obols = 5, Diobols = 15, etc). Only coins in shop are Obols and they are free. Unspent souls become life and you do not regenerate life naturally.
+- [ ] The Gardener - When the round ends, each of your coins are upgraded once. If they would upgrade past the maximum (Tetrobol normally, Drachma for Heph), they wilt and are destroyed. No upgrading in shop. Shop stocks only Obols.
 - [ ] The Lover - Every power coin has a random other power (of another gender) on the opposite side; "Obol of Zeus and Artemis". Coins powers only recharge a single charge each toss (both sides recharge by 1).
 	- [ ] Possibly - when you use a power, recharge the other side.
 - [ ] The Artist - All coins have randomly generated (algorithmically generated) powers. (on heads, with normal life loss on tails). 
-- [ ] Heir - You start with 100 souls and at a shop. Your life is halved in all rounds.
+- [ ] The Heir - You start with 100 souls and at a shop. Your life is halved in all rounds.
 - [ ] The Withering - All coins start as Tetrobols, are much cheaper, and downgrade at the end of each round. 
 - [ ] The Phrygian (King Midas) - Coins have an infinite number of charges. When a coin is deactivated after using its power, turn it to gold! (Destroy it and gain souls based on its value).
 - [ ] The Architect - There are no payoff coins and no shop. You start with Hermes, Hephaestus, and Dionysus. There is no monsters or final boss, but there are more tollgates and trials.
 - [ ] The Archer - Powers cost arrows to use instead of charges. You start with an additional coin which generates lots of arrows.
-- [ ] Adherent - Only a single type of power coin is available (limit the possible types to reasonable ones), randomly chosen. (All possible payoff coins are available)
-- [ ] Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +2% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
-- [ ] ??? - Payoffs also resolve an additional time immediately after the initial toss. (so payoffs resolve twice per toss.)
-- [ ] The shop has no coins. You get a coin whenever you destroy a monster. Monster spawn infinitely. You can sell coins back to the shop for extra life. If you gain a coin from a monster when row is full, destroys leftmost coin and upgrades rightmost.
+- [ ] The Adherent - Only a single type of power coin is available (limit the possible types to reasonable ones), randomly chosen. (All possible payoff coins are available)
+- [ ] The Heliast (judge) - Use the flame mechanic for this. After payoff, rebalance the odds. (All future tosses will have +2% chance for coins to land on (HEADS) for each coin that ended on (TAILS) and vice versa.)
+- [ ] The Hoplite - The shop has no coins. You get a coin whenever you destroy a monster. Monster spawn infinitely. You can sell coins back to the shop for extra life. If you gain a coin from a monster when row is full, destroys leftmost coin and upgrades rightmost.
 - [ ] ??? - monsters are randomly generated with a COIN power on heads and a monster effect on tails. More monsters spawn each round. Power coins are much more expensive. Cannot pay souls to destroy monsters.
 - [ ] The Acrobat - Every round is a trial round. The trials compound (after a trial, it also appears in the next round). Win 5 trials to win the game. Need some upside?
 - [ ] The Annointed - You start with a coin related to your god. Whenever you use it, it recharges your god power. Charon gets mad 3x as fast.
 - [ ] The Fool - You cannot see the powers of your coins until you've used them once. All coins in the shop cost X souls. You don't know the denomination until you use it. 
+- [ ] The Banker - You do not lose souls between rounds. Tollgates cost souls instead of coins. Instead of a nemesis, there is a large tollgate at the end. Main menu tracks how many souls you ended with as a highscore.
+
+
+- [ ] ??? - The shop has no payoff coins. Your starting coin is a special permanent one that gets +1 payoff each time it pays off on heads.
+- [ ] ??? - Power coins are infinite use but cost life to use based on their denomination (4 for obols, 3 for diobols, etc).
+- [ ] ??? - There is only one denomination, Triobol. There are no tollgates and fewer rounds. 
+- [ ] ??? - Payoffs also resolve an additional time immediately after the initial toss. (so payoffs resolve twice per toss.)
+- [ ] The Philosopher - Except for the first toss each round, when flipped, coins always land on their opposite face. All tails penalties are reduced to 1.
+- [ ] Bag mode (maybe) - Bag building - All coins placed in bag, then a certain number are drawn (depending on how far you are in the game, or maybe upgradable?) and flipped each round. Basically a bit of bag building with the coin game. No coin upgrading. Bag itself appears in the row. At tollgates, coins are randomly drawn until the toll is paid. You start with 8 preset coins in the bag (possibly a few configurations).
+	- [ ] Alternatively, only one toll at the end which has a much higher requirement.

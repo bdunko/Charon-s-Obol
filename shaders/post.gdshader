@@ -1,5 +1,5 @@
 // Ben's Uber Pixel Shader
-// WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
+// WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors.
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
 shader_type canvas_item;
 
@@ -21,8 +21,8 @@ float snoise3(vec2 seed) { return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 
 float randf_range(vec2 seed, float b1, float b2) { return mix(b1, b2, random(seed)); }
 int randi_range(vec2 seed, int b1, int b2) { return int(randf_range(seed, float(b1), float(b2))); }
 float sin0to1(float time) { return (sin(time)+1.0)/2.0; }
-float cos0to1(float time) { return (cos(time)+1.0)/2.0; } 
-float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed cos function that varies from 0 to 1. f(0) = 0, f(pi) = 1, f(2pi) = 0. 
+float cos0to1(float time) { return (cos(time)+1.0)/2.0; }
+float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed cos function that varies from 0 to 1. f(0) = 0, f(pi) = 1, f(2pi) = 0.
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
@@ -94,7 +94,7 @@ uniform float auto_flash_start_time = 0.0;
 
 // COLOR CORRECTION
 group_uniforms ColorCorrection;
-// Applies red, green, or blue color correction with red_correct, green_correct, and blue_correct. 
+// Applies red, green, or blue color correction with red_correct, green_correct, and blue_correct.
 // Applies grayscale with gray_correct.
 // Modify brightness, contrast, or saturation with brightness_correct, contrast_correct, and saturation_correct.
 // TIP - these values can actually go higher or lower, if you want a more extreme effect
@@ -133,7 +133,7 @@ uniform float scanline_topleft_to_bottomright_position: hint_range(-0.001, 1.0, 
 uniform float scanline_topright_to_bottomleft_position: hint_range(-0.001, 1.0, 0.001) = -0.001;
 // auto_scanline_DIRECTION_on will enable automatic repeating scanlines in that direction.
 // auto_scanline_DIRECTION_reverse will flip the direction.
-// The scan will be visible for auto_scanline_DIRECTION_scan_duration, with a delay of 
+// The scan will be visible for auto_scanline_DIRECTION_scan_duration, with a delay of
 // auto_scanline_DIRECTION_scan_duration before the next scan begins.
 // To prevent the scanline from starting in the middle of the texture, provide the global time to auto_scanline_DIRECTION_start_time.
 uniform bool auto_scanline_left_to_right_on = false;
@@ -196,7 +196,7 @@ uniform float auto_disintegrate_random_seed_speed: hint_range(0.0, 1.0) = 0.0;
 // FOG
 // Applies a fog_noise_texture filter over the texture with modifiable fog_opacity and fog_density, moving at fog_speed
 // Mostly used to create fog effects by assigning to a ColorRect (color is changable by changing ColorRect color too!)
-// NOTE - Don't use this as a post processing shader. 
+// NOTE - Don't use this as a post processing shader.
 group_uniforms Fog;
 uniform bool fog_enabled = false;
 uniform sampler2D fog_noise_texture: repeat_enable, filter_nearest;
@@ -205,7 +205,7 @@ uniform float fog_density: hint_range(0.0, 1.0) = 0.25;
 uniform vec2 fog_speed = vec2(-0.02, 0.0);
 
 // COLORLINES
-// Creates vertical/horizontal lines of colorline_color spaced colorline_spacing pixels apart 
+// Creates vertical/horizontal lines of colorline_color spaced colorline_spacing pixels apart
 // with colorline_strength alpha across the texture.
 group_uniforms Colorlines;
 uniform vec3 vertical_colorline_color: source_color = vec3(1.0, 1.0, 1.0);
@@ -280,7 +280,7 @@ uniform float auto_flicker_bound: hint_range(0.0, 1.0) = 0.0;
 uniform float auto_flicker_start_time = 0.0;
 
 // --- Fragment Shader --- //
-void fragment() 
+void fragment()
 {
 	// --- CALCULATE CONSTANTS ---
 	// the size of this canvas in pixels
@@ -294,18 +294,18 @@ void fragment()
 	int _SSIZE_Y = int(floor(1.0 / SCREEN_PIXEL_SIZE.y));
 	int _SX = int(floor(SCREEN_UV.x / SCREEN_PIXEL_SIZE.x));
 	int _SY = int(floor(SCREEN_UV.y / SCREEN_PIXEL_SIZE.y));
-	
+
 	int SIZE_X = POST_PROCESSING ? _SSIZE_X : _PSIZE_X;
 	int SIZE_Y = POST_PROCESSING ? _SSIZE_Y : _PSIZE_Y;
 	int X = POST_PROCESSING ? _SX : _PX;
 	int Y = POST_PROCESSING ? _SY : _PY;
 	vec2 MUV = POST_PROCESSING ? SCREEN_UV : UV;
 	// ---
-	
-	
+
+
 	// DISPLACE & PAN
 	vec2 adjUV = vec2(0, 0); // WARNING - Use this instead of UV below, otherwise effects break with panning & displace
-	
+
 	float displaceUVX = MUV.x + (SCREEN_PIXEL_SIZE.x * float(displace_x));
 	float displaceUVY = MUV.y + (SCREEN_PIXEL_SIZE.y * float(displace_y));
 	if (displace_repeat) {
@@ -313,30 +313,30 @@ void fragment()
 	} else {
 		adjUV = vec2(displaceUVX, displaceUVY) + TIME * auto_pan_speed;
 	}
-	
+
 	// $HACK$ doing this as a ternary breaks the preview, for some reason
-	if (POST_PROCESSING) 
+	if (POST_PROCESSING)
 		COLOR = texture(SCREEN_TEXTURE, adjUV);
-	else 
+	else
 		COLOR = texture(TEXTURE, adjUV);
-	
+
 	// EXCLUDE COLORS
 	bool is_exclude_color = use_exclude_colors && (vec3eq(COLOR.rgb, exclude_color1) || vec3eq(COLOR.rgb, exclude_color2) || vec3eq(COLOR.rgb, exclude_color3) || vec3eq(COLOR.rgb, exclude_color4));
-	
+
 	// RECOLOR
-	if (vec3eq(COLOR.rgb, replace_color1)) 
+	if (vec3eq(COLOR.rgb, replace_color1))
 		COLOR.rgb = replace_with_color1;
-	if (vec3eq(COLOR.rgb, replace_color2)) 
+	if (vec3eq(COLOR.rgb, replace_color2))
 		COLOR.rgb = replace_with_color2;
-	if (vec3eq(COLOR.rgb, replace_color3)) 
+	if (vec3eq(COLOR.rgb, replace_color3))
 		COLOR.rgb = replace_with_color3;
-	if (vec3eq(COLOR.rgb, replace_color4)) 
+	if (vec3eq(COLOR.rgb, replace_color4))
 		COLOR.rgb = replace_with_color4;
-	if (vec3eq(COLOR.rgb, replace_color5)) 
+	if (vec3eq(COLOR.rgb, replace_color5))
 		COLOR.rgb = replace_with_color5;
 	if (vec3eq(COLOR.rgb, replace_color_outline))
 		COLOR.rgb = replace_with_color_outline;
-	
+
 	// TINT, COLOR CORRECTION, and SCANLINE ignore excluded colors
 	if (!is_exclude_color) {
 		// TINT
@@ -417,7 +417,7 @@ void fragment()
 		COLOR.a *= fog * fog_opacity;
 	}
 
-	// COLORLINES	
+	// COLORLINES
 	if (!is_exclude_color) {
 		if (X % vertical_colorline_spacing == 0) {
 			COLOR.rgb = mix(COLOR.rgb, vertical_colorline_color, vertical_colorline_strength);
@@ -428,7 +428,7 @@ void fragment()
 	}
 
 	// CHECKER
-	if (!is_exclude_color) {	
+	if (!is_exclude_color) {
 		if (X/checker_x_size % checker_x_pattern != Y/checker_y_size % checker_y_pattern) {
 			float pixel_darkness = (3.0 - (COLOR.r + COLOR.g + COLOR.b)) * checker_contrast_ratio; // calculates 0.0 to 1.0 where 1.0 is pure black and 0.0 is pure white
 			vec3 cbcolor = mix(checker_color.rgb, vec3(0.0), pixel_darkness * checker_contrast_amount);
@@ -473,5 +473,5 @@ void fragment()
 
 void vertex()
 {
-	
+
 }

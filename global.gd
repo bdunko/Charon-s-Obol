@@ -666,7 +666,7 @@ var _VOYAGE_STANDARD = [
 	Round.new(RoundType.NEMESIS, 100, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH),
 	Round.new(RoundType.END, 0, _NOSHOP, _NOMULT, 0, 0, _MONSTER_WAVE_NONE, _ANTE_HIGH, _MALICE_HIGH)
 ]
- 
+
 # VARIANT (2 Gate - 2 Trial [12])
 # NNNGNN1GNN2B
 var _VOYAGE_VARIANT = [ 
@@ -830,7 +830,7 @@ func randomize_voyage() -> void:
 	#VOYAGE = choose_one_weighted(
 	#	[_VOYAGE_STANDARD, _VOYAGE_VARIANT, _VOYAGE_BACKLOADED, _VOYAGE_PARTITION, _VOYAGE_FRONTLOAD, _VOYAGE_INTERSPERSED], 
 	#	[250, 200, 200, 200, 200, 200])
-	VOYAGE = _VOYAGE_STANDARD
+	VOYAGE = _VOYAGE_STANDARD.duplicate(true)
 	
 	var possible_trials_lv1 = LV1_TRIALS.duplicate(true)
 	var possible_trials_lv2 = LV2_TRIALS.duplicate(true)
@@ -838,7 +838,6 @@ func randomize_voyage() -> void:
 	
 	# randomize trials & nemesis
 	for rnd in VOYAGE:
-		# debug - seed trial
 		match(rnd.roundType):
 			RoundType.TRIAL1:
 				for i in range(0, 2):
@@ -914,6 +913,9 @@ const _TRIAL1_DENOM = Denomination.DIOBOL
 const _TRIAL2_DENOM = Denomination.TETROBOL
 const _NEMESIS_DENOM = Denomination.TETROBOL
 func current_round_enemy_coin_data() -> Array:
+	if round_count >= VOYAGE.size():
+		return []
+	
 	var coin_data = []
 	
 	if current_round_type() == RoundType.TRIAL1:
@@ -1270,7 +1272,7 @@ var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this.\n(BLESS) the coin to the left, then swap places with it.", [2, 3, 4, 5, 6, 7],\
+var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this.\n(BLESS) the coin to the left, then swap places with it.", [1, 2, 3, 4, 5, 6],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
 var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [2, 3, 4, 5, 6, 7],\
@@ -1289,8 +1291,8 @@ var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PowerFamily.new("+(MAX_CHARGES)(SOULS).
 	[1, 1, 1, 1, 1, 1], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_PLUTUS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [6, 9, 12, 15, 18, 21], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_PLUTUS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [6, 9, 12, 15, 18, 21], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-const PROMETHEUS_MULTIPLIER = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]
-var POWER_FAMILY_STOKE_FLAME = PowerFamily.new("Stoke the flame. [color=gray](All coins land on (HEADS) +(PROMETHEUS_MULTIPLIER)%% more often, up to +%d%%.)[/color]" % FLAME_BOOST_LIMIT, [1, 1, 1, 1, 1, 1],\
+const PROMETHEUS_MULTIPLIER = [1, 2, 3, 4, 5, 6]
+var POWER_FAMILY_STOKE_FLAME = PowerFamily.new("Stoke the flame. [color=gray](For the rest of the voyage, ALL coins permanently land on (HEADS) +(PROMETHEUS_MULTIPLIER)%% more often, up to +%d%%.)[/color]" % FLAME_BOOST_LIMIT, [1, 1, 1, 1, 1, 1],\
 	PowerType.PAYOFF_STOKE_FLAME, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.LUCKY])
 var POWER_FAMILY_DO_NOTHING = PowerFamily.new("Nothing interesting happens.", [0, 0, 0, 0, 0, 0], PowerType.PAYOFF_DO_NOTHING, "res://assets/icons/coin/nothing_icon.png", ONLY_SHOW_ICON)
 
@@ -1315,7 +1317,7 @@ var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PowerFamily.new("Downgrade a coin. If the 
 	PowerType.POWER_TARGETTING_ANY_COIN,"res://assets/icons/coin/hades_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.DESTROY, PowerFamily.Tag.HEAL])
 
 var POWER_FAMILY_STONE = PowerFamily.new("Turn one of your coins to or from (STONE).", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/perseus_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.STONE])
-var POWER_FAMILY_BLANK_TAILS = PowerFamily.new("Choose a (TAILS) coin; (BLANK) it.", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hypnos_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.ANTIMONSTER, PowerFamily.Tag.BLANK])
+var POWER_FAMILY_BLANK_TAILS = PowerFamily.new("Choose a (TAILS) coin; (BLANK) it. [color=gray](Does not work on the Nemesis.)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hypnos_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.ANTIMONSTER, PowerFamily.Tag.BLANK])
 var POWER_FAMILY_CONSECRATE_AND_DOOM = PowerFamily.new("(CONSECRATE) and (DOOM) a coin. [color=gray](It always lands on (HEADS), but is destroyed at the end of the round.)[/color]", [1, 2, 3, 4, 5, 6], PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/nike_icon.png", ICON_AND_CHARGES, [PowerFamily.Tag.GAIN, PowerFamily.Tag.CONSECRATE, PowerFamily.Tag.DOOM])
 const TRIPTOLEMUS_HARVEST = [5, 8, 11, 14, 17, 20]
 var POWER_FAMILY_BURY_HARVEST = PowerFamily.new("(BURY) one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
@@ -1371,8 +1373,8 @@ var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PowerFamily.new("Increase a co
 var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
 var MONSTER_POWER_FAMILY_LAMIA_BURY = PowerFamily.new("(BURY) a coin for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_LAMIA, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PowerFamily.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var BOAR_BURY = [2, 2, 2, 2, 2, 2]
-var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PowerFamily.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_SELF_BOAR, "res://assets/icons/monster/erymanthian_boar_icon.png", ONLY_SHOW_ICON)
+var BOAR_BURY = [1, 1, 1, 1, 1, 1]
+var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PowerFamily.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoff.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_BURY_SELF_BOAR, "res://assets/icons/monster/erymanthian_boar_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF = PowerFamily.new("Upgrade this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UPGRADE_SELF, "res://assets/icons/monster/spartoi_icon.png", ONLY_SHOW_ICON)
 
 # encounters
@@ -1407,12 +1409,12 @@ var MONSTER_POWER_FAMILY_GORGON = PowerFamily.new("Turn (CURRENT_CHARGES_COINS) 
 var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/nemesis/unlucky_icon.png", ONLY_SHOW_ICON)
 
 const KERES_INCREASE = [3, 4, 5, 6, 7, 8]
-var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the penalty of all coins by (CURRENT_CHARGES)(LIFE) this round.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_PENALTY = PowerFamily.new("Increase the penalty of all coins by (KERES_INCREASE)(LIFE) this round.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_INCREASE_ALL_PENALTY, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_KERES_DESECRATE = PowerFamily.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PowerType.PAYOFF_DESECRATE, "res://assets/icons/nemesis/desecrate_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/blank_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PowerFamily.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PowerType.PAYOFF_BLANK, "res://assets/icons/monster/teumessian_fox_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_MANTICORE_CURSE_SELF = PowerFamily.new("(CURSE) this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_CURSE_SELF, "res://assets/icons/monster/manticore_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE = PowerFamily.new("Downgrade a coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOWNGRADE, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE = PowerFamily.new("Downgrade a coin (CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_DOWNGRADE, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_FURIES_CURSE = PowerFamily.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_CURSE, "res://assets/icons/monster/furies_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_FURIES_UNLUCKY = PowerFamily.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PowerType.PAYOFF_UNLUCKY, "res://assets/icons/nemesis/unlucky_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_SPHINX_DOOMED = PowerFamily.new("Make the rightmost eligible coin (DOOMED). [color=gray](It is destroyed when the round ends.)[/color]", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_DOOM_RIGHTMOST, "res://assets/icons/monster/sphinx_icon.png", ONLY_SHOW_ICON)
@@ -1499,72 +1501,88 @@ var CHARON_POWER_DEATH = PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 
 var CHARON_POWER_LIFE = PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
 
 func replace_placeholders(tooltip: String) -> String:
+	const IGNITE_COLOR = "red"
+	const FREEZE_COLOR = "aqua"
+	const LUCKY_COLOR = "lawngreen"
+	const UNLUCKY_COLOR = "orangered"
+	const BLESS_COLOR = "palegoldenrod"
+	const CURSE_COLOR = "mediumorchid"
+	const BLANK_COLOR = "ghostwhite"
+	const CHARGE_COLOR = "yellow"
+	const STONE_COLOR = "slategray"
+	const DOOMED_COLOR = "lightsteelblue"
+	const CONSECRATE_COLOR = "lightyellow"
+	const DESECRATE_COLOR = "fuchsia"
+	const BURY_COLOR = "peru"
+	const FLEETING_COLOR = "ghostwhite"
+	const PRIME_COLOR = "orange"
+	
 	# statuses
 	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
-	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % ["red", "Ignite", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(IGNITES)", STATUS_FORMAT % ["red", "Ignites", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % ["aqua", "Freeze", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
+	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % [IGNITE_COLOR, "Ignite", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(IGNITED)", STATUS_FORMAT % [IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(IGNITES)", STATUS_FORMAT % [IGNITE_COLOR, "Ignites", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % [FREEZE_COLOR, "Freeze", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % [FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"])
 	tooltip = tooltip.replace("(LUCKYICON)", "[img=10x13]res://assets/icons/status/lucky_icon.png[/img]")
-	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
-	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % ["palegoldenrod", "Bless", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(BLESSED)", STATUS_FORMAT % ["palegoldenrod", "Blessed", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % ["mediumorchid", "Curse", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(CURSED)", STATUS_FORMAT % ["mediumorchid", "Cursed", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % ["ghostwhite", "Blank", "res://assets/icons/status/blank_icon.png"])
-	tooltip = tooltip.replace("(CHARGE)", STATUS_FORMAT % ["yellow", "Charge", "res://assets/icons/status/charge_icon.png"])
-	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % ["yellow", "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
-	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % ["slategray", "Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % ["mediumpurple", "Doomed", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(DOOM)", STATUS_FORMAT % ["mediumpurple", "Doom", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % ["lightyellow", "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
-	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % ["fuchsia", "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
-	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % ["peru", "Bury", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(BURIED)", STATUS_FORMAT % ["peru", "Buried", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % ["ghostwhite", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
-	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % ["orange", "Prime", "res://assets/icons/status/primed_icon.png"])
+	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % [UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
+	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % [BLESS_COLOR, "Bless", "res://assets/icons/status/bless_icon.png"])
+	tooltip = tooltip.replace("(BLESSED)", STATUS_FORMAT % [BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"])
+	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % [CURSE_COLOR, "Curse", "res://assets/icons/status/curse_icon.png"])
+	tooltip = tooltip.replace("(CURSED)", STATUS_FORMAT % [CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"])
+	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % [BLANK_COLOR, "Blank", "res://assets/icons/status/blank_icon.png"])
+	tooltip = tooltip.replace("(CHARGE)", STATUS_FORMAT % [CHARGE_COLOR, "Charge", "res://assets/icons/status/charge_icon.png"])
+	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % [CHARGE_COLOR, "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
+	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % [STONE_COLOR, "Stone", "res://assets/icons/status/stone_icon.png"])
+	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % [DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(DOOM)", STATUS_FORMAT % [DOOMED_COLOR, "Doom", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % [CONSECRATE_COLOR, "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
+	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % [DESECRATE_COLOR, "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
+	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % [BURY_COLOR, "Bury", "res://assets/icons/status/bury_icon.png"])
+	tooltip = tooltip.replace("(BURIED)", STATUS_FORMAT % [BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"])
+	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % [FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
+	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % [PRIME_COLOR, "Prime", "res://assets/icons/status/primed_icon.png"])
 	
 	
 	# used for the coin status indicator tooltips
-	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % ["red", "Ignited", "res://assets/icons/status/ignite_icon.png"])
+	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % [IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(D_IGNITED)", "Each payoff, -3(LIFE).")
-	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % ["aqua", "Frozen", "res://assets/icons/status/freeze_icon.png"])
+	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % [FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"])
 	tooltip = tooltip.replace("(D_FROZEN)", "The next time this coin would be flipped, it thaws out instead. Does not recharge during the toss.")
-	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % ["lawngreen", "Lucky", "res://assets/icons/status/lucky_icon.png"])
+	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"])
 	tooltip = tooltip.replace("(D_LUCKY)", "This coin has a +20% chance to land on (HEADS).")
-	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % ["lawngreen", "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
+	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
 	tooltip = tooltip.replace("(D_SLIGHTLY_LUCKY)", "This coin has a +13% chance to land on (HEADS).")
-	tooltip = tooltip.replace("(S_QUITE_LUCKY)", STATUS_FORMAT % ["lawngreen", "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"])
+	tooltip = tooltip.replace("(S_QUITE_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"])
 	tooltip = tooltip.replace("(D_QUITE_LUCKY)", "This coin has a +26% chance to land on (HEADS).")
-	tooltip = tooltip.replace("(S_INCREDIBLY_LUCKY)", STATUS_FORMAT % ["lawngreen", "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"])
+	tooltip = tooltip.replace("(S_INCREDIBLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"])
 	tooltip = tooltip.replace("(D_INCREDIBLY_LUCKY)", "This coin has a +39% chance to land on (HEADS).")
-	tooltip = tooltip.replace("(S_UNLUCKY)", STATUS_FORMAT % ["orangered", "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
+	tooltip = tooltip.replace("(S_UNLUCKY)", STATUS_FORMAT % [UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
 	tooltip = tooltip.replace("(D_UNLUCKY)", "This coin has a +20% chance to land on (TAILS).")
-	tooltip = tooltip.replace("(S_BLESSED)", STATUS_FORMAT % ["palegoldenrod", "Blessed", "res://assets/icons/status/bless_icon.png"])
+	tooltip = tooltip.replace("(S_BLESSED)", STATUS_FORMAT % [BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"])
 	tooltip = tooltip.replace("(D_BLESSED)", "The next time this coin is flipped, it will land on (HEADS).")
-	tooltip = tooltip.replace("(S_CURSED)", STATUS_FORMAT % ["mediumorchid", "Cursed", "res://assets/icons/status/curse_icon.png"])
+	tooltip = tooltip.replace("(S_CURSED)", STATUS_FORMAT % [CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"])
 	tooltip = tooltip.replace("(D_CURSED)", "The next time this coin is flipped, it will land on (TAILS).")
-	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % ["ghostwhite", "Blanked", "res://assets/icons/status/blank_icon.png"])
+	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % [BLANK_COLOR, "Blanked", "res://assets/icons/status/blank_icon.png"])
 	tooltip = tooltip.replace("(D_BLANKED)", "Until the end of a toss, this has no effects.")
-	tooltip = tooltip.replace("(S_CHARGED)", STATUS_FORMAT % ["yellow", "Charged", "res://assets/icons/status/charge_icon.png"])
+	tooltip = tooltip.replace("(S_CHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Charged", "res://assets/icons/status/charge_icon.png"])
 	tooltip = tooltip.replace("(D_CHARGED)", "The next time this coin lands on (TAILS), reflip it.")
-	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % ["yellow", "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
+	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
 	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this coin lands on (TAILS), reflip it.")
-	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % ["slategray", "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
+	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % [STONE_COLOR, "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
 	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge during the toss.")
-	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % ["lightyellow", "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
+	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % [CONSECRATE_COLOR, "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
 	tooltip = tooltip.replace("(D_CONSECRATED)", "This coin will always land on (HEADS).")
-	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % ["red", "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
+	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % [DESECRATE_COLOR, "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
 	tooltip = tooltip.replace("(D_DESECRATED)", "This coin will always land on (TAILS).")
-	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % ["fuchsia", "Doomed", "res://assets/icons/status/doomed_icon.png"])
+	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % [DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"])
 	tooltip = tooltip.replace("(D_DOOMED)", "When the round ends, this coin is destroyed.")
-	tooltip = tooltip.replace("(S_BURIED)", STATUS_FORMAT % ["peru", "Buried", "res://assets/icons/status/bury_icon.png"])
+	tooltip = tooltip.replace("(S_BURIED)", STATUS_FORMAT % [BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"])
 	tooltip = tooltip.replace("(D_BURIED)", "This coin cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
-	tooltip = tooltip.replace("(S_FLEETING)", STATUS_FORMAT % ["white", "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
+	tooltip = tooltip.replace("(S_FLEETING)", STATUS_FORMAT % [FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
 	tooltip = tooltip.replace("(D_FLEETING)", "This coin is destroyed during payoff.")
-	tooltip = tooltip.replace("(S_PRIMED)", STATUS_FORMAT % ["orange", "Primed", "res://assets/icons/status/primed_icon.png"])
+	tooltip = tooltip.replace("(S_PRIMED)", STATUS_FORMAT % [PRIME_COLOR, "Primed", "res://assets/icons/status/primed_icon.png"])
 	tooltip = tooltip.replace("(D_PRIMED)", "At the end of the round, this coin automatically upgrades.")
 	
 	# images
@@ -1949,6 +1967,7 @@ enum _SpriteStyle {
 
 class CoinFamily:
 	enum Tag {
+		NEMESIS, #is a nemesis coin; used to exclude certain abilities such as Hypnos
 		NO_TOLL, #unused; can't be offered at toll
 		NEGATIVE_TOLL_VALUE, #thorns; toll value is negative
 		CANNOT_GET_FROM_TRANSFORM_OR_GAIN, #thorns, telemachus, dolos - cannot be obtained by random generation
@@ -2315,7 +2334,7 @@ var MONSTER_SPARTOI_FAMILY = CoinFamily.new(2012, CoinType.MONSTER, "[color=gray
 
 # neutral monsters
 var MONSTER_CENTAUR_FAMILY = CoinFamily.new(2500, CoinType.MONSTER, "[color=gray]Centaur's (DENOM)[/color]", "[color=purple]Are the Stars Right?[/color]", "res://assets/icons/monster/centaur_icon.png", NO_UNLOCK_TIP,\
-	NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, STANDARD_APPEASE)
+	NO_PRICE, MONSTER_POWER_FAMILY_CENTAUR_HEADS, MONSTER_POWER_FAMILY_CENTAUR_TAILS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_STYMPHALIAN_BIRDS_FAMILY = CoinFamily.new(2501, CoinType.MONSTER, "[color=gray]Stymphalian Bird's (DENOM)[/color]", "[color=purple]Piercing Quills[/color]", MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_COLCHIAN_DRAGON_FAMILY = CoinFamily.new(2502, CoinType.MONSTER, "[color=gray]Colchian Dragon's (DENOM)[/color]", "[color=purple]Guardian of Fleece[/color]", MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS.icon_path, NO_UNLOCK_TIP,\
@@ -2363,33 +2382,33 @@ var MONSTER_CYCLOPS_FAMILY = CoinFamily.new(2511, CoinType.MONSTER, "[color=gray
 
 # nemesis
 var MEDUSA_FAMILY = CoinFamily.new(3000, CoinType.MONSTER, "[color=greenyellow]Medusa's (DENOM)[/color]", "[color=purple]Mortal Sister[/color]", NEMESIS_POWER_FAMILY_MEDUSA_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_MEDUSA_STONE, NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_MEDUSA_APPEASE)
 var EURYALE_FAMILY = CoinFamily.new(3001, CoinType.MONSTER, "[color=mediumaquamarine]Euryale's (DENOM)[/color]", "[color=purple]Lamentful Cry[/color]", NEMESIS_POWER_FAMILY_EURYALE_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_EURYALE_STONE, NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_MEDUSA_APPEASE)
 var STHENO_FAMILY = CoinFamily.new(3002, CoinType.MONSTER, "[color=rosybrown]Stheno's (DENOM)[/color]", "[color=purple]Huntress of Man[/color]", NEMESIS_POWER_FAMILY_STHENO_STONE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [], NEMESIS_MEDUSA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_STHENO_STONE, NEMESIS_POWER_FAMILY_STHENO_CURSE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_MEDUSA_APPEASE)
 
 var ECHIDNA_FAMILY = CoinFamily.new(3010, CoinType.MONSTER, "[color=chartreuse]Echidna's (DENOM)[/color]", "[color=purple]Mother of Monstrosities[/color]", NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING, _SpriteStyle.NEMESIS, [], NEMESIS_ECHIDNA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG, NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_ECHIDNA_APPEASE)
 var TYPHON_FAMILY = CoinFamily.new(3011, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Father of Fiends[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS, NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS, _SpriteStyle.NEMESIS, [CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED], NEMESIS_TYPHON_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS, NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS, _SpriteStyle.NEMESIS, [CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED, CoinFamily.Tag.NEMESIS], NEMESIS_TYPHON_APPEASE)
 var TYPHON_ENRAGED_FAMILY = CoinFamily.new(3012, CoinType.MONSTER, "[color=palevioletred]Typhon's (DENOM)[/color]", "[color=purple]Hatred Outlives the Hateful[/color]", NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, _SpriteStyle.NEMESIS, [], NEMESIS_TYPHON_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, NEMESIS_POWER_FAMILY_TYPHON_ENRAGED, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_TYPHON_APPEASE)
 
 var CERBERUS_LEFT_FAMILY = CoinFamily.new(3020, CoinType.MONSTER, "[color=ornage]Cerberus's Left (DENOM)[/color]", "[color=purple]Blazing Bites that Burn[/color]", NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF, NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_CERBERUS_APPEASE)
 var CERBERUS_MIDDLE_FAMILY = CoinFamily.new(3021, CoinType.MONSTER, "[color=violet]Cerberus's Middle (DENOM)[/color]", "[color=purple]Hellish Howls that Haunt[/color]", NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE, NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_CERBERUS_APPEASE)
 var CERBERUS_RIGHT_FAMILY = CoinFamily.new(3022, CoinType.MONSTER, "[color=crimson]Cerberus's Right (DENOM)[/color]", "[color=purple]Cruel Claws that Catch[/color]", NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE, _SpriteStyle.NEMESIS, [], NEMESIS_CERBERUS_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE, NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_CERBERUS_APPEASE)
 
 var SCYLLA_FAMILY = CoinFamily.new(3030, CoinType.MONSTER, "[color=palegreen]Scylla's (DENOM)[/color]", "[color=purple]Between a Rock...[/color]", NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE, NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE, _SpriteStyle.NEMESIS, [], NEMESIS_SCYLLA_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE, NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS], NEMESIS_SCYLLA_APPEASE)
 var CHARYBDIS_FAMILY = CoinFamily.new(3031, CoinType.MONSTER, "[color=aqua]Charybdis's (DENOM)[/color]", "[color=purple]...and a Hard Place[/color]", NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT, NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT, _SpriteStyle.NEMESIS, [CoinFamily.Tag.CANT_TARGET], NEMESIS_CHARYBDIS_APPEASE)
+	NO_PRICE, NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT, NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT, _SpriteStyle.NEMESIS, [CoinFamily.Tag.CANT_TARGET, CoinFamily.Tag.NEMESIS], NEMESIS_CHARYBDIS_APPEASE)
 
 var MINOTAUR_FAMILY = CoinFamily.new(3040, CoinType.MONSTER, "[color=chocolate]The Minotaur's (DENOM)[/color]", "[color=purple]Unrelenting Beast[/color]", NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE, _SpriteStyle.NEMESIS, [])
+	NO_PRICE, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY, NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE, _SpriteStyle.NEMESIS, [CoinFamily.Tag.NEMESIS])
 var LABYRINTH_PASSIVE_FAMILY = CoinFamily.new(3041, CoinType.TRIAL, "[color=white]Lost in the Labyrinth[/color]", "[color=lightsteelblue]Seek a Way Out![/color]", NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH, NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var LABYRINTH_WALLS1_FAMILY = CoinFamily.new(3042, CoinType.MONSTER, "[color=lightsteelblue]Dark Labyrinth (DENOM)[/color]", "[color=purple]One Wrong Turn[/color]", NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE.icon_path, NO_UNLOCK_TIP,\

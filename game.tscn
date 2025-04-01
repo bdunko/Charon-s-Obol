@@ -7881,44 +7881,44 @@ limit_bottom = 180
 modulate = Color(0.737255, 0.290196, 0.607843, 1)
 position = Vector2(-27, 86)
 amount = 16
-process_material = SubResource("ParticleProcessMaterial_t5ya3")
 lifetime = 5.0
 preprocess = 5.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_t5ya3")
 
 [node name="TrialEmbers" type="GPUParticles2D" parent="."]
 modulate = Color(0.737255, 0.290196, 0.607843, 1)
 position = Vector2(-27, 86)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_r1e2v")
 lifetime = 5.0
 preprocess = 5.0
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_r1e2v")
 
 [node name="MaliceDust" type="GPUParticles2D" parent="."]
 position = Vector2(159, -15)
 emitting = false
 amount = 30
-process_material = SubResource("ParticleProcessMaterial_m5kuv")
 texture = ExtResource("36_l5qg4")
 lifetime = 2.5
+process_material = SubResource("ParticleProcessMaterial_m5kuv")
 
 [node name="MaliceDustRed" type="GPUParticles2D" parent="."]
 position = Vector2(159, -15)
 emitting = false
 amount = 30
-process_material = SubResource("ParticleProcessMaterial_84yqa")
 texture = ExtResource("36_l5qg4")
 lifetime = 2.5
+process_material = SubResource("ParticleProcessMaterial_84yqa")
 
 [node name="DeathSpiral" type="GPUParticles2D" parent="."]
 visible = false
 position = Vector2(155, 66)
 amount = 100
-process_material = SubResource("ParticleProcessMaterial_lkb7x")
 texture = ExtResource("36_lon5y")
 lifetime = 0.25
 trail_lifetime = 3.5
+process_material = SubResource("ParticleProcessMaterial_lkb7x")
 
 [node name="Fog" type="ColorRect" parent="."]
 z_index = 1000

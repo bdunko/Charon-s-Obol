@@ -1,42 +1,97 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Mar 30 Sprint**
-	- [ ] **Content - Thursday/Friday**
-		- [ ] **New Trials** Global.is_passive_active(Global.TRIAL_MALAISE_FAMILY)
-		- [ ] Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
-			- [ ] Level 1
-				- [x] Torment - You cannot use the same power twice in a row.
-				- [x] Malaise - Whenever you use a power, all your coins lose a charge.
-				- [x] Vivisepulture - At the start of the round: Your leftmost 2 coins are buried for 20 tosses.
-				- [x] Immolation - After you activate a coin's power, Ignite it.
-				- [x] Vengeance - After payoff, curse your highest value heads coin.
-			- [ ] Level 2
-				- [x] Petrification - Turn all power coins to stone (applies at start of round, and also after each payoff)
-				- [x]  Silence - After each payoff, bury the leftmost possible coin for 10 tosses.
-				- [x]  Singularity - Power coins have only a single charge.
-					- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
-				- [x]  Gating - reduce payoffs greater than 10 to 1.
-				- [x] Vainglory - After a coin lands on heads: Curse it.
-					- [ ] might not be lighting up properly but idk, check
-				- [x] Polarization - Payoff coins land on tails 90% of the time.
-					- [ ] might not be lighting up properly but idk
-			- [ ] later; level 2
-				- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
-				- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
-				- [ ] Fate - Coins cannot be reflipped.
+- [ ] **Active Goals - Apr 30 Sprint - Cooldown**
+	- [ ] Transfer phone notes.
+	- [ ] **Fix Bugs from Playtesting**
+		- [x] Issue with nemesis crashing at end. We should examine how Voyage is handled again, it is very clumsy.
+		- [x] Boar monster - bury for 1 payoff.
+		- [x] Centaur - has tags it shouldn't (empusa, no target)
+		- [x] Empusa - Transform doesn't seem to mark coins as player owned. Check any other places we are using init_coin recently for this same issue (I believe the only other transforms are Meliae and Typhon)
+		- [x] Keres - either the tooltip is wrong or we should increase the penalty increase amount
+		- [x] Proteus overlay does not disappear imemdiately when locked in.
+		- [x] Desecrate clears itself after the toss (possibly is being overwritten by curse
+		- [x] TrialData is not being clearled properly from teh previous runs.
+		- [ ] Tooltips for statuses are not showing.
+		- [ ] Tetrobol - color change from blue to, maybe white
+		- [ ] Payoff coins that have a basic soul power should still use a special icon.
+			- [ ] Orion - should use icon.
+			- [ ] Aeneas - should use icon.
+			- [ ] Achilles - make a new icon for the heads. The tails keeps the heel icon.
+		- [ ] MouseWatcher seems to create lag. Profile this.
+		- [ ] Increase the price multiplier for Obols a bit more.
+		- [x] Ensure boreas cannot be used on monsters.
+		- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
+		- [ ] Thorns turn animation may not be working properly (check obol), unconfirmed
+		- [ ] Curse and Doomed icon should be brighter purple. Blends too much with background.
+		- [ ] Numbers on face label of labyrinth walls is inconsistent.
+		- [ ] Minotaur tooltip should show charges even when 1.
+		- [ ] EnemyRow should be a few pixels lower.
+		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This cuases a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
+		- [x] Prometheus is doing something weird on upgrade (?) - I think the flame number both in tooltip and in the corner is not showing the decimal places when it should.
+		- [ ] Add "Ignite heals instead of hurts" back to Heph passive as a slight bonus.
+		- [ ] Charon's malice particles reset after each payoff. Don't do that.
+		- [x] Prometheus tooltip should be more clear that it is a permanent forever boost.
+		- [ ] When you die, when you start a new run, there are still malice particles from Charon for a second.
+		- [ ] Dolos tooltip should be more clear that it is permanent.
+		- [ ] Cursed/Blessed may have broken visual indicators; should have scanline?
+		- [ ] Something wrong with Dike, game crashes when used.
+		- [ ] Make the heal heart green instead of red.
+		- [ ] Proteus should not be able to tranbsform into a Proteus.
+		- [ ] Tantalus face label text should be blue, as it is a special type of gain souls power.
+		- [ ] Telemachus - add border back to icon.
+		- [ ] Primed effect is too harsh, make it more slight.
+		- [ ] If you have a pentobol or drachma and not heph token, it still displays an upgrade price of 0. This can happen from telemachus. Can_upgrade should return false here.
+		- [ ] Upgrading an Obol (generic) in the shop does not properly update the tooltip or face label. I shoudl also check for Aeneas... thinking maybe we are not calling to update the payoff amount but we should.
+		- [ ] Achilles should be a bit weaker.
+		- [x] Soul to life conversion - make sure this is like 1 to 5 still.
+		- [ ] After a trial round, the end round button was still showing a quota.
+		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
+		- [x] Manticore - downgrade a coin twice.
+		- [x] Hypnos - make it not work on nemesis.
+		- [ ] Trial icons on map should glow red, not purple.
+	- [ ] **Balance Tweaks**
+		- [ ] Monsters should be stronger.
+		- [ ] Charon's malice should activate a bit more often.
+		- [ ] Monsters spawned by Charon should scale denom with round_count.
+		- [ ] "Souls are mine! None for you!" - not sure if this is working.
+		- [x] Nerf Helios.
+	- [ ] **Remaining Trial Work**
+		- [ ] Torment
+			- [ ] Bug - Prevents you from using a power on the coin you used last time, because it sees you clicking on that coin and thinks you are trying to activate it. We only need the error message if the active power is null.
+		- [ ]  Singularity - Power coins have only a single charge.
+			- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
+			- [ ] we should apply this effect at the start of the trial visually
+			- [ ] ideally, maximum number of charges should also display as 1. 
+			- [ ] better implementation - when we would get the charges for denom, return 1. This should be done through a getter as well. Will require some refactor.
+		- [ ] Vainglory - After a coin lands on heads: Curse it.
+			- [ ] might not be lighting up properly but idk, check
+		- [ ] Polarization - Payoff coins land on tails 90% of the time.
+			- [ ] might not be lighting up properly but idk
+		- [ ] **Add Remaining Trials**
+			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+			- [ ] Fate - Coins cannot be reflipped.
 	- [ ] **Tutorial Tuning**
-		- [ ] fixed?
+		- [ ] verify fixes
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
 			- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
 			- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
 			- [ ] Monster text is too long
-
-	- [ ] **New Characters**
-		- [ ] The Merchant - can sell coins to shop, no upgrade.
-		- [ ] The Archon - All lose life powers are replaced with (simple) gain souls. Monsters with lose life become lose souls. 7 life, 1 life per toss (no ante). Boss is 10 life.
-			- [ ] absolutely no gain life powers; also remove athena
-		- [ ] The Emperor - Power coins don't recharge until the end of the round, but have twice as many charges.
-		- [ ] The Child - uses shorter 5 length voyage; earn twice as many souls; you start with three random additional coins depending on your patron choice.
-	- [ ] Coin exclusion list per character to block bad interactions.
+	- [ ] **Coin Power Refactor
+		- [ ] Expand PowerFamily interface so that it contains additional functions:
+			- [ ] use_power
+			- [ ] can_use_power
+			- [ ] get_error_message
+		- [ ] Replace the huge match statements in game.gd with calls to these.
+		- [ ] Move PowerFamily into a separate autoload singleton and have it create its subclasses there.
+		- [ ]  When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid.
+		- [ ] Buried coins should not light up when hovered with a power.
+	- [ ] **Global Refactor**
+		- [ ] Break out pieces of Global.gd into separate autoload singletons where possible.
+	- [ ] **Info View**
+		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
+			- [ ] Coin label - replaced with the ICON for that coin.
+			- [ ] Coin above - shows an icon for heads or tails.
+			- [ ] Shows coin limit somewhere.
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
@@ -65,13 +120,17 @@
 			- [ ] Ignite monsters.
 			- [ ] Lucky monsters.
 			- [ ] Bless monsters.
-* [ ] **Coin Graphical Effects - 2 weeks**
+* [ ] **Graphical Effects - 2 week**
 	- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
+		- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] **Enhanced Monster Effects (Projectile animations)**
 		- [ ] Add projectiles for monster coins targetting coins in player's row.
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
 				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+	- [ ] **Death effect**
+	- [ ] **Rising Souls/Life effect**
+	- [ ] **Life loss vignette effect**
 - [ ] **Gameplay Customization Enhancements - 1 week**
 	- [ ] **Treasury of Atreus** - multiple options for what coins form the coinpool.
 		- [ ] Complete - everything

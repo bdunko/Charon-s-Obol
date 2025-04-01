@@ -425,7 +425,7 @@ var _doom_state: _DoomState:
 		_doom_state = val
 		_STATUS_BAR.update_icon(_DOOMED_ICON, _doom_state == _DoomState.DOOMED)
 		if _doom_state == _DoomState.DOOMED:
-			FX.flash(Color.BLACK)
+			FX.flash(Color.LIGHT_STEEL_BLUE)
 			_play_new_status_effect("res://assets/icons/status/doomed_icon.png")
 			
 
@@ -853,6 +853,8 @@ func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
 
 func clear_active_face_metadata(key: String) -> void:
 	get_active_face_power().clear_metadata(key)
+	if key == METADATA_PROTEUS:
+		_PROTEUS_OVERLAY.hide()
 
 const LUCKY_MODIFIER = 20
 const SLIGHTLY_LUCKY_MODIFIER = 13
@@ -1200,7 +1202,7 @@ func can_bless() -> bool:
 		return false
 	if _is_permanent(_BlessCurseState.CURSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
 		return false
-	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+	if _bless_curse_state == _BlessCurseState.CONSECRATED or _bless_curse_state == _BlessCurseState.DESECRATED:
 		return false
 	return true
 
@@ -1209,7 +1211,7 @@ func can_curse() -> bool:
 		return false
 	if _is_permanent(_BlessCurseState.BLESSED) or _is_permanent(_BlessCurseState.CONSECRATED) or _is_permanent(_BlessCurseState.DESECRATED):
 		return false
-	if _bless_curse_state == _BlessCurseState.CONSECRATED and _bless_curse_state == _BlessCurseState.DESECRATED:
+	if _bless_curse_state == _BlessCurseState.CONSECRATED or _bless_curse_state == _BlessCurseState.DESECRATED:
 		return false
 	return true
 

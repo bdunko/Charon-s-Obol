@@ -13,6 +13,7 @@ offset_bottom = 25.0
 theme_override_fonts/font = ExtResource("1_igrf4")
 theme_override_font_sizes/font_size = 16
 placeholder_text = "DEBUG - close by pressing ` or ~"
+keep_editing_on_text_submit = true
 script = ExtResource("1_uqlvl")
 
 [node name="OpenHelp" type="Button" parent="."]

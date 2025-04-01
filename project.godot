@@ -21,6 +21,10 @@ config/windows_native_icon="res://assets/ico/ico.ico"
 Global="*res://global.gd"
 TransitionPlayer="*res://ui/transition/transition_player.tscn"
 
+[debug]
+
+gdscript/warnings/standalone_ternary=0
+
 [display]
 
 window/size/viewport_width=320
