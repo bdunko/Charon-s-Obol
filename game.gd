@@ -2699,7 +2699,7 @@ func _on_coin_clicked(coin: Coin):
 				Global.POWER_FAMILY_TURN_ALL:
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c.turn()
-						c.play_power_used_effect(Global.active_coin_power_family)
+						c.play_power_used_effect(Global.POWER_FAMILY_TURN_ALL) # pass in power family direclty here since it might turn itself
 				_:
 					assert(false, "No matching power")
 			

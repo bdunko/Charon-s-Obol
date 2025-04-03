@@ -471,7 +471,7 @@ var _primed_state:
 		FX.flash(Color.ORANGE_RED)
 	
 		if _primed_state == _PrimedState.PRIMED:
-			FX.start_flashing(Color.ORANGE_RED, 10, 0.3, 1.0)
+			FX.start_flashing(Color.ORANGE_RED, 7, 0.1, 0.6)
 		else:
 			FX.stop_flashing()
 
