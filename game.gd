@@ -1022,7 +1022,7 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					var target = Global.choose_one(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_CAN_TARGET))
 					if target:
-						target.init_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), Coin.Owner.NEMESIS)
+						target.init_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), target.get_current_owner())
 						target.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_GAIN_OBOL:
 					payoff_coin.FX.flash(Color.WHITE)
@@ -1041,9 +1041,10 @@ func _on_accept_button_pressed():
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					destroy_coin(payoff_coin)
 					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				Global.PowerType.PAYOFF_CURSE_SELF:
+				Global.PowerType.PAYOFF_CURSE_UNLUCKY_SELF:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 					payoff_coin.curse()
+					payoff_coin.make_unlucky()
 					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 				Global.PowerType.PAYOFF_DOWNGRADE:
 					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
@@ -1861,10 +1862,18 @@ func _on_voyage_continue_button_clicked():
 		for coin in _ENEMY_COIN_ROW.get_children():
 			match coin.get_coin_family():
 				Global.MEDUSA_FAMILY:
-					await _wait_for_dialogue("Behold! The grim visage of the Gorgon Sisters!")
+					await _wait_for_dialogue("Behold! The grim visage of the gorgon sisters!")
+				Global.SCYLLA_FAMILY:
+					await _wait_for_dialogue("Be dashed upon the rocks of Scylla and Charybdis!")
+				Global.ECHIDNA_FAMILY:
+					await _wait_for_dialogue("The progenitor of all monsters stands before you!")
+				Global.CERBERUS_MIDDLE_FAMILY:
+					await _wait_for_dialogue("The three-headed beast hungers for blood!")
+				Global.MINOTAUR_FAMILY:
+					await _wait_for_dialogue("Can you escape the Minotaur's pursuit?")
 		
 		await _wait_for_dialogue("To continue your voyage...")
-		await _wait_for_dialogue("You must defeat the gatekeeper!")
+		await _wait_for_dialogue("You must defeat the nemesis!")
 		await _wait_for_dialogue("Your fate lies with the coins now.")
 		await _wait_for_dialogue("Let the final challenge commence!")
 	
@@ -2063,6 +2072,8 @@ func destroy_coin(coin: Coin) -> void:
 	var index = coin.get_index() 
 	var denom = coin.get_denomination()
 	
+	var destroyed_monster = coin.is_monster_coin()
+	var destroyed_echidna = coin.get_coin_family() == Global.ECHIDNA_FAMILY
 	var reborn_on_destroy = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.REBORN_ON_DESTROY)
 	var is_labyrinth_wall = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.LABYRINTH_WALL)
 	var gain_coin_on_destroy = coin.get_coin_family().has_tag(Global.CoinFamily.Tag.GAIN_COIN_ON_DESTROY)
@@ -2101,10 +2112,10 @@ func destroy_coin(coin: Coin) -> void:
 				
 	# search for enrages (hamadryad and typhon)
 	for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
+		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED) and destroyed_monster:
 			c.init_coin(Global.MONSTER_MELIAE_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
-		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED):
-			c.init_coin(Global.TYPHON_ENRAGED_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into Meliae
+		if c.get_coin_family().has_tag(Global.CoinFamily.Tag.ENRAGE_ON_ECHIDNA_DESTROYED) and destroyed_echidna:
+			c.init_coin(Global.TYPHON_ENRAGED_FAMILY, c.get_denomination(), Coin.Owner.NEMESIS) # transform into mad Typhon
 	
 	# if nemesis round and the row is now empty, go ahead and end the round
 	if _ENEMY_COIN_ROW.get_child_count() == 0 and Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -2515,6 +2526,9 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_blank():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't (BLANK) that..."))
 					return
+				if coin.get_coin_family().has_tag(Global.CoinFamily.Tag.NEMESIS):
+					_DIALOGUE.show_dialogue(Global.replace_placeholders("This can't (BLANK) the Nemesis..."))
+					return
 				coin.blank()
 			Global.POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY:
 				if not coin.can_reduce_life_penalty() and not coin.can_freeze() and coin.is_tails():
@@ -2525,12 +2539,12 @@ func _on_coin_clicked(coin: Coin):
 					coin.change_life_penalty_for_round(-500000)
 				if coin.is_heads():
 					coin.turn()
-			Global.POWER_FAMILY_IGNITE_BLESS_LUCKY:
-				if not coin.can_ignite() and not coin.can_bless() and not coin.can_make_lucky():
+			Global.POWER_FAMILY_IGNITE_CHARGE_LUCKY:
+				if not coin.can_ignite() and not coin.can_charge() and not coin.can_make_lucky():
 					_DIALOGUE.show_dialogue("No need...")
 					return
 				coin.ignite()
-				coin.bless()
+				coin.charge()
 				coin.make_lucky()
 			Global.POWER_FAMILY_CONSECRATE_AND_DOOM:
 				if coin.is_doomed() and coin.is_consecrated():
@@ -2543,8 +2557,8 @@ func _on_coin_clicked(coin: Coin):
 				coin.set_coin_metadata(Coin.METADATA_TRIPTOLEMUS, Global.TRIPTOLEMUS_HARVEST[Global.active_coin_power_coin.get_denomination()])
 			Global.POWER_FAMILY_BURY_TURN_TAILS:
 				coin.bury(1)
-				var target = Global.choose_one(row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS]))
-				target.turn()
+				for target in Global.choose_one(row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_TAILS])):
+					target.turn()
 			Global.POWER_FAMILY_INFINITE_TURN_HUNGER:
 				if not coin.can_turn():
 					_DIALOGUE.show_dialogue("Can't turn that...")

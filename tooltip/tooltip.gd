@@ -72,15 +72,15 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 			tooltip.find_child("TooltipText").text = _FORMAT % text
 			return
 	
-	var disconnect_source = func(tooltip: UITooltip):
-		assert(tooltip.source != null)
-		tooltip.source.mouse_exited.disconnect(tooltip.destroy_tooltip)
-		tooltip.source.tree_exited.disconnect(tooltip.destroy_tooltip)
+	var disconnect_source = func(ttip: UITooltip):
+		assert(ttip.source != null)
+		ttip.source.mouse_exited.disconnect(ttip.destroy_tooltip)
+		ttip.source.tree_exited.disconnect(ttip.destroy_tooltip)
 	
-	var connect_source = func(tooltip: UITooltip):
-		assert(tooltip.source != null)
-		tooltip.source.mouse_exited.connect(tooltip.destroy_tooltip) # add a connect destroying this when mouse exits parent
-		tooltip.source.tree_exiting.connect(tooltip.destroy_tooltip)# destroy tooltip when parent exits tree (ie parent is deleted)
+	var connect_source = func(ttip: UITooltip):
+		assert(ttip.source != null)
+		ttip.source.mouse_exited.connect(ttip.destroy_tooltip) # add a connect destroying this when mouse exits parent
+		ttip.source.tree_exiting.connect(ttip.destroy_tooltip)# destroy tooltip when parent exits tree (ie parent is deleted)
 	
 	# if there is already a tooltip with identical text, change its source to this new control but don't generate a new one
 	for tooltip in _ALL_TOOLTIPS:

@@ -1,8 +1,6 @@
 class_name PlayerTextboxes
 extends HBoxContainer
 
-signal button_clicked
-
 @export var ANIMATION_OFFSET = Vector2(0, 15)
 
 @onready var _INITIAL_POSITION = position

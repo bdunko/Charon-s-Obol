@@ -1,20 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] Move 4.4 changes back into 4.1.
 	- [ ] **Fix Bugs from Playtesting**
-		- [ ] Hecate - Bless becomes Charge
-		- [ ] Manticore - both curses and unlucky
-		- [ ] Daedalus - require different powers on both sides
-		- [ ] Hestia patron token - buff - 20% 30% 40%
-		- [x] Issue with nemesis crashing at end. We should examine how Voyage is handled again, it is very clumsy.
-		- [x] Boar monster - bury for 1 payoff.
-		- [x] Centaur - has tags it shouldn't (empusa, no target)
-		- [x] Empusa - Transform doesn't seem to mark coins as player owned. Check any other places we are using init_coin recently for this same issue (I believe the only other transforms are Meliae and Typhon)
-		- [x] Keres - either the tooltip is wrong or we should increase the penalty increase amount
-		- [x] Proteus overlay does not disappear imemdiately when locked in.
-		- [x] Desecrate clears itself after the toss (possibly is being overwritten by curse
-		- [x] TrialData is not being clearled properly from teh previous runs.
-		- [ ] Tooltips for statuses are not showing.
 		- [ ] Tetrobol - color change from blue to, maybe white
 		- [ ] Payoff coins that have a basic soul power should still use a special icon.
 			- [ ] Orion - should use icon.
@@ -22,37 +8,30 @@
 			- [ ] Achilles - make a new icon for the heads. The tails keeps the heel icon.
 		- [ ] MouseWatcher seems to create lag. Profile this.
 		- [ ] Increase the price multiplier for Obols a bit more.
-		- [x] Ensure boreas cannot be used on monsters.
-		- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
 		- [ ] Thorns turn animation may not be working properly (check obol), unconfirmed
-		- [ ] Curse and Doomed icon should be brighter purple. Blends too much with background.
 		- [ ] Numbers on face label of labyrinth walls is inconsistent.
 		- [ ] Minotaur tooltip should show charges even when 1.
 		- [ ] EnemyRow should be a few pixels lower.
 		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This cuases a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
-		- [x] Prometheus is doing something weird on upgrade (?) - I think the flame number both in tooltip and in the corner is not showing the decimal places when it should.
-		- [ ] Add "Ignite heals instead of hurts" back to Heph passive as a slight bonus.
+		- [ ] Add "ignite does not hurt you" back to Heph passive as a slight bonus.
 		- [ ] Charon's malice particles reset after each payoff. Don't do that.
-		- [x] Prometheus tooltip should be more clear that it is a permanent forever boost.
 		- [ ] When you die, when you start a new run, there are still malice particles from Charon for a second.
-		- [ ] Dolos tooltip should be more clear that it is permanent.
 		- [ ] Cursed/Blessed may have broken visual indicators; should have scanline?
 		- [ ] Something wrong with Dike, game crashes when used.
 		- [ ] Make the heal heart green instead of red.
-		- [ ] Proteus should not be able to tranbsform into a Proteus.
+		- [ ] Proteus should not be able to transform into a Proteus.
 		- [ ] Tantalus face label text should be blue, as it is a special type of gain souls power.
-		- [ ] Telemachus - add border back to icon.
 		- [ ] Primed effect is too harsh, make it more slight.
 		- [ ] If you have a pentobol or drachma and not heph token, it still displays an upgrade price of 0. This can happen from telemachus. Can_upgrade should return false here.
-		- [ ] Upgrading an Obol (generic) in the shop does not properly update the tooltip or face label. I shoudl also check for Aeneas... thinking maybe we are not calling to update the payoff amount but we should.
-		- [ ] Achilles should be a bit weaker.
-		- [x] Soul to life conversion - make sure this is like 1 to 5 still.
+		- [ ] Upgrading an Obol (generic) in the shop does not properly update the tooltip or face label. I should also check for Aeneas... thinking maybe we are not calling to update the payoff amount but we should.
 		- [ ] After a trial round, the end round button was still showing a quota.
-		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
-		- [x] Manticore - downgrade a coin twice.
-		- [x] Hypnos - make it not work on nemesis.
 		- [ ] Trial icons on map should glow red, not purple.
 	- [ ] **Balance Tweaks**
+		- [ ] Achilles should be a bit weaker.
+		- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
+		- [ ] Daedalus - require different powers on both sides
+		- [ ] Hestia patron token - buff - 20% 30% 40%
+		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
 		- [ ] Monsters should be stronger.
 		- [ ] Charon's malice should activate a bit more often.
 		- [ ] Monsters spawned by Charon should scale denom with round_count.
