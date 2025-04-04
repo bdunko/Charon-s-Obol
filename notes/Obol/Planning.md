@@ -1,27 +1,13 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Fix Bugs from Playtesting**
-		- [ ] Tetrobol - color change from blue to, maybe white
-		- [ ] Payoff coins that have a basic soul power should still use a special icon.
-			- [ ] Orion - should use icon.
-			- [ ] Aeneas - should use icon.
-			- [ ] Achilles - make a new icon for the heads. The tails keeps the heel icon.
 		- [ ] MouseWatcher seems to create lag. Profile this.
-		- [ ] Increase the price multiplier for Obols a bit more.
-		- [ ] Thorns turn animation may not be working properly (check obol), unconfirmed
-		- [ ] Numbers on face label of labyrinth walls is inconsistent.
 		- [ ] Minotaur tooltip should show charges even when 1.
 		- [ ] EnemyRow should be a few pixels lower.
-		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This cuases a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
-		- [ ] Charon's malice particles reset after each payoff. Don't do that.
-		- [ ] When you die, when you start a new run, there are still malice particles from Charon for a second.
-		- [ ] Cursed/Blessed may have broken visual indicators; should have scanline?
-		- [ ] Proteus should not be able to transform into a Proteus.
-		- [ ] Tantalus face label text should be blue, as it is a special type of gain souls power.
-		- [ ] If you have a pentobol or drachma and not heph token, it still displays an upgrade price of 0. This can happen from telemachus. Can_upgrade should return false here.
-		- [ ] Upgrading an Obol (generic) in the shop does not properly update the tooltip or face label. I should also check for Aeneas... thinking maybe we are not calling to update the payoff amount but we should.
+		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This causes a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
 		- [ ] After a trial round, the end round button was still showing a quota.
 		- [ ] Trial icons on map should glow red, not purple.
+		- [ ] Improve prometheus indicator 
 	- [ ] **Balance Tweaks**
 		- [ ] Achilles should be a bit weaker.
 		- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
@@ -29,10 +15,12 @@
 		- [ ] Hestia patron token - buff - 20% 30% 40%
 		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
 		- [ ] Monsters should be stronger.
+	- [ ] **Charon Improvements**
 		- [ ] Charon's malice should activate a bit more often.
 		- [ ] Monsters spawned by Charon should scale denom with round_count.
+		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
+		- [ ] Charon's malice particles reset after each payoff. Don't do that.
 		- [ ] "Souls are mine! None for you!" - not sure if this is working.
-		- [x] Nerf Helios.
 	- [ ] **Remaining Trial Work**
 		- [ ] Torment
 			- [ ] Bug - Prevents you from using a power on the coin you used last time, because it sees you clicking on that coin and thinks you are trying to activate it. We only need the error message if the active power is null.
@@ -110,6 +98,7 @@
 	- [ ] **Death effect**
 	- [ ] **Rising Souls/Life effect**
 	- [ ] **Life loss vignette effect**
+	- [ ] **Show Game Phases with a label that changes scale (zoom in/out quickly)**
 - [ ] **Gameplay Customization Enhancements - 1 week**
 	- [ ] **Treasury of Atreus** - multiple options for what coins form the coinpool.
 		- [ ] Complete - everything

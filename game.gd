@@ -2192,6 +2192,7 @@ func _on_coin_clicked(coin: Coin):
 			Global.souls -= coin.get_upgrade_price()
 			coin.upgrade()
 			coin.reset_power_uses()
+			_update_payoffs()
 			
 			if Global.tutorialState == Global.TutorialState.ROUND2_SHOP_AFTER_UPGRADE:
 				await _tutorial_fade_in([_COIN_ROW, _SOUL_FRAGMENTS, _SOUL_LABEL, _SHOP_COIN_ROW])

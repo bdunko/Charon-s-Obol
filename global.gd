@@ -636,15 +636,15 @@ const _SHOP4 = [Denomination.TETROBOL]
 
 const _NOMULT = 0.0
 const _SHOP_MULT1 = 1.0
-const _SHOP_MULT2 = 1.5
-const _SHOP_MULT3 = 2.0
-const _SHOP_MULT4 = 2.25
-const _SHOP_MULT5 = 2.5
-const _SHOP_MULT6 = 2.75
-const _SHOP_MULT7 = 3.0
-const _SHOP_MULT8 = 3.25
-const _SHOP_MULT9 = 3.5
-const _SHOP_MULT10 = 4.0
+const _SHOP_MULT2 = 2.0
+const _SHOP_MULT3 = 2.5
+const _SHOP_MULT4 = 3.0
+const _SHOP_MULT5 = 3.5
+const _SHOP_MULT6 = 4.0
+const _SHOP_MULT7 = 4.5
+const _SHOP_MULT8 = 5.0
+const _SHOP_MULT9 = 5.5
+const _SHOP_MULT10 = 6.0
 
 
 # STANDARD (2 Gate - 2 Trial [12])
@@ -1265,13 +1265,13 @@ var POWER_FAMILY_LOSE_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [2, 4,
 var POWER_FAMILY_LOSE_LIFE_DOUBLED = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [4, 8, 14, 20, 28, 38], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_THORNS = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_ZERO_LIFE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/coin/achilles_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PowerFamily.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/coin/achilles_tails_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_LOSE_LIFE_ONE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_LOSE_SOULS_THORNS = PowerFamily.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_LOSE_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 
 var POWER_FAMILY_GAIN_SOULS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 18, 22, 26, 30], PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/coin/achilles_heads_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_HELIOS = PowerFamily.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this.\n(BLESS) the coin to the left, then swap places with it.", [1, 2, 3, 4, 5, 6],\
 	PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
@@ -1280,9 +1280,9 @@ var POWER_FAMILY_GAIN_SOULS_ICARUS = PowerFamily.new("+(MAX_CHARGES)(SOULS). +(I
 var POWER_FAMILY_GAIN_SOULS_TANTALUS = PowerFamily.new("If this face is showing, immediately +(MAX_CHARGES)(SOULS) and turn this coin over.", [3, 4, 5, 6, 7, 8],\
 	 PowerType.PASSIVE, "res://assets/icons/coin/tantalus_icon.png", ONLY_SHOW_ICON)
 var POWER_FAMILY_GAIN_SOULS_AENEAS = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [3, 4, 5, 6, 7, 8],\
-	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_ORION = PowerFamily.new("+(SOULS_PAYOFF)(SOULS).", [4, 4, 4, 4, 4, 4],\
-	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+	 PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/orion_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_ARROWS_ORION = PowerFamily.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PowerType.PAYOFF_GAIN_ARROWS, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_GAIN_SOULS_CARPO = PowerFamily.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
@@ -1463,8 +1463,8 @@ var NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE = PowerFamily.new("You walk towa
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE = PowerFamily.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_A_WAY_OUT, "res://assets/icons/nemesis/a_way_out_frozen_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE = PowerFamily.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_A_WAY_OUT, "res://assets/icons/nemesis/a_way_out_muddy_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE = PowerFamily.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_A_WAY_OUT, "res://assets/icons/nemesis/a_way_out_damage_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY_SELF, "res://assets/icons/nemesis/unlucky_self_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PowerFamily.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_FREEZE_SELF, "res://assets/icons/nemesis/freeze_self_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PowerFamily.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_UNLUCKY_SELF, "res://assets/icons/nemesis/unlucky_self_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PowerFamily.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PowerType.PAYOFF_FREEZE_SELF, "res://assets/icons/nemesis/freeze_self_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PowerFamily.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PowerType.PAYOFF_BURY_SELF_LABYRINTH, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PowerFamily.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
@@ -2143,7 +2143,7 @@ var HELIOS_FAMILY = CoinFamily.new(2, CoinType.PAYOFF, "Helios's (DENOM)", "[col
 	PRICY, POWER_FAMILY_GAIN_SOULS_HELIOS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
 var ICARUS_FAMILY = CoinFamily.new(3, CoinType.PAYOFF, "Icarus's (DENOM)", "[color=gray]Waxen Wings Melting[/color]", "res://assets/icons/coin/icarus_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_ICARUS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
-var ACHILLES_FAMILY = CoinFamily.new(4, CoinType.PAYOFF, "Achilles's (DENOM)", "[color=gray]Held by the Heel[/color]", "res://assets/icons/coin/achilles_icon.png", NO_UNLOCK_TIP,\
+var ACHILLES_FAMILY = CoinFamily.new(4, CoinType.PAYOFF, "Achilles's (DENOM)", "[color=gray]Held by the Heel[/color]", "res://assets/icons/coin/achilles_tails_icon.png", NO_UNLOCK_TIP,\
 	RICH, POWER_FAMILY_GAIN_SOULS_ACHILLES, POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL, _SpriteStyle.PAYOFF)
 var TANTALUS_FAMILY = CoinFamily.new(5, CoinType.PAYOFF, "Tantalus's (DENOM)", "[color=gray]Distant Fruit, Forbidden Water[/color]", "res://assets/icons/coin/tantalus_icon.png", NO_UNLOCK_TIP,\
 	PRICY, POWER_FAMILY_GAIN_SOULS_TANTALUS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.PAYOFF)
@@ -2569,6 +2569,12 @@ func random_power_family() -> PowerFamily:
 	# for now, this can return any power, we may need to tweak this later
 	# build a power pool similar to coinpool...
 	return choose_one(_ALL_PLAYER_POWERS)
+
+func random_power_family_excluding(excluded: Array) -> PowerFamily:
+	var power_family = random_power_family()
+	if power_family in excluded:
+		return random_power_family_excluding(excluded)
+	return power_family
 
 func is_passive_active(passivePower: PowerFamily) -> bool:
 	if patron and patron.power_family == passivePower:

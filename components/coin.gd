@@ -266,19 +266,25 @@ func _update_face_label() -> void:
 		return
 		
 	var color
-	match(get_active_power_family().power_type):
-		Global.PowerType.PAYOFF_LOSE_LIFE, Global.PowerType.PAYOFF_LOSE_SOULS:
-			color = _RED
-		Global.PowerType.PAYOFF_GAIN_SOULS:
-			color = _BLUE
-		Global.PowerType.PAYOFF_GAIN_LIFE:
-			color = _GREEN
-		Global.PowerType.PASSIVE, Global.PowerType.PAYOFF_GAIN_ARROWS:
-			color = _GRAY
-		Global.PowerType.POWER_TARGETTING_ANY_COIN, Global.PowerType.POWER_TARGETTING_MONSTER_COIN, Global.PowerType.POWER_TARGETTING_PLAYER_COIN, Global.PowerType.POWER_NON_TARGETTING:
-			color = _YELLOW if get_active_power_charges() != 0 else _GRAY
-		_: # monsters
-			color = _PURPLE
+	
+	# any manual overrides of default rules:
+	# specifically for tantalus passive, make it blue since it gives souls.
+	if get_active_power_family() == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
+		color = _BLUE
+	else: # general case
+		match(get_active_power_family().power_type):
+			Global.PowerType.PAYOFF_LOSE_LIFE, Global.PowerType.PAYOFF_LOSE_SOULS:
+				color = _RED
+			Global.PowerType.PAYOFF_GAIN_SOULS:
+				color = _BLUE
+			Global.PowerType.PAYOFF_GAIN_LIFE:
+				color = _GREEN
+			Global.PowerType.PASSIVE, Global.PowerType.PAYOFF_GAIN_ARROWS:
+				color = _GRAY
+			Global.PowerType.POWER_TARGETTING_ANY_COIN, Global.PowerType.POWER_TARGETTING_MONSTER_COIN, Global.PowerType.POWER_TARGETTING_PLAYER_COIN, Global.PowerType.POWER_NON_TARGETTING:
+				color = _YELLOW if get_active_power_charges() != 0 else _GRAY
+			_: # monsters
+				color = _PURPLE
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
 	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
@@ -692,9 +698,9 @@ func can_upgrade() -> bool:
 		return false
 	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HEPHAESTUS) or _owner == Owner.NEMESIS:
-		return _denomination != Global.Denomination.DRACHMA
+		return _denomination < Global.Denomination.DRACHMA
 	
-	return _denomination != Global.Denomination.TETROBOL
+	return _denomination < Global.Denomination.TETROBOL
 
 func get_denomination() -> Global.Denomination:
 	return _denomination
@@ -1821,11 +1827,11 @@ func get_tails_icon() -> String:
 	return _tails_power.power_family.icon_path
 
 func on_toss_initiated() -> void:
-	# if face is proteus, transform into a random power
+	# if face is proteus, transform into a random power (except Proteus)
 	if _heads_power.get_metadata(METADATA_PROTEUS, false):
-		_heads_power.power_family = Global.random_power_family()
+		_heads_power.power_family = Global.random_power_family_excluding([Global.POWER_FAMILY_TRANSFORM_AND_LOCK])
 	if _tails_power.get_metadata(METADATA_PROTEUS, false):
-		_tails_power.power_family = Global.random_power_family()
+		_tails_power.power_family = Global.random_power_family_excluding([Global.POWER_FAMILY_TRANSFORM_AND_LOCK])
 	
 	if not is_buried():
 		reset_power_uses()

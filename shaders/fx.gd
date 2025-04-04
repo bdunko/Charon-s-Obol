@@ -519,6 +519,10 @@ func stop_scanning(direction: ScanDirection) -> void:
 	var uniform_on: Uniform = _SCAN_LOOKUP[direction][3][0]
 	set_uniform(uniform_on, false)
 
+func stop_all_scanning() -> void:
+	for direction in ScanDirection.values():
+		stop_scanning(direction)
+
 func start_auto_recolor(color: Color, with: Color, speed: float = 3.0, restart: bool = true, should_replace_original_color: bool = false, replace_original_with: Color = Color.BLACK) -> void:
 	assert(speed >= 0.0, "Speed is nonnegative")
 	
@@ -539,6 +543,5 @@ func stop_all() -> void:
 	stop_flashing()
 	stop_flickering()
 	stop_glowing()
-	for direction in ScanDirection.values():
-		stop_scanning(direction)
+	stop_all_scanning()
 	stop_auto_recolor()
