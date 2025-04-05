@@ -2,14 +2,12 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Fix Bugs from Playtesting**
 		- [ ] MouseWatcher seems to create lag. Profile this.
-		- [ ] EnemyRow should be a few pixels lower.
 		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This causes a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
 	- [ ] **Balance Tweaks**
-		- [ ] Achilles should be a bit weaker.
 		- [ ] Daedalus - require different powers on both sides
-			- [ ] or half charges...
+			- [ ] or half charges...?
 		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
-		- [ ] Monsters should be stronger.
+		- [ ] Monsters should be stronger. (in terms of appease cost)
 	- [ ] **Charon Improvements**
 		- [ ] Charon's malice should activate a bit more often.
 		- [ ] Monsters spawned by Charon should scale denom with round_count.

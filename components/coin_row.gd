@@ -29,7 +29,7 @@ func _ready() -> void:
 		coin_num += 1
 		var pos_array = []
 		for coin in coin_count.get_children():
-			pos_array.push_back(coin.position + position)
+			pos_array.push_back(coin.position + global_position)
 		_POSITION_MAP[coin_num] = pos_array
 	
 	# now delete placeholders
