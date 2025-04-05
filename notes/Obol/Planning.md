@@ -2,7 +2,6 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Fix Bugs from Playtesting**
 		- [ ] MouseWatcher seems to create lag. Profile this.
-		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This causes a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
 	- [ ] **Balance Tweaks**
 		- [ ] Daedalus - require different powers on both sides
 			- [ ] or half charges...?
