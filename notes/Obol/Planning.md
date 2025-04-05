@@ -1,26 +1,6 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] **Fix Bugs from Playtesting**
-		- [ ] MouseWatcher seems to create lag. Profile this.
-		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This causes a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
-	- [ ] **Balance Tweaks**
-		- [ ] Daedalus - require different powers on both sides
-			- [ ] or half charges...?
-		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
-		- [ ] Monsters should be stronger. (in terms of appease cost)
-	- [ ] **Charon Improvements**
-		- [ ] Charon's malice should activate a bit more often.
-		- [ ] Monsters spawned by Charon should scale denom with round_count.
-		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
-		- [ ] Charon's malice particles reset after each payoff. Don't do that.
-		- [ ] "Souls are mine! None for you!" - not sure if this is working.
-	- [ ] **Tutorial Tuning**
-		- [ ] verify fixes
-			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
-			- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
-			- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
-			- [ ] Monster text is too long
-	- [ ] **Coin Power Refactor
+	- [ ] **Coin Power Refactor - Saturday/Sunday**
 		- [ ] Expand PowerFamily interface so that it contains additional functions:
 			- [ ] use_power
 			- [ ] can_use_power
@@ -29,8 +9,20 @@
 		- [ ] Move PowerFamily into a separate autoload singleton and have it create its subclasses there.
 		- [ ]  When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid.
 		- [ ] Buried coins should not light up when hovered with a power.
-	- [ ] **Global Refactor**
-		- [ ] Break out pieces of Global.gd into separate autoload singletons where possible.
+	- [ ] **Tweaks**
+		- [ ] **Fix Bugs from Playtesting**
+			- [ ] MouseWatcher seems to create lag. Profile this.
+		- [ ] **Balance Tweaks**
+			- [ ] Daedalus - require different powers on both sides
+				- [ ] or half charges...?
+			- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
+			- [ ] Monsters should be stronger. (in terms of appease cost)
+		- [ ] **Tutorial Tuning**
+			- [ ] verify fixes
+				- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
+				- [ ] Make sure you cannot cancel the power with right click WHILE there is a dialogue open.
+				- [ ] Allow the patron token to be hovered WHILE charon is talking about patron passive trigger
+				- [ ] Text introducing monsters is too long
 	- [ ] **Info View**
 		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
 			- [ ] Coin label - replaced with the ICON for that coin.
@@ -52,6 +44,12 @@
 			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
 			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
 			- [ ] Fate - Coins cannot be reflipped.
+	- [ ] **Charon Improvements**
+		- [ ] Charon's malice should activate a bit more often.
+		- [ ] Monsters spawned by Charon should scale denom with round_count.
+		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
+		- [ ] Charon's malice particles reset after each payoff. Don't do that.
+		- [ ] "Souls are mine! None for you!" - not sure if this is working.
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**

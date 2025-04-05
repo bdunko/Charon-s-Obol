@@ -750,6 +750,10 @@ func _on_accept_button_pressed():
 	var resolved_ignite = false
 	# trigger payoffs
 	for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		# skip over coins that have been destroyed
+		if not is_instance_valid(c) or c.is_being_destroyed():
+			continue
+		
 		var payoff_coin: Coin = c as Coin
 		var payoff_power_family: Global.PowerFamily = payoff_coin.get_active_power_family()
 		var denom = payoff_coin.get_denomination()
