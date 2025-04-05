@@ -10,16 +10,15 @@ enum VoyageNodeType {
 
 @onready var _PATH = $Path
 
-
-# TODO - TEST DOUBLE TRIALS
-
 # used for most nodes
 @onready var _TYPE = $Icon/Type
-# used for nemesis or single trials
-@onready var _CUSTOM_ICON = $Icon/CustomIcon
+# used for nemesis
+@onready var _CUSTOM_ICON_NEMESIS = $Icon/CustomNemesis
+# used for trials
+@onready var _CUSTOM_ICON_TRIAL = $Icon/CustomTrial
 # used for double trials
-@onready var _CUSTOM_ICON_DOUBLE_TOP = $Icon/CustomDoubleTop
-@onready var _CUSTOM_ICON_DOUBLE_BOTTOM = $Icon/CustomDoubleBottom
+@onready var _CUSTOM_ICON_TRIAL_TOP = $Icon/CustomTrialTop
+@onready var _CUSTOM_ICON_TRIAL_BOTTOM = $Icon/CustomTrialBottom
 
 @onready var _PRICE_LABEL = $Price
 
@@ -29,22 +28,23 @@ enum VoyageNodeType {
 @onready var _TOOLTIP_TOP = $TooltipEmitterTop
 @onready var _TOOLTIP_BOTTOM = $TooltipEmitterBottom
 
-
 const _PRICE_FORMAT = "[center][color=#e12f3b]-%d[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
 
 func _ready():
 	assert(_PATH)
 	assert(_TYPE)
-	assert(_CUSTOM_ICON)
-	assert(_CUSTOM_ICON_DOUBLE_TOP)
-	assert(_CUSTOM_ICON_DOUBLE_BOTTOM)
+	assert(_CUSTOM_ICON_TRIAL)
+	assert(_CUSTOM_ICON_NEMESIS)
+	assert(_CUSTOM_ICON_TRIAL_TOP)
+	assert(_CUSTOM_ICON_TRIAL_BOTTOM)
 	assert(_PRICE_LABEL)
 	assert(_TOOLTIP)
 	_TYPE.show()
 	_PRICE_LABEL.hide()
-	_CUSTOM_ICON.hide()
-	_CUSTOM_ICON_DOUBLE_TOP.hide()
-	_CUSTOM_ICON_DOUBLE_BOTTOM.hide()
+	_CUSTOM_ICON_TRIAL.hide()
+	_CUSTOM_ICON_NEMESIS.hide()
+	_CUSTOM_ICON_TRIAL_TOP.hide()
+	_CUSTOM_ICON_TRIAL_BOTTOM.hide()
 	_TOOLTIP_TOP.hide()
 	_TOOLTIP_BOTTOM.hide()
 	_TOOLTIP.hide()
@@ -78,26 +78,31 @@ func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = [])
 		VoyageNodeType.NEMESIS:
 			_TYPE.play("nemesis")
 			_PATH.play("full")
+			if custom_icons == null:
+				_TYPE.show()
+			elif custom_icons.size() == 1:
+				_TYPE.hide()
+				_CUSTOM_ICON_NEMESIS.show()
+				_CUSTOM_ICON_NEMESIS.texture = custom_icons[0]
 		VoyageNodeType.TRIAL:
 			_TYPE.play("trial")
 			_PATH.play("full")
+			if custom_icons == null:
+				_TYPE.show()
+			elif custom_icons.size() == 1:
+				_TYPE.hide()
+				_CUSTOM_ICON_TRIAL.show()
+				_CUSTOM_ICON_TRIAL.texture = custom_icons[0]
+			elif custom_icons.size() == 2:
+				_TYPE.hide()
+				_CUSTOM_ICON_TRIAL_TOP.show()
+				_CUSTOM_ICON_TRIAL_TOP.texture = custom_icons[0]
+				_CUSTOM_ICON_TRIAL_BOTTOM.show()
+				_CUSTOM_ICON_TRIAL_BOTTOM.texture = custom_icons[1]
 		VoyageNodeType.TOLLGATE:
 			_TYPE.play("tollgate")
 			_PATH.play("full")
 			_PRICE_LABEL.text = _PRICE_FORMAT % price
-	
-	# set custom icon and hide generic one if provided
-	if custom_icons != null:
-		if custom_icons.size() == 1:
-			_TYPE.hide()
-			_CUSTOM_ICON.show()
-			_CUSTOM_ICON.texture = custom_icons[0]
-		elif custom_icons.size() == 2:
-			_TYPE.hide()
-			_CUSTOM_ICON_DOUBLE_TOP.texture = custom_icons[0]
-			_CUSTOM_ICON_DOUBLE_BOTTOM.texture = custom_icons[1]
-			_CUSTOM_ICON_DOUBLE_TOP.show()
-			_CUSTOM_ICON_DOUBLE_BOTTOM.show()
 	
 	# update tooltip
 	if tooltips.size() == 1:

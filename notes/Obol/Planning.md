@@ -2,17 +2,12 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Fix Bugs from Playtesting**
 		- [ ] MouseWatcher seems to create lag. Profile this.
-		- [ ] Minotaur tooltip should show charges even when 1.
 		- [ ] EnemyRow should be a few pixels lower.
 		- [ ] When triggering payoffs, after winning the minotaur trial, we don't need to keep going. This causes a use after free crash. In payoff, when iterating on enemy row, simply skip over coins that hvae been freed or marked for destroy.
-		- [ ] After a trial round, the end round button was still showing a quota.
-		- [ ] Trial icons on map should glow red, not purple.
-		- [ ] Improve prometheus indicator 
 	- [ ] **Balance Tweaks**
 		- [ ] Achilles should be a bit weaker.
-		- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
 		- [ ] Daedalus - require different powers on both sides
-		- [ ] Hestia patron token - buff - 20% 30% 40%
+			- [ ] or half charges...
 		- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
 		- [ ] Monsters should be stronger.
 	- [ ] **Charon Improvements**
@@ -21,22 +16,6 @@
 		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
 		- [ ] Charon's malice particles reset after each payoff. Don't do that.
 		- [ ] "Souls are mine! None for you!" - not sure if this is working.
-	- [ ] **Remaining Trial Work**
-		- [ ] Torment
-			- [ ] Bug - Prevents you from using a power on the coin you used last time, because it sees you clicking on that coin and thinks you are trying to activate it. We only need the error message if the active power is null.
-		- [ ]  Singularity - Power coins have only a single charge.
-			- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
-			- [ ] we should apply this effect at the start of the trial visually
-			- [ ] ideally, maximum number of charges should also display as 1. 
-			- [ ] better implementation - when we would get the charges for denom, return 1. This should be done through a getter as well. Will require some refactor.
-		- [ ] Vainglory - After a coin lands on heads: Curse it.
-			- [ ] might not be lighting up properly but idk, check
-		- [ ] Polarization - Payoff coins land on tails 90% of the time.
-			- [ ] might not be lighting up properly but idk
-		- [ ] **Add Remaining Trials**
-			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
-			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
-			- [ ] Fate - Coins cannot be reflipped.
 	- [ ] **Tutorial Tuning**
 		- [ ] verify fixes
 			- [ ] During the round, once a player has enough souls, Charon interrupts (just once) to explain that you can click the enemy to destroy it.
@@ -59,6 +38,22 @@
 			- [ ] Coin label - replaced with the ICON for that coin.
 			- [ ] Coin above - shows an icon for heads or tails.
 			- [ ] Shows coin limit somewhere.
+	- [ ] **Remaining Trial Work**
+		- [ ] Torment
+			- [ ] Bug - Prevents you from using a power on the coin you used last time, because it sees you clicking on that coin and thinks you are trying to activate it. We only need the error message if the active power is null.
+		- [ ]  Singularity - Power coins have only a single charge.
+			- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
+			- [ ] we should apply this effect at the start of the trial visually
+			- [ ] ideally, maximum number of charges should also display as 1. 
+			- [ ] better implementation - when we would get the charges for denom, return 1. This should be done through a getter as well. Will require some refactor.
+		- [ ] Vainglory - After a coin lands on heads: Curse it.
+			- [ ] might not be lighting up properly but idk, check
+		- [ ] Polarization - Payoff coins land on tails 90% of the time.
+			- [ ] might not be lighting up properly but idk
+		- [ ] **Add Remaining Trials**
+			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
+			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+			- [ ] Fate - Coins cannot be reflipped.
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**

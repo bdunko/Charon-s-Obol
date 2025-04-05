@@ -12,6 +12,7 @@ func _ready() -> void:
 func _on_state_changed() -> void:
 	if Global.state == Global.State.BEFORE_FLIP:
 		show()
+		_on_souls_earned_this_round_changed() #update text just to be sure I suppose
 	else:
 		hide()
 

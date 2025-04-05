@@ -1,3 +1,4 @@
+- [ ] Improve prometheus indicator - make the text 'pop' in like the phase text
 - [ ] Need some visual effect to denote passive
 	- [ ] ideal - rotating pixel around edge, but we would need to do a lot of annoying handling for this; it is not generalizable. We would need to hand-make an animation for each possible coin shape that has a passive. This is doable but inconvenient, especially for trials. In this case, we may as well just make the trial coin size uniform. There isn't really a good reason for them to be differnet like they are now tbh.
 - [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
@@ -50,7 +51,7 @@
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] Zoom out from initial game scene when we spawn in?
 - [ ] After you use a power, if you run out of charges, the targeted coin stays highlighted (it should stop being highlighted). So minor. Ex: Athena can do this.
-
+- [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
 
 
 
