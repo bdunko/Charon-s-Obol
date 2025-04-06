@@ -151,11 +151,11 @@ func clear_all_coin_metadata() -> void:
 
 class FacePower:
 	var charges: int = 0
-	var power_family: Global.PowerFamily
+	var power_family: PF.PowerFamily
 	var souls_payoff: int = 0
 	var _metadata = {}
 	
-	func _init(fam: Global.PowerFamily, starting_charges: int):
+	func _init(fam: PF.PowerFamily, starting_charges: int):
 		self.power_family = fam
 		self.charges = starting_charges
 		
@@ -184,7 +184,7 @@ class FacePower:
 		# handle special tantalus case, since it's a passive and not a PAYOFF_GAIN_SOULS power
 		if power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
 			souls_payoff = power_family.uses_for_denom[denomination]
-		elif power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS:
+		elif power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
 				if in_shop: # while in the shop, show a question mark
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
@@ -213,7 +213,7 @@ class FacePower:
 					souls_payoff = base_payoff + growth
 			else: # all other ones don't have special scaling; just take number of uses
 				souls_payoff = power_family.uses_for_denom[denomination]
-		elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_SOULS:
+		elif power_family.power_type == PF.PowerType.PAYOFF_LOSE_SOULS:
 			souls_payoff = power_family.uses_for_denom[denomination]
 		else:
 			souls_payoff = 0
@@ -273,21 +273,21 @@ func _update_face_label() -> void:
 		color = _BLUE
 	else: # general case
 		match(get_active_power_family().power_type):
-			Global.PowerType.PAYOFF_LOSE_LIFE, Global.PowerType.PAYOFF_LOSE_SOULS:
+			PF.PowerType.PAYOFF_LOSE_LIFE, PF.PowerType.PAYOFF_LOSE_SOULS:
 				color = _RED
-			Global.PowerType.PAYOFF_GAIN_SOULS:
+			PF.PowerType.PAYOFF_GAIN_SOULS:
 				color = _BLUE
-			Global.PowerType.PAYOFF_GAIN_LIFE:
+			PF.PowerType.PAYOFF_GAIN_LIFE:
 				color = _GREEN
-			Global.PowerType.PASSIVE, Global.PowerType.PAYOFF_GAIN_ARROWS:
+			PF.PowerType.PASSIVE, PF.PowerType.PAYOFF_GAIN_ARROWS:
 				color = _GRAY
-			Global.PowerType.POWER_TARGETTING_ANY_COIN, Global.PowerType.POWER_TARGETTING_MONSTER_COIN, Global.PowerType.POWER_TARGETTING_PLAYER_COIN, Global.PowerType.POWER_NON_TARGETTING:
+			PF.PowerType.POWER_TARGETTING_ANY_COIN, PF.PowerType.POWER_TARGETTING_MONSTER_COIN, PF.PowerType.POWER_TARGETTING_PLAYER_COIN, PF.PowerType.POWER_NON_TARGETTING:
 				color = _YELLOW if get_active_power_charges() != 0 else _GRAY
 			_: # monsters
 				color = _PURPLE
 	
 	# if we prefer to only show icon (generally, monsters) AND the number of charges is 0 (trials) or 1 (most monsters), only show the icon
-	var number = get_active_souls_payoff() if (get_active_power_family().power_type == Global.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == Global.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
+	var number = get_active_souls_payoff() if (get_active_power_family().power_type == PF.PowerType.PAYOFF_GAIN_SOULS or get_active_power_family().power_type == PF.PowerType.PAYOFF_LOSE_SOULS) else get_active_power_charges()
 	var only_show_icon = get_active_power_family().prefer_icon_only and get_active_power_charges() <= 1
 	var charges_str = ""
 	if only_show_icon:
@@ -591,7 +591,7 @@ func _ready():
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
-func play_power_used_effect(power: Global.PowerFamily) -> void:
+func play_power_used_effect(power: PF.PowerFamily) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
 	particle.texture = load(power.icon_path)
 	_POWER_ICON_GROW_POINT.add_child(particle)
@@ -603,7 +603,7 @@ func _play_new_status_effect(icon_path: String) -> void:
 	particle.texture = load(icon_path)
 	_STATUS_ICON_SHRINK_POINT.add_child(particle)
 
-func _on_passive_triggered(passive: Global.PowerFamily) -> void:
+func _on_passive_triggered(passive: PF.PowerFamily) -> void:
 	if _heads_power == null or _tails_power == null:
 		return #stupid hack to fix a crash from adding a coin via debug when certain trials (polarization) are active
 	if _heads_power.power_family == passive or _tails_power.power_family == passive:
@@ -619,10 +619,10 @@ func _on_state_changed() -> void:
 	else:
 		_PRICE.hide()
 
-func _set_heads_power_to(power_family: Global.PowerFamily) -> void:
+func _set_heads_power_to(power_family: PF.PowerFamily) -> void:
 	_heads_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
 
-func _set_tails_power_to(power_family: Global.PowerFamily) -> void:
+func _set_tails_power_to(power_family: PF.PowerFamily) -> void:
 	_tails_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
 
 func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
@@ -1051,10 +1051,10 @@ func get_active_face_power() -> FacePower:
 func get_inactive_face_power() -> FacePower:
 	return _heads_power if is_tails() else _tails_power
 
-func get_active_power_family() -> Global.PowerFamily:
+func get_active_power_family() -> PF.PowerFamily:
 	return get_active_face_power().power_family
 
-func get_inactive_power_family() -> Global.PowerFamily:
+func get_inactive_power_family() -> PF.PowerFamily:
 	return get_inactive_face_power().power_family
 
 func get_active_power_charges() -> int:
@@ -1096,13 +1096,13 @@ func spend_inactive_face_power_use() -> void:
 	_update_appearance()
 	FX.flash(Color.WHITE)
 
-func _calculate_charge_amount(power_family: Global.PowerFamily, current_charges: int, ignore_trials: bool) -> int:
+func _calculate_charge_amount(power_family: PF.PowerFamily, current_charges: int, ignore_trials: bool) -> int:
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SINGULARITY) and not ignore_trials: # max 1 charge
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SINGULARITY)
 		return min(1, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
-	elif power_family.power_type == Global.PowerType.PASSIVE or is_stone() or is_frozen(): # passive coins or stone coins do not recharge
+	elif power_family.power_type == PF.PowerType.PASSIVE or is_stone() or is_frozen(): # passive coins or stone coins do not recharge
 		return current_charges
-	elif power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	elif power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
 	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_trials: #recharge only by 1
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SAPPING)
@@ -1515,20 +1515,20 @@ func get_round_life_penalty() -> int:
 	return _round_life_penalty_change
 
 func can_change_life_penalty() -> bool:
-	return _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE\
-		or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE
+	return _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
+		or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE
 	
 func can_reduce_life_penalty() -> bool:
-	var can_reduce_heads = (_heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0)
-	var can_reduce_tails = (_tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE and _tails_power.charges != 0)
+	var can_reduce_heads = (_heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE and _heads_power.charges != 0)
+	var can_reduce_tails = (_tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE and _tails_power.charges != 0)
 	return can_reduce_heads or can_reduce_tails
 
 func change_life_penalty_permanently(amt: int) -> void:
 	assert(can_change_life_penalty())
 	_permanent_life_penalty_change += amt
-	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_heads_power.charges = max(_heads_power.charges + amt, 0)
-	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_tails_power.charges = max(_tails_power.charges + amt, 0)
 	_update_appearance()
 	_generate_tooltip()
@@ -1540,9 +1540,9 @@ func change_life_penalty_permanently(amt: int) -> void:
 func change_life_penalty_for_round(amt: int) -> void:
 	assert(can_change_life_penalty())
 	_round_life_penalty_change += amt
-	if _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_heads_power.charges = max(_heads_power.charges + amt, 0)
-	if _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_tails_power.charges = max(_tails_power.charges + amt, 0)
 	_update_appearance()
 	_generate_tooltip()
@@ -1554,9 +1554,9 @@ func change_life_penalty_for_round(amt: int) -> void:
 func change_charge_modifier_for_round(amt: int) -> void:
 	_round_charge_change += amt
 	# immediately modify
-	if amt > 0 and not _heads_power.power_family.is_passive() and not _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if amt > 0 and not _heads_power.power_family.is_passive() and not _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_heads_power.gain_charges(amt)
-	if amt > 0 and not _tails_power.power_family.is_passive() and not _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if amt > 0 and not _tails_power.power_family.is_passive() and not _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_tails_power.gain_charges(amt)
 	_update_appearance()
 	_generate_tooltip()
@@ -1568,9 +1568,9 @@ func change_charge_modifier_for_round(amt: int) -> void:
 func change_charge_modifier_for_permanently(amt: int) -> void:
 	_permanent_charge_change += amt
 	# immediately modify
-	if amt > 0 and not _heads_power.power_family.is_passive() and not _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if amt > 0 and not _heads_power.power_family.is_passive() and not _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_heads_power.gain_charges(amt)
-	if amt > 0 and not _tails_power.power_family.is_passive() and not _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE:
+	if amt > 0 and not _tails_power.power_family.is_passive() and not _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 		_tails_power.gain_charges(amt)
 	_update_appearance()
 	_generate_tooltip()
@@ -1589,7 +1589,7 @@ func change_monster_appease_price(amt: int) -> void:
 
 var _heads_power_overwritten = null
 var _tails_power_overwritten = null
-func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -> void:
+func overwrite_active_face_power_for_toss(temporary_power: PF.PowerFamily) -> void:
 	FX.flash(Color.HOT_PINK)
 	if is_heads():
 		_heads_power_overwritten = _heads_power.power_family
@@ -1598,7 +1598,7 @@ func overwrite_active_face_power_for_toss(temporary_power: Global.PowerFamily) -
 		_tails_power_overwritten = _tails_power.power_family
 		_set_tails_power_to(temporary_power)
 
-func overwrite_active_face_power(new_power: Global.PowerFamily) -> void:
+func overwrite_active_face_power(new_power: PF.PowerFamily) -> void:
 	if is_heads():
 		_set_heads_power_to(new_power)
 	else:
@@ -1742,8 +1742,8 @@ func _generate_tooltip() -> void:
 		var ignore_icons = ["res://assets/icons/soul_fragment_blue_icon.png", "res://assets/icons/soul_fragment_red_heal_icon.png", "res://assets/icons/soul_fragment_red_icon.png", "res://assets/icons/arrow_icon.png", "res://assets/icons/coin/nothing_icon.png"]
 		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
-			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE\
-				and not _heads_power.power_family.power_type == Global.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR: #specific exception for minotaur formatting
+			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
+				and not _heads_power.power_family.power_type == PF.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR: #specific exception for minotaur formatting
 				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text
@@ -1752,8 +1752,8 @@ func _generate_tooltip() -> void:
 					heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
 			
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
-			if _tails_power.charges <= 1 or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == Global.PowerType.PAYOFF_LOSE_LIFE\
-				and not _tails_power.power_family.power_type == Global.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
+			if _tails_power.charges <= 1 or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
+				and not _tails_power.power_family.power_type == PF.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
 				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text
@@ -1934,7 +1934,7 @@ func enable_interaction() -> void:
 func can_copy_power() -> bool:
 	return is_active_face_power() or is_other_face_power()
 
-func get_copied_power_family() -> Global.PowerFamily:
+func get_copied_power_family() -> PF.PowerFamily:
 	return get_active_power_family() if is_active_face_power() else get_inactive_power_family()
 
 @onready var _MOUSE = $Mouse

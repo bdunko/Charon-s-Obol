@@ -31,7 +31,7 @@ func current_round_setup() -> void:
 		if enemy.get_coin_family() == Global.ECHIDNA_FAMILY:
 			var denom = Global.Denomination.TRIOBOL if Global.is_difficulty_active(Global.Difficulty.UNFAIR5) else Global.Denomination.DIOBOL
 			for i in 2:
-				spawn_enemy(Global.get_standard_monster(), Global.Denomination.DIOBOL)
+				spawn_enemy(Global.get_standard_monster(), denom)
 
 func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: int = -1) -> Coin:
 	if _ROW.get_child_count() >= MAX_ENEMIES:

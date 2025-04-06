@@ -18,6 +18,7 @@ config/windows_native_icon="res://assets/ico/ico.ico"
 
 [autoload]
 
+PF="*res://power_family.gd"
 Global="*res://global.gd"
 TransitionPlayer="*res://ui/transition/transition_player.tscn"
 
