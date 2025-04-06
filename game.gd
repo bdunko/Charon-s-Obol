@@ -2257,7 +2257,8 @@ func _on_coin_clicked(coin: Coin):
 	if Global.state != Global.State.AFTER_FLIP:
 		return
 	
-	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORMENT) and last_coin_power_used_this_round() == coin.get_active_face_power().power_family:
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORMENT) and last_coin_power_used_this_round() == coin.get_active_face_power().power_family\
+		and Global.active_coin_power_family == null:
 		_DIALOGUE.show_dialogue("Can't activate that power due to trial...")
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORMENT)
 		return
