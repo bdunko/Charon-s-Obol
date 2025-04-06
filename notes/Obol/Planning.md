@@ -11,9 +11,10 @@
 		- [ ] Buried coins should not light up when hovered with a power.
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
-			- [ ] MouseWatcher seems to create lag. Profile this.
-				- [ ] Need to test on weaker computer.
-				- [ ] possible optimization - track the global position of watched. Only need to regenerate polygon if changed.
+			- [ ] Coin._generate_tooltip
+			- [ ] replace_placeholders
+			- [ ] are both way too expensive. generate tooltip is the culprit - we don't need to regenerate the tooltip every frame. This will save on calls to replace placeholders.
+			- [ ] Additionally we call replace placeholders multiple times in generate_tooltip which is totally unnecessary; just do a single call at the end.
 		- [ ] **Balance Tweaks**
 			- [ ] Daedalus - require different powers on both sides
 				- [ ] or half charges...?

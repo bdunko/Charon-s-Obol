@@ -12,6 +12,8 @@ signal changed
 
 # should be a Control or CollisionPolygon2D
 @export var watched: Node = null
+var _watched_last_known_position = null
+var _watched_polygon = null
 
 var _mouse_over = false
 
@@ -23,16 +25,14 @@ func _ready() -> void:
 	_update_mouse_over()
 
 # this function is potentially slow
-func _make_adj_poly():
+func _regenerate_watched_polygon():
 	var as_colpoly = watched as CollisionPolygon2D
-	var adj_poly = []
+	_watched_polygon = []
 	
-	#optimization - make copy of polygon outside of loop instead of multiple times inside of it (polygon[i] copies)
+	#minor optimization - make copy of polygon outside of loop instead of multiple times inside of it (polygon[i] copies)
 	var copy_poly = watched.polygon
 	for i in as_colpoly.polygon.size():
-		adj_poly.append(copy_poly[i] + as_colpoly.global_position)
-	
-	return adj_poly
+		_watched_polygon.append(copy_poly[i] + _watched_last_known_position)
 
 func _update_mouse_over() -> void:
 	assert(watched is CollisionPolygon2D or watched is Control)
@@ -43,8 +43,12 @@ func _update_mouse_over() -> void:
 		return
 	
 	if watched is CollisionPolygon2D:
-		var adj_poly = _make_adj_poly()
-		_mouse_over = Geometry2D.is_point_in_polygon(get_global_mouse_position(), adj_poly)
+		# optimization - we only need to remake the observed polygon
+		# if watched has changed position since we last made it.
+		if watched.global_position != _watched_last_known_position:
+			_watched_last_known_position = watched.global_position
+			_regenerate_watched_polygon()
+		_mouse_over = Geometry2D.is_point_in_polygon(get_global_mouse_position(), _watched_polygon)
 	else:
 		var as_control = watched as Control
 		_mouse_over = as_control.get_global_rect().has_point(get_global_mouse_position())
