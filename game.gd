@@ -1,3 +1,4 @@
+class_name Game
 extends Node2D
 
 signal game_ended
@@ -678,7 +679,7 @@ func _handle_tantalus(coin: Coin) -> void:
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_COIN_ROW.get_children():
-			_safe_flip(coin, true)
+			safe_flip(coin, true)
 		return
 	
 	if _COIN_ROW.get_child_count() == 0:
@@ -712,22 +713,22 @@ func _on_toss_button_clicked() -> void:
 		coin.on_toss_initiated()
 		
 		if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS:
-			_safe_flip(coin, true, 1000000)
+			safe_flip(coin, true, 1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND1_FIRST_TAILS:
-			_safe_flip(coin, true, -1000000)
+			safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_INTRO or (Global.tutorialState == Global.TutorialState.ROUND2_SHOP_BEFORE_UPGRADE and Global.tosses_this_round % 2 == 0):
 			if coin.get_coin_family() == Global.ZEUS_FAMILY:
-				_safe_flip(coin, true, 1000000)
+				safe_flip(coin, true, 1000000)
 			else:
-				_safe_flip(coin, true, -1000000)
+				safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_UNUSABLE:
-			_safe_flip(coin, true, -1000000)
+			safe_flip(coin, true, -1000000)
 		elif Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
-			_safe_flip(coin, true, -1000000)
+			safe_flip(coin, true, -1000000)
 		else:
-			_safe_flip(coin, true)
+			safe_flip(coin, true)
 
-func _safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
+func safe_flip(coin: Coin, is_toss: bool, bonus: int = 0) -> void:
 	flips_pending += 1
 	_map_is_disabled = true
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -2330,18 +2331,18 @@ func _on_coin_clicked(coin: Coin):
 					if not coin.can_flip():
 						_DIALOGUE.show_dialogue("Can't flip a stoned coin...")
 						return
-					_safe_flip(coin, false)
+					safe_flip(coin, false)
 				Global.PATRON_POWER_FAMILY_HERA:
 					if (not coin.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
 						_DIALOGUE.show_dialogue("Can't flip stoned coins...")
 						return
-					_safe_flip(coin, false)
+					safe_flip(coin, false)
 					if left:
 						left.play_power_used_effect(Global.active_coin_power_family)
-						_safe_flip(left, false)
+						safe_flip(left, false)
 					if right:
 						right.play_power_used_effect(Global.active_coin_power_family)
-						_safe_flip(right, false)
+						safe_flip(right, false)
 				Global.PATRON_POWER_FAMILY_POSEIDON:
 					coin.freeze()
 				Global.PATRON_POWER_FAMILY_ATHENA:
@@ -2421,7 +2422,7 @@ func _on_coin_clicked(coin: Coin):
 				elif Global.tutorialState == Global.TutorialState.ROUND2_POWER_USED:
 					_LEFT_HAND.unlock()
 					_LEFT_HAND.unpoint()
-					_safe_flip(coin, false, 1000000)
+					safe_flip(coin, false, 1000000)
 				elif not coin.can_flip():
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
@@ -2446,7 +2447,7 @@ func _on_coin_clicked(coin: Coin):
 					Global.tutorial_warned_zeus_reflip = true
 					return
 				else:
-					_safe_flip(coin, false)
+					Global.active_coin_power_family.use_power(self, coin, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			Global.POWER_FAMILY_FREEZE:
 				if coin.is_frozen():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("It's already (FROZEN)..."))
@@ -2456,13 +2457,13 @@ func _on_coin_clicked(coin: Coin):
 				if (not coin.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
 					_DIALOGUE.show_dialogue("Can't flip stoned coin...")
 					return
-				_safe_flip(coin, false)
+				safe_flip(coin, false)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)
-					_safe_flip(left, false)
+					safe_flip(left, false)
 				if right:
 					right.play_power_used_effect(Global.active_coin_power_family)
-					_safe_flip(right, false)
+					safe_flip(right, false)
 			Global.POWER_FAMILY_TURN_AND_BLURSE:
 				coin.turn()
 				coin.curse() if coin.is_heads() else coin.bless()
@@ -2586,16 +2587,16 @@ func _on_coin_clicked(coin: Coin):
 					if c.get_coin_metadata(Coin.METADATA_ERIS, false):
 						if c.can_flip():
 							c.play_power_used_effect(Global.active_coin_power_family)
-							_safe_flip(c, false)
+							safe_flip(c, false)
 			Global.POWER_FAMILY_SWAP_REFLIP_NEIGHBORS:
 				# necessary in case boreas reflips itself
 				row.swap_positions(Global.active_coin_power_coin, coin)
 				if left:
 					left.play_power_used_effect(Global.active_coin_power_family)
-					_safe_flip(left, false)
+					safe_flip(left, false)
 				if right:
 					right.play_power_used_effect(Global.active_coin_power_family)
-					_safe_flip(right, false)
+					safe_flip(right, false)
 			Global.POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE:
 				if not coin.is_ignited():
 					coin.ignite()
@@ -2612,7 +2613,7 @@ func _on_coin_clicked(coin: Coin):
 				if not coin.can_flip():
 					_DIALOGUE.show_dialogue(Global.replace_placeholders("Can't flip a (STONE) coin..."))
 					return
-				_safe_flip(coin, false)
+				safe_flip(coin, false)
 				coin.play_power_used_effect(Global.active_coin_power_family)
 				Global.arrows -= 1
 				if Global.arrows == 0:
@@ -2653,7 +2654,7 @@ func _on_coin_clicked(coin: Coin):
 					for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 						c = c as Coin
 						c.play_power_used_effect(coin.get_active_power_family())
-						_safe_flip(c, false)
+						safe_flip(c, false)
 				Global.POWER_FAMILY_GAIN_POWER_COIN:
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
@@ -2672,7 +2673,7 @@ func _on_coin_clicked(coin: Coin):
 					var all_left = row.get_all_left_of(coin)
 					for c in all_left:
 						if c.can_flip():
-							_safe_flip(c, false)
+							safe_flip(c, false)
 							c.play_power_used_effect(coin.get_active_power_family())
 					var chrgs = coin.get_active_power_charges() - 1
 					coin.overwrite_active_face_power(Global.POWER_FAMILY_REFLIP_RIGHT_ALTERNATING)
@@ -2681,7 +2682,7 @@ func _on_coin_clicked(coin: Coin):
 					var all_right = row.get_all_right_of(coin)
 					for c in all_right:
 						if c.can_flip():
-							_safe_flip(c, false)
+							safe_flip(c, false)
 							c.play_power_used_effect(coin.get_active_power_family())
 					
 					var chrgs = coin.get_active_power_charges() - 1
@@ -2695,7 +2696,7 @@ func _on_coin_clicked(coin: Coin):
 					new_coin.play_power_used_effect(coin.get_active_power_family())
 					new_coin.make_fleeting()
 					if new_coin.can_flip():
-						_safe_flip(new_coin, true)
+						safe_flip(new_coin, true)
 				Global.POWER_FAMILY_GAIN_GOLDEN_COIN:
 					if _COIN_ROW.get_child_count() == Global.COIN_LIMIT:
 						_DIALOGUE.show_dialogue("Too many coins...")
@@ -2787,7 +2788,7 @@ func _on_patron_token_clicked():
 			Global.patron_used_this_toss = true
 		Global.PATRON_POWER_FAMILY_ARES:
 			for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-				_safe_flip(coin, false)
+				safe_flip(coin, false)
 				coin.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
 			Global.patron_used_this_toss = true
@@ -2818,11 +2819,11 @@ func _on_patron_token_clicked():
 							coin.play_power_used_effect(Global.patron.power_family)
 					2: # reflip 4 tails coins
 						for coin in Global.choose_x(tails, 4):
-							_safe_flip(coin, false)
+							safe_flip(coin, false)
 							coin.play_power_used_effect(Global.patron.power_family)
 					3: # reflip all coins
 						for coin in _COIN_ROW.get_children():
-							_safe_flip(coin, false)
+							safe_flip(coin, false)
 							coin.play_power_used_effect(Global.patron.power_family)
 			else:  # otherwise, choose 2-3 helpful actions
 				var boons = 0
@@ -3336,7 +3337,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				c = c as Coin
 				c.play_power_used_effect(Global.CHARON_POWER_DEATH)
-				_safe_flip(c, false)
+				safe_flip(c, false)
 			_COIN_ROW.shuffle()
 			_ENEMY_COIN_ROW.shuffle()
 			await _wait_for_dialogue("Scatter and fall!", delay)

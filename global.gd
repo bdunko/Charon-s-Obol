@@ -1198,7 +1198,7 @@ var POWER_FAMILY_DO_NOTHING = PF.PowerFamily.new("Nothing interesting happens.",
 
 const DEMETER_GAIN = [3, 5, 7, 9, 11, 13]
 var POWER_FAMILY_GAIN_LIFE = PF.PowerFamily.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL])
-var POWER_FAMILY_REFLIP = PF.PowerFamily.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REFLIP = PF.Reflip.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_FREEZE = PF.PowerFamily.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE])
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PF.PowerFamily.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])

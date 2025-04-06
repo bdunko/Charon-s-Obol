@@ -99,3 +99,25 @@ class PowerFamily:
 		
 	func can_target_player_coins() -> bool:
 		return power_type == PowerType.POWER_TARGETTING_ANY_COIN or power_type == PowerType.POWER_TARGETTING_PLAYER_COIN
+	
+	func use_power(game: Game, target: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
+		assert(false, "don't call 'abstract' method use_power")
+	
+	class CanUsePowerResult:
+		var can_use: bool = false
+		var error_message: String = ""
+		
+		func _init(usable: bool, error_msg: String) -> void:
+			can_use = usable
+			error_message = error_msg
+	
+	func can_use_power(game: Game, target: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUsePowerResult:
+		assert(false, "don't call 'abstract' method can_use_power")
+		return null
+
+class Reflip extends PowerFamily:
+	func use_power(game: Game, target: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
+		game.safe_flip(target, false)
+	
+	func can_use_power(game: Game, target: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUsePowerResult:
+		return CanUsePowerResult.new(true, "")
