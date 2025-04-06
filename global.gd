@@ -2234,7 +2234,7 @@ var AEOLUS_FAMILY = CoinFamily.new(1026, CoinType.POWER, "(DENOM) of Aeolus", "[
 var BOREAS_FAMILY = CoinFamily.new(1027, CoinType.POWER, "(DENOM) of Boreas", "[color=powderblue]Northern Hail[/color]", POWER_FAMILY_SWAP_REFLIP_NEIGHBORS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_SWAP_REFLIP_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var DAEDALUS_FAMILY = CoinFamily.new(1028, CoinType.POWER, "(DENOM) of Daedalus", "[color=peru]Automaton Builder[/color]", POWER_FAMILY_PERMANENTLY_COPY_FACE.icon_path, NO_UNLOCK_TIP,\
-	STANDARD, POWER_FAMILY_PERMANENTLY_COPY_FACE, POWER_FAMILY_PERMANENTLY_COPY_FACE, _SpriteStyle.POWER)
+	RICH, POWER_FAMILY_PERMANENTLY_COPY_FACE, POWER_FAMILY_PERMANENTLY_COPY_FACE, _SpriteStyle.POWER)
 var PLUTUS_FAMILY = CoinFamily.new(1029, CoinType.POWER, "(DENOM) of Plutus", "[color=palegoldenrod]Greed is Blind[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GAIN_PLUTUS_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var MIDAS_FAMILY = CoinFamily.new(1030, CoinType.POWER, "(DENOM) of Midas", "[color=gold]All that Glitters[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\

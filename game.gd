@@ -1204,7 +1204,7 @@ func _on_accept_button_pressed():
 		await _wait_for_dialogue(Global.replace_placeholders("Ah, you've acquired a decent number of souls(SOULS)..."))
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
 		_LEFT_HAND.lock()
-		await _wait_for_dialogue("Souls(SOULS) can be used to destroy monsters.")
+		await _wait_for_dialogue(Global.replace_placeholders("Souls(SOULS) can be used to destroy monsters."))
 		_LEFT_HAND.unlock()
 		_LEFT_HAND.unpoint()
 		await _wait_for_dialogue("You may click on this monster to banish it.")
