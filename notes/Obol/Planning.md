@@ -12,10 +12,11 @@
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
 			- [ ] MouseWatcher seems to create lag. Profile this.
+				- [ ] Need to test on weaker computer.
+				- [ ] possible optimization - track the global position of watched. Only need to regenerate polygon if changed.
 		- [ ] **Balance Tweaks**
 			- [ ] Daedalus - require different powers on both sides
 				- [ ] or half charges...?
-			- [ ] Echidna and Typhon should spawn some monsters at the start of their fight too.
 	- [ ] **Info View**
 		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
 			- [ ] Coin label - replaced with the ICON for that coin.

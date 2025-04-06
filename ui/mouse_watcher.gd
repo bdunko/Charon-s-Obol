@@ -22,6 +22,18 @@ func _ready() -> void:
 	assert(watched is Control or watched is CollisionPolygon2D)
 	_update_mouse_over()
 
+# this function is potentially slow
+func _make_adj_poly():
+	var as_colpoly = watched as CollisionPolygon2D
+	var adj_poly = []
+	
+	#optimization - make copy of polygon outside of loop instead of multiple times inside of it (polygon[i] copies)
+	var copy_poly = watched.polygon
+	for i in as_colpoly.polygon.size():
+		adj_poly.append(copy_poly[i] + as_colpoly.global_position)
+	
+	return adj_poly
+
 func _update_mouse_over() -> void:
 	assert(watched is CollisionPolygon2D or watched is Control)
 	if not is_visible_in_tree():
@@ -31,10 +43,7 @@ func _update_mouse_over() -> void:
 		return
 	
 	if watched is CollisionPolygon2D:
-		var as_colpoly = watched as CollisionPolygon2D
-		var adj_poly = []
-		for i in as_colpoly.polygon.size():
-			adj_poly.append(watched.polygon[i] + as_colpoly.global_position)
+		var adj_poly = _make_adj_poly()
 		_mouse_over = Geometry2D.is_point_in_polygon(get_global_mouse_position(), adj_poly)
 	else:
 		var as_control = watched as Control

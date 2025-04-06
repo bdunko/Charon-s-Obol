@@ -25,7 +25,13 @@ func current_round_setup() -> void:
 	
 	# generate new coins
 	for coinDataPair in Global.current_round_enemy_coin_data():
-		spawn_enemy(coinDataPair[0], coinDataPair[1])
+		var enemy = spawn_enemy(coinDataPair[0], coinDataPair[1])
+		
+		# if we spawned in Echidna, also make another pair of random monsters for her
+		if enemy.get_coin_family() == Global.ECHIDNA_FAMILY:
+			var denom = Global.Denomination.TRIOBOL if Global.is_difficulty_active(Global.Difficulty.UNFAIR5) else Global.Denomination.DIOBOL
+			for i in 2:
+				spawn_enemy(Global.get_standard_monster(), Global.Denomination.DIOBOL)
 
 func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: int = -1) -> Coin:
 	if _ROW.get_child_count() >= MAX_ENEMIES:
