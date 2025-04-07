@@ -2,12 +2,13 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Coin Power Refactor - Saturday/Sunday**
 		- [ ] Expand PowerFamily interface so that it contains additional functions:
-			- [ ] use_power
-			- [ ] can_use_power
-			- [ ] get_error_message
+			- [ ] Shift coins into here.
+			- [ ] Shift payoffs into here.
+			- [ ] Shift patron tokens into here.
+			- [ ] arrow
 		- [ ] Replace the huge match statements in game.gd with calls to these.
 		- [ ] Move PowerFamily into a separate autoload singleton and have it create its subclasses there.
-		- [ ]  When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid.
+		- [ ]  When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
 		- [ ] Buried coins should not light up when hovered with a power.
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**

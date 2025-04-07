@@ -164,9 +164,9 @@ func _on_text_submitted(txt):
 				denom = clamp(int(args[2]), 1, 6)
 			# special case thorns
 			if args[1].to_lower() == "thorn" or args[1].to_lower() == "thorns":
-				game._make_and_gain_coin(Global.THORNS_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
+				game.make_and_gain_coin(Global.THORNS_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
 			elif args[1].to_lower() == "common" or args[1].to_lower() == "obol" or args[1].to_lower() == "generic" or args[1].to_lower() == "money" or args[1].to_lower() == "coin":
-				game._make_and_gain_coin(Global.GENERIC_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
+				game.make_and_gain_coin(Global.GENERIC_FAMILY, denom-1, game._PLAYER_NEW_COIN_POSITION)
 			else:
 				# search all coins...
 				var made = false
@@ -174,7 +174,7 @@ func _on_text_submitted(txt):
 					var coin_name = coin.coin_name.to_lower()
 					coin_name = coin_name.replace("(denom)", "").replace("of", "").replace(" ", "")
 					if coin_name.begins_with(args[1].to_lower()):
-						game._make_and_gain_coin(coin, denom-1, game._PLAYER_NEW_COIN_POSITION)
+						game.make_and_gain_coin(coin, denom-1, game._PLAYER_NEW_COIN_POSITION)
 						made = true
 						break
 				success = made
@@ -182,14 +182,14 @@ func _on_text_submitted(txt):
 		# clear everything
 		while coin_row.get_child_count() != 1: 
 			game.destroy_coin(coin_row.get_rightmost_to_leftmost()[0])
-		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.HERMES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
-		game._make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.ZEUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.HEPHAESTUS_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.HERMES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
+		game.make_and_gain_coin(Global.HADES_FAMILY, Global.Denomination.DRACHMA, game._PLAYER_NEW_COIN_POSITION)
 
 	# repeat the previous command
 	elif last_command != null and (cmd == "r" or cmd == "repeat"):
