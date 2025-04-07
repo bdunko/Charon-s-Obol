@@ -1,24 +1,20 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] **Coin Power Refactor - Saturday/Sunday**
-		- [ ] Expand PowerFamily interface so that it contains additional functions:
-			- [ ] Shift coins into here.
-			- [ ] Shift payoffs into here.
-			- [ ] Shift patron tokens into here.
-			- [ ] arrow
-		- [ ] Replace the huge match statements in game.gd with calls to these.
-		- [ ] Move PowerFamily into a separate autoload singleton and have it create its subclasses there.
-		- [ ]  When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
+	- [ ] **Coin Power Refactor - Monday**
+		- [ ] Shift Payoff coins to also perform their logic inside the PowerFamily subclasses.
+		- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
 		- [ ] Buried coins should not light up when hovered with a power.
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
 			- [ ] Coin._generate_tooltip
-			- [ ] replace_placeholders
-			- [ ] are both way too expensive. generate tooltip is the culprit - we don't need to regenerate the tooltip every frame. This will save on calls to replace placeholders.
-			- [ ] Additionally we call replace placeholders multiple times in generate_tooltip which is totally unnecessary; just do a single call at the end.
+			- [ ] replace_placeholders - expensive call
+			- [ ] Should just do a single class to replace_placeholders in generate_tooltip instead of 3.
+			- [ ] if needed, we can also come up with a cleaner way to do the string replace... do some more profiling to determine if this is necessary... break string by ( and ); then use a map based lookup for the replacements?
+			- [ ] There is a 
 		- [ ] **Balance Tweaks**
 			- [ ] Daedalus - require different powers on both sides
 				- [ ] or half charges...?
+			- [ ] Keres - make the life penalty increase smaller but permanent
 	- [ ] **Info View**
 		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
 			- [ ] Coin label - replaced with the ICON for that coin.

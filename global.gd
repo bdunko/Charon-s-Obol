@@ -1197,22 +1197,22 @@ var POWER_FAMILY_STOKE_FLAME = PF.PowerFamily.new("Stoke the flame. [color=gray]
 var POWER_FAMILY_DO_NOTHING = PF.PowerFamily.new("Nothing interesting happens.", [0, 0, 0, 0, 0, 0], PF.PowerType.PAYOFF_DO_NOTHING, "res://assets/icons/coin/nothing_icon.png", ONLY_SHOW_ICON)
 
 const DEMETER_GAIN = [3, 5, 7, 9, 11, 13]
-var POWER_FAMILY_GAIN_LIFE = PF.PowerFamily.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL])
+var POWER_FAMILY_GAIN_LIFE = PF.GainLife.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL])
 var POWER_FAMILY_REFLIP = PF.Reflip.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_FREEZE = PF.Freeze.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE])
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PF.ReflipAndNeighbors.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_GAIN_ARROW = PF.PowerFamily.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_GAIN_ARROW = PF.GainArrow.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_TURN_AND_BLURSE = PF.TurnAndBlurse.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.TURN, PF.PowerFamily.Tag.CURSE])
-var POWER_FAMILY_REFLIP_ALL = PF.PowerFamily.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REFLIP_ALL = PF.ReflipAll.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_REDUCE_PENALTY = PF.ReducePenalty.new("Reduce a coin's penalty by 2(LIFE) for this round.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL, PF.PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_PRIME_AND_IGNITE = PF.PrimeAndIgnite.new("(IGNITE) and (PRIME) one of your coins.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.UPGRADE, PF.PowerFamily.Tag.IGNITE])
 var POWER_FAMILY_COPY_FOR_TOSS = PF.CopyPowerForToss.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_EXCHANGE = PF.Exchange.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TRADE])
 var POWER_FAMILY_MAKE_LUCKY = PF.MakeLucky.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hestia_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY])
-var POWER_FAMILY_GAIN_POWER_COIN = PF.PowerFamily.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dionysus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+var POWER_FAMILY_GAIN_COIN = PF.GainCoin.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dionysus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
 var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PF.DowngradeForLife.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN,"res://assets/icons/coin/hades_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.DESTROY, PF.PowerFamily.Tag.HEAL])
 
@@ -1222,7 +1222,7 @@ var POWER_FAMILY_CONSECRATE_AND_DOOM = PF.ConsecrateDoom.new("(CONSECRATE) and (
 const TRIPTOLEMUS_HARVEST = [5, 8, 11, 14, 17, 20]
 var POWER_FAMILY_BURY_HARVEST = PF.BuryHarvest.new("(BURY) one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
 	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.HEAL])
-var POWER_FAMILY_BURY_TURN_TAILS = PF.BuryTurnOthertails.new("(BURY) one of your coins for 1 toss. Immediately turn one of your (TAILS) coins to (HEADS) at random.", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_BURY_TURN_TAILS = PF.BuryTurnOtherTails.new("(BURY) one of your coins for 1 toss. Immediately turn one of your (TAILS) coins to (HEADS) at random.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.TURN])
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PF.TurnTailsFreezeReducePenalty.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its penalty to 0(LIFE) this round.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE, PF.PowerFamily.Tag.ANTIMONSTER])
@@ -1230,21 +1230,21 @@ var POWER_FAMILY_IGNITE_CHARGE_LUCKY = PF.IgniteChargeLucky.new("Make a coin (LU
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
 const PHAETHON_REWARD_ARROWS = [2, 3, 4, 5, 6, 7]
 const PHAETHON_REWARD_LIFE = [5, 10, 15, 20, 25, 30]
-var POWER_FAMILY_DESTROY_FOR_REWARD = PF.PowerFamily.new("Destroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
+var POWER_FAMILY_DESTROY_FOR_REWARD = PF.DestroySelfForReward.new("Destroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
 	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/phaethon_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_INFINITE_TURN_HUNGER = PF.InfiniteTurnHunger.new("Turn a coin and -(ERYSICHTHON_COST)(LIFE). [color=gray](Permanently increases by 1(LIFE) each use. Resets when upgraded.)[/color]", [INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
-var POWER_FAMILY_TURN_SELF = PF.PowerFamily.new("Turn this coin over.", [1, 1, 1, 1, 1, 1],\
+var POWER_FAMILY_TURN_SELF = PF.TurnSelf.new("Turn this coin over.", [1, 1, 1, 1, 1, 1],\
 	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/turn_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_CLONE_PERMANENTLY = PF.ClonePermanently.new("Choose one of your coins of the same denomination as this; permanently transform into that type of coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/dolos_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_FLIP_AND_TAG = PF.FlipAndTag.new("Reflip a coin. Also reflip each other coin this power has been used on this toss.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PF.PowerFamily.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PF.PowerFamily.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PF.ReflipLeftAlternating.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PF.ReflipRightAlternating.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PF.SwapReflipNeighbors.new("Choose one of your coins. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/boreas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_PERMANENTLY_COPY_FACE = PF.CopyPowerPermanently.new("Choose one of your coins. Permanently copy its power to this face.", [1, 1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_PLUTUS_COIN = PF.PowerFamily.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
-var POWER_FAMILY_GAIN_GOLDEN_COIN = PF.PowerFamily.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
-var POWER_FAMILY_TURN_ALL = PF.PowerFamily.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
+var POWER_FAMILY_GAIN_PLUTUS_COIN = PF.GainPlutusCoin.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+var POWER_FAMILY_GAIN_GOLDEN_COIN = PF.GainGoldenCoin.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+var POWER_FAMILY_TURN_ALL = PF.TurnAll.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
 var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PF.IgniteThenBlessThenSacrifice.new("(IGNITE) one of your coins. If you can't, (BLESS) it. If you can't, destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.IGNITE, PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.DESTROY])
 var POWER_FAMILY_TRANSFORM_AND_LOCK = PF.PowerFamily.new("Becomes a random power each toss. When used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
@@ -1739,25 +1739,22 @@ class Patron:
 		return power_family.icon_path
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PF.PowerFamily.new("Aphrodite", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_APOLLO = PF.PowerFamily.new("Apollo", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARES = PF.PowerFamily.new("Ares", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARTEMIS = PF.PowerFamily.new("Artemis", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ATHENA = PF.PowerFamily.new("Athena", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DEMETER = PF.PowerFamily.new("Demeter", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DIONYSUS = PF.PowerFamily.new("Dionysus", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HADES = PF.PowerFamily.new("Hades", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HEPHAESTUS = PF.PowerFamily.new("Hephaestus", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERA = PF.PowerFamily.new("Hera", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERMES = PF.PowerFamily.new("Hermes", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HESTIA = PF.PowerFamily.new("Hestia", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_POSEIDON = PF.PowerFamily.new("Poseidon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ZEUS = PF.PowerFamily.new("Zeus", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APHRODITE = PF.PatronAphrodite.new("Aphrodite", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APOLLO = PF.PatronApollo.new("Apollo", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARES = PF.ReflipAll.new("Ares", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARTEMIS = PF.PatronArtemis.new("Artemis", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ATHENA = PF.PatronAthena.new("Athena", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DEMETER = PF.PatronDemeter.new("Demeter", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DIONYSUS = PF.PatronDionysus.new("Dionysus", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HADES = PF.PatronHades.new("Hades", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HEPHAESTUS = PF.PatronHephaestus.new("Hephaestus", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERA = PF.ReflipAndNeighbors.new("Hera", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERMES = PF.Exchange.new("Hermes", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HESTIA = PF.MakeLucky.new("Hestia", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_POSEIDON = PF.Freeze.new("Poseidon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ZEUS = PF.Reflip.new("Zeus", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
 
-var PATRON_POWER_FAMILY_CHARON = PF.PowerFamily.new("Charon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
-
-var immediate_patron_powers = [PATRON_POWER_FAMILY_DEMETER, PATRON_POWER_FAMILY_APOLLO, PATRON_POWER_FAMILY_ARTEMIS, PATRON_POWER_FAMILY_ARES, PATRON_POWER_FAMILY_APHRODITE, PATRON_POWER_FAMILY_DIONYSUS]
-
+var PATRON_POWER_FAMILY_CHARON = PF.PatronCharon.new("Charon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
 
 # exists so I can define a value for the Patron in the editor for patron statues
 enum PatronEnum {
@@ -2027,7 +2024,7 @@ enum CoinType {
 @onready var _ALL_PLAYER_POWERS = [
 	POWER_FAMILY_REFLIP, POWER_FAMILY_GAIN_LIFE, POWER_FAMILY_FREEZE, POWER_FAMILY_REFLIP_AND_NEIGHBORS, POWER_FAMILY_GAIN_ARROW,
 	POWER_FAMILY_TURN_AND_BLURSE, POWER_FAMILY_REFLIP_ALL, POWER_FAMILY_REDUCE_PENALTY, POWER_FAMILY_PRIME_AND_IGNITE, POWER_FAMILY_COPY_FOR_TOSS,
-	POWER_FAMILY_EXCHANGE, POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_GAIN_POWER_COIN, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_STONE,
+	POWER_FAMILY_EXCHANGE, POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_DOWNGRADE_FOR_LIFE, POWER_FAMILY_STONE,
 	POWER_FAMILY_BLANK_TAILS, POWER_FAMILY_CONSECRATE_AND_DOOM, POWER_FAMILY_BURY_HARVEST, POWER_FAMILY_BURY_TURN_TAILS,
 	POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_IGNITE_CHARGE_LUCKY, POWER_FAMILY_DESTROY_FOR_REWARD,
 	POWER_FAMILY_INFINITE_TURN_HUNGER, POWER_FAMILY_TURN_SELF, POWER_FAMILY_CLONE_PERMANENTLY, POWER_FAMILY_FLIP_AND_TAG, 
@@ -2098,8 +2095,8 @@ var HERMES_FAMILY = CoinFamily.new(1010, CoinType.POWER, "(DENOM) of Hermes", "[
 var HESTIA_FAMILY = CoinFamily.new(1011, CoinType.POWER, "(DENOM) of Hestia", "[color=sandybrown]Weary Bones Rest[/color]", POWER_FAMILY_MAKE_LUCKY.icon_path, NO_UNLOCK_TIP,\
 	STANDARD,  POWER_FAMILY_MAKE_LUCKY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
-var DIONYSUS_FAMILY = CoinFamily.new(1012, CoinType.POWER, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", POWER_FAMILY_GAIN_POWER_COIN.icon_path, NO_UNLOCK_TIP,\
-	CHEAP, POWER_FAMILY_GAIN_POWER_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
+var DIONYSUS_FAMILY = CoinFamily.new(1012, CoinType.POWER, "(DENOM) of Dionysus", "[color=plum]Wanton Revelry[/color]", POWER_FAMILY_GAIN_COIN.icon_path, NO_UNLOCK_TIP,\
+	CHEAP, POWER_FAMILY_GAIN_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 	
 const HADES_SELF_GAIN = [7, 9, 11, 13, 15, 18]
 const HADES_MONSTER_COST = [7, 5, 3, 1, 0, 0]
