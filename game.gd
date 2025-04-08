@@ -761,331 +761,16 @@ func _on_accept_button_pressed():
 		var charges = payoff_coin.get_active_power_charges()
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)
-		var _right = row.get_right_of(payoff_coin)
+		var right = row.get_right_of(payoff_coin)
 		var is_last_player_coin = _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank() and not payoff_coin.is_buried()) and charges > 0:
 			payoff_coin.payoff_move_up()
-			var payoff_type = payoff_power_family.power_type
 			
+			# actually do the power
 			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-			match(payoff_type):
-				PF.PowerType.PAYOFF_LOSE_LIFE:
-					payoff_coin.FX.flash(Color.RED)
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_PAIN): # trial pain - 3x loss from tails penalties
-						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_PAIN)
-						Global.lives -= charges * 3
-					else:
-						Global.lives -= charges
-					
-					# handle special payoff actions
-					if payoff_power_family == Global.POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL:
-						destroy_coin(payoff_coin)
-					elif payoff_power_family == Global.NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE:
-						payoff_coin.change_life_penalty_for_round(Global.SCYLLA_INCREASE[denom])
-					elif payoff_power_family == Global.NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE:
-						payoff_coin.change_life_penalty_for_round(charges)
-					elif payoff_power_family == Global.MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING:
-						payoff_coin.change_life_penalty_for_round(Global.GADFLY_INCREASE[denom])
-				PF.PowerType.PAYOFF_HALVE_LIFE:
-					payoff_coin.FX.flash(Color.RED)
-					Global.lives -= int(Global.lives / 2.0)
-				PF.PowerType.PAYOFF_GAIN_LIFE:
-					payoff_coin.FX.flash(Color.GREEN_YELLOW)
-					Global.lives += charges
-				PF.PowerType.PAYOFF_GAIN_SOULS:
-					var payoff = payoff_coin.get_active_souls_payoff()
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_LIMITATION): # limitation trial - payoffs < 10 become 0
-						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_LIMITATION)
-						payoff = 0 if payoff < 10 else payoff
-					if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_GATING): # gating trial - payoffs > 10 become 1
-						Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_GATING)
-						payoff = 1 if payoff > 10 else payoff
-					if payoff > 0:
-						payoff_coin.FX.flash(Color.AQUA)
-						Global.earn_souls(payoff)
-						Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
-					
-					# handle special payoff actions
-					# helios - bless coin to the left and move to the left, if possible
-					if payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS and left:
-						left.bless()
-						row.swap_positions(payoff_coin, left)
-					# icarus - if every coin is heads, destroy
-					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
-						if row.get_filtered(CoinRow.FILTER_HEADS).size() == row.get_child_count():
-							payoff_coin.FX.flash(Color.YELLOW)
-							destroy_coin(payoff_coin)
-					# telemachus - after X tosses, transform
-					elif payoff_power_family == Global.POWER_FAMILY_GAIN_SOULS_TELEMACHUS:
-						payoff_coin.set_active_face_metadata(Coin.METADATA_TELEMACHUS, payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS, 0) + 1)
-						if payoff_coin.get_active_face_metadata(Coin.METADATA_TELEMACHUS) >= Global.TELEMACHUS_TOSSES_TO_TRANSFORM:
-							payoff_coin.init_coin(Global.random_power_coin_family(), Global.Denomination.DRACHMA, payoff_coin.get_current_owner())
-							payoff_coin.permanently_consecrate()
-				PF.PowerType.PAYOFF_STOKE_FLAME:
-					Global.flame_boost = min(Global.FLAME_BOOST_LIMIT, Global.flame_boost + Global.PROMETHEUS_MULTIPLIER[denom])
-				PF.PowerType.PAYOFF_LOSE_SOULS:
-					var payoff = payoff_coin.get_active_souls_payoff()
-					payoff_coin.FX.flash(Color.DARK_BLUE)
-					Global.lose_souls(payoff)
-				PF.PowerType.PAYOFF_GAIN_ARROWS:
-					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					Global.arrows = min(Global.arrows + charges, Global.ARROWS_LIMIT)
-					_disable_interaction_coins_and_patron() # stupid bad hack to make the arrow not light up
-				PF.PowerType.PAYOFF_DO_NOTHING:
-					pass #do nothing
-				PF.PowerType.PAYOFF_LUCKY:
-					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.make_lucky()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_UNLUCKY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.make_unlucky()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_CURSE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.curse()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BLANK:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLANK, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.blank()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_FREEZE_TAILS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET]):
-						if coin.can_target():
-							coin.freeze()
-							coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_STONE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.stone()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_IGNITE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.ignite()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_IGNITE_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.ignite() #ignite itself
-				PF.PowerType.PAYOFF_DOWNGRADE_MOST_VALUABLE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for i in range(0, charges):
-						var highest = _COIN_ROW.get_highest_valued_that_can_be_targetted()
-						highest.shuffle()
-						# don't downgrade if it's the last coin
-						if highest[0].get_denomination() != Global.Denomination.OBOL or _COIN_ROW.get_child_count() != 1:
-							highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
-							downgrade_coin(highest[0])
-				PF.PowerType.PAYOFF_SPAWN_STRONG:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[denom], 0)
-				PF.PowerType.PAYOFF_SPAWN_FLEETING:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for i in range(0, charges):
-						var enemy = spawn_enemy(Global.get_standard_monster(), Global.Denomination.OBOL, 0)
-						if enemy != null: #may have not had space to spawn the monster, if so, returned null
-							enemy.make_fleeting()
-				PF.PowerType.PAYOFF_UPGRADE_MONSTERS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for enemy in _ENEMY_COIN_ROW.get_children():
-						if enemy.get_coin_family() in [Global.ECHIDNA_FAMILY, Global.TYPHON_FAMILY]:
-							continue
-						if enemy.can_upgrade():
-							enemy.upgrade()
-				PF.PowerType.PAYOFF_BLESS_MONSTERS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for enemy in _ENEMY_COIN_ROW.get_children():
-						enemy.bless()
-				PF.PowerType.PAYOFF_PERMANENTLY_IGNITE_MONSTER:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_ENEMY_COIN_ROW.get_multi_filtered_erandomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.permanently_ignite()
-				PF.PowerType.PAYOFF_AMPLIFY_IGNITE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					Global.ignite_damage += charges
-				PF.PowerType.PAYOFF_INCREASE_ALL_PENALTY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
-						if coin.can_change_life_penalty():
-							coin.change_life_penalty_for_round(Global.KERES_INCREASE[denom])
-				PF.PowerType.PAYOFF_DESECRATE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_DESECRATED, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.desecrate()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_SHUFFLE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					_COIN_ROW.shuffle()
-					payoff_coin.clear_round_life_penalty()
-				PF.PowerType.PAYOFF_BLANK_LEFT_HALF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var left_to_right = _COIN_ROW.get_leftmost_to_rightmost()
-					var n_affected = floor(_COIN_ROW.get_child_count() / 2.0)
-					for i in n_affected:
-						left_to_right[i].blank()
-						left_to_right[i].play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BLANK_RIGHT_HALF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var right_to_left = _COIN_ROW.get_rightmost_to_leftmost()
-					var n_affected = floor(_COIN_ROW.get_child_count() / 2.0)
-					for i in n_affected:
-						right_to_left[i].blank()
-						right_to_left[i].play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for i in charges:
-						if Global.RNG.randi_range(0, 1) == 0:
-							var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]))
-							target.make_unlucky()
-							target.play_power_used_effect(payoff_coin.get_active_power_family())
-						else:
-							var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]))
-							target.curse()
-							target.play_power_used_effect(payoff_coin.get_active_power_family())
-					# double the charges
-					payoff_coin.change_charge_modifier_for_round(charges)
-				PF.PowerType.PAYOFF_A_WAY_OUT:
-					payoff_coin.FX.flash(Color.WHITE)
-					destroy_coin(payoff_coin)
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_UNLUCKY_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.make_unlucky()
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_FREEZE_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.freeze()
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BURY_SELF_LABYRINTH:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.bury(1)
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_TROJAN_HORSE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var index = payoff_coin.get_index()
-					destroy_coin(payoff_coin)
-					for i in charges:
-						var coin = spawn_enemy(Global.get_standard_monster_excluding([Global.MONSTER_TROJAN_HORSE_FAMILY]), denom, index)
-						coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_ALL_MONSTER_UNLUCKY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for mon in _ENEMY_COIN_ROW.get_children():
-						mon.make_unlucky()
-						mon.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_FREEZE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_FROZEN, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.freeze()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BLESS:
-					payoff_coin.FX.flash(Color.GHOST_WHITE)
-					for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLESSED, CoinRow.FILTER_CAN_TARGET]), charges):
-						target.bless()
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_GAIN_THORNS_GADFLY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var thorns_denom = Global.GADFLY_THORNS_DENOM[denom]
-					if _COIN_ROW.get_child_count() != Global.COIN_LIMIT:
-						var coin = make_and_gain_coin(Global.THORNS_FAMILY, thorns_denom, CHARON_NEW_COIN_POSITION)
-						coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_GAIN_THORNS_SPHINX:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var thorns_denom = Global.SPHINX_THORNS_DENOM[denom]
-					if _COIN_ROW.get_child_count() != Global.COIN_LIMIT:
-						var coin = make_and_gain_coin(Global.THORNS_FAMILY, thorns_denom, CHARON_NEW_COIN_POSITION)
-						coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BURY_LAMIA:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BURIED, CoinRow.FILTER_CAN_TARGET]))
-					if target:
-						target.bury(Global.LAMIA_BURY[denom])
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BURY_OREAD:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BURIED, CoinRow.FILTER_CAN_TARGET]))
-					if target:
-						target.bury(Global.OREAD_BURY[denom])
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BURY_CYCLOPS:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BURIED, CoinRow.FILTER_CAN_TARGET]))
-					if target:
-						target.bury(Global.CYCLOPS_BURY[denom])
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_BURY_SELF_BOAR:
-					payoff_coin.FX.flash(Color.SADDLE_BROWN)
-					payoff_coin.turn()
-					payoff_coin.bury(Global.BOAR_BURY[denom])
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_TRANSFORM:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var target = Global.choose_one(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_CAN_TARGET))
-					if target:
-						target.init_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), target.get_current_owner())
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_GAIN_OBOL:
-					payoff_coin.FX.flash(Color.WHITE)
-					if _COIN_ROW.get_child_count() != Global.COIN_LIMIT:
-						var new_coin = make_and_gain_coin(Global.random_coin_family(), Global.Denomination.OBOL, payoff_coin.global_position, true)
-						new_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_DECREASE_COST:
-					payoff_coin.FX.flash(Color.WHITE)
-					payoff_coin.change_monster_appease_price(-charges)
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_INCREASE_COST:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.change_monster_appease_price(charges)
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_DESTROY_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					destroy_coin(payoff_coin)
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_CURSE_UNLUCKY_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					payoff_coin.curse()
-					payoff_coin.make_unlucky()
-					payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_DOWNGRADE:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_CAN_TARGET), charges):
-						downgrade_coin(target)
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_DOOM_RIGHTMOST:
-					var leftmost = _COIN_ROW.get_leftmost_to_rightmost()[0]
-					var right_to_left = _COIN_ROW.get_rightmost_to_leftmost()
-					for coin in right_to_left:
-						if coin == leftmost:
-							break
-						if not coin.is_doomed():
-							coin.doom()
-							coin.play_power_used_effect(payoff_coin.get_active_power_family())
-							break # just find and do one
-				PF.PowerType.PAYOFF_DOWNGRADE_AND_PRIME:
-					for target in Global.choose_x(_COIN_ROW.get_filtered_randomized(CoinRow.FILTER_CAN_TARGET), charges):
-						target.prime()
-						downgrade_coin(target)
-						target.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_UPGRADE_SELF:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					if payoff_coin.can_upgrade():
-						payoff_coin.upgrade()
-						payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-				PF.PowerType.PAYOFF_INCREASE_PENALTY:
-					payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-					var target = Global.choose_one(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_CAN_TARGET, CoinRow.FILTER_CAN_INCREASE_PENALTY]))
-					if target:
-						if target.can_change_life_penalty():
-							target.change_life_penalty_for_round(Global.STRIX_INCREASE[denom])
-							target.play_power_used_effect(payoff_coin.get_active_power_family())
-				_:
-					assert(false, "No matching case for power type!")
-				# END MATCH
+			payoff_power_family.use_power(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			
 			_update_payoffs()
 			await Global.delay(0.15)
 			if is_instance_valid(payoff_coin): # it may have been destroyed by now; ex Achilles/Icarus
@@ -1505,7 +1190,7 @@ func _on_end_round_button_pressed():
 		await _wait_for_dialogue("Take these...")
 		Global.lives = 0
 		await _wait_for_dialogue("And I'll take those...")
-		await _wait_for_dialogue("Now us continue.")
+		await _wait_for_dialogue("Now let us continue.")
 	
 	# if we just won by defeating the nemesis
 	if Global.current_round_type() == Global.RoundType.NEMESIS:
@@ -2168,6 +1853,10 @@ func _on_coin_clicked(coin: Coin):
 			# move the coin up a bit
 			create_tween().tween_property(coin, "position:y", -20, 0.2).set_trans(Tween.TRANS_CUBIC)
 		return
+
+	# ignore clicks on monsters after the round ends... (they are still visible while receeding)
+	if Global.state == Global.State.SHOP and coin.is_monster_coin():
+		return 
 
 	if Global.state == Global.State.SHOP:
 		# prevent upgrading coins before tutorial is ready

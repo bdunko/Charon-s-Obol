@@ -279,7 +279,7 @@ func _update_face_label() -> void:
 				color = _BLUE
 			PF.PowerType.PAYOFF_GAIN_LIFE:
 				color = _GREEN
-			PF.PowerType.PASSIVE, PF.PowerType.PAYOFF_GAIN_ARROWS:
+			PF.PowerType.PASSIVE, PF.PowerType.PAYOFF_SOMETHING_POSITIVE:
 				color = _GRAY
 			PF.PowerType.POWER_TARGETTING_ANY_COIN, PF.PowerType.POWER_TARGETTING_MONSTER_COIN, PF.PowerType.POWER_TARGETTING_PLAYER_COIN, PF.PowerType.POWER_NON_TARGETTING:
 				color = _YELLOW if get_active_power_charges() != 0 else _GRAY
@@ -1743,7 +1743,7 @@ func _generate_tooltip() -> void:
 		if _heads_power.power_family.is_payoff() and not _heads_power.power_family.icon_path in ignore_icons:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
 			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
-				and not _heads_power.power_family.power_type == PF.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR: #specific exception for minotaur formatting
+				and not _heads_power.power_family == PF.PayoffCurseUnluckyScaling: #specific exception for minotaur formatting
 				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text
@@ -1753,7 +1753,7 @@ func _generate_tooltip() -> void:
 			
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
 			if _tails_power.charges <= 1 or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
-				and not _tails_power.power_family.power_type == PF.PowerType.PAYOFF_CURSE_UNLUCKY_SCALING_MINOTAUR:
+				and not _tails_power.power_family == PF.PayoffCurseUnluckyScaling:
 				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
 			else:
 				if is_monster_coin(): #purple charges text

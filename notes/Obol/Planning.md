@@ -1,25 +1,18 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] **Coin Power Refactor - Monday**
-		- [ ] Shift Payoff coins to also perform their logic inside the PowerFamily subclasses.
-		- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
-		- [ ] Buried coins should not light up when hovered with a power.
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
 			- [ ] Coin._generate_tooltip
 			- [ ] replace_placeholders - expensive call
 			- [ ] Should just do a single class to replace_placeholders in generate_tooltip instead of 3.
 			- [ ] if needed, we can also come up with a cleaner way to do the string replace... do some more profiling to determine if this is necessary... break string by ( and ); then use a map based lookup for the replacements?
-			- [ ] There is a 
+			- [ ] Coins aren't moving up when resolving ignite damage (at least, phoenix isn't)
+			- [ ] we don't need multiple versions of bury, just one - branch internally based on the sepcific power used
+			- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
+			- [ ] Buried coins should not light up when hovered with a power.
 		- [ ] **Balance Tweaks**
 			- [ ] Daedalus - require different powers on both sides
-				- [ ] or half charges...?
 			- [ ] Keres - make the life penalty increase smaller but permanent
-	- [ ] **Info View**
-		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
-			- [ ] Coin label - replaced with the ICON for that coin.
-			- [ ] Coin above - shows an icon for heads or tails.
-			- [ ] Shows coin limit somewhere.
 	- [ ] **Remaining Trial Work**
 		- [ ]  Singularity - Power coins have only a single charge.
 			- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
@@ -33,13 +26,18 @@
 		- [ ] **Add Remaining Trials**
 			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
 			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
-			- [ ] Fate - Coins cannot be reflipped.
+			- [ ] Fate - Coins cannot be reflipped after the initial toss.
 	- [ ] **Charon Improvements**
 		- [ ] Charon's malice should activate a bit more often.
 		- [ ] Monsters spawned by Charon should scale denom with round_count.
 		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
 		- [ ] Charon's malice particles reset after each payoff. Don't do that.
 		- [ ] "Souls are mine! None for you!" - not sure if this is working.
+	- [ ] **Info View - Saturday/Sunday**
+		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
+			- [ ] Coin label - replaced with the ICON for that coin.
+			- [ ] Coin above - shows an icon for heads or tails.
+			- [ ] Shows coin limit somewhere.
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
