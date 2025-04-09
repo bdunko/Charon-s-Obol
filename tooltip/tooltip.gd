@@ -3,6 +3,7 @@ extends MarginContainer
 
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
 
+const _FORCE_MOVE_OFF_OF_MOUSE = false
 
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO
@@ -216,33 +217,33 @@ func _force_position_onto_screen():
 	var real_size = find_child("Layer").size
 	
 	# if we are off the right of the screen, move left until that's no longer the case.
-	while position.x + real_size.x > viewport_rect.size.x:
-		position.x -= 1
-		
-	# if we are off the left of the screen, move right until that's no longer the case.
-	while position.x < 0:
-		position.x += 1
+	if position.x + real_size.x > viewport_rect.size.x:
+		position.x = viewport_rect.size.x - real_size.x
+	
+	if position.x < 0:
+		position.x = 0
 	
 	# if we are off the bottom of the screen, move up until that's no longer the case.
-	while position.y + real_size.y > viewport_rect.size.y:
-		position.y -= 1
+	if position.y + real_size.y > viewport_rect.size.y:
+		position.y = viewport_rect.size.y - real_size.y
 		
-	# if we are off the top of the screen, move down until that's no longer the case.
-	while position.y < 0:
-		position.y += 1
+	if position.y < 0:
+		position.y = 0
 	
 #	# but now we might be overlapping the mouse, so move up until we aren't
-	var shifted := false
-	var hit_top := false
-	while _get_real_rect().has_point(mouse_position):
-		shifted = true
-		position.y -= 1
-		if position.y <= 0:
-			hit_top = true
-			break
+	if _FORCE_MOVE_OFF_OF_MOUSE:
+		var shifted := false
+		var hit_top := false
+		while _get_real_rect().has_point(mouse_position):
+			shifted = true
+			position.y -= 1
+			if position.y <= 0:
+				position.y = 0
+				hit_top = true
+				break
 
-	if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
-		position.y = max(0, position.y - _TOOLTIP_OFFSET.y) # clamp at 0 so we can't end up offscreen again
+		if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
+			position.y = max(0, position.y - _TOOLTIP_OFFSET.y) # clamp at 0 so we can't end up offscreen again
 
 func destroy_tooltip():
 	var fade_out = create_tween()

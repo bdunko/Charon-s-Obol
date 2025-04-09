@@ -21,9 +21,7 @@ class PowerFamily:
 		REFLIP, FREEZE, LUCKY, GAIN, DESTROY, UPGRADE, HEAL, POSITIONING, CURSE, BLESS, TURN, TRADE, IGNITE, ANTIMONSTER, STONE, BLANK, CONSECRATE, DOOM, BURY, CHARGE
 	}
 	
-	var description: String:
-		get:
-			return Global.replace_placeholders(description)
+	var description: String
 	var uses_for_denom: Array[int]
 	var power_type: PowerType
 	var icon_path: String

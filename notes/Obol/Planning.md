@@ -2,12 +2,12 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
-			- [ ] Coin._generate_tooltip
-			- [ ] replace_placeholders - expensive call
-			- [ ] Should just do a single class to replace_placeholders in generate_tooltip instead of 3.
+			- [ ] replace_placeholders
+			- [ ] Coin.replace_placeholder_text (4 calls)
+			- [ ] UITooltip.force_position_onto_screen
 			- [ ] if needed, we can also come up with a cleaner way to do the string replace... do some more profiling to determine if this is necessary... break string by ( and ); then use a map based lookup for the replacements?
 			- [ ] Coins aren't moving up when resolving ignite damage (at least, phoenix isn't)
-			- [ ] we don't need multiple versions of bury, just one - branch internally based on the sepcific power used
+			- [ ] we don't need multiple versions of bury, just one - branch internally based on the specific power used
 			- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
 			- [ ] Buried coins should not light up when hovered with a power.
 		- [ ] **Balance Tweaks**
@@ -117,3 +117,4 @@
 	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
 - [ ] **Balance - Indeterminant**
+
