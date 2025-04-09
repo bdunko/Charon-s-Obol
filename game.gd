@@ -798,11 +798,11 @@ func _on_accept_button_pressed():
 			for possibly_ignited_coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
-					#possibly_ignited_coin.payoff_move_up()
+					possibly_ignited_coin.payoff_move_up()
 					Global.lives -= 3
 					_update_payoffs()
 					await Global.delay(0.15)
-					#possibly_ignited_coin.payoff_move_down()
+					possibly_ignited_coin.payoff_move_down()
 					await Global.delay(0.15)
 					if Global.lives < 0:
 						Global.payoffs_this_round += 1
