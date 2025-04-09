@@ -2,7 +2,6 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Tweaks**
 		- [ ] **Fix Bugs from Playtesting**
-			- [ ] we don't need multiple versions of bury, just one - branch internally based on the specific power used
 			- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
 			- [ ] Buried coins should not light up when hovered with a power.
 		- [ ] **Balance Tweaks**

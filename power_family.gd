@@ -1064,11 +1064,22 @@ class PayoffFreezeSelf extends PowerFamily:
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
 
-class PayoffBurySelfLabyrinth extends PowerFamily:
+class PayoffBurySelf extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
-		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		payoff_coin.bury(1)
-		payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
+		var payoff_family = payoff_coin.get_active_power_family()
+		
+		payoff_coin.FX.flash(Color.SADDLE_BROWN)
+		
+		var duration = 1
+		match payoff_family:
+			Global.NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY:
+				duration = 1
+			Global.MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY:
+				payoff_coin.turn()
+				duration = Global.BOAR_BURY[payoff_coin.get_denomination()]
+		
+		payoff_coin.bury(duration)
+		payoff_coin.play_power_used_effect(payoff_family)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -1160,23 +1171,26 @@ class PayoffBuryOread extends PowerFamily:
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
 
-class PayoffBuryCyclops extends PowerFamily:
+class PayoffBury extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
+		var payoff_family = payoff_coin.get_active_power_family()
+		
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		var target = Global.choose_one(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BURIED, CoinRow.FILTER_CAN_TARGET]))
-		if target:
-			target.bury(Global.CYCLOPS_BURY[payoff_coin.get_denomination()])
+		
+		var duration = 1
+		var targets = 1
+		match payoff_family:
+			Global.MONSTER_POWER_FAMILY_CYCLOPS_BURY:
+				duration = Global.CYCLOPS_BURY[payoff_coin.get_denomination()]
+			Global.MONSTER_POWER_FAMILY_LAMIA_BURY:
+				duration = Global.LAMIA_BURY[payoff_coin.get_denomination()]
+				targets = 2
+			Global.MONSTER_POWER_FAMILY_OREAD_BURY:
+				duration = Global.OREAD_BURY[payoff_coin.get_denomination()]
+		
+		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BURIED, CoinRow.FILTER_CAN_TARGET]), targets):
+			target.bury(duration)
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
-	
-	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
-
-class PayoffBurySelfBoar extends PowerFamily:
-	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
-		payoff_coin.FX.flash(Color.SADDLE_BROWN)
-		payoff_coin.turn()
-		payoff_coin.bury(Global.BOAR_BURY[payoff_coin.get_denomination()])
-		payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)

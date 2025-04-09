@@ -1271,10 +1271,10 @@ var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PF.PayoffLoseLife.new("-(CUR
 var STRIX_INCREASE = [4, 5, 6, 7, 8, 9]
 var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PF.PayoffIncreasePenalty.new("Increase a coin's penalty for this round by (STRIX_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
 var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
-var MONSTER_POWER_FAMILY_LAMIA_BURY = PF.PayoffBuryLamia.new("(BURY) a coin for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_LAMIA_BURY = PF.PayoffBury.new("(BURY) 2 coins for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var BOAR_BURY = [1, 1, 1, 1, 1, 1]
-var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PF.PayoffBurySelfBoar.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoff.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/erymanthian_boar_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PF.PayoffBurySelf.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoff.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/erymanthian_boar_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF = PF.PayoffUpgradeSelf.new("Upgrade this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/spartoi_icon.png", ONLY_SHOW_ICON)
 
 # encounters
@@ -1287,7 +1287,7 @@ var MONSTER_POWER_FAMILY_PHOENIX_HEAL = PF.PayoffGainLife.new("+(CURRENT_CHARGES
 var MONSTER_POWER_FAMILY_PHOENIX_IGNITE_SELF = PF.PayoffIgniteSelf.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/phoenix_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_OREAD_LUCKY = PF.PayoffLucky.new("Make a coin (LUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/oread_icon.png", ONLY_SHOW_ICON)
 const OREAD_BURY = [3, 3, 3, 3, 3, 3]
-var MONSTER_POWER_FAMILY_OREAD_BURY = PF.PayoffBuryOread.new("(BURY) a coin for (OREAD_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_OREAD_BURY = PF.PayoffBury.new("(BURY) a coin for (OREAD_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM = PF.PayoffTransform.new("Transform a coin into a random coin of the same denomination and type.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/empusa_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_EMPUSA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_HAMADYRAD_BLESS = PF.PayoffBless.new("(BLESS) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/hamadryad_icon.png", ONLY_SHOW_ICON)
@@ -1321,7 +1321,7 @@ const SPHINX_THORNS_DENOM = [Denomination.DIOBOL, Denomination.DIOBOL, Denominat
 var MONSTER_POWER_FAMILY_SPHINX_THORNS = PF.PayoffGainThornsSphinx.new("Gain an (SPHINX_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/coin/thorns_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE = PF.PayoffDowngradeAndPrime.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/cyclops_icon.png", ONLY_SHOW_ICON)
 const CYCLOPS_BURY = [4, 4, 5, 5, 6, 6]
-var MONSTER_POWER_FAMILY_CYCLOPS_BURY = PF.PayoffBuryCyclops.new("(BURY) a coin for (CYCLOPS_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_CYCLOPS_BURY = PF.PayoffBury.new("(BURY) a coin for (CYCLOPS_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
 
 # medusa
 var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
@@ -1364,7 +1364,7 @@ var NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE = PF.PayoffAWayOut.new("You walk
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_damage_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PF.PayoffUnluckySelf.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_self_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PF.PayoffFreezeSelf.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/freeze_self_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PF.PayoffBurySelfLabyrinth.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PF.PayoffBurySelf.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
 var TRIAL_POWER_FAMILY_IRON = PF.PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If not enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", ONLY_SHOW_ICON)
@@ -2221,7 +2221,7 @@ var MONSTER_GADFLY_FAMILY = CoinFamily.new(2008, CoinType.MONSTER, "[color=gray]
 	NO_PRICE, MONSTER_POWER_FAMILY_GADFLY_THORNS, MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_STRIX_FAMILY = CoinFamily.new(2009, CoinType.MONSTER, "[color=gray]Strix's (DENOM)[/color]", "[color=purple]Sordid and Silent[/color]", MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
-var MONSTER_LAMIA_FAMILY = CoinFamily.new(2010, CoinType.MONSTER, "[color=gray]Lamia's (DENOM)[/color]", "[color=purple]Jealous Lover[/color]", MONSTER_POWER_FAMILY_LAMIA_BURY.icon_path, NO_UNLOCK_TIP,\
+var MONSTER_LAMIA_FAMILY = CoinFamily.new(2010, CoinType.MONSTER, "[color=gray]Lamia's (DENOM)[/color]", "[color=purple]Zealous Lover[/color]", MONSTER_POWER_FAMILY_LAMIA_BURY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_LAMIA_BURY, MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
 var MONSTER_ERYMANTHIAN_BOAR_FAMILY = CoinFamily.new(2011, CoinType.MONSTER, "[color=gray]Erymanthian Boar's (DENOM)[/color]", "[color=purple]Raging Tusks[/color]", MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY, POWER_FAMILY_LOSE_LIFE_DOUBLED, _SpriteStyle.NEMESIS, [], STANDARD_APPEASE)
