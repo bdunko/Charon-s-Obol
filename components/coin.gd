@@ -902,6 +902,10 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	
 	_heads = _get_next_heads(is_toss, bonus)
 	
+	# flash polarization here just for the graphical effect
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_POLARIZATION): #polarization trial - payoffs 90% tails
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_POLARIZATION)
+	
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HERA)
 	elif is_consecrated():
@@ -984,7 +988,6 @@ func _get_percentage_success(bonus: int = 0):
 	# base success is 50, UNLESS affected by trials
 	if is_payoff_coin() and Global.is_passive_active(Global.TRIAL_POWER_FAMILY_POLARIZATION): #polarization trial - payoffs 90% tails
 		percentage_success = 10
-		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_POLARIZATION)
 	else:
 		percentage_success = 50
 	
