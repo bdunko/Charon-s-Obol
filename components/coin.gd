@@ -97,6 +97,13 @@ var _permanent_statuses = []
 @onready var _coin_movement_tween: Global.ManagedTween = Global.ManagedTween.new(self, "global_position")
 @onready var _sprite_movement_tween: Global.ManagedTween = Global.ManagedTween.new(_SPRITE, "position")
 
+var _can_target := false:
+	set(val):
+		_can_target = val
+		_update_appearance()
+func set_can_target(can_tar: bool) -> void:
+	_can_target = can_tar
+
 var _disable_interaction := false:
 	set(val):
 		_disable_interaction = val
@@ -384,8 +391,11 @@ func _update_glow():
 		return
 	
 	# if another coin is active now and hovering this coin as a target, glow white
-	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self and _MOUSE.is_over():
-		FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
+	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self and _can_target:
+		if _MOUSE.is_over():
+			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
+		else:
+			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 0.4, false)
 		return
 	
 	# if this is the active power coin, glow solid gold

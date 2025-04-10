@@ -225,6 +225,17 @@ func _ready() -> void:
 	Global.arrow_count_changed.connect(_on_arrow_count_changed)
 	Global.toll_coins_changed.connect(_show_toll_dialogue)
 	Global.malice_changed.connect(_on_malice_changed)
+	Global.active_coin_power_family_changed.connect(_on_active_coin_power_family_changed)
+
+func _on_active_coin_power_family_changed() -> void:
+	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
+		if Global.active_coin_power_family == null:
+			coin.set_can_target(false)
+		else:
+			var row = coin.get_parent()
+			var left = row.get_left_of(coin)
+			var right = row.get_right_of(coin)
+			coin.set_can_target(Global.active_coin_power_family.can_use(self, coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW).can_use)
 
 func _on_arrow_count_changed() -> void:
 	while _ARROWS.get_child_count() > Global.arrows:
