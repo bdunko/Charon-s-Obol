@@ -1,18 +1,10 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Tweaks**
-		- [ ] **Fix Bugs from Playtesting**
-			- [ ] When a power is active, coins that are valid targets should be highlighted. Use can_use_power to determine if a target is valid?
-			- [ ] Buried coins should not light up when hovered with a power.
 		- [ ] **Balance Tweaks**
 			- [ ] Daedalus - require different powers on both sides
 			- [ ] Keres - make the life penalty increase smaller but permanent
 	- [ ] **Remaining Trial Work**
-		- [ ]  Singularity - Power coins have only a single charge.
-			- [ ] spawned coins (ie dionysus) can cheat this; figure out if we want to prevent this and how (ignoring the ignore_trials flag in _calculate_charge_amount might help but idk about side effects)
-			- [ ] we should apply this effect at the start of the trial visually
-			- [ ] ideally, maximum number of charges should also display as 1. 
-			- [ ] better implementation - when we would get the charges for denom, return 1. This should be done through a getter as well. Will require some refactor.
 		- [ ] **Add Remaining Trials**
 			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
 			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
@@ -28,6 +20,8 @@
 			- [ ] Coin label - replaced with the ICON for that coin.
 			- [ ] Coin above - shows an icon for heads or tails.
 			- [ ] Shows coin limit somewhere.
+
+
 
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**

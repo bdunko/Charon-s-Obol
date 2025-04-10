@@ -1729,7 +1729,7 @@ class Patron:
 		return Global.replace_placeholders("(POWER_PATRON)[color=yellow]%d/%d[/color][img=10x13]%s[/img](POWERARROW)%s" % [n_charges, get_uses_per_round(), power_family.icon_path, _description])
 	
 	func get_uses_per_round() -> int:
-		return power_family.uses_for_denom[0]
+		return power_family.get_uses_for_denom(0)
 	
 	func get_random_starting_coin_family() -> CoinFamily:
 		return Global.choose_one(_starting_coinpool)

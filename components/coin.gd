@@ -190,14 +190,14 @@ class FacePower:
 		
 		# handle special tantalus case, since it's a passive and not a PAYOFF_GAIN_SOULS power
 		if power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
-			souls_payoff = power_family.uses_for_denom[denomination]
+			souls_payoff = power_family.get_uses_for_denom(denomination)
 		elif power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
 				if in_shop: # while in the shop, show a question mark
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					# +(USES) Souls for each coin to the left.
-					var souls_per_coin_on_left = power_family.uses_for_denom[denomination]
+					var souls_per_coin_on_left = power_family.get_uses_for_denom(denomination)
 					souls_payoff = 0
 					assert(coin_row.has_coin(coin))
 					for c in coin_row.get_children():
@@ -208,20 +208,20 @@ class FacePower:
 				if in_shop:
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
-					var base_payoff = power_family.uses_for_denom[denomination]
+					var base_payoff = power_family.get_uses_for_denom(denomination)
 					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[denomination]
 					souls_payoff = base_payoff + (souls_per_heads * (coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
-				var base_payoff = power_family.uses_for_denom[denomination]
+				var base_payoff = power_family.get_uses_for_denom(denomination)
 				if in_shop:
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					var growth = get_metadata(METADATA_CARPO, 0)
 					souls_payoff = base_payoff + growth
 			else: # all other ones don't have special scaling; just take number of uses
-				souls_payoff = power_family.uses_for_denom[denomination]
+				souls_payoff = power_family.get_uses_for_denom(denomination)
 		elif power_family.power_type == PF.PowerType.PAYOFF_LOSE_SOULS:
-			souls_payoff = power_family.uses_for_denom[denomination]
+			souls_payoff = power_family.get_uses_for_denom(denomination)
 		else:
 			souls_payoff = 0
 	
@@ -391,11 +391,11 @@ func _update_glow():
 		return
 	
 	# if another coin is active now and hovering this coin as a target, glow white
-	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self and _can_target:
+	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self  and _can_target:
 		if _MOUSE.is_over():
-			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
+			FX.start_glowing(Color.AZURE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
 		else:
-			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 0.4, false)
+			FX.start_glowing(Color.AZURE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 0.6, false)
 		return
 	
 	# if this is the active power coin, glow solid gold
@@ -630,10 +630,10 @@ func _on_state_changed() -> void:
 		_PRICE.hide()
 
 func _set_heads_power_to(power_family: PF.PowerFamily) -> void:
-	_heads_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
+	_heads_power = FacePower.new(power_family, power_family.get_uses_for_denom(_denomination))
 
 func _set_tails_power_to(power_family: PF.PowerFamily) -> void:
-	_tails_power = FacePower.new(power_family, power_family.uses_for_denom[_denomination])
+	_tails_power = FacePower.new(power_family, power_family.get_uses_for_denom(_denomination))
 
 func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, owned_by: Owner):
 	_coin_family = family
@@ -770,9 +770,9 @@ func upgrade(no_flash: bool = false) -> void:
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_HADES)
 	
 	# update charges to include the upgrade
-	var heads_charges_delta = _heads_power.power_family.uses_for_denom[_denomination] - _heads_power.power_family.uses_for_denom[prev_denom]
+	var heads_charges_delta = _heads_power.power_family.get_uses_for_denom(_denomination) - _heads_power.power_family.get_uses_for_denom(prev_denom)
 	_heads_power.charges += heads_charges_delta
-	var tails_charges_delta = _tails_power.power_family.uses_for_denom[_denomination] - _tails_power.power_family.uses_for_denom[prev_denom]
+	var tails_charges_delta = _tails_power.power_family.get_uses_for_denom(_denomination) - _tails_power.power_family.get_uses_for_denom(prev_denom)
 	_tails_power.charges += tails_charges_delta
 	
 	_update_appearance()
@@ -807,9 +807,9 @@ func downgrade(no_flash: bool = false) -> void:
 			return
 	
 	# update charges to include the upgrade
-	var heads_charges_delta = _heads_power.power_family.uses_for_denom[_denomination] - _heads_power.power_family.uses_for_denom[prev_denom]
+	var heads_charges_delta = _heads_power.power_family.get_uses_for_denom(_denomination) - _heads_power.power_family.get_uses_for_denom(prev_denom)
 	_heads_power.charges += heads_charges_delta
-	var tails_charges_delta = _tails_power.power_family.uses_for_denom[_denomination] - _tails_power.power_family.uses_for_denom[prev_denom]
+	var tails_charges_delta = _tails_power.power_family.get_uses_for_denom(_denomination) - _tails_power.power_family.get_uses_for_denom(prev_denom)
 	_tails_power.charges += tails_charges_delta
 	
 	_update_appearance()
@@ -1065,9 +1065,15 @@ func get_inactive_face_power() -> FacePower:
 	return _heads_power if is_tails() else _tails_power
 
 func get_active_power_family() -> PF.PowerFamily:
-	return get_active_face_power().power_family
+	var active_face_power = get_active_face_power()
+	if active_face_power == null:
+		return null #$hack$ rare case where we do this call when the coin is not yet initialized
+	return active_face_power.power_family
 
 func get_inactive_power_family() -> PF.PowerFamily:
+	var inactive_face_power = get_inactive_face_power()
+	if inactive_face_power == null:
+		return null #$hack$ rare case where we do this call when the coin is not yet initialized
 	return get_inactive_face_power().power_family
 
 func get_active_power_charges() -> int:
@@ -1077,7 +1083,7 @@ func set_active_power_charges(amt: int) -> void:
 	get_active_face_power().charges = amt
 
 func get_max_active_power_charges() -> int:
-	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.uses_for_denom[_denomination]
+	return _heads_power.power_family.uses_for_denom[_denomination] if is_heads() else _tails_power.power_family.get_uses_for_denom(_denomination)
 
 func spend_active_face_power_use() -> void:
 	if is_heads():
@@ -1110,17 +1116,14 @@ func spend_inactive_face_power_use() -> void:
 	FX.flash(Color.WHITE)
 
 func _calculate_charge_amount(power_family: PF.PowerFamily, current_charges: int, ignore_trials: bool) -> int:
-	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SINGULARITY) and not ignore_trials: # max 1 charge
-		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SINGULARITY)
-		return min(1, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
-	elif power_family.power_type == PF.PowerType.PASSIVE or is_stone() or is_frozen(): # passive coins or stone coins do not recharge
+	if power_family.power_type == PF.PowerType.PASSIVE or is_stone() or is_frozen(): # passive coins or stone coins do not recharge
 		return current_charges
 	elif power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
-		return max(0, power_family.uses_for_denom[_denomination] + (_permanent_life_penalty_change + _round_life_penalty_change))
+		return max(0, power_family.get_uses_for_denom(_denomination) + (_permanent_life_penalty_change + _round_life_penalty_change))
 	elif Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SAPPING) and not ignore_trials: #recharge only by 1
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SAPPING)
-		return min(current_charges + 1, power_family.uses_for_denom[_denomination] + (_permanent_charge_change + _round_charge_change))
-	return power_family.uses_for_denom[_denomination] + (_permanent_charge_change + _round_charge_change)
+		return min(current_charges + 1, power_family.get_uses_for_denom(_denomination) + (_permanent_charge_change + _round_charge_change))
+	return power_family.get_uses_for_denom(_denomination) + (_permanent_charge_change + _round_charge_change)
 
 func reset_power_uses(ignore_trials: bool = false) -> void:
 	var new_heads_charges = _calculate_charge_amount(_heads_power.power_family, _heads_power.charges, ignore_trials)
@@ -1626,7 +1629,7 @@ const NUMERICAL_ADVERB_DICT = {
 func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> String:
 	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
 	if face_power != null:
-		txt = txt.replace("(MAX_CHARGES)", str(max(0, face_power.power_family.uses_for_denom[_denomination])))
+		txt = txt.replace("(MAX_CHARGES)", str(max(0, face_power.power_family.get_uses_for_denom(_denomination))))
 
 		var charges = max(0, face_power.charges)
 		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)

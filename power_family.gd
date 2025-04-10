@@ -22,7 +22,7 @@ class PowerFamily:
 	}
 	
 	var description: String
-	var uses_for_denom: Array[int]
+	var _uses_for_denom: Array[int]
 	var power_type: PowerType
 	var icon_path: String
 	var prefer_icon_only: bool
@@ -30,12 +30,19 @@ class PowerFamily:
 	
 	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String, pref_icn_only: bool, tgs: Array = []) -> void:
 		self.description = desc
-		self.uses_for_denom = uses_per_denom
 		self.power_type = pwrType
+		self._uses_for_denom = uses_per_denom
 		self.icon_path = icon
 		self.prefer_icon_only = pref_icn_only
 		assert(FileAccess.file_exists(self.icon_path))
 		self.tags = tgs
+	
+	func get_uses_for_denom(denom: Global.Denomination) -> int:
+		# singularity trial - max charges = 1
+		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SINGULARITY) and is_power(): 
+			return min(1, _uses_for_denom[denom])
+		
+		return _uses_for_denom[denom]
 	
 	func get_power_type_placeholder() -> String:
 		if is_power():

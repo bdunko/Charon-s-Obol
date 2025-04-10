@@ -1532,6 +1532,9 @@ func _on_voyage_continue_button_clicked():
 				Global.TRIAL_POLARIZATION_FAMILY:
 					await _wait_for_dialogue("Your coins shall be Polarized!")
 				Global.TRIAL_SINGULARITY_FAMILY:
+					for c in _COIN_ROW.get_children():
+						c.reset_power_uses(true)
+					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SINGULARITY)
 					await _wait_for_dialogue("The Singularity beckons...")
 				Global.TRIAL_GATING_FAMILY:
 					await _wait_for_dialogue("You must pass through the gate!")
