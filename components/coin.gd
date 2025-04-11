@@ -1661,6 +1661,7 @@ func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> Str
 	txt = txt.replace("(CYCLOPS_BURY)", str(Global.CYCLOPS_BURY[_denomination]))
 	txt = txt.replace("(STRIX_INCREASE)", str(Global.STRIX_INCREASE[_denomination]))
 	txt = txt.replace("(KERES_INCREASE)", str(Global.KERES_INCREASE[_denomination]))
+	txt = txt.replace("(CERBERUS_INCREASE)", str(Global.CERBERUS_INCREASE[_denomination]))
 	txt = txt.replace("(GADFLY_INCREASE)", str(Global.GADFLY_INCREASE[_denomination]))
 	txt = txt.replace("(GADFLY_DENOM)", str(Global.denom_to_string(Global.GADFLY_THORNS_DENOM[_denomination])))
 	txt = txt.replace("(SPHINX_DENOM)", str(Global.denom_to_string(Global.SPHINX_THORNS_DENOM[_denomination])))

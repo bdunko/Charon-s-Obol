@@ -3,7 +3,7 @@ extends MarginContainer
 
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
 
-const _FORCE_MOVE_OFF_OF_MOUSE = false
+const _FORCE_MOVE_OFF_OF_MOUSE = true
 
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO

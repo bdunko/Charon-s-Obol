@@ -2,8 +2,10 @@
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Tweaks**
 		- [ ] **Balance Tweaks**
-			- [ ] Daedalus - require different powers on both sides
-			- [ ] Keres - make the life penalty increase smaller but permanent
+			- [x] Daedalus - require different powers on both sides
+			- [x] Keres - make the life penalty increase smaller but permanent
+		- [ ] bump up speed of glow for targettable coins in coin.gd (or use fast glow but with a higher alpha)
+		- [ ] hmm, seems like we're handling bury effects as always showing a 1 and putting the duration in the tooltip... I guess we should handle all life penalties the same way. We currently are doing that, but Cerberus ignite increase is not handled like this so it looks a little weird. 
 	- [ ] **Remaining Trial Work**
 		- [ ] **Add Remaining Trials**
 			- [ ] Adversity - At the start of the round - 4 powerful monsters spawn.
@@ -29,6 +31,7 @@
 		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
 		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
 	- [ ] Directional tooltips - can specify preferred orientation for the tooltip (instead of always trying to go down, allow it to prefer to the left, right, or above the mouse).
+		- [ ] at this point, we can disable _FORCE_MOVE_OFF_OF_MOUSE
 	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen). - maybe unnecessary now
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**

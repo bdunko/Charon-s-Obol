@@ -1241,7 +1241,7 @@ var POWER_FAMILY_FLIP_AND_TAG = PF.FlipAndTag.new("Reflip a coin. Also reflip ea
 var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PF.ReflipLeftAlternating.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PF.ReflipRightAlternating.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PF.SwapReflipNeighbors.new("Choose one of your coins. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/boreas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_PERMANENTLY_COPY_FACE = PF.CopyPowerPermanently.new("Choose one of your coins. Permanently copy its power to this face.", [1, 1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY = PF.CopyPowerPermanentlyAndDestroy.new("Choose a coin. Permanently copy its power to this face, then destroy it.", [1, 1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_PLUTUS_COIN = PF.GainPlutusCoin.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
 var POWER_FAMILY_GAIN_GOLDEN_COIN = PF.GainGoldenCoin.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
 var POWER_FAMILY_TURN_ALL = PF.TurnAll.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
@@ -1268,8 +1268,8 @@ var GADFLY_THORNS_DENOM = [Denomination.OBOL, Denomination.OBOL, Denomination.DI
 var MONSTER_POWER_FAMILY_GADFLY_THORNS = PF.PayoffGainThornsGadfly.new("Gain an (GADFLY_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gadfly_icon.png", ONLY_SHOW_ICON)
 var GADFLY_INCREASE = [1, 2, 3, 4, 5, 6]
 var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (GADFLY_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var STRIX_INCREASE = [4, 5, 6, 7, 8, 9]
-var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PF.PayoffIncreasePenalty.new("Increase a coin's penalty for this round by (STRIX_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
+var STRIX_INCREASE = [2, 3, 4, 5, 6, 7]
+var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PF.PayoffIncreaseAllPlayerPenalty.new("Increase the (LIFE) penalty of each of your coins by (STRIX_INCREASE)(LIFE) for this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
 var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
 var MONSTER_POWER_FAMILY_LAMIA_BURY = PF.PayoffBury.new("(BURY) 2 coins for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
@@ -1308,7 +1308,7 @@ var MONSTER_POWER_FAMILY_BASILISK = PF.PayoffHalveLife.new("Lose half your(LIFE)
 var MONSTER_POWER_FAMILY_GORGON = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", ONLY_SHOW_ICON)
 const KERES_INCREASE = [3, 4, 5, 6, 7, 8]
-var MONSTER_POWER_FAMILY_KERES_PENALTY = PF.PayoffIncreaseAllPenalty.new("Increase the penalty of all coins by (KERES_INCREASE)(LIFE) this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_PENALTY = PF.PayoffIncreasePenaltyPermanently.new("Permanently increase the (LIFE) penalty of a coin by (KERES_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
 var MONSTER_POWER_FAMILY_KERES_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/desecrate_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/blank_icon.png", ICON_AND_CHARGES)
 var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/teumessian_fox_icon.png", ONLY_SHOW_ICON)
@@ -1350,7 +1350,8 @@ var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PF.PayoffBlankRightHalf.new("(BLANK) 
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PF.PayoffIgniteSelf.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/ignite_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PF.PayoffAmplifyIgnite.new("Increase (IGNITE) damage by (CURRENT_CHARGES) this round.", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenalty.new("Increase the (LIFE) penalty of all coins by (CURRENT_CHARGES)(LIFE) this round.", [1, 2, 2, 3, 3, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
+const CERBERUS_INCREASE = [1, 2, 2, 3, 3, 4]
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenaltyPermanently.new("Permanently increase the (LIFE) penalty of all coins by (CERBERUS_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 
@@ -2027,7 +2028,7 @@ enum CoinType {
 	POWER_FAMILY_BLANK_TAILS, POWER_FAMILY_CONSECRATE_AND_DOOM, POWER_FAMILY_BURY_HARVEST, POWER_FAMILY_BURY_TURN_TAILS,
 	POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY, POWER_FAMILY_IGNITE_CHARGE_LUCKY, POWER_FAMILY_DESTROY_FOR_REWARD,
 	POWER_FAMILY_INFINITE_TURN_HUNGER, POWER_FAMILY_TURN_SELF, POWER_FAMILY_CLONE_PERMANENTLY, POWER_FAMILY_FLIP_AND_TAG, 
-	POWER_FAMILY_REFLIP_LEFT_ALTERNATING, POWER_FAMILY_SWAP_REFLIP_NEIGHBORS, POWER_FAMILY_PERMANENTLY_COPY_FACE, POWER_FAMILY_GAIN_PLUTUS_COIN,
+	POWER_FAMILY_REFLIP_LEFT_ALTERNATING, POWER_FAMILY_SWAP_REFLIP_NEIGHBORS, POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY, POWER_FAMILY_GAIN_PLUTUS_COIN,
 	POWER_FAMILY_GAIN_GOLDEN_COIN, POWER_FAMILY_TURN_ALL, POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE, POWER_FAMILY_TRANSFORM_AND_LOCK
 ]
 
@@ -2129,8 +2130,8 @@ var AEOLUS_FAMILY = CoinFamily.new(1026, CoinType.POWER, "(DENOM) of Aeolus", "[
 	STANDARD, POWER_FAMILY_REFLIP_LEFT_ALTERNATING, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var BOREAS_FAMILY = CoinFamily.new(1027, CoinType.POWER, "(DENOM) of Boreas", "[color=powderblue]Northern Hail[/color]", POWER_FAMILY_SWAP_REFLIP_NEIGHBORS.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_SWAP_REFLIP_NEIGHBORS, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
-var DAEDALUS_FAMILY = CoinFamily.new(1028, CoinType.POWER, "(DENOM) of Daedalus", "[color=peru]Automaton Builder[/color]", POWER_FAMILY_PERMANENTLY_COPY_FACE.icon_path, NO_UNLOCK_TIP,\
-	RICH, POWER_FAMILY_PERMANENTLY_COPY_FACE, POWER_FAMILY_PERMANENTLY_COPY_FACE, _SpriteStyle.POWER)
+var DAEDALUS_FAMILY = CoinFamily.new(1028, CoinType.POWER, "(DENOM) of Daedalus", "[color=peru]Automaton Inventor[/color]", POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY.icon_path, NO_UNLOCK_TIP,\
+	RICH, POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY, POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY, _SpriteStyle.POWER)
 var PLUTUS_FAMILY = CoinFamily.new(1029, CoinType.POWER, "(DENOM) of Plutus", "[color=palegoldenrod]Greed is Blind[/color]", POWER_FAMILY_GAIN_PLUTUS_COIN.icon_path, NO_UNLOCK_TIP,\
 	STANDARD, POWER_FAMILY_GAIN_PLUTUS_COIN, POWER_FAMILY_LOSE_LIFE, _SpriteStyle.POWER)
 var MIDAS_FAMILY = CoinFamily.new(1030, CoinType.POWER, "(DENOM) of Midas", "[color=gold]All that Glitters[/color]", POWER_FAMILY_GAIN_GOLDEN_COIN.icon_path, NO_UNLOCK_TIP,\

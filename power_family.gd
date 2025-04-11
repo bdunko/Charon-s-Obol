@@ -189,9 +189,10 @@ class ClonePermanently extends PowerFamily:
 			return CanUseResult.new(false, "Can't copy a different denomination...")
 		return CanUseResult.new(true)
 
-class CopyPowerPermanently extends PowerFamily:
+class CopyPowerPermanentlyAndDestroy extends PowerFamily:
 	func use_power(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
 		Global.active_coin_power_coin.overwrite_active_face_power(target.get_copied_power_family())
+		game.destroy_coin(target)
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if not target.can_copy_power() or target.get_copied_power_family() == Global.active_coin_power_family:
@@ -959,7 +960,7 @@ class PayoffBlessMonsters extends PowerFamily:
 class PayoffPermanentlyIgniteMonster extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(enemy_row.get_multi_filtered_erandomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+		for target in Global.choose_x(enemy_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
 			target.permanently_ignite()
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
@@ -973,12 +974,32 @@ class PayoffAmplifyIgnite extends PowerFamily:
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
 
-class PayoffIncreaseAllPenalty extends PowerFamily:
+class PayoffIncreaseAllPlayerPenalty extends PowerFamily:
+	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
+		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+		
+		for coin in player_row.get_children():
+			if coin.can_change_life_penalty():
+				coin.change_life_penalty_for_round(Global.STRIX_INCREASE[payoff_coin.get_denomination()])
+	
+	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
+		return CanUseResult.new(true)
+
+class PayoffIncreasePenaltyPermanently extends PowerFamily:
+	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
+		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
+		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_CAN_INCREASE_PENALTY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+			target.change_life_penalty_permanently(Global.KERES_INCREASE[payoff_coin.get_denomination()])
+	
+	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
+		return CanUseResult.new(true)
+
+class PayoffIncreaseAllPenaltyPermanently extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 		for coin in player_row.get_children() + enemy_row.get_children():
 			if coin.can_change_life_penalty():
-				coin.change_life_penalty_for_round(Global.KERES_INCREASE[payoff_coin.get_denomination()])
+				coin.change_life_penalty_permanently(Global.CERBERUS_INCREASE[payoff_coin.get_denomination()])
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
