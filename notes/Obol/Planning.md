@@ -6,8 +6,7 @@
 			- [ ] Keres - make the life penalty increase smaller but permanent
 	- [ ] **Remaining Trial Work**
 		- [ ] **Add Remaining Trials**
-			- [ ] Tribulations - Randomly apply 3 negative statuses to random coins after each toss.
-			- [ ] Adversity - At the start of the round - 3 indestructable monsters spawn.
+			- [ ] Adversity - At the start of the round - 4 powerful monsters spawn.
 			- [ ] Fate - Coins cannot be reflipped after the initial toss.
 	- [ ] **Charon Improvements**
 		- [ ] Charon's malice should activate a bit more often.
