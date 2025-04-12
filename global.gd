@@ -1347,11 +1347,12 @@ var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PF.PayoffBlankLeftHalf.new("(BLANK) th
 var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PF.PayoffBlankRightHalf.new("(BLANK) the right half of your coins.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/charbydis_right_icon.png", ONLY_SHOW_ICON)
 
 # cerberus
-var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PF.PayoffIgniteSelf.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PF.PayoffPermanentlyIgniteMonster.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/ignite_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PF.PayoffAmplifyIgnite.new("Increase (IGNITE) damage by (CURRENT_CHARGES) this round.", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ICON_AND_CHARGES)
+const CERBERUS_INCREASE_IGNITE = [1, 1, 2, 2, 3, 3]
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PF.PayoffAmplifyIgnite.new("Increase (IGNITE) damage by (CERBERUS_INCREASE_IGNITE) this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ONLY_SHOW_ICON)
 const CERBERUS_INCREASE = [1, 2, 2, 3, 3, 4]
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenaltyPermanently.new("Permanently increase the (LIFE) penalty of all coins by (CERBERUS_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenaltyPermanently.new("Permanently increase the (LIFE) penalty of all coins by (CERBERUS_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
 var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
 

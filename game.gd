@@ -813,7 +813,7 @@ func _on_accept_button_pressed():
 				if possibly_ignited_coin.is_ignited():
 					possibly_ignited_coin.FX.flash(Color.RED)
 					possibly_ignited_coin.payoff_move_up()
-					Global.lives -= 3
+					Global.lives -= Global.ignite_damage
 					_update_payoffs()
 					await Global.delay(0.15)
 					possibly_ignited_coin.payoff_move_down()

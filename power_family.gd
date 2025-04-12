@@ -969,7 +969,7 @@ class PayoffPermanentlyIgniteMonster extends PowerFamily:
 class PayoffAmplifyIgnite extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		Global.ignite_damage += payoff_coin.get_active_power_charges()
+		Global.ignite_damage += Global.CERBERUS_INCREASE_IGNITE[payoff_coin.get_denomination()]
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
