@@ -16,6 +16,6 @@ func _on_ignite_changed() -> void:
 	var should_hide = Global.ignite_damage == Global.DEFAULT_IGNITE_DAMAGE
 	if not should_hide: # take up space in layout
 		show()
-	await _FX.fade_out(0.5) if should_hide else await _FX.fade_in(0.5)
+	await _FX.fade_out(0.3) if should_hide else await _FX.fade_in(0.3)
 	if should_hide:
 		hide()

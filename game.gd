@@ -771,7 +771,6 @@ func _on_accept_button_pressed():
 		
 		var payoff_coin: Coin = c as Coin
 		var payoff_power_family: PF.PowerFamily = payoff_coin.get_active_power_family()
-		var denom = payoff_coin.get_denomination()
 		var charges = payoff_coin.get_active_power_charges()
 		var row = payoff_coin.get_parent()
 		var left = row.get_left_of(payoff_coin)

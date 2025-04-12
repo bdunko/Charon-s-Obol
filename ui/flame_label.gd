@@ -16,6 +16,6 @@ func _on_flame_changed() -> void:
 	var should_hide = Global.flame_boost <= 0.0 
 	if not should_hide: # take up space in layout
 		show()
-	await _FX.fade_out(0.5) if should_hide else await _FX.fade_in(0.5)
+	await _FX.fade_out(0.3) if should_hide else await _FX.fade_in(0.3)
 	if should_hide: # hide so it does not occupy space in the layout
 		hide() 
