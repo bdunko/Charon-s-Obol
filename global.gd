@@ -362,11 +362,11 @@ var ignite_damage: int = DEFAULT_IGNITE_DAMAGE:
 
 const MALICE_ACTIVATION_THRESHOLD_AFTER_POWER := 100
 const MALICE_ACTIVATION_THRESHOLD_AFTER_TOSS := 95
-const MALICE_INCREASE_ON_POWER_USED := 1.0
-const MALICE_INCREASE_ON_HEADS_PAYOFF := 3.0
-const MALICE_INCREASE_ON_TOSS_FINISHED := 5.0
+const MALICE_INCREASE_ON_POWER_USED := 2.0
+const MALICE_INCREASE_ON_HEADS_PAYOFF := 5.0
+const MALICE_INCREASE_ON_TOSS_FINISHED := 8.0
 const MALICE_TRIAL_MULTIPLIER := 2.0
-const MALICE_MULTIPLIER_END_ROUND := 0.33
+const MALICE_MULTIPLIER_END_ROUND := 0.45
 var malice: float:
 	set(val):
 		if is_difficulty_active(Difficulty.HOSTILE2):
@@ -603,9 +603,9 @@ var _MONSTER_WAVE_NONE = MonsterWave.new(MonsterWave.WaveType.NO_MONSTERS)
 var _MONSTER_WAVE1 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 3, 1, 1, 0, [], [0])
 var _MONSTER_WAVE2 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 8, 2, 2, 1, [0, 1])
 var _MONSTER_WAVE3 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 14, 2, 3, 2, [1, 2])
-var _MONSTER_WAVE4 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)]])
+var _MONSTER_WAVE4 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, 22, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TRIOBOL)]])
 var _MONSTER_WAVE5 = MonsterWave.new(MonsterWave.WaveType.RANDOMIZED_STRENGTH_STANDARD_ONLY, 28, 3, 5, 2, [0, 1])
-var _MONSTER_WAVE6 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL)]])
+var _MONSTER_WAVE6 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, 36, 0, 0, 0, [[Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL), Monster.new(Monster.Archetype.ELITE, Denomination.TETROBOL)]])
 
 var _MONSTER_WAVE_TUTORIAL1 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])
 var _MONSTER_WAVE_TUTORIAL2 = MonsterWave.new(MonsterWave.WaveType.SPECIFIC_WAVE, -1, 0, 0, 0, [[Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL), Monster.new(Monster.Archetype.STANDARD, Denomination.DIOBOL)]])

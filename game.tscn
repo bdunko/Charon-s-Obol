@@ -5504,10 +5504,10 @@ emission_shape = 1
 emission_sphere_radius = 11.82
 particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
-spread = 90.0
+spread = 85.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 20.0
-initial_velocity_max = 40.0
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_w2m7r")
@@ -5526,8 +5526,8 @@ particle_flag_disable_z = true
 direction = Vector3(0, 1, 0)
 spread = 90.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 20.0
-initial_velocity_max = 40.0
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_0eeor")
@@ -7909,15 +7909,15 @@ emitting = false
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_m5kuv")
 texture = ExtResource("36_l5qg4")
-lifetime = 2.5
+lifetime = 2.0
 
 [node name="MaliceDustRed" type="GPUParticles2D" parent="."]
 position = Vector2(159, -15)
 emitting = false
-amount = 30
+amount = 20
 process_material = SubResource("ParticleProcessMaterial_84yqa")
 texture = ExtResource("36_l5qg4")
-lifetime = 2.5
+lifetime = 2.0
 
 [node name="DeathSpiral" type="GPUParticles2D" parent="."]
 visible = false

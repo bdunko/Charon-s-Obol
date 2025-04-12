@@ -477,6 +477,8 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	Global.malice = 0
+	_MALICE_DUST.hide()
+	_MALICE_DUST_RED.hide()
 	Global.flame_boost = 0.0
 	powers_used = []
 	malice_activations_this_game = 0
@@ -2598,9 +2600,9 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			await _wait_for_dialogue("I shall render you powerless!", delay)
 		MaliceAction.SPAWN_MONSTERS:
 			var denom = Global.Denomination.OBOL
-			if Global.current_round_wave_strength() >= 12:
+			if Global.current_round_wave_strength() >= 10:
 				denom = Global.Denomination.DIOBOL
-			elif Global.current_round_wave_strength() >= 24:
+			elif Global.current_round_wave_strength() >= 20:
 				denom = Global.Denomination.TRIOBOL
 			for i in range(0, 2):
 				spawn_enemy(Global.get_standard_monster(), denom)
@@ -2658,16 +2660,15 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 @onready var _MALICE_DUST : GPUParticles2D = $MaliceDust
 @onready var _MALICE_DUST_RED : GPUParticles2D = $MaliceDustRed
 func _on_malice_changed() -> void:
-	#print(Global.malice)
 	if Global.malice >= 40:
 		_MALICE_DUST.emitting = true
-		_MALICE_DUST.amount = lerp(15, 40, (Global.malice-40)/60.0)
+		_MALICE_DUST.show()
 	else:
 		_MALICE_DUST.emitting = false
 		
 	if Global.malice >= 60:
 		_MALICE_DUST_RED.emitting = true
-		_MALICE_DUST_RED.amount = lerp(10, 25, (Global.malice-60)/40.0)
+		_MALICE_DUST.show()
 	else:
 		_MALICE_DUST_RED.emitting = false
 	

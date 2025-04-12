@@ -1,11 +1,5 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] **Charon Improvements**
-		- [ ] Charon's malice should activate a bit more often.
-		- [ ] Monsters spawned by Charon should scale denom with round_count.
-		- [ ]  When you die, when you start a new run, there are still malice particles from Charon for a second.
-		- [ ] Charon's malice particles reset after each payoff. Don't do that.
-		- [ ] "Souls are mine! None for you!" - not sure if this is working.
 	- [ ] **Info View - Saturday/Sunday**
 		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
 			- [ ] Coin label - replaced with the ICON for that coin.
