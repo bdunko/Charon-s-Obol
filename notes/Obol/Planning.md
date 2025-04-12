@@ -1,5 +1,8 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
+	- [ ] Polish!
+		- [ ] Doomed effect - apply partial destroyed
+		- [ ] Bless/Curse/Lucky/Unlucky/Consecrate/Desecrate should ALL be using the FX for replacing the border (which Lucky/Unlucky currenly uses)
 	- [ ] **Info View - Saturday/Sunday**
 		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
 			- [ ] Coin label - replaced with the ICON for that coin.
@@ -44,6 +47,7 @@
 			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 			- [ ] Just need to await for it to finish
 				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+			- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
 	- [ ] **Death effect**
 	- [ ] **Rising Souls/Life effect**
 	- [ ] **Life loss vignette effect**
@@ -84,6 +88,7 @@
 	- [ ] Add settings menu.
 		- [ ] Fast mode
 		- [ ] Turn off effects
+		- [ ] Settings should be saved to a separate save file.
 	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
 - [ ] **Balance - Indeterminant**

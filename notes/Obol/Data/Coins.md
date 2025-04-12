@@ -104,10 +104,12 @@ Unlockable coins + more coins
 	- [ ] **Bury**
 		- [x] ??? - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
 		- [ ] ??? - Choose a coin. Bury it for 3 payoffs, or if it's already buried dig it back up.
+		- [ ] ??? - Add 2 charges to a coin and bury it for 2 payoffs.
 		- [ ] ??? - Bury a coin. After the next toss, it returns (does not recharge, keeps same side and state.)
 		- [x] ??? - Bury a coin until after payoff. Turn a random tails coin to heads.
 		- [ ] ??? - Bury a coin. At the start of the next tollgate, it returns and upgrades.
 		- [ ] ??? - Bury a coin. In 10 payoffs, return it, bless it, freeze it, and upgrade it.
+		- [ ] ??? - Bury this coin for 1 toss. Turn both neighbors to heads. 1/2/3/4 charges.
 	- [ ] **Gain Coins**
 		- [ ] ??? - Gain a random Obol/Diobol/Triobol/Tetrobol (on heads). It is Doomed (destroy at the end of the round).
 		- [ ] ??? - Gain a random power coin with 2 charges (on heads). it is Fleeting. (1/2/3/4 uses)
@@ -120,7 +122,7 @@ Unlockable coins + more coins
 		- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
 	- [ ] **Face Control**
 		- [ ] ??? - Charge a coin. 
-		- [ ] ??? - Reflip 2 other random coins. (2/3/4/5 uses)
+		- [ ] Chaos - Reflip 2/3/4/5 other random coins (1/2/3/4 charges)
 		- [ ] Oedipus - Make a coin Unlucky and turn it to its other face.
 		- [ ] ??? - Choose a coin. Bless it.
 		- [ ] ??? - Flip all other coins to tails. Gain many souls for each coin flipped down in this way.
@@ -185,8 +187,8 @@ Unlockable coins + more coins
 		- [x] Jason - Golden fleece - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
 	- [ ] **Recharge**
 		- [ ] ??? - Turn this coin to tails. Flip its neighbors to heads and add 1/2/3/4 charges.
-		- [ ] ??? - Choose a coin. Give it 1/2/3/4 power charges and Curse it.
 		- [ ] ??? - Choose a coin. Give it 1/2/3/4 charges and turn it to stone permanently.
+		- [ ] ??? - Choose a coin. Randomly distribute its charges amongst your other coins, excluding this coin. 1/2/3/4.
 	- [ ] **Souls**
 		- [ ] ??? - Turn a coin from heads to tails, then gain shards.
 		- [ ] ??? - Transform a coin into a generic Obol/Diobol/Triobol/Tetrobol for this round.

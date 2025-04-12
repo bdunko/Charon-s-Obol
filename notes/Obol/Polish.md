@@ -1,3 +1,4 @@
+
 - [ ] Improve prometheus indicator - make the text 'pop' in like the phase text
 - [ ] Don't show tooltip while a coin is flipping (so that using a reflip power on a coin closes its tooltip)
 - [ ] Need some visual effect to denote passive
