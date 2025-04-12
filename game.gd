@@ -718,6 +718,9 @@ func _on_toss_button_clicked() -> void:
 	_COIN_ROW.expand()
 	_ENEMY_COIN_ROW.expand()
 	
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FATE): #just a graphical flourish
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_FATE)
+	
 	# flip all the coins
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		coin = coin as Coin
@@ -1539,8 +1542,12 @@ func _on_voyage_continue_button_clicked():
 				Global.TRIAL_GATING_FAMILY:
 					await _wait_for_dialogue("You must pass through the gate!")
 				Global.TRIAL_FATE_FAMILY:
-					await _wait_for_dialogue("All is up to Fate!")
+					await _wait_for_dialogue("Leave it all up to Fate!")
 				Global.TRIAL_ADVERSITY_FAMILY:
+					spawn_enemy(Global.get_standard_monster(), Global.Denomination.TETROBOL)
+					spawn_enemy(Global.get_elite_monster(), Global.Denomination.TETROBOL)
+					spawn_enemy(Global.get_standard_monster(), Global.Denomination.TETROBOL)
+					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_ADVERSITY)
 					await _wait_for_dialogue("Before you stands Adversity!")
 				Global.TRIAL_TRIBULATIONS_FAMILY:
 					await _wait_for_dialogue("You must overcome many Tribulations!")

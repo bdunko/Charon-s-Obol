@@ -115,7 +115,7 @@ class Reflip extends PowerFamily:
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if not target.can_flip():
-			return CanUseResult.new(false, "Can't flip stoned coin...")
+			return CanUseResult.new(false, "Can't flip that coin...")
 		return CanUseResult.new(true)
 
 class Freeze extends PowerFamily:
@@ -139,7 +139,7 @@ class ReflipAndNeighbors extends PowerFamily:
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if (not target.can_flip()) and (not left or (left and not left.can_flip())) and (not right or (right and not right.can_flip())):
-			return CanUseResult.new(false, "Can't flip stoned coin...")
+			return CanUseResult.new(false, "Can't flip that coin...")
 		return CanUseResult.new(true)
 
 class TurnAndBlurse extends PowerFamily:
@@ -332,7 +332,7 @@ class FlipAndTag extends PowerFamily:
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if not target.can_flip():
-			return CanUseResult.new(false, "Can't flip stoned coin...")
+			return CanUseResult.new(false, "Can't flip that coin...")
 		return CanUseResult.new(true)
 
 class SwapReflipNeighbors extends PowerFamily:
@@ -341,7 +341,7 @@ class SwapReflipNeighbors extends PowerFamily:
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if not target.can_flip():
-			return CanUseResult.new(false, "Can't flip stoned coin...")
+			return CanUseResult.new(false, "Can't flip that coin...")
 		return CanUseResult.new(true)
 
 class IgniteThenBlessThenSacrifice extends PowerFamily:

@@ -393,9 +393,9 @@ func _update_glow():
 	# if another coin is active now and hovering this coin as a target, glow white
 	if Global.active_coin_power_family != null and Global.active_coin_power_coin != self  and _can_target:
 		if _MOUSE.is_over():
-			FX.start_glowing(Color.AZURE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
+			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 1.0, false)
 		else:
-			FX.start_glowing(Color.AZURE, FX.DEFAULT_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 0.6, false)
+			FX.start_glowing(Color.AZURE, FX.FAST_GLOW_SPEED, FX.DEFAULT_GLOW_THICKNESS, 0.85, false)
 		return
 	
 	# if this is the active power coin, glow solid gold
@@ -1372,6 +1372,8 @@ func can_flip() -> bool:
 		return false
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
 		return can_turn()
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FATE):
+		return false
 	return not is_stone() and not is_buried()
 
 func can_turn() -> bool:

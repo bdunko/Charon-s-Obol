@@ -1,15 +1,15 @@
 **Charon's Obol v0.3 - Myths and Monsters**
 - [ ] **Active Goals - Apr 30 Sprint - Cooldown**
 	- [ ] **Tweaks**
-		- [ ] **Balance Tweaks**
-			- [x] Daedalus - require different powers on both sides
-			- [x] Keres - make the life penalty increase smaller but permanent
-		- [ ] bump up speed of glow for targettable coins in coin.gd (or use fast glow but with a higher alpha)
+		- [x] bump up speed of glow for targettable coins in coin.gd (or use fast glow but with a higher alpha)
 		- [ ] hmm, seems like we're handling bury effects as always showing a 1 and putting the duration in the tooltip... I guess we should handle all life penalties the same way. We currently are doing that, but Cerberus ignite increase is not handled like this so it looks a little weird. 
 	- [ ] **Remaining Trial Work**
 		- [ ] **Add Remaining Trials**
-			- [ ] Adversity - At the start of the round - 4 powerful monsters spawn.
+			- [ ] Adversity - At the start of the round - 3 powerful monsters spawn.
+				- [ ] spawn monsters at start of wave and flash
 			- [ ] Fate - Coins cannot be reflipped after the initial toss.
+				- [ ] make sure the can_flip code works lol
+				- [x] add flash on each toss
 	- [ ] **Charon Improvements**
 		- [ ] Charon's malice should activate a bit more often.
 		- [ ] Monsters spawned by Charon should scale denom with round_count.
