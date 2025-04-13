@@ -89,6 +89,14 @@ var _permanent_statuses = []
 
 @onready var _NEXT_FLIP_INDICATOR = $Sprite/NextFlipIndicator
 
+@onready var _INFO_VIEW = $Sprite/InfoView
+@onready var _INFO_VIEW_HEADS_ICON = $Sprite/InfoView/HeadsIcon
+@onready var _INFO_VIEW_HEADS_ICON_FX = $Sprite/InfoView/HeadsIcon/FX
+@onready var _INFO_VIEW_TAILS_ICON = $Sprite/InfoView/TailsIcon
+@onready var _INFO_VIEW_TAILS_ICON_FX = $Sprite/InfoView/TailsIcon/FX
+@onready var _INFO_VIEW_FACE_INDICATOR = $Sprite/InfoView/FaceIndicator
+@onready var _INFO_VIEW_FACE_INDICATOR_FX = $Sprite/InfoView/FaceIndicator/FX
+
 @onready var FX : FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
@@ -110,6 +118,11 @@ var _disable_interaction := false:
 		_update_appearance()
 		if _disable_interaction:
 			UITooltip.clear_tooltip_for(self)
+
+var _is_animating := false:
+	set(val):
+		_is_animating = val
+		_update_appearance()
 
 var _owner: Owner:
 	set(val):
@@ -255,20 +268,39 @@ func _update_appearance() -> void:
 	_update_price_label()
 	_update_glow()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
+	_INFO_VIEW_FACE_INDICATOR.update(is_heads(), is_trial_coin())
+	_INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_GREEN) if is_heads() else _INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_RED)
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
+const _INFO_FORMAT = "[center][img=10x13]%s[/img][/center]"
+const _BURY_FORMAT = "[center][color=peru]%d[/color][/center]"
 const _RED = "#f72534"
 const _BLUE = "#20d6c7"
 const _YELLOW = "#fffc40"
 const _GREEN = "#59c135"
 const _PURPLE = "#e86a73"
 const _GRAY = "#b3b9d1"
+const _INFO_RED = Color("#ff0303")
+const _INFO_GREEN = Color("#1af907")
 func _update_face_label() -> void:
+	# update visiblity of face labels.
+	if _is_animating:
+		_INFO_VIEW.hide()
+		_FACE_LABEL.hide()
+	else:
+		_FACE_LABEL.visible = not Global.info_view_active
+		_INFO_VIEW.visible = Global.info_view_active
+	
+	_INFO_VIEW_HEADS_ICON.text = _INFO_FORMAT % get_heads_icon_path()
+	_INFO_VIEW_TAILS_ICON.text = _INFO_FORMAT % get_tails_icon_path()
+	_INFO_VIEW_HEADS_ICON_FX.recolor_outline(_INFO_GREEN) if is_heads() else _INFO_VIEW_HEADS_ICON_FX.recolor_outline_to_default()
+	_INFO_VIEW_TAILS_ICON_FX.recolor_outline(_INFO_RED) if not is_heads() else _INFO_VIEW_TAILS_ICON_FX.recolor_outline_to_default()
+	
 	if _blank_state == _BlankState.BLANKED:
 		_FACE_LABEL.text = ""
 		return
 	if _bury_state == _BuryState.BURIED:
-		_FACE_LABEL.text = "[center][color=peru]%d[/color][/center]" % _buried_payoffs_until_exhume
+		_FACE_LABEL.text = _BURY_FORMAT % _buried_payoffs_until_exhume
 		_FACE_LABEL.position = _FACE_LABEL_DEFAULT_POSITION + Vector2(-1, 2)
 		return
 		
@@ -592,12 +624,21 @@ func _ready():
 	assert(_BURY_ICON)
 	assert(_FLEETING_ICON)
 	assert(_PRIMED_ICON)
+	assert(_NEXT_FLIP_INDICATOR)
+	assert(_INFO_VIEW)
+	assert(_INFO_VIEW_HEADS_ICON)
+	assert(_INFO_VIEW_HEADS_ICON_FX)
+	assert(_INFO_VIEW_TAILS_ICON)
+	assert(_INFO_VIEW_TAILS_ICON_FX)
+	assert(_INFO_VIEW_FACE_INDICATOR)
+	assert(_INFO_VIEW_FACE_INDICATOR_FX)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
 	Global.tutorial_state_changed.connect(_on_tutorial_state_changed)
 	Global.passive_triggered.connect(_on_passive_triggered)
 	Global.flame_boost_changed.connect(_on_flame_boost_changed)
+	Global.info_view_toggled.connect(_on_info_view_toggled)
 
 static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 @onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
@@ -667,6 +708,7 @@ func init_coin(family: Global.CoinFamily, denomination: Global.Denomination, own
 	_PRICE.visible = Global.state == Global.State.SHOP or is_appeaseable()
 	reset_power_uses(true)
 	_on_state_changed() # a bit of a hack but it is a good catchall...
+	_on_info_view_toggled()
 
 func get_appeasal_price() -> int:
 	if _coin_family.appeasal_price_for_denom[_denomination] == Global.NOT_APPEASEABLE_PRICE:
@@ -719,10 +761,10 @@ func get_subtitle() -> String:
 		return _coin_family.subtitle
 	
 func get_heads_icon_path() -> String:
-	return _coin_family.heads_icon_path
+	return _coin_family.heads_power_family.icon_path
 
 func get_tails_icon_path() -> String:
-	return _coin_family.tails_icon_path
+	return _coin_family.tails_power_family.icon_path
 
 func get_coin_name() -> String:
 	return "%s%s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]
@@ -954,6 +996,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	_next_flip_roll = Global.RNG.randi_range(1, 100)
 	
 	# todo - make it move up in a parabola; add a shadow
+	_is_animating = true
 	set_animation(_Animation.FLIP)
 
 	await _sprite_movement_tween.tween(Vector2(0, -50), 0.2)
@@ -961,6 +1004,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2)
 	
 	set_animation(_Animation.FLAT)
+	_is_animating = false
 	
 	_FACE_LABEL.show()
 	if is_appeaseable():
@@ -1024,9 +1068,11 @@ func turn() -> void:
 	_disable_interaction = true
 	_heads = not _heads
 	_FACE_LABEL.hide()
+	_is_animating = true
 	set_animation(_Animation.FLIP)
 	await _SPRITE.animation_looped
 	set_animation(_Animation.FLAT)
+	_is_animating = false
 	_FACE_LABEL.show()
 	_disable_interaction = false
 	emit_signal("turn_complete", self)
@@ -1978,3 +2024,6 @@ func move_to(pos: Vector2, time: float) -> void:
 func _on_flame_boost_changed() -> void:
 	# the odds have changed, so recalc
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
+
+func _on_info_view_toggled() -> void:
+	_update_appearance()

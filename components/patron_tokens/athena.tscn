@@ -1,20 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://cecmoqk22suvi"]
+[gd_scene load_steps=8 format=3 uid="uid://cecmoqk22suvi"]
 
 [ext_resource type="Script" path="res://components/patron_tokens/patron_token.gd" id="1_qnwod"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_qwwv7"]
 [ext_resource type="Texture2D" uid="uid://culthcw36r15" path="res://assets/table/patron_token_spritesheet.png" id="3_q8m02"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_y7j1m"]
 [ext_resource type="PackedScene" uid="uid://3cx7lpgelun1" path="res://ui/mouse_watcher.tscn" id="5_bef7w"]
+[ext_resource type="Script" path="res://components/patron_tokens/info_view_label.gd" id="6_p2mfd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6sarh"]
 shader = ExtResource("2_qwwv7")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -31,6 +37,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -153,3 +165,18 @@ watched = NodePath("../Polygon")
 
 [node name="PowerIconGrowPoint" type="Node2D" parent="."]
 position = Vector2(22, 12)
+
+[node name="InfoViewLabel" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = 9.0
+offset_top = 7.0
+offset_right = 39.0
+offset_bottom = 21.0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[center][color=#fffc40]2[img=10x13]res://assets/icons/patron/hades_patron_icon.png[/img][/color][/center]"
+fit_content = true
+scroll_active = false
+script = ExtResource("6_p2mfd")

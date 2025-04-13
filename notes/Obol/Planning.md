@@ -3,11 +3,12 @@
 	- [ ] Polish!
 		- [ ] Doomed effect - apply partial destroyed
 		- [ ] Bless/Curse/Lucky/Unlucky/Consecrate/Desecrate should ALL be using the FX for replacing the border (which Lucky/Unlucky currenly uses)
+		- [ ] Arrows - use a label.
+		- [ ] Arrows - just show a single arrow. Arrows should be animated appearing into pile and use destroy effect when used.
 	- [ ] **Info View - Saturday/Sunday**
-		- [ ] Holding alt will (while held), change appearance of coins to be more informational.
-			- [ ] Coin label - replaced with the ICON for that coin.
-			- [ ] Coin above - shows an icon for heads or tails.
-			- [ ] Shows coin limit somewhere.
+		- [ ] Add coin limit label to info view.
+		- [ ] Arrows should show count in info view
+
 
 
 

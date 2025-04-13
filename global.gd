@@ -30,6 +30,14 @@ signal ignite_damage_changed
 
 signal passive_triggered
 
+signal info_view_toggled
+var info_view_active = false:
+	set(val):
+		var prev = info_view_active
+		info_view_active = val
+		if prev != val:
+			emit_signal("info_view_toggled")
+
 var character: CharacterData
 
 func is_character(chara: Global.Character) -> bool:
@@ -1539,6 +1547,7 @@ func _input(event: InputEvent) -> void:
 		breakpoint
 	if DEBUG_CONSOLE and Input.is_key_pressed(_SCREENSHOT_KEY):
 		take_screenshot()
+	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -1548,6 +1557,8 @@ func _input(event: InputEvent) -> void:
 					emit_signal("left_click_input")
 			else:
 				_mouse_down = false
+	
+	info_view_active = Input.is_physical_key_pressed(KEY_CTRL)
 
 # Randomly return one element of the array
 func choose_one(arr: Array):
