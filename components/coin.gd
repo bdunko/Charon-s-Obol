@@ -281,8 +281,8 @@ const _YELLOW = "#fffc40"
 const _GREEN = "#59c135"
 const _PURPLE = "#e86a73"
 const _GRAY = "#b3b9d1"
-const _INFO_RED = Color("#b90d0d")
-const _INFO_GREEN = Color("#14b307")
+const _INFO_RED = Color("#fa1a1a")
+const _INFO_GREEN = Color("#24f413")
 func _update_face_label() -> void:
 	# update visiblity of face labels.
 	if _is_animating:
@@ -795,10 +795,14 @@ func get_subtitle() -> String:
 		return _coin_family.subtitle
 	
 func get_heads_icon_path() -> String:
-	return _coin_family.heads_power_family.icon_path
+	if not _heads_power or not _heads_power.power_family:
+		return "res://assets/icons/todo_icon.png" #junk placeholder for stupid init bugs...
+	return _heads_power.power_family.icon_path
 
 func get_tails_icon_path() -> String:
-	return _coin_family.tails_power_family.icon_path
+	if not _tails_power or not _tails_power.power_family:
+		return "res://assets/icons/todo_icon.png" #junk placeholder for stupid init bugs...
+	return _tails_power.power_family.icon_path
 
 func get_coin_name() -> String:
 	return "%s%s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]

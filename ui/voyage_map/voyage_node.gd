@@ -28,7 +28,7 @@ enum VoyageNodeType {
 @onready var _TOOLTIP_TOP = $TooltipEmitterTop
 @onready var _TOOLTIP_BOTTOM = $TooltipEmitterBottom
 
-const _PRICE_FORMAT = "[center][color=#e12f3b]-%d[/color][img=12x13]res://assets/icons/coin_icon.png[/img]"
+const _PRICE_FORMAT = "[center][color=#e12f3b]-%d[/color](VALUE)"
 
 func _ready():
 	assert(_PATH)
@@ -102,7 +102,7 @@ func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = [])
 		VoyageNodeType.TOLLGATE:
 			_TYPE.play("tollgate")
 			_PATH.play("full")
-			_PRICE_LABEL.text = _PRICE_FORMAT % price
+			_PRICE_LABEL.text = Global.replace_placeholders(_PRICE_FORMAT % price)
 	
 	# update tooltip
 	if tooltips.size() == 1:

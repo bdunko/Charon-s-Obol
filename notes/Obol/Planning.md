@@ -1,6 +1,3 @@
-**Charon's Obol v0.3 - Myths and Monsters**
-
-
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] Change native game size so that smaller tooltip are possible. Use multiple CanvasLayers (or scaling) for this. 

@@ -2257,7 +2257,7 @@ animations = [{
 "speed": 20.0
 }]
 
-[sub_resource type="Shader" id="Shader_wqxqw"]
+[sub_resource type="Shader" id="Shader_d1ytf"]
 code = "// Ben's Uber Pixel Shader
 // WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
@@ -2782,8 +2782,9 @@ void vertex()
 	
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5il8l"]
-shader = SubResource("Shader_wqxqw")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3cyj1"]
+resource_local_to_scene = true
+shader = SubResource("Shader_d1ytf")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -2912,7 +2913,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="Shader" id="Shader_8fcw6"]
+[sub_resource type="Shader" id="Shader_4ssfh"]
 code = "// Ben's Uber Pixel Shader
 // WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
@@ -3437,8 +3438,9 @@ void vertex()
 	
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2mfu0"]
-shader = SubResource("Shader_8fcw6")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_82nyx"]
+resource_local_to_scene = true
+shader = SubResource("Shader_4ssfh")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -3567,7 +3569,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="Shader" id="Shader_hgp4d"]
+[sub_resource type="Shader" id="Shader_iaxjw"]
 code = "// Ben's Uber Pixel Shader
 // WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
@@ -4092,8 +4094,9 @@ void vertex()
 	
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b23gw"]
-shader = SubResource("Shader_hgp4d")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2t5ef"]
+resource_local_to_scene = true
+shader = SubResource("Shader_iaxjw")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -4418,7 +4421,7 @@ scroll_active = false
 
 [node name="HeadsIcon" type="RichTextLabel" parent="Sprite/InfoView"]
 texture_filter = 1
-material = SubResource("ShaderMaterial_5il8l")
+material = SubResource("ShaderMaterial_3cyj1")
 offset_left = -4.0
 offset_top = 9.0
 offset_right = 26.0
@@ -4435,7 +4438,7 @@ scroll_active = false
 
 [node name="TailsIcon" type="RichTextLabel" parent="Sprite/InfoView"]
 texture_filter = 1
-material = SubResource("ShaderMaterial_2mfu0")
+material = SubResource("ShaderMaterial_82nyx")
 offset_left = 7.0
 offset_top = 9.0
 offset_right = 37.0
@@ -4451,7 +4454,7 @@ scroll_active = false
 [node name="FX" parent="Sprite/InfoView/TailsIcon" instance=ExtResource("17_tmr1x")]
 
 [node name="FaceIndicator" type="AnimatedSprite2D" parent="Sprite/InfoView"]
-material = SubResource("ShaderMaterial_b23gw")
+material = SubResource("ShaderMaterial_2t5ef")
 position = Vector2(1, -2)
 sprite_frames = SubResource("SpriteFrames_cpm7a")
 animation = &"heads"
