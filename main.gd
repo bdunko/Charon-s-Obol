@@ -1,7 +1,7 @@
 class_name Main
 extends Node2D
 
-@onready var GAME_SCENE = $Game
+@onready var GAME_SCENE = $SubViewportContainer/SubViewport/Game
 @onready var MAIN_MENU_SCENE = $MainMenu
 @onready var GOD_SELECTION_SCENE = $GodSelection
 

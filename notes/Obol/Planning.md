@@ -1,10 +1,23 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] Directional tooltips - can specify preferred orientation for the tooltip (instead of always trying to go down, allow it to prefer to the left, right, or above the mouse). Always prefer 
-		- [ ] at this point, we can disable _FORCE_MOVE_OFF_OF_MOUSE
-	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen). - maybe unnecessary now
-	- [ ] Increase offset of tooltip to coin/thing hovered.
-	- [ ] During animations, tooltips should be hidden. (during both flips and turns)
+	- [ ] **Scaling**
+		- [ ] Move all scenes into a single subview port in main.gd.
+		- [ ] Fix how tooltip sizing is handled. Tooltips should have a maximum possible width (no limit to height, increase height as needed). If a tooltip does not NEED that entire width, it should reduce its size to the minimum of what it needs (ex: basic Obol). 
+	- [ ] **Improved Control**
+		- [ ] When creating a tooltip, also pass in a Direction, Offset & Anchor, and if the tooltip should Follow Mouse. 
+			- [ ] Direction - Specifies preferred orientation for the tooltip (left right up down). If the tooltip does not fit, attempts to use the opposite orientation. If it still does not fit, attempts to use another orientation. If none of the four fit, give up and use the first and fit it as good as we can. 
+			- [ ] Offset & Anchor - Vector2s - Specifies the base position of the object and the offset where the tooltip should be drawn (by offset, we mean that the outermost edge of the tooltip is Offset away from the Anchor.)
+			- [ ] Follow Mouse - boolean - Determines if the tooltip should use the mouse as the anchor and ignore the real anchor. In this case the tooltip moves as the mouse moves. 
+		- [ ] Coin tooltips should go to the left/right.
+		- [ ] Disable _FORCE_MOVE_OFF_OF_MOUSE
+		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
+	- [ ] **Sub Tooltips**
+		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
+			- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
+			- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
+		- [ ] In the shop, upgradable coins (coins in player row) should place their tooltips in the UP direction instead of left/right, to make space for the upgrade sub tooltip.
+	- [ ] **Disable Tooltip Button**
+		- [ ] Add a button to disable tooltips. This should also have a hotkey to toggle (possibly tab).
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.

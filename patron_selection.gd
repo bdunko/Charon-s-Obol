@@ -67,8 +67,9 @@ func _on_statue_clicked(statue: PatronStatue):
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("And now...")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We walk into darkness.")
 	_WITHERED_BG_FX.disable() # disable the checker shader - looks a bit funny otherwise when zooming
-	await create_tween().tween_property(_CAMERA, "zoom", Vector2(45, 45), 1.2).finished
-	create_tween().tween_property(_CAMERA, "zoom", Vector2(90, 90), 1.2)
+	#await create_tween().tween_property(_CAMERA, "zoom", Vector2(45, 45), 1.2).finished
+	#create_tween().tween_property(_CAMERA, "zoom", Vector2(90, 90), 1.2)
+	await Global.delay(0.25)
 	_PATRON_DIALOGUE.instant_clear_dialogue()
 	emit_signal("patron_selected")
 

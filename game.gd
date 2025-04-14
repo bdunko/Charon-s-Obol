@@ -69,7 +69,6 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 
 @onready var _TABLE = $Table
 @onready var _DIALOGUE: DialogueSystem = $UI/DialogueSystem
-@onready var _CAMERA: Camera2D = $Camera
 
 @onready var _patron_token: PatronToken = $Table/PatronToken
 
@@ -414,7 +413,7 @@ func _on_game_end() -> void:
 	emit_signal("game_ended", victory)
 
 func on_start() -> void: #reset
-	_CAMERA.make_current()
+	#_CAMERA.make_current()
 	_DIALOGUE.instant_clear_dialogue()
 	
 	# reset color to purple...

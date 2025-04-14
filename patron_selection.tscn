@@ -760,7 +760,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qx6cf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_357ak"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
 shader_parameter/POST_PROCESSING = false
@@ -1005,8 +1005,8 @@ mouse_filter = 2
 position = Vector2(313, 81)
 limit_left = 0
 limit_top = 0
-limit_right = 320
-limit_bottom = 180
+limit_right = 640
+limit_bottom = 360
 editor_draw_limits = true
 
 [node name="VictoryTextboxes" type="HBoxContainer" parent="."]
@@ -1019,7 +1019,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_qx6cf")
+material = SubResource("ShaderMaterial_357ak")
 layout_mode = 2
 default_text = "Victory!"
 

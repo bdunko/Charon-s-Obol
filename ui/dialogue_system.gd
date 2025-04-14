@@ -78,7 +78,7 @@ func show_dialogue(dialogue: String, waiting: bool = false) -> void:
 	tween.tween_property(_current_textbox, "position:y", _INITIAL_POSITION.y, 0.2)
 	tween.parallel().tween_property(_current_textbox, "modulate:a", 1.0, 0.2)
 	
-	_current_textbox.position.x = int((320.0/2.0) - (_current_textbox.size.x/2.0))
+	_current_textbox.position.x = int((get_viewport_rect().size.x/2.0) - (_current_textbox.size.x/2.0))
 	
 func clear_dialogue() -> void:
 	if _current_textbox:
