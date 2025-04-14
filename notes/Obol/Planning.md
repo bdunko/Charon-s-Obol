@@ -1,12 +1,10 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] Change native game size so that smaller tooltip are possible. Use multiple CanvasLayers (or scaling) for this. 
-	- [ ] Secondary tooltips - a tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
-		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
-		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
-	- [ ] Directional tooltips - can specify preferred orientation for the tooltip (instead of always trying to go down, allow it to prefer to the left, right, or above the mouse).
+	- [ ] Directional tooltips - can specify preferred orientation for the tooltip (instead of always trying to go down, allow it to prefer to the left, right, or above the mouse). Always prefer 
 		- [ ] at this point, we can disable _FORCE_MOVE_OFF_OF_MOUSE
 	- [ ] Add a button to disable tooltips. (tab probably, also visible on screen). - maybe unnecessary now
+	- [ ] Increase offset of tooltip to coin/thing hovered.
+	- [ ] During animations, tooltips should be hidden. (during both flips and turns)
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.

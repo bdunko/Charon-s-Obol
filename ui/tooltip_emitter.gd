@@ -12,6 +12,8 @@ var _tooltip_visible = false
 func set_tooltip(new_tooltip: String) -> void:
 	_tooltip = Global.replace_placeholders(new_tooltip)
 	
+	mouse_filter = (Control.MOUSE_FILTER_IGNORE if _tooltip.length() == 0 else Control.MOUSE_FILTER_STOP)
+	
 	# if a tooltip is currently active, update its text
 	if _tooltip_visible:
 		_show_tooltip()
