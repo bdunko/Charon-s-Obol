@@ -1,15 +1,4 @@
 **Charon's Obol v0.3 - Myths and Monsters**
-- [ ] **Active Goals - Apr 30 Sprint - Cooldown**
-	- [ ] Polish!
-		- [ ] Doomed effect - apply partial destroyed
-		- [ ] Bless/Curse/Lucky/Unlucky/Consecrate/Desecrate should ALL be using the FX for replacing the border (which Lucky/Unlucky currenly uses)
-		- [ ] Arrows - use a label.
-		- [ ] Arrows - just show a single arrow. Arrows should be animated appearing into pile and use destroy effect when used.
-	- [ ] **Info View - Saturday/Sunday**
-		- [ ] Add coin limit label to info view.
-		- [ ] Arrows should show count in info view
-
-
 
 
 **Charon's Obol Release**

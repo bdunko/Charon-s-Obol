@@ -56,7 +56,7 @@ func _add_node(vnt: VoyageNode.VoyageNodeType, tooltips = [""], price: int = 0, 
 
 const _TRIAL_FORMAT = "%s\n%s\n\nYou must earn %d+(SOULS)."
 const _NEMESIS_FORMAT = "%s\n%s\n\nYou must be victorious."
-const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d(COIN)."
+const _TOLLGATE_FORMAT = "Tollgate\nYou must pay %d(VALUE)."
 
 func update() -> void:
 	Global.free_children(_NODES)

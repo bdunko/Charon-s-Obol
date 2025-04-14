@@ -452,6 +452,12 @@ func disintegrate_in(time: float) -> void:
 	
 	await tween_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 0.0, time)
 
+func start_partial_disintegrate(strength: float) -> void:
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, strength)
+
+func stop_partial_disintegrate() -> void:
+	set_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 0.0)
+
 func start_flickering(speed: float, alpha_bound1: float = 0.0, alpha_bound2: float = 1.0, restart: bool = true) -> void:
 	assert(speed >= 0, "Speed must be non-negative.")
 	assert(alpha_bound1 >= 0 and alpha_bound1 <= 1, "Bounds must be between 0 and 1.")
@@ -545,3 +551,4 @@ func stop_all() -> void:
 	stop_glowing()
 	stop_all_scanning()
 	stop_auto_recolor()
+	stop_partial_disintegrate()

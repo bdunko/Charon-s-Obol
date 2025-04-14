@@ -12,7 +12,7 @@ func _on_state_changed() -> void:
 	else:
 		hide()
 
-const _FORMAT = "Pay Toll (%d/%d(COIN))"
+const _FORMAT = "Pay Toll (%d/%d(VALUE))"
 func _on_toll_coins_changed() -> void:
 	var offered = Global.calculate_toll_coin_value()
 	_TEXT.text = Global.replace_placeholders(_FORMAT % [offered, Global.current_round_toll()])

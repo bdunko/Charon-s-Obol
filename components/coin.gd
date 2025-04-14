@@ -267,6 +267,7 @@ func _update_appearance() -> void:
 	_update_face_label()
 	_update_price_label()
 	_update_glow()
+	_update_border_effect()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
 	_INFO_VIEW_FACE_INDICATOR.update(is_heads(), is_trial_coin())
 	_INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_GREEN) if is_heads() else _INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_RED)
@@ -274,14 +275,14 @@ func _update_appearance() -> void:
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _INFO_FORMAT = "[center][img=10x13]%s[/img][/center]"
 const _BURY_FORMAT = "[center][color=peru]%d[/color][/center]"
-const _RED = "#f72534"
+const _RED = "#e12f3b"
 const _BLUE = "#20d6c7"
 const _YELLOW = "#fffc40"
 const _GREEN = "#59c135"
 const _PURPLE = "#e86a73"
 const _GRAY = "#b3b9d1"
-const _INFO_RED = Color("#ff0303")
-const _INFO_GREEN = Color("#1af907")
+const _INFO_RED = Color("#b90d0d")
+const _INFO_GREEN = Color("#14b307")
 func _update_face_label() -> void:
 	# update visiblity of face labels.
 	if _is_animating:
@@ -350,7 +351,7 @@ func _update_face_label() -> void:
 const _BUY_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _UPGRADE_SELL_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center](SOULS)"
-const _TOLL_FORMAT = "[center]%d[/center](COIN)"
+const _TOLL_FORMAT = "[center]%d[/center](VALUE)"
 func _update_price_label() -> void:
 	if Global.state == Global.State.SHOP:
 		# special case - can't upgrade further, show nothing
@@ -475,6 +476,9 @@ var _doom_state: _DoomState:
 		if _doom_state == _DoomState.DOOMED:
 			FX.flash(Color.LIGHT_STEEL_BLUE)
 			_play_new_status_effect("res://assets/icons/status/doomed_icon.png")
+			FX.start_partial_disintegrate(0.3)
+		else:
+			FX.stop_partial_disintegrate()
 			
 
 var _bless_curse_state: _BlessCurseState:
@@ -556,6 +560,40 @@ var _freeze_ignite_state: _FreezeIgniteState:
 		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
 			FX.clear_tint()
 
+		if _bless_curse_state == _BlessCurseState.BLESSED:
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
+		elif _bless_curse_state == _BlessCurseState.CURSED:
+			FX.flash(Color.PURPLE)
+			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
+		elif _bless_curse_state == _BlessCurseState.CONSECRATED:
+			FX.flash(Color.PAPAYA_WHIP)
+			_play_new_status_effect("res://assets/icons/status/consecrate_icon.png")
+		elif _bless_curse_state == _BlessCurseState.DESECRATED:
+			FX.flash(Color.FUCHSIA)
+			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
+		_update_appearance()
+
+func _update_border_effect() -> void:
+	# if consecrated or desecrated, this takes priority
+	if is_consecrated():
+		FX.recolor_outline(Color.PAPAYA_WHIP)
+	elif is_desecrated():
+		FX.recolor_outline(Color.FUCHSIA)
+	# next is bless/curse
+	elif is_blessed():
+		FX.recolor_outline(Color.YELLOW)
+	elif is_cursed():
+		FX.recolor_outline(Color.PURPLE)
+	# lastly lucky/unlucky
+	elif is_lucky():
+		FX.recolor_outline(Color("#59c035"))
+	elif is_unlucky():
+		FX.recolor_outline(Color("#b3202a"))
+	# or nothing!
+	else:
+		FX.recolor_outline_to_default()
+
 var _luck_state: _LuckState:
 	set(val):
 		_luck_state = val
@@ -568,14 +606,10 @@ var _luck_state: _LuckState:
 		if _luck_state == _LuckState.LUCKY or _luck_state == _LuckState.SLIGHTLY_LUCKY\
 			or _luck_state == _LuckState.QUITE_LUCKY or _luck_state == _LuckState.INCREDIBLY_LUCKY:
 			FX.flash(Color.LAWN_GREEN)
-			FX.recolor_outline(Color("#59c035")) #lucky
 			_play_new_status_effect("res://assets/icons/status/lucky_icon.png")
 		elif _luck_state == _LuckState.UNLUCKY:
 			FX.flash(Color.ORANGE_RED)
-			FX.recolor_outline(Color("#b3202a")) #unlucky
 			_play_new_status_effect("res://assets/icons/status/unlucky_icon.png")
-		else:
-			FX.recolor_outline_to_default()
 		_update_appearance()
 
 var _material_state: _MaterialState:

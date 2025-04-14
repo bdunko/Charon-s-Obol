@@ -1038,7 +1038,7 @@ func _advance_round() -> void:
 		await _wait_for_dialogue("And if you fail, you will perish.")
 		_LEFT_HAND.point_at(_VOYAGE_MAP.node_position(8) + Vector2(6, 1))
 		await _wait_for_dialogue("Lastly, this is a Tollgate...")
-		await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay a certain value(COIN) worth of coins."))
+		await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay a certain value(VALUE) worth of coins(COIN)."))
 		await _wait_for_dialogue("If you cannot, you will perish.")
 		_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
 		_PLAYER_TEXTBOXES.make_invisible()
@@ -1328,7 +1328,7 @@ func _show_toll_dialogue() -> void:
 	if toll_price_remaining == 0:
 		_DIALOGUE.show_dialogue("Good...")
 	else:
-		_DIALOGUE.show_dialogue(Global.replace_placeholders("%d(COIN) more..." % toll_price_remaining))
+		_DIALOGUE.show_dialogue(Global.replace_placeholders("%d(VALUE) more..." % toll_price_remaining))
 
 func _apply_misfortune_trial() -> void:
 	for i in Global.MISFORTUNE_QUANTITY:
@@ -1364,16 +1364,16 @@ func _on_voyage_continue_button_clicked():
 		if Global.tutorialState == Global.TutorialState.ROUND7_TOLLGATE_INTRO:
 			await _tutorial_fade_in([_COIN_ROW])
 			await _wait_for_dialogue("We have reached a tollgate...")
-			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay %d(COIN)." % Global.current_round_toll()))
-			await _wait_for_dialogue(Global.replace_placeholders("Obols are worth 1(COIN), Diobols 2(COIN)..."))
-			await _wait_for_dialogue(Global.replace_placeholders("Triobols are worth 3(COIN), and Tetrobols 4(COIN)."))
+			await _wait_for_dialogue(Global.replace_placeholders("To pass, you must pay %d(VALUE)." % Global.current_round_toll()))
+			await _wait_for_dialogue(Global.replace_placeholders("Obols are worth 1(VALUE), Diobols 2(VALUE)..."))
+			await _wait_for_dialogue(Global.replace_placeholders("Triobols are worth 3(VALUE), and Tetrobols 4(VALUE)."))
 			await _tutorial_fade_out()
 			_DIALOGUE.show_dialogue("Add a coin to your payment by clicking it.")
 			Global.tutorialState = Global.TutorialState.ENDING
 		else:
 			if Global.toll_index == 0:
 				await _wait_for_dialogue("First tollgate...")
-			await _wait_for_dialogue(Global.replace_placeholders("You must pay %d(COIN)..." % Global.current_round_toll()))
+			await _wait_for_dialogue(Global.replace_placeholders("You must pay %d(VALUE)..." % Global.current_round_toll()))
 			_show_toll_dialogue()
 		return
 	
