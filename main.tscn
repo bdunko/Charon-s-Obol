@@ -15,7 +15,19 @@ offset_bottom = 180.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Game" parent="." instance=ExtResource("1_bpd8x")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 360)
+size_2d_override = Vector2i(320, 180)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Game" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_bpd8x")]
 visible = false
 
 [node name="MainMenu" parent="." instance=ExtResource("2_o16h6")]
@@ -24,11 +36,13 @@ visible = false
 visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
 
 [node name="DebugConsole" parent="CanvasLayer" instance=ExtResource("7_01ylf")]
 visible = false
 
-[connection signal="game_ended" from="Game" to="." method="_on_game_game_ended"]
+[connection signal="game_ended" from="SubViewportContainer/SubViewport/Game" to="." method="_on_game_game_ended"]
 [connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]
 [connection signal="exited" from="GodSelection" to="." method="_on_god_selection_exited"]
 [connection signal="patron_selected" from="GodSelection" to="." method="_on_god_selection_patron_selected"]
