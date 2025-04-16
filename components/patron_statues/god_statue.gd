@@ -31,6 +31,13 @@ func _on_clickable_area_input_event(_viewport, event, _shape_idx):
 					if patron_enum == Global.PatronEnum.GODLESS:
 						UITooltip.clear_tooltips()
 
+func _on_click():
+	if not _disabled:
+		_FX.start_glowing_solid(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, false)
+		emit_signal("clicked", self) 
+		if patron_enum == Global.PatronEnum.GODLESS:
+			UITooltip.clear_tooltips()
+
 func _on_clickable_area_mouse_entered():
 	var patron = Global.patron_for_enum(patron_enum)
 	var nme = patron.god_name if patron_enum != Global.PatronEnum.GODLESS else "an [color=gray]Unknown God[/color]"
