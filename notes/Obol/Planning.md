@@ -1,8 +1,18 @@
 **Charon's Obol Release**
+- [ ] **Tooltip Scaling - 1 week**
+	- [ ] Move all scenes into a single subview port in main.gd.
+		- [ ] Fix all patron statues, Area2Ds don't work inside viewports.
+	- [ ] Get tooltips showing in all places.
+		- [ ] Coin tooltips are improperly offset. (likely size of control given is incorrect?)
+		- [ ] Difficulty skulls on main menu do not show tooltips.
+		- [ ] Patron statues are not showing proper tooltips.
+			- [ ] Patron statue tooltips do not go away, need to provide MouseWatcher instead.
+		- [ ] Patron token does not show tooltip.
+		- [ ] Life/soul fragments do not show tooltip.
+		- [ ] Arrows do not show tooltip.
+		- [ ] Map elements are not showing tooltips.
+	- [ ] Fix how tooltip sizing is handled. Tooltips should have a maximum possible width (no limit to height, increase height as needed). If a tooltip does not NEED that entire width, it should reduce its size to the minimum of what it needs (ex: basic Obol). 
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] **Scaling**
-		- [ ] Move all scenes into a single subview port in main.gd.
-		- [ ] Fix how tooltip sizing is handled. Tooltips should have a maximum possible width (no limit to height, increase height as needed). If a tooltip does not NEED that entire width, it should reduce its size to the minimum of what it needs (ex: basic Obol). 
 	- [ ] **Improved Control**
 		- [ ] When creating a tooltip, also pass in a Direction, Offset & Anchor, and if the tooltip should Follow Mouse. 
 			- [ ] Direction - Specifies preferred orientation for the tooltip (left right up down). If the tooltip does not fit, attempts to use the opposite orientation. If it still does not fit, attempts to use another orientation. If none of the four fit, give up and use the first and fit it as good as we can. 

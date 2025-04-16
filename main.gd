@@ -2,8 +2,8 @@ class_name Main
 extends Node2D
 
 @onready var GAME_SCENE = $SubViewportContainer/SubViewport/Game
-@onready var MAIN_MENU_SCENE = $MainMenu
-@onready var GOD_SELECTION_SCENE = $GodSelection
+@onready var MAIN_MENU_SCENE = $SubViewportContainer/SubViewport/MainMenu
+@onready var GOD_SELECTION_SCENE = $SubViewportContainer/SubViewport/GodSelection
 
 func _ready() -> void:
 	assert(GAME_SCENE)

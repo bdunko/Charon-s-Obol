@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsx4mxqxqbpwf"]
+[gd_scene load_steps=7 format=3 uid="uid://dsx4mxqxqbpwf"]
 
 [ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_lbe1j"]
 [ext_resource type="Texture2D" uid="uid://dwk2oorh2vw3b" path="res://assets/patron_choice/godless_statue.png" id="1_lnahq"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_h2x5q"]
+[ext_resource type="Script" path="res://ui/mouse_watcher.gd" id="4_oj1xn"]
 
 [sub_resource type="Shader" id="Shader_3uer4"]
 code = "// Ben's Uber Pixel Shader
@@ -636,27 +637,17 @@ centered = false
 [node name="FX" parent="Sprite2D" instance=ExtResource("4_h2x5q")]
 
 [node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(-16, -16)
 
-[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(41, 91)
-polygon = PackedVector2Array(5, 5, 2, 8, 2, 15, 5, 17, 5, 39, 2, 41, 2, 45, 26, 45, 43, 45, 43, 40, 41, 38, 41, 17, 44, 15, 44, 10, 43, 9, 36, 5)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ClickableArea"]
+polygon = PackedVector2Array(27, 80, 70, 80, 72, 120, 22, 120)
 
-[node name="CuteLittleRock =D" type="CollisionPolygon2D" parent="ClickableArea"]
-polygon = PackedVector2Array(42, 126, 44, 126, 45, 127, 45, 128, 44, 130, 43, 131, 41, 131, 40, 130, 40, 128)
+[node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
+script = ExtResource("4_oj1xn")
+watched = NodePath("../CollisionPolygon2D")
 
-[node name="CuteLittleRock2 =D" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(-2, 6)
-polygon = PackedVector2Array(42, 126, 43, 126, 44, 127, 45, 128, 45, 131, 42, 131, 41, 130, 41, 129, 40, 128, 40, 127, 41, 126)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(29, 92, 27, 90, 27, 83, 30, 80, 61, 80, 69, 85, 69, 90, 66, 93, 66, 108, 68, 108, 71, 110, 71, 112, 67, 114, 70, 116, 73, 118, 70, 121, 67, 120, 31, 120, 27, 121, 24, 121, 22, 117, 23, 116, 26, 110, 30, 110)
 
-[node name="CuteLittleRock3 =D" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(44, -3)
-polygon = PackedVector2Array(40, 127, 42, 128, 43, 129, 43, 131, 42, 132, 39, 132, 38, 131, 38, 130, 39, 130, 39, 129, 38, 129, 38, 128, 39, 127)
-
-[node name="CuteLittleRock4 =D" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(44, 5)
-polygon = PackedVector2Array(42, 127, 44, 128, 45, 129, 45, 130, 44, 131, 43, 132, 40, 131, 40, 127)
-
-[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
-[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]
+[connection signal="clicked" from="MouseWatcher" to="." method="_on_click"]
+[connection signal="mouse_entered" from="MouseWatcher" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="MouseWatcher" to="." method="_on_clickable_area_mouse_exited"]
