@@ -5,6 +5,13 @@ static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
 
 const _FORCE_MOVE_OFF_OF_MOUSE = true
 
+# because we are rendering the game in a different viewport from the tooltips, we need to scale
+# all coordinates from the game into global coordinates.
+# ex: game is 320x180; object located at 100x100 and size 10x10
+# base viewport resolution is 640x360, 2x as large
+# in 'global' (base viewport) coords, the game object is at 200x200 and size 20x20.
+const _SCALE_FACTOR = 2
+
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO
 }
@@ -12,12 +19,16 @@ enum _TooltipSystemState {
 static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
+
+
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(-_MAX_WIDTH_THRESHOLD/2.0, 15)
+const _TOOLTIP_OFFSET := Vector2(-_MAX_WIDTH_THRESHOLD/2.0, 5) * _SCALE_FACTOR
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
 const _MAX_WIDTH_THRESHOLD := 180
+
+# todo - not sure about multiplying by scale factor here... weird behavior with max width threshold...
 
 const _FORMAT := "[center]%s[/center]"
 
@@ -66,6 +77,8 @@ static func clear_tooltip_for(src):
 # NOTE - Tooltips created by this function are automatically destroyed.
 static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
+	
+	global_mouse_position *= _SCALE_FACTOR
 	
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
@@ -183,7 +196,7 @@ func _process(_delta):
 	# HINT - common problem if tooltip appears but immediately vanishes; check size of the control carefully!
 	var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
 	if source != null and source is Control:
-		if not Rect2(source.global_position, source.size).has_point(mouse_position):
+		if not Rect2(source.global_position * _SCALE_FACTOR, source.size * _SCALE_FACTOR).has_point(mouse_position):
 			destroy_tooltip() # if the source has moved away from mouse, destroy the tooltip
 	
 	# hack - for some reason sometimes tooltips can get stuck on screen...
