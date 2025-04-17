@@ -1,19 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6xhrcjfsaxbf"]
+[gd_scene load_steps=7 format=3 uid="uid://b6xhrcjfsaxbf"]
 
 [ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_emwac"]
 [ext_resource type="Texture2D" uid="uid://bqbwedt3djt14" path="res://assets/patron_choice/zeus_statue.png" id="1_qaa8w"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_ohh8u"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_djo6g"]
+[ext_resource type="Script" path="res://ui/mouse_watcher.gd" id="5_oxp46"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ay6qg"]
 shader = ExtResource("2_ohh8u")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
+shader_parameter/DISABLE = false
 shader_parameter/use_exclude_colors = true
 shader_parameter/exclude_color1 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color2 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color3 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/exclude_color4 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color6 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color7 = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/exclude_color8 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
@@ -30,6 +36,12 @@ shader_parameter/replace_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color5 = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
 shader_parameter/replace_with_color_outline = Color(0.0784314, 0.0627451, 0.0745098, 1)
+shader_parameter/auto_replace_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_replace_original_color = false
+shader_parameter/auto_replace_replace_original_color_with = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_to_color = Color(0, 0, 0, 1)
+shader_parameter/auto_replace_speed = 0.0
+shader_parameter/auto_replace_start_time = 0.0
 shader_parameter/tint_color = Color(0, 0, 0, 1)
 shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -137,13 +149,10 @@ centered = false
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("4_djo6g")]
 
-[node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(-16, -16)
+[node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
+script = ExtResource("5_oxp46")
+watched = NodePath(".")
 
-[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(41, 91)
+[node name="Polygon" type="CollisionPolygon2D" parent="."]
+position = Vector2(25, 75)
 polygon = PackedVector2Array(42, 5, 44, 7, 44, 15, 41, 18, 41, 32, 44, 32, 45, 30, 48, 32, 48, 34.875, 52, 35, 53, 37, 51, 41, 53, 41, 54, 43, 50, 46, 50, 50, 51, 52, 48, 53, 46, 51, 44, 51, 42, 53, 35, 50, 33, 50, 31, 53, 28, 53, 23, 50, 18, 53, 16, 53, 14, 51, 13, 51, 12, 51, 10, 51, 9, 53, 7, 53, 5, 50, 1, 50, 1, 51, -3, 51, -4, 50, -3, 46, -2, 45, -4, 45, -5, 42, -3, 40, -4, 40, -6, 38, -6, 37, -5, 36, -1, 36, -3, 34, -3, 33, -2, 32, 2, 32, 3, 33, 3, 34, 4, 34, 5, 33, 5, 18, 2, 15, 2, 7, 4, 5, 17, 5, 21, -4, 13, -18, 13, -22, 28, -29, 26, -34, 25, -40, 26, -44, 52, -40, 53, -37, 31, -19, 31, -14, 37, -6, 37, -3, 29, 5)
-
-[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
-[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

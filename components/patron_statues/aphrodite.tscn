@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddev1yao3ou7n"]
+[gd_scene load_steps=7 format=3 uid="uid://ddev1yao3ou7n"]
 
 [ext_resource type="Script" path="res://components/patron_statues/god_statue.gd" id="1_oeq4k"]
 [ext_resource type="Texture2D" uid="uid://c1mmsr27r073x" path="res://assets/patron_choice/aphrodite_statue.png" id="3_nxdbp"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_5l5b6"]
+[ext_resource type="Script" path="res://ui/mouse_watcher.gd" id="4_a1kvy"]
 
 [sub_resource type="Shader" id="Shader_jqrbn"]
 code = "// Ben's Uber Pixel Shader
@@ -635,13 +636,10 @@ centered = false
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("4_5l5b6")]
 
-[node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(-16, -16)
+[node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
+script = ExtResource("4_a1kvy")
+watched = NodePath("../Polygon")
 
-[node name="Polygon" type="CollisionPolygon2D" parent="ClickableArea"]
-position = Vector2(41, 91)
+[node name="Polygon" type="CollisionPolygon2D" parent="."]
+position = Vector2(25, 75)
 polygon = PackedVector2Array(7, 3, 7, 5, 4, 5, 2, 7, 2, 15, 5, 17, 5, 28, 5, 39, 2, 41, 2, 51, 7, 54, 41, 54, 44, 51, 44, 41, 41, 39, 41, 28, 41, 17, 44, 15, 44, 7, 42, 5, 40, 5, 40, 3, 37, 0, 32, 0, 35, -3, 38, -9, 39, -16, 36, -20, 33, -22, 30, -22, 23, -16, 17, -22, 14, -22, 11, -20, 8, -16, 9, -9, 12, -3, 15, 0, 10, 0)
-
-[connection signal="input_event" from="ClickableArea" to="." method="_on_clickable_area_input_event"]
-[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

@@ -636,18 +636,9 @@ centered = false
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("4_h2x5q")]
 
-[node name="ClickableArea" type="Area2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ClickableArea"]
-polygon = PackedVector2Array(27, 80, 70, 80, 72, 120, 22, 120)
-
 [node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
 script = ExtResource("4_oj1xn")
-watched = NodePath("../CollisionPolygon2D")
+watched = NodePath("../Polygon")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="Polygon" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(29, 92, 27, 90, 27, 83, 30, 80, 61, 80, 69, 85, 69, 90, 66, 93, 66, 108, 68, 108, 71, 110, 71, 112, 67, 114, 70, 116, 73, 118, 70, 121, 67, 120, 31, 120, 27, 121, 24, 121, 22, 117, 23, 116, 26, 110, 30, 110)
-
-[connection signal="clicked" from="MouseWatcher" to="." method="_on_click"]
-[connection signal="mouse_entered" from="MouseWatcher" to="." method="_on_clickable_area_mouse_entered"]
-[connection signal="mouse_exited" from="MouseWatcher" to="." method="_on_clickable_area_mouse_exited"]
