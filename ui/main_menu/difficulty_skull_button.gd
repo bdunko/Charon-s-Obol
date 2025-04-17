@@ -47,5 +47,4 @@ func unselect() -> void:
 	_update_button_visibility()
 
 func _on_mouse_entered():
-	print("entered")
-	UITooltip.create_manual(Global.difficulty_tooltip_for(difficulty), get_global_mouse_position(), get_tree().root)
+	UITooltip.create(self, Global.difficulty_tooltip_for(difficulty), get_global_mouse_position(), get_tree().root)

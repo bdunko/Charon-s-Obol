@@ -636,8 +636,9 @@ centered = false
 
 [node name="FX" parent="Sprite2D" instance=ExtResource("3_l125u")]
 
-[node name="MouseWatcher" type="Node2D" parent="."]
+[node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
 script = ExtResource("4_qj1r1")
+watched = NodePath("../Polygon")
 
 [node name="Polygon" type="CollisionPolygon2D" parent="."]
 position = Vector2(25, 75)

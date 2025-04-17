@@ -2,6 +2,7 @@
 - [ ] **Tooltip Scaling - 1 week**
 	- [ ] Scene 1 - Main Menu
 		- [ ] Difficulty skulls should show tooltips.
+			- [ ] get_global_mouse_position() returns in global coords, but source.global_position returns in local coords (since it is getting scaled up, this does kinda make sense...)
 		- [ ] Difficulty skull tooltips should be minimum height.
 			- [ ] Define a maximum width. > maximum widget is split across lines. < maximum width is minimum.
 			- [ ] should be smaller than current maximum, certainly
