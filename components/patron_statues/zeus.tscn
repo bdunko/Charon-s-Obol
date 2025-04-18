@@ -151,7 +151,7 @@ centered = false
 
 [node name="MouseWatcher" type="Node2D" parent="." node_paths=PackedStringArray("watched")]
 script = ExtResource("5_oxp46")
-watched = NodePath(".")
+watched = NodePath("../Polygon")
 
 [node name="Polygon" type="CollisionPolygon2D" parent="."]
 position = Vector2(25, 75)
