@@ -1,19 +1,15 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Scaling - 1 week**
 	- [ ] Scene 1 - Main Menu
-		- [ ] Difficulty skulls should show tooltips.
-			- [ ] get_global_mouse_position() returns in global coords, but source.global_position returns in local coords (since it is getting scaled up, this does kinda make sense...)
-		- [ ] Difficulty skull tooltips should be minimum height.
-			- [ ] Define a maximum width. > maximum widget is split across lines. < maximum width is minimum.
-			- [ ] should be smaller than current maximum, certainly
-		- [ ] There is some weird 1-frame snapping happening when I hover some tooltips. Probably the initial call to get it positioned is not working, then the next call immediately moves it substantially
-	- [ ] Transition
-		- [ ] Resize transition elements (just increase scale/position - these are outside of the subviewport, so they need to act as if they were truly 640x360)
+		- [ ] Difficulty skull tooltips should be minimum width.
+			- [ ] Current behavior - all tooltips are the width of the tooltip node in editor. Tooltips which do not need this whole space should naturally shrink.
+			- [ ] Improve splitting of lines - img tags should always be on the same line as the previous string, if there is no space. 
+			- [ ] Improve splitting of lines - do not break apart dashes.
 	- [ ] Scene 2 - Patron Selection
 		- [ ] Tooltip should show after clicking godless statue (of the randomly selected statue)
 		- [ ] Add back Camera zooming after god selection.
 	- [ ] Scene 3 - Game
-		- [ ] Coin tooltips are improperly offset.
+		- [ ] Coin tooltips are improperly offset. 
 		- [ ] Patron token does not show tooltip.
 		- [ ] Life/soul fragments do not show tooltip.
 		- [ ] Arrows do not show tooltip.

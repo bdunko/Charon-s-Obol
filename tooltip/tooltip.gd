@@ -22,7 +22,7 @@ static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(-_MAX_WIDTH_THRESHOLD/2.0, 5) * _SCALE_FACTOR
+const _TOOLTIP_OFFSET := Vector2(0, 0) * _SCALE_FACTOR
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
@@ -141,20 +141,23 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	var font = tooltip.get_theme().get_default_font()
 	var font_size = tooltip.get_theme().get_default_font_size()
 	
+	# TODO - not convinced this code works!
 	# the text does not contain \n, automatically break the text and format a nice tooltip.
-	if not text_no_tags.contains("\n"):
-		# calculate a reasonable tooltip size
-		# basically, add words one at a time until we exceed the threshold. that's the length we want.
-		# this fanciness guarantees that the first line in the tooltip is the longest, which looks nice
-		var words = text_no_tags.split(" ", false)
-		var first_line = ""
-		for word in words:
-			var text_length := font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-			if text_length > _MAX_WIDTH_THRESHOLD:
-				break
-			first_line += word + " "
-
-		label.custom_minimum_size.x = font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+#	if not text_no_tags.contains("\n"):
+#		# calculate a reasonable tooltip size
+#		# basically, add words one at a time until we exceed the threshold. that's the length we want.
+#		# this fanciness guarantees that the first line in the tooltip is the longest, which looks nice
+#		var words = text_no_tags.split(" ", false)
+#		var first_line = ""
+#		for word in words:
+#			var text_length := font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+#			if text_length > _MAX_WIDTH_THRESHOLD:
+#				break
+#			first_line += word + " "
+#
+#		label.custom_minimum_size.x = font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	
+	
 #	# otherwise set the tooltip size based on the longest line
 #	else:
 #		var longest_line_size = -1
@@ -163,15 +166,19 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 #			if line_size > longest_line_size:
 #				longest_line_size = line_size
 #		label.custom_minimum_size.x = longest_line_size
-		
+	
 	label.text = _FORMAT % text
 	
-	tooltip.position = mouse_position + _TOOLTIP_OFFSET
 	scene_root.add_child(tooltip)
-	
 	_ALL_TOOLTIPS.append(tooltip)
 	
-	tooltip._force_position_onto_screen() # force position before performing scale...
+	# after adding to scene, we now have a size...
+	print(tooltip.size)
+	
+	# set position after adding to scene, otherwise it doesn't always work
+	tooltip._update_position(mouse_position)
+	
+	# tooltip._force_position_onto_screen() # force position before performing scale...
 	
 	# pivot offset controls where we scale from
 	tooltip.pivot_offset = tooltip.size/2.0
@@ -210,9 +217,14 @@ func _process(_delta):
 	#elif source is Area2D:
 	#	var area = source as Area2D
 	#	area.get_size
-	position = Vector2(int(mouse_position.x), int(mouse_position.y)) + _TOOLTIP_OFFSET
+	
+	_update_position(mouse_position)
 	pivot_offset = size/2.0
-	_force_position_onto_screen()
+	#_force_position_onto_screen()
+
+func _update_position(mouse_position: Vector2) -> void:
+	position = mouse_position + _TOOLTIP_OFFSET
+	position.x -= size.x / 2.0 # center horizontally 
 
 # $HACK$ - get_rect() is wrong because size is wrong...
 func _get_real_rect():

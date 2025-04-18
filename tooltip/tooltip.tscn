@@ -7,11 +7,11 @@
 [node name="Tooltip" type="MarginContainer"]
 z_index = 4001
 anchors_preset = -1
-anchor_top = -0.0666667
-anchor_right = 0.556
-anchor_bottom = -0.0666667
-offset_right = 0.0799866
-offset_bottom = 55.0
+offset_left = -1.52588e-05
+offset_right = 207.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_en8g6")
@@ -44,6 +44,7 @@ theme_override_constants/margin_bottom = 3
 [node name="TooltipText" type="RichTextLabel" parent="Layer/TextMargin"]
 texture_filter = 1
 clip_contents = false
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
