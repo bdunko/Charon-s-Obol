@@ -15,7 +15,7 @@ const _SCALE_FACTOR = 2
 # Maximum width of a tooltip.
 const _MAXIMUM_WIDTH = 180
 # Additional buffer added to longest line when using a tooltip with width below the maximum.
-const _BUFFER = 16
+const _BUFFER = 24
 
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO
@@ -79,7 +79,7 @@ static func clear_tooltip_for(src):
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> void:
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> void:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	global_mouse_position *= _SCALE_FACTOR
@@ -113,13 +113,13 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, tooltip_style)
 	connect_source.call(tooltip)
 
-static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.CLEAR) -> UITooltip:
+static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> UITooltip:
 	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, tooltip_style, true)
 	return tooltip
 
 # call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.CLEAR, is_manual: bool = false) -> UITooltip:
+static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE, is_manual: bool = false) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
