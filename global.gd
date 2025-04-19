@@ -1608,6 +1608,11 @@ func array_keep(array: Array, keep: Array) -> Array:
 			ret.append(elem)
 	return ret
 
+func strip_bbcode(source:String) -> String:
+	var regex = RegEx.new()
+	regex.compile("\\[.+?\\]")
+	return regex.sub(source, "", true)
+
 # fade modulate over time; awaitable
 func fade_out(item: CanvasItem, time: float = 0.5) -> void:
 	await create_tween().tween_property(item, "modulate:a", 0.0, time).finished

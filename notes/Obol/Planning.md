@@ -1,10 +1,5 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Scaling - 1 week**
-	- [ ] Scene 1 - Main Menu
-		- [ ] Difficulty skull tooltips should be minimum width.
-			- [ ] Current behavior - all tooltips are the width of the tooltip node in editor. Tooltips which do not need this whole space should naturally shrink.
-			- [ ] Improve splitting of lines - img tags should always be on the same line as the previous string, if there is no space. 
-			- [ ] Improve splitting of lines - do not break apart dashes.
 	- [ ] Scene 2 - Patron Selection
 		- [ ] Tooltip should show after clicking godless statue (of the randomly selected statue)
 		- [ ] Add back Camera zooming after god selection.
