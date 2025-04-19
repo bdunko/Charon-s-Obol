@@ -1,8 +1,5 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Scaling - 1 week**
-	- [ ] Scene 2 - Patron Selection
-		- [ ] Tooltip should show after clicking godless statue (of the randomly selected statue)
-		- [ ] Add back Camera zooming after god selection.
 	- [ ] Scene 3 - Game
 		- [ ] fix arrow and soul and life tooltips
 		- [ ] Coin tooltips are improperly offset. 

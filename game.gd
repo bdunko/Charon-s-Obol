@@ -80,6 +80,8 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _EMBERS_PARTICLES = $Embers
 @onready var _TRIAL_EMBERS_PARTICLES = $TrialEmbers
 
+@onready var _CAMERA = $Camera
+
 const _SHOP_CONTINUE_DELAY_TIMER = "SHOP_CONTINUE_DELAY_TIMER"
 const _SHOP_CONTINUE_DELAY = 0.5#seconds
 
@@ -413,7 +415,10 @@ func _on_game_end() -> void:
 	emit_signal("game_ended", victory)
 
 func on_start() -> void: #reset
-	#_CAMERA.make_current()
+	_CAMERA.make_current()
+	_CAMERA.zoom = Vector2(2, 2)
+	create_tween().tween_property(_CAMERA, "zoom", Vector2(1, 1), 0.3)
+	
 	_DIALOGUE.instant_clear_dialogue()
 	
 	# reset color to purple...
