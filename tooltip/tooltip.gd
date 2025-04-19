@@ -15,7 +15,7 @@ const _SCALE_FACTOR = 2
 # Maximum width of a tooltip.
 const _MAXIMUM_WIDTH = 180
 # Additional buffer added to longest line when using a tooltip with width below the maximum.
-const _BUFFER = 12
+const _BUFFER = 16
 
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO
@@ -25,9 +25,8 @@ static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 
-
 # offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(0, 0) * _SCALE_FACTOR
+const _TOOLTIP_OFFSET := Vector2(0, 5) * _SCALE_FACTOR
 
 # maximum width of a tooltip - note that tooltips can exceed this,
 # but this is around where they will cap.
@@ -167,7 +166,7 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	# set position after adding to scene, otherwise it doesn't always work
 	tooltip._update_position(mouse_position)
 	
-	# tooltip._force_position_onto_screen() # force position before performing scale...
+	tooltip._force_position_onto_screen() # force position before performing scale...
 	
 	# pivot offset controls where we scale from
 	tooltip.pivot_offset = tooltip.size/2.0
@@ -209,7 +208,7 @@ func _process(_delta):
 	
 	_update_position(mouse_position)
 	pivot_offset = size/2.0
-	#_force_position_onto_screen()
+	_force_position_onto_screen()
 
 func _update_position(mouse_position: Vector2) -> void:
 	position = mouse_position + _TOOLTIP_OFFSET
