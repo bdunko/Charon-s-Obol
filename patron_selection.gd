@@ -57,6 +57,7 @@ func _on_statue_clicked(statue: PatronStatue):
 		var new_statue = _add_statue(Global.patron.patron_statue, statue.position)
 		new_statue.apply_spectral_fx()
 		new_statue.disable_except_tooltip()
+		new_statue._on_mouse_entered() #manually call this after adding; to show tooltip...
 		statue.clear_fx()
 	else:
 		statue.disable_except_tooltip()
