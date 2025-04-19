@@ -138,7 +138,6 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 		var img_end = text_no_tags.find("[/img]")
 		text_no_tags = text_no_tags.erase(text_no_tags.find("[img"), img_end - img_start + 6)
 		text_no_tags = text_no_tags.insert(img_start, "XXX")
-		print(text_no_tags)
 	# now also strip out all other bbcode
 	text_no_tags = Global.strip_bbcode(text_no_tags)
 	
@@ -157,11 +156,6 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	
 	scene_root.add_child(tooltip)
 	_ALL_TOOLTIPS.append(tooltip)
-	
-	print(label.size)
-	
-	# after adding to scene, we now have a size...
-	print(tooltip.size)
 	
 	# set position after adding to scene, otherwise it doesn't always work
 	tooltip._update_position(mouse_position)
