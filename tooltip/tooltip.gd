@@ -12,6 +12,11 @@ const _FORCE_MOVE_OFF_OF_MOUSE = true
 # in 'global' (base viewport) coords, the game object is at 200x200 and size 20x20.
 const _SCALE_FACTOR = 2
 
+# Maximum width of a tooltip.
+const _MAXIMUM_WIDTH = 180
+# Additional buffer added to longest line when using a tooltip with width below the maximum.
+const _BUFFER = 12
+
 enum _TooltipSystemState {
 	SHOW_ALL, HIDE_ALL, HIDE_AUTO
 }
@@ -126,51 +131,35 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	
 	var label = tooltip.get_label()
 	
-	# replace img tags with a single letter to help space them 
-	# (for now, only works with small images)
+	# Step 1 - Calculate tooltip width.
+	# Replace img tag with XXX to help space them (this only works because most of our images are pretty small.
 	var text_no_tags = text
-	while text_no_tags.find("[img]") != -1:
-		var img_start = text_no_tags.find("[img]")
+	while text_no_tags.find("[img") != -1:
+		var img_start = text_no_tags.find("[img")
 		var img_end = text_no_tags.find("[/img]")
-		text_no_tags = text_no_tags.erase(text_no_tags.find("[img]"), img_end - img_start + 6)
-		text_no_tags = text_no_tags.insert(img_start, "XX")
+		text_no_tags = text_no_tags.erase(text_no_tags.find("[img"), img_end - img_start + 6)
+		text_no_tags = text_no_tags.insert(img_start, "XXX")
+		print(text_no_tags)
+	# now also strip out all other bbcode
+	text_no_tags = Global.strip_bbcode(text_no_tags)
 	
-	# note - tags like bold will not work yet; need smarter handling RIGHT HERE if desired
-	# see https://github.com/godotengine/godot-proposals/issues/5056 comments for a handler
-	
+	# find the longest line.
 	var font = tooltip.get_theme().get_default_font()
 	var font_size = tooltip.get_theme().get_default_font_size()
+	var longest_line_size = -1
+	for line in text_no_tags.split("\n"):
+		var line_size = tooltip.get_theme().get_default_font().get_string_size(line).x
+		if line_size > longest_line_size:
+			longest_line_size = line_size
 	
-	# TODO - not convinced this code works!
-	# the text does not contain \n, automatically break the text and format a nice tooltip.
-#	if not text_no_tags.contains("\n"):
-#		# calculate a reasonable tooltip size
-#		# basically, add words one at a time until we exceed the threshold. that's the length we want.
-#		# this fanciness guarantees that the first line in the tooltip is the longest, which looks nice
-#		var words = text_no_tags.split(" ", false)
-#		var first_line = ""
-#		for word in words:
-#			var text_length := font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-#			if text_length > _MAX_WIDTH_THRESHOLD:
-#				break
-#			first_line += word + " "
-#
-#		label.custom_minimum_size.x = font.get_string_size(first_line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	
-	
-#	# otherwise set the tooltip size based on the longest line
-#	else:
-#		var longest_line_size = -1
-#		for line in text_no_tags.split("\n"):
-#			var line_size = tooltip.get_theme().get_default_font().get_string_size(line).x
-#			if line_size > longest_line_size:
-#				longest_line_size = line_size
-#		label.custom_minimum_size.x = longest_line_size
+	label.custom_minimum_size.x = min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER)
 	
 	label.text = _FORMAT % text
 	
 	scene_root.add_child(tooltip)
 	_ALL_TOOLTIPS.append(tooltip)
+	
+	print(label.size)
 	
 	# after adding to scene, we now have a size...
 	print(tooltip.size)
