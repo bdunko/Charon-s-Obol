@@ -1,14 +1,10 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] **Improved Control**
-		- [x] Map elements - show below.
-		- [x] Patron statues - below
 		- [ ] Player coins - show above.
 		- [ ] Enemy coins - show below.
-		- [ ] Arrows - show above.
 		- [ ] Souls - show to the right.
 		- [ ] Life - show to the left
-		- [ ] Patron token - above.
 		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
 	- [ ] **Sub Tooltips**
 		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
