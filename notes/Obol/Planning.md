@@ -3,8 +3,6 @@
 	- [ ] **Improved Control**
 		- [ ] Player coins - show above.
 		- [ ] Enemy coins - show below.
-		- [ ] Souls - show to the right.
-		- [ ] Life - show to the left
 		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
 	- [ ] **Sub Tooltips**
 		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
