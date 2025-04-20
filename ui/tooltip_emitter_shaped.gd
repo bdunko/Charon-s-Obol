@@ -8,7 +8,6 @@ signal tooltip_removed
 
 @export_multiline var _tooltip: String = ""
 @export var _enabled: bool = true
-@export var style: UITooltip.Style = UITooltip.Style.OPAQUE
 var _tooltip_visible = false
 
 func set_tooltip(new_tooltip: String) -> void:
@@ -46,6 +45,6 @@ func _on_mouse_exited():
 
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root, style)
+		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root)
 		_tooltip_visible = true
 		emit_signal("tooltip_created")

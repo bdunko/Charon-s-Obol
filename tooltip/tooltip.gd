@@ -1,9 +1,16 @@
 class_name UITooltip
 extends MarginContainer
 
+enum _TooltipSystemState {
+	SHOW_ALL, HIDE_ALL, HIDE_AUTO
+}
+static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
+static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
-const _FORCE_MOVE_OFF_OF_MOUSE = true
+
+
+const _FORCE_MOVE_OFF_OF_MOUSE = false
 
 # because we are rendering the game in a different viewport from the tooltips, we need to scale
 # all coordinates from the game into global coordinates.
@@ -17,24 +24,12 @@ const _MAXIMUM_WIDTH = 180
 # Additional buffer added to longest line when using a tooltip with width below the maximum.
 const _BUFFER = 24
 
-enum _TooltipSystemState {
-	SHOW_ALL, HIDE_ALL, HIDE_AUTO
-}
-
-static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
-static var _ALL_TOOLTIPS: Array[UITooltip] = []
-
-
-# offset of the tooltip from the mouse
-const _TOOLTIP_OFFSET := Vector2(0, 5) * _SCALE_FACTOR
-
-# maximum width of a tooltip - note that tooltips can exceed this,
-# but this is around where they will cap.
-const _MAX_WIDTH_THRESHOLD := 180
-
-# todo - not sure about multiplying by scale factor here... weird behavior with max width threshold...
-
 const _FORMAT := "[center]%s[/center]"
+
+
+enum Direction {
+	LEFT, RIGHT, ABOVE, BELOW
+}
 
 enum Style {
 	CLEAR, OPAQUE
@@ -44,6 +39,16 @@ var source # must be either Control, Area2D, or MouseWatcher
 var style: Style
 var manual_control: bool
 var manual_mouse_position: Vector2
+var direction: Direction
+const NO_ANCHOR = Vector2(-18888, -18888)
+const NO_OFFSET = -1888888
+var anchor: Vector2 = NO_ANCHOR
+var offset: int = NO_OFFSET
+
+const DEFAULT_STYLE = Style.OPAQUE
+const DEFAULT_DIRECTION = Direction.BELOW
+const DEFAULT_ANCHOR = NO_ANCHOR
+const DEFAULT_OFFSET = 10
 
 func get_label() -> RichTextLabel:
 	var label = find_child("TooltipText")
@@ -79,7 +84,8 @@ static func clear_tooltip_for(src):
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> void:
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node,\
+	dir: Direction = DEFAULT_DIRECTION, tooltip_offset: int = DEFAULT_OFFSET, tooltip_anchor: Vector2 = DEFAULT_ANCHOR, tooltip_style: Style = DEFAULT_STYLE) -> void:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	global_mouse_position *= _SCALE_FACTOR
@@ -110,16 +116,17 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 			connect_source.call(tooltip)
 			return
 	
-	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, tooltip_style)
+	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, dir, tooltip_offset, tooltip_anchor, tooltip_style)
 	connect_source.call(tooltip)
 
-static func create_manual(text: String, controlled_mouse_position, scene_root: Node, tooltip_style: Style = Style.OPAQUE) -> UITooltip:
-	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, tooltip_style, true)
+# NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
+static func create_manual(text: String, controlled_mouse_position, scene_root: Node,\
+		dir: Direction = DEFAULT_DIRECTION, tooltip_offset: int = DEFAULT_OFFSET, tooltip_anchor: Vector2 = DEFAULT_ANCHOR, tooltip_style: Style = DEFAULT_STYLE) -> UITooltip:
+	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, dir, tooltip_offset, tooltip_anchor, tooltip_style, true)
 	return tooltip
 
-# call as UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
-# NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, tooltip_style: Style = Style.OPAQUE, is_manual: bool = false) -> UITooltip:
+static func _create(src, text: String, mouse_position: Vector2, scene_root: Node,\
+	dir: Direction, tooltip_offset: int, tooltip_anchor: Vector2, tooltip_style, is_manual: bool = false, ) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
@@ -127,6 +134,9 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	tooltip.style = tooltip_style
 	tooltip.manual_control = is_manual
 	tooltip.manual_mouse_position = mouse_position
+	tooltip.direction = dir
+	tooltip.anchor = tooltip_anchor * _SCALE_FACTOR
+	tooltip.offset = tooltip_offset
 	
 	var label = tooltip.get_label()
 	
@@ -205,10 +215,27 @@ func _process(_delta):
 	_force_position_onto_screen()
 
 func _update_position(mouse_position: Vector2) -> void:
-	position = mouse_position + _TOOLTIP_OFFSET
-	position.x -= size.x / 2.0 # center horizontally 
+	var real_size = _get_real_rect().size
+	var base_pos = mouse_position if anchor == NO_ANCHOR else anchor
+	match direction:
+		Direction.BELOW:
+			position = base_pos + Vector2(0, offset)
+			position.x -= real_size.x / 2.0 # center horizontally 
+		Direction.ABOVE:
+			position = base_pos + Vector2(0, -offset)
+			position.y -= real_size.y # shift up by tooltip height
+			position.x -= real_size.x / 2.0 # center horizontally 
+		Direction.LEFT:
+			position = base_pos + Vector2(-offset, 0)
+			position.x -= real_size.x # shift left by tooltip width
+			position.y -= real_size.y / 2.0 # center vertically 
+		Direction.RIGHT:
+			position = base_pos + Vector2(offset, 0)
+			position.y -= real_size.y / 2.0 # center vertically 
+		_:
+			assert(false, "Probably gave an int for dir on accident.")
 
-# $HACK$ - get_rect() is wrong because size is wrong...
+# $HACK$ - get_rect() is wrong because size is wrong... (reports far too large of a y for some reason)
 func _get_real_rect():
 	var real_rect = find_child("Layer").get_rect()
 	real_rect.position = position
@@ -250,7 +277,7 @@ func _force_position_onto_screen():
 				break
 
 		if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
-			position.y = max(0, position.y - _TOOLTIP_OFFSET.y) # clamp at 0 so we can't end up offscreen again
+			position.y = max(0, position.y - offset) # clamp at 0 so we can't end up offscreen again
 
 func destroy_tooltip():
 	var fade_out = create_tween()
