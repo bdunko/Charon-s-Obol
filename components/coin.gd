@@ -124,6 +124,13 @@ var _disable_interaction := false:
 var _is_animating := false:
 	set(val):
 		_is_animating = val
+		if _is_animating:
+			# attempt to remove the existing tooltip
+			UITooltip.clear_tooltip_for(_MOUSE)
+		else:
+			# attempt to generete a tooltip if no longer animating and mouse is over
+			if _MOUSE.is_over():
+				_generate_tooltip()
 		_update_appearance()
 
 var _owner: Owner:
