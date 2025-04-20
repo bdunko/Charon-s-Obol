@@ -1,8 +1,6 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] **Improved Control**
-		- [ ] Player coins - show above.
-		- [ ] Enemy coins - show below.
 		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
 	- [ ] **Sub Tooltips**
 		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).

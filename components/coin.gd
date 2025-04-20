@@ -97,6 +97,8 @@ var _permanent_statuses = []
 @onready var _INFO_VIEW_FACE_INDICATOR = $Sprite/InfoView/FaceIndicator
 @onready var _INFO_VIEW_FACE_INDICATOR_FX = $Sprite/InfoView/FaceIndicator/FX
 
+@onready var _TOOLTIP_ANCHOR = $Sprite/TooltipAnchor
+
 @onready var FX : FX = $Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
@@ -666,6 +668,7 @@ func _ready():
 	assert(_INFO_VIEW_TAILS_ICON_FX)
 	assert(_INFO_VIEW_FACE_INDICATOR)
 	assert(_INFO_VIEW_FACE_INDICATOR_FX)
+	assert(_TOOLTIP_ANCHOR)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
@@ -1903,7 +1906,12 @@ func _generate_tooltip() -> void:
 		const TOOLTIP_FORMAT = "%s\n%s\n%s%s\n%s"
 		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), extra_info, heads_power_str, tails_power_str]
 	
-	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root)
+	var anchor = _TOOLTIP_ANCHOR.global_position
+	var direction = UITooltip.Direction.ABOVE if _owner == Owner.PLAYER else UITooltip.Direction.BELOW
+	var offset = 35 if _owner == Owner.PLAYER else 45
+	var props = UITooltip.Properties.new().anchor(anchor).direction(direction).offset(offset)
+	
+	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
 
 func on_round_end() -> void:
 	_round_life_penalty_change = 0
