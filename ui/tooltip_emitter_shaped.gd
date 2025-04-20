@@ -10,6 +10,9 @@ signal tooltip_removed
 @export var _enabled: bool = true
 var _tooltip_visible = false
 
+@export var offset: int = UITooltip.DEFAULT_OFFSET
+@export var direction: UITooltip.Direction = UITooltip.DEFAULT_DIRECTION
+
 func set_tooltip(new_tooltip: String) -> void:
 	_tooltip = Global.replace_placeholders(new_tooltip)
 	
@@ -43,8 +46,11 @@ func _on_mouse_exited():
 		_tooltip_visible = false
 		emit_signal("tooltip_removed")
 
+func _make_props() -> UITooltip.Properties:
+	return UITooltip.Properties.new().offset(offset).direction(direction).anchor(get_global_rect().get_center())
+
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root)
+		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root, _make_props())
 		_tooltip_visible = true
 		emit_signal("tooltip_created")

@@ -26,7 +26,7 @@ const _FORMAT := "[center]%s[/center]"
 
 
 enum Direction {
-	LEFT, RIGHT, ABOVE, BELOW
+	LEFT, RIGHT, ABOVE, BELOW, CENTERED
 }
 
 enum Style {
@@ -40,10 +40,11 @@ var properties: Properties
 
 
 const DEFAULT_OFFSET = 10
+const DEFAULT_DIRECTION = Direction.BELOW
 const NO_ANCHOR = Vector2(-18888, -18888)
 class Properties:
 	var _style: Style = Style.OPAQUE
-	var _direction: Direction = Direction.BELOW
+	var _direction: Direction = DEFAULT_DIRECTION
 	var _anchor: Vector2 = NO_ANCHOR
 	var _offset: int = DEFAULT_OFFSET
 	
@@ -242,6 +243,10 @@ func _update_position(mouse_position: Vector2) -> void:
 		Direction.RIGHT:
 			position = base_pos + Vector2(properties._offset, 0)
 			position.y -= real_size.y / 2.0 # center vertically 
+		Direction.CENTERED:
+			position = base_pos
+			position.y -= real_size.y / 2.0 # center vertically 
+			position.x -= real_size.x / 2.0 # center horizontally 
 		_:
 			assert(false, "Probably gave an int for dir on accident.")
 
