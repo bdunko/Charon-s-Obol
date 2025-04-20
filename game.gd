@@ -1081,21 +1081,20 @@ func _advance_round() -> void:
 				_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
 				
 				# helper lambda
-				var show_tooltip_and_wait = func(tooltip_string, tooltip_pos) -> void:
-					var tooltip = UITooltip.create_manual(tooltip_string, tooltip_pos, get_tree().root)
+				var wait_and_destroy = func(tooltip) -> void:
 					await Global.delay(0.1)
 					await Global.left_click_input
 					tooltip.destroy_tooltip()
 				
 				if Global.is_difficulty_active(Global.Difficulty.CRUEL3) and (rnd.roundType == Global.RoundType.TRIAL1 or rnd.roundType == Global.RoundType.TRIAL2):
 					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(3, -2)) # point at upper
-					await show_tooltip_and_wait.call(_VOYAGE_MAP.node_tooltip_strings(i)[0], _VOYAGE_MAP.node_position(i) + Vector2(6, 4))
+					await wait_and_destroy.call(_VOYAGE_MAP.make_tooltip(i, 0))
 					_PLAYER_TEXTBOXES.make_invisible() # hide while moving hand...
 					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(8, 5)) # point at lower
-					await show_tooltip_and_wait.call(_VOYAGE_MAP.node_tooltip_strings(i)[1], _VOYAGE_MAP.node_position(i) + Vector2(6, 4))
+					await wait_and_destroy.call(_VOYAGE_MAP.make_tooltip(i, 1))
 				else:
 					await _LEFT_HAND.point_at(_VOYAGE_MAP.node_position(i) + Vector2(6, 3))
-					await show_tooltip_and_wait.call(_VOYAGE_MAP.node_tooltip_strings(i)[0], _VOYAGE_MAP.node_position(i) + Vector2(6, 4))
+					await wait_and_destroy.call(_VOYAGE_MAP.make_tooltip(i, 0))
 			i += 1
 		_PLAYER_TEXTBOXES.make_invisible()
 		await _LEFT_HAND.move_offscreen()
