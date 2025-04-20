@@ -52,7 +52,7 @@ func _on_mouse_entered():
 		_FX.start_glowing_solid(Color.AZURE, 2)
 	if _show_tooltip:
 		var anchor = get_global_rect().position + _SPRITE.get_rect().get_center()
-		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 30
+		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 31
 		var props = UITooltip.Properties.new().anchor(anchor).direction(UITooltip.Direction.BELOW).offset(offset)
 		UITooltip.create(_MOUSE, Global.replace_placeholders("Altar to %s\n%s" % [nme, desc]), get_global_mouse_position(), get_tree().root, props)
 
