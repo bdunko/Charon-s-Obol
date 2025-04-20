@@ -3,6 +3,7 @@ extends Control
 
 @export var patron_enum: Global.PatronEnum
 
+@onready var _SPRITE: Sprite2D = $Sprite2D
 @onready var _MOUSE: MouseWatcher = $MouseWatcher
 @onready var _FX: FX = $Sprite2D/FX
 
@@ -50,7 +51,10 @@ func _on_mouse_entered():
 	if not _disabled:
 		_FX.start_glowing_solid(Color.AZURE, 2)
 	if _show_tooltip:
-		UITooltip.create(_MOUSE, Global.replace_placeholders("Altar to %s\n%s" % [nme, desc]), get_global_mouse_position(), get_tree().root)
+		var anchor = get_global_rect().position + _SPRITE.get_rect().get_center()
+		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 30
+		var props = UITooltip.Properties.new().anchor(anchor).direction(UITooltip.Direction.BELOW).offset(offset)
+		UITooltip.create(_MOUSE, Global.replace_placeholders("Altar to %s\n%s" % [nme, desc]), get_global_mouse_position(), get_tree().root, props)
 
 func apply_spectral_fx() -> void:
 	_FX.start_glowing_solid(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, false)

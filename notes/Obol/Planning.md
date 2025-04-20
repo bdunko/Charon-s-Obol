@@ -2,7 +2,7 @@
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] **Improved Control**
 		- [x] Map elements - show below.
-		- [ ] Patron statues - below
+		- [x] Patron statues - below
 		- [ ] Player coins - show above.
 		- [ ] Enemy coins - show below.
 		- [ ] Arrows - show above.
