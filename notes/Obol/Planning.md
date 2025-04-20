@@ -1,12 +1,14 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] **Improved Control**
-		- [ ] When creating a tooltip, also pass in a Direction, Offset & Anchor, and if the tooltip should Follow Mouse. 
-			- [ ] Direction - Specifies preferred orientation for the tooltip (left right up down). If the tooltip does not fit, attempts to use the opposite orientation. If it still does not fit, attempts to use another orientation. If none of the four fit, give up and use the first and fit it as good as we can. 
-			- [ ] Offset & Anchor - Vector2s - Specifies the base position of the object and the offset where the tooltip should be drawn (by offset, we mean that the outermost edge of the tooltip is Offset away from the Anchor.)
-			- [ ] Follow Mouse - boolean - Determines if the tooltip should use the mouse as the anchor and ignore the real anchor. In this case the tooltip moves as the mouse moves. 
-		- [ ] Coin tooltips should go to the left/right.
-		- [ ] Disable _FORCE_MOVE_OFF_OF_MOUSE
+		- [ ] Map elements - show below.
+		- [ ] Player coins - show above.
+		- [ ] Enemy coins - show below.
+		- [ ] Arrows - show above.
+		- [ ] Souls - show to the right.
+		- [ ] Life - show to the left
+		- [ ] Patron statues - left, below, or to the right depending.
+		- [ ] Patron token - above.
 		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
 	- [ ] **Sub Tooltips**
 		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).

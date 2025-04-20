@@ -421,8 +421,9 @@ func _on_game_end() -> void:
 
 func on_start() -> void: #reset
 	_CAMERA.make_current()
-	_CAMERA.zoom = Vector2(2, 2)
-	create_tween().tween_property(_CAMERA, "zoom", Vector2(1, 1), 0.5)
+	# tried this but not really digging it
+	#_CAMERA.zoom = Vector2(4, 4)
+	#create_tween().tween_property(_CAMERA, "zoom", Vector2(1, 1), 0.25)
 	
 	_DIALOGUE.instant_clear_dialogue()
 	
