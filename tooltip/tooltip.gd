@@ -38,12 +38,14 @@ var manual_control: bool
 var manual_mouse_position: Vector2
 var properties: Properties
 
+
+const DEFAULT_OFFSET = 10
 const NO_ANCHOR = Vector2(-18888, -18888)
 class Properties:
 	var _style: Style = Style.OPAQUE
 	var _direction: Direction = Direction.BELOW
 	var _anchor: Vector2 = NO_ANCHOR
-	var _offset: int = 10
+	var _offset: int = DEFAULT_OFFSET
 	
 	func _init() -> void:
 		pass
