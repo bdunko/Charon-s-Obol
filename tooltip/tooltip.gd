@@ -39,7 +39,7 @@ var manual_mouse_position: Vector2
 var properties: Properties
 
 
-const DEFAULT_OFFSET = 10
+const DEFAULT_OFFSET = 12
 const DEFAULT_DIRECTION = Direction.BELOW
 const NO_ANCHOR = Vector2(-18888, -18888)
 class Properties:
