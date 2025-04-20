@@ -168,6 +168,7 @@ position = Vector2(22, 13)
 
 [node name="InfoViewLabel" type="RichTextLabel" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_left = 9.0
 offset_top = 7.0
 offset_right = 39.0
