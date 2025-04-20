@@ -8,8 +8,6 @@ static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
-
-
 const _FORCE_MOVE_OFF_OF_MOUSE = false
 
 # because we are rendering the game in a different viewport from the tooltips, we need to scale
@@ -36,19 +34,35 @@ enum Style {
 }
 
 var source # must be either Control, Area2D, or MouseWatcher
-var style: Style
 var manual_control: bool
 var manual_mouse_position: Vector2
-var direction: Direction
-const NO_ANCHOR = Vector2(-18888, -18888)
-const NO_OFFSET = -1888888
-var anchor: Vector2 = NO_ANCHOR
-var offset: int = NO_OFFSET
+var properties: Properties
 
-const DEFAULT_STYLE = Style.OPAQUE
-const DEFAULT_DIRECTION = Direction.BELOW
-const DEFAULT_ANCHOR = NO_ANCHOR
-const DEFAULT_OFFSET = 10
+const NO_ANCHOR = Vector2(-18888, -18888)
+class Properties:
+	var _style: Style = Style.OPAQUE
+	var _direction: Direction = Direction.BELOW
+	var _anchor: Vector2 = NO_ANCHOR
+	var _offset: int = 10
+	
+	func _init() -> void:
+		pass
+	
+	func style(tt_style: Style) -> Properties:
+		_style = tt_style
+		return self
+	
+	func direction(tt_direction: Direction) -> Properties:
+		_direction = tt_direction
+		return self
+	
+	func anchor(tt_anchor: Vector2) -> Properties:
+		_anchor = tt_anchor * _SCALE_FACTOR
+		return self
+	
+	func offset(tt_offset: int) -> Properties:
+		_offset = tt_offset
+		return self
 
 func get_label() -> RichTextLabel:
 	var label = find_child("TooltipText")
@@ -84,8 +98,7 @@ static func clear_tooltip_for(src):
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node,\
-	dir: Direction = DEFAULT_DIRECTION, tooltip_offset: int = DEFAULT_OFFSET, tooltip_anchor: Vector2 = DEFAULT_ANCHOR, tooltip_style: Style = DEFAULT_STYLE) -> void:
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, props: Properties = Properties.new()) -> void:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	global_mouse_position *= _SCALE_FACTOR
@@ -116,27 +129,22 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 			connect_source.call(tooltip)
 			return
 	
-	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, dir, tooltip_offset, tooltip_anchor, tooltip_style)
+	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, props)
 	connect_source.call(tooltip)
 
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
-static func create_manual(text: String, controlled_mouse_position, scene_root: Node,\
-		dir: Direction = DEFAULT_DIRECTION, tooltip_offset: int = DEFAULT_OFFSET, tooltip_anchor: Vector2 = DEFAULT_ANCHOR, tooltip_style: Style = DEFAULT_STYLE) -> UITooltip:
-	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, dir, tooltip_offset, tooltip_anchor, tooltip_style, true)
+static func create_manual(text: String, controlled_mouse_position, scene_root: Node, props: Properties = Properties.new()) -> UITooltip:
+	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, props, true)
 	return tooltip
 
-static func _create(src, text: String, mouse_position: Vector2, scene_root: Node,\
-	dir: Direction, tooltip_offset: int, tooltip_anchor: Vector2, tooltip_style, is_manual: bool = false, ) -> UITooltip:
+static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, props: Properties, is_manual: bool = false, ) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
 	
 	tooltip.source = src
-	tooltip.style = tooltip_style
+	tooltip.properties = props
 	tooltip.manual_control = is_manual
 	tooltip.manual_mouse_position = mouse_position
-	tooltip.direction = dir
-	tooltip.anchor = tooltip_anchor * _SCALE_FACTOR
-	tooltip.offset = tooltip_offset
 	
 	var label = tooltip.get_label()
 	
@@ -178,7 +186,7 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	tooltip.create_tween().tween_property(tooltip, "scale", Vector2(1.0, 1.0), 0.1)
 	
 	tooltip.modulate.a = 0.0
-	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.95 if tooltip.style == Style.CLEAR else 1.0, 0.1)
+	tooltip.create_tween().tween_property(tooltip, "modulate:a", 0.95 if tooltip.properties._style == Style.CLEAR else 1.0, 0.1)
 	
 	# set initial visibility based on if tooltips are enabled
 	tooltip.visible = true if _SYSTEM_STATE == _TooltipSystemState.SHOW_ALL or (_SYSTEM_STATE == _TooltipSystemState.HIDE_AUTO and tooltip.manual_control) else false
@@ -216,21 +224,21 @@ func _process(_delta):
 
 func _update_position(mouse_position: Vector2) -> void:
 	var real_size = _get_real_rect().size
-	var base_pos = mouse_position if anchor == NO_ANCHOR else anchor
-	match direction:
+	var base_pos = mouse_position if properties._anchor == NO_ANCHOR else properties._anchor
+	match properties._direction:
 		Direction.BELOW:
-			position = base_pos + Vector2(0, offset)
+			position = base_pos + Vector2(0, properties._offset)
 			position.x -= real_size.x / 2.0 # center horizontally 
 		Direction.ABOVE:
-			position = base_pos + Vector2(0, -offset)
+			position = base_pos + Vector2(0, -properties._offset)
 			position.y -= real_size.y # shift up by tooltip height
 			position.x -= real_size.x / 2.0 # center horizontally 
 		Direction.LEFT:
-			position = base_pos + Vector2(-offset, 0)
+			position = base_pos + Vector2(-properties._offset, 0)
 			position.x -= real_size.x # shift left by tooltip width
 			position.y -= real_size.y / 2.0 # center vertically 
 		Direction.RIGHT:
-			position = base_pos + Vector2(offset, 0)
+			position = base_pos + Vector2(properties._offset, 0)
 			position.y -= real_size.y / 2.0 # center vertically 
 		_:
 			assert(false, "Probably gave an int for dir on accident.")
@@ -277,7 +285,7 @@ func _force_position_onto_screen():
 				break
 
 		if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
-			position.y = max(0, position.y - offset) # clamp at 0 so we can't end up offscreen again
+			position.y = max(0, position.y - properties._offset) # clamp at 0 so we can't end up offscreen again
 
 func destroy_tooltip():
 	var fade_out = create_tween()
