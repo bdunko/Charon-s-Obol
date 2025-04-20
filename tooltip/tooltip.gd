@@ -20,7 +20,7 @@ const _SCALE_FACTOR = 2
 # Maximum width of a tooltip.
 const _MAXIMUM_WIDTH = 180
 # Additional buffer added to longest line when using a tooltip with width below the maximum.
-const _BUFFER = 24
+const _BUFFER = 28
 
 const _FORMAT := "[center]%s[/center]"
 
