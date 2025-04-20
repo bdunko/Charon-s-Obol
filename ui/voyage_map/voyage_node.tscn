@@ -2791,7 +2791,7 @@ offset_left = 1.0
 offset_top = 2.0
 offset_right = 0.0
 offset_bottom = -5.0
-offset = 15
+offset = 17
 
 [node name="TooltipEmitterTop" parent="." instance=ExtResource("10_h4dkl")]
 layout_mode = 1

@@ -117,10 +117,12 @@ func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = [])
 	# price label only visible for tollgates
 	_PRICE_LABEL.visible = vnt == VoyageNodeType.TOLLGATE
 
-func get_node_tooltips() -> Array[String]:
+func make_tooltip(index) -> UITooltip:
 	if _TOOLTIP.visible:
-		return [_TOOLTIP.get_tooltip_string()]
-	return [_TOOLTIP_TOP.get_tooltip_string(), _TOOLTIP_BOTTOM.get_tooltip_string()]
+		return _TOOLTIP.make_tooltip_manual()
+	if _TOOLTIP_TOP.visible and index == 0:
+		return _TOOLTIP_TOP.make_tooltip_manual()
+	return _TOOLTIP_BOTTOM.make_tooltip_manual()
 
 func _on_tooltip_created():
 	emit_signal("hovered")

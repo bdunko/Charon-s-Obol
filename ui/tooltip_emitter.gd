@@ -45,9 +45,14 @@ func _on_mouse_exited():
 		_tooltip_visible = false
 		emit_signal("tooltip_removed")
 
+func _make_props() -> UITooltip.Properties:
+	return UITooltip.Properties.new().offset(offset).direction(UITooltip.Direction.BELOW).anchor(get_global_rect().get_center())
+
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		var props = UITooltip.Properties.new().offset(offset).direction(UITooltip.Direction.BELOW).anchor(get_global_rect().get_center())
-		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root, props)
+		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root, _make_props())
 		_tooltip_visible = true
 		emit_signal("tooltip_created")
+
+func make_tooltip_manual() -> UITooltip:
+	return UITooltip.create_manual(_tooltip, get_global_mouse_position(), get_tree().root, _make_props())
