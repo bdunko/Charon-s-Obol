@@ -1,8 +1,10 @@
-class_name TooltipEmitter
+class_name TooltipEmitterShaped
 extends Control
 
 signal tooltip_created
 signal tooltip_removed
+
+@onready var _MOUSE = $MouseWatcher
 
 @export_multiline var _tooltip: String = ""
 @export var _enabled: bool = true
@@ -22,8 +24,6 @@ func get_tooltip_string() -> String:
 	return _tooltip
 
 func _ready() -> void:
-	connect("mouse_entered", _on_mouse_entered)
-	connect("mouse_exited", _on_mouse_exited)
 	set_tooltip(_tooltip)
 
 func enable() -> void:
@@ -46,6 +46,6 @@ func _on_mouse_exited():
 
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		UITooltip.create(self, _tooltip, get_global_mouse_position(), get_tree().root, style)
+		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root, style)
 		_tooltip_visible = true
 		emit_signal("tooltip_created")

@@ -1,12 +1,4 @@
 **Charon's Obol Release**
-- [ ] **Tooltip Scaling - 1 week**
-	- [ ] Scene 3 - Game
-		- [ ] fix arrow and soul and life tooltips
-		- [ ] Coin tooltips are improperly offset. 
-		- [ ] Patron token does not show tooltip.
-		- [ ] Life/soul fragments do not show tooltip.
-		- [ ] Arrows do not show tooltip.
-		- [ ] Map elements are not showing tooltips.
 - [ ] **Tooltip Evolution - 1 week**
 	- [ ] **Improved Control**
 		- [ ] When creating a tooltip, also pass in a Direction, Offset & Anchor, and if the tooltip should Follow Mouse. 
@@ -95,4 +87,17 @@
 	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
 - [ ] **Balance - Indeterminant**
+	- [ ] Fundamental rule - payoffs which are not showing do not happen. Payoffs which are showing always happen. Ex: Blank payoffs don't happen; Frozen payoffs do happen.
+		- [ ] Stone breaks this rule. 
+			- [x] Choice 1 - Stone coins are also blank.
+				- [ ] Stone is more threatening.
+				- [ ] Perseus is kinda bad.
+				- [ ] Larger distinction between Freeze and Stone.
+			- [x] Choice 2 - Stone coins still payoff.
+				- [ ] This makes Medusa less threatening as she can hit your payoff coins on heads.
+				- [ ] Perseus becomes a more potent coin.
+				- [ ] Freeze and Stone become pretty similar? Freeze is essentially a one-time Stone.
+			- [ ] Choice 3 - Just make Payoff sides of Stoned coins blank but not power sides. 
+				- [ ] This is functionally just a visual change.
+				- [ ] I like this.
 
