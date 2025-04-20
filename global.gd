@@ -1517,7 +1517,6 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(POWER)", "[img=30x13]res://assets/icons/ui/power.png[/img]")
 	tooltip = tooltip.replace("(POWER_PATRON)", "[img=30x13]res://assets/icons/ui/power_patron.png[/img]")
 	
-	
 	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
 	
 	tooltip = tooltip.replace("(FLAME_INCREASE)", str("%.1d" % Global.flame_boost))

@@ -80,6 +80,9 @@ var _map_is_disabled = false: # if the map can be clicked on (ie, disabled durin
 @onready var _EMBERS_PARTICLES = $Embers
 @onready var _TRIAL_EMBERS_PARTICLES = $TrialEmbers
 
+@onready var _SOUL_TOOLTIP_EMITTER = $Table/SoulTooltipEmitter
+@onready var _LIFE_TOOLTIP_EMITTER = $Table/LifeTooltipEmitter
+
 @onready var _CAMERA = $Camera
 
 const _SHOP_CONTINUE_DELAY_TIMER = "SHOP_CONTINUE_DELAY_TIMER"
@@ -250,13 +253,15 @@ func _on_arrow_count_changed() -> void:
 		# add more arrows
 		var arrow: Arrow = _ARROW_SCENE.instantiate()
 		arrow.clicked.connect(_on_arrow_pressed)
-		arrow.position = _ARROW_PILE_POINT + Vector2(Global.RNG.randi_range(-3, 3), Global.RNG.randi_range(-3, 3))
+		arrow.position = _ARROW_PILE_POINT
 		_ARROWS.add_child(arrow)
 
 func _on_soul_count_changed() -> void:
+	_SOUL_TOOLTIP_EMITTER.enable() if Global.souls > 0 else _SOUL_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
 
 func _on_life_count_changed() -> void:
+	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
 	
 	# if we ran out of life, initiate last chance flip
@@ -417,7 +422,7 @@ func _on_game_end() -> void:
 func on_start() -> void: #reset
 	_CAMERA.make_current()
 	_CAMERA.zoom = Vector2(2, 2)
-	create_tween().tween_property(_CAMERA, "zoom", Vector2(1, 1), 0.3)
+	create_tween().tween_property(_CAMERA, "zoom", Vector2(1, 1), 0.5)
 	
 	_DIALOGUE.instant_clear_dialogue()
 	
@@ -464,6 +469,9 @@ func on_start() -> void: #reset
 	_make_patron_token()
 	if Global.patron == Global.patron_for_enum(Global.PatronEnum.CHARON): # tutorial - starts offscreen
 		_patron_token.position = _CHARON_POINT
+
+	_SOUL_TOOLTIP_EMITTER.disable()
+	_LIFE_TOOLTIP_EMITTER.disable()
 	
 	victory = false
 	Global.round_count = 1
@@ -1852,6 +1860,8 @@ func _disable_interaction_coins_and_patron() -> void:
 	_patron_token.disable_interaction()
 	for arrow in _ARROWS.get_children():
 		arrow.disable_interaction()
+	_LIFE_TOOLTIP_EMITTER.disable()
+	_SOUL_TOOLTIP_EMITTER.disable()
 
 func _enable_interaction_coins_and_patron() -> void:
 	for row in [_COIN_ROW, _ENEMY_COIN_ROW, _CHARON_COIN_ROW, _SHOP_COIN_ROW]:
@@ -1859,6 +1869,8 @@ func _enable_interaction_coins_and_patron() -> void:
 	_patron_token.enable_interaction()
 	for arrow in _ARROWS.get_children():
 		arrow.enable_interaction()
+	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
+	_SOUL_TOOLTIP_EMITTER.enable() if Global.souls > 0 else _SOUL_TOOLTIP_EMITTER.disable()
 
 func _on_coin_clicked(coin: Coin):
 	if _DIALOGUE.is_waiting() or _tutorial_fading:

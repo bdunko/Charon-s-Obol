@@ -9,4 +9,5 @@ func _ready():
 	#_FX.start_glowing(Color.AQUA)
 
 func _on_mouse_entered():
-	UITooltip.create(self, "[color=aquamarine]Soul Fragment[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] (%d)[/color]\nSpent to buy new coins.\nObtain as many as you can." % Global.souls, get_global_mouse_position(), get_tree().root)
+	pass
+	#UITooltip.create(self, "[color=aquamarine]Soul Fragment[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img] (%d)[/color]\nSpent to buy new coins.\nObtain as many as you can." % Global.souls, get_global_mouse_position(), get_tree().root)

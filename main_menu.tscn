@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://bbn2sfo5vap1h"]
+[gd_scene load_steps=103 format=3 uid="uid://bbn2sfo5vap1h"]
 
 [ext_resource type="FontFile" uid="uid://dgfoet7uiqnul" path="res://assets/fonts/alagard.ttf" id="1_jpqrs"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_yp8j4"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://s66fx8py00k7" path="res://assets/particles/coin.png" id="5_c1g6o"]
 [ext_resource type="Texture2D" uid="uid://bjum64hb3chwq" path="res://assets/particles/sparkle.png" id="5_dj8go"]
 [ext_resource type="Texture2D" uid="uid://dykf4mi53b7pv" path="res://assets/main_menu/difficulty_skulls/difficulty_skull_spritesheet.png" id="14_yugwh"]
-[ext_resource type="Script" path="res://ui/tooltip_emitter.gd" id="15_dy0pp"]
 [ext_resource type="Script" path="res://player_textboxes.gd" id="25_r145h"]
 [ext_resource type="PackedScene" uid="uid://bedblkbwue803" path="res://ui/textbox.tscn" id="26_ljwsx"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="27_x0p8j"]
@@ -568,7 +567,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_sbk2m")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4jrk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbmu8"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -954,7 +953,7 @@ region = Rect2(64, 64, 16, 16)
 atlas = ExtResource("14_yugwh")
 region = Rect2(80, 64, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lr056"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ui8pa"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1085,7 +1084,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jrx7e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yipg1"]
 resource_local_to_scene = true
 shader = ExtResource("27_x0p8j")
 shader_parameter/POST_PROCESSING = false
@@ -1524,7 +1523,7 @@ alignment = 1
 script = ExtResource("25_r145h")
 
 [node name="UnlockContinueButton" parent="UnlockUI/UnlockTextboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_g4jrk")
+material = SubResource("ShaderMaterial_bbmu8")
 layout_mode = 2
 default_text = "Unlock"
 
@@ -1826,12 +1825,12 @@ script = ExtResource("25_r145h")
 metadata/_edit_use_anchors_ = true
 
 [node name="EmbarkButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_lr056")
+material = SubResource("ShaderMaterial_ui8pa")
 layout_mode = 2
 default_text = "Embark"
 
 [node name="QuitButton" parent="MainUI/Textboxes" instance=ExtResource("26_ljwsx")]
-material = SubResource("ShaderMaterial_jrx7e")
+material = SubResource("ShaderMaterial_yipg1")
 layout_mode = 2
 default_text = " Quit "
 
@@ -1842,59 +1841,6 @@ offset_top = 162.0
 offset_right = 320.0
 offset_bottom = 180.0
 metadata/_edit_use_anchors_ = true
-
-[node name="TooltipEmitter4" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 270.0
-offset_top = 118.0
-offset_right = 310.0
-offset_bottom = 158.0
-script = ExtResource("15_dy0pp")
-_tooltip = "Tiny!"
-
-[node name="TooltipEmitter2" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 174.0
-offset_top = 3.0
-offset_right = 214.0
-offset_bottom = 43.0
-script = ExtResource("15_dy0pp")
-_tooltip = "Hello world!
-This is a tooltip with newlines after each sentence, no matter how long that sentence is!
-The tooltip should break apart large sentences, but always maintain the existing newlines.
-For example,
-these
-are
-on
-their
-own!"
-
-[node name="TooltipEmitter" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 99.0
-offset_top = 2.0
-offset_right = 139.0
-offset_bottom = 42.0
-script = ExtResource("15_dy0pp")
-_tooltip = "This is a test tooltip! Please see if this breaks properly. It does not use newlines, so it is a little tricky. Ideally, this should be limited to a specific size in the x-axis, but grow as needed in the y-axis. "
-
-[node name="TooltipEmitter3" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 143.0
-offset_top = 42.0
-offset_right = 183.0
-offset_bottom = 82.0
-script = ExtResource("15_dy0pp")
-_tooltip = "Small
-tooltips
-should
-be
-minimal
-width!"
 
 [connection signal="clicked" from="UnlockUI/UnlockTextboxes/UnlockContinueButton" to="." method="_on_unlock_continue_button_clicked"]
 [connection signal="changed" from="MainUI/Selector/Character" to="." method="_on_character_changed"]
