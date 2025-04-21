@@ -26,6 +26,8 @@ const _BUFFER = 28
 const _FORMAT := "[center]%s[/center]"
 
 @onready var _MAIN_TOOLTIP = $Grid/MainTooltip
+@onready var _SUBTOOLTIPS_RIGHT = $Grid/SubtooltipsRight
+@onready var _SUBTOOLTIPS_BELOW = $Grid/SubtooltipsBelow
 
 enum Direction {
 	LEFT, RIGHT, ABOVE, BELOW, CENTERED
@@ -109,6 +111,11 @@ static func clear_tooltip_for(src):
 			tooltip.destroy_tooltip()
 			_ALL_TOOLTIPS.erase(tooltip)
 
+func _ready() -> void:
+	assert(_MAIN_TOOLTIP)
+	assert(_SUBTOOLTIPS_BELOW)
+	assert(_SUBTOOLTIPS_RIGHT)
+
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
@@ -186,8 +193,7 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 		if line_size > longest_line_size:
 			longest_line_size = line_size
 	
-	# TODO REFACTOR THIS - call func son _MAIN_TOOLTIP instead
-	var label = tooltip.find_child("TooltipText")
+	var label = tooltip.find_child("TooltipText") #this is basically a hack because it isn't 'ready' yet; just grab the label from main tooltip...
 	label.custom_minimum_size.x = min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER)
 	label.text = _FORMAT % text
 	
@@ -196,18 +202,16 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	
 	# create subtooltips
 	for subtooltip in props._subtooltips:
-		print("Making stt!")
-		print(subtooltip._text)
-		
 		var stt = _create_sub_tooltip(subtooltip._text, subtooltip._direction)
-		stt.find_child("TooltipText").custom_minimum_size.x = label.custom_minimum_size.x
+		var stt_label = stt.find_child("TooltipText")
+		stt_label.custom_minimum_size.x = label.custom_minimum_size.x
 		
 		match subtooltip._direction:
 			Direction.BELOW:
-				tooltip.find_child("SubtooltipsBelow").add_child(stt)
+				tooltip._SUBTOOLTIPS_BELOW.add_child(stt)
 			Direction.RIGHT:
-				tooltip.find_child("SubtooltipsRight").add_child(stt)
-				stt.find_child("TooltipText").custom_minimum_size.y = label.size.y
+				tooltip._SUBTOOLTIPS_RIGHT.add_child(stt)
+				stt_label.custom_minimum_size.y = label.size.y
 			_:
 				assert(false)
 	
@@ -285,7 +289,9 @@ func _update_position(mouse_position: Vector2) -> void:
 
 # $HACK$ - get_rect() is wrong because size is wrong... (reports far too large of a y for some reason)
 func _get_real_rect():
-	var real_rect = find_child("MainTooltip").get_rect()
+	var real_rect = _MAIN_TOOLTIP.get_rect()
+	real_rect.size.x += _SUBTOOLTIPS_RIGHT.size.x
+	real_rect.size.y += _SUBTOOLTIPS_BELOW.size.y
 	real_rect.position = position
 	return real_rect
 
@@ -296,10 +302,7 @@ func _force_position_onto_screen():
 	var viewport_rect = get_viewport_rect()
 
 	#$HACK$ - idk why but Tooltip and Grid's y size is way larger than it should be, but this is right
-	var real_size = find_child("MainTooltip").size
-	real_size.x += find_child("SubtooltipsRight").size.x
-	real_size.y += find_child("SubtooltipsBelow").size.y
-	
+	var real_size = _get_real_rect().size
 	
 	# if we are off the right of the screen, move left until that's no longer the case.
 	if position.x + real_size.x > viewport_rect.size.x:
