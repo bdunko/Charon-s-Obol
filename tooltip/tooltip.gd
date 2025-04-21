@@ -6,6 +6,7 @@ enum _TooltipSystemState {
 }
 static var _SYSTEM_STATE: _TooltipSystemState = _TooltipSystemState.SHOW_ALL
 static var _TOOLTIP_SCENE = preload("res://tooltip/tooltip.tscn")
+static var _TOOLTIP_COMPONENT_SCENE = preload("res://tooltip/tooltip_component.tscn")
 static var _ALL_TOOLTIPS: Array[UITooltip] = []
 
 const _FORCE_MOVE_OFF_OF_MOUSE = false
@@ -24,6 +25,7 @@ const _BUFFER = 28
 
 const _FORMAT := "[center]%s[/center]"
 
+@onready var _MAIN_TOOLTIP = $Grid/MainTooltip
 
 enum Direction {
 	LEFT, RIGHT, ABOVE, BELOW, CENTERED
@@ -38,7 +40,6 @@ var manual_control: bool
 var manual_mouse_position: Vector2
 var properties: Properties
 
-
 const DEFAULT_OFFSET = 12
 const DEFAULT_DIRECTION = Direction.BELOW
 const NO_ANCHOR = Vector2(-18888, -18888)
@@ -47,6 +48,7 @@ class Properties:
 	var _direction: Direction = DEFAULT_DIRECTION
 	var _anchor: Vector2 = NO_ANCHOR
 	var _offset: int = DEFAULT_OFFSET
+	var _subtooltips = []
 	
 	func _init() -> void:
 		pass
@@ -66,11 +68,20 @@ class Properties:
 	func offset(tt_offset: int) -> Properties:
 		_offset = tt_offset
 		return self
+	
+	func sub(text, direction = DEFAULT_SUBTOOLTIP_DIRECTION) -> Properties:
+		_subtooltips.append(SubTooltip.new(text, direction))
+		return self
 
-func get_label() -> RichTextLabel:
-	var label = find_child("TooltipText")
-	assert(label)
-	return label
+const DEFAULT_SUBTOOLTIP_DIRECTION = Direction.BELOW
+class SubTooltip:
+	var _direction: Direction
+	var _text: String
+	
+	func _init(text: String, direction: Direction) -> void:
+		assert(direction == Direction.BELOW or direction == Direction.RIGHT, "We don't support other directions.")
+		_text = text
+		_direction = direction
 
 static func enable_all_tooltips():
 	_SYSTEM_STATE = _TooltipSystemState.SHOW_ALL
@@ -109,7 +120,7 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
 		if tooltip.source == src:
-			tooltip.find_child("TooltipText").text = _FORMAT % text
+			tooltip._MAIN_TOOLTIP.set_text(_FORMAT % text)
 			return
 	
 	var disconnect_source = func(ttip: UITooltip):
@@ -140,6 +151,12 @@ static func create_manual(text: String, controlled_mouse_position, scene_root: N
 	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, props, true)
 	return tooltip
 
+static func _create_sub_tooltip(text: String, dir: Direction):
+	var subtooltip = _TOOLTIP_COMPONENT_SCENE.instantiate()
+	subtooltip.set_text(_FORMAT % text)
+	subtooltip.subtooltip_style(dir)
+	return subtooltip
+
 static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, props: Properties, is_manual: bool = false, ) -> UITooltip:
 	var tooltip: UITooltip = _TOOLTIP_SCENE.instantiate()
 	assert(tooltip.get_child_count())
@@ -148,8 +165,6 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	tooltip.properties = props
 	tooltip.manual_control = is_manual
 	tooltip.manual_mouse_position = mouse_position
-	
-	var label = tooltip.get_label()
 	
 	# Step 1 - Calculate tooltip width.
 	# Replace img tag with XXX to help space them (this only works because most of our images are pretty small.
@@ -171,12 +186,30 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 		if line_size > longest_line_size:
 			longest_line_size = line_size
 	
+	# TODO REFACTOR THIS - call func son _MAIN_TOOLTIP instead
+	var label = tooltip.find_child("TooltipText")
 	label.custom_minimum_size.x = min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER)
-	
 	label.text = _FORMAT % text
 	
 	scene_root.add_child(tooltip)
 	_ALL_TOOLTIPS.append(tooltip)
+	
+	# create subtooltips
+	for subtooltip in props._subtooltips:
+		print("Making stt!")
+		print(subtooltip._text)
+		
+		var stt = _create_sub_tooltip(subtooltip._text, subtooltip._direction)
+		stt.find_child("TooltipText").custom_minimum_size.x = label.custom_minimum_size.x
+		
+		match subtooltip._direction:
+			Direction.BELOW:
+				tooltip.find_child("SubtooltipsBelow").add_child(stt)
+			Direction.RIGHT:
+				tooltip.find_child("SubtooltipsRight").add_child(stt)
+				stt.find_child("TooltipText").custom_minimum_size.y = label.size.y
+			_:
+				assert(false)
 	
 	# set position after adding to scene, otherwise it doesn't always work
 	tooltip._update_position(mouse_position)
@@ -252,7 +285,7 @@ func _update_position(mouse_position: Vector2) -> void:
 
 # $HACK$ - get_rect() is wrong because size is wrong... (reports far too large of a y for some reason)
 func _get_real_rect():
-	var real_rect = find_child("Layer").get_rect()
+	var real_rect = find_child("MainTooltip").get_rect()
 	real_rect.position = position
 	return real_rect
 
@@ -262,8 +295,11 @@ func _force_position_onto_screen():
 	var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
 	var viewport_rect = get_viewport_rect()
 
-	#$HACK$ - idk why but Tooltip's y size is way larger than it should be, but this is right
-	var real_size = find_child("Layer").size
+	#$HACK$ - idk why but Tooltip and Grid's y size is way larger than it should be, but this is right
+	var real_size = find_child("MainTooltip").size
+	real_size.x += find_child("SubtooltipsRight").size.x
+	real_size.y += find_child("SubtooltipsBelow").size.y
+	
 	
 	# if we are off the right of the screen, move left until that's no longer the case.
 	if position.x + real_size.x > viewport_rect.size.x:
@@ -280,19 +316,19 @@ func _force_position_onto_screen():
 		position.y = 0
 	
 #	# but now we might be overlapping the mouse, so move up until we aren't
-	if _FORCE_MOVE_OFF_OF_MOUSE:
-		var shifted := false
-		var hit_top := false
-		while _get_real_rect().has_point(mouse_position):
-			shifted = true
-			position.y -= 1
-			if position.y <= 0:
-				position.y = 0
-				hit_top = true
-				break
-
-		if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
-			position.y = max(0, position.y - properties._offset) # clamp at 0 so we can't end up offscreen again
+#	if _FORCE_MOVE_OFF_OF_MOUSE:
+#		var shifted := false
+#		var hit_top := false
+#		while _get_real_rect().has_point(mouse_position):
+#			shifted = true
+#			position.y -= 1
+#			if position.y <= 0:
+#				position.y = 0
+#				hit_top = true
+#				break
+#
+#		if shifted and not hit_top: # if we had to shift back up, go a bit more to match the same offset as normal
+#			position.y = max(0, position.y - properties._offset) # clamp at 0 so we can't end up offscreen again
 
 func destroy_tooltip():
 	var fade_out = create_tween()

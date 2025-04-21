@@ -1,14 +1,10 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] **Improved Control**
-		- [ ] Don't show tooltip while a coin is in the middle of an animation (turning or flipping).
 	- [ ] **Sub Tooltips**
 		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
 			- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
 			- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
 		- [ ] In the shop, upgradable coins (coins in player row) should place their tooltips in the UP direction instead of left/right, to make space for the upgrade sub tooltip.
-	- [ ] **Disable Tooltip Button**
-		- [ ] Add a button to disable tooltips. This should also have a hotkey to toggle (possibly tab).
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
