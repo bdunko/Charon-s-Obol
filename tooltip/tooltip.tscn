@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="1_en8g6"]
 [ext_resource type="Script" path="res://tooltip/tooltip.gd" id="2_q67l5"]
-[ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="3_onft3"]
+[ext_resource type="PackedScene" uid="uid://c0jqnkrrf5lpi" path="res://tooltip/tooltip_component.tscn" id="3_jd5iy"]
 
 [node name="Tooltip" type="MarginContainer"]
 z_index = 4001
@@ -13,39 +13,19 @@ theme = ExtResource("1_en8g6")
 script = ExtResource("2_q67l5")
 metadata/_edit_use_anchors_ = true
 
-[node name="Layer" type="MarginContainer" parent="."]
+[node name="Grid" type="GridContainer" parent="."]
 layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Layer"]
+[node name="MainTooltip" parent="Grid" instance=ExtResource("3_jd5iy")]
 layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("3_onft3")
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
 
-[node name="TextMargin" type="MarginContainer" parent="Layer"]
+[node name="SubtooltipsRight" type="HBoxContainer" parent="Grid"]
 layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 1
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 3
+theme_override_constants/separation = 0
 
-[node name="TooltipText" type="RichTextLabel" parent="Layer/TextMargin"]
-texture_filter = 1
-clip_contents = false
+[node name="SubtooltipsBelow" type="VBoxContainer" parent="Grid"]
 layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 2
-theme = ExtResource("1_en8g6")
-bbcode_enabled = true
-text = "[center][color=slategray]Stone[/color]
-This coin does not flip and its powers cannot be activated.[/center]"
-fit_content = true
-scroll_active = false
-shortcut_keys_enabled = false
+theme_override_constants/separation = 0

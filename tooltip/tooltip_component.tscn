@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0jqnkrrf5lpi"]
+
+[ext_resource type="Texture2D" uid="uid://bjtwxurn0rt6m" path="res://assets/ninepatch/player_dialogue_9patch.png" id="1_22j61"]
+[ext_resource type="Script" path="res://tooltip/tooltip_component.gd" id="1_wgdw3"]
+[ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="2_7mr2n"]
+
+[node name="TooltipComponent" type="MarginContainer"]
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("1_wgdw3")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_22j61")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="TextMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 3
+
+[node name="TooltipText" type="RichTextLabel" parent="TextMargin"]
+texture_filter = 1
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme = ExtResource("2_7mr2n")
+bbcode_enabled = true
+text = "[center][color=slategray]Stone[/color]
+This coin does not flip and its powers cannot be activated.[/center]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
