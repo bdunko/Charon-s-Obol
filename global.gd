@@ -4,6 +4,10 @@ var DEBUG_CONSOLE = true # utility flag for debugging mode
 var DEBUG_DONT_FORCE_FIRST_TOSS = true # don't require the first toss each round
 var DEBUG_SKIP_INTRO = true # skip charon's trial intro
 
+var _coin_row
+var _shop_row
+var _enemy_row
+
 signal state_changed
 signal round_changed
 signal souls_count_changed
@@ -443,7 +447,6 @@ var active_coin_power_family: PF.PowerFamily:
 		#	active_coin_power_coin = null
 
 const COIN_LIMIT = 10
-var COIN_ROWS: Array
 
 # note - this trims off a pixel on the left since that's the format for our icons. Keep this in mind...
 func set_custom_mouse_cursor_to_icon(icon_path: String) -> void:
@@ -2503,7 +2506,7 @@ func is_passive_active(passivePower: PF.PowerFamily) -> bool:
 	if patron and patron.power_family == passivePower:
 		return true
 	
-	for row in COIN_ROWS:
+	for row in [_coin_row, _enemy_row]:
 		for coin in row.get_children():
 			if coin.is_trial_coin() and coin.get_active_power_family() == passivePower:
 				return true

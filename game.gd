@@ -221,7 +221,11 @@ func _ready() -> void:
 	for coin in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 		coin.queue_free()
 		coin.get_parent().remove_child(coin)
-	Global.COIN_ROWS = [_COIN_ROW, _ENEMY_COIN_ROW]
+	
+	# kinda a hack making these global but w/e
+	Global._coin_row = _COIN_ROW
+	Global._enemy_row = _ENEMY_COIN_ROW
+	Global._shop_row = _SHOP_COIN_ROW
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)

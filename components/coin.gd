@@ -1,6 +1,8 @@
 class_name Coin
 extends Control
 
+@onready var _COIN_SCENE = preload("res://components/coin.tscn")
+
 signal flip_complete
 signal turn_complete
 signal hovered
@@ -210,12 +212,16 @@ class FacePower:
 		if not in_shop and _shop_row.has_coin(coin):
 			return #don't bother updating coins in the shop if we're not in the shop
 		
+		var in_menu = Global.state == Global.State.INACTIVE
+		
 		# handle special tantalus case, since it's a passive and not a PAYOFF_GAIN_SOULS power
 		if power_family == Global.POWER_FAMILY_GAIN_SOULS_TANTALUS:
 			souls_payoff = power_family.get_uses_for_denom(denomination)
 		elif power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
-				if in_shop: # while in the shop, show a question mark
+				if in_menu:
+					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
+				elif in_shop and _shop_row.has(coin): # while in the shop, show a question mark
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					# +(USES) Souls for each coin to the left.
@@ -227,16 +233,20 @@ class FacePower:
 							break
 						souls_payoff += souls_per_coin_on_left
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_ICARUS:
-				if in_shop:
-					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
+				var base_payoff = power_family.get_uses_for_denom(denomination)
+				if in_menu:
+					souls_payoff = base_payoff
+				elif in_shop and _shop_row.has(coin):
+					souls_payoff = base_payoff
 				else:
-					var base_payoff = power_family.get_uses_for_denom(denomination)
 					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[denomination]
 					souls_payoff = base_payoff + (souls_per_heads * (coin_row.get_filtered(CoinRow.FILTER_HEADS).size()))
 			elif power_family == Global.POWER_FAMILY_GAIN_SOULS_CARPO:
 				var base_payoff = power_family.get_uses_for_denom(denomination)
-				if in_shop:
-					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
+				if in_menu:
+					souls_payoff = base_payoff
+				if in_shop and _shop_row.has(coin):
+					souls_payoff = base_payoff
 				else:
 					var growth = get_metadata(METADATA_CARPO, 0)
 					souls_payoff = base_payoff + growth
@@ -1797,26 +1807,23 @@ func _generate_tooltip() -> void:
 	var tooltip = _make_tooltip_text()
 	var anchor = _TOOLTIP_ANCHOR.global_position
 	var direction = UITooltip.Direction.ABOVE if _owner == Owner.PLAYER else UITooltip.Direction.BELOW
-	var offset = 35 if _owner == Owner.PLAYER else 45
+	var offset = 33 if _owner == Owner.PLAYER else 43
 	var props = UITooltip.Properties.new().anchor(anchor).direction(direction).offset(offset)
 	
 	# add subtooltips for statuses etc
 	props = Global.add_subtooltips_for(tooltip, props)
 	
 	# if we're in a position to upgrade, add subtooltip for upgrade
-	if Global.state == Global.State.SHOP and can_upgrade():
+	if Global.state == Global.State.SHOP and can_upgrade() and _owner == Owner.PLAYER:
 		var new_coin: Coin = _COIN_SCENE.instantiate()
-		# add this 'fake' coin somewhere far away
+		# add this 'fake' coin somewhere far away, get a tooltip from it, then delete it...
 		get_tree().root.add_child(new_coin)
 		new_coin.hide()
 		new_coin.position = Vector2(-100000, -100000)
 		new_coin.init_coin(_coin_family, _denomination + 1, Coin.Owner.PLAYER)
-		
+		new_coin.update_payoff(Global._coin_row, Global._enemy_row, Global._shop_row)
 		props.sub(Global.replace_placeholders(new_coin._make_tooltip_text()), UITooltip.Direction.RIGHT)
-		
 		new_coin.queue_free()
-		
-		# TODO TEST THIS
 	
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
 
@@ -1941,9 +1948,6 @@ func _make_tooltip_text() -> String:
 		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), extra_info, heads_power_str, tails_power_str]
 	
 	return tooltip
-
-#TODODO MOVE TO TOP
-@onready var _COIN_SCENE = preload("res://components/coin.tscn")
 
 func on_round_end() -> void:
 	_round_life_penalty_change = 0
