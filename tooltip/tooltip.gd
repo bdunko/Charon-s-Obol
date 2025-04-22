@@ -71,8 +71,8 @@ class Properties:
 		_offset = tt_offset
 		return self
 	
-	func sub(text, direction = DEFAULT_SUBTOOLTIP_DIRECTION) -> Properties:
-		_subtooltips.append(SubTooltip.new(text, direction))
+	func sub(text, dir = DEFAULT_SUBTOOLTIP_DIRECTION) -> Properties:
+		_subtooltips.append(SubTooltip.new(text, dir))
 		return self
 
 const DEFAULT_SUBTOOLTIP_DIRECTION = Direction.BELOW
@@ -116,6 +116,9 @@ func _ready() -> void:
 	assert(_SUBTOOLTIPS_BELOW)
 	assert(_SUBTOOLTIPS_RIGHT)
 
+func _get_main_label() -> RichTextLabel:
+	return _MAIN_TOOLTIP.get_label()
+
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
@@ -127,7 +130,7 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	# if there is already a tooltip for this control, update that tooltip's text instead
 	for tooltip in _ALL_TOOLTIPS:
 		if tooltip.source == src:
-			tooltip._MAIN_TOOLTIP.set_text(_FORMAT % text)
+			tooltip._get_main_label().text = _FORMAT % text
 			return
 	
 	var disconnect_source = func(ttip: UITooltip):
@@ -142,7 +145,7 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	
 	# if there is already a tooltip with identical text, change its source to this new control but don't generate a new one
 	for tooltip in _ALL_TOOLTIPS:
-		var label = tooltip.get_label()
+		var label = tooltip._get_main_label()
 		if label.text == text:
 			# redo connects
 			disconnect_source.call(tooltip)
@@ -160,7 +163,7 @@ static func create_manual(text: String, controlled_mouse_position, scene_root: N
 
 static func _create_sub_tooltip(text: String, dir: Direction):
 	var subtooltip = _TOOLTIP_COMPONENT_SCENE.instantiate()
-	subtooltip.set_text(_FORMAT % text)
+	subtooltip.get_label().text = _FORMAT % text
 	subtooltip.subtooltip_style(dir)
 	return subtooltip
 
@@ -185,15 +188,13 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	text_no_tags = Global.strip_bbcode(text_no_tags)
 	
 	# find the longest line.
-	var font = tooltip.get_theme().get_default_font()
-	var font_size = tooltip.get_theme().get_default_font_size()
 	var longest_line_size = -1
 	for line in text_no_tags.split("\n"):
 		var line_size = tooltip.get_theme().get_default_font().get_string_size(line).x
 		if line_size > longest_line_size:
 			longest_line_size = line_size
 	
-	var label = tooltip.find_child("TooltipText") #this is basically a hack because it isn't 'ready' yet; just grab the label from main tooltip...
+	var label = tooltip.find_child("MainTooltip").get_label() #this is basically a hack because it isn't 'ready' yet; just grab the label from main tooltip...
 	label.custom_minimum_size.x = min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER)
 	label.text = _FORMAT % text
 	
@@ -203,7 +204,7 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	# create subtooltips
 	for subtooltip in props._subtooltips:
 		var stt = _create_sub_tooltip(subtooltip._text, subtooltip._direction)
-		var stt_label = stt.find_child("TooltipText")
+		var stt_label = stt.get_label()
 		stt_label.custom_minimum_size.x = label.custom_minimum_size.x
 		
 		match subtooltip._direction:
@@ -298,7 +299,7 @@ func _get_real_rect():
 # force the tooltip to be within the screen boundaries and not overlapping the mouse
 func _force_position_onto_screen():
 	# update position based on mouse position and screen position
-	var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
+	#var mouse_position = get_global_mouse_position() if not manual_control else manual_mouse_position
 	var viewport_rect = get_viewport_rect()
 
 	#$HACK$ - idk why but Tooltip and Grid's y size is way larger than it should be, but this is right

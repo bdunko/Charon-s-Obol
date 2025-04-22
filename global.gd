@@ -259,7 +259,7 @@ func difficulty_tooltip_for(diff: Difficulty) -> String:
 	return ""
 
 enum State {
-	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER, CHARON_OBOL_FLIP
+	BOARDING, BEFORE_FLIP, AFTER_FLIP, SHOP, VOYAGE, TOLLGATE, GAME_OVER, CHARON_OBOL_FLIP, INACTIVE
 }
 
 func reroll_cost() -> int:
@@ -320,7 +320,7 @@ var arrows: int:
 		assert(arrows >= 0)
 		emit_signal("arrow_count_changed")
 
-var state := State.BEFORE_FLIP:
+var state := State.INACTIVE:
 	set(val):
 		state = val
 		emit_signal("state_changed")
@@ -1523,6 +1523,15 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(IGNITE_INCREASE)", str(Global.ignite_damage - Global.DEFAULT_IGNITE_DAMAGE))
 	
 	return tooltip
+
+func add_subtooltips_for(tooltip: String, props: UITooltip.Properties) -> UITooltip.Properties:
+	# LOOK FOR KEYS
+	# ADD MATCHING SUBTOOLTIPS
+	
+	#props.sub("Test!", UITooltip.Direction.BELOW)
+	#props.sub("Test2!", UITooltip.Direction.RIGHT)
+	
+	return props
 
 # todo - refactor this into Util
 signal left_click_input
