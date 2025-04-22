@@ -221,7 +221,7 @@ class FacePower:
 			if power_family == Global.POWER_FAMILY_GAIN_SOULS_HELIOS:
 				if in_menu:
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
-				elif in_shop and _shop_row.has(coin): # while in the shop, show a question mark
+				elif in_shop and _shop_row.has_coin(coin): # while in the shop, show a question mark
 					souls_payoff = _SOULS_PAYOFF_INDETERMINANT
 				else:
 					# +(USES) Souls for each coin to the left.
@@ -236,7 +236,7 @@ class FacePower:
 				var base_payoff = power_family.get_uses_for_denom(denomination)
 				if in_menu:
 					souls_payoff = base_payoff
-				elif in_shop and _shop_row.has(coin):
+				elif in_shop and _shop_row.has_coin(coin):
 					souls_payoff = base_payoff
 				else:
 					var souls_per_heads = Global.ICARUS_HEADS_MULTIPLIER[denomination]
@@ -245,7 +245,7 @@ class FacePower:
 				var base_payoff = power_family.get_uses_for_denom(denomination)
 				if in_menu:
 					souls_payoff = base_payoff
-				if in_shop and _shop_row.has(coin):
+				if in_shop and _shop_row.has_coin(coin):
 					souls_payoff = base_payoff
 				else:
 					var growth = get_metadata(METADATA_CARPO, 0)
@@ -2088,7 +2088,7 @@ func get_copied_power_family() -> PF.PowerFamily:
 @onready var _MOUSE = $Mouse
 
 var _time_mouse_hover = 0
-const _DELAY_BEFORE_TOOLTIP = 0.15 # not sure if we really want this?
+const _DELAY_BEFORE_TOOLTIP = 0.08 # not sure if we really want this?
 
 func _physics_process(delta):
 	if _MOUSE.is_over() and not _disable_interaction:
