@@ -1,9 +1,5 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] Two things -
-		- [ ] Need to figure out a way to update payoff
-			- [ ] easy way - just make coin row enemy row and shop row globally accessible - $HACK$
-			- [ ] otherwise all coins need ptrs to them which, was really cumbersome
 	- [ ] Improve the efficiency of replace_placeholder and replace_placeholder_text
 		- [ ] Algorithm:
 			- [ ] Create a new blank string.
@@ -22,8 +18,14 @@
 	- [ ] **Sub Tooltips**
 		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
 		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
+			- [ ] Also needs to be added to god statues and patron tokens.
+			- [ ] and trial descriptions
 		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
 			- [ ] Text differences should be highlighted (differently colored text)
+			- [ ] Provide an arrow or something between the two boxes
+			- [ ] Ideally, keep the price visible somewhere... hmmmmm
+			- [ ] Tutorial - don't show the upgrade tooltip until we reach that part; tis confusing
+	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.

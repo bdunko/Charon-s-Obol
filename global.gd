@@ -1461,41 +1461,41 @@ func replace_placeholders(tooltip: String) -> String:
 	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % [IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"])
 	tooltip = tooltip.replace("(D_IGNITED)", "Each payoff, -3(LIFE).")
 	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % [FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(D_FROZEN)", "The next time this coin would be flipped, it thaws out instead. Does not recharge during the toss.")
+	tooltip = tooltip.replace("(D_FROZEN)", "The next time this would be flipped, it thaws out instead. Does not recharge.")
 	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"])
-	tooltip = tooltip.replace("(D_LUCKY)", "This coin has a +%d%% chance to land on (HEADS)." % Coin.UNLUCKY_MODIFIER)
+	tooltip = tooltip.replace("(D_LUCKY)", "+%d%% chance to land on (HEADS)." % Coin.LUCKY_MODIFIER)
 	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_SLIGHTLY_LUCKY)", "This coin has a +%d%% chance to land on (HEADS)." % Coin.SLIGHTLY_LUCKY_MODIFIER)
+	tooltip = tooltip.replace("(D_SLIGHTLY_LUCKY)", "+%d%% chance to land on (HEADS). Stacks." % Coin.SLIGHTLY_LUCKY_MODIFIER)
 	tooltip = tooltip.replace("(S_QUITE_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_QUITE_LUCKY)", "This coin has a +%d%% chance to land on (HEADS)." % Coin.QUITE_LUCKY_MODIFIER)
+	tooltip = tooltip.replace("(D_QUITE_LUCKY)", "+%d%% chance to land on (HEADS). Stacks." % Coin.QUITE_LUCKY_MODIFIER)
 	tooltip = tooltip.replace("(S_INCREDIBLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_INCREDIBLY_LUCKY)", "This coin has a +%d%% chance to land on (HEADS)." % Coin.INCREDIBLY_LUCKY_MODIFIER)
+	tooltip = tooltip.replace("(D_INCREDIBLY_LUCKY)", "+%d%% chance to land on (HEADS)." % Coin.INCREDIBLY_LUCKY_MODIFIER)
 	tooltip = tooltip.replace("(S_UNLUCKY)", STATUS_FORMAT % [UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
-	tooltip = tooltip.replace("(D_UNLUCKY)", "This coin has a +%d%% chance to land on (TAILS)." % Coin.LUCKY_MODIFIER)
+	tooltip = tooltip.replace("(D_UNLUCKY)", "+%d%% chance to land on (TAILS)." % Coin.LUCKY_MODIFIER)
 	tooltip = tooltip.replace("(S_BLESSED)", STATUS_FORMAT % [BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(D_BLESSED)", "The next time this coin is flipped, it will land on (HEADS).")
+	tooltip = tooltip.replace("(D_BLESSED)", "The next time this is flipped, it will land on (HEADS).")
 	tooltip = tooltip.replace("(S_CURSED)", STATUS_FORMAT % [CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(D_CURSED)", "The next time this coin is flipped, it will land on (TAILS).")
+	tooltip = tooltip.replace("(D_CURSED)", "The next time this is flipped, it will land on (TAILS).")
 	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % [BLANK_COLOR, "Blanked", "res://assets/icons/status/blank_icon.png"])
 	tooltip = tooltip.replace("(D_BLANKED)", "Until the end of a toss, this has no effects.")
 	tooltip = tooltip.replace("(S_CHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Charged", "res://assets/icons/status/charge_icon.png"])
-	tooltip = tooltip.replace("(D_CHARGED)", "The next time this coin lands on (TAILS), reflip it.")
+	tooltip = tooltip.replace("(D_CHARGED)", "The next time this lands on (TAILS), reflip it. Stacks.")
 	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
-	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this coin lands on (TAILS), reflip it.")
+	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this lands on (TAILS), reflip it.")
 	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % [STONE_COLOR, "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "This coin cannot be flipped, does not pay off, and does not recharge during the toss.")
+	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "Cannot be flipped, does not pay off, and does not recharge.")
 	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % [CONSECRATE_COLOR, "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
-	tooltip = tooltip.replace("(D_CONSECRATED)", "This coin will always land on (HEADS).")
+	tooltip = tooltip.replace("(D_CONSECRATED)", "Always lands on (HEADS).")
 	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % [DESECRATE_COLOR, "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
-	tooltip = tooltip.replace("(D_DESECRATED)", "This coin will always land on (TAILS).")
+	tooltip = tooltip.replace("(D_DESECRATED)", "Always lands on (TAILS).")
 	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % [DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(D_DOOMED)", "When the round ends, this coin is destroyed.")
+	tooltip = tooltip.replace("(D_DOOMED)", "Destroyed when the round ends.")
 	tooltip = tooltip.replace("(S_BURIED)", STATUS_FORMAT % [BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(D_BURIED)", "This coin cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
+	tooltip = tooltip.replace("(D_BURIED)", "Cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
 	tooltip = tooltip.replace("(S_FLEETING)", STATUS_FORMAT % [FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
-	tooltip = tooltip.replace("(D_FLEETING)", "This coin is destroyed during payoff.")
+	tooltip = tooltip.replace("(D_FLEETING)", "Destroyed during payoff.")
 	tooltip = tooltip.replace("(S_PRIMED)", STATUS_FORMAT % [PRIME_COLOR, "Primed", "res://assets/icons/status/primed_icon.png"])
-	tooltip = tooltip.replace("(D_PRIMED)", "At the end of the round, this coin automatically upgrades.")
+	tooltip = tooltip.replace("(D_PRIMED)", "At the end of the round, automatically upgrades.")
 	
 	# images
 	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
@@ -1528,11 +1528,16 @@ func replace_placeholders(tooltip: String) -> String:
 	return tooltip
 
 func add_subtooltips_for(tooltip: String, props: UITooltip.Properties) -> UITooltip.Properties:
+	#TODODO
 	# LOOK FOR KEYS
 	# ADD MATCHING SUBTOOLTIPS
 	
 	#props.sub("Test!", UITooltip.Direction.BELOW)
 	#props.sub("Test2!", UITooltip.Direction.RIGHT)
+	
+	if tooltip.contains("(LUCKY)"):
+		props.sub(Global.replace_placeholders("(S_LUCKY)\n(D_LUCKY)"), UITooltip.Direction.BELOW)
+		
 	
 	return props
 
