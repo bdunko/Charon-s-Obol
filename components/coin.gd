@@ -1794,6 +1794,33 @@ func _generate_tooltip() -> void:
 	if not _MOUSE.is_over():
 		return
 	
+	var tooltip = _make_tooltip_text()
+	var anchor = _TOOLTIP_ANCHOR.global_position
+	var direction = UITooltip.Direction.ABOVE if _owner == Owner.PLAYER else UITooltip.Direction.BELOW
+	var offset = 35 if _owner == Owner.PLAYER else 45
+	var props = UITooltip.Properties.new().anchor(anchor).direction(direction).offset(offset)
+	
+	# add subtooltips for statuses etc
+	props = Global.add_subtooltips_for(tooltip, props)
+	
+	# if we're in a position to upgrade, add subtooltip for upgrade
+	if Global.state == Global.State.SHOP and can_upgrade():
+		var new_coin: Coin = _COIN_SCENE.instantiate()
+		# add this 'fake' coin somewhere far away
+		get_tree().root.add_child(new_coin)
+		new_coin.hide()
+		new_coin.position = Vector2(-100000, -100000)
+		new_coin.init_coin(_coin_family, _denomination + 1, Coin.Owner.PLAYER)
+		
+		props.sub(Global.replace_placeholders(new_coin._make_tooltip_text()), UITooltip.Direction.RIGHT)
+		
+		new_coin.queue_free()
+		
+		# TODO TEST THIS
+	
+	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
+
+func _make_tooltip_text() -> String:
 	var tooltip = ""
 	
 	# special case - use a shortened tooltip for trial coins (which are single faced)
@@ -1913,12 +1940,10 @@ func _generate_tooltip() -> void:
 		const TOOLTIP_FORMAT = "%s\n%s\n%s%s\n%s"
 		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), extra_info, heads_power_str, tails_power_str]
 	
-	var anchor = _TOOLTIP_ANCHOR.global_position
-	var direction = UITooltip.Direction.ABOVE if _owner == Owner.PLAYER else UITooltip.Direction.BELOW
-	var offset = 35 if _owner == Owner.PLAYER else 45
-	var props = UITooltip.Properties.new().anchor(anchor).direction(direction).offset(offset)
-	
-	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
+	return tooltip
+
+#TODODO MOVE TO TOP
+@onready var _COIN_SCENE = preload("res://components/coin.tscn")
 
 func on_round_end() -> void:
 	_round_life_penalty_change = 0

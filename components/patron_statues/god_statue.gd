@@ -54,14 +54,9 @@ func _on_mouse_entered():
 		var anchor = get_global_rect().position + _SPRITE.get_rect().get_center()
 		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 31
 		var props = UITooltip.Properties.new().anchor(anchor).direction(UITooltip.Direction.BELOW).offset(offset)
-		props.sub("This is a subtooltip!", UITooltip.Direction.BELOW)
-		props.sub("This is a subtooltip2!", UITooltip.Direction.BELOW)
-		props.sub("This is a subtooltip3!", UITooltip.Direction.BELOW)
-		props.sub("This is a subtooltip4!", UITooltip.Direction.BELOW)
-		props.sub("This is a sidetooltip!", UITooltip.Direction.RIGHT)
-		props.sub("This is a sidetooltip2!", UITooltip.Direction.RIGHT)
-		# add stt
-		UITooltip.create(_MOUSE, Global.replace_placeholders("Altar to %s\n%s" % [nme, desc]), get_global_mouse_position(), get_tree().root, props)
+		var tooltip = "Altar to %s\n%s" % [nme, desc]
+		props = Global.add_subtooltips_for(tooltip, props)
+		UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
 
 func apply_spectral_fx() -> void:
 	_FX.start_glowing_solid(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, false)

@@ -417,6 +417,7 @@ func _on_game_end() -> void:
 	_RIGHT_HAND.move_offscreen()
 	Global.souls = 0
 	Global.lives = 0
+	Global.state = Global.State.INACTIVE
 	emit_signal("game_ended", victory)
 
 func on_start() -> void: #reset

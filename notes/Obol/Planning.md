@@ -1,10 +1,29 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
+	- [ ] Two things -
+		- [ ] Need to figure out a way to update payoff
+			- [ ] easy way - just make coin row enemy row and shop row globally accessible - $HACK$
+			- [ ] otherwise all coins need ptrs to them which, was really cumbersome
+	- [ ] Improve the efficiency of replace_placeholder and replace_placeholder_text
+		- [ ] Algorithm:
+			- [ ] Create a new blank string.
+			- [ ] Go through string one letter at a time. 
+				- [ ] If not open paren and not building a paren, add char to string.
+				- [ ] When we see open paren, 
+					- [ ] If not already building a paren, start building a paren.
+					- [ ] If we are already building a paren, add the existing paren to the string and start building a new paren (this covers cases where stuff like (this is (LUCKY)) happens; ie double nested parens)
+				- [ ] When we see a closed paren,
+					- [ ] If building a paren, attempt to parse using map ie at this point we have (LUCKY)
+						- [ ] If not in map, just add to string (we had something like a reminder text)
+						- [ ] If in map, translate then add to string.
+					- [ ] If not building a paren, just add char to string.
+			- [ ] At end, add any remaining paren to string (this only would happen if the string ENDED in open paren, but just to be safe.)
+			- [ ] This is O(n) where n is the length of the string. 
 	- [ ] **Sub Tooltips**
-		- [ ] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
-			- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
-			- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. Text differences should be highlighted (differently colored text)
-		- [ ] In the shop, upgradable coins (coins in player row) should place their tooltips in the UP direction instead of left/right, to make space for the upgrade sub tooltip.
+		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
+		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
+		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
+			- [ ] Text differences should be highlighted (differently colored text)
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.

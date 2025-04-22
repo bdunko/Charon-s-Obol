@@ -6,10 +6,6 @@ extends MarginContainer
 func _ready() -> void:
 	assert(_TEXT)
 
-func set_text(text: String) -> void:
-	# $HACK$ hasn't been added to scene yet...
-	$TextMargin/TooltipText.text = text
-
 # this is a stupid hack but maybe it works idk
 func subtooltip_style(direction: UITooltip.Direction) -> void:
 	match direction:
@@ -19,4 +15,7 @@ func subtooltip_style(direction: UITooltip.Direction) -> void:
 			self.set("theme_override_constants/margin_left", -1)
 		_:
 			assert(false)
+
+func get_label() -> RichTextLabel:
+	return $TextMargin/TooltipText
 	
