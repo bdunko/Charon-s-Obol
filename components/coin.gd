@@ -824,9 +824,6 @@ func get_tails_icon_path() -> String:
 		return "res://assets/icons/todo_icon.png" #junk placeholder for stupid init bugs...
 	return _tails_power.power_family.icon_path
 
-func get_coin_name() -> String:
-	return "%s%s" % [_replace_placeholder_text(_coin_family.coin_name), "[img=10x13]%s[/img]" % _coin_family.icon_path]
-
 func get_style_string() -> String:
 	return _coin_family.get_style_string()
 
@@ -1726,77 +1723,6 @@ func overwrite_active_face_power(new_power: PF.PowerFamily) -> void:
 	else:
 		_set_tails_power_to(new_power)
 
-
-const NUMERICAL_ADVERB_DICT = {
-	1 : "Once",
-	2 : "Twice", 
-	3 : "Thrice",
-}
-func _replace_placeholder_text(txt: String, face_power: FacePower = null) -> String:
-	txt = txt.replace("(DENOM)", Global.denom_to_string(_denomination))
-	if face_power != null:
-		txt = txt.replace("(MAX_CHARGES)", str(max(0, face_power.power_family.get_uses_for_denom(_denomination))))
-
-		var charges = max(0, face_power.charges)
-		txt = txt.replace("(CURRENT_CHARGES)", "%d" % charges)
-		txt = txt.replace("(CURRENT_CHARGES_COINS)", "%d %s" % [charges, "coin" if charges == 1 else "coins"])
-		txt = txt.replace("(CURRENT_CHARGES_PAYOFFS)", "%d %s" % [charges, "payoff" if charges == 1 else "payoffs"])
-		
-		if charges != 0 and charges <= 10:
-			var adverb = "%d times" % charges if not NUMERICAL_ADVERB_DICT.has(charges) else NUMERICAL_ADVERB_DICT[charges]
-			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB)", adverb)
-			txt = txt.replace("(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)", adverb.to_lower())
-
-		txt = txt.replace("(SOULS_PAYOFF)", "?" if face_power.souls_payoff == _SOULS_PAYOFF_INDETERMINANT else str(face_power.souls_payoff))
-	
-	txt = txt.replace("(DEMETER_GAIN)", str(Global.DEMETER_GAIN[get_value()-1]))
-	txt = txt.replace("(HADES_SELF_GAIN)", str(Global.HADES_SELF_GAIN[get_value()-1]))
-	txt = txt.replace("(HADES_MONSTER_COST)", str(Global.HADES_MONSTER_COST[get_value()-1]))
-	txt = txt.replace("(ICARUS_PER_HEADS)", str(Global.ICARUS_HEADS_MULTIPLIER[get_value()-1]))
-	txt = txt.replace("(CARPO_PER_PAYOFF)", str(Global.CARPO_ROUND_MULTIPLIER[get_value()-1]))
-	txt = txt.replace("(PHAETHON_SOULS)", str(Global.PHAETHON_REWARD_SOULS[get_value()-1]))
-	txt = txt.replace("(PHAETHON_LIFE)", str(Global.PHAETHON_REWARD_LIFE[get_value()-1]))
-	txt = txt.replace("(PHAETHON_ARROWS)", str(Global.PHAETHON_REWARD_ARROWS[get_value()-1]))
-	txt = txt.replace("(TRIPTOLEMUS_HARVEST)", str(Global.TRIPTOLEMUS_HARVEST[_denomination]))
-	txt = txt.replace("(PROMETHEUS_MULTIPLIER)", str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination]))
-	txt = txt.replace("(ECHIDNA_SPAWN_DENOM)", str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination])))
-	txt = txt.replace("(SCYLLA_INCREASE)", str(Global.SCYLLA_INCREASE[_denomination]))
-	txt = txt.replace("(LAMIA_BURY)", str(Global.LAMIA_BURY[_denomination]))
-	txt = txt.replace("(BOAR_BURY)", str(Global.BOAR_BURY[_denomination]))
-	txt = txt.replace("(OREAD_BURY)", str(Global.OREAD_BURY[_denomination]))
-	txt = txt.replace("(CYCLOPS_BURY)", str(Global.CYCLOPS_BURY[_denomination]))
-	txt = txt.replace("(STRIX_INCREASE)", str(Global.STRIX_INCREASE[_denomination]))
-	txt = txt.replace("(KERES_INCREASE)", str(Global.KERES_INCREASE[_denomination]))
-	txt = txt.replace("(CERBERUS_INCREASE)", str(Global.CERBERUS_INCREASE[_denomination]))
-	txt = txt.replace("(CERBERUS_INCREASE_IGNITE)", str(Global.CERBERUS_INCREASE_IGNITE[_denomination]))
-	txt = txt.replace("(GADFLY_INCREASE)", str(Global.GADFLY_INCREASE[_denomination]))
-	txt = txt.replace("(GADFLY_DENOM)", str(Global.denom_to_string(Global.GADFLY_THORNS_DENOM[_denomination])))
-	txt = txt.replace("(SPHINX_DENOM)", str(Global.denom_to_string(Global.SPHINX_THORNS_DENOM[_denomination])))
-	
-	
-	if face_power != null: # ones that require metadata
-		txt = txt.replace("(TELEMACHUS_TOSSES_REMAINING)", str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0)))
-		txt = txt.replace("(ERYSICHTHON_COST)", str(face_power.get_metadata(METADATA_ERYSICHTHON, 0))) #TODO
-	
-	txt = txt.replace("(THIS_DENOMINATION)", Global.denom_to_string(_denomination))
-	
-	txt = txt.replace("(1_PER_DENOM)", str((get_denomination() + 1)))
-	txt = txt.replace("(1+1_PER_DENOM)", str((get_denomination() + 1) + 1))
-	txt = txt.replace("(2+1_PER_DENOM)", str((get_denomination() + 1) + 2))
-	txt = txt.replace("(2_PER_DENOM)", str((get_denomination() + 1) * 2))
-	txt = txt.replace("(1_PLUS_2_PER_DENOM)", str(1 + ((get_denomination()+1) * 2)))
-	
-#	var heph_str = func(denom_as_int: int) -> String:
-#		match(denom_as_int):
-#			1:
-#				return "an Obol"
-#			2:
-#				return "an Obol or Diobol"
-#			_:
-#				return "a coin"
-#	txt = txt.replace("(HEPHAESTUS_OPTIONS)", heph_str.call(get_denomination()+1))
-	return txt
-
 func _generate_tooltip() -> void:
 	# prevent a tooltip from being generated in the case that life penalty was reduced while not over.
 	# normally we regenerate a tooltip in this case, but only if the mouse is over.
@@ -1828,7 +1754,76 @@ func _generate_tooltip() -> void:
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
 
 func _make_tooltip_text() -> String:
+	# helper lambdas
+	var generate_base_replacement_map = func() -> Dictionary:
+		var replace_map = {}
+		
+		var value = get_value()
+		replace_map["(DENOM)"] = Global.denom_to_string(_denomination)
+		replace_map["(DEMETER_GAIN)"] = str(Global.DEMETER_GAIN[value-1])
+		replace_map["(HADES_SELF_GAIN)"] = str(Global.HADES_SELF_GAIN[value-1])
+		replace_map["(HADES_MONSTER_COST)"] = str(Global.HADES_MONSTER_COST[value-1])
+		replace_map["(ICARUS_PER_HEADS)"] = str(Global.ICARUS_HEADS_MULTIPLIER[value-1])
+		replace_map["(CARPO_PER_PAYOFF)"] = str(Global.CARPO_ROUND_MULTIPLIER[value-1])
+		replace_map["(PHAETHON_SOULS)"] = str(Global.PHAETHON_REWARD_SOULS[value-1])
+		replace_map["(PHAETHON_LIFE)"] = str(Global.PHAETHON_REWARD_LIFE[value-1])
+		replace_map["(PHAETHON_ARROWS)"] = str(Global.PHAETHON_REWARD_ARROWS[value-1])
+		replace_map["(TRIPTOLEMUS_HARVEST)"] = str(Global.TRIPTOLEMUS_HARVEST[_denomination])
+		replace_map["(PROMETHEUS_MULTIPLIER)"] = str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination])
+		replace_map["(ECHIDNA_SPAWN_DENOM)"] = str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination]))
+		replace_map["(SCYLLA_INCREASE)"] = str(Global.SCYLLA_INCREASE[_denomination])
+		replace_map["(LAMIA_BURY)"] = str(Global.LAMIA_BURY[_denomination])
+		replace_map["(BOAR_BURY)"] = str(Global.BOAR_BURY[_denomination])
+		replace_map["(OREAD_BURY)"] = str(Global.OREAD_BURY[_denomination])
+		replace_map["(CYCLOPS_BURY)"] = str(Global.CYCLOPS_BURY[_denomination])
+		replace_map["(STRIX_INCREASE)"] = str(Global.STRIX_INCREASE[_denomination])
+		replace_map["(KERES_INCREASE)"] = str(Global.KERES_INCREASE[_denomination])
+		replace_map["(CERBERUS_INCREASE)"] = str(Global.CERBERUS_INCREASE[_denomination])
+		replace_map["(CERBERUS_INCREASE_IGNITE)"] = str(Global.CERBERUS_INCREASE_IGNITE[_denomination])
+		replace_map["(GADFLY_INCREASE)"] = str(Global.GADFLY_INCREASE[_denomination])
+		replace_map["(GADFLY_DENOM)"] = str(Global.denom_to_string(Global.GADFLY_THORNS_DENOM[_denomination]))
+		replace_map["(SPHINX_DENOM)"] = str(Global.denom_to_string(Global.SPHINX_THORNS_DENOM[_denomination]))
+		
+		replace_map["(THIS_DENOMINATION)"] = Global.denom_to_string(_denomination)
+		replace_map["(1_PER_DENOM)"] = str((_denomination + 1))
+		replace_map["(1+1_PER_DENOM)"] = str((_denomination + 1) + 1)
+		replace_map["(2+1_PER_DENOM)"] = str((_denomination + 1) + 2)
+		replace_map["(2_PER_DENOM)"] = str((_denomination + 1) * 2)
+		replace_map["(1_PLUS_2_PER_DENOM)"] = str(1 + ((_denomination+1) * 2))
+		
+		return replace_map
+	
+	var add_power_replacements = func(map: Dictionary, face_power: FacePower) -> Dictionary:
+		assert(face_power)
+		const NUMERICAL_ADVERB_DICT = {
+			1 : "Once",
+			2 : "Twice", 
+			3 : "Thrice",
+		}
+		
+		map["(MAX_CHARGES)"] = str(max(0, face_power.power_family.get_uses_for_denom(_denomination)))
+		
+		var charges = max(0, face_power.charges)
+		map["(CURRENT_CHARGES)"] = "%d" % charges
+		map["(CURRENT_CHARGES_COINS)"] = "%d %s" % [charges, "coin" if charges == 1 else "coins"]
+		map["(CURRENT_CHARGES_PAYOFFS)"] = "%d %s" % [charges, "payoff" if charges == 1 else "payoffs"]
+		if charges != 0 and charges <= 10:
+			var adverb = "%d times" % charges if not NUMERICAL_ADVERB_DICT.has(charges) else NUMERICAL_ADVERB_DICT[charges]
+			map["(CURRENT_CHARGES_NUMERICAL_ADVERB)"] = adverb
+			map["(CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE)"] = adverb.to_lower()
+		
+		map["(SOULS_PAYOFF)"] = "?" if face_power.souls_payoff == _SOULS_PAYOFF_INDETERMINANT else str(face_power.souls_payoff)
+		
+		map["(TELEMACHUS_TOSSES_REMAINING)"] = str(Global.TELEMACHUS_TOSSES_TO_TRANSFORM - face_power.get_metadata(METADATA_TELEMACHUS, 0))
+		map["(ERYSICHTHON_COST)"] = str(face_power.get_metadata(METADATA_ERYSICHTHON, 0))
+		return map
+	
+	
 	var tooltip = ""
+	
+	var coin_name = "%s%s" % [_coin_family.coin_name, "[img=10x13]%s[/img]" % _coin_family.icon_path]
+	
+	var base_replacement_dict = generate_base_replacement_map.call()
 	
 	# special case - use a shortened tooltip for trial coins (which are single faced)
 	if is_trial_coin():
@@ -1837,8 +1832,11 @@ func _make_tooltip_text() -> String:
 		# (subtitle)
 		# (desc)
 		const PASSIVE_FORMAT = "%s\n[color=lightgray]%s[/color]\n[img=10x13]%s[/img](POWERARROW)%s"
-		var desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power)
-		tooltip = PASSIVE_FORMAT % [get_coin_name(), get_subtitle(), _heads_power.power_family.icon_path, desc]
+		
+		var replacement_dict = add_power_replacements.call(base_replacement_dict, _heads_power)
+		
+		var desc = Global.fast_placeholder_replace(PASSIVE_FORMAT % [coin_name, get_subtitle(), _heads_power.power_family.icon_path, _heads_power.power_family.description], replacement_dict)
+		
 	else:
 		# (name)
 		# (subtitle)
@@ -1848,8 +1846,8 @@ func _make_tooltip_text() -> String:
 		# get descriptions for powers
 		var heads_power_type = _heads_power.power_family.get_power_type_placeholder()
 		var tails_power_type = _tails_power.power_family.get_power_type_placeholder()
-		var heads_desc = _replace_placeholder_text(_heads_power.power_family.description, _heads_power)
-		var tails_desc = _replace_placeholder_text(_tails_power.power_family.description, _tails_power)
+		var heads_desc = _heads_power.power_family.description
+		var tails_desc = _tails_power.power_family.description
 		
 		# N/N(icon)->   OR for certain powers,   N(icon)->
 		var heads_power = ""
@@ -1860,19 +1858,19 @@ func _make_tooltip_text() -> String:
 		const POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)/(MAX_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		if _heads_power.power_family.is_power():
 			if _heads_power.charges == Global.INFINITE_CHARGES:
-				heads_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+				heads_power = INFINITE_POWER_FORMAT % _heads_power.power_family.icon_path
 			else:
-				heads_power = _replace_placeholder_text(POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+				heads_power = POWER_FORMAT % _heads_power.power_family.icon_path
 		elif _heads_power.power_family.is_passive():
-			heads_power = _replace_placeholder_text(PASSIVE_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+			heads_power = PASSIVE_FORMAT % _heads_power.power_family.icon_path
 		
 		if _tails_power.power_family.is_power():
 			if _tails_power.charges == Global.INFINITE_CHARGES:
-				tails_power = _replace_placeholder_text(INFINITE_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+				tails_power = INFINITE_POWER_FORMAT % _tails_power.power_family.icon_path
 			else:
-				tails_power = _replace_placeholder_text(POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+				tails_power = POWER_FORMAT % _tails_power.power_family.icon_path
 		elif _tails_power.power_family.is_passive():
-			tails_power = _replace_placeholder_text(PASSIVE_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+			tails_power = PASSIVE_FORMAT % _tails_power.power_family.icon_path
 		
 		# safety asserts...
 		# todo - would be anice little refactor - make this path a const in global
@@ -1880,7 +1878,6 @@ func _make_tooltip_text() -> String:
 		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_heal_icon.png"))
 		assert(FileAccess.file_exists("res://assets/icons/soul_fragment_red_icon.png"))
 		assert(FileAccess.file_exists("res://assets/icons/arrow_icon.png"))
-		
 		
 		const PAYOFF_POWER_MONSTER_FORMAT = "[color=#e86a73](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
 		const PAYOFF_POWER_FORMAT = "[color=yellow](CURRENT_CHARGES)[/color][img=10x13]%s[/img](POWERARROW)"
@@ -1892,22 +1889,22 @@ func _make_tooltip_text() -> String:
 			# if this is a gain soul power or lose life power (achilles tails), or just has a single charge (monsters mostly); don't show a number
 			if _heads_power.charges <= 1 or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _heads_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
 				and not _heads_power.power_family == PF.PayoffCurseUnluckyScaling: #specific exception for minotaur formatting
-				heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path)
+				heads_power = PAYOFF_POWER_FORMAT_JUST_ICON % _heads_power.power_family.icon_path
 			else:
 				if is_monster_coin(): #purple charges text
-					heads_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+					heads_power = PAYOFF_POWER_MONSTER_FORMAT % _heads_power.power_family.icon_path
 				else:
-					heads_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path, _heads_power)
+					heads_power = PAYOFF_POWER_FORMAT % _heads_power.power_family.icon_path
 			
 		if _tails_power.power_family.is_payoff() and not _tails_power.power_family.icon_path in ignore_icons:
 			if _tails_power.charges <= 1 or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_GAIN_SOULS or _tails_power.power_family.power_type == PF.PowerType.PAYOFF_LOSE_LIFE\
 				and not _tails_power.power_family == PF.PayoffCurseUnluckyScaling:
-				tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path)
+				tails_power = PAYOFF_POWER_FORMAT_JUST_ICON % _tails_power.power_family.icon_path
 			else:
 				if is_monster_coin(): #purple charges text
-					tails_power = _replace_placeholder_text(PAYOFF_POWER_MONSTER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+					tails_power = PAYOFF_POWER_MONSTER_FORMAT % _tails_power.power_family.icon_path
 				else:
-					tails_power = _replace_placeholder_text(PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path, _tails_power)
+					tails_power = PAYOFF_POWER_FORMAT % _tails_power.power_family.icon_path
 		
 		# (HEADS/TAILS)(power_stuff)(desc)
 		const FACE_FORMAT = "%s%s%s%s"
@@ -1929,7 +1926,7 @@ func _make_tooltip_text() -> String:
 		if _coin_family.has_tag(Global.CoinFamily.Tag.CANT_TARGET):
 			extra_info += "Cannot be targetted. "
 		if _coin_family.has_tag(Global.CoinFamily.Tag.GAIN_COIN_ON_DESTROY):
-			extra_info += _replace_placeholder_text("Destroy to get a random (DENOM)! ")
+			extra_info += "Destroy to get a random (DENOM)! "
 		if _coin_family.has_tag(Global.CoinFamily.Tag.REBORN_ON_DESTROY):
 			extra_info += "Rises from the ashes when destroyed."
 		if _coin_family.has_tag(Global.CoinFamily.Tag.MELIAE_ON_MONSTER_DESTROYED):
@@ -1944,8 +1941,17 @@ func _make_tooltip_text() -> String:
 		# extra info
 		# heads
 		# tails
-		const TOOLTIP_FORMAT = "%s\n%s\n%s%s\n%s"
-		tooltip = TOOLTIP_FORMAT % [get_coin_name(), get_subtitle(), extra_info, heads_power_str, tails_power_str]
+		# we do this in two steps to save on replace calls: first (name) + heads power, second tails
+		const HEADS_FORMAT = "%s\n%s\n%s%s\n"
+		const TAILS_FORMAT = "%s"
+		
+		var replacement_dict = add_power_replacements.call(base_replacement_dict, _heads_power)
+		var name_and_heads = Global.fast_placeholder_replace(HEADS_FORMAT % [coin_name, get_subtitle(), extra_info, heads_power_str], replacement_dict)
+		
+		replacement_dict = add_power_replacements.call(base_replacement_dict, _tails_power)
+		var tails = Global.fast_placeholder_replace(TAILS_FORMAT % [tails_power_str], replacement_dict)
+		
+		tooltip = "%s%s" % [name_and_heads, tails]
 	
 	return tooltip
 
