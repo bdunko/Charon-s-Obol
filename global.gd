@@ -1412,120 +1412,156 @@ var TRIAL_POWER_FAMILY_VAINGLORY = PF.PowerFamily.new("After a coin lands on (HE
 var CHARON_POWER_DEATH = PF.PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", ONLY_SHOW_ICON)
 var CHARON_POWER_LIFE = PF.PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
 
+const _IGNITE_COLOR = "red"
+const _FREEZE_COLOR = "aqua"
+const _LUCKY_COLOR = "lawngreen"
+const _UNLUCKY_COLOR = "orangered"
+const _BLESS_COLOR = "palegoldenrod"
+const _CURSE_COLOR = "mediumorchid"
+const _BLANK_COLOR = "ghostwhite"
+const _CHARGE_COLOR = "yellow"
+const _STONE_COLOR = "slategray"
+const _DOOMED_COLOR = "lightsteelblue"
+const _CONSECRATE_COLOR = "lightyellow"
+const _DESECRATE_COLOR = "fuchsia"
+const _BURY_COLOR = "peru"
+const _FLEETING_COLOR = "ghostwhite"
+const _PRIME_COLOR = "orange"
+
+const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
+var _REPLACE_MAP = {
+	"(IGNITE)" : STATUS_FORMAT % [_IGNITE_COLOR, "Ignite", "res://assets/icons/status/ignite_icon.png"],
+	"(IGNITED)" : STATUS_FORMAT % [_IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"],
+	"(IGNITES)" : STATUS_FORMAT % [_IGNITE_COLOR, "Ignites", "res://assets/icons/status/ignite_icon.png"], 
+	"(FREEZE)" : STATUS_FORMAT % [_FREEZE_COLOR, "Freeze", "res://assets/icons/status/freeze_icon.png"],
+	"(FROZEN)" : STATUS_FORMAT % [_FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"],
+	"(LUCKY)" : STATUS_FORMAT % [_LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"],
+	
+	"(UNLUCKY)" : STATUS_FORMAT % [_UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"],
+	"(BLESS)" : STATUS_FORMAT % [_BLESS_COLOR, "Bless", "res://assets/icons/status/bless_icon.png"],
+	"(BLESSED)" : STATUS_FORMAT % [_BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"],
+	"(CURSE)" : STATUS_FORMAT % [_CURSE_COLOR, "Curse", "res://assets/icons/status/curse_icon.png"],
+	"(CURSED)" : STATUS_FORMAT % [_CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"],
+	"(BLANK)" : STATUS_FORMAT % [_BLANK_COLOR, "Blank", "res://assets/icons/status/blank_icon.png"],
+	"(CHARGE)" : STATUS_FORMAT % [_CHARGE_COLOR, "Charge", "res://assets/icons/status/charge_icon.png"],
+	"(SUPERCHARGE)" : STATUS_FORMAT % [_CHARGE_COLOR, "Supercharge", "res://assets/icons/status/supercharge_icon.png"],
+	"(STONE)" : STATUS_FORMAT % [_STONE_COLOR, "Stone", "res://assets/icons/status/stone_icon.png"],
+	"(DOOMED)" : STATUS_FORMAT % [_DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"],
+	"(DOOM)" : STATUS_FORMAT % [_DOOMED_COLOR, "Doom", "res://assets/icons/status/doomed_icon.png"],
+	"(CONSECRATE)" : STATUS_FORMAT % [_CONSECRATE_COLOR, "Consecrate", "res://assets/icons/status/consecrate_icon.png"],
+	"(DESECRATE)" : STATUS_FORMAT % [_DESECRATE_COLOR, "Desecrate", "res://assets/icons/status/desecrate_icon.png"],
+	"(BURY)" : STATUS_FORMAT % [_BURY_COLOR, "Bury", "res://assets/icons/status/bury_icon.png"],
+	"(BURIED)" : STATUS_FORMAT % [_BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"],
+	"(FLEETING)" : STATUS_FORMAT % [_FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"],
+	"(PRIME)" : STATUS_FORMAT % [_PRIME_COLOR, "Prime", "res://assets/icons/status/primed_icon.png"],
+	
+	"(S_IGNITED)" : STATUS_FORMAT % [_IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"],
+	"(D_IGNITED)" : "Each payoff, -3(LIFE).",
+	"(S_FROZEN)" : STATUS_FORMAT % [_FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"],
+	"(D_FROZEN)" : "The next time this would be flipped, it thaws out instead. Does not recharge.",
+	"(S_LUCKY)" : STATUS_FORMAT % [_LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"],
+	"(D_LUCKY)" : "+%d%% chance to land on (HEADS)." % Coin.LUCKY_MODIFIER,
+	"(S_SLIGHTLY_LUCKY)" : STATUS_FORMAT % [_LUCKY_COLOR, "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"],
+	"(D_SLIGHTLY_LUCKY)" : "+%d%% chance to land on (HEADS). Stacks." % Coin.SLIGHTLY_LUCKY_MODIFIER,
+	"(S_QUITE_LUCKY)" : STATUS_FORMAT % [_LUCKY_COLOR, "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"],
+	"(D_QUITE_LUCKY)" : "+%d%% chance to land on (HEADS). Stacks." % Coin.QUITE_LUCKY_MODIFIER,
+	"(S_INCREDIBLY_LUCKY)" : STATUS_FORMAT % [_LUCKY_COLOR, "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"],
+	"(D_INCREDIBLY_LUCKY)" : "+%d%% chance to land on (HEADS)." % Coin.INCREDIBLY_LUCKY_MODIFIER,
+	"(S_UNLUCKY)" : STATUS_FORMAT % [_UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"],
+	"(D_UNLUCKY)" : "+%d%% chance to land on (TAILS)." % Coin.LUCKY_MODIFIER,
+	"(S_BLESSED)" : STATUS_FORMAT % [_BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"],
+	"(D_BLESSED)" : "The next time this is flipped, it will land on (HEADS).",
+	"(S_CURSED)" : STATUS_FORMAT % [_CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"],
+	"(D_CURSED)" : "The next time this is flipped, it will land on (TAILS).",
+	"(S_BLANKED)" : STATUS_FORMAT % [_BLANK_COLOR, "Blanked", "res://assets/icons/status/blank_icon.png"],
+	"(D_BLANKED)" : "Until the end of a toss, this has no effects.",
+	"(S_CHARGED)" : STATUS_FORMAT % [_CHARGE_COLOR, "Charged", "res://assets/icons/status/charge_icon.png"],
+	"(D_CHARGED)" : "The next time this lands on (TAILS), reflip it. Stacks.",
+	"(S_SUPERCHARGED)" : STATUS_FORMAT % [_CHARGE_COLOR, "Supercharged", "res://assets/icons/status/supercharge_icon.png"],
+	"(D_SUPERCHARGED)" : "The next two times this lands on (TAILS), reflip it.",
+	"(S_TURNED_TO_STONE)" : STATUS_FORMAT % [_STONE_COLOR, "Turned to Stone", "res://assets/icons/status/stone_icon.png"],
+	"(D_TURNED_TO_STONE)" : "Cannot be flipped, does not pay off, and does not recharge.",
+	"(S_CONSECRATED)" : STATUS_FORMAT % [_CONSECRATE_COLOR, "Consecrated", "res://assets/icons/status/consecrate_icon.png"],
+	"(D_CONSECRATED)" : "Always lands on (HEADS).",
+	"(S_DESECRATED)" : STATUS_FORMAT % [_DESECRATE_COLOR, "Desecrated", "res://assets/icons/status/desecrate_icon.png"],
+	"(D_DESECRATED)" : "Always lands on (TAILS).",
+	"(S_DOOMED)" : STATUS_FORMAT % [_DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"],
+	"(D_DOOMED)" : "Destroyed when the round ends.",
+	"(S_BURIED)" : STATUS_FORMAT % [_BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"],
+	"(D_BURIED)" : "Cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.",
+	"(S_FLEETING)" : STATUS_FORMAT % [_FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"],
+	"(D_FLEETING)" : "Destroyed during payoff.",
+	"(S_PRIMED)" : STATUS_FORMAT % [_PRIME_COLOR, "Primed", "res://assets/icons/status/primed_icon.png"],
+	"(D_PRIMED)" : "At the end of the round, automatically upgrades.",
+	
+	"(HEADS)" : "[img=12x13]res://assets/icons/heads_icon.png[/img]",
+	"(TAILS)" : "[img=12x13]res://assets/icons/tails_icon.png[/img]",
+	"(COIN)" : "[img=12x13]res://assets/icons/coin_icon.png[/img]",
+	"(VALUE)" : "[img=12x13]res://assets/icons/value_icon.png[/img]",
+	"(ARROW)" : "[img=10x13]res://assets/icons/arrow_icon.png[/img]",
+	"(LIFE)" : "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]",
+	"(HEAL)" : "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]",
+	"(SOULS)" : "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]",
+	"(LUCKYICON)" : "[img=10x13]res://assets/icons/status/lucky_icon.png[/img]",
+	
+	"(CHARON_DEATH)" : "[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img]",
+	"(CHARON_LIFE)" : "[img=10x13]res://assets/icons/coin/charon_life_icon.png[/img]",
+	
+	"(POWERARROW)" : "[img=12x13]res://assets/icons/ui/white_arrow.png[/img]",
+	"(PASSIVE)" : "[img=36x13]res://assets/icons/ui/passive.png[/img]",
+	"(PAYOFF_SOULS)" : "[img=32x13]res://assets/icons/ui/payoff_souls.png[/img]",
+	"(PAYOFF_LIFE)" : "[img=32x13]res://assets/icons/ui/payoff_life.png[/img]",
+	"(PAYOFF_FLAME)" : "[img=32x13]res://assets/icons/ui/payoff_flame.png[/img]",
+	"(PAYOFF_OTHER)" : "[img=32x13]res://assets/icons/ui/payoff_other.png[/img]",
+	"(PAYOFF_PURPLE)" : "[img=32x13]res://assets/icons/ui/payoff_purple.png[/img]",
+	"(POWER)" : "[img=30x13]res://assets/icons/ui/power.png[/img]",
+	"(POWER_PATRON)" : "[img=30x13]res://assets/icons/ui/power_patron.png[/img]",
+	
+	"(TODO)" : "[img=10x13]res://assets/icons/todo_icon.png[/img]",
+}
+
+func fast_placeholder_replace(str: String, paren_map: Dictionary) -> String:
+	# TODODO - we can make this faster; see https://github.com/godotengine/godot/issues/90203
+	# basically using packedstringarray will improve speed possibly
+	
+	var returned = ""
+	var active_placeholder = ""
+	
+	for char in str:
+		if active_placeholder.is_empty():
+			# start a new paren
+			if char == "(":
+				active_placeholder += char
+			# extend the string
+			else:
+				returned += char
+		else:
+			active_placeholder += char
+			
+			if char == ")": # closing paren
+				# if this can be replaced, replace it
+				if paren_map.has(active_placeholder):
+					returned += paren_map[active_placeholder]
+				# this wasn't a match, just hint text. So insert it directly.
+				else:
+					returned += active_placeholder
+				active_placeholder = "" # either way, this is the end of a paren
+			elif char == "(": # starting a new paren while we already have one
+				# discard the active paren and add existing to str
+				returned += active_placeholder
+				active_placeholder = ""
+	
+	# add any remaining active_placeholder...  only happens if we don't close a paren lol
+	returned += active_placeholder
+	
+	return returned
+
 func replace_placeholders(tooltip: String) -> String:
-	const IGNITE_COLOR = "red"
-	const FREEZE_COLOR = "aqua"
-	const LUCKY_COLOR = "lawngreen"
-	const UNLUCKY_COLOR = "orangered"
-	const BLESS_COLOR = "palegoldenrod"
-	const CURSE_COLOR = "mediumorchid"
-	const BLANK_COLOR = "ghostwhite"
-	const CHARGE_COLOR = "yellow"
-	const STONE_COLOR = "slategray"
-	const DOOMED_COLOR = "lightsteelblue"
-	const CONSECRATE_COLOR = "lightyellow"
-	const DESECRATE_COLOR = "fuchsia"
-	const BURY_COLOR = "peru"
-	const FLEETING_COLOR = "ghostwhite"
-	const PRIME_COLOR = "orange"
+	# update these two dynamic replacement in the map
+	_REPLACE_MAP["(FLAME_INCREASE)"] = str("%.1d" % Global.flame_boost)
+	_REPLACE_MAP["(IGNITE_INCREASE)"] = str(Global.ignite_damage - Global.DEFAULT_IGNITE_DAMAGE)
 	
-	# statuses
-	const STATUS_FORMAT = "[color=%s]%s[/color][img=10x13]%s[/img]"
-	tooltip = tooltip.replace("(IGNITE)", STATUS_FORMAT % [IGNITE_COLOR, "Ignite", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(IGNITED)", STATUS_FORMAT % [IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(IGNITES)", STATUS_FORMAT % [IGNITE_COLOR, "Ignites", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(FREEZE)", STATUS_FORMAT % [FREEZE_COLOR, "Freeze", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(FROZEN)", STATUS_FORMAT % [FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"])
-	tooltip = tooltip.replace("(LUCKYICON)", "[img=10x13]res://assets/icons/status/lucky_icon.png[/img]")
-	tooltip = tooltip.replace("(UNLUCKY)", STATUS_FORMAT % [UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
-	tooltip = tooltip.replace("(BLESS)", STATUS_FORMAT % [BLESS_COLOR, "Bless", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(BLESSED)", STATUS_FORMAT % [BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(CURSE)", STATUS_FORMAT % [CURSE_COLOR, "Curse", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(CURSED)", STATUS_FORMAT % [CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(BLANK)", STATUS_FORMAT % [BLANK_COLOR, "Blank", "res://assets/icons/status/blank_icon.png"])
-	tooltip = tooltip.replace("(CHARGE)", STATUS_FORMAT % [CHARGE_COLOR, "Charge", "res://assets/icons/status/charge_icon.png"])
-	tooltip = tooltip.replace("(SUPERCHARGE)", STATUS_FORMAT % [CHARGE_COLOR, "Supercharge", "res://assets/icons/status/supercharge_icon.png"])
-	tooltip = tooltip.replace("(STONE)", STATUS_FORMAT % [STONE_COLOR, "Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(DOOMED)", STATUS_FORMAT % [DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(DOOM)", STATUS_FORMAT % [DOOMED_COLOR, "Doom", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(CONSECRATE)", STATUS_FORMAT % [CONSECRATE_COLOR, "Consecrate", "res://assets/icons/status/consecrate_icon.png"])
-	tooltip = tooltip.replace("(DESECRATE)", STATUS_FORMAT % [DESECRATE_COLOR, "Desecrate", "res://assets/icons/status/desecrate_icon.png"])
-	tooltip = tooltip.replace("(BURY)", STATUS_FORMAT % [BURY_COLOR, "Bury", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(BURIED)", STATUS_FORMAT % [BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(FLEETING)", STATUS_FORMAT % [FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
-	tooltip = tooltip.replace("(PRIME)", STATUS_FORMAT % [PRIME_COLOR, "Prime", "res://assets/icons/status/primed_icon.png"])
-	
-	
-	# used for the coin status indicator tooltips
-	tooltip = tooltip.replace("(S_IGNITED)", STATUS_FORMAT % [IGNITE_COLOR, "Ignited", "res://assets/icons/status/ignite_icon.png"])
-	tooltip = tooltip.replace("(D_IGNITED)", "Each payoff, -3(LIFE).")
-	tooltip = tooltip.replace("(S_FROZEN)", STATUS_FORMAT % [FREEZE_COLOR, "Frozen", "res://assets/icons/status/freeze_icon.png"])
-	tooltip = tooltip.replace("(D_FROZEN)", "The next time this would be flipped, it thaws out instead. Does not recharge.")
-	tooltip = tooltip.replace("(S_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Lucky", "res://assets/icons/status/lucky_icon.png"])
-	tooltip = tooltip.replace("(D_LUCKY)", "+%d%% chance to land on (HEADS)." % Coin.LUCKY_MODIFIER)
-	tooltip = tooltip.replace("(S_SLIGHTLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Slightly Lucky", "res://assets/icons/status/slightly_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_SLIGHTLY_LUCKY)", "+%d%% chance to land on (HEADS). Stacks." % Coin.SLIGHTLY_LUCKY_MODIFIER)
-	tooltip = tooltip.replace("(S_QUITE_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Quite Lucky", "res://assets/icons/status/quite_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_QUITE_LUCKY)", "+%d%% chance to land on (HEADS). Stacks." % Coin.QUITE_LUCKY_MODIFIER)
-	tooltip = tooltip.replace("(S_INCREDIBLY_LUCKY)", STATUS_FORMAT % [LUCKY_COLOR, "Incredibly Lucky", "res://assets/icons/status/incredibly_lucky_icon.png"])
-	tooltip = tooltip.replace("(D_INCREDIBLY_LUCKY)", "+%d%% chance to land on (HEADS)." % Coin.INCREDIBLY_LUCKY_MODIFIER)
-	tooltip = tooltip.replace("(S_UNLUCKY)", STATUS_FORMAT % [UNLUCKY_COLOR, "Unlucky", "res://assets/icons/status/unlucky_icon.png"])
-	tooltip = tooltip.replace("(D_UNLUCKY)", "+%d%% chance to land on (TAILS)." % Coin.LUCKY_MODIFIER)
-	tooltip = tooltip.replace("(S_BLESSED)", STATUS_FORMAT % [BLESS_COLOR, "Blessed", "res://assets/icons/status/bless_icon.png"])
-	tooltip = tooltip.replace("(D_BLESSED)", "The next time this is flipped, it will land on (HEADS).")
-	tooltip = tooltip.replace("(S_CURSED)", STATUS_FORMAT % [CURSE_COLOR, "Cursed", "res://assets/icons/status/curse_icon.png"])
-	tooltip = tooltip.replace("(D_CURSED)", "The next time this is flipped, it will land on (TAILS).")
-	tooltip = tooltip.replace("(S_BLANKED)", STATUS_FORMAT % [BLANK_COLOR, "Blanked", "res://assets/icons/status/blank_icon.png"])
-	tooltip = tooltip.replace("(D_BLANKED)", "Until the end of a toss, this has no effects.")
-	tooltip = tooltip.replace("(S_CHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Charged", "res://assets/icons/status/charge_icon.png"])
-	tooltip = tooltip.replace("(D_CHARGED)", "The next time this lands on (TAILS), reflip it. Stacks.")
-	tooltip = tooltip.replace("(S_SUPERCHARGED)", STATUS_FORMAT % [CHARGE_COLOR, "Supercharged", "res://assets/icons/status/supercharge_icon.png"])
-	tooltip = tooltip.replace("(D_SUPERCHARGED)", "The next two times this lands on (TAILS), reflip it.")
-	tooltip = tooltip.replace("(S_TURNED_TO_STONE)", STATUS_FORMAT % [STONE_COLOR, "Turned to Stone", "res://assets/icons/status/stone_icon.png"])
-	tooltip = tooltip.replace("(D_TURNED_TO_STONE)", "Cannot be flipped, does not pay off, and does not recharge.")
-	tooltip = tooltip.replace("(S_CONSECRATED)", STATUS_FORMAT % [CONSECRATE_COLOR, "Consecrated", "res://assets/icons/status/consecrate_icon.png"])
-	tooltip = tooltip.replace("(D_CONSECRATED)", "Always lands on (HEADS).")
-	tooltip = tooltip.replace("(S_DESECRATED)", STATUS_FORMAT % [DESECRATE_COLOR, "Desecrated", "res://assets/icons/status/desecrate_icon.png"])
-	tooltip = tooltip.replace("(D_DESECRATED)", "Always lands on (TAILS).")
-	tooltip = tooltip.replace("(S_DOOMED)", STATUS_FORMAT % [DOOMED_COLOR, "Doomed", "res://assets/icons/status/doomed_icon.png"])
-	tooltip = tooltip.replace("(D_DOOMED)", "Destroyed when the round ends.")
-	tooltip = tooltip.replace("(S_BURIED)", STATUS_FORMAT % [BURY_COLOR, "Buried", "res://assets/icons/status/bury_icon.png"])
-	tooltip = tooltip.replace("(D_BURIED)", "Cannot be interacted with, does not pay off, and does not recharge.\nAutomatically exhumed in a certain number of tosses.")
-	tooltip = tooltip.replace("(S_FLEETING)", STATUS_FORMAT % [FLEETING_COLOR, "Fleeting", "res://assets/icons/status/fleeting_icon.png"])
-	tooltip = tooltip.replace("(D_FLEETING)", "Destroyed during payoff.")
-	tooltip = tooltip.replace("(S_PRIMED)", STATUS_FORMAT % [PRIME_COLOR, "Primed", "res://assets/icons/status/primed_icon.png"])
-	tooltip = tooltip.replace("(D_PRIMED)", "At the end of the round, automatically upgrades.")
-	
-	# images
-	tooltip = tooltip.replace("(HEADS)", "[img=12x13]res://assets/icons/heads_icon.png[/img]")
-	tooltip = tooltip.replace("(TAILS)", "[img=12x13]res://assets/icons/tails_icon.png[/img]")
-	tooltip = tooltip.replace("(COIN)", "[img=12x13]res://assets/icons/coin_icon.png[/img]")
-	tooltip = tooltip.replace("(VALUE)", "[img=12x13]res://assets/icons/value_icon.png[/img]")
-	tooltip = tooltip.replace("(ARROW)", "[img=10x13]res://assets/icons/arrow_icon.png[/img]")
-	tooltip = tooltip.replace("(LIFE)", "[img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img]")
-	tooltip = tooltip.replace("(HEAL)", "[img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img]")
-	tooltip = tooltip.replace("(SOULS)", "[img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img]")
-	
-	tooltip = tooltip.replace("(CHARON_DEATH)", "[img=10x13]res://assets/icons/coin/charon_death_icon.png[/img]")
-	tooltip = tooltip.replace("(CHARON_LIFE)", "[img=10x13]res://assets/icons/coin/charon_life_icon.png[/img]")
-	
-	tooltip = tooltip.replace("(POWERARROW)", "[img=12x13]res://assets/icons/ui/white_arrow.png[/img]")
-	tooltip = tooltip.replace("(PASSIVE)", "[img=36x13]res://assets/icons/ui/passive.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_SOULS)", "[img=32x13]res://assets/icons/ui/payoff_souls.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_LIFE)", "[img=32x13]res://assets/icons/ui/payoff_life.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_FLAME)", "[img=32x13]res://assets/icons/ui/payoff_flame.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_OTHER)", "[img=32x13]res://assets/icons/ui/payoff_other.png[/img]")
-	tooltip = tooltip.replace("(PAYOFF_PURPLE)", "[img=32x13]res://assets/icons/ui/payoff_purple.png[/img]")
-	tooltip = tooltip.replace("(POWER)", "[img=30x13]res://assets/icons/ui/power.png[/img]")
-	tooltip = tooltip.replace("(POWER_PATRON)", "[img=30x13]res://assets/icons/ui/power_patron.png[/img]")
-	
-	tooltip = tooltip.replace("(TODO)", "[img=10x13]res://assets/icons/todo_icon.png[/img]")
-	
-	tooltip = tooltip.replace("(FLAME_INCREASE)", str("%.1d" % Global.flame_boost))
-	tooltip = tooltip.replace("(IGNITE_INCREASE)", str(Global.ignite_damage - Global.DEFAULT_IGNITE_DAMAGE))
-	
-	return tooltip
+	return fast_placeholder_replace(tooltip, _REPLACE_MAP)
 
 func add_subtooltips_for(tooltip: String, props: UITooltip.Properties) -> UITooltip.Properties:
 	const _SUBTOOLTIP_MAP = {

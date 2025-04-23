@@ -17,7 +17,7 @@
 			- [ ] This is O(n) where n is the length of the string. 
 	- [ ] **Sub Tooltips**
 		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
-		- [ ] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
+		- [x] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
 			- [ ] Also needs to be added to god statues and patron tokens.
 			- [ ] and trial descriptions
 		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
