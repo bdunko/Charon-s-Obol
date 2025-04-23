@@ -1528,16 +1528,35 @@ func replace_placeholders(tooltip: String) -> String:
 	return tooltip
 
 func add_subtooltips_for(tooltip: String, props: UITooltip.Properties) -> UITooltip.Properties:
-	#TODODO
-	# LOOK FOR KEYS
-	# ADD MATCHING SUBTOOLTIPS
+	const _SUBTOOLTIP_MAP = {
+		"(LUCKY)" : "(S_LUCKY)\n(D_LUCKY)",
+		"(UNLUCKY)" : "(S_UNLUCKY)\n(D_UNLUCKY)",
+		"(IGNITE)" : "(S_IGNITED)\n(D_IGNITED)",
+		"(IGNITED)" : "(S_IGNITED)\n(D_LUCKY)",
+		"(IGNITES)" : "(S_IGNITED)\n(D_LUCKY)",
+		"(FREEZE)" : "(S_FROZEN)\n(D_FROZEN)",
+		"(FROZEN)" : "(S_FROZEN)\n(D_FROZEN)",
+		"(BLESS)" : "(S_BLESSED)\n(D_BLESSED)",
+		"(BLESSED)" : "(S_BLESSED)\n(D_BLESSED)",
+		"(CURSE)" : "(S_CURSED)\n(D_CURSED)",
+		"(CURSED)" : "(S_CURSED)\n(D_CURSED)",
+		"(BLANK)" : "(S_BLANKED)\n(D_BLANKED)",
+		"(CHARGE)" : "(S_CHARGED)\n(D_CHARGED)",
+		"(SUPERCHARGE)" : "(S_SUPERCHARGED)\n(D_SUPERCHARGED)",
+		"(STONE)" : "(S_TURNED_TO_STONE)\n(D_TURNED_TO_STONE)",
+		"(DOOMED)" : "(S_DOOMED)\n(D_DOOMED)",
+		"(DOOM)" : "(S_DOOMED)\n(D_DOOMED)",
+		"(CONSECRATE)" : "(S_CONSECRATED)\n(D_CONSECRATED)",
+		"(DESECRATE)" : "(S_DESECRATED)\n(D_DESECRATED)",
+		"(BURY)" : "(S_BURIED)\n(D_BURIED)",
+		"(BURIED)" : "(S_BURIED)\n(D_BURIED)",
+		"(FLEETING)" : "(S_FLEETING)\n(D_FLEETING)",
+		"(PRIME)" : "(S_PRIMED)\n(D_PRIMED)",
+	}
 	
-	#props.sub("Test!", UITooltip.Direction.BELOW)
-	#props.sub("Test2!", UITooltip.Direction.RIGHT)
-	
-	if tooltip.contains("(LUCKY)"):
-		props.sub(Global.replace_placeholders("(S_LUCKY)\n(D_LUCKY)"), UITooltip.Direction.BELOW)
-		
+	for key in _SUBTOOLTIP_MAP.keys():
+		if tooltip.contains(key):
+			props.sub(Global.replace_placeholders(_SUBTOOLTIP_MAP[key]), UITooltip.Direction.BELOW)
 	
 	return props
 
