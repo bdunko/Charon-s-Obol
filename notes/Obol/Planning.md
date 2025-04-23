@@ -1,26 +1,20 @@
 **Charon's Obol Release**
 - [ ] **Tooltip Evolution - 1 week**
-	- [ ] Improve the efficiency of replace_placeholder and replace_placeholder_text
-		- [ ] Algorithm:
-			- [ ] Create a new blank string.
-			- [ ] Go through string one letter at a time. 
-				- [ ] If not open paren and not building a paren, add char to string.
-				- [ ] When we see open paren, 
-					- [ ] If not already building a paren, start building a paren.
-					- [ ] If we are already building a paren, add the existing paren to the string and start building a new paren (this covers cases where stuff like (this is (LUCKY)) happens; ie double nested parens)
-				- [ ] When we see a closed paren,
-					- [ ] If building a paren, attempt to parse using map ie at this point we have (LUCKY)
-						- [ ] If not in map, just add to string (we had something like a reminder text)
-						- [ ] If in map, translate then add to string.
-					- [ ] If not building a paren, just add char to string.
-			- [ ] At end, add any remaining paren to string (this only would happen if the string ENDED in open paren, but just to be safe.)
-			- [ ] This is O(n) where n is the length of the string. 
+	- [ ] Performance improvement idea... cache the coin's tooltip and don't update it unless something has changed since the last time it was shown. Ie keep track of "tooltip_dirty" flag.
+		- [ ] only need to remake tooltip in certain circumstances...
+		- [ ] for safety - on any metadata change
+		- [ ] for safety - on any status change (unused atm but good to cover...)
+		- [ ] on charges or max charges changed
+		- [ ] on heads or tails power changed
+		- [ ] on soul payoff changed
+		- [ ] on denomination changed
+		- [ ] for our own testing, we can keep generating the tooltip string and assert it hasn't changed if not dirty. That can be behind an if DEBUG statement. This will help us catch problems...
 	- [ ] **Sub Tooltips**
 		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
 		- [x] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
 			- [ ] Also needs to be added to god statues and patron tokens.
 			- [ ] and trial descriptions
-		- [ ] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
+		- [x] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
 			- [ ] Text differences should be highlighted (differently colored text)
 			- [ ] Provide an arrow or something between the two boxes
 			- [ ] Ideally, keep the price visible somewhere... hmmmmm

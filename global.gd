@@ -1521,40 +1521,39 @@ var _REPLACE_MAP = {
 }
 
 func fast_placeholder_replace(str: String, paren_map: Dictionary) -> String:
-	# TODODO - we can make this faster; see https://github.com/godotengine/godot/issues/90203
-	# basically using packedstringarray will improve speed possibly
-	
-	var returned = ""
-	var active_placeholder = ""
+	var returned = PackedStringArray()
+	var active_placeholder = PackedStringArray()
 	
 	for char in str:
 		if active_placeholder.is_empty():
 			# start a new paren
 			if char == "(":
-				active_placeholder += char
+				active_placeholder.append(char)
 			# extend the string
 			else:
-				returned += char
+				returned.append(char)
 		else:
-			active_placeholder += char
+			active_placeholder.append(char)
 			
 			if char == ")": # closing paren
+				var joined = "".join(active_placeholder)
+				
 				# if this can be replaced, replace it
-				if paren_map.has(active_placeholder):
-					returned += paren_map[active_placeholder]
+				if paren_map.has(joined):
+					returned.append(paren_map[joined])
 				# this wasn't a match, just hint text. So insert it directly.
 				else:
-					returned += active_placeholder
-				active_placeholder = "" # either way, this is the end of a paren
+					returned.append(joined)
+				active_placeholder.clear() # either way, this is the end of a paren
 			elif char == "(": # starting a new paren while we already have one
 				# discard the active paren and add existing to str
-				returned += active_placeholder
-				active_placeholder = ""
+				returned.append("".join(active_placeholder))
+				active_placeholder.clear()
 	
 	# add any remaining active_placeholder...  only happens if we don't close a paren lol
-	returned += active_placeholder
+	returned.append("".join(active_placeholder))
 	
-	return returned
+	return "".join(returned)
 
 func replace_placeholders(tooltip: String) -> String:
 	# update these two dynamic replacement in the map
