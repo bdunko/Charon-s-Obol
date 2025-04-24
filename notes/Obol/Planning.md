@@ -12,14 +12,16 @@
 	- [ ] **Sub Tooltips**
 		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
 		- [x] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
-			- [ ] Also needs to be added to god statues and patron tokens.
-			- [ ] and trial descriptions
+			- [x] Also needs to be added to god statues and patron tokens.
+			- [x] and trial descriptions
+			- [x] subtooltips should be less obvious
+				- [x] gray outline AND reduce size slightly
 		- [x] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
-			- [ ] Text differences should be highlighted (differently colored text)
 			- [ ] Provide an arrow or something between the two boxes
-			- [ ] Ideally, keep the price visible somewhere... hmmmmm
+			- [ ] Ideally, keep the price visible somewhere... hmmmmm, maybe we can shove it on the top of the tooltip.
 			- [ ] Tutorial - don't show the upgrade tooltip until we reach that part; tis confusing
 	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
+	- [x] precompile some tooltips which contain tooltips
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.

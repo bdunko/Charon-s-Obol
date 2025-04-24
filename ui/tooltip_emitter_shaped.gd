@@ -14,7 +14,7 @@ var _tooltip_visible = false
 @export var direction: UITooltip.Direction = UITooltip.DEFAULT_DIRECTION
 
 func set_tooltip(new_tooltip: String) -> void:
-	_tooltip = Global.replace_placeholders(new_tooltip)
+	_tooltip = new_tooltip
 	
 	mouse_filter = (Control.MOUSE_FILTER_IGNORE if _tooltip.length() == 0 else Control.MOUSE_FILTER_STOP)
 	
@@ -47,10 +47,10 @@ func _on_mouse_exited():
 		emit_signal("tooltip_removed")
 
 func _make_props() -> UITooltip.Properties:
-	return UITooltip.Properties.new().offset(offset).direction(direction).anchor(get_global_rect().get_center())
+	return Global.add_subtooltips_for(_tooltip, UITooltip.Properties.new().offset(offset).direction(direction).anchor(get_global_rect().get_center()))
 
 func _show_tooltip() -> void:
 	if _tooltip != "":
-		UITooltip.create(_MOUSE, _tooltip, get_global_mouse_position(), get_tree().root, _make_props())
+		UITooltip.create(_MOUSE, Global.replace_placeholders(_tooltip), get_global_mouse_position(), get_tree().root, _make_props())
 		_tooltip_visible = true
 		emit_signal("tooltip_created")

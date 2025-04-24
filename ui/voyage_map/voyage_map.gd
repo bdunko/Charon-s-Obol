@@ -71,16 +71,16 @@ func update() -> void:
 			Global.RoundType.NORMAL:
 				_add_node(VoyageNode.VoyageNodeType.NODE, [""], 0, rnd.get_icons())
 			Global.RoundType.TOLLGATE:
-				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, [Global.replace_placeholders(_TOLLGATE_FORMAT % Global.get_toll_cost(rnd))], Global.get_toll_cost(rnd), rnd.get_icons())
+				_add_node(VoyageNode.VoyageNodeType.TOLLGATE, [_TOLLGATE_FORMAT % Global.get_toll_cost(rnd)], Global.get_toll_cost(rnd), rnd.get_icons())
 			Global.RoundType.TRIAL1, Global.RoundType.TRIAL2:
 				# should have two trials
 				if Global.is_difficulty_active(Global.Difficulty.CRUEL3):
 					assert(rnd.trialDatas.size() == 2)
-					var tooltip1 = Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)])
-					var tooltip2 = Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[1].name, rnd.trialDatas[1].description, Global.get_quota(rnd)])
+					var tooltip1 = _TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)]
+					var tooltip2 = _TRIAL_FORMAT % [rnd.trialDatas[1].name, rnd.trialDatas[1].description, Global.get_quota(rnd)]
 					_add_node(VoyageNode.VoyageNodeType.TRIAL, [tooltip1, tooltip2], 0, rnd.get_icons())
 				else:
-					_add_node(VoyageNode.VoyageNodeType.TRIAL, [Global.replace_placeholders(_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)])], 0, [rnd.get_icons()[0]])
+					_add_node(VoyageNode.VoyageNodeType.TRIAL, [_TRIAL_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description, Global.get_quota(rnd)]], 0, [rnd.get_icons()[0]])
 			Global.RoundType.NEMESIS:
 				_add_node(VoyageNode.VoyageNodeType.NEMESIS, [_NEMESIS_FORMAT % [rnd.trialDatas[0].name, rnd.trialDatas[0].description]], 0, rnd.get_icons())
 			Global.RoundType.END:
