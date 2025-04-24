@@ -1562,36 +1562,39 @@ func replace_placeholders(tooltip: String) -> String:
 	
 	return fast_placeholder_replace(tooltip, _REPLACE_MAP)
 
+var _SUBTOOLTIP_MAP = {
+	"(LUCKY)" : "(S_LUCKY)\n(D_LUCKY)",
+	"(UNLUCKY)" : "(S_UNLUCKY)\n(D_UNLUCKY)",
+	"(IGNITE)" : "(S_IGNITED)\n(D_IGNITED)",
+	"(IGNITED)" : "(S_IGNITED)\n(D_LUCKY)",
+	"(IGNITES)" : "(S_IGNITED)\n(D_LUCKY)",
+	"(FREEZE)" : "(S_FROZEN)\n(D_FROZEN)",
+	"(FROZEN)" : "(S_FROZEN)\n(D_FROZEN)",
+	"(BLESS)" : "(S_BLESSED)\n(D_BLESSED)",
+	"(BLESSED)" : "(S_BLESSED)\n(D_BLESSED)",
+	"(CURSE)" : "(S_CURSED)\n(D_CURSED)",
+	"(CURSED)" : "(S_CURSED)\n(D_CURSED)",
+	"(BLANK)" : "(S_BLANKED)\n(D_BLANKED)",
+	"(CHARGE)" : "(S_CHARGED)\n(D_CHARGED)",
+	"(SUPERCHARGE)" : "(S_SUPERCHARGED)\n(D_SUPERCHARGED)",
+	"(STONE)" : "(S_TURNED_TO_STONE)\n(D_TURNED_TO_STONE)",
+	"(DOOMED)" : "(S_DOOMED)\n(D_DOOMED)",
+	"(DOOM)" : "(S_DOOMED)\n(D_DOOMED)",
+	"(CONSECRATE)" : "(S_CONSECRATED)\n(D_CONSECRATED)",
+	"(DESECRATE)" : "(S_DESECRATED)\n(D_DESECRATED)",
+	"(BURY)" : "(S_BURIED)\n(D_BURIED)",
+	"(BURIED)" : "(S_BURIED)\n(D_BURIED)",
+	"(FLEETING)" : "(S_FLEETING)\n(D_FLEETING)",
+	"(PRIME)" : "(S_PRIMED)\n(D_PRIMED)",
+}
+var _CACHED_SUBTOOLTIPS = {}
 func add_subtooltips_for(tooltip: String, props: UITooltip.Properties) -> UITooltip.Properties:
-	const _SUBTOOLTIP_MAP = {
-		"(LUCKY)" : "(S_LUCKY)\n(D_LUCKY)",
-		"(UNLUCKY)" : "(S_UNLUCKY)\n(D_UNLUCKY)",
-		"(IGNITE)" : "(S_IGNITED)\n(D_IGNITED)",
-		"(IGNITED)" : "(S_IGNITED)\n(D_LUCKY)",
-		"(IGNITES)" : "(S_IGNITED)\n(D_LUCKY)",
-		"(FREEZE)" : "(S_FROZEN)\n(D_FROZEN)",
-		"(FROZEN)" : "(S_FROZEN)\n(D_FROZEN)",
-		"(BLESS)" : "(S_BLESSED)\n(D_BLESSED)",
-		"(BLESSED)" : "(S_BLESSED)\n(D_BLESSED)",
-		"(CURSE)" : "(S_CURSED)\n(D_CURSED)",
-		"(CURSED)" : "(S_CURSED)\n(D_CURSED)",
-		"(BLANK)" : "(S_BLANKED)\n(D_BLANKED)",
-		"(CHARGE)" : "(S_CHARGED)\n(D_CHARGED)",
-		"(SUPERCHARGE)" : "(S_SUPERCHARGED)\n(D_SUPERCHARGED)",
-		"(STONE)" : "(S_TURNED_TO_STONE)\n(D_TURNED_TO_STONE)",
-		"(DOOMED)" : "(S_DOOMED)\n(D_DOOMED)",
-		"(DOOM)" : "(S_DOOMED)\n(D_DOOMED)",
-		"(CONSECRATE)" : "(S_CONSECRATED)\n(D_CONSECRATED)",
-		"(DESECRATE)" : "(S_DESECRATED)\n(D_DESECRATED)",
-		"(BURY)" : "(S_BURIED)\n(D_BURIED)",
-		"(BURIED)" : "(S_BURIED)\n(D_BURIED)",
-		"(FLEETING)" : "(S_FLEETING)\n(D_FLEETING)",
-		"(PRIME)" : "(S_PRIMED)\n(D_PRIMED)",
-	}
-	
 	for key in _SUBTOOLTIP_MAP.keys():
 		if tooltip.contains(key):
-			props.sub(Global.replace_placeholders(_SUBTOOLTIP_MAP[key]), UITooltip.Direction.BELOW)
+			if not _CACHED_SUBTOOLTIPS.has(key):
+				_SUBTOOLTIP_MAP[key] = Global.replace_placeholders(Global.replace_placeholders(_SUBTOOLTIP_MAP[key]))
+				_CACHED_SUBTOOLTIPS[key] = true
+			props.sub(_SUBTOOLTIP_MAP[key], UITooltip.Direction.BELOW)
 	
 	return props
 
@@ -1815,7 +1818,7 @@ class Patron:
 	
 	func get_description(show_full_charges: bool = false) -> String:
 		var n_charges = get_uses_per_round() if show_full_charges else Global.patron_uses
-		return Global.replace_placeholders("(POWER_PATRON)[color=yellow]%d/%d[/color][img=10x13]%s[/img](POWERARROW)%s" % [n_charges, get_uses_per_round(), power_family.icon_path, _description])
+		return "(POWER_PATRON)[color=yellow]%d/%d[/color][img=10x13]%s[/img](POWERARROW)%s" % [n_charges, get_uses_per_round(), power_family.icon_path, _description]
 	
 	func get_uses_per_round() -> int:
 		return power_family.get_uses_for_denom(Global.Denomination.OBOL)

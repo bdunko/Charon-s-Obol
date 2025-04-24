@@ -20,14 +20,16 @@ const _SCALE_FACTOR = 2
 
 # Maximum width of a tooltip.
 const _MAXIMUM_WIDTH = 200
+# note - Minimum Width = custom_minimum_size of MainTooltip is
 # Additional buffer added to longest line when using a tooltip with width below the maximum.
 const _BUFFER = 28
 
 const _FORMAT := "[center]%s[/center]"
 
-@onready var _MAIN_TOOLTIP = $Grid/MainTooltip
-@onready var _SUBTOOLTIPS_RIGHT = $Grid/SubtooltipsRight
-@onready var _SUBTOOLTIPS_BELOW = $Grid/SubtooltipsBelow
+@onready var _MAIN_TOOLTIP = $VBox/Grid/MainTooltip
+@onready var _SUBTOOLTIPS_RIGHT = $VBox/Grid/SubtooltipsRight
+@onready var _SUBTOOLTIPS_BELOW = $VBox/Grid/SubtooltipsBelow
+@onready var _LABEL = $VBox/LabelContainer/Label
 
 enum Direction {
 	LEFT, RIGHT, ABOVE, BELOW, CENTERED
@@ -42,7 +44,7 @@ var manual_control: bool
 var manual_mouse_position: Vector2
 var properties: Properties
 
-const DEFAULT_OFFSET = 12
+const DEFAULT_OFFSET = 14
 const DEFAULT_DIRECTION = Direction.BELOW
 const NO_ANCHOR = Vector2(-18888, -18888)
 class Properties:
@@ -195,7 +197,8 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 			longest_line_size = line_size
 	
 	var label = tooltip.find_child("MainTooltip").get_label() #this is basically a hack because it isn't 'ready' yet; just grab the label from main tooltip...
-	label.custom_minimum_size.x = min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER)
+	# force size between minimum and maximum (custom_minimum_size in editor is mininum)
+	label.custom_minimum_size.x = max(label.custom_minimum_size.x, min(_MAXIMUM_WIDTH, longest_line_size + _BUFFER))
 	label.text = _FORMAT % text
 	
 	scene_root.add_child(tooltip)

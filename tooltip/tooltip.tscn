@@ -6,29 +6,50 @@
 
 [node name="Tooltip" type="MarginContainer"]
 z_index = 4001
-offset_right = 8.0
+offset_right = 100.0
 offset_bottom = 160.0
 mouse_filter = 2
 theme = ExtResource("1_en8g6")
 script = ExtResource("2_q67l5")
 metadata/_edit_use_anchors_ = true
 
-[node name="Grid" type="GridContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="LabelContainer" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="RichTextLabel" parent="VBox/LabelContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center]PRICE[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="Grid" type="GridContainer" parent="VBox"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="MainTooltip" parent="Grid" instance=ExtResource("3_jd5iy")]
+[node name="MainTooltip" parent="VBox/Grid" instance=ExtResource("3_jd5iy")]
+z_index = 1
 layout_mode = 2
 
-[node name="SubtooltipsRight" type="HBoxContainer" parent="Grid"]
+[node name="SubtooltipsRight" type="HBoxContainer" parent="VBox/Grid"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="SubtooltipsBelow" type="VBoxContainer" parent="Grid"]
+[node name="SubtooltipsBelow" type="VBoxContainer" parent="VBox/Grid"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0

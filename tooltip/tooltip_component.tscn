@@ -5,6 +5,7 @@
 [ext_resource type="Theme" uid="uid://b2hp2gvhqs2ao" path="res://tooltip/tooltip.tres" id="2_7mr2n"]
 
 [node name="TooltipComponent" type="MarginContainer"]
+custom_minimum_size = Vector2(100, 0)
 size_flags_vertical = 0
 mouse_filter = 2
 script = ExtResource("1_wgdw3")
