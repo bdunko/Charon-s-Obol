@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://tauit6pksqan"
-path="res://.godot/imported/sub_dialogue_9patch.png-6674b2302bd33bc7f1de541c608230ab.ctex"
+path="res://.godot/imported/status_9patch.png-31482d130f551ac64ce589dac86bfeb2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ninepatch/sub_dialogue_9patch.png"
-dest_files=["res://.godot/imported/sub_dialogue_9patch.png-6674b2302bd33bc7f1de541c608230ab.ctex"]
+source_file="res://assets/ninepatch/status_9patch.png"
+dest_files=["res://.godot/imported/status_9patch.png-31482d130f551ac64ce589dac86bfeb2.ctex"]
 
 [params]
 

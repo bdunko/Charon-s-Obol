@@ -43,6 +43,8 @@ columns = 2
 [node name="MainTooltip" parent="VBox/Grid" instance=ExtResource("3_jd5iy")]
 z_index = 1
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="SubtooltipsRight" type="HBoxContainer" parent="VBox/Grid"]
 layout_mode = 2

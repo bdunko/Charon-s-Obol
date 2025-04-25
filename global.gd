@@ -1533,11 +1533,15 @@ func fast_placeholder_replace(str: String, paren_map: Dictionary) -> String:
 			else:
 				returned.append(char)
 		else:
+			if char == "(": # starting a new paren while we already have one
+				# discard the active paren and add existing to str
+				returned.append("".join(active_placeholder))
+				active_placeholder.clear()
+			
 			active_placeholder.append(char)
 			
 			if char == ")": # closing paren
 				var joined = "".join(active_placeholder)
-				
 				# if this can be replaced, replace it
 				if paren_map.has(joined):
 					returned.append(paren_map[joined])
@@ -1545,10 +1549,6 @@ func fast_placeholder_replace(str: String, paren_map: Dictionary) -> String:
 				else:
 					returned.append(joined)
 				active_placeholder.clear() # either way, this is the end of a paren
-			elif char == "(": # starting a new paren while we already have one
-				# discard the active paren and add existing to str
-				returned.append("".join(active_placeholder))
-				active_placeholder.clear()
 	
 	# add any remaining active_placeholder...  only happens if we don't close a paren lol
 	returned.append("".join(active_placeholder))
