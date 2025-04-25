@@ -15,8 +15,6 @@
 			- [ ] Ideally, keep the price visible somewhere... hmmmmm, maybe we can shove it on the top of the tooltip.
 			- [ ] Tutorial - don't show the upgrade tooltip until we reach that part; tis confusing
 	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
-- [ ] some wacky bug with losing life/losing souls, it seems like they are moving to a weird spot. I wonder if the charon point is now wrong, with the scaling...
-- [ ] ah, it's because it gets like moved out of the scene into the root
 - [ ] **Sound - 8 weeks**
 	- [ ] Building Blocks
 	- [ ] Set up a soundfont

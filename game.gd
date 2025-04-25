@@ -283,7 +283,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 	while pile.get_child_count() > max(0, amount):
 		var fragment = pile.get_child(0)
 		pile.remove_child(fragment)
-		get_tree().root.add_child(fragment)
+		add_child(fragment)
 		
 		# visually move it from pile to charon
 		var tween = create_tween()
