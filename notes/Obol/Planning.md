@@ -10,19 +10,17 @@
 		- [ ] on denomination changed
 		- [ ] for our own testing, we can keep generating the tooltip string and assert it hasn't changed if not dirty. That can be behind an if DEBUG statement. This will help us catch problems...
 	- [ ] **Sub Tooltips**
-		- [x] A tooltip may also have any number of additional tooltips underneath (for statuses) or to the right (for upgrades).
-		- [x] When hovering a coin with a status, also show a tooltip for that status underneath the coin.
-			- [x] Also needs to be added to god statues and patron tokens.
-			- [x] and trial descriptions
-			- [x] subtooltips should be less obvious
-				- [x] gray outline AND reduce size slightly
 		- [x] When hovering a coin in the shop that can be upgraded, also show a tooltip for that upgrade to the right. Use a small arrow to indicate. 
-			- [ ] Provide an arrow or something between the two boxes
+			- [x] Provide an arrow or something between the two boxes
 			- [ ] Ideally, keep the price visible somewhere... hmmmmm, maybe we can shove it on the top of the tooltip.
 			- [ ] Tutorial - don't show the upgrade tooltip until we reach that part; tis confusing
 	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
-	- [x] precompile some tooltips which contain tooltips
+- [ ] some wacky bug with losing life/losing souls, it seems like they are moving to a weird spot. I wonder if the charon point is now wrong, with the scaling...
+- [ ] ah, it's because it gets like moved out of the scene into the root
 - [ ] **Sound - 8 weeks**
+	- [ ] Building Blocks
+	- [ ] Set up a soundfont
+	- [ ] Create mood mixtape
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**

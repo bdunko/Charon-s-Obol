@@ -73,19 +73,26 @@ class Properties:
 		_offset = tt_offset
 		return self
 	
-	func sub(text, dir = DEFAULT_SUBTOOLTIP_DIRECTION) -> Properties:
-		_subtooltips.append(SubTooltip.new(text, dir))
+	func sub(text, dir = DEFAULT_SUBTOOLTIP_DIRECTION, adorn = DEFAULT_ADORNMENT) -> Properties:
+		_subtooltips.append(SubTooltip.new(text, dir, adorn))
 		return self
 
 const DEFAULT_SUBTOOLTIP_DIRECTION = Direction.BELOW
+const DEFAULT_ADORNMENT = SubTooltip.Adornment.NONE
 class SubTooltip:
+	enum Adornment {
+		NONE, ARROW
+	}
+	
 	var _direction: Direction
 	var _text: String
+	var _adornment: Adornment
 	
-	func _init(text: String, direction: Direction) -> void:
+	func _init(text: String, direction: Direction, adornment: Adornment) -> void:
 		assert(direction == Direction.BELOW or direction == Direction.RIGHT, "We don't support other directions.")
 		_text = text
 		_direction = direction
+		_adornment = adornment
 
 static func enable_all_tooltips():
 	_SYSTEM_STATE = _TooltipSystemState.SHOW_ALL
@@ -163,10 +170,9 @@ static func create_manual(text: String, controlled_mouse_position, scene_root: N
 	var tooltip: UITooltip = _create(null, text, controlled_mouse_position, scene_root, props, true)
 	return tooltip
 
-static func _create_sub_tooltip(text: String, dir: Direction):
+static func _create_sub_tooltip(text: String):
 	var subtooltip = _TOOLTIP_COMPONENT_SCENE.instantiate()
 	subtooltip.get_label().text = _FORMAT % text
-	subtooltip.subtooltip_style(dir)
 	return subtooltip
 
 static func _create(src, text: String, mouse_position: Vector2, scene_root: Node, props: Properties, is_manual: bool = false, ) -> UITooltip:
@@ -206,18 +212,28 @@ static func _create(src, text: String, mouse_position: Vector2, scene_root: Node
 	
 	# create subtooltips
 	for subtooltip in props._subtooltips:
-		var stt = _create_sub_tooltip(subtooltip._text, subtooltip._direction)
-		var stt_label = stt.get_label()
-		stt_label.custom_minimum_size.x = label.custom_minimum_size.x
+		var stt = _create_sub_tooltip(subtooltip._text)
+		
+		var stt_custom_minimum_size = Vector2(0, 0)
+		stt_custom_minimum_size.x = label.custom_minimum_size.x
 		
 		match subtooltip._direction:
 			Direction.BELOW:
+				stt.set_label_custom_minimum_size(stt_custom_minimum_size)
+				stt.subtooltip_style(subtooltip._direction, subtooltip._adornment)
+				
 				tooltip._SUBTOOLTIPS_BELOW.add_child(stt)
 			Direction.RIGHT:
+				stt_custom_minimum_size.y = label.size.y
+				
+				stt.set_label_custom_minimum_size(stt_custom_minimum_size)
+				stt.subtooltip_style(subtooltip._direction, subtooltip._adornment)
+				
 				tooltip._SUBTOOLTIPS_RIGHT.add_child(stt)
-				stt_label.custom_minimum_size.y = label.size.y
 			_:
 				assert(false)
+		
+		
 	
 	# set position after adding to scene, otherwise it doesn't always work
 	tooltip._update_position(mouse_position)

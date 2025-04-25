@@ -1748,7 +1748,7 @@ func _generate_tooltip() -> void:
 		new_coin.position = Vector2(-100000, -100000)
 		new_coin.init_coin(_coin_family, _denomination + 1, Coin.Owner.PLAYER)
 		new_coin.update_payoff(Global._coin_row, Global._enemy_row, Global._shop_row)
-		props.sub(Global.replace_placeholders(new_coin._make_tooltip_text()), UITooltip.Direction.RIGHT)
+		props.sub(Global.replace_placeholders(new_coin._make_tooltip_text()), UITooltip.Direction.RIGHT, UITooltip.SubTooltip.Adornment.ARROW)
 		new_coin.queue_free()
 	
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
