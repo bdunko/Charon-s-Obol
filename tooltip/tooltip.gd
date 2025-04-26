@@ -312,6 +312,7 @@ func _get_real_rect():
 	var real_rect = _MAIN_TOOLTIP.get_rect()
 	real_rect.size.x += _SUBTOOLTIPS_RIGHT.size.x
 	real_rect.size.y += _SUBTOOLTIPS_BELOW.size.y
+	real_rect.size.y += $VBox/LabelContainer.size.y
 	real_rect.position = position
 	return real_rect
 
