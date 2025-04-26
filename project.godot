@@ -25,6 +25,7 @@ TransitionPlayer="*res://ui/transition/transition_player.tscn"
 [debug]
 
 gdscript/warnings/unused_parameter=0
+gdscript/warnings/narrowing_conversion=0
 
 [display]
 

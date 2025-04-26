@@ -1,16 +1,4 @@
 **Charon's Obol Release**
-- [ ] **Tooltip Evolution - 1 week**
-	- [ ] Performance improvement idea... cache the coin's tooltip and don't update it unless something has changed since the last time it was shown. Ie keep track of "tooltip_dirty" flag.
-		- [ ] only need to remake tooltip in certain circumstances...
-		- [ ] for safety - on any metadata change
-		- [ ] for safety - on any status change (unused atm but good to cover...)
-		- [ ] on charges or max charges changed
-		- [ ] on heads or tails power changed
-		- [ ] on soul payoff changed
-		- [ ] on denomination changed
-		- [ ] for our own testing, we can keep generating the tooltip string and assert it hasn't changed if not dirty. That can be behind an if DEBUG statement. This will help us catch problems...
-	- [ ] **Sub Tooltips**
-	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
 - [ ] **Sound - 8 weeks**
 	- [ ] Start Building Blocks
 	- [ ] Set up a soundfont

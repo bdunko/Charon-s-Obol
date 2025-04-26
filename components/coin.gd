@@ -109,6 +109,9 @@ var _permanent_statuses = []
 @onready var _coin_movement_tween: Global.ManagedTween = Global.ManagedTween.new(self, "global_position")
 @onready var _sprite_movement_tween: Global.ManagedTween = Global.ManagedTween.new(_SPRITE, "position")
 
+var _cached_tooltip_dirty = true
+var _cached_tooltip = ""
+
 var _can_target := false:
 	set(val):
 		_can_target = val
@@ -283,6 +286,7 @@ var _tails_power: FacePower:
 
 # updates face label, glow, and price label
 func _update_appearance() -> void:
+	_cached_tooltip_dirty = true
 	_update_face_label()
 	_update_price_label()
 	_update_glow()
@@ -487,6 +491,7 @@ var _charge_state: _ChargeState:
 		if _charge_state == _ChargeState.SUPERCHARGED:
 			FX.flash(Color.YELLOW)
 			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
+		_update_appearance()
 
 var _doom_state: _DoomState:
 	set(val):
@@ -498,7 +503,7 @@ var _doom_state: _DoomState:
 			FX.start_partial_disintegrate(0.3)
 		else:
 			FX.stop_partial_disintegrate()
-			
+		_update_appearance()
 
 var _bless_curse_state: _BlessCurseState:
 	set(val):
@@ -533,6 +538,7 @@ var _fleeting_state:
 			FX.start_flickering(20, 0.5, 1.0)
 		else:
 			FX.stop_flickering()
+		_update_appearance()
 
 var _primed_state:
 	set(val):
@@ -545,6 +551,7 @@ var _primed_state:
 			FX.start_flashing(Color.ORANGE_RED, 7, 0.1, 0.6)
 		else:
 			FX.stop_flashing()
+		_update_appearance()
 
 var _bury_state:
 	set(val):
@@ -557,7 +564,6 @@ var _bury_state:
 			set_animation(_Animation.BURIED)
 		else:
 			set_animation(_Animation.FLAT)
-		
 		_update_appearance()
 
 var _buried_payoffs_until_exhume := 0
@@ -642,6 +648,7 @@ var _material_state: _MaterialState:
 			_play_new_status_effect("res://assets/icons/status/stone_icon.png")
 		elif _material_state == _MaterialState.NONE and not is_ignited():
 			FX.clear_tint()
+		_update_appearance()
 
 # modifies life penalties
 var _round_life_penalty_change = 0
@@ -955,6 +962,7 @@ func can_activate_power() -> bool:
 	return get_active_power_family().is_power() and not is_blank() and not is_buried() and (get_active_power_charges() > 0 or get_active_power_charges() == Global.INFINITE_CHARGES)
 
 func set_active_face_metadata(key: String, value: Variant) -> void:
+	_cached_tooltip_dirty = true
 	get_active_face_power().set_metadata(key, value)
 	if key == METADATA_PROTEUS and value == false:
 		_PROTEUS_OVERLAY.hide()
@@ -965,6 +973,7 @@ func get_active_face_metadata(key: String, default: Variant = null) -> Variant:
 	return get_active_face_power().get_metadata(key, default)
 
 func clear_active_face_metadata(key: String) -> void:
+	_cached_tooltip_dirty = true
 	get_active_face_power().clear_metadata(key)
 	if key == METADATA_PROTEUS:
 		_PROTEUS_OVERLAY.hide()
@@ -1755,6 +1764,9 @@ func _generate_tooltip() -> void:
 	UITooltip.create(_MOUSE, Global.replace_placeholders(tooltip), get_global_mouse_position(), get_tree().root, props)
 
 func _make_tooltip_text() -> String:
+	if not _cached_tooltip_dirty and not Global.DEBUG_CHECK_DIRTY_TOOLTIPS:
+		return _cached_tooltip
+	
 	# helper lambdas
 	var generate_base_replacement_map = func() -> Dictionary:
 		var replace_map = {}
@@ -1838,6 +1850,7 @@ func _make_tooltip_text() -> String:
 		
 		var desc = Global.fast_placeholder_replace(PASSIVE_FORMAT % [coin_name, get_subtitle(), _heads_power.power_family.icon_path, _heads_power.power_family.description], replacement_dict)
 		
+		tooltip = PASSIVE_FORMAT % [coin_name, get_subtitle(), _heads_power.power_family.icon_path, desc]
 	else:
 		# (name)
 		# (subtitle)
@@ -1954,6 +1967,12 @@ func _make_tooltip_text() -> String:
 		
 		tooltip = "%s%s" % [name_and_heads, tails]
 	
+	if Global.DEBUG_CHECK_DIRTY_TOOLTIPS:
+		assert(_cached_tooltip_dirty or _cached_tooltip == tooltip)
+	
+	_cached_tooltip = tooltip
+	_cached_tooltip_dirty = false
+	
 	return tooltip
 
 func on_round_end() -> void:
@@ -1970,6 +1989,8 @@ func on_round_end() -> void:
 	elif has_status():
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_APOLLO)
 	
+	_cached_tooltip_dirty = true # safety
+	
 	# clear carpo metadata
 	for power in [_heads_power, _tails_power]:
 		power.clear_metadata(METADATA_CARPO)
@@ -1984,6 +2005,8 @@ func get_tails_icon() -> String:
 	return _tails_power.power_family.icon_path
 
 func on_toss_initiated() -> void:
+	_cached_tooltip_dirty = true #safety
+	
 	# if face is proteus, transform into a random power (except Proteus)
 	if _heads_power.get_metadata(METADATA_PROTEUS, false):
 		_heads_power.power_family = Global.random_power_family_excluding([Global.POWER_FAMILY_TRANSFORM_AND_LOCK])

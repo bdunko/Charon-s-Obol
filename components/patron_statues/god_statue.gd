@@ -58,9 +58,9 @@ func _on_mouse_entered():
 		var anchor = get_global_rect().position + _SPRITE.get_rect().get_center()
 		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 31
 		var props = UITooltip.Properties.new().anchor(anchor).direction(UITooltip.Direction.BELOW).offset(offset)
-		var tooltip_text = "Altar to %s\n%s" % [nme, desc]
-		props = Global.add_subtooltips_for(tooltip_text, props)
-		_tooltip = UITooltip.create_manual(Global.replace_placeholders(tooltip_text), get_global_mouse_position(), get_tree().root, props)
+		var tt_text = "Altar to %s\n%s" % [nme, desc]
+		props = Global.add_subtooltips_for(tt_text, props)
+		_tooltip = UITooltip.create_manual(Global.replace_placeholders(tt_text), get_global_mouse_position(), get_tree().root, props)
 
 func apply_spectral_fx() -> void:
 	_FX.start_glowing_solid(Color.GOLD, 2, FX.DEFAULT_GLOW_THICKNESS, false)

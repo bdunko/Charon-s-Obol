@@ -124,6 +124,7 @@ func _ready() -> void:
 	assert(_MAIN_TOOLTIP)
 	assert(_SUBTOOLTIPS_BELOW)
 	assert(_SUBTOOLTIPS_RIGHT)
+	assert(_LABEL)
 
 func _get_main_label() -> RichTextLabel:
 	return _MAIN_TOOLTIP.get_label()
