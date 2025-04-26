@@ -1740,7 +1740,7 @@ func _generate_tooltip() -> void:
 	props = Global.add_subtooltips_for(tooltip, props)
 	
 	# if we're in a position to upgrade, add subtooltip for upgrade
-	if Global.state == Global.State.SHOP and can_upgrade() and _owner == Owner.PLAYER:
+	if Global.state == Global.State.SHOP and can_upgrade() and _owner == Owner.PLAYER and not Global.tutorialState in Global.TUTORIAL_NO_UPGRADE:
 		var new_coin: Coin = _COIN_SCENE.instantiate()
 		# add this 'fake' coin somewhere far away, get a tooltip from it, then delete it...
 		get_tree().root.add_child(new_coin)
