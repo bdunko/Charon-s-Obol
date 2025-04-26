@@ -12,7 +12,7 @@
 	- [ ] **Sub Tooltips**
 	- [ ] Make the tooltip from god selection STAY after selection, even if the mouse moves away (transform it into a manual tooltip).
 - [ ] **Sound - 8 weeks**
-	- [ ] Building Blocks
+	- [ ] Start Building Blocks
 	- [ ] Set up a soundfont
 	- [ ] Create mood mixtape
 - [ ] **Revamped Unlock System - 2 weeks**
