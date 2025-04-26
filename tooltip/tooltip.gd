@@ -131,7 +131,7 @@ func _get_main_label() -> RichTextLabel:
 # call as: UITooltip.create(self, "tooltip txt", get_global_mouse_position(), get_tree().root)
 # unfortunately this is a static function so it cannot call the last two parameters itself
 # NOTE - Tooltips created by this function are automatically destroyed.
-static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, props: Properties = Properties.new()) -> void:
+static func create(src, text: String, global_mouse_position: Vector2, scene_root: Node, props: Properties = Properties.new()) -> UITooltip:
 	assert(src is Control or src is Area2D or src is MouseWatcher)
 	
 	global_mouse_position *= _SCALE_FACTOR
@@ -164,6 +164,8 @@ static func create(src, text: String, global_mouse_position: Vector2, scene_root
 	
 	var tooltip: UITooltip = _create(src, text, global_mouse_position, scene_root, props)
 	connect_source.call(tooltip)
+	
+	return tooltip
 
 # NOTE - Tooltips created in this way must be manually deleted with destroy_tooltip.
 static func create_manual(text: String, controlled_mouse_position, scene_root: Node, props: Properties = Properties.new()) -> UITooltip:
