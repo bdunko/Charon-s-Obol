@@ -1,11 +1,13 @@
 extends Node
 
+var DEBUG_CHECK_DIRTY_TOOLTIPS = true #verify that un-dirty tooltips are indeed unchanged; turn this off in release for better performance
 var DEBUG_CONSOLE = true # utility flag for debugging mode
 var DEBUG_DONT_FORCE_FIRST_TOSS = true # don't require the first toss each round
 var DEBUG_SKIP_INTRO = true # skip charon's trial intro
 
 var _coin_row
-var _shop_row
+@warning_ignore("unused_private_class_variable")
+var _shop_row # this is used...
 var _enemy_row
 
 signal state_changed
@@ -1520,27 +1522,27 @@ var _REPLACE_MAP = {
 	"(TODO)" : "[img=10x13]res://assets/icons/todo_icon.png[/img]",
 }
 
-func fast_placeholder_replace(str: String, paren_map: Dictionary) -> String:
+func fast_placeholder_replace(s: String, paren_map: Dictionary) -> String:
 	var returned = PackedStringArray()
 	var active_placeholder = PackedStringArray()
 	
-	for char in str:
+	for c in s:
 		if active_placeholder.is_empty():
 			# start a new paren
-			if char == "(":
-				active_placeholder.append(char)
+			if c == "(":
+				active_placeholder.append(c)
 			# extend the string
 			else:
-				returned.append(char)
+				returned.append(c)
 		else:
-			if char == "(": # starting a new paren while we already have one
+			if c == "(": # starting a new paren while we already have one
 				# discard the active paren and add existing to str
 				returned.append("".join(active_placeholder))
 				active_placeholder.clear()
 			
-			active_placeholder.append(char)
+			active_placeholder.append(c)
 			
-			if char == ")": # closing paren
+			if c == ")": # closing paren
 				var joined = "".join(active_placeholder)
 				# if this can be replaced, replace it
 				if paren_map.has(joined):
