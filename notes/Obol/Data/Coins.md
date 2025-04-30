@@ -9,6 +9,8 @@
 		- [ ] ??? - At the end of the round, destroy this and gain a random coin of greater value. (low payoff)
 		- [x] Orion - Souls on heads; Arrows on tails (souls payoff is minimal)
 		- [ ] ??? - Increases depending on how angry Charon is. Only appears on difficulties with malice. 
+		- [ ] ??? - This coin has a (3%) chance to land on its side. Side - gain LOTS of souls. Heads - Gain small souls. Tails - lose life normally.
+			- [ ] Lucky increases side chance. Unlucky decreases. You CAN freeze a coin on its side. Turning a coin on its side does nothing (it turns back to the side)
 	- [ ] **Highlander**
 		- [ ] ??? - Payoff. Gives more souls the fewer payoff coins you have (and a ton if this is the only one).
 		- [ ] ??? - More souls the fewer coins you have.

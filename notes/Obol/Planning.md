@@ -3,6 +3,15 @@
 	- [ ] Start Building Blocks
 	- [ ] Set up a soundfont
 	- [ ] Create mood mixtape
+	- [ ] Required songs:
+		- [ ] Main menu
+		- [ ] God selection (storm soundscape)
+		- [ ] Normal round
+		- [ ] Shop
+		- [ ] Trial
+		- [ ] Tollgate
+		- [ ] Nemesis
+		- [ ] Victory (peace soundscape)
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**
