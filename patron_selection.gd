@@ -45,8 +45,13 @@ func _ready() -> void:
 func _on_statue_clicked(statue: PatronStatue):
 	Global.patron = Global.patron_for_enum(statue.patron_enum)
 	
+	# disable all statues except the clicked one; which becomes disabled but show tooltip
+	# UNLESS it is Godless, which also becomes disabled
 	for statu in _PATRON_STATUES.get_children(): #prevent clicking on statues and tooltips
-		statu.disable()
+		if statu != statue or statu.patron_enum == Global.PatronEnum.GODLESS:
+			statu.disable()
+		else:
+			statue.disable_except_tooltip()
 		
 	# if the statue was the godless, fade in the 'correct' statue over it.
 	if statue.patron_enum == Global.PatronEnum.GODLESS:
@@ -59,8 +64,6 @@ func _on_statue_clicked(statue: PatronStatue):
 		new_statue.disable_except_tooltip()
 		new_statue._on_mouse_entered() #manually call this after adding; to show tooltip...
 		statue.clear_fx()
-	else:
-		statue.disable_except_tooltip()
 	
 	_PLAYER_DIALOGUE.clear_dialogue()
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("You have made a wise decision.")
@@ -70,6 +73,7 @@ func _on_statue_clicked(statue: PatronStatue):
 	_WITHERED_BG_FX.disable() # disable the checker shader - looks a bit funny otherwise when zooming
 	for statu in _PATRON_STATUES.get_children():
 		statu.clear_tooltip()
+		statu.disable() # prevent re-hovering on statue to show tooltip AGAIN...
 	await create_tween().tween_property(_CAMERA, "zoom", Vector2(45, 45), 1.2).finished
 	create_tween().tween_property(_CAMERA, "zoom", Vector2(90, 90), 1.2)
 	await Global.delay(0.25)

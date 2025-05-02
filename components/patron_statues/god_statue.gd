@@ -27,21 +27,6 @@ func _ready():
 	_MOUSE.mouse_entered.connect(_on_mouse_entered)
 	_MOUSE.mouse_exited.connect(_on_mouse_exited)
 
-var _mouse_down = false
-func _on_clickable_area_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if not _disabled:
-				# when we click down, remember. When the click finishes, signal if we're still over it.
-				if event.pressed:
-					_mouse_down = true
-				if not event.pressed and _mouse_down:  
-					_mouse_down = false
-					_FX.start_glowing_solid(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, false)
-					emit_signal("clicked", self) 
-					if patron_enum == Global.PatronEnum.GODLESS:
-						clear_tooltip()
-
 func _on_mouse_clicked():
 	if not _disabled:
 		_FX.start_glowing_solid(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, false)
@@ -86,7 +71,6 @@ func disable_except_tooltip() -> void:
 	_show_tooltip = true
 
 func _on_mouse_exited():
-	_mouse_down = false
 	if not _disabled:
 		_FX.stop_glowing()
 		clear_tooltip()

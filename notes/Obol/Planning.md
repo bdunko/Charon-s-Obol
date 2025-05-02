@@ -1,17 +1,63 @@
 **Charon's Obol Release**
-- [ ] **Sound - 8 weeks**
-	- [ ] Start Building Blocks
-	- [ ] Set up a soundfont
-	- [ ] Create mood mixtape
-	- [ ] Required songs:
+- [ ] **When I feel like it during this trying time**
+	- [ ] Death sequence.
+		- [ ] Computer voice. "Your soul is mine"
+		- [ ] Crazy blue effect, fade to blue.
+- [ ] **Sound First Slice**
+	- [x] SFX Manager
+		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
+	- [ ] Audible Genius - Building Blocks 1 - Weeks
+		- [ ] Section 1
+		- [ ] Section 2
+		- [ ] Section 3
+		- [ ] Section 4
+			- [ ] Sus4
+			- [ ] Sus2
+		- [ ] Section 5
+		- [ ] Section 6
+		- [ ] Section 7
+		- [ ] Section 8
+		- [ ] Section 9
+	- [ ] Common sound effects - Weekend
+		- [ ] On button pressed
+		- [ ] Toss initiated
+		- [ ] Power selected (general)
+		- [ ] Power used (general)
+		- [ ] Status applied (general)
+		- [ ] Coin tossed
+		- [ ] Coin landed
+		- [ ] Coin turned
+		- [ ] Gain souls
+		- [ ] Lose life
+		- [ ] Purchase coin
+		- [ ] Map opens
+- [ ] **Sound Second Slice**
+	- [ ] Song Manager
+		- [ ] Crossfades
+	- [ ] Audible Genius - Building Blocks 2 first half
+	- [ ] Common soundscapes/songs
 		- [ ] Main menu
-		- [ ] God selection (storm soundscape)
+		- [ ] God selection storm
+		- [ ] River ambience
+		- [ ] Victory ambience
+- [ ] **Sound Third Slice**
+	- [ ] Audible Genius - Building Blocks 2 second half
+	- [ ] More sound effects
+		- [ ] Status applied (specific)
+		- [ ] Power used (specific)
+		- [ ] Power selected (specific)
+		- [ ] Flip between characters/difficulties on main menu
+		- [ ] God selection
+		- [ ] Charon dialogue (click clack)/hand moves
+	- [ ] More songs
 		- [ ] Normal round
 		- [ ] Shop
+- [ ] **Sound Fourth Slice**
+	- [ ] More songs
 		- [ ] Trial
 		- [ ] Tollgate
 		- [ ] Nemesis
-		- [ ] Victory (peace soundscape)
+- [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**

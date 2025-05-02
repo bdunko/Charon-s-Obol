@@ -22,6 +22,8 @@ PF="*res://power_family.gd"
 Global="*res://global.gd"
 TransitionPlayer="*res://ui/transition/transition_player.tscn"
 SFX="*res://audio/sfx.gd"
+Songs="*res://audio/songs.gd"
+Audio="*res://audio/audio.gd"
 
 [debug]
 
