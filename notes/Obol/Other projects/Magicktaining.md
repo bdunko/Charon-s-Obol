@@ -29,8 +29,16 @@ Magnetism - Cards can be used as + or -, choose when played.
 Energy - Some 'permanents' which give passive card draw, and some 'instants' which can be played out of turn for effects (like modulating numbers up/down)
 Light - Play multiple cards at a time (ie: Play this card. Play another card underneath it, just for the number but not effect)
 
-
-
+1 - both players draw 1 card
+2 - may play immediately as +-2
+3 - immediately play a second card
+4 - both players draw 2 discard 2
+5 - choose a player, they draw 2
+6 - swap a card
+7 - reveal 1 card
+8 - may play a card from discard instead
+9 - both players discard 1 card 
+10 - discard 3 cards
 
 Performances may change the rules of the game. Some however just follow the standard rules with different target numbers, hand sizes, spacing between intermissions, etc.
 Special Performances:

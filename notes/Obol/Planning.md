@@ -7,41 +7,53 @@
 	- [x] SFX Manager
 		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
 	- [ ] Audible Genius - Building Blocks 1 - Weeks
-		- [ ] Section 1
-		- [ ] Section 2
-		- [ ] Section 3
-		- [ ] Section 4
-			- [ ] Sus4
-			- [ ] Sus2
-		- [ ] Section 5
-		- [ ] Section 6
-		- [ ] Section 7
-		- [ ] Section 8
-		- [ ] Section 9
+		- [ ] Practice
+			- [ ] Mind's Eye 8 (chord recognition)
+		- [x] Section 1
+		- [x] Section 2
+		- [x] Section 3
+		- [x] Section 4
+		- [x] Section 5 - Drum Velocity
+		- [ ] Section 6 - Arpeggiation and Bass Pitches
+		- [ ] Section 7 - Snares
+		- [ ] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
+		- [ ] Section 9 - More Arpeggiation, Bass Pitches
 	- [ ] Common sound effects - Weekend
-		- [ ] On button pressed
-		- [ ] Toss initiated
-		- [ ] Power selected (general)
-		- [ ] Power used (general)
-		- [ ] Status applied (general)
-		- [ ] Coin tossed
-		- [ ] Coin landed
-		- [ ] Coin turned
-		- [ ] Gain souls
-		- [ ] Lose life
-		- [ ] Purchase coin
-		- [ ] Map opens
+		- [x] Choice press (major - black options)
+		- [ ] Button press (minor - diff skulls, etc)
+		- [ ] Power selected (general) - twih
+		- [ ] Power used (general) - twosh
+		- [ ] Status applied (general) - swink
+		- [x] Coin toss
+		- [ ] Coin land
+		- [ ] Coin turn
+		- [ ] Gain souls - something nice, shimmery crystally paddy
+		- [ ] Lose life - heartbeat?
+		- [ ] Purchase coin - clink
+		- [ ] Map opens - paper
+		- [ ] Charon talk - boney
+		- [ ] Charon talk - your soul is mine robo voice
+		- [x] Upgrade
 - [ ] **Sound Second Slice**
 	- [ ] Song Manager
 		- [ ] Crossfades
 	- [ ] Audible Genius - Building Blocks 2 first half
+		- [ ] Section 1 - Melody, Legato, Grace Notes
+		- [ ] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
+		- [ ] Section 3 - Chord Changes (Root Changes)
+		- [ ] Section 4 - Toms, Bassline Changes
 	- [ ] Common soundscapes/songs
 		- [ ] Main menu
-		- [ ] God selection storm
-		- [ ] River ambience
+		- [x] God selection storm
+		- [x] River ambience
 		- [ ] Victory ambience
 - [ ] **Sound Third Slice**
 	- [ ] Audible Genius - Building Blocks 2 second half
+		- [ ] Section 5 - Half Time, Anticipation
+		- [ ] Section 6 - 6s
+		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
+		- [ ] Section 8 - 7s and Octave
+		- [ ] Section 9 - Removing Backbeats, Inversions
 	- [ ] More sound effects
 		- [ ] Status applied (specific)
 		- [ ] Power used (specific)
@@ -51,11 +63,17 @@
 		- [ ] Charon dialogue (click clack)/hand moves
 	- [ ] More songs
 		- [ ] Normal round
-		- [ ] Shop
+		- [ ] Shop - SMT2 shop
+	- [ ] Transitions
+		- [ ] Death
+		- [ ] Victory to main menu
+		- [ ] Main menu to god selection
+		- [ ] God selection zoom to cave
+		- [ ] Game fade to victory screen
 - [ ] **Sound Fourth Slice**
 	- [ ] More songs
 		- [ ] Trial
-		- [ ] Tollgate
+		- [ ] Tollgate - very low key
 		- [ ] Nemesis
 - [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
