@@ -1,4 +1,7 @@
 **Charon's Obol Release**
+- [ ] Daily goals:
+	- [ ] Do at least a single lesson of Building Blocks.
+	- [ ] Create at least a single sound effect in Ableton.
 - [ ] **When I feel like it during this trying time**
 	- [ ] Death sequence.
 		- [ ] Computer voice. "Your soul is mine"
@@ -8,32 +11,31 @@
 		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
 	- [ ] Audible Genius - Building Blocks 1 - Weeks
 		- [ ] Practice
-			- [ ] Mind's Eye 8 (chord recognition)
+			- [ ] Mind's Ear 8 (chord recognition)
+			- [ ] Mind's Ear 11 (pitches 1 b3 3 5)
+			- [ ] Mind's Ear 12 (bass pitches0)
 		- [x] Section 1
 		- [x] Section 2
 		- [x] Section 3
 		- [x] Section 4
 		- [x] Section 5 - Drum Velocity
-		- [ ] Section 6 - Arpeggiation and Bass Pitches
+		- [x] Section 6 - Arpeggiation and Bass Pitches
 		- [ ] Section 7 - Snares
+			- [ ] up to create 20
 		- [ ] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
 		- [ ] Section 9 - More Arpeggiation, Bass Pitches
 	- [ ] Common sound effects - Weekend
-		- [x] Choice press (major - black options)
-		- [ ] Button press (minor - diff skulls, etc)
-		- [ ] Power selected (general) - twih
-		- [ ] Power used (general) - twosh
-		- [ ] Status applied (general) - swink
-		- [x] Coin toss
-		- [ ] Coin land
-		- [ ] Coin turn
-		- [ ] Gain souls - something nice, shimmery crystally paddy
-		- [ ] Lose life - heartbeat?
-		- [ ] Purchase coin - clink
-		- [ ] Map opens - paper
-		- [ ] Charon talk - boney
-		- [ ] Charon talk - your soul is mine robo voice
-		- [x] Upgrade
+		- [ ] Power Selected - coinish sound? cling?
+		- [ ] Status Applied - whoosh?
+		- [ ] Coin Turn - hmm
+		- [ ] Coin Landed - clank
+		- [ ] Gain Souls - crystally
+		- [ ] Lose Life - heartbeat
+		- [ ] Select God Statue - holy divine sound
+		- [ ] Charon Talk
+		- [ ] Charon Souls Mine Vox
+		- [ ] Charon Malice Slam - 
+		- [ ] Charon Malice Spell
 - [ ] **Sound Second Slice**
 	- [ ] Song Manager
 		- [ ] Crossfades
@@ -56,11 +58,16 @@
 		- [ ] Section 9 - Removing Backbeats, Inversions
 	- [ ] More sound effects
 		- [ ] Status applied (specific)
-		- [ ] Power used (specific)
-		- [ ] Power selected (specific)
-		- [ ] Flip between characters/difficulties on main menu
-		- [ ] God selection
-		- [ ] Charon dialogue (click clack)/hand moves
+			- [ ] Ignite
+			- [ ] Freeze
+			- [ ] Bless/Lucky/Consecrate
+			- [ ] Unlucky/Curse/Desecrate
+			- [ ] Charge
+			- [ ] Stone
+			- [ ] Blank
+			- [ ] Bury
+		- [ ] Power activated (specific)
+			- [ ] make a bunch of different powers used options and assign to coins individually
 	- [ ] More songs
 		- [ ] Normal round
 		- [ ] Shop - SMT2 shop
