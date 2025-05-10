@@ -1,10 +1,6 @@
 **Charon's Obol Release**
-- [ ] Daily goals:
-	- [ ] Do at least a single lesson of Building Blocks.
-	- [ ] Create at least a single sound effect in Ableton.
 - [ ] **When I feel like it during this trying time**
 	- [ ] Death sequence.
-		- [ ] Computer voice. "Your soul is mine"
 		- [ ] Crazy blue effect, fade to blue.
 - [ ] **Sound First Slice**
 	- [x] SFX Manager
@@ -20,9 +16,9 @@
 		- [x] Section 4
 		- [x] Section 5 - Drum Velocity
 		- [x] Section 6 - Arpeggiation and Bass Pitches
-		- [ ] Section 7 - Snares
-			- [ ] up to create 20
+		- [x] Section 7 - Snares
 		- [ ] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
+			- [ ] bass 4
 		- [ ] Section 9 - More Arpeggiation, Bass Pitches
 	- [ ] Common sound effects - Weekend
 		- [ ] Power Selected - coinish sound? cling?
@@ -31,10 +27,11 @@
 		- [ ] Coin Landed - clank
 		- [ ] Gain Souls - crystally
 		- [ ] Lose Life - heartbeat
+		- [ ] payoff other
 		- [ ] Select God Statue - holy divine sound
 		- [ ] Charon Talk
 		- [ ] Charon Souls Mine Vox
-		- [ ] Charon Malice Slam - 
+		- [ ] Charon Malice Slam
 		- [ ] Charon Malice Spell
 - [ ] **Sound Second Slice**
 	- [ ] Song Manager
