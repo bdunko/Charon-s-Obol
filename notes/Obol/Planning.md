@@ -3,6 +3,9 @@
 	- [ ] Death sequence.
 		- [ ] Crazy blue effect, fade to blue.
 - [ ] **Sound First Slice**
+	- [ ] Monday
+		- [ ] Finish Building Blocks :O
+		- [ ] Play with voice SFX
 	- [x] SFX Manager
 		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
 	- [ ] Audible Genius - Building Blocks 1 - Weeks
@@ -17,16 +20,14 @@
 		- [x] Section 5 - Drum Velocity
 		- [x] Section 6 - Arpeggiation and Bass Pitches
 		- [x] Section 7 - Snares
-		- [ ] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
-			- [ ] bass 4
+		- [x] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
 		- [ ] Section 9 - More Arpeggiation, Bass Pitches
 	- [ ] Common sound effects - Weekend
-		- [ ] Power Selected - coinish sound? cling?
-		- [ ] Status Applied - whoosh?
+		- [ ] Power Selected - click
+		- [ ] Power Deselected - small wosh
+		- [ ] Status Applied - whoosh
 		- [ ] Coin Turn - hmm
-		- [ ] Coin Landed - clank
 		- [ ] Gain Souls - crystally
-		- [ ] Lose Life - heartbeat
 		- [ ] payoff other
 		- [ ] Select God Statue - holy divine sound
 		- [ ] Charon Talk
@@ -45,7 +46,7 @@
 		- [ ] Main menu
 		- [x] God selection storm
 		- [x] River ambience
-		- [ ] Victory ambience
+		- [x] Victory ambience
 - [ ] **Sound Third Slice**
 	- [ ] Audible Genius - Building Blocks 2 second half
 		- [ ] Section 5 - Half Time, Anticipation
