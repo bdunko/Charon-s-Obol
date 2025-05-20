@@ -3,45 +3,26 @@
 	- [ ] Death sequence.
 		- [ ] Crazy blue effect, fade to blue.
 - [ ] **Sound First Slice**
-	- [ ] Monday
-		- [ ] Finish Building Blocks :O
-		- [ ] Play with voice SFX
+	- [ ] ZapSplat sfx library
 	- [x] SFX Manager
 		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
-	- [ ] Audible Genius - Building Blocks 1 - Weeks
-		- [ ] Practice
-			- [ ] Mind's Ear 8 (chord recognition)
-			- [ ] Mind's Ear 11 (pitches 1 b3 3 5)
-			- [ ] Mind's Ear 12 (bass pitches0)
-		- [x] Section 1
-		- [x] Section 2
-		- [x] Section 3
-		- [x] Section 4
-		- [x] Section 5 - Drum Velocity
-		- [x] Section 6 - Arpeggiation and Bass Pitches
-		- [x] Section 7 - Snares
-		- [x] Section 8 - More Arpeggiation; Bass Pitches; Shifted Snares
-		- [ ] Section 9 - More Arpeggiation, Bass Pitches
-	- [ ] Common sound effects - Weekend
-		- [ ] Power Selected - click
-		- [ ] Power Deselected - small wosh
-		- [ ] Status Applied - whoosh
-		- [ ] Coin Turn - hmm
-		- [ ] Gain Souls - crystally
-		- [ ] payoff other
-		- [ ] Select God Statue - holy divine sound
-		- [ ] Charon Talk
-		- [ ] Charon Souls Mine Vox
-		- [ ] Charon Malice Slam
-		- [ ] Charon Malice Spell
+	- [ ] Audible Genius - practice chords pitches and bass pitches
+	- [ ] Audible Genius - Building Blocks
+		- [x] Section 1 - Melody, Legato, Grace Notes
+			- [ ] Mind's Ear - Legato, Grace Notes, Melody
+		- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
+		- [ ] Section 3 - Chord Changes (Root Changes)
+		- [ ] Section 4 - Toms, Bassline Changes
+		- [ ] Section 5 - Half Time, Anticipation
+		- [ ] Section 6 - 6s
+		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
+		- [ ] Section 8 - 7s and Octave
+		- [ ] Section 9 - Removing Backbeats, Inversions
+	- [ ] Compose sound effects.
+	- [ ] Add sound effects to game.
 - [ ] **Sound Second Slice**
 	- [ ] Song Manager
 		- [ ] Crossfades
-	- [ ] Audible Genius - Building Blocks 2 first half
-		- [ ] Section 1 - Melody, Legato, Grace Notes
-		- [ ] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
-		- [ ] Section 3 - Chord Changes (Root Changes)
-		- [ ] Section 4 - Toms, Bassline Changes
 	- [ ] Common soundscapes/songs
 		- [ ] Main menu
 		- [x] God selection storm
@@ -49,11 +30,6 @@
 		- [x] Victory ambience
 - [ ] **Sound Third Slice**
 	- [ ] Audible Genius - Building Blocks 2 second half
-		- [ ] Section 5 - Half Time, Anticipation
-		- [ ] Section 6 - 6s
-		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
-		- [ ] Section 8 - 7s and Octave
-		- [ ] Section 9 - Removing Backbeats, Inversions
 	- [ ] More sound effects
 		- [ ] Status applied (specific)
 			- [ ] Ignite
@@ -80,7 +56,6 @@
 		- [ ] Trial
 		- [ ] Tollgate - very low key
 		- [ ] Nemesis
-- [ ] **Sound - 8 weeks**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**
