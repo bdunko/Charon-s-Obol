@@ -12,12 +12,15 @@ class Effect:
 		_max_instances = max_instances
 		_instances_active = 0
 	
+	func can_make_instance() -> bool:
+		return _instances_active != _max_instances
+	
 	func increase_instances() -> void:
-		assert(_instances_active != _max_instances)
+		assert(can_make_instance)
 		_instances_active += 1
 	
 	func decrease_instances() -> void:
 		assert(_instances_active != 0)
 		_instances_active -= 1
 
-var TEST = Effect.new(preload("res://enemy_row.gd"), 3)
+var MajorButton = Effect.new(preload("res://assets/audio/sounds/SFX MajorButton.wav"), 3)

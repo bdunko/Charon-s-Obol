@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://gj07grpkpc3y"
+path="res://.godot/imported/SFX PayoffMonster.wav-f8571880b2f66a0c8689823411ca1598.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX PayoffMonster.wav"
+dest_files=["res://.godot/imported/SFX PayoffMonster.wav-f8571880b2f66a0c8689823411ca1598.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

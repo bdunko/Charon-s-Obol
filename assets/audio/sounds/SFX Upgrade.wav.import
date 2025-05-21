@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dlmf88y4idldj"
+path="res://.godot/imported/SFX Upgrade.wav-b1189df4e928073b4cc86dd0b5079a6b.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX Upgrade.wav"
+dest_files=["res://.godot/imported/SFX Upgrade.wav-b1189df4e928073b4cc86dd0b5079a6b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bartscwpfbhs7"
+path="res://.godot/imported/SFX MajorButton.wav-f51c355c9f05da2ac62eeb5f73bd2b5a.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX MajorButton.wav"
+dest_files=["res://.godot/imported/SFX MajorButton.wav-f51c355c9f05da2ac62eeb5f73bd2b5a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cd4qnjfra5p7q"
+path="res://.godot/imported/SFX PayoffGainSouls20.wav-0e6c3b25b9c0a7291ac3286b8235a41c.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX PayoffGainSouls20.wav"
+dest_files=["res://.godot/imported/SFX PayoffGainSouls20.wav-0e6c3b25b9c0a7291ac3286b8235a41c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

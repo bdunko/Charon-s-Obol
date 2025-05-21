@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dqv4xcp3ovwqr"
+path="res://.godot/imported/SFX CoinTurn.wav-05a714e469d7179c84c15cb51c403c76.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX CoinTurn.wav"
+dest_files=["res://.godot/imported/SFX CoinTurn.wav-05a714e469d7179c84c15cb51c403c76.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dwmgfc13kxpcx"
+path="res://.godot/imported/SFX LoseLife.wav-47c9eee865fcb5948de93c7a64f6ea25.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX LoseLife.wav"
+dest_files=["res://.godot/imported/SFX LoseLife.wav-47c9eee865fcb5948de93c7a64f6ea25.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

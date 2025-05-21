@@ -38,7 +38,9 @@ func stop_song() -> void:
 ### SOUND EFFECTS API ###
 const N_PLAYERS = 32
 
+# available sfx players from least recently use dto most recently used
 var _free_sfx = []
+# busy sfx players from oldest to newest
 var _busy_sfx = []
 
 class _SFXPlayer:
@@ -64,12 +66,24 @@ class _SFXPlayer:
 		player.stream = snd.resource
 		player.play()
 	
+	func sfx_equals(sfx: SFX.Effect):
+		return sound == sfx
+	
 	func _on_stream_finished() -> void:
 		sound.decrease_instances()
 		emit_signal("finished", self)
 
-func play_sfx(fx: SFX.Effect) -> void:
-	_acquire_player().play(fx)
+func play_sfx(sfx: SFX.Effect) -> void:
+	if not sfx.can_make_instance():
+		# we need to stop an existing player, because we've reached the voice count for this sound
+		# iterate in old -> new order, find the first busy player of this sound and kill it
+		for player in _busy_sfx:
+			# stop the player, this reduces the instance count and moves player back into free queue.
+			if player.sfx_equals(sfx):
+				player.stop()
+				break
+	assert(sfx.can_make_instance())
+	_acquire_player().play(sfx)
 
 func _on_player_finished(player: _SFXPlayer) -> void:
 	assert(_busy_sfx.has(player))

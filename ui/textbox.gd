@@ -199,6 +199,7 @@ func _gui_input(event):
 				_mouse_down = false
 				if _MOUSE.is_over():
 					emit_signal("clicked")
+					Audio.play_sfx(SFX.MajorButton)
 					_reset_colors()
 
 func _on_mouse_entered():
