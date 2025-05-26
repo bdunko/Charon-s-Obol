@@ -13,6 +13,7 @@
 		- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
 		- [ ] Section 3 - Chord Changes (Root Changes)
 		- [ ] Section 4 - Toms, Bassline Changes
+			- [ ]  Melody 4
 		- [ ] Section 5 - Half Time, Anticipation
 		- [ ] Section 6 - 6s
 		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
@@ -20,6 +21,31 @@
 		- [ ] Section 9 - Removing Backbeats, Inversions
 	- [ ] Compose sound effects.
 	- [ ] Add sound effects to game.
+		- [ ] CharonMaliceSlam
+		- [ ] CharonTalk
+		- [ ] CoinLanding/CoinLanding2/CoinLanding3
+		- [ ] CoinToss
+		- [ ] CoinTurn
+		- [ ] LoseLife
+		- [ ] MajorButton/MajorButton2
+		- [ ] MinorButton
+		- [ ] OpenMap/PageTurn
+		- [ ] PayoffGainSouls20/22/24/26/28
+		- [ ] PayoffMonster
+		- [ ] PurchaseCoin
+		- [ ] Status Applied
+		- [ ] Upgrade
+		- [ ] background/looping
+			- [ ] Need to think about how to handle...
+				- [ ] update implementation of sfx and audio
+				- [ ] busy players is a map of SFX -> Array(SFXPlayer)
+				- [ ] instead of instance counting on effect, check size of array for that sound
+				- [ ] if we need to get a new player, just kill the oldest in the array
+				- [ ] if we need to stop a sound, (ie for the below), just stop all in the array
+			- [ ] HeavyWater
+			- [ ] VictoryBirds
+			- [ ] Windstorm/Windstorm2
+			- [ ] CharonMaliceCasting
 - [ ] **Sound Second Slice**
 	- [ ] Song Manager
 		- [ ] Crossfades

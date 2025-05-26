@@ -41,7 +41,7 @@ const N_PLAYERS = 32
 # available sfx players from least recently use dto most recently used
 var _free_sfx = []
 # busy sfx players from oldest to newest
-var _busy_sfx = []
+var _busy_sfx = {}
 
 class _SFXPlayer:
 	signal finished
@@ -57,41 +57,23 @@ class _SFXPlayer:
 	
 	func stop() -> void:
 		player.stop()
-		sound.decrease_instances()
 		emit_signal("finished", self)
 	
 	func play(snd: SFX.Effect) -> void:
 		sound = snd
-		sound.increase_instances()
 		player.stream = snd.resource
 		player.play()
 	
-	func sfx_equals(sfx: SFX.Effect):
-		return sound == sfx
-	
 	func _on_stream_finished() -> void:
-		sound.decrease_instances()
 		emit_signal("finished", self)
 
-func play_sfx(sfx: SFX.Effect) -> void:
-	if not sfx.can_make_instance():
-		# we need to stop an existing player, because we've reached the voice count for this sound
-		# iterate in old -> new order, find the first busy player of this sound and kill it
-		for player in _busy_sfx:
-			# stop the player, this reduces the instance count and moves player back into free queue.
-			if player.sfx_equals(sfx):
-				player.stop()
-				break
-	assert(sfx.can_make_instance())
-	_acquire_player().play(sfx)
-
 func _on_player_finished(player: _SFXPlayer) -> void:
-	assert(_busy_sfx.has(player))
+	assert(_busy_sfx[player.sound].has(player))
 	assert(not _free_sfx.has(player))
-	_busy_sfx.erase(player)
+	_busy_sfx[player.sound].erase(player)
 	_free_sfx.push_back(player)
 
-func _acquire_player() -> _SFXPlayer:
+func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 	# if there are no free players, we need to grab the oldest busy one
 	if _free_sfx.size() == 0:
 		var old = _busy_sfx.pop_back()
@@ -99,5 +81,26 @@ func _acquire_player() -> _SFXPlayer:
 		_free_sfx.append(old)
 	
 	var player = _free_sfx.pop_front()
-	_busy_sfx.append(player)
+	
+	if not _busy_sfx.has(sfx):
+		_busy_sfx[sfx] = []
+	
+	_busy_sfx[sfx].append(player)
+	
 	return player
+
+func play_sfx(sfx: SFX.Effect) -> void:
+	if _busy_sfx.has(sfx) and _busy_sfx[sfx].size() >= sfx.max_instances:
+		# we need to stop an existing player, because we've reached the voice count for this sound
+		# the 'oldest' player for this sound is the front of the array, so kill it.
+		var oldest = _busy_sfx[sfx][0].stop()
+	
+	_acquire_player(sfx).play(sfx)
+
+func stop_all_sfx(sfx: SFX.Effect) -> void:
+	if not _busy_sfx.has(sfx):
+		return
+	
+	while _busy_sfx[sfx].size() != 0:
+		var player = _busy_sfx[sfx].pop_front()
+		player.stop()
