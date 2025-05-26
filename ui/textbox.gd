@@ -95,6 +95,11 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 		click_enabled = val
 		_update_style()
 
+@export var click_sound = ClickSound.NONE
+enum ClickSound {
+	NONE, DARK_DRONE, METAL_CLICK
+}
+
 @onready var _STARTING_Y = position.y
 @onready var _TEXT = $TextMargin/Text
 @onready var _TEXT_MARGIN = $TextMargin
@@ -199,7 +204,13 @@ func _gui_input(event):
 				_mouse_down = false
 				if _MOUSE.is_over():
 					emit_signal("clicked")
-					Audio.play_sfx(SFX.MajorButton)
+					match(click_sound):
+						ClickSound.NONE:
+							pass
+						ClickSound.DARK_DRONE:
+							Audio.play_sfx(SFX.MajorButton)
+						ClickSound.METAL_CLICK:
+							Audio.play_sfx(SFX.MajorButton2)
 					_reset_colors()
 
 func _on_mouse_entered():

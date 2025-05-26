@@ -137,3 +137,4 @@ func _on_try_coin_purchased(coin: Coin) -> void:
 func purchase_coin(coin: Coin) -> void:
 	Global.souls -= coin.get_store_price()
 	coin.clicked.disconnect(_on_try_coin_purchased)
+	Audio.play_sfx(SFX.PurchaseCoin)

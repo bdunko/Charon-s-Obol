@@ -19,8 +19,8 @@ func _ready():
 	assert(_VANQUISHED_UNSELECTED)
 	assert(_VANQUISHED_SELECTED)
 	
-	_UNVANQUISHED_UNSELECTED.pressed.connect(select)
-	_VANQUISHED_UNSELECTED.pressed.connect(select)
+	_UNVANQUISHED_UNSELECTED.pressed.connect(_on_click)
+	_VANQUISHED_UNSELECTED.pressed.connect(_on_click)
 	
 	_VANQUISHED_SELECTED.mouse_entered.connect(_on_mouse_entered)
 	_VANQUISHED_UNSELECTED.mouse_entered.connect(_on_mouse_entered)
@@ -36,6 +36,11 @@ func _update_button_visibility() -> void:
 func set_vanquished(is_vanquished: bool) -> void:
 	_vanquished = is_vanquished
 	_update_button_visibility()
+
+func _on_click() -> void:
+	if not _selected:
+		Audio.play_sfx(SFX.MinorButton)
+	select()
 
 func select() -> void:
 	emit_signal("selected", self, difficulty)

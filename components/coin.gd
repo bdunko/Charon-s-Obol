@@ -471,134 +471,6 @@ func _update_glow():
 	
 	FX.stop_glowing()
 
-var _blank_state: _BlankState:
-	set(val):
-		_blank_state = val
-		_STATUS_BAR.update_icon(_BLANK_ICON, _blank_state == _BlankState.BLANKED)
-		if _blank_state == _BlankState.BLANKED:
-			_play_new_status_effect("res://assets/icons/status/blank_icon.png")
-			FX.flash(Color.BISQUE)
-		_update_appearance()
-
-var _charge_state: _ChargeState:
-	set(val):
-		_charge_state = val
-		_STATUS_BAR.update_icon(_CHARGE_ICON, _charge_state == _ChargeState.CHARGED)
-		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _charge_state == _ChargeState.SUPERCHARGED)
-		if _charge_state == _ChargeState.CHARGED:
-			FX.flash(Color.YELLOW)
-			_play_new_status_effect("res://assets/icons/status/charge_icon.png")
-		if _charge_state == _ChargeState.SUPERCHARGED:
-			FX.flash(Color.YELLOW)
-			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
-		_update_appearance()
-
-var _doom_state: _DoomState:
-	set(val):
-		_doom_state = val
-		_STATUS_BAR.update_icon(_DOOMED_ICON, _doom_state == _DoomState.DOOMED)
-		if _doom_state == _DoomState.DOOMED:
-			FX.flash(Color.LIGHT_STEEL_BLUE)
-			_play_new_status_effect("res://assets/icons/status/doomed_icon.png")
-			FX.start_partial_disintegrate(0.3)
-		else:
-			FX.stop_partial_disintegrate()
-		_update_appearance()
-
-var _bless_curse_state: _BlessCurseState:
-	set(val):
-		_bless_curse_state = val
-		_STATUS_BAR.update_icon(_BLESS_ICON, _bless_curse_state == _BlessCurseState.BLESSED)
-		_STATUS_BAR.update_icon(_CURSE_ICON, _bless_curse_state == _BlessCurseState.CURSED)
-		_STATUS_BAR.update_icon(_DESECRATE_ICON, _bless_curse_state == _BlessCurseState.DESECRATED)
-		_STATUS_BAR.update_icon(_CONSECRATE_ICON, _bless_curse_state == _BlessCurseState.CONSECRATED)
-		
-		if _bless_curse_state == _BlessCurseState.BLESSED:
-			FX.flash(Color.YELLOW)
-			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
-		elif _bless_curse_state == _BlessCurseState.CURSED:
-			FX.flash(Color.PURPLE)
-			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
-		elif _bless_curse_state == _BlessCurseState.CONSECRATED:
-			FX.flash(Color.LIGHT_YELLOW)
-			_play_new_status_effect("res://assets/icons/status/consecrate_icon.png")
-		elif _bless_curse_state == _BlessCurseState.DESECRATED:
-			FX.flash(Color.FUCHSIA)
-			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
-		_update_appearance()
-
-var _fleeting_state:
-	set(val):
-		_fleeting_state = val
-		_STATUS_BAR.update_icon(_FLEETING_ICON, _fleeting_state == _FleetingState.FLEETING)
-		
-		FX.flash(Color.GHOST_WHITE)
-		
-		if _fleeting_state == _FleetingState.FLEETING:
-			FX.start_flickering(20, 0.5, 1.0)
-		else:
-			FX.stop_flickering()
-		_update_appearance()
-
-var _primed_state:
-	set(val):
-		_primed_state = val
-		_STATUS_BAR.update_icon(_PRIMED_ICON, _primed_state == _PrimedState.PRIMED)
-		
-		FX.flash(Color.ORANGE_RED)
-	
-		if _primed_state == _PrimedState.PRIMED:
-			FX.start_flashing(Color.ORANGE_RED, 7, 0.1, 0.6)
-		else:
-			FX.stop_flashing()
-		_update_appearance()
-
-var _bury_state:
-	set(val):
-		_bury_state = val
-		_STATUS_BAR.update_icon(_BURY_ICON, _bury_state == _BuryState.BURIED)
-		
-		FX.flash(Color.SADDLE_BROWN)
-		if _bury_state == _BuryState.BURIED:
-			assert(_buried_payoffs_until_exhume > 0, "didn't set a duration?")
-			set_animation(_Animation.BURIED)
-		else:
-			set_animation(_Animation.FLAT)
-		_update_appearance()
-
-var _buried_payoffs_until_exhume := 0
-
-var _freeze_ignite_state: _FreezeIgniteState:
-	set(val):
-		_freeze_ignite_state = val
-		_STATUS_BAR.update_icon(_FREEZE_ICON, _freeze_ignite_state == _FreezeIgniteState.FROZEN)
-		_STATUS_BAR.update_icon(_IGNITE_ICON, _freeze_ignite_state == _FreezeIgniteState.IGNITED)
-		
-		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
-			FX.flash(Color.CYAN)
-			FX.tint(Color.CYAN, 0.8)
-			_play_new_status_effect("res://assets/icons/status/freeze_icon.png")
-		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
-			FX.flash(Color.RED)
-			FX.tint(Color.RED, 0.7)
-			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
-		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
-			FX.clear_tint()
-
-		if _bless_curse_state == _BlessCurseState.BLESSED:
-			FX.flash(Color.YELLOW)
-			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
-		elif _bless_curse_state == _BlessCurseState.CURSED:
-			FX.flash(Color.PURPLE)
-			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
-		elif _bless_curse_state == _BlessCurseState.CONSECRATED:
-			FX.flash(Color.PAPAYA_WHIP)
-			_play_new_status_effect("res://assets/icons/status/consecrate_icon.png")
-		elif _bless_curse_state == _BlessCurseState.DESECRATED:
-			FX.flash(Color.FUCHSIA)
-			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
-		_update_appearance()
-
 func _update_border_effect() -> void:
 	# if consecrated or desecrated, this takes priority
 	if is_consecrated():
@@ -619,6 +491,133 @@ func _update_border_effect() -> void:
 	else:
 		FX.recolor_outline_to_default()
 
+var _blank_state: _BlankState:
+	set(val):
+		_blank_state = val
+		_STATUS_BAR.update_icon(_BLANK_ICON, _blank_state == _BlankState.BLANKED)
+		if _blank_state == _BlankState.BLANKED:
+			Audio.play_sfx(SFX.StatusApplied)
+			_play_new_status_effect("res://assets/icons/status/blank_icon.png")
+			FX.flash(Color.BISQUE)
+		_update_appearance()
+
+var _charge_state: _ChargeState:
+	set(val):
+		_charge_state = val
+		_STATUS_BAR.update_icon(_CHARGE_ICON, _charge_state == _ChargeState.CHARGED)
+		_STATUS_BAR.update_icon(_SUPERCHARGE_ICON, _charge_state == _ChargeState.SUPERCHARGED)
+		if _charge_state == _ChargeState.CHARGED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/charge_icon.png")
+		if _charge_state == _ChargeState.SUPERCHARGED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/supercharge_icon.png")
+		_update_appearance()
+
+var _doom_state: _DoomState:
+	set(val):
+		_doom_state = val
+		_STATUS_BAR.update_icon(_DOOMED_ICON, _doom_state == _DoomState.DOOMED)
+		if _doom_state == _DoomState.DOOMED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.LIGHT_STEEL_BLUE)
+			_play_new_status_effect("res://assets/icons/status/doomed_icon.png")
+			FX.start_partial_disintegrate(0.3)
+		else:
+			FX.stop_partial_disintegrate()
+		_update_appearance()
+
+var _bless_curse_state: _BlessCurseState:
+	set(val):
+		_bless_curse_state = val
+		_STATUS_BAR.update_icon(_BLESS_ICON, _bless_curse_state == _BlessCurseState.BLESSED)
+		_STATUS_BAR.update_icon(_CURSE_ICON, _bless_curse_state == _BlessCurseState.CURSED)
+		_STATUS_BAR.update_icon(_DESECRATE_ICON, _bless_curse_state == _BlessCurseState.DESECRATED)
+		_STATUS_BAR.update_icon(_CONSECRATE_ICON, _bless_curse_state == _BlessCurseState.CONSECRATED)
+		
+		if _bless_curse_state == _BlessCurseState.BLESSED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.YELLOW)
+			_play_new_status_effect("res://assets/icons/status/bless_icon.png")
+		elif _bless_curse_state == _BlessCurseState.CURSED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.PURPLE)
+			_play_new_status_effect("res://assets/icons/status/curse_icon.png")
+		elif _bless_curse_state == _BlessCurseState.CONSECRATED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.LIGHT_YELLOW)
+			_play_new_status_effect("res://assets/icons/status/consecrate_icon.png")
+		elif _bless_curse_state == _BlessCurseState.DESECRATED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.FUCHSIA)
+			_play_new_status_effect("res://assets/icons/status/desecrate_icon.png")
+		_update_appearance()
+
+var _fleeting_state:
+	set(val):
+		_fleeting_state = val
+		_STATUS_BAR.update_icon(_FLEETING_ICON, _fleeting_state == _FleetingState.FLEETING)
+		
+		FX.flash(Color.GHOST_WHITE)
+		
+		if _fleeting_state == _FleetingState.FLEETING:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.start_flickering(20, 0.5, 1.0)
+		else:
+			FX.stop_flickering()
+		_update_appearance()
+
+var _primed_state:
+	set(val):
+		_primed_state = val
+		_STATUS_BAR.update_icon(_PRIMED_ICON, _primed_state == _PrimedState.PRIMED)
+		
+		FX.flash(Color.ORANGE_RED)
+	
+		if _primed_state == _PrimedState.PRIMED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.start_flashing(Color.ORANGE_RED, 7, 0.1, 0.6)
+		else:
+			FX.stop_flashing()
+		_update_appearance()
+
+var _buried_payoffs_until_exhume := 0
+var _bury_state:
+	set(val):
+		_bury_state = val
+		_STATUS_BAR.update_icon(_BURY_ICON, _bury_state == _BuryState.BURIED)
+		
+		FX.flash(Color.SADDLE_BROWN)
+		if _bury_state == _BuryState.BURIED:
+			Audio.play_sfx(SFX.StatusApplied)
+			assert(_buried_payoffs_until_exhume > 0, "didn't set a duration?")
+			set_animation(_Animation.BURIED)
+		else:
+			set_animation(_Animation.FLAT)
+		_update_appearance()
+
+var _freeze_ignite_state: _FreezeIgniteState:
+	set(val):
+		_freeze_ignite_state = val
+		_STATUS_BAR.update_icon(_FREEZE_ICON, _freeze_ignite_state == _FreezeIgniteState.FROZEN)
+		_STATUS_BAR.update_icon(_IGNITE_ICON, _freeze_ignite_state == _FreezeIgniteState.IGNITED)
+		
+		if _freeze_ignite_state == _FreezeIgniteState.FROZEN:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.CYAN)
+			FX.tint(Color.CYAN, 0.8)
+			_play_new_status_effect("res://assets/icons/status/freeze_icon.png")
+		elif _freeze_ignite_state == _FreezeIgniteState.IGNITED:
+			Audio.play_sfx(SFX.StatusApplied)
+			FX.flash(Color.RED)
+			FX.tint(Color.RED, 0.7)
+			_play_new_status_effect("res://assets/icons/status/ignite_icon.png")
+		elif _freeze_ignite_state == _FreezeIgniteState.NONE and not is_stone():
+			FX.clear_tint()
+		_update_appearance()
+
 var _luck_state: _LuckState:
 	set(val):
 		_luck_state = val
@@ -630,9 +629,11 @@ var _luck_state: _LuckState:
 		
 		if _luck_state == _LuckState.LUCKY or _luck_state == _LuckState.SLIGHTLY_LUCKY\
 			or _luck_state == _LuckState.QUITE_LUCKY or _luck_state == _LuckState.INCREDIBLY_LUCKY:
+			Audio.play_sfx(SFX.StatusApplied)
 			FX.flash(Color.LAWN_GREEN)
 			_play_new_status_effect("res://assets/icons/status/lucky_icon.png")
 		elif _luck_state == _LuckState.UNLUCKY:
+			Audio.play_sfx(SFX.StatusApplied)
 			FX.flash(Color.ORANGE_RED)
 			_play_new_status_effect("res://assets/icons/status/unlucky_icon.png")
 		_update_appearance()
@@ -643,6 +644,7 @@ var _material_state: _MaterialState:
 		_STATUS_BAR.update_icon(_STONE_ICON, _material_state == _MaterialState.STONE)
 		
 		if _material_state == _MaterialState.STONE:
+			Audio.play_sfx(SFX.StatusApplied)
 			FX.flash(Color.SLATE_GRAY)
 			FX.tint(Color.SLATE_GRAY, 0.7)
 			_play_new_status_effect("res://assets/icons/status/stone_icon.png")
@@ -884,6 +886,8 @@ func upgrade(no_flash: bool = false) -> void:
 	if not no_flash:
 		FX.flash(Color.GOLDENROD)
 	
+	Audio.play_sfx(SFX.Upgrade)
+	
 	# when upgraded, reset life cost for Erysichthon
 	for power in [_heads_power, _tails_power]:
 		power.set_metadata(METADATA_ERYSICHTHON, 1)
@@ -1063,6 +1067,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	_is_animating = true
 	set_animation(_Animation.FLIP)
 
+	Audio.play_sfx(SFX.CoinToss)
 	await _sprite_movement_tween.tween(Vector2(0, -50), 0.2)
 	await Global.delay(0.1)
 	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2)
@@ -1086,6 +1091,8 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 		FX.flash(Color.YELLOW)
 		await flip(is_toss)
 		return
+	else:
+		Audio.play_sfx(SFX.CoinLanding)
 	
 	_disable_interaction = false
 	emit_signal("flip_complete", self)
@@ -1134,6 +1141,7 @@ func turn() -> void:
 	_FACE_LABEL.hide()
 	_is_animating = true
 	set_animation(_Animation.FLIP)
+	Audio.play_sfx(SFX.CoinTurn)
 	await _SPRITE.animation_looped
 	set_animation(_Animation.FLAT)
 	_is_animating = false

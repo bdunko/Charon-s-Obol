@@ -1,6 +1,11 @@
 class_name DialogueSystem
 extends Node2D
 
+@export var talk_sfx: TalkSFX = TalkSFX.NONE
+enum TalkSFX {
+	NONE, CHARON
+}
+
 const _DEFAULT_TEXT_COLOR = Color.WHITE
 @export var text_color = _DEFAULT_TEXT_COLOR:
 	set(val):
@@ -77,6 +82,9 @@ func show_dialogue(dialogue: String, waiting: bool = false) -> void:
 	var tween = create_tween()
 	tween.tween_property(_current_textbox, "position:y", _INITIAL_POSITION.y, 0.2)
 	tween.parallel().tween_property(_current_textbox, "modulate:a", 1.0, 0.2)
+	
+	if talk_sfx == TalkSFX.CHARON:
+		Audio.play_sfx(SFX.CharonTalk)
 	
 	_current_textbox.position.x = int((get_viewport_rect().size.x/2.0) - (_current_textbox.size.x/2.0))
 	

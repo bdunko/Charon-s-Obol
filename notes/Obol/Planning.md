@@ -2,39 +2,36 @@
 - [ ] **When I feel like it during this trying time**
 	- [ ] Death sequence.
 		- [ ] Crazy blue effect, fade to blue.
-- [ ] **Sound First Slice**
-	- [ ] ZapSplat sfx library
-	- [x] SFX Manager
-		- [ ] Test if we can use the same resource in multiple audio players simultaneously?
-	- [ ] Audible Genius - practice chords pitches and bass pitches
-	- [ ] Audible Genius - Building Blocks
+	- [ ] Change main menu screen to be more water-themed instead of fire. Drops from top of screen, etc.
+- [ ] **Building Blocks 2**
+	- [ ] Audible Genius Part 2 - Building Blocks
 		- [x] Section 1 - Melody, Legato, Grace Notes
 			- [ ] Mind's Ear - Legato, Grace Notes, Melody
 		- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
-		- [ ] Section 3 - Chord Changes (Root Changes)
+		- [x] Section 3 - Chord Changes (Root Changes)
 		- [ ] Section 4 - Toms, Bassline Changes
-			- [ ]  Melody 4
+			- [ ]  All Together 1
 		- [ ] Section 5 - Half Time, Anticipation
 		- [ ] Section 6 - 6s
 		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
 		- [ ] Section 8 - 7s and Octave
 		- [ ] Section 9 - Removing Backbeats, Inversions
-	- [ ] Compose sound effects.
+- [ ] **Sound First Slice**
 	- [ ] Add sound effects to game.
-		- [ ] CharonMaliceSlam
-		- [ ] CharonTalk
-		- [ ] CoinLanding/CoinLanding2/CoinLanding3
-		- [ ] CoinToss
-		- [ ] CoinTurn
-		- [ ] LoseLife
-		- [ ] MajorButton/MajorButton2
-		- [ ] MinorButton
-		- [ ] OpenMap/PageTurn
-		- [ ] PayoffGainSouls20/22/24/26/28
-		- [ ] PayoffMonster
-		- [ ] PurchaseCoin
-		- [ ] Status Applied
-		- [ ] Upgrade
+		- [x] CharonMaliceSlam
+		- [x] CharonTalk
+		- [x] CoinLanding/CoinLanding2/CoinLanding3
+		- [x] CoinToss
+		- [x] CoinTurn
+		- [x] LoseLife
+		- [x] MajorButton/MajorButton2
+		- [x] MinorButton
+		- [x] OpenMap/PageTurn
+		- [x] PayoffGainSouls20/22/24/26/28
+		- [x] PayoffMonster
+		- [x] PurchaseCoin
+		- [x] Status Applied
+		- [x] Upgrade
 		- [ ] background/looping
 			- [ ] Need to think about how to handle...
 				- [ ] update implementation of sfx and audio
@@ -46,42 +43,66 @@
 			- [ ] VictoryBirds
 			- [ ] Windstorm/Windstorm2
 			- [ ] CharonMaliceCasting
-- [ ] **Sound Second Slice**
-	- [ ] Song Manager
-		- [ ] Crossfades
-	- [ ] Common soundscapes/songs
-		- [ ] Main menu
-		- [x] God selection storm
-		- [x] River ambience
-		- [x] Victory ambience
-- [ ] **Sound Third Slice**
-	- [ ] Audible Genius - Building Blocks 2 second half
+- [ ] **Sound Second Slice (Sound Effects Perfected)**
+	- [ ] Explore distinct theming for UI effects - watery
 	- [ ] More sound effects
-		- [ ] Status applied (specific)
-			- [ ] Ignite
-			- [ ] Freeze
-			- [ ] Bless/Lucky/Consecrate
-			- [ ] Unlucky/Curse/Desecrate
-			- [ ] Charge
-			- [ ] Stone
-			- [ ] Blank
-			- [ ] Bury
-		- [ ] Power activated (specific)
-			- [ ] make a bunch of different powers used options and assign to coins individually
-	- [ ] More songs
+		- [ ] UI
+			- [ ] Hover major button
+			- [ ] Hover minor button (difficulty skull/selector arrows)
+			- [ ] Hover map
+		- [ ] Game
+			- [ ] Status applied (specific)
+				- [ ] Ignite
+				- [ ] Freeze
+				- [ ] Bless/Lucky/Consecrate
+				- [ ] Unlucky/Curse/Desecrate
+				- [ ] Charge
+				- [ ] Stone
+				- [ ] Blank
+				- [ ] Bury
+				- [ ] Fleeting
+				- [ ] Doomed
+			- [ ] Power activated (specific)
+				- [ ] make a bunch of different powers used options and assign to coins individually
+			- [ ] Monster specific
+				- [ ] different options attached to fitting monsters
+			- [ ] IgniteTakeDamage
+			- [ ] DowngradeCoin
+			- [ ] DestroyCoin
+			- [ ] HealLife
+			- [ ] LoseSouls
+			- [ ] ShootArrow
+			- [ ] Recharge
+		- [ ] Last Chance Flip
+			- [ ] Extra special toss sound
+			- [ ] Death result
+			- [ ] Life result
+			- [ ] Dark storm
+		- [ ] Patron Selection
+			- [ ] Talking sound for god dialogue system
+			- [ ] GodStatueSelected
+			- [ ] Possible effect - low pass the storm after selection?
+		- [ ] Charon Speech - chip speech
+			- [ ] Death - "Your soul is mine!"
+			- [ ] Intro - "I am Charon, shephard of the dead."
+			- [ ] Last chance flip - "You must flip!"
+			- [ ] Victory - "I wish you luck..."
+		- [ ] Transitions
+			- [ ] Death
+			- [ ] Victory to main menu
+			- [ ] Main menu to god selection
+			- [ ] God selection zoom to cave
+			- [ ] Game fade to victory screen
+- [ ] **Sound Third Slice (Songs)**
+	- [ ] Audio players need to be able to do fade out/fade in for songs.
+	- [ ] Songs
+		- [ ] Main menu
 		- [ ] Normal round
+		- [ ] Trail round
+		- [ ] Nemesis round
+		- [ ] Tollgate round
 		- [ ] Shop - SMT2 shop
-	- [ ] Transitions
-		- [ ] Death
-		- [ ] Victory to main menu
-		- [ ] Main menu to god selection
-		- [ ] God selection zoom to cave
-		- [ ] Game fade to victory screen
-- [ ] **Sound Fourth Slice**
-	- [ ] More songs
-		- [ ] Trial
-		- [ ] Tollgate - very low key
-		- [ ] Nemesis
+
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**
@@ -144,7 +165,7 @@
 			- [ ] flat increase/decrease
 		- [ ] **Custom Seed**
 	- [ ] Change RNG so that Trails/Boss/Charon, Shop, and coin RNG are all different.
-- [ ] **Tartarus Bonus Boss - 1 week**
+- [ ] **Tartarus Bonus Boss - 2 weeks**
 - [ ] **Settings Menu & Controller Support - 2 weeks**
 	- [ ] Add settings menu.
 		- [ ] Fast mode

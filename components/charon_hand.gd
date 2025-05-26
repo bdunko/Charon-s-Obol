@@ -68,6 +68,7 @@ func slam() -> void:
 		return
 	set_appearance(Appearance.NORMAL)
 	await _movementTween.tween(_SLAM_POSITION, 0.1, Tween.TRANS_QUART)
+	Audio.play_sfx(SFX.CharonMaliceSlam)
 	for child in _SLAM_PARTICLES.get_children():
 		child.emitting = true
 	await _movementTween.tween(_SLAM_POSITION - Vector2(0, 10), 0.05, Tween.TRANS_QUART)
@@ -75,19 +76,19 @@ func slam() -> void:
 func move_to_default_position() -> void:
 	if _lock:
 		return
-	
+	Audio.play_sfx(SFX.CharonTalk)
 	await _movementTween.tween(_BASE_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_to_forward_position() -> void:
 	if _lock:
 		return
-	
+	Audio.play_sfx(SFX.CharonTalk)
 	await _movementTween.tween(_FORWARD_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_to_retracted_position() -> void:
 	if _lock:
 		return
-	
+	Audio.play_sfx(SFX.CharonTalk)
 	await _movementTween.tween(_RETRACTED_POSITION, clamp(position.distance_to(_RETRACTED_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func move_offscreen(instant: bool = false) -> void:
@@ -100,6 +101,7 @@ func move_offscreen(instant: bool = false) -> void:
 		_movementTween.kill()
 		position = target
 	else:
+		Audio.play_sfx(SFX.CharonTalk)
 		await _movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 enum Appearance {

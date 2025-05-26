@@ -260,13 +260,20 @@ func _on_arrow_count_changed() -> void:
 		arrow.position = _ARROW_PILE_POINT
 		_ARROWS.add_child(arrow)
 
-func _on_soul_count_changed() -> void:
+func _on_soul_count_changed(change: int) -> void:
 	_SOUL_TOOLTIP_EMITTER.enable() if Global.souls > 0 else _SOUL_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
+	
+	while change > 0:
+		Audio.play_sfx(SFX.PayoffGainSouls)
+		change -= 5
 
-func _on_life_count_changed() -> void:
+func _on_life_count_changed(change: int) -> void:
 	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
+	
+	if change < 0:
+		Audio.play_sfx(SFX.LoseLife)
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
@@ -973,6 +980,7 @@ func _show_voyage_map(include_blocker: bool, closeable: bool) -> void:
 		map_display_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.6, 0.2)
 		_MAP_BLOCKER.show()
 	_VOYAGE_MAP.set_closeable(closeable)
+	Audio.play_sfx(SFX.OpenMap)
 	await map_display_tween.finished
 	_map_is_disabled = false
 
@@ -985,6 +993,7 @@ func _hide_voyage_map() -> void:
 	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.2)
 	_MAP_BLOCKER.hide()
 	_PLAYER_TEXTBOXES.make_visible()
+	Audio.play_sfx(SFX.PageTurn)
 	await map_hide_tween.finished
 	_map_is_disabled = false
 	_VOYAGE_MAP.z_index = 0
@@ -2049,7 +2058,7 @@ func _on_coin_clicked(coin: Coin):
 		
 		# trial of blood - using powers costs 1 life (excluding arrows)
 		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
-			Global.lives -= Global.BLOOD_COSTr
+			Global.lives -= Global.BLOOD_COST
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
 		
 		# check if this power can be used on the given target, and show error if not

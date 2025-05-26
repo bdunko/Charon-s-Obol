@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dr6bd0uc20ct3"
+path="res://.godot/imported/Freeze Windstorm [2025-05-26 132651]-2.wav-59a66c6d66a34c2df23219b80dfb521a.sample"
+
+[deps]
+
+source_file="res://assets/audio/ableton/SFX Project/Samples/Processed/Freeze/Freeze Windstorm [2025-05-26 132651]-2.wav"
+dest_files=["res://.godot/imported/Freeze Windstorm [2025-05-26 132651]-2.wav-59a66c6d66a34c2df23219b80dfb521a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

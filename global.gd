@@ -279,9 +279,10 @@ var shop_rerolls: int:
 
 var souls: int:
 	set(val):
+		var start = souls
 		souls = val
 		assert(souls >= 0)
-		emit_signal("souls_count_changed")
+		emit_signal("souls_count_changed", souls - start)
 
 func earn_souls(soul_amt: int) -> void:
 	assert(soul_amt >= 0)
@@ -339,8 +340,9 @@ var round_count = 0:
 
 var lives:
 	set(val):
+		var start = lives
 		lives = val
-		emit_signal("life_count_changed")
+		emit_signal("life_count_changed", lives - start)
 
 var payoffs_this_round: int:
 	set(val):
