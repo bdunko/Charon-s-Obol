@@ -55,6 +55,7 @@ func point_at(point: Vector2) -> void:
 	
 	_SPRITE.play(_ANIM_POINTING)
 	var target = point - _POINTING_OFFSET
+	Audio.play_sfx(SFX.CharonTalk)
 	await _movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func unpoint() -> void:

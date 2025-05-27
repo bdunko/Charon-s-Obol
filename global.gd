@@ -277,7 +277,7 @@ var shop_rerolls: int:
 		assert(shop_rerolls >= 0)
 		emit_signal("rerolls_changed")
 
-var souls: int:
+var souls: int = 0:
 	set(val):
 		var start = souls
 		souls = val
@@ -307,7 +307,7 @@ func lose_souls(soul_amt: int) -> void:
 	Global.souls = max(0, Global.souls - soul_amt)
 	Global.souls_earned_this_round -= soul_amt
 
-var souls_earned_this_round: int:
+var souls_earned_this_round: int = 0:
 	set(val):
 		souls_earned_this_round = val
 		if souls_earned_this_round < 0:
@@ -338,7 +338,7 @@ var round_count = 0:
 		round_count = val
 		emit_signal("round_changed")
 
-var lives:
+var lives = 0:
 	set(val):
 		var start = lives
 		lives = val

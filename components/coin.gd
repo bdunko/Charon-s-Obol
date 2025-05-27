@@ -288,7 +288,7 @@ var _tails_power: FacePower:
 func _update_appearance() -> void:
 	_cached_tooltip_dirty = true
 	_update_face_label()
-	_update_price_label()
+	_update_price_label(0)
 	_update_glow()
 	_update_border_effect()
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
@@ -375,7 +375,7 @@ const _BUY_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _UPGRADE_SELL_FORMAT = "[center][color=%s]%d[/color][/center](SOULS)"
 const _APPEASE_FORMAT = "[center][color=%s]-%d[/color][/center](SOULS)"
 const _TOLL_FORMAT = "[center]%d[/center](VALUE)"
-func _update_price_label() -> void:
+func _update_price_label(_change: int) -> void:
 	if Global.state == Global.State.SHOP:
 		# special case - can't upgrade further, show nothing
 		if _owner == Owner.PLAYER and not can_upgrade() and not Global.is_character(Global.Character.MERCHANT):

@@ -29,15 +29,29 @@ class MapQueue:
 			return 0
 		return _map[key].size()
 	
-	func get_oldest() -> Variant:
-		if _queue.size() == 0:
-			return null
-		return _queue[0]
+	func get_oldest_interruptable() -> Variant:
+		# find the oldest in the queue that is interruptable
+		for player in _queue:
+			if player.sound.interruptable:
+				return player
+		
+		return null
 	
-	func get_oldest_for(key) -> Variant:
+	func get_oldest_interruptable_for(key) -> Variant:
 		if not _map.has(key) or _map[key].size() == 0:
 			return null
-		return _map[key][0]
+		
+		# find oldest in this key's array that is interruptable
+		for player in _map[key]:
+			if player.sound.interruptable:
+				return player
+		
+		return null
+	
+	func get_all_for(key) -> Array:
+		if not _map.has(key) or _map[key].size() == 0:
+			return []
+		return _map[key] 
 
 const _MASTER_BUS = "Master"
 const _SFX_BUS = "SFX"
@@ -46,12 +60,15 @@ const _SONG_BUS = "Song"
 func _ready() -> void:
 	# create the sfx players
 	for i in N_PLAYERS:
-		var player = _SFXPlayer.new(self)
-		player.finished.connect(_on_player_finished)
-		_free_sfx.append(player)
+		_create_player()
 	
 	_active_song_player.bus = _SONG_BUS
 	_inactive_song_player.bus = _SONG_BUS
+
+func _create_player() -> void:
+	var player = _SFXPlayer.new(self)
+	player.finished.connect(_on_player_finished)
+	_free_sfx.append(player)
 
 ### SONG API ###
 var _active_song: Songs.Song
@@ -112,7 +129,15 @@ func _on_player_finished(player: _SFXPlayer) -> void:
 func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 	# if there are no free players, we need to stop the oldest busy one
 	if _free_sfx.size() == 0:
-		_busy_sfx.get_oldest().stop()
+		var oldest = _busy_sfx.get_oldest_interruptable()
+		if oldest != null:
+			oldest.stop()
+	
+	# case that there are still no free players,
+	# create a new player in the system.
+	if _free_sfx.size() == 0:
+		print("Unable to acquire sound player! Creating new player.")
+		_create_player()
 	
 	var player = _free_sfx.pop_front()
 	_busy_sfx.add(sfx, player)
@@ -121,10 +146,12 @@ func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 
 func play_sfx(sfx: SFX.Effect) -> void:
 	if _busy_sfx.size_for(sfx) >= sfx.max_instances:
-		_busy_sfx.get_oldest_for(sfx).stop()
+		var oldest = _busy_sfx.get_oldest_interruptable_for(sfx)
+		if oldest != null:
+			oldest.stop()
 	
 	_acquire_player(sfx).play(sfx)
 
-func stop_all_sfx(sfx: SFX.Effect) -> void:
-	while _busy_sfx.size_for(sfx) != 0:
-		_busy_sfx.get_oldest_for(sfx).stop()
+func force_stop_sfx(sfx: SFX.Effect) -> void:
+	for player in _busy_sfx.get_all_for(sfx):
+		player.stop()
