@@ -54,9 +54,7 @@
 - [ ] Zoom out from initial game scene when we spawn in?
 - [ ] After you use a power, if you run out of charges, the targeted coin stays highlighted (it should stop being highlighted). So minor. Ex: Athena can do this.
 - [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
-- [ ] Profile on a slow machine - generating a tooltip is potentially expensive, particularly the replace_placeholders (both the coin specific version and the Global call)
-	- [ ] Best fix - make this more efficient. 
-	- [ ] Easy(?) fix - don't continually regenerate the tooltip in physics_process
+
 
 
 

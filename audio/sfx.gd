@@ -30,11 +30,9 @@ var PageTurn = Effect.new([preload("res://assets/audio/sounds/SFX PageTurn.wav")
 var PowerSelected = Effect.new([preload("res://assets/audio/sounds/SFX PowerSelected.wav")], 1, true)
 var PowerUnselected = Effect.new([preload("res://assets/audio/sounds/SFX PowerUnselected.wav")], 1, true)
 
-var CoinToss = Effect.new([preload("res://assets/audio/sounds/SFX CoinToss.wav")], 3, true)
-var CoinTurn = Effect.new([preload("res://assets/audio/sounds/SFX CoinTurn.wav")], 3, true)
-var CoinLanding = Effect.new([preload("res://assets/audio/sounds/SFX CoinLanding.wav"),
-									preload("res://assets/audio/sounds/SFX CoinLanding2.wav"), 
-									preload("res://assets/audio/sounds/SFX CoinLanding3.wav")], 3, true)
+var CoinToss = Effect.new([preload("res://assets/audio/sounds/SFX CoinToss.wav")], 1, true)
+var CoinTurn = Effect.new([preload("res://assets/audio/sounds/SFX CoinTurn.wav")], 1, true)
+var CoinLanding = Effect.new([preload("res://assets/audio/sounds/SFX CoinLanding.wav")], 1, true)
 
 var PayoffGainSouls = Effect.new([preload("res://assets/audio/sounds/SFX PayoffGainSouls20.wav"),
 									preload("res://assets/audio/sounds/SFX PayoffGainSouls22.wav"),
@@ -52,7 +50,7 @@ var Upgrade = Effect.new([preload("res://assets/audio/sounds/SFX Upgrade.wav")],
 var WaterDrop = Effect.new([preload("res://assets/audio/sounds/SFX WaterDrop.wav")], 1, true)
 var WaterDropNoReverb = Effect.new([preload("res://assets/audio/sounds/SFX WaterDropNoReverb.wav")], 1, true)
 
-var CharonMaliceSlam = Effect.new([preload("res://assets/audio/sounds/SFX MajorButton.wav")], 1, true)
+var CharonMaliceSlam = Effect.new([preload("res://assets/audio/sounds/SFX CharonMaliceSlam.wav")], 1, true)
 var CharonTalk = Effect.new([preload("res://assets/audio/sounds/SFX CharonTalk.wav")], 1, true)
 
 # looping

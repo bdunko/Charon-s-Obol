@@ -1,94 +1,134 @@
-**Charon's Obol Release**
-- [ ] **When I feel like it during this trying time**
-	- [ ] Death sequence.
+
+**Timeline**
+- [ ] **Soundtest** - by August 15
+- [ ] **Revamped Unlock System** - by Sept 1
+- [ ] **Settings Menu & Controller Support** - by Sept 15
+- [ ] **Orphic Tablets** - by Sept 22
+- [ ] **Treasure of Atreus** - by Oct 1
+- [ ] **Tartarus Bonus Boss** - by Oct 15
+- [ ] **More Coins** - by Nov 15
+- [ ] **More Characters & Balance** - by Jan 1
+- [ ] **Playtesting & Polish** - by Feb 1
+- [ ] **Release** - by Mar 3
+
+**Building Blocks 2**
+- [ ] Audible Genius Part 2 - Building Blocks
+	- [x] Section 1 - Melody, Legato, Grace Notes
+		- [ ] Mind's Ear - Legato, Grace Notes, Melody
+	- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
+	- [x] Section 3 - Chord Changes (Root Changes)
+	- [x] Section 4 - Toms, Bassline Changes
+	- [ ] Section 5 - Half Time, Anticipation
+		- [ ] Create Single Track Anticipation
+	- [ ] Section 6 - 6s
+	- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
+	- [ ] Section 8 - 7s and Octave
+	- [ ] Section 9 - Removing Backbeats, Inversions
+	- [ ] Write Building Blocks Cheatsheet
+		- [ ] go through all the creates again in order, do them in Ableton, take notes on the video portions
+
+**Charon's Obol Soundtest**
+* [ ] **Graphical Effects**
+	- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
+		- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
+	- [ ] **Enhanced Monster Effects (Projectile animations)**
+		- [ ] Add projectiles for monster coins targetting coins in player's row.
+			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+			- [ ] Just need to await for it to finish
+				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+			- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
+	- [ ] **Death effect**
+		- [ ] Death sequence.
 		- [ ] Crazy blue effect, fade to blue.
-	- [ ] Change main menu screen to be more water-themed instead of fire. Drops from top of screen, etc.
-- [ ] **Building Blocks 2**
-	- [ ] Audible Genius Part 2 - Building Blocks
-		- [x] Section 1 - Melody, Legato, Grace Notes
-			- [ ] Mind's Ear - Legato, Grace Notes, Melody
-		- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
-		- [x] Section 3 - Chord Changes (Root Changes)
-		- [ ] Section 4 - Toms, Bassline Changes
-			- [ ]  All Together 1
-		- [ ] Section 5 - Half Time, Anticipation
-		- [ ] Section 6 - 6s
-		- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
-		- [ ] Section 8 - 7s and Octave
-		- [ ] Section 9 - Removing Backbeats, Inversions
-- [ ] **Sound First Slice**
-	- [ ] Add sound effects to game.
-		- [x] CharonMaliceSlam
-		- [x] CharonTalk
-		- [x] CoinLanding/CoinLanding2/CoinLanding3
-		- [x] CoinToss
-		- [x] CoinTurn
-		- [x] LoseLife
-		- [x] MajorButton/MajorButton2
-		- [x] MinorButton
-		- [x] OpenMap/PageTurn
-		- [x] PayoffGainSouls20/22/24/26/28
-		- [x] PayoffMonster
-		- [x] PurchaseCoin
-		- [x] Status Applied
-		- [x] Upgrade
-		- [ ] background/looping
-			- [ ] HeavyWater
-			- [ ] VictoryBirds
-			- [ ] Windstorm/Windstorm2
-			- [ ] CharonMaliceCasting
-- [ ] **Sound Second Slice (Sound Effects Perfected)**
+	- [ ] **Rising Souls/Life effect AKA improved payoff**
+	- [ ] **Life loss vignette effect**
+	- [ ] **Show Game Phases with a label that changes scale (zoom in/out quickly)**
+- [ ] **Audio Fade In/Out**
+	- [ ] Audio players need to be able to do fade out/fade in for songs.
+		- [ ] can tween volume. this should only be used on singleton sounds anyway, so it should be fine. 
+			- [ ] while in the process of fading out, the player is completely unavailable. place in separate queue I guess?
+- [ ] **Main Menu**
 	- [ ] Explore distinct theming for UI effects - watery
-	- [ ] More sound effects
-		- [ ] UI
-			- [ ] Hover major button
-			- [ ] Hover minor button (difficulty skull/selector arrows)
-			- [ ] Hover map
-		- [ ] Game
-			- [ ] Status applied (specific)
-				- [ ] Ignite
-				- [ ] Freeze
-				- [ ] Bless/Lucky/Consecrate
-				- [ ] Unlucky/Curse/Desecrate
-				- [ ] Charge
-				- [ ] Stone
-				- [ ] Blank
-				- [ ] Bury
-				- [ ] Fleeting
-				- [ ] Doomed
-			- [ ] Power activated (specific)
-				- [ ] make a bunch of different powers used options and assign to coins individually
-			- [ ] Monster specific
-				- [ ] different options attached to fitting monsters
-			- [ ] IgniteTakeDamage
-			- [ ] DowngradeCoin
-			- [ ] DestroyCoin
-			- [ ] HealLife
-			- [ ] LoseSouls
-			- [ ] ShootArrow
-			- [ ] Recharge
+	- [ ] **Revisions**
+		- [ ] Difficulty Skull sound effect should be different from buttons.
+		- [ ] The Start button sound should be louder. But the sound itself is good.
+		- [ ] Crackling fire instead of windstorm for now. Should fade in at start.
+		- [ ] More dramatic swoosh sound for changing characters, not enough impact.
+	- [ ] **Additions**
+		- [ ] Hover major button
+		- [ ] Hover minor button (difficulty skull/selector arrows)
+- [ ] **Patron Selection**
+	- [ ] **Revisions**
+		- [ ] Thunderstorm loop for patron selection screen is too short, loops too soon.
+	- [ ] **Addition**
+		- [ ] Sound needed for selecting a patron.
+		- [ ] Sound for advancing god speech.
+		- [ ] Transition sound for zooming into cave.
+		- [ ] Add a windy layer to the storm sound; multiple layers of sounds.
+	- [ ] Possible effect - low pass the storm after selection?
+- [ ] **Game**
+	- [ ] I think we forgot to add the power selected/unselected sounds at all.
+	- [ ] **Revisions**
+		- [ ] Heavy water loop is too short and the restart is too obvious.
+		- [ ] Don't use the same sound for all button presses; example:
+			- [ ] Board - no sound needed because map open covers it.
+			- [ ] Begin First Round - no sound needed because map close covers it.
+			- [ ] Accept - probably don't need because all payoffs have their own sounds.
+			- [ ] Toss - Don't need because 'row retract' should cover it.
+		- [ ] Coin landing sound definitely doesn't work.
+		- [ ] Coin toss sound, not sure.
+		- [ ] In the shop - we don't want charon's hand making a sound every time it moves.
+		- [ ] Buy coin sound needs a change.
+		- [ ] Monster payoff sound isn't quite it.
+		- [ ] Not sure about flip sound/landing sound stacking... 
+		- [ ] The turn sound should just be a metallic something...
+	- [ ] Additions
+		- [ ] Hover map
+		- [ ] Charon talk sound
+		- [ ] Heartbeat (add the effect so this looks less weird, and see if it works)
+		- [ ] Need a water whoosh sound during boat movement on map.
+		- [ ] Status applied (specific)
+			- [ ] Ignite
+			- [ ] Freeze
+			- [ ] Bless/Lucky/Consecrate
+			- [ ] Unlucky/Curse/Desecrate
+			- [ ] Charge
+			- [ ] Stone
+			- [ ] Blank
+			- [ ] Bury
+			- [ ] Fleeting
+			- [ ] Doomed
+		- [ ] Power activated (specific)
+			- [ ] make a bunch of different powers used options and assign to coins individually
+		- [ ] Payoff activated (specific, mostly for monsters)
+			- [ ] different options attached to fitting monsters
+			- [ ] also the arrow sound
+		- [ ] IgniteTakeDamage
+		- [ ] DowngradeCoin
+		- [ ] DestroyCoin
+		- [ ] HealLife
+		- [ ] LoseSouls
+		- [ ] ShootArrow
+		- [ ] Recharge
 		- [ ] Last Chance Flip
 			- [ ] Extra special toss sound
 			- [ ] Death result
 			- [ ] Life result
 			- [ ] Dark storm
-		- [ ] Patron Selection
-			- [ ] Talking sound for god dialogue system
-			- [ ] GodStatueSelected
-			- [ ] Possible effect - low pass the storm after selection?
-		- [ ] Charon Speech - chip speech
-			- [ ] Death - "Your soul is mine!"
-			- [ ] Intro - "I am Charon, shephard of the dead."
-			- [ ] Last chance flip - "You must flip!"
-			- [ ] Victory - "I wish you luck..."
-		- [ ] Transitions
-			- [ ] Death
-			- [ ] Victory to main menu
-			- [ ] Main menu to god selection
-			- [ ] God selection zoom to cave
-			- [ ] Game fade to victory screen
+- [ ] **Victory**
+	- [ ] todo
+- [ ] **Charon Speech** - chip speech
+	- [ ] Death - "Your soul is mine!"
+	- [ ] Intro - "I am Charon, shephard of the dead."
+	- [ ] Last chance flip - "You must flip!"
+	- [ ] Victory - "I wish you luck..."
+- [ ] **Transitions**
+	- [ ] Death
+	- [ ] Victory to main menu
+	- [ ] Main menu to god selection
+	- [ ] God selection zoom to cave
+	- [ ] Game fade to victory screen
 - [ ] **Sound Third Slice (Songs)**
-	- [ ] Audio players need to be able to do fade out/fade in for songs.
 	- [ ] Songs
 		- [ ] Main menu
 		- [ ] Normal round
@@ -97,6 +137,10 @@
 		- [ ] Tollgate round
 		- [ ] Shop - SMT2 shop
 
+
+
+
+**Charon's Obol Release**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
 - [ ] **Orphic Tablets - 1 week**
@@ -115,21 +159,7 @@
 			- [ ] Ignite monsters.
 			- [ ] Lucky monsters.
 			- [ ] Bless monsters.
-* [ ] **Graphical Effects - 2 week**
-	- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
-		- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-	- [ ] **Enhanced Monster Effects (Projectile animations)**
-		- [ ] Add projectiles for monster coins targetting coins in player's row.
-			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-			- [ ] Just need to await for it to finish
-				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-			- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
-	- [ ] **Death effect**
-	- [ ] **Rising Souls/Life effect**
-	- [ ] **Life loss vignette effect**
-	- [ ] **Show Game Phases with a label that changes scale (zoom in/out quickly)**
-- [ ] **Gameplay Customization Enhancements - 1 week**
-	- [ ] **Treasury of Atreus** - multiple options for what coins form the coinpool.
+- [ ] **Treasury of Atreus** - 1 week - multiple options for what coins form the coinpool.
 		- [ ] Complete - everything
 		- [ ] Classic - Olympians (the 13 original)
 		- [ ] Classic+ - Classic with a few more additions, around ~25 coins.
@@ -144,30 +174,14 @@
 		- [ ] Fundamentals - Absolutely no coins with Statuses.
 		- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 		- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
-	- [ ] **Scales of Themis**
-		- [ ] Shows overall 'heat' level of difficulty settings.
-		- [ ] Offers further difficulty tuning, can be used at any difficulty once unlocked. Scales shown on main menu.
-		- [ ] Tails chance
-		- [ ] Shop prices
-			- [ ] Affects both obol scaling and upgrades
-		- [ ] Tollgate prices
-			- [ ] flat increase based on round
-		- [ ] Monster strength
-		- [ ] Life penalties
-			- [ ] flat increase/decrease
-		- [ ] Strain
-			- [ ] flat increase/decrease
-		- [ ] **Custom Seed**
-	- [ ] Change RNG so that Trails/Boss/Charon, Shop, and coin RNG are all different.
 - [ ] **Tartarus Bonus Boss - 2 weeks**
 - [ ] **Settings Menu & Controller Support - 2 weeks**
 	- [ ] Add settings menu.
-		- [ ] Fast mode
 		- [ ] Turn off effects
 		- [ ] Settings should be saved to a separate save file.
 	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
-- [ ] **Balance - Indeterminant**
+- [ ] **Balance**
 	- [ ] Fundamental rule - payoffs which are not showing do not happen. Payoffs which are showing always happen. Ex: Blank payoffs don't happen; Frozen payoffs do happen.
 		- [ ] Stone breaks this rule. 
 			- [x] Choice 1 - Stone coins are also blank.

@@ -201,10 +201,10 @@ class CopyPowerPermanentlyAndDestroy extends PowerFamily:
 
 class Exchange extends PowerFamily:
 	func use_power(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> void:
-		var new_coin = game._make_and_gain_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), game._CHARON_NEW_COIN_POSITION, true)
+		var new_coin = game._make_and_gain_coin(Global.random_coin_family_excluding([target.get_coin_family()]), target.get_denomination(), game.CHARON_NEW_COIN_POSITION, true)
 		new_coin.get_parent().move_child(new_coin, target.get_index())
 		new_coin.play_power_used_effect(Global.active_coin_power_family)
-		game.remove_coin_from_row_move_then_destroy(target, game._CHARON_NEW_COIN_POSITION)
+		game.remove_coin_from_row_move_then_destroy(target, game.CHARON_NEW_COIN_POSITION)
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)

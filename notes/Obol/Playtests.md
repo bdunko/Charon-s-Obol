@@ -1,0 +1,6 @@
+- [ ] 5/31/2025
+	- [ ] Sound is still pretty raw.
+	- [ ] The game is too easy to low difficulties. I should probably remove the one extra round at the start. It is just too generous, plus I don't want the game to be super long. Probably needs more testing. In general I wouldn't mind trimming the game length.
+- [ ] 6/1/2025
+	- [x] Tooltips - maybe just use a single dark color for subtooltips (statuses), looks weird having two shades of blackish.
+	- [x] Crashed when trying to get Charon New Coin Position
