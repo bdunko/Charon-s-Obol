@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://o8m758n0nv3f"
-path="res://.godot/imported/SFX PageTurn.wav-181df64c4b6c508862e8cdf1fef14e65.sample"
+path="res://.godot/imported/CloseMap.wav-194e9b36484a30a739593dc5217f4956.sample"
 
 [deps]
 
-source_file="res://assets/audio/sounds/SFX PageTurn.wav"
-dest_files=["res://.godot/imported/SFX PageTurn.wav-181df64c4b6c508862e8cdf1fef14e65.sample"]
+source_file="res://assets/audio/sounds/CloseMap.wav"
+dest_files=["res://.godot/imported/CloseMap.wav-194e9b36484a30a739593dc5217f4956.sample"]
 
 [params]
 

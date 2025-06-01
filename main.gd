@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 	Global.load_save() # load save file
 	
-	Audio.play_sfx(SFX.Windstorm)
+	Audio.play_song(Songs.Windstorm)
 	
 	if Global.is_character_unlocked(Global.Character.ELEUSINIAN):
 		MAIN_MENU_SCENE.set_character(Global.Character.ELEUSINIAN)
@@ -27,7 +27,7 @@ func _on_main_menu_start_game():
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.left_click_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
-		Audio.force_stop_sfx(SFX.Windstorm)
+		Audio.stop_song(Songs.Windstorm)
 		await Global.delay(0.3)
 		if Global.is_character(Global.Character.LADY):
 			# skip god selection during tutorial
@@ -36,14 +36,14 @@ func _on_main_menu_start_game():
 		else:
 			GOD_SELECTION_SCENE.on_start_god_selection()
 			GOD_SELECTION_SCENE.show()
-			Audio.play_sfx(SFX.Windstorm2)
+			Audio.play_song(Songs.Windstorm2)
 			await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
 	if victory:
 		TransitionPlayer.set_color(Color.WHITE)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-	Audio.force_stop_sfx(SFX.HeavyWater)
+	Audio.stop_song(Songs.HeavyWater)
 	await Global.delay(2.0)
 	GAME_SCENE.hide()
 	UITooltip.clear_tooltips() # fixes a small visual bug if you end with a tooltip up
@@ -63,10 +63,10 @@ func _on_game_game_ended(victory: bool):
 	if victory:
 		GOD_SELECTION_SCENE.show()
 		GOD_SELECTION_SCENE.on_victory()
-		Audio.play_sfx(SFX.VictoryBirds)
+		Audio.play_song(Songs.VictoryBirds)
 	# otherwise go straight back to main menu
 	else:
-		Audio.play_sfx(SFX.Windstorm)
+		Audio.play_song(Songs.Windstorm)
 		MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 	TransitionPlayer.reset_color()
@@ -77,9 +77,9 @@ func _on_god_selection_patron_selected(lady: bool = false):
 	else:
 		TransitionPlayer.set_color(Color("793a80"))
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-		Audio.force_stop_sfx(SFX.Windstorm2)
+		Audio.stop_song(Songs.Windstorm2)
 		await Global.delay(1.0)
-	Audio.play_sfx(SFX.HeavyWater)
+	Audio.play_song(Songs.HeavyWater)
 	GOD_SELECTION_SCENE.hide()
 	GAME_SCENE.on_start()
 	GAME_SCENE.show()
@@ -88,9 +88,9 @@ func _on_god_selection_patron_selected(lady: bool = false):
 
 func _on_god_selection_exited():
 	await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)
-	Audio.force_stop_sfx(SFX.VictoryBirds)
+	Audio.stop_song(Songs.VictoryBirds)
 	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
-	Audio.play_sfx(SFX.Windstorm)
+	Audio.play_song(Songs.Windstorm)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://vlvmoh30c8og"
-path="res://.godot/imported/SFX Windstorm2.wav-9dca9a8ae3fb8862941660f261b9271a.sample"
+path="res://.godot/imported/SFX Windstorm2.wav-ef20d6ce78320cba855e11b44355fbae.sample"
 
 [deps]
 
-source_file="res://assets/audio/sounds/SFX Windstorm2.wav"
-dest_files=["res://.godot/imported/SFX Windstorm2.wav-9dca9a8ae3fb8862941660f261b9271a.sample"]
+source_file="res://assets/audio/songs/ambiance/SFX Windstorm2.wav"
+dest_files=["res://.godot/imported/SFX Windstorm2.wav-ef20d6ce78320cba855e11b44355fbae.sample"]
 
 [params]
 

@@ -29,24 +29,16 @@ class MapQueue:
 			return 0
 		return _map[key].size()
 	
-	func get_oldest_interruptable() -> Variant:
-		# find the oldest in the queue that is interruptable
-		for player in _queue:
-			if player.sound.interruptable:
-				return player
-		
-		return null
+	func get_oldest() -> Variant:
+		if _queue.size() == 0:
+			return null
+		return _queue[0]
 	
-	func get_oldest_interruptable_for(key) -> Variant:
+	func get_oldest_for(key) -> Variant:
 		if not _map.has(key) or _map[key].size() == 0:
 			return null
 		
-		# find oldest in this key's array that is interruptable
-		for player in _map[key]:
-			if player.sound.interruptable:
-				return player
-		
-		return null
+		return _map[key][0]
 	
 	func get_all_for(key) -> Array:
 		if not _map.has(key) or _map[key].size() == 0:
@@ -61,9 +53,6 @@ func _ready() -> void:
 	# create the sfx players
 	for i in N_PLAYERS:
 		_create_player()
-	
-	_active_song_player.bus = _SONG_BUS
-	_inactive_song_player.bus = _SONG_BUS
 
 func _create_player() -> void:
 	var player = _SFXPlayer.new(self)
@@ -71,23 +60,34 @@ func _create_player() -> void:
 	_free_sfx.append(player)
 
 ### SONG API ###
-var _active_song: Songs.Song
-var _active_song_player: AudioStreamPlayer = AudioStreamPlayer.new()
-var _inactive_song_player: AudioStreamPlayer = AudioStreamPlayer.new()
+var _songs_map = {}
 
-func play_song(song: Songs.Song) -> void:
-	_active_song_player.stop()
-	_inactive_song_player.stream = song.resource
-	_inactive_song_player.start()
+func play_song(song: Songs.Song, fade_time: float = 1.5) -> void:
+	if _songs_map.has(song):
+		print("Already playing this song! %s" % song.name)
+		return
 	
-	# swap the players
-	var new_active = _inactive_song_player
-	_inactive_song_player = _active_song_player
-	_active_song_player = new_active
+	var player = AudioStreamPlayer.new()
+	add_child(player)
+	_songs_map[song] = player
+	player.stream = song.get_resource()
+	player.bus = _SONG_BUS
+	player.play()
+	
+	if fade_time > 0:
+		player.volume_db = -72
+		create_tween().tween_property(player, "volume_db", 0, fade_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
-func stop_song() -> void:
-	_active_song_player.stop()
-
+func stop_song(song: Songs.Song, fade_time: float = 1.5) -> void:
+	if not _songs_map.has(song):
+		print("Song isn't playing! %s" % song.name)
+		return
+	
+	var player = _songs_map[song]
+	_songs_map.erase(song)
+	var tween = create_tween().tween_property(player, "volume_db", -72, fade_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	await tween.finished
+	player.queue_free()
 
 ### SOUND EFFECTS API ###
 const N_PLAYERS = 32
@@ -129,14 +129,14 @@ func _on_player_finished(player: _SFXPlayer) -> void:
 func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 	# if there are no free players, we need to stop the oldest busy one
 	if _free_sfx.size() == 0:
-		var oldest = _busy_sfx.get_oldest_interruptable()
+		var oldest = _busy_sfx.get_oldest()
 		if oldest != null:
 			oldest.stop()
 	
 	# case that there are still no free players,
 	# create a new player in the system.
 	if _free_sfx.size() == 0:
-		print("Unable to acquire sound player! Creating new player.")
+		print("Unable to acquire sound player! Creating new player. %s" % sfx.name)
 		_create_player()
 	
 	var player = _free_sfx.pop_front()
@@ -146,12 +146,8 @@ func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 
 func play_sfx(sfx: SFX.Effect) -> void:
 	if _busy_sfx.size_for(sfx) >= sfx.max_instances:
-		var oldest = _busy_sfx.get_oldest_interruptable_for(sfx)
+		var oldest = _busy_sfx.get_oldest_for(sfx)
 		if oldest != null:
 			oldest.stop()
 	
 	_acquire_player(sfx).play(sfx)
-
-func force_stop_sfx(sfx: SFX.Effect) -> void:
-	for player in _busy_sfx.get_all_for(sfx):
-		player.stop()

@@ -19,7 +19,7 @@
 	- [x] Section 3 - Chord Changes (Root Changes)
 	- [x] Section 4 - Toms, Bassline Changes
 	- [ ] Section 5 - Half Time, Anticipation
-		- [ ] Create Single Track Anticipation
+		- [ ] Create Multi Track Anticipation
 	- [ ] Section 6 - 6s
 	- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
 	- [ ] Section 8 - 7s and Octave
@@ -28,36 +28,20 @@
 		- [ ] go through all the creates again in order, do them in Ableton, take notes on the video portions
 
 **Charon's Obol Soundtest**
-* [ ] **Graphical Effects**
-	- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
-		- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-	- [ ] **Enhanced Monster Effects (Projectile animations)**
-		- [ ] Add projectiles for monster coins targetting coins in player's row.
-			- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-			- [ ] Just need to await for it to finish
-				- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-			- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
-	- [ ] **Death effect**
-		- [ ] Death sequence.
-		- [ ] Crazy blue effect, fade to blue.
-	- [ ] **Rising Souls/Life effect AKA improved payoff**
-	- [ ] **Life loss vignette effect**
-	- [ ] **Show Game Phases with a label that changes scale (zoom in/out quickly)**
-- [ ] **Audio Fade In/Out**
-	- [ ] Audio players need to be able to do fade out/fade in for songs.
-		- [ ] can tween volume. this should only be used on singleton sounds anyway, so it should be fine. 
-			- [ ] while in the process of fading out, the player is completely unavailable. place in separate queue I guess?
-- [ ] **Main Menu**
+Week 1
+- [ ] **Main Menu Sounds**
 	- [ ] Explore distinct theming for UI effects - watery
 	- [ ] **Revisions**
-		- [ ] Difficulty Skull sound effect should be different from buttons.
+		- [ ] Difficulty Skull sound effect should be different from buttons. Also different from each skull - more spooky/lower pitched on higher difficulties. 
 		- [ ] The Start button sound should be louder. But the sound itself is good.
 		- [ ] Crackling fire instead of windstorm for now. Should fade in at start.
 		- [ ] More dramatic swoosh sound for changing characters, not enough impact.
 	- [ ] **Additions**
 		- [ ] Hover major button
 		- [ ] Hover minor button (difficulty skull/selector arrows)
-- [ ] **Patron Selection**
+
+Week 2
+- [ ] **Patron Selection Sounds**
 	- [ ] **Revisions**
 		- [ ] Thunderstorm loop for patron selection screen is too short, loops too soon.
 	- [ ] **Addition**
@@ -66,7 +50,37 @@
 		- [ ] Transition sound for zooming into cave.
 		- [ ] Add a windy layer to the storm sound; multiple layers of sounds.
 	- [ ] Possible effect - low pass the storm after selection?
-- [ ] **Game**
+- [ ] **Victory Sounds**
+	- [ ] todo
+- [ ] **Transitions**
+	- [ ] Death
+	- [ ] Victory to main menu
+	- [ ] Main menu to god selection
+	- [ ] God selection zoom to cave
+	- [ ] Game fade to victory screen
+
+Week 3/4
+- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
+	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
+- [ ] **Enhanced Monster Effects (Projectile animations)**
+	- [ ] Add projectiles for monster coins targetting coins in player's row.
+		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+		- [ ] Just need to await for it to finish
+			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
+- [ ] **Death effect**
+	- [ ] Death sequence.
+	- [ ] Crazy blue effect, fade to blue.
+- [ ] **Improved Payoff**
+	- [ ] Rising souls/life effect with flashing number...
+	- [ ] In text under label, show sum of life lost/gained each payoff.
+	- [ ] Labels should have a 'transforming/burning of wood' effect - new numbers flash purple for a second as old fades.
+- [ ] **Life loss vignette effect**
+	- [ ] Red tint around screen edge, more dramatic lower on life you are. Flashes whenever you lose life.
+- [ ] **Game Phase Labels**
+
+Week 5/6/7
+- [ ] **Game Sounds**
 	- [ ] I think we forgot to add the power selected/unselected sounds at all.
 	- [ ] **Revisions**
 		- [ ] Heavy water loop is too short and the restart is too obvious.
@@ -115,27 +129,20 @@
 			- [ ] Death result
 			- [ ] Life result
 			- [ ] Dark storm
-- [ ] **Victory**
-	- [ ] todo
 - [ ] **Charon Speech** - chip speech
 	- [ ] Death - "Your soul is mine!"
 	- [ ] Intro - "I am Charon, shephard of the dead."
 	- [ ] Last chance flip - "You must flip!"
 	- [ ] Victory - "I wish you luck..."
-- [ ] **Transitions**
-	- [ ] Death
-	- [ ] Victory to main menu
-	- [ ] Main menu to god selection
-	- [ ] God selection zoom to cave
-	- [ ] Game fade to victory screen
-- [ ] **Sound Third Slice (Songs)**
-	- [ ] Songs
-		- [ ] Main menu
-		- [ ] Normal round
-		- [ ] Trail round
-		- [ ] Nemesis round
-		- [ ] Tollgate round
-		- [ ] Shop - SMT2 shop
+
+Week 8/9/10/11
+- [ ] **Songs**
+	- [ ] Main menu
+	- [ ] Normal round
+	- [ ] Trail round
+	- [ ] Nemesis round
+	- [ ] Tollgate round
+	- [ ] Shop - SMT2 shop
 
 
 

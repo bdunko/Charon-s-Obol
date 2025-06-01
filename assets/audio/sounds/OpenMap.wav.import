@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bgggvmec65hsl"
-path="res://.godot/imported/SFX OpenMap.wav-2a7df3b435204bc2fc6646a79f1d4bcb.sample"
+path="res://.godot/imported/OpenMap.wav-c84e7f9c8e2ef40d6f70dd6be07763fd.sample"
 
 [deps]
 
-source_file="res://assets/audio/sounds/SFX OpenMap.wav"
-dest_files=["res://.godot/imported/SFX OpenMap.wav-2a7df3b435204bc2fc6646a79f1d4bcb.sample"]
+source_file="res://assets/audio/sounds/OpenMap.wav"
+dest_files=["res://.godot/imported/OpenMap.wav-c84e7f9c8e2ef40d6f70dd6be07763fd.sample"]
 
 [params]
 
