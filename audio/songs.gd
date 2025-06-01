@@ -4,14 +4,14 @@ extends Node
 
 class Song:
 	var name
-	var resource
+	var stream
 	
-	func _init(nme: String, res: Resource) -> void:
+	func _init(nme: String, strm: AudioStream) -> void:
 		name = nme
-		resource = res
+		stream = strm
 	
-	func get_resource() -> Resource:
-		return resource
+	func get_stream() -> Resource:
+		return stream
 
 var CharonMaliceCasting = Song.new("Charon Malice Casting", preload("res://assets/audio/songs/ambiance/SFX CharonMaliceCastingAudio.wav"))
 var HeavyWater = Song.new("Heavy Water", preload("res://assets/audio/songs/ambiance/SFX HeavyWater.wav"))

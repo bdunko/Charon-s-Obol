@@ -3,21 +3,41 @@
 extends Node
 
 class Effect:
+	static var NO_RANDOM = RandomParams.new()
+	static var SLIGHTLY_RANDOM = RandomParams.new(1.25, 2.0)
+	
+	class RandomParams:
+		var pitch: float
+		var volume_db: float
+		
+		func _init(rpitch: float = 1.0, rvolume_db: float = 0.0):
+			pitch = rpitch
+			volume_db = rvolume_db
+	
 	var name
-	var resource
+	var stream
 	var max_instances
 	
-	func _init(nme: String, res: Array, maxinstances: int) -> void:
+	func _init(nme: String, raw_streams: Array, maxinstances: int, randomization: RandomParams = NO_RANDOM) -> void:
 		name = nme
-		resource = res
+		
+		stream = AudioStreamRandomizer.new()
+		stream.random_pitch = randomization.pitch
+		stream.random_volume_offset_db = randomization.volume_db
+		
+		for s in raw_streams:
+			stream.add_stream(-1, s)
+		
 		max_instances = maxinstances
 	
-	func get_resource() -> Resource:
-		return Global.choose_one(resource)
+	func get_stream() -> AudioStream:
+		return stream
+
+var NO_RANDOM = Effect.RandomParams.new()
 
 var MajorButton = Effect.new("Major Button", [preload("res://assets/audio/sounds/SFX MajorButton.wav")], 2)
 var MajorButton2 = Effect.new("Major Button 2",[preload("res://assets/audio/sounds/SFX MajorButton2.wav")], 2)
-var MinorButton = Effect.new("Minor Button", [preload("res://assets/audio/sounds/SFX MinorButton.wav")], 2)
+var MinorButton = Effect.new("Minor Button", [preload("res://assets/audio/sounds/SFX MinorButton.wav")], 2, Effect.SLIGHTLY_RANDOM)
 
 var OpenMap = Effect.new("Open Map", [preload("res://assets/audio/sounds/OpenMap.wav")], 1)
 var CloseMap = Effect.new("Page Turn", [preload("res://assets/audio/sounds/CloseMap.wav")], 1)

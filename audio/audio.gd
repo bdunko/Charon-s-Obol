@@ -70,7 +70,7 @@ func play_song(song: Songs.Song, fade_time: float = 1.5) -> void:
 	var player = AudioStreamPlayer.new()
 	add_child(player)
 	_songs_map[song] = player
-	player.stream = song.get_resource()
+	player.stream = song.get_stream()
 	player.bus = _SONG_BUS
 	player.play()
 	
@@ -114,7 +114,7 @@ class _SFXPlayer:
 	
 	func play(snd: SFX.Effect) -> void:
 		sound = snd
-		player.stream = snd.get_resource()
+		player.stream = snd.get_stream()
 		player.play()
 	
 	func _on_stream_finished() -> void:
