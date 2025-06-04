@@ -24,21 +24,28 @@
 	- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
 	- [ ] Section 8 - 7s and Octave
 	- [ ] Section 9 - Removing Backbeats, Inversions
-	- [ ] Write Building Blocks Cheatsheet
-		- [ ] go through all the creates again in order, do them in Ableton, take notes on the video portions
+
 
 **Charon's Obol Soundtest**
 Week 1
 - [ ] **Main Menu Sounds**
-	- [ ] Explore distinct theming for UI effects - watery
+	- [ ] Mon/Tues/Weds - Explore distinct theming for UI effects - watery
 	- [ ] **Revisions**
 		- [ ] Difficulty Skull sound effect should be different from buttons. Also different from each skull - more spooky/lower pitched on higher difficulties. 
-		- [ ] The Start button sound should be louder. But the sound itself is good.
+			- [ ] can just have a base noise and 5 versions pitched down.
+		- [ ] The Start button sound should be louder. But the sound itself is fine. But maybe it should be watery?
 		- [ ] Crackling fire instead of windstorm for now. Should fade in at start.
 		- [ ] More dramatic swoosh sound for changing characters, not enough impact.
+			- [ ] Don't need a click for the arrows then, just do a swoosh
 	- [ ] **Additions**
 		- [ ] Hover major button
 		- [ ] Hover minor button (difficulty skull/selector arrows)
+- [x] **Building Blocks - Section 5**
+- [ ] **Building Blocks - Section 6**
+	- [ ] Bass - The 6's
+	- [ ] Chords - The 6's
+	- [ ] Melody - The 6's
+	- [ ] All Together 2
 
 Week 2
 - [ ] **Patron Selection Sounds**
@@ -58,6 +65,11 @@ Week 2
 	- [ ] Main menu to god selection
 	- [ ] God selection zoom to cave
 	- [ ] Game fade to victory screen
+- [ ] **Building Blocks - Section 7**
+	- [ ] Drums - 16th Shuffle
+	- [ ] Bass, Chords, and Melody - 16th Shuffle
+	- [ ] Chords - 4-Bar Chord Progression
+	- [ ] Melody - 4 Bars
 
 Week 3/4
 - [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
@@ -78,6 +90,19 @@ Week 3/4
 - [ ] **Life loss vignette effect**
 	- [ ] Red tint around screen edge, more dramatic lower on life you are. Flashes whenever you lose life.
 - [ ] **Game Phase Labels**
+- [ ] **Building Blocks - Section 8**
+	- [ ] Bass - 7's & The Octave
+	- [ ] Chords - 7's & The Octave
+	- [ ] Melody - 7's & The Octave
+	- [ ] All Together 3
+- [ ] **Building Blocks - Section 9**
+	- [ ] Drums - Removing Backbeats
+	- [ ] Bass, Chords, and Melody - Removing Backbeats
+	- [ ] Chords - Inversions
+	- [ ] Chords - Inversions 2
+	- [ ] All Together 4
+- [ ] **Building Blocks Cheatsheet**
+	- [ ] Go through all the creates again in order, do them in Ableton, take notes on the video portions
 
 Week 5/6/7
 - [ ] **Game Sounds**
@@ -134,6 +159,7 @@ Week 5/6/7
 	- [ ] Intro - "I am Charon, shephard of the dead."
 	- [ ] Last chance flip - "You must flip!"
 	- [ ] Victory - "I wish you luck..."
+
 
 Week 8/9/10/11
 - [ ] **Songs**

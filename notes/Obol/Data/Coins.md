@@ -27,7 +27,8 @@
 			- [x] ??? - 0/2/4/6 souls - Increased payoff by 2 each toss (resets at end of round)
 			- [ ] ??? - Upgrades as you lose life.
 			- [ ] ??? - 1/2/3/4 souls - If heads, increase both payoff and penalty by 2/3/4/5.
-			- [ ] Chiron - Guiding Mentor - Payoff - Increase souls payoff of each other coin by 1 this round.
+			- [ ] Chiron - The Centaur's Guidance - Payoff - Increase souls payoff of each other coin by 1 this round.
+			- [ ] ??? - 2/3/4/5 souls - permanently increase this by 2 each time you purchase a coin.
 		- [ ] **Shrink**
 			- [ ] Sisyphus - Gives less shards for each payoff in the round (resets at end of round)
 	- [ ] **Heads/Tails**
