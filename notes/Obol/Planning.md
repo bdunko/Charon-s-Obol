@@ -1,4 +1,13 @@
 
+**Audio Export Process**
+From Ableton - Export each individual track. Length should be size of longest track.
+We now need to trim away the silence at the end of each .wav file.
+In Audacity, File -> Import Audio. Multi-select all .wav files.
+Select all of them. Effect -> Special -> Truncate Silence.
+Change the Truncate to length to a short value (0.1s) and apply.
+Now we need to export the modified files.
+Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
+
 **Timeline**
 - [ ] **Soundtest** - by August 15
 - [ ] **Revamped Unlock System** - by Sept 1
@@ -11,25 +20,11 @@
 - [ ] **Playtesting & Polish** - by Feb 1
 - [ ] **Release** - by Mar 3
 
-**Building Blocks 2**
-- [ ] Audible Genius Part 2 - Building Blocks
-	- [x] Section 1 - Melody, Legato, Grace Notes
-		- [ ] Mind's Ear - Legato, Grace Notes, Melody
-	- [x] Section 2 - Open Hi-Hat, Clap, Sidestick, Bass Expression
-	- [x] Section 3 - Chord Changes (Root Changes)
-	- [x] Section 4 - Toms, Bassline Changes
-	- [ ] Section 5 - Half Time, Anticipation
-		- [ ] Create Multi Track Anticipation
-	- [ ] Section 6 - 6s
-	- [ ] Section 7 - 16th Shuffle, 4 Bar Progressions
-	- [ ] Section 8 - 7s and Octave
-	- [ ] Section 9 - Removing Backbeats, Inversions
-
 
 **Charon's Obol Soundtest**
 Week 1
 - [ ] **Main Menu Sounds**
-	- [ ] Mon/Tues/Weds - Explore distinct theming for UI effects - watery
+	- [ ] Explore distinct theming for UI effects - watery
 	- [ ] **Revisions**
 		- [ ] Difficulty Skull sound effect should be different from buttons. Also different from each skull - more spooky/lower pitched on higher difficulties. 
 			- [ ] can just have a base noise and 5 versions pitched down.
@@ -42,8 +37,8 @@ Week 1
 		- [ ] Hover minor button (difficulty skull/selector arrows)
 - [x] **Building Blocks - Section 5**
 - [ ] **Building Blocks - Section 6**
-	- [ ] Bass - The 6's
-	- [ ] Chords - The 6's
+	- [x] Bass - The 6's
+	- [x] Chords - The 6's
 	- [ ] Melody - The 6's
 	- [ ] All Together 2
 
@@ -55,7 +50,6 @@ Week 2
 		- [ ] Sound needed for selecting a patron.
 		- [ ] Sound for advancing god speech.
 		- [ ] Transition sound for zooming into cave.
-		- [ ] Add a windy layer to the storm sound; multiple layers of sounds.
 	- [ ] Possible effect - low pass the storm after selection?
 - [ ] **Victory Sounds**
 	- [ ] todo

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b2b5e7cyit212"
+path="res://.godot/imported/zapsplat_sound_design_whoosh_watery_heavy_splash_112121 [2025-06-03 230158].wav-827aa5dc7593f2e73fd1084dc239840c.sample"
+
+[deps]
+
+source_file="res://assets/audio/ableton/SFX Project/Samples/Processed/Consolidate/zapsplat_sound_design_whoosh_watery_heavy_splash_112121 [2025-06-03 230158].wav"
+dest_files=["res://.godot/imported/zapsplat_sound_design_whoosh_watery_heavy_splash_112121 [2025-06-03 230158].wav-827aa5dc7593f2e73fd1084dc239840c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

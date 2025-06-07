@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bku55xjxwo7qa"
+path="res://.godot/imported/SFX ImpactHeavy.wav-eb2ad7e51d75bf83ede78004a5c87ba0.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX ImpactHeavy.wav"
+dest_files=["res://.godot/imported/SFX ImpactHeavy.wav-eb2ad7e51d75bf83ede78004a5c87ba0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

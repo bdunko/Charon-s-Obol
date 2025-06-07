@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://nwpbokhv5cyq"
+path="res://.godot/imported/SFX SplashHit.wav-49a056a129ea648bd5b59b58a82b4f73.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX SplashHit.wav"
+dest_files=["res://.godot/imported/SFX SplashHit.wav-49a056a129ea648bd5b59b58a82b4f73.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

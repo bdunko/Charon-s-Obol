@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://wxa51s0gj8d1"
+path="res://.godot/imported/SFX SploshClick5.wav-a4b1bf4bc5be0f09b44986e20651636a.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX SploshClick5.wav"
+dest_files=["res://.godot/imported/SFX SploshClick5.wav-a4b1bf4bc5be0f09b44986e20651636a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

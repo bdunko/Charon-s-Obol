@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://crtefapw1bss8"
+path="res://.godot/imported/SFX OpenMap.wav-2a7df3b435204bc2fc6646a79f1d4bcb.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX OpenMap.wav"
+dest_files=["res://.godot/imported/SFX OpenMap.wav-2a7df3b435204bc2fc6646a79f1d4bcb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bcoahxoao7ehv"
+path="res://.godot/imported/SFX DeepPlop.wav-6ef44f1a1126e3688ad189d5d2f3d982.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX DeepPlop.wav"
+dest_files=["res://.godot/imported/SFX DeepPlop.wav-6ef44f1a1126e3688ad189d5d2f3d982.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

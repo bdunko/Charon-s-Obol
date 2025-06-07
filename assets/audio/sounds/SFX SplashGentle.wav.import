@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bpafm2nqfi3qv"
+path="res://.godot/imported/SFX SplashGentle.wav-f8fe85f8c33c7e2f5e0ceb3128d6b0c1.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX SplashGentle.wav"
+dest_files=["res://.godot/imported/SFX SplashGentle.wav-f8fe85f8c33c7e2f5e0ceb3128d6b0c1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

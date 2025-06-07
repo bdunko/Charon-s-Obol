@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://iagvpg88lafy"
+path="res://.godot/imported/SFX Windstorm2.wav-9dca9a8ae3fb8862941660f261b9271a.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/SFX Windstorm2.wav"
+dest_files=["res://.godot/imported/SFX Windstorm2.wav-9dca9a8ae3fb8862941660f261b9271a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
