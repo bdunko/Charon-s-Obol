@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://chy0uuojm0q64"
+path="res://.godot/imported/SFX SploshMed.wav-d6f2899f7e80c56327dcba752f48219b.sample"
+
+[deps]
+
+source_file="res://assets/audio/unused/water_ui/SFX SploshMed.wav"
+dest_files=["res://.godot/imported/SFX SploshMed.wav-d6f2899f7e80c56327dcba752f48219b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

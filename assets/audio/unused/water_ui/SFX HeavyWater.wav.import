@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bdvh7s8ho6f84"
+path="res://.godot/imported/SFX HeavyWater.wav-472d175f0d4d4053aa06a2c24bc9f9cd.sample"
+
+[deps]
+
+source_file="res://assets/audio/unused/water_ui/SFX HeavyWater.wav"
+dest_files=["res://.godot/imported/SFX HeavyWater.wav-472d175f0d4d4053aa06a2c24bc9f9cd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

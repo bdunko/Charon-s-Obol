@@ -24,6 +24,7 @@ TransitionPlayer="*res://ui/transition/transition_player.tscn"
 SFX="*res://audio/sfx.gd"
 Songs="*res://audio/songs.gd"
 Audio="*res://audio/audio.gd"
+SoundDB="*res://audio/sound_db.gd"
 
 [debug]
 

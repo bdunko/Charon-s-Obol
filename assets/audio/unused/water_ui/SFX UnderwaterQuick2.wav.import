@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cxtikoy6pooif"
+path="res://.godot/imported/SFX UnderwaterQuick2.wav-af5554e60facbbc14981f1b1b9d867cd.sample"
+
+[deps]
+
+source_file="res://assets/audio/unused/water_ui/SFX UnderwaterQuick2.wav"
+dest_files=["res://.godot/imported/SFX UnderwaterQuick2.wav-af5554e60facbbc14981f1b1b9d867cd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

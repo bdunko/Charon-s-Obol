@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 	Global.load_save() # load save file
 	
-	Audio.play_song(Songs.Windstorm)
+	Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
 	
 	if Global.is_character_unlocked(Global.Character.ELEUSINIAN):
 		MAIN_MENU_SCENE.set_character(Global.Character.ELEUSINIAN)
@@ -27,7 +27,7 @@ func _on_main_menu_start_game():
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.left_click_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
-		Audio.stop_song(Songs.Windstorm)
+		Audio.stop_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
 		await Global.delay(0.3)
 		if Global.is_character(Global.Character.LADY):
 			# skip god selection during tutorial
@@ -36,7 +36,7 @@ func _on_main_menu_start_game():
 		else:
 			GOD_SELECTION_SCENE.on_start_god_selection()
 			GOD_SELECTION_SCENE.show()
-			Audio.play_song(Songs.Windstorm2)
+			Audio.play_song(Songs.Thunderstorm)
 			await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
@@ -66,7 +66,7 @@ func _on_game_game_ended(victory: bool):
 		Audio.play_song(Songs.VictoryBirds)
 	# otherwise go straight back to main menu
 	else:
-		Audio.play_song(Songs.Windstorm)
+		Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
 		MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 	TransitionPlayer.reset_color()
@@ -77,7 +77,7 @@ func _on_god_selection_patron_selected(lady: bool = false):
 	else:
 		TransitionPlayer.set_color(Color("793a80"))
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-		Audio.stop_song(Songs.Windstorm2)
+		Audio.stop_song(Songs.Thunderstorm)
 		await Global.delay(1.0)
 	Audio.play_song(Songs.HeavyWater)
 	GOD_SELECTION_SCENE.hide()
@@ -92,5 +92,5 @@ func _on_god_selection_exited():
 	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
-	Audio.play_song(Songs.Windstorm)
+	Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

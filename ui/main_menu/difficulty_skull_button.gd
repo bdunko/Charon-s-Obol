@@ -39,7 +39,7 @@ func set_vanquished(is_vanquished: bool) -> void:
 
 func _on_click() -> void:
 	if not _selected:
-		Audio.play_sfx(SFX.MinorButton)
+		Audio.play_sfx(SoundDB.DIFFICULTY_SKULL_CLICKED)
 	select()
 
 func select() -> void:

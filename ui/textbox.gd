@@ -95,9 +95,9 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 		click_enabled = val
 		_update_style()
 
-@export var click_sound = ClickSound.NONE
-enum ClickSound {
-	NONE, DARK_DRONE, METAL_CLICK
+@export var sound_family = SoundFamily.NONE
+enum SoundFamily {
+	NONE, EMBARK
 }
 
 @onready var _STARTING_Y = position.y
@@ -204,13 +204,11 @@ func _gui_input(event):
 				_mouse_down = false
 				if _MOUSE.is_over():
 					emit_signal("clicked")
-					match(click_sound):
-						ClickSound.NONE:
+					match(sound_family):
+						SoundFamily.NONE:
 							pass
-						ClickSound.DARK_DRONE:
-							Audio.play_sfx(SFX.MajorButton)
-						ClickSound.METAL_CLICK:
-							Audio.play_sfx(SFX.MajorButton2)
+						SoundFamily.EMBARK:
+							Audio.play_sfx(SoundDB.EMBARK_BUTTON_CLICKED)
 					_reset_colors()
 
 func _on_mouse_entered():

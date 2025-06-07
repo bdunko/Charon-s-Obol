@@ -29,7 +29,6 @@ Week 1
 		- [ ] Difficulty Skull sound effect should be different from buttons. Also different from each skull - more spooky/lower pitched on higher difficulties. 
 			- [ ] can just have a base noise and 5 versions pitched down.
 		- [ ] The Start button sound should be louder. But the sound itself is fine. But maybe it should be watery?
-		- [ ] Crackling fire instead of windstorm for now. Should fade in at start.
 		- [ ] More dramatic swoosh sound for changing characters, not enough impact.
 			- [ ] Don't need a click for the arrows then, just do a swoosh
 	- [ ] **Additions**
@@ -39,7 +38,7 @@ Week 1
 - [ ] **Building Blocks - Section 6**
 	- [x] Bass - The 6's
 	- [x] Chords - The 6's
-	- [ ] Melody - The 6's
+	- [x] Melody - The 6's
 	- [ ] All Together 2
 
 Week 2
