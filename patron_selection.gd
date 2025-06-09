@@ -65,6 +65,8 @@ func _on_statue_clicked(statue: PatronStatue):
 		new_statue._on_mouse_entered() #manually call this after adding; to show tooltip...
 		statue.clear_fx()
 	
+	Audio.seamless_swap_song(Songs.Thunderstorm, Songs.ThunderstormFiltered)
+	
 	_PLAYER_DIALOGUE.clear_dialogue()
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("You have made a wise decision.")
 	await _PATRON_DIALOGUE.show_dialogue_and_wait("We will do great things together.")

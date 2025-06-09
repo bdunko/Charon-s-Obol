@@ -77,7 +77,7 @@ func _on_god_selection_patron_selected(lady: bool = false):
 	else:
 		TransitionPlayer.set_color(Color("793a80"))
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
-		Audio.stop_song(Songs.Thunderstorm)
+		Audio.stop_song(Songs.ThunderstormFiltered)
 		await Global.delay(1.0)
 	Audio.play_song(Songs.HeavyWater)
 	GOD_SELECTION_SCENE.hide()

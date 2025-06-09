@@ -47,7 +47,6 @@ class MapQueue:
 
 const _MASTER_BUS = "Master"
 const _SFX_BUS = "SFX"
-const _SONG_BUS = "Song"
 
 func _ready() -> void:
 	# create the sfx players
@@ -62,7 +61,7 @@ func _create_player() -> void:
 ### SONG API ###
 var _songs_map = {}
 
-func play_song(song: Songs.Song, fade_time: float = 1.5) -> void:
+func play_song(song: Songs.Song, fade_time: float = 1.5, starting_playback_time: float = 0.0) -> void:
 	if _songs_map.has(song):
 		print("Already playing this song! %s" % song.name)
 		return
@@ -71,7 +70,7 @@ func play_song(song: Songs.Song, fade_time: float = 1.5) -> void:
 	add_child(player)
 	_songs_map[song] = player
 	player.stream = song.get_stream()
-	player.bus = _SONG_BUS
+	player.bus = song.get_bus()
 	player.volume_db = song.get_volume_adjustment()
 	player.play()
 	
@@ -89,6 +88,26 @@ func stop_song(song: Songs.Song, fade_time: float = 1.5) -> void:
 	var tween = create_tween().tween_property(player, "volume_db", -72, fade_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	player.queue_free()
+
+# swap two songs with a crossfade. 
+# the second song uses the playback position of the first song as its starting position.
+# this is intended for dynamic audio uses.
+func seamless_swap_song(old_song: Songs.Song, new_song: Songs.Song, fade_time: float = 2.0) -> void:
+	if not _songs_map.has(old_song):
+		print("Song isn't playing! %s" % old_song.name)
+		return
+	if _songs_map.has(new_song):
+		print("Already playing this song! %s" % new_song.name)
+		return
+	
+	# get playback position of old
+	var playback_position = _songs_map[old_song].get_playback_position()
+	
+	# stop old song
+	stop_song(old_song, fade_time)
+	
+	# play new song at position
+	play_song(new_song, fade_time, playback_position)
 
 ### SOUND EFFECTS API ###
 const N_PLAYERS = 32

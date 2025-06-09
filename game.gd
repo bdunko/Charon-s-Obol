@@ -993,7 +993,7 @@ func _hide_voyage_map() -> void:
 	map_hide_tween.parallel().tween_property(_MAP_BLOCKER, "modulate:a", 0.0, 0.2)
 	_MAP_BLOCKER.hide()
 	_PLAYER_TEXTBOXES.make_visible()
-	Audio.play_sfx(SFX.PageTurn)
+	Audio.play_sfx(SFX.CloseMap)
 	await map_hide_tween.finished
 	_map_is_disabled = false
 	_VOYAGE_MAP.z_index = 0

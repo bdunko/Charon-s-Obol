@@ -10,6 +10,16 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 
 **Timeline**
 - [ ] **Soundtest** - by August 15
+	- [x] Week 1 - June 8
+	- [ ] Week 2 - June 15
+	- [ ] Week 3 - June 22
+	- [ ] Week 4 - June 29
+	- [ ] Week 5 - July 6
+	- [ ] Week 6 - July 13
+	- [ ] Week 7 - July 20
+	- [ ] Week 8 - July 27
+	- [ ] Week 9 - August 3
+	- [ ] Week 10 - August 10
 - [ ] **Revamped Unlock System** - by Sept 1
 - [ ] **Settings Menu & Controller Support** - by Sept 15
 - [ ] **Orphic Tablets** - by Sept 22
@@ -22,20 +32,19 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 
 
 **Charon's Obol Soundtest**
-Week 1
-- [ ] **Main Menu Sounds**
-	- [ ] **Sounds**
-		- [ ] Difficulty Skull Button
-			- [ ] Experiment with pitching down for each skull.
-			- [ ] Hover sound.
-		- [ ] Embark button
-			- [ ] Hover sound.
-		- [ ] Selector arrows.
-			- [ ] Hover sound.
-
 Week 2
 - [ ] **Patron Selection Sounds**
+	- [ ] Thunderstorm sound
+		- [ ] Make some new storm loops.
+		- [ ] Experiment with layering.
+	- [ ] Patron Selection Sound
+		- [ ] Light/holy sound. Pretty big/moderately long.
+	- [ ] God Talk Sound
+		- [ ] Short, light/holy sound. 
+		- [ ] Probably fairly heavy on the random pitching?
+	- [ ] 
 	- [ ] **Revisions**
+		- [ ] 
 		- [ ] Thunderstorm loop for patron selection screen is too short, loops too soon.
 		- [ ] Maybe go use a different audio source entirely. Generate a few storms and test.
 			- [ ] Experiment with layering - some wind, some storm, etc.
@@ -43,7 +52,9 @@ Week 2
 		- [ ] God speech - needs a sound.
 		- [ ] After selecting patron - reduce volume and low pass the storm.
 - [ ] **Victory Sounds**
-	- [ ] Victory birds is good...
+	- [x] Victory birds is good...
+	- [ ] Add at least one more layer to victory birds. 
+		- [ ] Maybe the river, or some rustling brush, etc.
 - [ ] **Transitions**
 	- [ ] Death - go make this animation in the game too.
 	- [ ] Victory to main menu
@@ -147,7 +158,7 @@ Week 5/6/7
 	- [ ] Victory - "I wish you luck..."
 
 
-Week 8/9/10/11
+Week 8/9/10
 - [ ] **Songs**
 	- [ ] Main menu
 	- [ ] Normal round
