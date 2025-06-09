@@ -50,5 +50,7 @@ texture_pressed = ExtResource("7_hovt6")
 texture_hover = ExtResource("8_q7lg1")
 texture_disabled = ExtResource("9_8ogyo")
 
+[connection signal="mouse_entered" from="LeftArrow" to="." method="_on_left_arrow_mouse_entered"]
 [connection signal="pressed" from="LeftArrow" to="." method="_on_left_arrow_pressed"]
+[connection signal="mouse_entered" from="RightArrow" to="." method="_on_right_arrow_mouse_entered"]
 [connection signal="pressed" from="RightArrow" to="." method="_on_right_arrow_pressed"]

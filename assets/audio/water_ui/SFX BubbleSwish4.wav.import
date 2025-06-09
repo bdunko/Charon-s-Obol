@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cgiy40gk0o8ux"
+path="res://.godot/imported/SFX BubbleSwish4.wav-beb271899da02e5b01e18da4a987b8bd.sample"
+
+[deps]
+
+source_file="res://assets/audio/water_ui/SFX BubbleSwish4.wav"
+dest_files=["res://.godot/imported/SFX BubbleSwish4.wav-beb271899da02e5b01e18da4a987b8bd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

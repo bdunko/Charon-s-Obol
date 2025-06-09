@@ -24,38 +24,31 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 **Charon's Obol Soundtest**
 Week 1
 - [ ] **Main Menu Sounds**
-	- [ ] Explore distinct theming for UI effects - watery
-	- [ ] **Revisions**
-		- [ ] Difficulty Skull sound effect should be different from buttons. Also different from each skull - more spooky/lower pitched on higher difficulties. 
-			- [ ] can just have a base noise and 5 versions pitched down.
-		- [ ] The Start button sound should be louder. But the sound itself is fine. But maybe it should be watery?
-		- [ ] More dramatic swoosh sound for changing characters, not enough impact.
-			- [ ] Don't need a click for the arrows then, just do a swoosh
-	- [ ] **Additions**
-		- [ ] Hover major button
-		- [ ] Hover minor button (difficulty skull/selector arrows)
-- [x] **Building Blocks - Section 5**
-- [ ] **Building Blocks - Section 6**
-	- [x] Bass - The 6's
-	- [x] Chords - The 6's
-	- [x] Melody - The 6's
-	- [ ] All Together 2
+	- [ ] **Sounds**
+		- [ ] Difficulty Skull Button
+			- [ ] Experiment with pitching down for each skull.
+			- [ ] Hover sound.
+		- [ ] Embark button
+			- [ ] Hover sound.
+		- [ ] Selector arrows.
+			- [ ] Hover sound.
 
 Week 2
 - [ ] **Patron Selection Sounds**
 	- [ ] **Revisions**
 		- [ ] Thunderstorm loop for patron selection screen is too short, loops too soon.
-	- [ ] **Addition**
-		- [ ] Sound needed for selecting a patron.
-		- [ ] Sound for advancing god speech.
-		- [ ] Transition sound for zooming into cave.
-	- [ ] Possible effect - low pass the storm after selection?
+		- [ ] Maybe go use a different audio source entirely. Generate a few storms and test.
+			- [ ] Experiment with layering - some wind, some storm, etc.
+		- [ ] Select patron - needs a heavenly sound
+		- [ ] God speech - needs a sound.
+		- [ ] After selecting patron - reduce volume and low pass the storm.
 - [ ] **Victory Sounds**
-	- [ ] todo
+	- [ ] Victory birds is good...
 - [ ] **Transitions**
-	- [ ] Death
+	- [ ] Death - go make this animation in the game too.
 	- [ ] Victory to main menu
 	- [ ] Main menu to god selection
+		- [ ] Fade out the LowUnderwater to nothing. Add a writing sound for the text displaying and a sound after the click to clear. 
 	- [ ] God selection zoom to cave
 	- [ ] Game fade to victory screen
 - [ ] **Building Blocks - Section 7**

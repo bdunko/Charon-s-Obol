@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://drgcivf1eyrrk"
+path="res://.godot/imported/SFX PlopRiser.wav-02c6baf9ec6999e1b5f49cf7b00cfb37.sample"
+
+[deps]
+
+source_file="res://assets/audio/water_ui/SFX PlopRiser.wav"
+dest_files=["res://.godot/imported/SFX PlopRiser.wav-02c6baf9ec6999e1b5f49cf7b00cfb37.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

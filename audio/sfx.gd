@@ -2,24 +2,53 @@
 # Provides a list of sound effects. Basically a data node.
 extends Node
 
+static var RANDOM1 = RandomParams.new(0.75, 2.0)
+static var RANDOM2 = RandomParams.new(1.0, 2.0)
+static var RANDOM3 = RandomParams.new(1.25, 2.0)
+static var RANDOM4 = RandomParams.new(1.5, 2.0)
+static var RANDOM5 = RandomParams.new(2.0, 2.0)
+static var RANDOM6 = RandomParams.new(2.5, 2.0)
+
+class RandomParams:
+	var pitch: float
+	var volume_db: float
+	
+	func _init(rpitch: float = 1.0, rvolume_db: float = 0.0):
+		pitch = rpitch
+		volume_db = rvolume_db
+
+class SFXParams:
+	var _randomization: RandomParams = RandomParams.new()
+	var _pitch: float = 1.0 # this is a 0.00001 to 16x multiplier of the pitch
+	var _volume: float = 0.0 # this is an adjustment in db
+	
+	func random(randomization: RandomParams) -> SFXParams:
+		_randomization = randomization
+		return self
+	
+	func pitch(pitch: float) -> SFXParams:
+		_pitch = pitch
+		return self
+	
+	func volume(volume: float) -> SFXParams:
+		_volume = volume
+		return self
+
 class Effect:
-	static var NO_RANDOM = RandomParams.new()
-	static var SLIGHTLY_RANDOM = RandomParams.new(1.25, 2.0)
-	
-	class RandomParams:
-		var pitch: float
-		var volume_db: float
-		
-		func _init(rpitch: float = 1.0, rvolume_db: float = 0.0):
-			pitch = rpitch
-			volume_db = rvolume_db
-	
 	var name
 	var stream
 	var max_instances
 	
-	func _init(nme: String, raw_streams: Array, maxinstances: int, randomization: RandomParams = NO_RANDOM) -> void:
+	var randomization
+	var pitch_adjustment
+	var volume_adjustment
+	
+	func _init(nme: String, raw_streams: Array, maxinstances: int, params: SFXParams = SFXParams.new()) -> void:
 		name = nme
+		
+		randomization = params._randomization
+		pitch_adjustment = params._pitch
+		volume_adjustment = params._volume
 		
 		stream = AudioStreamRandomizer.new()
 		stream.random_pitch = randomization.pitch
@@ -32,12 +61,37 @@ class Effect:
 	
 	func get_stream() -> AudioStream:
 		return stream
+	
+	func get_volume_adjustment() -> float:
+		return volume_adjustment
+	
+	func get_pitch_adjustment() -> float:
+		return pitch_adjustment
 
-var NO_RANDOM = Effect.RandomParams.new()
+
+var DifficultySkullClicked = Effect.new("Difficulty Skull Clicked", [preload("res://assets/audio/water_ui/SFX Bubble6.wav")], 2,
+	SFXParams.new().random(RANDOM1).volume(2.0))
+var EmbarkButtonClicked = Effect.new("Embark Button Clicked", [preload("res://assets/audio/water_ui/SFX LongDrop.wav")], 1, 
+	SFXParams.new().volume(8.0))
+var SelectorArrowRightClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/water_ui/SFX WaterBark.wav")], 1, 
+	SFXParams.new().volume(-4.0).pitch(1.1))
+var SelectorArrowLeftClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/water_ui/SFX WaterBark.wav")], 1, 
+	SFXParams.new().volume(-4.0).pitch(0.9))
+
+var Hovered = Effect.new("Hovered", [preload("res://assets/audio/water_ui/SFX SploshClick2.wav")], 1,
+	SFXParams.new().random(RANDOM1).volume(-26.0).pitch(0.3))
+
+# todo
+# hover diff skull
+# hover embark
+# hover selector arrow
+
+
 
 var MajorButton = Effect.new("Major Button", [preload("res://assets/audio/sounds/SFX MajorButton.wav")], 2)
 var MajorButton2 = Effect.new("Major Button 2",[preload("res://assets/audio/sounds/SFX MajorButton2.wav")], 2)
-var MinorButton = Effect.new("Minor Button", [preload("res://assets/audio/sounds/SFX MinorButton.wav")], 2, Effect.SLIGHTLY_RANDOM)
+var MinorButton = Effect.new("Minor Button", [preload("res://assets/audio/sounds/SFX MinorButton.wav")], 2, 
+	SFXParams.new().random(RANDOM1))
 
 var OpenMap = Effect.new("Open Map", [preload("res://assets/audio/sounds/OpenMap.wav")], 1)
 var CloseMap = Effect.new("Page Turn", [preload("res://assets/audio/sounds/CloseMap.wav")], 1)

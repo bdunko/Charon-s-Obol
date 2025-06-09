@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dwm7wrnke61yc"
+path="res://.godot/imported/SFX RockSplash.wav-f207bfeef7ee38a030761337370bb1dc.sample"
+
+[deps]
+
+source_file="res://assets/audio/water_ui/SFX RockSplash.wav"
+dest_files=["res://.godot/imported/SFX RockSplash.wav-f207bfeef7ee38a030761337370bb1dc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

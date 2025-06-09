@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cfpv2kyr0x8r7"
+path="res://.godot/imported/SFX SploshLight2.wav-3dd62afc49c26d2165d609d28a2bd9d1.sample"
+
+[deps]
+
+source_file="res://assets/audio/water_ui/SFX SploshLight2.wav"
+dest_files=["res://.godot/imported/SFX SploshLight2.wav-3dd62afc49c26d2165d609d28a2bd9d1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -72,6 +72,7 @@ func play_song(song: Songs.Song, fade_time: float = 1.5) -> void:
 	_songs_map[song] = player
 	player.stream = song.get_stream()
 	player.bus = _SONG_BUS
+	player.volume_db = song.get_volume_adjustment()
 	player.play()
 	
 	if fade_time > 0:
@@ -115,6 +116,8 @@ class _SFXPlayer:
 	func play(snd: SFX.Effect) -> void:
 		sound = snd
 		player.stream = snd.get_stream()
+		player.pitch_scale = snd.get_pitch_adjustment()
+		player.volume_db = snd.get_volume_adjustment()
 		player.play()
 	
 	func _on_stream_finished() -> void:

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cvg1x0r7avhrn"
+path="res://.godot/imported/SFX Drip.wav-fb7c666b91f14b82a2b7c1a85b6139f2.sample"
+
+[deps]
+
+source_file="res://assets/audio/water_ui/SFX Drip.wav"
+dest_files=["res://.godot/imported/SFX Drip.wav-fb7c666b91f14b82a2b7c1a85b6139f2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

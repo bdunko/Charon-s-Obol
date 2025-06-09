@@ -29,12 +29,12 @@ func _update_text() -> void:
 func _on_left_arrow_pressed():
 	_index = _index - 1 if _index != 0 else _options.size() - 1
 	_update_text()
-	Audio.play_sfx(SoundDB.ARROW_SELECTOR_CLICKED)
+	Audio.play_sfx(SFX.SelectorArrowLeftClicked)
 
 func _on_right_arrow_pressed():
 	_index = _index + 1 if _index != _options.size() - 1 else 0
 	_update_text()
-	Audio.play_sfx(SoundDB.ARROW_SELECTOR_CLICKED)
+	Audio.play_sfx(SFX.SelectorArrowRightClicked)
 
 func set_to(option: String) -> void:
 	for i in _options.size():
@@ -42,3 +42,9 @@ func set_to(option: String) -> void:
 			_index = i
 			_update_text()
 			return
+
+func _on_left_arrow_mouse_entered():
+	Audio.play_sfx(SFX.Hovered)
+
+func _on_right_arrow_mouse_entered():
+	Audio.play_sfx(SFX.Hovered)

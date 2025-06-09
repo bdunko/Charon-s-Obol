@@ -39,7 +39,7 @@ func set_vanquished(is_vanquished: bool) -> void:
 
 func _on_click() -> void:
 	if not _selected:
-		Audio.play_sfx(SoundDB.DIFFICULTY_SKULL_CLICKED)
+		Audio.play_sfx(SFX.DifficultySkullClicked)
 	select()
 
 func select() -> void:
@@ -54,3 +54,4 @@ func unselect() -> void:
 func _on_mouse_entered():
 	var props = UITooltip.Properties.new().direction(UITooltip.Direction.ABOVE).offset(size.y).anchor(get_global_rect().get_center())
 	UITooltip.create(self, Global.difficulty_tooltip_for(difficulty), get_global_mouse_position(), get_tree().root, props)
+	Audio.play_sfx(SFX.Hovered)

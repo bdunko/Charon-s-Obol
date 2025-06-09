@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 	Global.load_save() # load save file
 	
-	Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
+	Audio.play_song(Songs.LowUnderwater)
 	
 	if Global.is_character_unlocked(Global.Character.ELEUSINIAN):
 		MAIN_MENU_SCENE.set_character(Global.Character.ELEUSINIAN)
@@ -27,7 +27,7 @@ func _on_main_menu_start_game():
 		TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_IN)
 		await Global.left_click_input
 		await TransitionPlayer.play(TransitionPlayer.Effect.LABEL_FADE_OUT)
-		Audio.stop_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
+		Audio.stop_song(Songs.LowUnderwater)
 		await Global.delay(0.3)
 		if Global.is_character(Global.Character.LADY):
 			# skip god selection during tutorial
@@ -66,7 +66,7 @@ func _on_game_game_ended(victory: bool):
 		Audio.play_song(Songs.VictoryBirds)
 	# otherwise go straight back to main menu
 	else:
-		Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
+		Audio.play_song(Songs.LowUnderwater)
 		MAIN_MENU_SCENE.show()
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 	TransitionPlayer.reset_color()
@@ -92,5 +92,5 @@ func _on_god_selection_exited():
 	await Global.delay(1.0)
 	GOD_SELECTION_SCENE.hide()
 	MAIN_MENU_SCENE.show()
-	Audio.play_song(SoundDB.MAIN_MENU_BACKGROUND_SONG)
+	Audio.play_song(Songs.LowUnderwater)
 	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)

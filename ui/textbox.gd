@@ -208,11 +208,12 @@ func _gui_input(event):
 						SoundFamily.NONE:
 							pass
 						SoundFamily.EMBARK:
-							Audio.play_sfx(SoundDB.EMBARK_BUTTON_CLICKED)
+							Audio.play_sfx(SFX.EmbarkButtonClicked)
 					_reset_colors()
 
 func _on_mouse_entered():
 	_update_style()
+	Audio.play_sfx(SFX.Hovered)
 
 func _on_mouse_exited():
 	_update_style()
