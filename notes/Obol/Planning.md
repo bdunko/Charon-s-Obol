@@ -20,9 +20,8 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 	- [ ] Week 8 - July 27
 	- [ ] Week 9 - August 3
 	- [ ] Week 10 - August 10
-- [ ] **Revamped Unlock System** - by Sept 1
 - [ ] **Settings Menu & Controller Support** - by Sept 15
-- [ ] **Orphic Tablets** - by Sept 22
+- [ ] **Revamped Unlock System** - by Sept 1
 - [ ] **Treasure of Atreus** - by Oct 1
 - [ ] **Tartarus Bonus Boss** - by Oct 15
 - [ ] **More Coins** - by Nov 15
@@ -30,38 +29,33 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 - [ ] **Playtesting & Polish** - by Feb 1
 - [ ] **Release** - by Mar 3
 
-
 **Charon's Obol Soundtest**
 Week 2
-- [ ] **Patron Selection Sounds**
+- [ ] **Sounds - Patron Selection**
 	- [ ] Thunderstorm sound
-		- [ ] Make some new storm loops.
-		- [ ] Experiment with layering.
-	- [ ] Patron Selection Sound
-		- [ ] Light/holy sound. Pretty big/moderately long.
+		- [x] Designed
+		- [ ] Added
+	- [ ] Patron Selection Sound  
+		- [ ] Designed - Light/holy sound. Pretty big/moderately long.
+		- [ ] Added
 	- [ ] God Talk Sound
-		- [ ] Short, light/holy sound. 
-		- [ ] Probably fairly heavy on the random pitching?
-	- [ ] 
-	- [ ] **Revisions**
-		- [ ] 
-		- [ ] Thunderstorm loop for patron selection screen is too short, loops too soon.
-		- [ ] Maybe go use a different audio source entirely. Generate a few storms and test.
-			- [ ] Experiment with layering - some wind, some storm, etc.
-		- [ ] Select patron - needs a heavenly sound
-		- [ ] God speech - needs a sound.
-		- [ ] After selecting patron - reduce volume and low pass the storm.
-- [ ] **Victory Sounds**
-	- [x] Victory birds is good...
+		- [ ] Designed - Short, light/holy sound
+		- [ ] Added - Probably fairly heavy on the random pitching?
+- [ ] **Sounds - Transition Text Screen**
+	- [ ] Sound when text appears initially (writing)
+	- [ ] Sound after clicking to remove text (writing; diff and pitched down slightly)
+- [ ] **Sounds - Victory**
+	- [ ] Extend victorybirds
 	- [ ] Add at least one more layer to victory birds. 
 		- [ ] Maybe the river, or some rustling brush, etc.
-- [ ] **Transitions**
-	- [ ] Death - go make this animation in the game too.
+- [ ] **Death Animation**
+- [ ] **Sounds - Transitions**
 	- [ ] Victory to main menu
-	- [ ] Main menu to god selection
-		- [ ] Fade out the LowUnderwater to nothing. Add a writing sound for the text displaying and a sound after the click to clear. 
-	- [ ] God selection zoom to cave
-	- [ ] Game fade to victory screen
+	- [ ] God selection to cave
+	- [ ] Death
+	- [ ] Game fade to victory
+- [ ] **Stereo Background**
+	- [ ] Background tracks should be exported in stereo instead of mono. Replace.
 - [ ] **Building Blocks - Section 7**
 	- [ ] Drums - 16th Shuffle
 	- [ ] Bass, Chords, and Melody - 16th Shuffle
@@ -173,13 +167,6 @@ Week 8/9/10
 **Charon's Obol Release**
 - [ ] **Revamped Unlock System - 2 weeks**
 	- [ ] Achievement system for unlocks. Should appear on main menu.
-- [ ] **Orphic Tablets - 1 week**
-	- [ ] Option unlocked on main menu once unlocked.
-	- [ ] New tablets unlocked in progression.
-	- [ ] Unlocked upon tutorial completion, populated with initial tutorials rehashing tutorial.
-	- [ ] Status - shows a list of all status icons and effects
-	- [ ] **Coin Gallery**
-		- [ ] Shows all coins unlocked and their upgrade states, in rows. Page-able list.
 - [ ] **More Content - 8 weeks**
 	- [ ] **20 Characters**
 	- [ ] **100 Coins**
