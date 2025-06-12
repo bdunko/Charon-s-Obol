@@ -30,24 +30,36 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 - [ ] **Release** - by Mar 3
 
 **Charon's Obol Soundtest**
+today - exer chest, victory birds, export ambiances in stereo, export patron sounds
+- [ ] God1Voice
+- [ ] God2Voice
+- [ ] God3Voice
+- [ ] Divine
+- [ ] Writing
+- [ ] Transitions
+- [ ] VictoryBirds
+
 Week 2
 - [ ] **Sounds - Patron Selection**
 	- [ ] Thunderstorm sound
 		- [x] Designed
 		- [ ] Added
 	- [ ] Patron Selection Sound  
-		- [ ] Designed - Light/holy sound. Pretty big/moderately long.
+		- [x] Designed - Light/holy sound. Pretty big/moderately long.
 		- [ ] Added
 	- [ ] God Talk Sound
-		- [ ] Designed - Short, light/holy sound
-		- [ ] Added - Probably fairly heavy on the random pitching?
+		- [x] Designed - Short, light/holy sound
+		- [ ] Added - Probably fairly heavy on the random pitching ?
 - [ ] **Sounds - Transition Text Screen**
-	- [ ] Sound when text appears initially (writing)
-	- [ ] Sound after clicking to remove text (writing; diff and pitched down slightly)
+	- [ ] Sound when text appears initially (writing) &  Sound after clicking to remove text (writing; diff and pitched down slightly)
+		- [x] Designed
+		- [ ] Added
 - [ ] **Sounds - Victory**
 	- [ ] Extend victorybirds
 	- [ ] Add at least one more layer to victory birds. 
 		- [ ] Maybe the river, or some rustling brush, etc.
+		- [ ] river sound seems good
+		- [ ] gentle wind? even better if with some brush.
 - [ ] **Death Animation**
 - [ ] **Sounds - Transitions**
 	- [ ] Victory to main menu
@@ -57,8 +69,8 @@ Week 2
 - [ ] **Stereo Background**
 	- [ ] Background tracks should be exported in stereo instead of mono. Replace.
 - [ ] **Building Blocks - Section 7**
-	- [ ] Drums - 16th Shuffle
-	- [ ] Bass, Chords, and Melody - 16th Shuffle
+	- [x] Drums - 16th Shuffle
+	- [x] Bass, Chords, and Melody - 16th Shuffle
 	- [ ] Chords - 4-Bar Chord Progression
 	- [ ] Melody - 4 Bars
 
