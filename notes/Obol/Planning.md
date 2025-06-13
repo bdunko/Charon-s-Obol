@@ -29,16 +29,7 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 - [ ] **Playtesting & Polish** - by Feb 1
 - [ ] **Release** - by Mar 3
 
-**Charon's Obol Soundtest**
-today - exer chest, victory birds, export ambiances in stereo, export patron sounds
-- [ ] God1Voice
-- [ ] God2Voice
-- [ ] God3Voice
-- [ ] Divine
-- [ ] Writing
-- [ ] Transitions
-- [ ] VictoryBirds
-
+**Charon's Obol Soundtest**`
 Week 2
 - [ ] **Sounds - Patron Selection**
 	- [ ] Thunderstorm sound
@@ -71,6 +62,13 @@ Week 2
 - [ ] **Building Blocks - Section 7**
 	- [x] Drums - 16th Shuffle
 	- [x] Bass, Chords, and Melody - 16th Shuffle
+	- [ ] Review Melody
+		- [x] Melody 1
+		- [ ] Mind's Ear 17
+		- [x] Melody 2 Legato
+		- [ ] Mind's Ear 18
+		- [ ] Melody 3 Grace Notes
+		- [ ] Mind's Ear 19
 	- [ ] Chords - 4-Bar Chord Progression
 	- [ ] Melody - 4 Bars
 
