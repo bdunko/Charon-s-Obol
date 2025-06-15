@@ -44,13 +44,7 @@ Week 2
 - [ ] **Sounds - Transition Text Screen**
 	- [ ] Sound when text appears initially (writing) &  Sound after clicking to remove text (writing; diff and pitched down slightly)
 		- [x] Designed
-		- [ ] Added
-- [ ] **Sounds - Victory**
-	- [ ] Extend victorybirds
-	- [ ] Add at least one more layer to victory birds. 
-		- [ ] Maybe the river, or some rustling brush, etc.
-		- [ ] river sound seems good
-		- [ ] gentle wind? even better if with some brush.
+		- [ ] Added1
 - [ ] **Death Animation**
 - [ ] **Sounds - Transitions**
 	- [ ] Victory to main menu
@@ -62,25 +56,22 @@ Week 2
 - [ ] **Building Blocks - Section 7**
 	- [x] Drums - 16th Shuffle
 	- [x] Bass, Chords, and Melody - 16th Shuffle
-	- [ ] Review Melody
-		- [x] Melody 1
-		- [ ] Mind's Ear 17
-		- [x] Melody 2 Legato
-		- [ ] Mind's Ear 18
-		- [ ] Melody 3 Grace Notes
-		- [ ] Mind's Ear 19
 	- [ ] Chords - 4-Bar Chord Progression
 	- [ ] Melody - 4 Bars
 
-Week 3/4
-- [ ] **Improved Graphical effects for coins (ie lightning, fire, wind, etc - basic effects, reuse)**
+Week 3/4/5
+- [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
+	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was cool)
+	- [ ] Deactivate a coin - move it back down
+	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect I suppose.
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
 		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
 		- [ ] Just need to await for it to finish
 			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
 		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
+	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
 - [ ] **Death effect**
 	- [ ] Death sequence.
 	- [ ] Crazy blue effect, fade to blue.
@@ -88,9 +79,33 @@ Week 3/4
 	- [ ] Rising souls/life effect with flashing number...
 	- [ ] In text under label, show sum of life lost/gained each payoff.
 	- [ ] Labels should have a 'transforming/burning of wood' effect - new numbers flash purple for a second as old fades.
+	- [ ] from polish - Improve payoff animation; coins raise one at a time and show number, stay raised, increase + or - number below count in pile; after all of type are up, move back down, all numbers vanish, below pile number moves up into number which changes as soul or life is given/taken
+		- [ ] not sure if we want to stay raised - I think that kind of change the functionality. I prefer we have consistent left to right. 
 - [ ] **Life loss vignette effect**
 	- [ ] Red tint around screen edge, more dramatic lower on life you are. Flashes whenever you lose life.
-- [ ] **Game Phase Labels**
+	- [ ] Better immediate feedback for the payment of life at toss start - ie life moves to Charon, quick text, effect on coins, then flip. (maybe a slight delay would help, or Charon moving his hand to 'grab' the fragments.)
+	- [ ] When low on life - constant, but relatively minor, beating vignette
+- [ ] **Game Phase Labels** 
+	- [ ] Appears (using burning effect) at the start of each 'phase'. 
+	- [ ] A Decision Must Be Made
+	- [ ] Call Upon Thy Power
+	- [ ] Payoff Arrives; Fate is Sealed
+- [ ] **Improved Appearance of Textbox Buttons**
+	- [ ] Fade and slightly grow once clicked? With a very slight delay.
+- [ ] **Improved Coin Flip Animation**
+	- [ ]  Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [ ] Effect when a coin is tossed or lands(?)
+- [ ] **Improve Arrows of Night**
+	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
+	- [ ] Arrows fade in from light
+- [ ] **Polish**
+	- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer.
+	- [ ] Trail for souls, life, and purchased coins?
+	- [ ] Trail for coins moving to hands/toss.
+	- [ ] River scrolls during voyage.
+	- [ ] Pile of life/souls should be in a circular pile instead of square.
+	- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect\
+	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
 - [ ] **Building Blocks - Section 8**
 	- [ ] Bass - 7's & The Octave
 	- [ ] Chords - 7's & The Octave
@@ -105,7 +120,7 @@ Week 3/4
 - [ ] **Building Blocks Cheatsheet**
 	- [ ] Go through all the creates again in order, do them in Ableton, take notes on the video portions
 
-Week 5/6/7
+Week 6/7
 - [ ] **Game Sounds**
 	- [ ] I think we forgot to add the power selected/unselected sounds at all.
 	- [ ] **Revisions**
@@ -160,6 +175,7 @@ Week 5/6/7
 	- [ ] Intro - "I am Charon, shephard of the dead."
 	- [ ] Last chance flip - "You must flip!"
 	- [ ] Victory - "I wish you luck..."
+
 
 
 Week 8/9/10
