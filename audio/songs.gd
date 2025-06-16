@@ -37,12 +37,12 @@ class Song:
 	func get_bus() -> String:
 		return bus
 
-var CharonMaliceCasting = Song.new("Charon Malice Casting", preload("res://assets/audio/songs/ambiance/CharonMaliceCasting.wav"))
-var HeavyWater = Song.new("Heavy Water", preload("res://assets/audio/songs/ambiance/HeavyWater.wav"))
-var LowUnderwater = Song.new("Low Underwater", preload("res://assets/audio/songs/ambiance/LowUnderwater.wav"))
-var DarkWind = Song.new("Dark Wind", preload("res://assets/audio/songs/ambiance/DarkWind.wav"))
-var Thunderstorm = Song.new("Thunderstorm", preload("res://assets/audio/songs/ambiance/Thunderstorm.wav"), Params.new())
-var ThunderstormFiltered = Song.new("Thunderstorm Filtered", preload("res://assets/audio/songs/ambiance/Thunderstorm.wav"), Params.new().bus("Storm").volume(-3.0))
-var VictoryBirds = Song.new("Victory Birds", preload("res://assets/audio/songs/ambiance/VictoryBirds.wav"))
+var CharonMaliceCasting = Song.new("Charon Malice Casting", preload("res://assets/audio/songs/ambiance/CharonMaliceCastingStereo.wav"))
+var HeavyWater = Song.new("Heavy Water", preload("res://assets/audio/songs/ambiance/HeavyWaterStereo.wav"))
+var LowUnderwater = Song.new("Low Underwater", preload("res://assets/audio/songs/ambiance/LowUnderwaterStereo.wav"))
+var DarkWind = Song.new("Dark Wind", preload("res://assets/audio/songs/ambiance/DarkWindStereo.wav"))
+var Thunderstorm = Song.new("Thunderstorm", preload("res://assets/audio/songs/ambiance/ThunderstormStereo.wav"), Params.new())
+var ThunderstormFiltered = Song.new("Thunderstorm Filtered", preload("res://assets/audio/songs/ambiance/ThunderstormStereo.wav"), Params.new().bus("Storm").volume(-3.0))
+var VictoryBirds = Song.new("Victory Birds", preload("res://assets/audio/songs/ambiance/VictoryBirdsStereo.wav"))
 
 # todo - search for all of these and replace with song api

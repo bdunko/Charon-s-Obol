@@ -52,11 +52,12 @@ Week 2
 	- [ ] Death
 	- [ ] Game fade to victory
 - [ ] **Stereo Background**
-	- [ ] Background tracks should be exported in stereo instead of mono. Replace.
+	- [x] Background tracks should be exported in stereo instead of mono. 
+	- [ ] Replace.
 - [ ] **Building Blocks - Section 7**
 	- [x] Drums - 16th Shuffle
 	- [x] Bass, Chords, and Melody - 16th Shuffle
-	- [ ] Chords - 4-Bar Chord Progression
+	- [x] Chords - 4-Bar Chord Progression
 	- [ ] Melody - 4 Bars
 
 Week 3/4/5

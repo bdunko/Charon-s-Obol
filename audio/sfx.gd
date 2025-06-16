@@ -83,11 +83,6 @@ var Hovered = Effect.new("Hovered", [preload("res://assets/audio/water_ui/SFX Sp
 
 
 
-# todo
-# hover diff skull
-# hover embark
-# hover selector arrow
-
 
 
 var MajorButton = Effect.new("Major Button", [preload("res://assets/audio/sounds/SFX MajorButton.wav")], 2)

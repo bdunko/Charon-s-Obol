@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c66yuc5llkumb"
+path="res://.godot/imported/SFX WarmSwell.wav-c0821fa95bb1c257e464b4957f37ba05.sample"
+
+[deps]
+
+source_file="res://assets/audio/unused/patron_selection/SFX WarmSwell.wav"
+dest_files=["res://.godot/imported/SFX WarmSwell.wav-c0821fa95bb1c257e464b4957f37ba05.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

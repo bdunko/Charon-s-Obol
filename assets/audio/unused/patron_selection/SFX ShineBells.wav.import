@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://chv10mv6xhh8d"
+path="res://.godot/imported/SFX ShineBells.wav-c41ddb4032b8a4aac251dda37e4cb88f.sample"
+
+[deps]
+
+source_file="res://assets/audio/unused/patron_selection/SFX ShineBells.wav"
+dest_files=["res://.godot/imported/SFX ShineBells.wav-c41ddb4032b8a4aac251dda37e4cb88f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

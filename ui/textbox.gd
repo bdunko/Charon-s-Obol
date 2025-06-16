@@ -213,7 +213,8 @@ func _gui_input(event):
 
 func _on_mouse_entered():
 	_update_style()
-	Audio.play_sfx(SFX.Hovered)
+	if click_enabled and not disabled:
+		Audio.play_sfx(SFX.Hovered)
 
 func _on_mouse_exited():
 	_update_style()
