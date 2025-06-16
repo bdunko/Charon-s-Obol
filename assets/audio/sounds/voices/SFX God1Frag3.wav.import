@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://txiabr7mpc8k"
+path="res://.godot/imported/SFX God1Frag3.wav-589b56da60b58f243beb1d4cf498ef11.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/voices/SFX God1Frag3.wav"
+dest_files=["res://.godot/imported/SFX God1Frag3.wav-589b56da60b58f243beb1d4cf498ef11.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

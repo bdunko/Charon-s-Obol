@@ -3,7 +3,7 @@ extends Node2D
 
 @export var talk_sfx: TalkSFX = TalkSFX.NONE
 enum TalkSFX {
-	NONE, CHARON
+	NONE, CHARON, GOD
 }
 
 const _DEFAULT_TEXT_COLOR = Color.WHITE
@@ -52,9 +52,10 @@ func _ready() -> void:
 func is_waiting() -> bool:
 	return _waiting
 
-func show_dialogue_and_wait(dialogue: String, minimum_delay: float = 0.01) -> void:
+const MINIMUM_DELAY = 0.01
+func show_dialogue_and_wait(dialogue: String, minimum_delay: float = MINIMUM_DELAY, vocalize: bool = true) -> void:
 	_waiting = true
-	show_dialogue(dialogue, textbox_effects_while_waiting)
+	show_dialogue(dialogue, textbox_effects_while_waiting, vocalize)
 	_current_textbox.show_arrow = false
 	await Global.delay(minimum_delay)
 	_current_textbox.show_arrow = true
@@ -62,7 +63,7 @@ func show_dialogue_and_wait(dialogue: String, minimum_delay: float = 0.01) -> vo
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
 	
-func show_dialogue(dialogue: String, waiting: bool = false) -> void:
+func show_dialogue(dialogue: String, waiting: bool = false, vocalize: bool = true) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
 	
@@ -83,8 +84,11 @@ func show_dialogue(dialogue: String, waiting: bool = false) -> void:
 	tween.tween_property(_current_textbox, "position:y", _INITIAL_POSITION.y, 0.2)
 	tween.parallel().tween_property(_current_textbox, "modulate:a", 1.0, 0.2)
 	
-	if talk_sfx == TalkSFX.CHARON:
-		Audio.play_sfx(SFX.CharonTalk)
+	if vocalize:
+		if talk_sfx == TalkSFX.CHARON:
+			Audio.play_sfx(SFX.CharonTalk)
+		elif talk_sfx == TalkSFX.GOD:
+			Audio.play_sfx(SFX.GodTalk)
 	
 	_current_textbox.position.x = int((get_viewport_rect().size.x/2.0) - (_current_textbox.size.x/2.0))
 	

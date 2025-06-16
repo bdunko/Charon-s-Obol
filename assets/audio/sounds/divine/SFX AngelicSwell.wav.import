@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://oyh6wq4ewmf"
+path="res://.godot/imported/SFX AngelicSwell.wav-41797b9e349d4699a049ccb34c4170fd.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/divine/SFX AngelicSwell.wav"
+dest_files=["res://.godot/imported/SFX AngelicSwell.wav-41797b9e349d4699a049ccb34c4170fd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

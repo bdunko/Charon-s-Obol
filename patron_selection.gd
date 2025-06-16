@@ -76,6 +76,7 @@ func _on_statue_clicked(statue: PatronStatue):
 	for statu in _PATRON_STATUES.get_children():
 		statu.clear_tooltip()
 		statu.disable() # prevent re-hovering on statue to show tooltip AGAIN...
+	Audio.play_sfx(SFX.TransitionZoomToCave)
 	await create_tween().tween_property(_CAMERA, "zoom", Vector2(45, 45), 1.2).finished
 	create_tween().tween_property(_CAMERA, "zoom", Vector2(90, 90), 1.2)
 	await Global.delay(0.25)

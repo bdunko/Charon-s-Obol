@@ -321,14 +321,14 @@ func disable_exclude_colors() -> void:
 func enable_exclude_colors() -> void:
 	set_uniform(Uniform.BOOL_USE_EXCLUDE_COLORS, true)
 
-func flash(color: Color, time: float = 0.15, max: float = 1.0) -> void:
+func flash(color: Color, time: float = 0.15, mx: float = 1.0) -> void:
 	assert(time >= 0.0, "Time must be non-negative.")
 	
 	set_uniform(Uniform.VEC3_FLASH_COLOR, color)
 	set_uniform(Uniform.FLOAT_FLASH_STRENGTH, 0.0) 
 	
 	# play the flash in/out
-	await tween_uniform(Uniform.FLOAT_FLASH_STRENGTH, max, time)
+	await tween_uniform(Uniform.FLOAT_FLASH_STRENGTH, mx, time)
 	await tween_uniform(Uniform.FLOAT_FLASH_STRENGTH, 0.0, time)
 
 func slow_flash(color: Color) -> void:

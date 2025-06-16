@@ -29,6 +29,7 @@ func _ready():
 
 func _on_mouse_clicked():
 	if not _disabled:
+		Audio.play_sfx(SFX.PatronStatueClicked)
 		_FX.start_glowing_solid(Color.GOLD, 2.0, FX.DEFAULT_GLOW_THICKNESS, false)
 		emit_signal("clicked", self) 
 
@@ -39,6 +40,7 @@ func _on_mouse_entered():
 	
 	if not _disabled:
 		_FX.start_glowing_solid(Color.AZURE, 2)
+		Audio.play_sfx(SFX.PatronStatueHovered)
 	if _show_tooltip and _tooltip == null:
 		var anchor = get_global_rect().position + _SPRITE.get_rect().get_center()
 		var offset = get_global_rect().position.y + _SPRITE.get_rect().size.y / 2.0 + 31

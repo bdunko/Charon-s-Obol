@@ -97,7 +97,7 @@ const _DEFAULT_TEXT_HOVER_COLOR = Color.AQUAMARINE
 
 @export var sound_family = SoundFamily.NONE
 enum SoundFamily {
-	NONE, EMBARK
+	NONE = 0, EMBARK = 1, VICTORY = 2
 }
 
 @onready var _STARTING_Y = position.y
@@ -209,6 +209,8 @@ func _gui_input(event):
 							pass
 						SoundFamily.EMBARK:
 							Audio.play_sfx(SFX.EmbarkButtonClicked)
+						SoundFamily.VICTORY:
+							Audio.play_sfx(SFX.VictoryButtonClicked)
 					_reset_colors()
 
 func _on_mouse_entered():

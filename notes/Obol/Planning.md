@@ -35,12 +35,19 @@ Week 2
 	- [ ] Thunderstorm sound
 		- [x] Designed
 		- [ ] Added
-	- [ ] Patron Selection Sound  
-		- [x] Designed - Light/holy sound. Pretty big/moderately long.
-		- [ ] Added
-	- [ ] God Talk Sound
-		- [x] Designed - Short, light/holy sound
-		- [ ] Added - Probably fairly heavy on the random pitching ?
+		- [ ] Let's revisit this slightly
+			- [ ] I like the dramatic thunder hit at the start of Thunderstorm. But Thunderstorm is missing the wind etc. I don't think it is possible to extend it too since it is from the synth.
+				- [ ] I prefer the rain sound of this too. Let's see if we can manage an extension of it by doing some manipulation...
+				- [ ] I just want the thunderstorm to hit once at the start (of each loop). And extend the rest. Probably add a bit of wind for body, but lighter than HeavyStorm.
+	- [ ] Need a 'divine' hover sound.
+		- [ ] maybe make it play until you remove mouse from it? :D
+	- [ ] Some of my audio effects are cutting off too soon. I think audacity is trimming them too aggressively in some cases. Reconfigure those settings. Go figure out which are off...
+		- [ ] I think all the god frags could use hlep.
+		- [ ] The divine could use help.
+			- [ ] victory sound is def messed up
+		- [ ] check on writing?
+		- [ ] TransitionCrystal3 sounds a little weird? Can probably trim the tail some to get it to sync up better (might want to use a water transition anyway.)
+	- [ ] The PatronStatueClicked works ok, but a shorter sound is needed, really.
 
 - [ ] **Building Blocks - Section 7**
 	- [x] Drums - 16th Shuffle

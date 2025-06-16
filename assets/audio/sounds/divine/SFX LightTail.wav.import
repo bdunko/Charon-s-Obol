@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rqor0rnct1ba"
+path="res://.godot/imported/SFX LightTail.wav-1c59ee1977d4e36d2793b6395506c4c2.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/divine/SFX LightTail.wav"
+dest_files=["res://.godot/imported/SFX LightTail.wav-1c59ee1977d4e36d2793b6395506c4c2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
