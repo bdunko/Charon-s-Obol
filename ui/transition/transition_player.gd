@@ -88,13 +88,16 @@ func play(effect: Effect) -> void:
 		
 		Effect.LABEL_FADE_IN:
 			_fade_out_started = false
+			Audio.play_sfx(SFX.TransitionQuoteIn)
 			await _fade_out(_LABEL, 0.4) #these functions are a bit misleadingly named
 			await Global.delay(2.0)
 			if not _fade_out_started:
 				_CLICK_LABEL.show()
 				_CLICK_LABEL_TWEEN.tween(1.0, 0.4)
+				Audio.play_sfx(SFX.TransitionQuoteInTip)
 		Effect.LABEL_FADE_OUT:
 			_fade_out_started = true
+			Audio.play_sfx(SFX.TransitionQuoteOut)
 			_CLICK_LABEL_TWEEN.tween(0.0, 0.4)
 			await _fade_in(_LABEL, 0.4)
 			_CLICK_LABEL.hide()

@@ -81,6 +81,12 @@ var SelectorArrowLeftClicked = Effect.new("Selector Arrow Clicked", [preload("re
 var Hovered = Effect.new("Hovered", [preload("res://assets/audio/water_ui/SFX SploshClick2.wav")], 1,
 	SFXParams.new().random(RANDOM1).volume(-26.0).pitch(0.3))
 
+var TransitionQuoteIn = Effect.new("Transition Writing In", [preload("res://assets/audio/sounds/writing/SFX WriteCardboardScribble3.wav")], 1,
+	SFXParams.new().pitch(1.3))
+var TransitionQuoteInTip = Effect.new("Transition Writing In Tip", [preload("res://assets/audio/sounds/writing/SFX WriteCardboardScribble2.wav")], 1,
+	SFXParams.new().volume(-6.0).pitch(2.0))
+var TransitionQuoteOut = Effect.new("Transition Writing Out", [preload("res://assets/audio/sounds/writing/SFX WriteLine.wav")], 1,
+	SFXParams.new().volume(-3.0).pitch(0.60))
 
 
 

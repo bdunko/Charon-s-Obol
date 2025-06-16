@@ -41,19 +41,7 @@ Week 2
 	- [ ] God Talk Sound
 		- [x] Designed - Short, light/holy sound
 		- [ ] Added - Probably fairly heavy on the random pitching ?
-- [ ] **Sounds - Transition Text Screen**
-	- [ ] Sound when text appears initially (writing) &  Sound after clicking to remove text (writing; diff and pitched down slightly)
-		- [x] Designed
-		- [ ] Added1
-- [ ] **Death Animation**
-- [ ] **Sounds - Transitions**
-	- [ ] Victory to main menu
-	- [ ] God selection to cave
-	- [ ] Death
-	- [ ] Game fade to victory
-- [ ] **Stereo Background**
-	- [x] Background tracks should be exported in stereo instead of mono. 
-	- [ ] Replace.
+
 - [ ] **Building Blocks - Section 7**
 	- [x] Drums - 16th Shuffle
 	- [x] Bass, Chords, and Melody - 16th Shuffle
@@ -61,6 +49,12 @@ Week 2
 	- [ ] Melody - 4 Bars
 
 Week 3/4/5
+- [ ] **Death Animation**
+- [ ] **Sounds - Transitions**
+	- [ ] Victory to main menu
+	- [ ] God selection to cave
+	- [ ] Death
+	- [ ] Game fade to victory
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was cool)
