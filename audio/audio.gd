@@ -61,7 +61,7 @@ func _create_player() -> void:
 ### SONG API ###
 var _songs_map = {}
 
-func play_song(song: Songs.Song, fade_time: float = 1.5, starting_playback_time: float = 0.0) -> void:
+func play_song(song: Songs.Song, fade_time: float = 1.5, overwrite_starting_playback_time: float = -1.0) -> void:
 	if _songs_map.has(song):
 		print("Already playing this song! %s" % song.name)
 		return
@@ -72,7 +72,7 @@ func play_song(song: Songs.Song, fade_time: float = 1.5, starting_playback_time:
 	player.stream = song.get_stream()
 	player.bus = song.get_bus()
 	player.volume_db = song.get_volume_adjustment()
-	player.play()
+	player.play(overwrite_starting_playback_time if overwrite_starting_playback_time >= 0 else song.get_start())
 	
 	if fade_time > 0:
 		player.volume_db = -72

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://disli4w138yit"
+path="res://.godot/imported/Combined 0001 [2025-06-16 220137].wav-6e81e290ec4882629e8b3fc897b4b383.sample"
+
+[deps]
+
+source_file="res://assets/audio/ableton/SFX Project/Samples/Recorded/Combined 0001 [2025-06-16 220137].wav"
+dest_files=["res://.godot/imported/Combined 0001 [2025-06-16 220137].wav-6e81e290ec4882629e8b3fc897b4b383.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

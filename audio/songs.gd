@@ -7,6 +7,7 @@ const _SONG_BUS = "Song"
 class Params:
 	var _volume_adjustment = 0.0
 	var _bus = _SONG_BUS
+	var _start = 0.0 # in seconds
 	
 	func bus(b: String) -> Params:
 		_bus = b
@@ -15,18 +16,24 @@ class Params:
 	func volume(v: float) -> Params:
 		_volume_adjustment = v
 		return self
+	
+	func start(s: float) -> Params:
+		_start = s
+		return self
 
 class Song:
 	var name
 	var stream
 	var volume_adjustment
 	var bus
+	var start
 	
 	func _init(nme: String, strm: AudioStream, params: Params = Params.new()) -> void:
 		name = nme
 		stream = strm
 		volume_adjustment = params._volume_adjustment
 		bus = params._bus
+		start = params._start
 	
 	func get_stream() -> Resource:
 		return stream
@@ -36,6 +43,9 @@ class Song:
 	
 	func get_bus() -> String:
 		return bus
+	
+	func get_start() -> float:
+		return start
 
 var CharonMaliceCasting = Song.new("Charon Malice Casting", preload("res://assets/audio/songs/ambiance/CharonMaliceCastingStereo.wav"))
 var HeavyWater = Song.new("Heavy Water", preload("res://assets/audio/songs/ambiance/HeavyWaterStereo.wav"))
@@ -44,7 +54,7 @@ var DarkWind = Song.new("Dark Wind", preload("res://assets/audio/songs/ambiance/
 
 const TMP = "res://assets/audio/songs/ambiance/ThunderstormStereo.wav"
 
-var Thunderstorm = Song.new("Thunderstorm", preload(TMP), Params.new())
+var Thunderstorm = Song.new("Thunderstorm", preload(TMP), Params.new().start(1.8))
 var ThunderstormFiltered = Song.new("Thunderstorm Filtered", preload(TMP), Params.new().bus("Storm").volume(-3.0))
 
 
