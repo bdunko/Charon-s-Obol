@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c5b21dn2rj5sh"
+path="res://.godot/imported/SFX SplashBounce.wav-d9bd1b838a69998cf0998d31c5fab820.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/water_ui/SFX SplashBounce.wav"
+dest_files=["res://.godot/imported/SFX SplashBounce.wav-d9bd1b838a69998cf0998d31c5fab820.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

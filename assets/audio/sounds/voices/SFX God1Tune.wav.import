@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://byxco5chxm2lj"
+path="res://.godot/imported/SFX God1Tune.wav-d5e8dbfa42aeee45b09b26a97f939e57.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/voices/SFX God1Tune.wav"
+dest_files=["res://.godot/imported/SFX God1Tune.wav-d5e8dbfa42aeee45b09b26a97f939e57.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

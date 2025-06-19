@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c1r162c171ng6"
+path="res://.godot/imported/SFX Bubble7.wav-77d7be2e91ac0099c51f003dc20f3379.sample"
+
+[deps]
+
+source_file="res://assets/audio/sounds/water_ui/SFX Bubble7.wav"
+dest_files=["res://.godot/imported/SFX Bubble7.wav-77d7be2e91ac0099c51f003dc20f3379.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

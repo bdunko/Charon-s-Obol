@@ -69,22 +69,20 @@ class Effect:
 		return pitch_adjustment
 
 
-var DifficultySkullClicked = Effect.new("Difficulty Skull Clicked", [preload("res://assets/audio/water_ui/SFX Bubble6.wav")], 2,
+var DifficultySkullClicked = Effect.new("Difficulty Skull Clicked", [preload("res://assets/audio/sounds/water_ui/SFX Bubble6.wav")], 2,
 	SFXParams.new().random(RANDOM1).volume(2.0))
-var EmbarkButtonClicked = Effect.new("Embark Button Clicked", [preload("res://assets/audio/water_ui/SFX LongDrop.wav")], 1, 
+var EmbarkButtonClicked = Effect.new("Embark Button Clicked", [preload("res://assets/audio/sounds/water_ui/SFX LongDrop.wav")], 1, 
 	SFXParams.new().volume(8.0))
-var SelectorArrowRightClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/water_ui/SFX WaterBark.wav")], 1, 
+var SelectorArrowRightClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/sounds/water_ui/SFX WaterBark.wav")], 1, 
 	SFXParams.new().volume(-4.0).pitch(1.1))
-var SelectorArrowLeftClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/water_ui/SFX WaterBark.wav")], 1, 
+var SelectorArrowLeftClicked = Effect.new("Selector Arrow Clicked", [preload("res://assets/audio/sounds/water_ui/SFX WaterBark.wav")], 1, 
 	SFXParams.new().volume(-4.0).pitch(0.9))
 
-var Hovered = Effect.new("Hovered", [preload("res://assets/audio/water_ui/SFX SploshClick2.wav")], 3,
+var Hovered = Effect.new("Hovered", [preload("res://assets/audio/sounds/water_ui/SFX SploshClick2.wav")], 3,
 	SFXParams.new().random(RANDOM1).volume(-26.0).pitch(0.3))
 
-# test this...
-var PatronStatueHovered = Hovered
-#Effect.new("Patron Statue Hovered", [preload("res://assets/audio/sounds/divine/SFX ShineBells.wav")], 1,
-	#SFXParams.new().pitch(1.0))
+var PatronStatueHovered = Effect.new("Patron Statue Hovered", [preload("res://assets/audio/sounds/water_ui/SFX SploshClick2.wav")], 3,
+	SFXParams.new().random(RANDOM1).volume(-16.0).pitch(0.3))
 var PatronStatueClicked = Effect.new("Patron Statue Clicked", [preload("res://assets/audio/sounds/divine/SFX TwinkleTail.wav")], 1,
 	SFXParams.new().pitch(1.0))
 var GodTalk = Effect.new("God Talk", [preload("res://assets/audio/sounds/voices/SFX God1Frag1.wav"),
@@ -109,8 +107,10 @@ var TransitionQuoteOut = Effect.new("Transition Writing Out", [preload("res://as
 # maybe make this watery. I do like my water.
 #var TransitionZoomToCave = Effect.new("Transition Fade To Cave", [preload("res://assets/audio/sounds/transitions/SFX TransitionCrystal3.wav")], 1,
 #	SFXParams.new().volume(0.0).pitch(1.1))
-var TransitionZoomToCave = Effect.new("Transition Fade To Cave", [preload("res://assets/audio/water_ui/SFX AirRelease3.wav")], 1,
-	SFXParams.new().volume(3.0).pitch(0.4))
+var TransitionZoomToCave = Effect.new("Transition Fade To Cave", [preload("res://assets/audio/sounds/water_ui/SFX AirRelease3.wav")], 1,
+	SFXParams.new().volume(3.0).pitch(0.3))
+var TransitionZoomToCaveLayer2 = Effect.new("Transition Fade To Cave (Layer2)", [preload("res://assets/audio/sounds/transitions/SFX TransitionCrystal3Shortened.wav")], 1,
+	SFXParams.new().volume(0.0).pitch(1.0))
 
 
 var MajorButton = Effect.new("Major Button", [preload("res://assets/audio/sounds/SFX MajorButton.wav")], 2)
