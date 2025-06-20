@@ -95,7 +95,11 @@ func _on_text_submitted(txt):
 		if not args.size() == 2:
 			success = false
 		else:
-			Global.heal_life(int(args[1]))
+			var amt = int(args[1])
+			if amt > 0:
+				Global.heal_life(amt)
+			else:
+				Global.lives += amt
 	elif cmd == "arrows" or cmd == "arrow":
 		if not args.size() == 2:
 			success = false

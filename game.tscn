@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://btdousdmcb6d3"]
+[gd_scene load_steps=101 format=3 uid="uid://btdousdmcb6d3"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2km4d"]
 [ext_resource type="Material" uid="uid://cv6rp2tdke6lb" path="res://shaders/purple_check.tres" id="2_82tsr"]
@@ -4271,7 +4271,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mut51"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_21xy7"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4402,7 +4402,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_52aws"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cl73f"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4533,7 +4533,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6pvx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_juhwj"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4664,7 +4664,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8xmc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5fjku"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4795,7 +4795,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_du81v"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3aknm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -4926,7 +4926,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dfmg6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7jd2"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5057,7 +5057,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t1dqr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojt5s"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5188,7 +5188,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m7pw7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ttfde"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5319,7 +5319,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_w3kc0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_thi0d"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/POST_PROCESSING = false
@@ -5534,20 +5534,36 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color_ramp = SubResource("GradientTexture1D_0eeor")
 
-[sub_resource type="Gradient" id="Gradient_6mqet"]
+[sub_resource type="Gradient" id="Gradient_0t6s4"]
 offsets = PackedFloat32Array(0, 0.995807)
-colors = PackedColorArray(0.309804, 0.92549, 1, 1, 1, 1, 1, 0)
+colors = PackedColorArray(0.616493, 0.873315, 0.997589, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_o567j"]
-gradient = SubResource("Gradient_6mqet")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0yt5m"]
+gradient = SubResource("Gradient_0t6s4")
 
 [sub_resource type="Curve" id="Curve_cwxbc"]
-max_value = 5.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
+max_value = 1.5
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1.31851), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_12aw4"]
 curve = SubResource("Curve_cwxbc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6nxk4"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+angular_velocity_max = 5.0
+orbit_velocity_min = 10.0
+orbit_velocity_max = 20.0
+scale_curve = SubResource("CurveTexture_12aw4")
+color_ramp = SubResource("GradientTexture1D_0yt5m")
+hue_variation_min = -0.02
+hue_variation_max = 0.22
+hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lkb7x"]
 particle_flag_disable_z = true
@@ -5560,7 +5576,26 @@ angular_velocity_max = 5.0
 orbit_velocity_min = 10.0
 orbit_velocity_max = 20.0
 scale_curve = SubResource("CurveTexture_12aw4")
-color_ramp = SubResource("GradientTexture1D_o567j")
+color_ramp = SubResource("GradientTexture1D_0yt5m")
+hue_variation_min = -0.02
+hue_variation_max = 0.22
+hue_variation_curve = SubResource("CurveTexture_m4xxc")
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fw2vv"]
+gradient = SubResource("Gradient_0t6s4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_smoi7"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+angular_velocity_max = 5.0
+orbit_velocity_min = 10.0
+orbit_velocity_max = 20.0
+scale_curve = SubResource("CurveTexture_12aw4")
+color_ramp = SubResource("GradientTexture1D_fw2vv")
 hue_variation_max = 0.1
 hue_variation_curve = SubResource("CurveTexture_m4xxc")
 
@@ -7806,48 +7841,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_mut51")
+material = SubResource("ShaderMaterial_21xy7")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_52aws")
+material = SubResource("ShaderMaterial_cl73f")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_i6pvx")
+material = SubResource("ShaderMaterial_juhwj")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_p8xmc")
+material = SubResource("ShaderMaterial_5fjku")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_du81v")
+material = SubResource("ShaderMaterial_3aknm")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_dfmg6")
+material = SubResource("ShaderMaterial_f7jd2")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_t1dqr")
+material = SubResource("ShaderMaterial_ojt5s")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -7855,14 +7890,14 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_m7pw7")
+material = SubResource("ShaderMaterial_ttfde")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_w3kc0")
+material = SubResource("ShaderMaterial_thi0d")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"
@@ -7963,12 +7998,56 @@ texture = ExtResource("36_l5qg4")
 lifetime = 2.0
 
 [node name="DeathSpiral" type="GPUParticles2D" parent="."]
-visible = false
 position = Vector2(155, 66)
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_6nxk4")
+texture = ExtResource("36_lon5y")
+trail_lifetime = 3.5
+
+[node name="DeathSpiral2" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
 amount = 100
 process_material = SubResource("ParticleProcessMaterial_lkb7x")
 texture = ExtResource("36_lon5y")
-lifetime = 0.25
+lifetime = 0.2
+trail_lifetime = 3.5
+
+[node name="DeathSpiral3" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
+amount = 150
+process_material = SubResource("ParticleProcessMaterial_lkb7x")
+texture = ExtResource("36_lon5y")
+lifetime = 0.15
+trail_lifetime = 3.5
+
+[node name="DeathSpiral4" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
+amount = 300
+process_material = SubResource("ParticleProcessMaterial_lkb7x")
+texture = ExtResource("36_lon5y")
+lifetime = 0.1
+trail_lifetime = 3.5
+
+[node name="DeathSpiral5" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
+amount = 500
+process_material = SubResource("ParticleProcessMaterial_smoi7")
+texture = ExtResource("36_lon5y")
+lifetime = 0.1
+trail_lifetime = 3.5
+
+[node name="DeathSpiral6" type="GPUParticles2D" parent="."]
+position = Vector2(155, 66)
+emitting = false
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_lkb7x")
+texture = ExtResource("36_lon5y")
+lifetime = 0.1
 trail_lifetime = 3.5
 
 [node name="Fog" type="ColorRect" parent="."]

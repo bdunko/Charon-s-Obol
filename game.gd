@@ -41,6 +41,7 @@ signal game_ended
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
 
+@onready var _DEATH_SPIRALS = [$DeathSpiral, $DeathSpiral2, $DeathSpiral3, $DeathSpiral4, $DeathSpiral5, $DeathSpiral6]
 @onready var _TRIAL_TINT_FX = $TrialTint/FX
 @onready var _NEMESIS_TINT_FX = $NemesisTint/FX
 @onready var _CHARON_TINT_FX = $CharonTint/FX
@@ -379,28 +380,31 @@ func _on_state_changed() -> void:
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
-		Global.ante_modifier_this_round = 0
-		_ENEMY_COIN_ROW.clear()
-		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
-		_PLAYER_TEXTBOXES.make_invisible()
-		await _wait_for_dialogue("I did not expect you to perish here...")
-		await _wait_for_dialogue("Very well!")
-		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
-		_PLAYER_TEXTBOXES.make_invisible()
-		await _CHARON_COIN_ROW.expand()
-		await _wait_for_dialogue("We will flip this single obol.")
-		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
-		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
-		_CHARON_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
-		_CHARON_COIN_ROW.get_child(0).turn()
-		_LEFT_HAND.unpoint()
-		await _wait_for_dialogue("And now, on the edge of life and death...")
-		_CHARON_FOG_FX.fade_in(_TINT_TIME)
-		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
-		_DIALOGUE.show_dialogue("You must toss!")
-		_PLAYER_TEXTBOXES.make_visible()
+		_on_game_end()
+		
+		
+#		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
+#		Global.ante_modifier_this_round = 0
+#		_ENEMY_COIN_ROW.clear()
+#		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
+#		_PLAYER_TEXTBOXES.make_invisible()
+#		await _wait_for_dialogue("I did not expect you to perish here...")
+#		await _wait_for_dialogue("Very well!")
+#		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
+#		_PLAYER_TEXTBOXES.make_invisible()
+#		await _CHARON_COIN_ROW.expand()
+#		await _wait_for_dialogue("We will flip this single obol.")
+#		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
+#		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
+#		_CHARON_COIN_ROW.get_child(0).turn()
+#		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
+#		_CHARON_COIN_ROW.get_child(0).turn()
+#		_LEFT_HAND.unpoint()
+#		await _wait_for_dialogue("And now, on the edge of life and death...")
+#		_CHARON_FOG_FX.fade_in(_TINT_TIME)
+#		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
+#		_DIALOGUE.show_dialogue("You must toss!")
+#		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 
@@ -421,7 +425,29 @@ func _on_game_end() -> void:
 	else:
 		await _wait_for_dialogue("You were a fool to come here.")
 		await _wait_for_dialogue("And now...")
-		await _wait_for_dialogue("Your soul shall be mine!")
+		await _wait_for_dialogue("Your soul is mine!")
+		var skew_tween = _activate_charon_malice_hands()
+		_disable_interaction_coins_and_patron()
+		UITooltip.disable_all_tooltips()
+		_PLAYER_TEXTBOXES.make_invisible()
+		_map_is_disabled = true
+		_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
+		for spiral in _DEATH_SPIRALS:
+			spiral.show()
+		_DEATH_SPIRALS[0].emitting = true
+		await Global.delay(2.0)
+		_DEATH_SPIRALS[1].emitting = true
+		await Global.delay(1.0)
+		_DEATH_SPIRALS[2].emitting = true
+		await Global.delay(0.8)
+		_DEATH_SPIRALS[3].emitting = true
+		await Global.delay(0.7)
+		_DEATH_SPIRALS[4].emitting = true
+		await Global.delay(0.5)
+		_DEATH_SPIRALS[5].emitting = true
+		await Global.delay(1.0)
+		skew_tween.kill()
+		_disable_charon_malice_hands()
 	_LEFT_HAND.unlock()
 	_LEFT_HAND.move_offscreen()
 	_RIGHT_HAND.unlock()
@@ -502,6 +528,9 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	Global.malice = 0
+	for spiral in _DEATH_SPIRALS:
+		spiral.emitting = false
+		spiral.hide()
 	_MALICE_DUST.hide()
 	_MALICE_DUST_RED.hide()
 	Global.flame_boost = 0.0
@@ -2287,6 +2316,30 @@ func randomize_and_show_shop() -> void:
 	
 	_update_payoffs()
 
+func _activate_charon_malice_hands() -> Tween:
+	var skew_tween = create_tween().set_loops()
+	skew_tween.tween_property(_LEFT_HAND, "skew", PI/8, 0.5)
+	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", -PI/8, 0.5)
+	skew_tween.tween_property(_LEFT_HAND, "skew", 0, 0.5)
+	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", 0, 0.5)
+	_LEFT_HAND.activate_malice_active_tint()
+	_RIGHT_HAND.activate_malice_active_tint()
+	_LEFT_HAND.disable_hovering()
+	_RIGHT_HAND.disable_hovering()
+	_LEFT_HAND.move_to_forward_position()
+	_RIGHT_HAND.move_to_forward_position()
+	return skew_tween
+
+func _disable_charon_malice_hands() -> void:
+	create_tween().tween_property(_LEFT_HAND, "skew", 0, 0.1)
+	create_tween().tween_property(_RIGHT_HAND, "skew", 0, 0.1)
+	_LEFT_HAND.deactivate_malice_active_tint()
+	_RIGHT_HAND.deactivate_malice_active_tint()
+	_LEFT_HAND.enable_hovering()
+	_RIGHT_HAND.enable_hovering()
+	_LEFT_HAND.move_to_default_position()
+	_RIGHT_HAND.move_to_default_position()
+
 enum MaliceActivation {
 	AFTER_PAYOFF, DURING_POWERS
 }
@@ -2314,7 +2367,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_LEFT_HAND.slam()
 	_RIGHT_HAND.slam()
 	_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
-	# screen shake
+	# todo - screen shake
 	
 	await _wait_for_dialogue("Enough!", delay)
 	if malice_activations_this_game == 0:
@@ -2331,17 +2384,8 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 		await Global.delay(0.05)
 	
 	_CHARON_FOG_FX.fade_out(_TINT_TIME)
-	_LEFT_HAND.move_to_forward_position()
-	_RIGHT_HAND.move_to_forward_position()
 	
-	var skew_tween = create_tween().set_loops()
-	skew_tween.tween_property(_LEFT_HAND, "skew", PI/8, 0.5)
-	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", -PI/8, 0.5)
-	skew_tween.tween_property(_LEFT_HAND, "skew", 0, 0.5)
-	skew_tween.parallel().tween_property(_RIGHT_HAND, "skew", 0, 0.5)
-	_LEFT_HAND.activate_malice_active_tint()
-	_RIGHT_HAND.activate_malice_active_tint()
-	
+	var skew_tween = _activate_charon_malice_hands()
 	
 	# create a bunch of heuristics to reference
 	# helper functions
@@ -2661,15 +2705,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 			assert(false)
 	
 	skew_tween.kill()
-	var fix_tween = create_tween()
-	fix_tween.tween_property(_LEFT_HAND, "skew", 0, 0.1)
-	fix_tween.tween_property(_RIGHT_HAND, "skew", 0, 0.1)
-	_LEFT_HAND.move_to_default_position()
-	_RIGHT_HAND.move_to_default_position()
-	_LEFT_HAND.enable_hovering()
-	_RIGHT_HAND.enable_hovering()
-	_LEFT_HAND.deactivate_malice_active_tint()
-	_RIGHT_HAND.deactivate_malice_active_tint()
+	_disable_charon_malice_hands()
 	Global.malice = 0.0
 	
 	# done, ending dialogue

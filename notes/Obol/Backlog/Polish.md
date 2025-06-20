@@ -1,4 +1,4 @@
-
+- [ ] Screen shake during charon slam (malice effect).
 - [ ] Improve prometheus indicator - make the text 'pop' in like the phase text
 - [ ] Need some visual effect to denote passive
 	- [ ] ideal - rotating pixel around edge, but we would need to do a lot of annoying handling for this; it is not generalizable. We would need to hand-make an animation for each possible coin shape that has a passive. This is doable but inconvenient, especially for trials. In this case, we may as well just make the trial coin size uniform. There isn't really a good reason for them to be differnet like they are now tbh.

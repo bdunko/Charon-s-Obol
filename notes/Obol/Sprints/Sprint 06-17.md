@@ -14,36 +14,32 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ## 🧠 Dev Notes & Observations  
 - Investigate how to continue musical education after completing Building Blocks 2. Check access to Foundations again. Reflect on this a bit.
 
-I could create an ambiance style track for hovering patron statue - use smooth looping. While mouse is over, start track, when mouse exits, stop track. On selection, stop track (or maybe keep it going until we leave the scene, even if mouse off?)
-Lower the pitch of the sound that plays when selecting patron, to make it more dramatic? I guess the problem with this is that it makes it longer too, so find something. Maybe try a water ui style sound.
-
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Add Death Sequence.
 - [ ] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 - [ ] Create a custom label class 'TransformingLabel' which has fancier graphical effects for switching between values. I want to aim for an effect like wood burning - flash the new value in purple, as the previous value fades out. The new value fades into the standard black color.
 - [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are.
 - [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
 - [ ] Spike - think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. 
-- [ ] Building Blocks 2 - All Together 3
-- [ ] Building Blocks 2 - Create
+- [ ] Review sound balancing of patron selection screen.
 - [ ] Building Blocks 2 - Drums - Removing Backbeats
 - [ ] Building Blocks 2 - Bass, Chords, and Melody - Removing Backbeats
 - [ ] Building Blocks 2 - Chords - Inversions
 - [ ] Building Blocks 2 - Chords - Inversions 2
 - [ ] Building Blocks 2 - All Together 4
 ### In Progress  
-- [ ] 
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
 - [x] Building Blocks 2 - Bass - 7's & The Octave 
 - [x] Building Blocks 2 - Chords 7's & The Octave
 - [x] Building Blocks 2 - Melody - 7's & The Octave
+- [x] Building Blocks 2 - All Together 3
 - [x] Re-export Divine, Voice, and Transition audio effects and trim silence in Audacity again, ensuring that sounds are not being abruptly cut off. Increase the silence tolerance and threshold, most likely.
 - [x] Figure out sound when hovering a patron statue.
 - [x] Create a shorter sound for PatronStatueClicked. - decided not necessary
+- [x] Add Death Sequence.
 
 ---
 ## 📝 Quick To-Dos  
@@ -58,7 +54,8 @@ _Untracked or small tasks not managed in the structured lists._
 ---
 ## 🏆 Wins & Highlights
 _Recap of key achievements from this sprint to highlight._
-- Started organizing notes in this format, I guess.
+- Started organizing notes as sprints.
+- Completed Patron Selection screen sounds.
 
 ---
 ## 🔍 Sprint Review (06-30)  

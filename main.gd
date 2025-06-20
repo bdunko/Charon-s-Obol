@@ -40,11 +40,15 @@ func _on_main_menu_start_game():
 			await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_IN)
 
 func _on_game_game_ended(victory: bool):
+	UITooltip.enable_all_tooltips()
 	if victory:
 		TransitionPlayer.set_color(Color.WHITE)
-	await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
+	else:
+		TransitionPlayer.set_color(Color("#20d6c7")) #crystalblue
+		await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)
 	Audio.stop_song(Songs.HeavyWater)
-	await Global.delay(2.0)
+	await Global.delay(2.5)
 	GAME_SCENE.hide()
 	UITooltip.clear_tooltips() # fixes a small visual bug if you end with a tooltip up
 	

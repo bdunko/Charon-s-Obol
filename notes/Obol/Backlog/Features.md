@@ -75,6 +75,7 @@ Week 3/4/5
 Week 6/7
 - [ ] **Game Sounds**
 	- [ ] I think we forgot to add the power selected/unselected sounds at all.
+	- [ ] Death scene
 	- [ ] **Revisions**
 		- [ ] Heavy water loop is too short and the restart is too obvious.
 		- [ ] Don't use the same sound for all button presses; example:
