@@ -52,11 +52,9 @@ var HeavyWater = Song.new("Heavy Water", preload("res://assets/audio/songs/ambia
 var LowUnderwater = Song.new("Low Underwater", preload("res://assets/audio/songs/ambiance/LowUnderwaterStereo.wav"))
 var DarkWind = Song.new("Dark Wind", preload("res://assets/audio/songs/ambiance/DarkWindStereo.wav"))
 
-const TMP = "res://assets/audio/songs/ambiance/ThunderstormStereo.wav"
-
-var Thunderstorm = Song.new("Thunderstorm", preload(TMP), Params.new().start(1.8))
-var ThunderstormFiltered = Song.new("Thunderstorm Filtered", preload(TMP), Params.new().bus("Storm").volume(-3.0))
-
+const _THUNDERSTORM_WAV = "res://assets/audio/songs/ambiance/ThunderstormStereo.wav"
+var Thunderstorm = Song.new("Thunderstorm", preload(_THUNDERSTORM_WAV), Params.new().start(1.8).volume(-6.0))
+var ThunderstormFiltered = Song.new("Thunderstorm Filtered", preload(_THUNDERSTORM_WAV), Params.new().bus("Storm").volume(-10.0))
 
 var VictoryBirds = Song.new("Victory Birds", preload("res://assets/audio/songs/ambiance/VictoryBirdsStereo.wav"))
 

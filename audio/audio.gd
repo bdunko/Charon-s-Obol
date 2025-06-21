@@ -76,7 +76,7 @@ func play_song(song: Songs.Song, fade_time: float = 1.5, overwrite_starting_play
 	
 	if fade_time > 0:
 		player.volume_db = -72
-		create_tween().tween_property(player, "volume_db", 0, fade_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+		create_tween().tween_property(player, "volume_db", song.get_volume_adjustment(), fade_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
 func stop_song(song: Songs.Song, fade_time: float = 1.5) -> void:
 	if not _songs_map.has(song):
