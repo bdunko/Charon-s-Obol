@@ -25,7 +25,6 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [ ] Building Blocks 2 - Chords - Inversions 2
 - [ ] Building Blocks 2 - All Together 4
 ### In Progress  
-- [ ] Change life and souls labels to use AnimatedLabel
 - [ ] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 ### Done  
@@ -42,6 +41,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Add Death Sequence.
 - [x] Review sound balancing of patron selection screen.
 - [x] Create a custom label class 'AnimatedLabel' which has fancier graphical effects for switching between values. I want to aim for an effect like wood burning - flash the new value in purple, as the previous value fades out. The new value fades into the standard black color.
+- [x] Change life and souls labels to use AnimatedLabel
 
 ---
 ## 📝 Quick To-Dos  

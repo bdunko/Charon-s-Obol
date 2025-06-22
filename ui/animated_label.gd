@@ -14,6 +14,9 @@ extends Control
 @onready var _label_size = _CURRENT_LABEL.size
 
 func set_text(txt: String) -> void:
+	if _CURRENT_LABEL.text == txt: #no animation if not changing
+		return
+	
 	# keep ref to old label
 	var old_label = _CURRENT_LABEL
 	
@@ -24,6 +27,7 @@ func set_text(txt: String) -> void:
 	new_label.size = _label_size
 	new_label.scroll_active = false
 	new_label.bbcode_enabled = true
+	new_label.use_parent_material = true
 	if font:
 		new_label.add_theme_font_override("normal_font", font)
 	new_label.add_theme_color_override("default_color", start_color)

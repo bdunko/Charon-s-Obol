@@ -26,6 +26,7 @@ float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed 
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
+uniform bool LABEL = false; //use this when using a label to preserve the font color
 uniform bool POST_PROCESSING = false;
 
 // pass in the mouse position here
@@ -303,8 +304,6 @@ void fragment()
 {
 	if (!DISABLE) {
 	
-	COLOR = texture(TEXTURE, UV);
-	
 	// --- CALCULATE CONSTANTS ---
 	// WARNING - Don't use the ones with _ directly. 
 	// the size of this canvas in pixels (ex 10x10)
@@ -350,6 +349,8 @@ void fragment()
 	// $HACK$ doing this as a ternary breaks the preview, for some reason
 	if (POST_PROCESSING) 
 		COLOR = texture(SCREEN_TEXTURE, adjUV);
+	else if (LABEL)
+		COLOR = texture(TEXTURE, adjUV) * COLOR;
 	else 
 		COLOR = texture(TEXTURE, adjUV);
 	
