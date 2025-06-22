@@ -41,12 +41,16 @@ func _on_main_menu_start_game():
 
 func _on_game_game_ended(victory: bool):
 	UITooltip.enable_all_tooltips()
+	
 	if victory:
 		TransitionPlayer.set_color(Color.WHITE)
 		await TransitionPlayer.play(TransitionPlayer.Effect.MODERATE_FADE_OUT)
 	else:
-		TransitionPlayer.set_color(Color("#20d6c7")) #crystalblue
+		TransitionPlayer.set_color(Color("#a6fcdb")) #crystalblue
 		await TransitionPlayer.play(TransitionPlayer.Effect.SLOW_FADE_OUT)
+	# a bit ugly to do this here, but fixes an issue where the clearing animation is visible during fadeout...
+	Global.souls = 0
+	Global.lives = 0
 	Audio.stop_song(Songs.HeavyWater)
 	await Global.delay(2.5)
 	GAME_SCENE.hide()

@@ -4,7 +4,7 @@ extends Node2D
 
 func _on_a_button_pressed():
 	print("A!")
-	LABEL.set_text("[center]Hello Ben![/center]")
+	LABEL.set_text("[center]34892![/center]")
 
 func _on_b_button_pressed():
 	print("B!")

@@ -1,9 +1,14 @@
 class_name AnimatedLabel
 extends Control
 
-@export var start_color = Color.PURPLE
+@export var font: FontFile
+@export var start_color = Color.FUCHSIA
 @export var end_color = Color.BLACK
 @export var time: float = 0.25
+
+# determines whether the label fades out the old label as it fade in the new one
+# if false, the label immediately changes
+@export var fade_old: bool = false
 
 @onready var _CURRENT_LABEL = $Label
 @onready var _label_size = _CURRENT_LABEL.size
@@ -19,14 +24,17 @@ func set_text(txt: String) -> void:
 	new_label.size = _label_size
 	new_label.scroll_active = false
 	new_label.bbcode_enabled = true
+	if font:
+		new_label.add_theme_font_override("normal_font", font)
 	new_label.add_theme_color_override("default_color", start_color)
 	var new_tween = create_tween()
-	new_tween.tween_property(new_label, "theme_override_colors/default_color", end_color, time * 2)
+	new_tween.tween_property(new_label, "theme_override_colors/default_color", end_color, time)
 	_CURRENT_LABEL = new_label
 	
-	# fade out old label and delete
-	var old_tween = create_tween()
-	old_label.add_theme_color_override("default_color", Color(end_color, 0.5))
-	old_tween.tween_property(old_label, "theme_override_colors/default_color:a", 0.0, time)
-	await old_tween.finished
+	if fade_old:
+		# fade out old label and delete
+		var old_tween = create_tween()
+		old_label.add_theme_color_override("default_color", Color(end_color, 0.5))
+		old_tween.tween_property(old_label, "theme_override_colors/default_color:a", 0.0, time)
+		await old_tween.finished
 	old_label.queue_free()

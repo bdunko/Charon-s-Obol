@@ -435,9 +435,9 @@ func _on_game_end() -> void:
 		for spiral in _DEATH_SPIRALS:
 			spiral.show()
 		_DEATH_SPIRALS[0].emitting = true
-		await Global.delay(2.0)
-		_DEATH_SPIRALS[1].emitting = true
 		await Global.delay(1.0)
+		_DEATH_SPIRALS[1].emitting = true
+		await Global.delay(0.9)
 		_DEATH_SPIRALS[2].emitting = true
 		await Global.delay(0.8)
 		_DEATH_SPIRALS[3].emitting = true
@@ -452,8 +452,6 @@ func _on_game_end() -> void:
 	_LEFT_HAND.move_offscreen()
 	_RIGHT_HAND.unlock()
 	_RIGHT_HAND.move_offscreen()
-	Global.souls = 0
-	Global.lives = 0
 	Global.state = Global.State.INACTIVE
 	emit_signal("game_ended", victory)
 

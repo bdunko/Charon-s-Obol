@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdndulhaf4jio"]
+
+[ext_resource type="Script" path="res://ui/animated_label.gd" id="1_xw8qg"]
+
+[node name="AnimatedLabel" type="Control"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 129.0
+offset_top = 27.0
+offset_right = 258.0
+offset_bottom = 42.0
+script = ExtResource("1_xw8qg")
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 117.0
+offset_bottom = 16.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "[center]100[/center]"
+scroll_active = false
