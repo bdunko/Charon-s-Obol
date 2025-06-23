@@ -35,6 +35,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tte34"]
 resource_local_to_scene = true
 shader = ExtResource("2_14jmd")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -4251,6 +4252,7 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kikpk"]
 shader = ExtResource("2_14jmd")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -4749,6 +4751,9 @@ position = Vector2(17, 17)
 
 [node name="StatusIconShrinkPoint" type="Node2D" parent="Sprite"]
 position = Vector2(17, -7)
+
+[node name="LabelAnchor" type="Node2D" parent="Sprite"]
+position = Vector2(17, 6)
 
 [node name="TooltipAnchor" type="Node2D" parent="Sprite"]
 position = Vector2(17, 16)

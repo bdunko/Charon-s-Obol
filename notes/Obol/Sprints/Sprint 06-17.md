@@ -14,18 +14,21 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ## 🧠 Dev Notes & Observations  
 - Investigate how to continue musical education after completing Building Blocks 2. Check access to Foundations again. Reflect on this a bit.
 
+
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
 - [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are.
 - [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
+- [ ] For the label; When losing souls, flash purple. When healing life, flash green. (ie, flash specific colors on label instead of always the same). 
 - [ ] Spike - think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. 
 - [ ] Refactor - make it possible for a single sound effect to contain multiple audio files. When playing this sound effect, fire off both.
 - [ ] Building Blocks 2 - Chords - Inversions
 - [ ] Building Blocks 2 - Chords - Inversions 2
 - [ ] Building Blocks 2 - All Together 4
 ### In Progress  
-- [ ] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
+- [ ] Update patron token powers (Dionysus etc) to also use floating labels properly (gain souls/life etc)
+- [ ] Check Phaethon label
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
@@ -42,6 +45,8 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Review sound balancing of patron selection screen.
 - [x] Create a custom label class 'AnimatedLabel' which has fancier graphical effects for switching between values. I want to aim for an effect like wood burning - flash the new value in purple, as the previous value fades out. The new value fades into the standard black color.
 - [x] Change life and souls labels to use AnimatedLabel
+- [x] Add LabelSpawner as a global autoload singleton. This class is responsible for spawning one-shot label effects. 
+- [x] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
 
 ---
 ## 📝 Quick To-Dos  
@@ -58,6 +63,7 @@ _Untracked or small tasks not managed in the structured lists._
 _Recap of key achievements from this sprint to highlight._
 - Started organizing notes as sprints.
 - Completed Patron Selection screen sounds.
+- Learned how to fix shader so it works with label colors.
 
 ---
 ## 🔍 Sprint Review (06-30)  

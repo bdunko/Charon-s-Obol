@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://blo2d6tptydgp"]
+
+[ext_resource type="Script" path="res://ui/label_spawner.gd" id="1_o7r0g"]
+
+[node name="LabelSpawner" type="Node2D"]
+script = ExtResource("1_o7r0g")

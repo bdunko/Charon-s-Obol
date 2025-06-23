@@ -526,6 +526,7 @@ func on_start() -> void: #reset
 	Global.toll_coins_offered = []
 	Global.toll_index = 0
 	Global.malice = 0
+	_COIN_ROW.expand()
 	for spiral in _DEATH_SPIRALS:
 		spiral.emitting = false
 		spiral.hide()

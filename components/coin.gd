@@ -100,6 +100,7 @@ var _permanent_statuses = []
 @onready var _INFO_VIEW_FACE_INDICATOR_FX = $Sprite/InfoView/FaceIndicator/FX
 
 @onready var _TOOLTIP_ANCHOR = $Sprite/TooltipAnchor
+@onready var _LABEL_ANCHOR = $Sprite/LabelAnchor
 
 @onready var FX : FX = $Sprite/FX
 
@@ -695,6 +696,7 @@ func _ready():
 	assert(_INFO_VIEW_FACE_INDICATOR)
 	assert(_INFO_VIEW_FACE_INDICATOR_FX)
 	assert(_TOOLTIP_ANCHOR)
+	assert(_LABEL_ANCHOR)
 	
 	assert(_STATUS_BAR)
 	Global.active_coin_power_coin_changed.connect(_on_active_coin_power_coin_changed)
@@ -2147,3 +2149,6 @@ func _on_flame_boost_changed() -> void:
 
 func _on_info_view_toggled() -> void:
 	_update_appearance()
+
+func get_label_origin() -> Vector2:
+	return _LABEL_ANCHOR.global_position
