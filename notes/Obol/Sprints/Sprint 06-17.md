@@ -18,17 +18,17 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are.
+- [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are. Only start applying when life is below half.
 - [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
 - [ ] For the label; When losing souls, flash purple. When healing life, flash green. (ie, flash specific colors on label instead of always the same). 
-- [ ] Spike - think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. 
-- [ ] Refactor - make it possible for a single sound effect to contain multiple audio files. When playing this sound effect, fire off both.
-- [ ] Building Blocks 2 - Chords - Inversions
-- [ ] Building Blocks 2 - Chords - Inversions 2
+- [ ] Spike - think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
+- [ ] When Charon goes to slam, make him raise his hands slightly first. 
+- [ ] Refactor - make it possible for a single sound effect to contain multiple audio files (layers). When playing this sound effect, fire off both. Switch to using this for the layered transition.
 - [ ] Building Blocks 2 - All Together 4
+- [ ] Building Blocks 2 - No Labels 2
 ### In Progress  
-- [ ] Update patron token powers (Dionysus etc) to also use floating labels properly (gain souls/life etc)
-- [ ] Check Phaethon label
+- [ ] Update patron token powers (Demeter) to also use floating labels properly (gain souls/life etc)
+	- [ ] also passives.. search on passives
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
@@ -38,6 +38,8 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Building Blocks 2 - All Together 3
 - [x] Building Blocks 2 - Drums - Removing Backbeats
 - [x] Building Blocks 2 - Bass, Chords, and Melody - Removing Backbeats
+- [x] Building Blocks 2 - Chords - Inversions
+- [x] Building Blocks 2 - Chords - Inversions 2
 - [x] Re-export Divine, Voice, and Transition audio effects and trim silence in Audacity again, ensuring that sounds are not being abruptly cut off. Increase the silence tolerance and threshold, most likely.
 - [x] Figure out sound when hovering a patron statue.
 - [x] Create a shorter sound for PatronStatueClicked. - decided not necessary
@@ -47,6 +49,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Change life and souls labels to use AnimatedLabel
 - [x] Add LabelSpawner as a global autoload singleton. This class is responsible for spawning one-shot label effects. 
 - [x] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
+- [x] Make floating label work with Phaethon.
 
 ---
 ## 📝 Quick To-Dos  

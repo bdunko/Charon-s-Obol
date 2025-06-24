@@ -5,6 +5,7 @@ signal clicked
 
 @onready var FX: FX = $Sprite2D/FX
 @onready var _MOUSE: MouseWatcher = $Mouse
+@onready var _LABEL_ANCHOR: Node2D = $LabelAnchor
 
 #@onready var _START_POSITION = position
 const _SPEED = 5000
@@ -35,6 +36,7 @@ var _activated = false:
 func _ready():
 	assert(FX)
 	assert(_MOUSE)
+	assert(_LABEL_ANCHOR)
 	Global.state_changed.connect(_on_state_changed)
 	Global.patron_uses_changed.connect(_on_patron_changed)
 	Global.patron_used_this_toss_changed.connect(_on_patron_changed)
@@ -139,3 +141,6 @@ func _process(_delta) -> void:
 
 func _on_state_changed() -> void:
 	_can_activate = Global.state == Global.State.AFTER_FLIP and Global.patron_uses != 0 and not Global.patron_used_this_toss
+
+func get_label_origin() -> Vector2:
+	return _LABEL_ANCHOR.global_position

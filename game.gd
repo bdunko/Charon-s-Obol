@@ -2097,7 +2097,7 @@ func _on_coin_clicked(coin: Coin):
 		
 		# attempt to activate a patron power
 		if Global.is_patron_power(Global.active_coin_power_family):
-			Global.active_coin_power_family.use_power(self, coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			Global.active_coin_power_family.use_power(self, coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW, _patron_token)
 			coin.play_power_used_effect(Global.active_coin_power_family)
 			_patron_token.play_power_used_effect(Global.patron.power_family)
 			Global.patron_uses -= 1
@@ -2252,7 +2252,7 @@ func _on_patron_token_clicked():
 		Global.active_coin_power_coin = null
 		Global.active_coin_power_family = null
 		
-		Global.patron.power_family.use_power(self, null, null, null, null, _COIN_ROW, _ENEMY_COIN_ROW)
+		Global.patron.power_family.use_power(self, null, null, null, null, _COIN_ROW, _ENEMY_COIN_ROW, _patron_token)
 		_patron_token.FX.flash(Color.GOLD)
 		_patron_token.play_power_used_effect(Global.patron.power_family)
 		Global.patron_uses -= 1

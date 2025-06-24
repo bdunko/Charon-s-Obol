@@ -1,8 +1,8 @@
 class_name TempLabel
 extends RichTextLabel
 
-@export var move_time = 0.5
-const _PAUSE_TIME = 0.5
+@export var move_time = 0.25
+const _PAUSE_TIME = 0.75
 const _FADE_TIME = 0.1
 @export var y_amount = 18
 

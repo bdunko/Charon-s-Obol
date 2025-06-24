@@ -9,6 +9,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ngik"]
 shader = ExtResource("2_1nqxq")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -181,3 +182,6 @@ text = "[center][color=#fffc40]2[img=10x13]res://assets/icons/patron/hades_patro
 fit_content = true
 scroll_active = false
 script = ExtResource("6_aaawj")
+
+[node name="LabelAnchor" type="Node2D" parent="."]
+position = Vector2(23, 11)
