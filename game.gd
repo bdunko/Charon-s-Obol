@@ -903,10 +903,12 @@ func _on_accept_button_pressed():
 				coin.desecrate()
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_COLLAPSE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_OVERLOAD): # overload trial - lose 1 life per unused power charge
+		var passive_coin = Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_OVERLOAD)
 		for coin in _COIN_ROW.get_children():
 			if coin.is_active_face_power():
 				coin.FX.flash(Color.DARK_SLATE_BLUE)
 				Global.lives -= coin.get_active_power_charges()
+				LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % coin.get_active_power_charges(), passive_coin.get_label_origin(), self)
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_OVERLOAD)
 	
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_CHARON) and Global.tutorial_patron_passive_active:
@@ -921,6 +923,7 @@ func _on_accept_button_pressed():
 				_LEFT_HAND.unlock()
 				_LEFT_HAND.unpoint()
 			Global.earn_souls(5)
+			LabelSpawner.spawn_label(Global.SOUL_UP_PAYOFF_FORMAT % 5, _patron_token.get_label_origin(), self)
 			if Global.tutorialState != Global.TutorialState.INACTIVE and not Global.tutorial_pointed_out_patron_passive:
 				await _wait_for_dialogue(Global.replace_placeholders("You earn 5 extra souls(SOULS)."))
 				await _wait_for_dialogue(Global.replace_placeholders("Well done."))
@@ -931,7 +934,6 @@ func _on_accept_button_pressed():
 		payoff_coin.after_payoff()
 	Global.payoffs_this_round += 1
 	_update_payoffs()
-	
 	
 	if Global.tutorialState == Global.TutorialState.ROUND1_FIRST_HEADS_ACCEPTED:
 		await _tutorial_fade_in([_LIFE_FRAGMENTS, _LIFE_LABEL])
@@ -2016,7 +2018,9 @@ func _on_coin_clicked(coin: Coin):
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARES) and coin.is_tails():
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARES)
 			if Global.is_passive_active(Global.PATRON_POWER_FAMILY_ARTEMIS) and Global.arrows != Global.ARROWS_LIMIT:
+				var arrows_before = Global.arrows
 				Global.arrows = min(Global.ARROWS_LIMIT, Global.arrows + 2)
+				LabelSpawner.spawn_label(Global.ARROW_UP_PAYOFF_FORMAT % (Global.arrows - arrows_before), _patron_token.get_label_origin(), self)
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
 			destroy_coin(coin)
 		else:
@@ -2086,8 +2090,10 @@ func _on_coin_clicked(coin: Coin):
 		
 		# trial of blood - using powers costs 1 life (excluding arrows)
 		if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_BLOOD) and not Global.active_coin_power_family == Global.POWER_FAMILY_ARROW_REFLIP:
+			var passive_coin = Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_BLOOD)
 			Global.lives -= Global.BLOOD_COST
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
+			LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % Global.BLOOD_COST, passive_coin.get_label_origin(), self)
 		
 		# check if this power can be used on the given target, and show error if not
 		var can_use_result: PF.PowerFamily.CanUseResult = Global.active_coin_power_family.can_use(self, coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
@@ -2186,6 +2192,8 @@ func _on_coin_clicked(coin: Coin):
 					return
 				Global.lives -= Global.BLOOD_COST
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_BLOOD)
+				var passive_coin = Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_BLOOD)
+				LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % Global.BLOOD_COST, passive_coin.get_label_origin(), self)
 			
 			coin.get_active_power_family().use_power(self, coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			after_coin_power_used(coin, coin, used_face_power)

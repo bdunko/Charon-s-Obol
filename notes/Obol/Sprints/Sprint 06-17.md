@@ -3,8 +3,8 @@
 ## ⌚ Deep Work
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-|        | ✔       | ✔         |          |        |          |        |
-|        |         |           |          |        |          |        |
+|        | ✔       | ✔         | ✔<br>    | ✔<br>  | ✔<br>    | ✔<br>  |
+| ✔<br>  |         |           |          |        |          |        |
 
 ---
 ## 🎯 Sprint Goal  
@@ -13,7 +13,6 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ---
 ## 🧠 Dev Notes & Observations  
 - Investigate how to continue musical education after completing Building Blocks 2. Check access to Foundations again. Reflect on this a bit.
-
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -27,8 +26,9 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [ ] Building Blocks 2 - All Together 4
 - [ ] Building Blocks 2 - No Labels 2
 ### In Progress  
-- [ ] Update patron token powers (Demeter) to also use floating labels properly (gain souls/life etc)
-	- [ ] also passives.. search on passives
+- [ ] Update patron token passives to use floating labels.
+- [ ] Add floating label at start of round for life regen. I guess it can just appear in the middle of the board.
+- [ ] Update heal_life function so that Demeter patron token properly creates a life healed label when it triggered. This involves adding an optional parameter to "passive_triggered" containing a string which is either blank or a label to be created. All places where we connect to passive_triggered need to be updated with a default paramter of "".
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
@@ -50,6 +50,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Add LabelSpawner as a global autoload singleton. This class is responsible for spawning one-shot label effects. 
 - [x] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
 - [x] Make floating label work with Phaethon.
+- [x] Update patron token powers (Demeter/Hades/Dionysus) to also use floating labels properly (gain souls/life etc).
 
 ---
 ## 📝 Quick To-Dos  

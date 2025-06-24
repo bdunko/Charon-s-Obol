@@ -1057,7 +1057,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_EQUIVALENCE): # equivalence trial - if heads, unlucky, if tails, lucky
 		make_unlucky() if _heads else make_lucky()
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_EQUIVALENCE)
-	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VAINGLORY):
+	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VAINGLORY): # vainglory - curse heads
 		if is_heads():
 			curse()
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VAINGLORY)

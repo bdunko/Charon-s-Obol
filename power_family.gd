@@ -1,11 +1,5 @@
 extends Node
 
-const _SOUL_UP_PAYOFF_FORMAT = "[center][color=#a6fcdb]+%d[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][/center]"
-const _LIFE_UP_PAYOFF_FORMAT = "[center][color=#9cdb43]+%d[/color][img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img][/center]"
-const _SOUL_DOWN_PAYOFF_FORMAT = "[center][color=#df3e23]-%d[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][/center]"
-const _LIFE_DOWN_PAYOFF_FORMAT = "[center][color=#e12f3b]-%d[/color][img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
-const _ARROW_UP_PAYOFF_FORMAT = "[center]+%d[img=10x13]res://assets/icons/arrow_icon.png[/img][/center]"
-
 enum PowerType {
 	POWER_TARGETTING_ANY_COIN, POWER_TARGETTING_MONSTER_COIN, POWER_TARGETTING_PLAYER_COIN, 
 	POWER_NON_TARGETTING,
@@ -230,11 +224,11 @@ class DowngradeForLife extends PowerFamily:
 		if target.is_monster_coin():
 			var cost = Global.HADES_MONSTER_COST[Global.active_coin_power_coin.get_value() - 1]
 			Global.lives -= cost
-			LabelSpawner.spawn_label(_LIFE_DOWN_PAYOFF_FORMAT % cost, target.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % cost, target.get_label_origin(), game)
 		elif target.is_owned_by_player():
 			var heal = Global.HADES_SELF_GAIN[Global.active_coin_power_coin.get_value() - 1]
 			Global.heal_life(heal)
-			LabelSpawner.spawn_label(_LIFE_UP_PAYOFF_FORMAT % heal, target.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % heal, target.get_label_origin(), game)
 		else:
 			assert(false, "Hades shouldn't get here...")
 	
@@ -323,7 +317,7 @@ class InfiniteTurnHunger extends PowerFamily:
 	func use_power(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		var current_cost = Global.active_coin_power_coin.get_active_face_metadata(Coin.METADATA_ERYSICHTHON, 0)
 		Global.lives -= current_cost
-		LabelSpawner.spawn_label(_LIFE_DOWN_PAYOFF_FORMAT % current_cost, target.get_label_origin(), game)
+		LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % current_cost, target.get_label_origin(), game)
 		
 		Global.active_coin_power_coin.set_active_face_metadata(Coin.METADATA_ERYSICHTHON, current_cost + 1)
 		target.turn()
@@ -381,7 +375,7 @@ class GainLife extends PowerFamily:
 		var heal = Global.DEMETER_GAIN[activated.get_denomination()]
 		Global.heal_life(heal)
 		if heal != 0:
-			LabelSpawner.spawn_label(_LIFE_UP_PAYOFF_FORMAT % heal, activated.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % heal, activated.get_label_origin(), game)
 	
 	func can_use(game: Game, activated: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -392,7 +386,7 @@ class GainArrow extends PowerFamily:
 		Global.arrows = min(Global.arrows + (activated.get_denomination()+1), Global.ARROWS_LIMIT)
 		var arrows_gained = Global.arrows - arrows_before
 		if arrows_gained != 0:
-			LabelSpawner.spawn_label(_ARROW_UP_PAYOFF_FORMAT % arrows_gained, activated.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.ARROW_UP_PAYOFF_FORMAT % arrows_gained, activated.get_label_origin(), game)
 	
 	func can_use(game: Game, activated: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		if Global.arrows == Global.ARROWS_LIMIT:
@@ -434,7 +428,7 @@ class DestroySelfForReward extends PowerFamily:
 		Global.heal_life(life_healed)
 		Global.arrows = min(Global.arrows + Global.PHAETHON_REWARD_ARROWS[activated.get_denomination()], Global.ARROWS_LIMIT)
 		var arrows_gained = Global.arrows - arrows_before
-		var txt = ("%s\n%s\n%s" % [_SOUL_UP_PAYOFF_FORMAT, _LIFE_UP_PAYOFF_FORMAT, _ARROW_UP_PAYOFF_FORMAT]) % [souls_earned, life_healed, arrows_gained]
+		var txt = ("%s\n%s\n%s" % [Global.SOUL_UP_PAYOFF_FORMAT, Global.LIFE_UP_PAYOFF_FORMAT, Global.ARROW_UP_PAYOFF_FORMAT]) % [souls_earned, life_healed, arrows_gained]
 		LabelSpawner.spawn_label(txt, activated.get_label_origin() - Vector2(0, 10), game)
 		Global.patron_uses = Global.patron.get_uses_per_round()
 		game.destroy_coin(activated)
@@ -561,7 +555,7 @@ class PatronHades extends PowerFamily:
 		Global.heal_life(life_healed)
 		Global.earn_souls(souls_earned)
 		game.destroy_coin(target)
-		var txt = ("%s\n%s" % [_SOUL_UP_PAYOFF_FORMAT, _LIFE_UP_PAYOFF_FORMAT]) % [souls_earned, life_healed]
+		var txt = ("%s\n%s" % [Global.SOUL_UP_PAYOFF_FORMAT, Global.LIFE_UP_PAYOFF_FORMAT]) % [souls_earned, life_healed]
 		LabelSpawner.spawn_label(txt, patron_token.get_label_origin() - Vector2(0, 5), game)
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
@@ -577,7 +571,7 @@ class PatronDemeter extends PowerFamily:
 			if as_coin.is_tails() and as_coin.get_active_power_family().power_type == PF.PowerType.PAYOFF_LOSE_LIFE:
 				Global.heal_life(as_coin.get_active_power_charges())
 				as_coin.play_power_used_effect(Global.patron.power_family)
-				LabelSpawner.spawn_label(_LIFE_UP_PAYOFF_FORMAT % as_coin.get_active_power_charges(), as_coin.get_label_origin(), game)
+				LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % as_coin.get_active_power_charges(), as_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, activated: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		var can_heal = false
@@ -754,17 +748,17 @@ class PatronDionysus extends PowerFamily:
 			var txt = ""
 			var added_height = 0
 			if souls_earned != 0:
-				txt = txt + _SOUL_UP_PAYOFF_FORMAT % souls_earned
+				txt = txt + Global.SOUL_UP_PAYOFF_FORMAT % souls_earned
 			if life_healed != 0:
 				if txt != "":
 					txt = txt + "\n"
 					added_height += 5
-				txt = txt + _LIFE_UP_PAYOFF_FORMAT % life_healed
+				txt = txt + Global.LIFE_UP_PAYOFF_FORMAT % life_healed
 			if arrows_gained != 0:
 				if txt != "":
 					txt = txt + "\n"
 					added_height += 5
-				txt = txt + _ARROW_UP_PAYOFF_FORMAT % arrows_gained
+				txt = txt + Global.ARROW_UP_PAYOFF_FORMAT % arrows_gained
 			
 			if txt != "":
 				LabelSpawner.spawn_label(txt, patron_token.get_label_origin() - Vector2(0, added_height), game)
@@ -782,11 +776,11 @@ class PayoffLoseLife extends PowerFamily:
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_PAIN)
 			Global.lives -= charges * 3
 			if charges * 3 != 0:
-				LabelSpawner.spawn_label(_LIFE_DOWN_PAYOFF_FORMAT % charges, payoff_coin.get_label_origin(), game)
+				LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % charges, payoff_coin.get_label_origin(), game)
 		else:
 			Global.lives -= charges
 			if charges != 0:
-				LabelSpawner.spawn_label(_LIFE_DOWN_PAYOFF_FORMAT % charges, payoff_coin.get_label_origin(), game)
+				LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % charges, payoff_coin.get_label_origin(), game)
 		
 		# handle special payoff actions
 		if payoff_power_family == Global.POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL:
@@ -807,7 +801,7 @@ class PayoffHalveLife extends PowerFamily:
 		var life_lost = int(Global.lives / 2.0)
 		Global.lives -= life_lost
 		if life_lost != 0:
-			LabelSpawner.spawn_label(_LIFE_DOWN_PAYOFF_FORMAT % life_lost, payoff_coin.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % life_lost, payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -817,7 +811,7 @@ class PayoffGainLife extends PowerFamily:
 		payoff_coin.FX.flash(Color.GREEN_YELLOW)
 		Global.heal_life(payoff_coin.get_active_power_charges())
 		if payoff_coin.get_active_power_charges() != 0:
-			LabelSpawner.spawn_label(_LIFE_UP_PAYOFF_FORMAT % payoff_coin.get_active_power_charges(), payoff_coin.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % payoff_coin.get_active_power_charges(), payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -837,7 +831,7 @@ class PayoffGainSouls extends PowerFamily:
 			payoff_coin.FX.flash(Color.AQUA)
 			Global.earn_souls(payoff)
 			Global.malice += Global.MALICE_INCREASE_ON_HEADS_PAYOFF * Global.current_round_malice_multiplier()
-			LabelSpawner.spawn_label(_SOUL_UP_PAYOFF_FORMAT % payoff, payoff_coin.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.SOUL_UP_PAYOFF_FORMAT % payoff, payoff_coin.get_label_origin(), game)
 		
 		# handle special payoff actions
 		# helios - bless coin to the left and move to the left, if possible
@@ -872,7 +866,7 @@ class PayoffLoseSouls extends PowerFamily:
 		payoff_coin.FX.flash(Color.DARK_BLUE)
 		Global.lose_souls(payoff)
 		if payoff != 0:
-			LabelSpawner.spawn_label(_SOUL_DOWN_PAYOFF_FORMAT % payoff, payoff_coin.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.SOUL_DOWN_PAYOFF_FORMAT % payoff, payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -885,7 +879,7 @@ class PayoffGainArrows extends PowerFamily:
 		var arrows_gained = Global.arrows - arrows_before
 		game._disable_interaction_coins_and_patron() # stupid bad hack to make the arrow not light up
 		if arrows_gained != 0:
-			LabelSpawner.spawn_label(_ARROW_UP_PAYOFF_FORMAT % arrows_gained, payoff_coin.get_label_origin(), game)
+			LabelSpawner.spawn_label(Global.ARROW_UP_PAYOFF_FORMAT % arrows_gained, payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)

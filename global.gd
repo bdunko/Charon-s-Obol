@@ -1,5 +1,11 @@
 extends Node
 
+const SOUL_UP_PAYOFF_FORMAT = "[center][color=#a6fcdb]+%d[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][/center]"
+const LIFE_UP_PAYOFF_FORMAT = "[center][color=#9cdb43]+%d[/color][img=10x13]res://assets/icons/soul_fragment_red_heal_icon.png[/img][/center]"
+const SOUL_DOWN_PAYOFF_FORMAT = "[center][color=#df3e23]-%d[/color][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][/center]"
+const LIFE_DOWN_PAYOFF_FORMAT = "[center][color=#e12f3b]-%d[/color][img=10x13]res://assets/icons/soul_fragment_red_icon.png[/img][/center]"
+const ARROW_UP_PAYOFF_FORMAT = "[center]+%d[img=10x13]res://assets/icons/arrow_icon.png[/img][/center]"
+
 var DEBUG_CHECK_DIRTY_TOOLTIPS = true #verify that un-dirty tooltips are indeed unchanged; turn this off in release for better performance
 var DEBUG_CONSOLE = true # utility flag for debugging mode
 var DEBUG_DONT_FORCE_FIRST_TOSS = true # don't require the first toss each round
@@ -299,6 +305,8 @@ func heal_life(heal_amt: int) -> void:
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DEMETER):
 		earn_souls(heal_amt)
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DEMETER)
+		# LABELTODO - use optional paramter on signal; need to update at all connected spots to accept "" by default
+		# optional param is a string of tooltip to be created; if not ""
 
 func lose_souls(soul_amt: int) -> void: 
 	assert(soul_amt >= 0)
@@ -2581,6 +2589,14 @@ func is_passive_active(passivePower: PF.PowerFamily) -> bool:
 				return true
 	
 	return false
+
+func find_passive_coin(passivePower: PF.PowerFamily) -> Coin:
+	for row in [_coin_row, _enemy_row]:
+		for coin in row.get_children():
+			if coin.is_trial_coin() and coin.get_active_power_family() == passivePower:
+				return coin
+	
+	return null
 
 const _SAVE_PATH = "user://save.charonsobol"
 const _SETTINGS = "settings"
