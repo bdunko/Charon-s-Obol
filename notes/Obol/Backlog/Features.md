@@ -31,11 +31,6 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 
 **Charon's Obol Soundtest**`
 Week 3/4/5
-- [ ] **Sounds - Transitions**
-	- [ ] Victory to main menu
-	- [ ] God selection to cave
-	- [ ] Death
-	- [ ] Game fade to victory
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was cool)
@@ -128,7 +123,11 @@ Week 6/7
 	- [ ] Intro - "I am Charon, shephard of the dead."
 	- [ ] Last chance flip - "You must flip!"
 	- [ ] Victory - "I wish you luck..."
-
+- [ ] **Sounds - Transitions**
+	- [ ] Victory to main menu
+	- [ ] God selection to cave
+	- [ ] Death
+	- [ ] Game fade to victory
 
 
 Week 8/9/10

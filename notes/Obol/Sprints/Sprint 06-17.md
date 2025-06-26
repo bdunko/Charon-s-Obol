@@ -4,7 +4,7 @@
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 |        | ✔       | ✔         | ✔<br>    | ✔<br>  | ✔<br>    | ✔<br>  |
-| ✔<br>  |         |           |          |        |          |        |
+| ✔<br>  | ✔<br>   |           |          |        |          |        |
 
 ---
 ## 🎯 Sprint Goal  
@@ -23,12 +23,9 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [ ] Spike - think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
 - [ ] When Charon goes to slam, make him raise his hands slightly first. 
 - [ ] Refactor - make it possible for a single sound effect to contain multiple audio files (layers). When playing this sound effect, fire off both. Switch to using this for the layered transition.
-- [ ] Building Blocks 2 - All Together 4
 - [ ] Building Blocks 2 - No Labels 2
 ### In Progress  
-- [ ] Update patron token passives to use floating labels.
 - [ ] Add floating label at start of round for life regen. I guess it can just appear in the middle of the board.
-- [ ] Update heal_life function so that Demeter patron token properly creates a life healed label when it triggered. This involves adding an optional parameter to "passive_triggered" containing a string which is either blank or a label to be created. All places where we connect to passive_triggered need to be updated with a default paramter of "".
 - [ ] During payoff, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
@@ -40,6 +37,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Building Blocks 2 - Bass, Chords, and Melody - Removing Backbeats
 - [x] Building Blocks 2 - Chords - Inversions
 - [x] Building Blocks 2 - Chords - Inversions 2
+- [x] Building Blocks 2 - All Together 4
 - [x] Re-export Divine, Voice, and Transition audio effects and trim silence in Audacity again, ensuring that sounds are not being abruptly cut off. Increase the silence tolerance and threshold, most likely.
 - [x] Figure out sound when hovering a patron statue.
 - [x] Create a shorter sound for PatronStatueClicked. - decided not necessary
@@ -51,6 +49,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Add rising and flashing text labels to payoff animation. The labels should show the amount of souls/life earned/lost.
 - [x] Make floating label work with Phaethon.
 - [x] Update patron token powers (Demeter/Hades/Dionysus) to also use floating labels properly (gain souls/life etc).
+- [x] Update patron token passives to use floating labels. Add a ptr to patron token in Global so we can create the label for Demeter in heal_life. 
 
 ---
 ## 📝 Quick To-Dos  

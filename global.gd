@@ -15,6 +15,8 @@ var _coin_row
 @warning_ignore("unused_private_class_variable")
 var _shop_row # this is used...
 var _enemy_row
+var _patron_token
+var _game
 
 signal state_changed
 signal round_changed
@@ -305,8 +307,7 @@ func heal_life(heal_amt: int) -> void:
 	if Global.is_passive_active(Global.PATRON_POWER_FAMILY_DEMETER):
 		earn_souls(heal_amt)
 		Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_DEMETER)
-		# LABELTODO - use optional paramter on signal; need to update at all connected spots to accept "" by default
-		# optional param is a string of tooltip to be created; if not ""
+		LabelSpawner.spawn_label(Global.SOUL_UP_PAYOFF_FORMAT % heal_amt, _patron_token.get_label_origin(), _game)
 
 func lose_souls(soul_amt: int) -> void: 
 	assert(soul_amt >= 0)

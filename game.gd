@@ -227,6 +227,7 @@ func _ready() -> void:
 	Global._coin_row = _COIN_ROW
 	Global._enemy_row = _ENEMY_COIN_ROW
 	Global._shop_row = _SHOP_COIN_ROW
+	Global._game = self
 	
 	Global.state_changed.connect(_on_state_changed)
 	Global.life_count_changed.connect(_on_life_count_changed)
@@ -580,6 +581,7 @@ func _make_patron_token():
 	_patron_token.clicked.connect(_on_patron_token_clicked)
 	_patron_token.name = "PatronToken"
 	_TABLE.add_child(_patron_token)
+	Global._patron_token = _patron_token # update global's ref to this...
 
 var flips_pending = 0
 func _on_flip_complete(flipped_coin: Coin) -> void:
