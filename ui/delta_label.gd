@@ -1,9 +1,10 @@
 class_name DeltaLabel
 extends RichTextLabel
 
-@export var display_duration := 1.5    # Seconds to stay visible after flash
-@export var fade_duration := 0.5       # Seconds to fade out alpha
-@export var flash_duration := 0.25     # Duration of the flash tween
+@export var fade_in_duration := 0.05  # quick fade-in duration
+@export var display_duration := 2.0    # Seconds to stay visible after flash
+@export var fade_duration := 0.25       # Seconds to fade out alpha
+@export var flash_duration := 0.1     # Duration of the flash tween
 
 @export var format_string := "[center]{value}[/center]"
 
@@ -15,6 +16,8 @@ extends RichTextLabel
 var _current_value: int = 0
 var _fade_id: int = 0
 var _tween: Tween = null
+var _fade_deadline_msec: int = -1
+var _enabled: bool = true
 
 func _ready():
 	hide()
@@ -24,26 +27,37 @@ func _ready():
 	_tween.kill()
 
 func add_delta(delta: int) -> void:
-	if delta == 0:
-		return  # Ignore zero delta, no changes
+	if not _enabled or delta == 0:
+		return  # Ignore if disabled or zero delta
 
 	_current_value += delta
 	_fade_id += 1
 	var my_id = _fade_id
 
 	_update_text_and_color()
+	
+	# Begin fade-in
+	modulate.a = 0.0
 	show()
-	modulate.a = 1.0
-
 	_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(self, "modulate:a", 1.0, fade_in_duration)
+	await _tween.finished
 
 	await _play_flash_animation(my_id)
 	if my_id != _fade_id or !is_inside_tree():
 		return
 
-	await Global.delay(display_duration)
-	if my_id != _fade_id or !is_inside_tree():
-		return
+	_fade_deadline_msec = Time.get_ticks_msec() + int(display_duration * 1000)
+	while true:
+		var now = Time.get_ticks_msec()
+		var wait_time = (_fade_deadline_msec - now) / 1000.0
+		if wait_time <= 0:
+			break
+		await Global.delay(min(wait_time, 0.1))  # Wait in small slices
+		if my_id != _fade_id or !is_inside_tree():
+			return
+
 
 	await _play_fade_animation(my_id)
 	if my_id != _fade_id or !is_inside_tree():
@@ -82,3 +96,33 @@ func reset() -> void:
 	_current_value = 0
 	hide()
 	modulate.a = 1.0
+
+func soft_reset() -> void:
+	if !_enabled:
+		return
+	
+	_fade_id += 1
+	var my_id = _fade_id
+	_tween.kill()
+	_current_value = 0
+	
+	_tween = create_tween()
+	_tween.tween_property(self, "modulate:a", 0.0, fade_duration)
+	await _tween.finished
+
+	if my_id != _fade_id or !is_inside_tree():
+		return  # Interrupted by another delta or destroyed
+
+	hide()
+	modulate.a = 1.0
+
+func disable() -> void:
+	_enabled = false
+
+func enable() -> void:
+	_enabled = true
+
+func refresh() -> void:
+	if _fade_deadline_msec > 0:
+		_fade_deadline_msec = Time.get_ticks_msec() + int(display_duration * 1000)
+

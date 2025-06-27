@@ -12,7 +12,9 @@ signal game_ended
 @onready var _CHARON_COIN_ROW: CoinRow = $Table/CharonObolRow
 
 @onready var _LIFE_LABEL = $Table/LivesLabel
+@onready var _LIFE_DELTA_LABEL = $Table/LivesDeltaLabel
 @onready var _SOUL_LABEL = $Table/SoulsLabel
+@onready var _SOUL_DELTA_LABEL = $Table/SoulsDeltaLabel
 @onready var _LIFE_FRAGMENTS = $Table/LifeFragments
 @onready var _SOUL_FRAGMENTS = $Table/SoulFragments
 @onready var _ARROWS = $Table/Arrows
@@ -211,6 +213,10 @@ func _ready() -> void:
 	_TRIAL_TINT_FX.hide()
 	_NEMESIS_TINT_FX.hide()
 	_CHARON_TINT_FX.hide()
+	_LIFE_DELTA_LABEL.hide()
+	_SOUL_DELTA_LABEL.hide()
+	_SOUL_DELTA_LABEL.disable()
+	_LIFE_DELTA_LABEL.disable()
 	
 	_SHOP.set_coin_spawn_point(CHARON_NEW_COIN_POSITION)
 	_ENEMY_ROW.set_coin_spawn_point(CHARON_NEW_COIN_POSITION)
@@ -265,6 +271,8 @@ func _on_arrow_count_changed() -> void:
 func _on_soul_count_changed(change: int) -> void:
 	_SOUL_TOOLTIP_EMITTER.enable() if Global.souls > 0 else _SOUL_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
+	_SOUL_DELTA_LABEL.add_delta(change)
+	_LIFE_DELTA_LABEL.refresh()
 	
 	while change > 0:
 		Audio.play_sfx(SFX.PayoffGainSouls)
@@ -273,6 +281,8 @@ func _on_soul_count_changed(change: int) -> void:
 func _on_life_count_changed(change: int) -> void:
 	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
+	_LIFE_DELTA_LABEL.add_delta(change)
+	_SOUL_DELTA_LABEL.refresh()
 	
 	if change < 0:
 		Audio.play_sfx(SFX.LoseLife)
@@ -753,6 +763,10 @@ func _on_toss_button_clicked() -> void:
 	if _COIN_ROW.get_child_count() == 0:
 		_DIALOGUE.show_dialogue("No coins...")
 		return
+	
+	# 'soft reset' the delta counters so that the flip life loss properly shows
+	_LIFE_DELTA_LABEL.soft_reset()
+	_SOUL_DELTA_LABEL.soft_reset()
 	
 	# take life from player
 	var ante = Global.ante_cost()
@@ -1480,6 +1494,9 @@ func _on_voyage_continue_button_clicked():
 		if Global.current_round_type() == Global.RoundType.NEMESIS: # nemesis - regen an additional 100
 			await _wait_for_dialogue("...and steel your nerves...")
 			Global.lives += Global.current_round_life_regen()
+	
+	_SOUL_DELTA_LABEL.enable()
+	_LIFE_DELTA_LABEL.enable()
 	
 	# refresh patron powers
 	Global.patron_uses = Global.patron.get_uses_per_round()

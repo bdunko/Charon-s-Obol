@@ -98,11 +98,11 @@ var VictoryButtonClicked = Effect.new("Victory Button Clicked", [preload("res://
 	SFXParams.new().pitch(1.8))
 
 var TransitionQuoteIn = Effect.new("Transition Writing In", [preload("res://assets/audio/sounds/writing/SFX WriteCardboardScribble3.wav")], 1,
-	SFXParams.new().pitch(1.3))
+	SFXParams.new().pitch(1.3).volume(-2.0))
 var TransitionQuoteInTip = Effect.new("Transition Writing In Tip", [preload("res://assets/audio/sounds/writing/SFX WriteCardboardScribble2.wav")], 1,
-	SFXParams.new().volume(-7.0).pitch(1.7))
+	SFXParams.new().volume(-9.0).pitch(1.7))
 var TransitionQuoteOut = Effect.new("Transition Writing Out", [preload("res://assets/audio/sounds/writing/SFX WriteLine.wav")], 1,
-	SFXParams.new().volume(-4.0).pitch(0.60))
+	SFXParams.new().volume(-6.0).pitch(0.60))
 var TransitionZoomToCave = Effect.new("Transition Fade To Cave", [preload("res://assets/audio/sounds/water_ui/SFX AirRelease3.wav")], 1,
 	SFXParams.new().volume(1.0).pitch(0.3))
 var TransitionZoomToCaveLayer2 = Effect.new("Transition Fade To Cave (Layer2)", [preload("res://assets/audio/sounds/transitions/SFX TransitionCrystal3Shortened.wav")], 1,

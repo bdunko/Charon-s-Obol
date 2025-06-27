@@ -49,13 +49,15 @@ Week 3/4/5
 	- [ ] Call Upon Thy Power
 	- [ ] Payoff Arrives; Fate is Sealed
 - [ ] **Improved Appearance of Textbox Buttons**
-	- [ ] Fade and slightly grow once clicked? With a very slight delay.
+	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should fade out a bit better too, maybe shrink a bit. 
 - [ ] **Improved Coin Flip Animation**
 	- [ ]  Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [ ] Effect when a coin is tossed or lands(?)
 - [ ] **Improve Arrows of Night**
 	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
-	- [ ] Arrows fade in from light
+	- [ ] Arrows are placed on table from Charon like other things.
+	- [ ] Add back the slight randomness to arrow pile, it was better. 
+	- [ ] Maybe try to fit in the delta label for arrows?
 - [ ] **Polish**
 	- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer.
 	- [ ] Trail for souls, life, and purchased coins?
@@ -64,6 +66,8 @@ Week 3/4/5
 	- [ ] Pile of life/souls should be in a circular pile instead of square.
 	- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect\
 	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+- [ ] **Color Standardization**
+	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
 - [ ] **Building Blocks Cheatsheet**
 	- [ ] Go through all the creates again in order, do them in Ableton, take notes on the video portions
 
@@ -87,6 +91,7 @@ Week 6/7
 		- [ ] The turn sound should just be a metallic something...
 	- [ ] Additions
 		- [ ] Hover map
+		- [ ] Take a Deep Breath sound
 		- [ ] Charon talk sound
 		- [ ] Heartbeat (add the effect so this looks less weird, and see if it works)
 		- [ ] Need a water whoosh sound during boat movement on map.
