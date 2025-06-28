@@ -1,34 +1,52 @@
 class_name TempLabel
 extends RichTextLabel
 
-@export var move_time = 0.25
-const _PAUSE_TIME = 0.75
-const _FADE_TIME = 0.1
-@export var y_amount = 18
+signal ready_for_destroy
+
+@export var move_time = 0.3
+@export var scale_time = 0.3
+const _PAUSE_TIME = 1.0
+const _FADE_TIME = 0.2
+@export var y_amount = 17
+@export var starting_scale = Vector2(1.0, 1.0)
+
+var _destroying := false
+var _tween: Tween
 
 func _ready():
-	# wait a frame and recenter
 	hide()
 	await get_tree().process_frame
-	size.x += 2 # make space for border...
-	position -= (size / 2.0) #center label
+	size.x += 2  # Add 2 pixels for border padding to avoid clipping
+	pivot_offset = size / 2.0
+	position -= (size / 2.0)
+	scale = starting_scale
 	show()
 	
-	# start moving upwards
 	var start_y = position.y
-	var pause_time = _PAUSE_TIME
+	_tween = create_tween()
 
-	var tween = create_tween()
+	_tween.tween_property(self, "position:y", start_y - y_amount, scale_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_tween.parallel().tween_property(self, "scale", Vector2.ONE, move_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_tween.tween_interval(_PAUSE_TIME)
+	_tween.tween_property(self, "modulate", Color(0.5, 0.5, 0.5, 0), _FADE_TIME).set_trans(Tween.TRANS_LINEAR)
 
-	# Move up and scale up simultaneously
-	tween.tween_property(self, "position:y", start_y - y_amount, move_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(self, "scale", Vector2.ONE, move_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	await _tween.finished
+	if _destroying:
+		return
+	_destroying = true
+	emit_signal("ready_for_destroy")
 
-	# Pause for 0.5 seconds (no movement)
-	tween.tween_interval(pause_time)
 
-	# Fade out
-	tween.tween_property(self, "modulate", Color(0.5, 0.5, 0.5, 0), _FADE_TIME).set_trans(Tween.TRANS_LINEAR)
+func destroy():
+	if _destroying:
+		return
+	_destroying = true
 
-	await tween.finished
-	queue_free()
+	if _tween and _tween.is_running():
+		_tween.kill()
+
+	_tween = create_tween()
+	_tween.tween_property(self, "modulate", Color(0.5, 0.5, 0.5, 0), 0.1)
+	await _tween.finished
+
+	emit_signal("ready_for_destroy")

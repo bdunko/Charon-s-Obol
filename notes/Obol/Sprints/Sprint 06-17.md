@@ -4,7 +4,7 @@
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 |        | ✔       | ✔         | ✔<br>    | ✔<br>  | ✔<br>    | ✔<br>  |
-| ✔<br>  | ✔<br>   |           |          |        |          |        |
+| ✔<br>  | ✔<br>   | ✔<br>     | ✔<br>    | ✔<br>  |          |        |
 
 ---
 ## 🎯 Sprint Goal  
@@ -14,18 +14,22 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ## 🧠 Dev Notes & Observations  
 - Investigate how to continue musical education after completing Building Blocks 2. Check access to Foundations again. Reflect on this a bit.
 
+| Shortcut           | Action                                        |
+|--------------------|------------------------------------------------|
+| Ctrl + Shift + O   | Quick Open (scripts/scenes)                    |
+| Ctrl + L           | Go to Line                                     |
+
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are. Only start applying when life is below half.
-- [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
-- [ ] For the label; When losing souls, flash red. When healing life, flash green. (ie, flash specific colors on label instead of always the same). 
-- [ ] Think about ways to improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
+- [ ] Improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
+- [ ] Add a floating label effect for the lift loss when Charon takes life for ante.
 - [ ] When Charon goes to slam, make him raise his hands slightly first. 
 - [ ] Refactor - make it possible for a single sound effect to contain multiple audio files (layers). When playing this sound effect, fire off both. Switch to using this for the layered transition.
 ### In Progress  
-- [ ] Add floating label at start of round for life regen. I guess it can just appear in the middle of the board, as "Take a deep breath" happens.
-- [ ] Whenever life/souls change, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
+- [ ] For the label; When losing souls, flash red. When healing life, flash green. (ie, flash specific colors on label instead of always the same). 
+- [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are. Only start applying when life is below half.
+- [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
 - [x] Building Blocks 2 - Bass - 7's & The Octave 
@@ -50,6 +54,8 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Make floating label work with Phaethon.
 - [x] Update patron token powers (Demeter/Hades/Dionysus) to also use floating labels properly (gain souls/life etc).
 - [x] Update patron token passives to use floating labels. Add a ptr to patron token in Global so we can create the label for Demeter in heal_life. 
+- [x] Whenever life/souls change, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
+- [x] Add floating label at start of round for life regen. I guess it can just appear in the middle of the board, as "Take a deep breath" happens.
 
 ---
 ## 📝 Quick To-Dos  
@@ -89,3 +95,9 @@ _Recap of key achievements from this sprint to highlight._
 
 **What I’ll change next sprint:**  
 -  
+
+
+| Shortcut           | Action                                        |
+|--------------------|------------------------------------------------|
+| Ctrl + Shift + O   | Quick Open (scripts/scenes)                    |
+| Ctrl + L           | Go to Line                                     |

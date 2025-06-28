@@ -42,6 +42,7 @@ signal game_ended
 @onready var _MAP_SHOWN_POINT = $Points/MapShown.position
 @onready var _MAP_HIDDEN_POINT = $Points/MapHidden.position
 @onready var _MAP_INITIAL_POINT = $Points/MapInitial.position
+@onready var _DEEP_BREATH_REGEN_POINT = $Points/DeepBreathRegen.position
 
 @onready var _DEATH_SPIRALS = [$DeathSpiral, $DeathSpiral2, $DeathSpiral3, $DeathSpiral4, $DeathSpiral5, $DeathSpiral6]
 @onready var _TRIAL_TINT_FX = $TrialTint/FX
@@ -764,10 +765,6 @@ func _on_toss_button_clicked() -> void:
 		_DIALOGUE.show_dialogue("No coins...")
 		return
 	
-	# 'soft reset' the delta counters so that the flip life loss properly shows
-	_LIFE_DELTA_LABEL.soft_reset()
-	_SOUL_DELTA_LABEL.soft_reset()
-	
 	# take life from player
 	var ante = Global.ante_cost()
 	
@@ -1200,7 +1197,6 @@ func _on_continue_button_pressed():
 	if Global.get_timer(_SHOP_CONTINUE_DELAY_TIMER).time_left > 0.0:
 		return # can't continue before a certain delay
 	
-	
 	_RIGHT_HAND.move_to_default_position()
 	_LEFT_HAND.move_to_default_position()
 	_LEFT_HAND.set_appearance(CharonHand.Appearance.NORMAL)
@@ -1231,6 +1227,8 @@ func _on_continue_button_pressed():
 			await _wait_for_dialogue(Global.replace_placeholders("Not a great exchange for you..."))
 			await _wait_for_dialogue(Global.replace_placeholders("But better than nothing."))
 		Global.heal_life(pity_life)
+		if pity_life != 0:
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % pity_life, _DEEP_BREATH_REGEN_POINT, self)
 
 		if Global.tutorialState == Global.TutorialState.ROUND3_PATRON_INTRO:
 			await _wait_for_dialogue(Global.replace_placeholders("Let's continue onwards."))
@@ -1297,6 +1295,7 @@ func _on_end_round_button_pressed():
 	_update_payoffs()
 	
 	Global.state = Global.State.SHOP
+	LabelSpawner.destroy_all_labels()
 	randomize_and_show_shop()
 	
 	_RIGHT_HAND.move_offscreen()
@@ -1485,15 +1484,18 @@ func _on_voyage_continue_button_clicked():
 		if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorialState != Global.TutorialState.ROUND1_FIRST_HEADS:
 			await _tutorial_fade_in([_LIFE_FRAGMENTS, _LIFE_LABEL, _ENEMY_COIN_ROW])
 		await _wait_for_dialogue("...take a deep breath...")
+		
 		# refresh lives
 		if not Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FAMINE): # famine trial prevents life regen
 			Global.lives += Global.current_round_life_regen()
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % Global.current_round_life_regen(), _DEEP_BREATH_REGEN_POINT, self)
 		else:
 			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_FAMINE)
 		
 		if Global.current_round_type() == Global.RoundType.NEMESIS: # nemesis - regen an additional 100
 			await _wait_for_dialogue("...and steel your nerves...")
 			Global.lives += Global.current_round_life_regen()
+			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % Global.current_round_life_regen(), _DEEP_BREATH_REGEN_POINT, self)
 	
 	_SOUL_DELTA_LABEL.enable()
 	_LIFE_DELTA_LABEL.enable()

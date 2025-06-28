@@ -12,6 +12,11 @@ _A short statement of the focus or milestone for this sprint._
 ## 🧠 Dev Notes & Observations  
 _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
+| Shortcut         | Action                      |
+| ---------------- | --------------------------- |
+| Ctrl + Shift + O | Quick Open (scripts/scenes) |
+| Ctrl + L         | Go to Line                  |
+
 ---
 ## ⌚ Deep Work
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
