@@ -36,6 +36,7 @@ hue_variation_max = 0.04
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_adb6m"]
 shader = ExtResource("7_wqu0h")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -156,6 +157,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -166,6 +168,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aof5t"]
 shader = ExtResource("7_wqu0h")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -286,6 +289,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0

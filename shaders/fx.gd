@@ -68,7 +68,7 @@ enum Uniform {
 	
 	FLOAT_CUT_LEFT, FLOAT_CUT_RIGHT, FLOAT_CUT_TOP, FLOAT_CUT_BOTTOM,
 	
-	BOOL_VIGNETTE_ON, BOOL_VIGNETTE_IGNORE_TRANSPARENT, VEC3_VIGNETTE_COLOR, FLOAT_VIGNETTE_RADIUS,
+	BOOL_VIGNETTE_ON, BOOL_VIGNETTE_LAYER, BOOL_VIGNETTE_IGNORE_TRANSPARENT, VEC3_VIGNETTE_COLOR, FLOAT_VIGNETTE_RADIUS,
 	
 	FLOAT_TRANSPARENCY,
 	FLOAT_AUTO_FLICKER_SPEED, FLOAT_AUTO_FLICKER_BOUND, FLOAT_AUTO_FLICKER_START_TIME,
@@ -202,6 +202,7 @@ const _UNIFORM_TO_STR = {
 	
 	Uniform.BOOL_VIGNETTE_ON : "vignette_on", 
 	Uniform.BOOL_VIGNETTE_IGNORE_TRANSPARENT : "vignette_ignore_transparent", 
+	Uniform.BOOL_VIGNETTE_LAYER : "vignette_layer",
 	Uniform.VEC3_VIGNETTE_COLOR : "vignette_color", 
 	Uniform.FLOAT_VIGNETTE_RADIUS : "vignette_radius",
 	
@@ -242,7 +243,7 @@ func get_uniform(uniform: Uniform):
 	return get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])
 
 # tween the uniform from the current value to 'to' over 'duration' (ms).
-func tween_uniform(uniform: Uniform, to, duration, trans = Tween.TRANS_LINEAR, loops = 1):
+func tween_uniform(uniform: Uniform, to, duration, trans = Tween.TRANS_LINEAR, loops = 1, ease = Tween.EASE_IN_OUT):
 	var tween = create_tween()
 	
 	tween.tween_property(get_parent(), "material:shader_parameter/%s" % _UNIFORM_TO_STR[uniform], to, duration).set_trans(trans)
@@ -544,6 +545,24 @@ func start_auto_recolor(color: Color, with: Color, speed: float = 3.0, restart: 
 
 func stop_auto_recolor() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_REPLACE_SPEED, 0.0)
+
+func nonlinear_fast_drop(t: float, min: float, k: float = 3.0) -> float:
+	t = clamp(t, 0.0, 1.0)
+	return min + (10.0 - min) * (1.0 - pow(1.0 - t, k))
+
+func flash_vignette(time: float = 0.33) -> void:
+	var STEPS = [20.0, 10.0, 5.0, 3.0, 2.0, 3.0, 5.0, 10.0, 20.0]
+	var time_per_step = time / STEPS.size()
+	
+	# this is a bit of a hack, but I dislike how the 
+	# vignette has a constant effect when when at max radius
+	# so modify transparency a bit
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
+	
+	for step in STEPS:
+		await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
+	
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
 func stop_all() -> void:
 	stop_flashing()

@@ -280,11 +280,14 @@ uniform float cut_bottom: hint_range(0.0, 1.0, 0.001) = 0.0;
 // VIGNETTE
 // Applies a circular vignette effect on the canvas if vignette_on.
 // The vignette has a vignette_radius and a vignette_color.
+// If applying to a color rect as a pure vignette layer, set vignette_layer to false and post-processing to true.
+// Otherwise the appearance will be weird (mostly white).
 // If vignette_ignore_transparent, transparent pixels will not have the vignette applied.
 // This is generally useful if you want to apply a vignette on something besides the entire screen.
 // Radius -> 0 tends to do some crazy effects
 group_uniforms Vignette;
 uniform bool vignette_on = false;
+uniform bool vignette_layer = false;
 uniform bool vignette_ignore_transparent = false;
 uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float vignette_radius: hint_range(0.001, 20.0, 0.01) = 1.0;
@@ -504,6 +507,8 @@ void fragment()
 
 	// VIGNETTE
 	if (vignette_on && ((!vignette_ignore_transparent || COLOR.a != 0.0)) && !is_exclude_color) {
+		if (vignette_layer)
+			COLOR.a = 0.0;
 		float x = abs(adjUV.x-.5)*2.0;
 		float y = abs(adjUV.y-.5)*2.0;
 		float v = (sqrt((x*x)+(y*y))/vignette_radius);

@@ -25,11 +25,10 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [ ] Improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
 - [ ] Add a floating label effect for the lift loss when Charon takes life for ante.
 - [ ] When Charon goes to slam, make him raise his hands slightly first. 
-- [ ] Refactor - make it possible for a single sound effect to contain multiple audio files (layers). When playing this sound effect, fire off both. Switch to using this for the layered transition.
 ### In Progress  
-- [ ] For the label; When losing souls, flash red. When healing life, flash green. (ie, flash specific colors on label instead of always the same). 
 - [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are. Only start applying when life is below half.
 - [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
+- [ ] Apply vignette to death effect too. Oscillate eyes closed/open (more extreme vignette)
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
 - [x] Building Blocks 2 - Bass - 7's & The Octave 

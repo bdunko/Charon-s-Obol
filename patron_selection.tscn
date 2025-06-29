@@ -19,6 +19,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c3aq0"]
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -139,6 +140,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = true
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = true
 shader_parameter/vignette_color = Color(0.294118, 0.298039, 0.670588, 1)
 shader_parameter/vignette_radius = 9.311
@@ -235,6 +237,7 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ke5ey"]
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -355,6 +358,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -365,6 +369,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_68yvk"]
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -485,6 +490,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -495,6 +501,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o110x"]
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -615,6 +622,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -631,6 +639,7 @@ noise = SubResource("FastNoiseLite_at7ng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ao8e3"]
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -752,6 +761,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -760,9 +770,10 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_81q2p"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6gbe"]
 resource_local_to_scene = true
 shader = ExtResource("3_jc04v")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -883,6 +894,7 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
@@ -1021,7 +1033,7 @@ alignment = 1
 script = ExtResource("13_8yqjs")
 
 [node name="VictoryContinueButton" parent="VictoryTextboxes" instance=ExtResource("14_id8ra")]
-material = SubResource("ShaderMaterial_81q2p")
+material = SubResource("ShaderMaterial_s6gbe")
 layout_mode = 2
 default_text = "Victory!"
 sound_family = 2

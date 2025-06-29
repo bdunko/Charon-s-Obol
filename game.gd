@@ -51,6 +51,7 @@ signal game_ended
 const _TINT_TIME = 0.25
 const _TINT_ALPHA = 0.075
 @onready var _CHARON_FOG_FX = $CharonFog/FX
+@onready var _VIGNETTE_FX = $VignetteLayer/FX
 
 @onready var _FOG_FX = $Fog/FX
 @onready var _FOG_BLUE_FX = $FogBlue/FX
@@ -195,6 +196,7 @@ func _ready() -> void:
 	assert(_TRIAL_TINT_FX)
 	assert(_NEMESIS_TINT_FX)
 	assert(_CHARON_TINT_FX)
+	assert(_VIGNETTE_FX)
 	
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
@@ -287,6 +289,7 @@ func _on_life_count_changed(change: int) -> void:
 	
 	if change < 0:
 		Audio.play_sfx(SFX.LoseLife)
+		_VIGNETTE_FX.flash_vignette()
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
