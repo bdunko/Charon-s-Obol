@@ -52,6 +52,7 @@ const _TINT_TIME = 0.25
 const _TINT_ALPHA = 0.075
 @onready var _CHARON_FOG_FX = $CharonFog/FX
 @onready var _VIGNETTE_FX = $VignetteLayer/FX
+@onready var _VIGNETTE_PULSATE_FX = $VignettePulsateLayer/FX
 
 @onready var _FOG_FX = $Fog/FX
 @onready var _FOG_BLUE_FX = $FogBlue/FX
@@ -197,6 +198,7 @@ func _ready() -> void:
 	assert(_NEMESIS_TINT_FX)
 	assert(_CHARON_TINT_FX)
 	assert(_VIGNETTE_FX)
+	assert(_VIGNETTE_PULSATE_FX)
 	
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
@@ -289,7 +291,20 @@ func _on_life_count_changed(change: int) -> void:
 	
 	if change < 0:
 		Audio.play_sfx(SFX.LoseLife)
-		_VIGNETTE_FX.flash_vignette()
+	
+	if Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP:
+		if Global.lives <= 0:
+			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.SEVERE)
+			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
+		elif Global.lives <= 20:
+			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.HEAVY)
+			_VIGNETTE_PULSATE_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
+		elif Global.lives <= 50:
+			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.MODERATE)
+			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
+		elif change < 0:
+			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.SLIGHT)
+			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
 	
 	# if we ran out of life, initiate last chance flip
 	if Global.lives < 0:
@@ -359,6 +374,10 @@ func _on_state_changed() -> void:
 		_FOG_FX.fade_in()
 		_FOG_BLUE_FX.fade_in()
 	
+	# remove vigentte life pulsating outside of round
+	if Global.state != Global.State.AFTER_FLIP and Global.state != Global.State.BEFORE_FLIP and Global.state != Global.State.CHARON_OBOL_FLIP:
+		_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
+	
 	if Global.state != Global.State.CHARON_OBOL_FLIP:
 		_CHARON_FOG_FX.fade_out(_TINT_TIME)
 	
@@ -395,31 +414,29 @@ func _on_state_changed() -> void:
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		_on_game_end()
-		
-		
-#		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
-#		Global.ante_modifier_this_round = 0
-#		_ENEMY_COIN_ROW.clear()
-#		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
-#		_PLAYER_TEXTBOXES.make_invisible()
-#		await _wait_for_dialogue("I did not expect you to perish here...")
-#		await _wait_for_dialogue("Very well!")
-#		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
-#		_PLAYER_TEXTBOXES.make_invisible()
-#		await _CHARON_COIN_ROW.expand()
-#		await _wait_for_dialogue("We will flip this single obol.")
-#		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
-#		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
-#		_CHARON_COIN_ROW.get_child(0).turn()
-#		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
-#		_CHARON_COIN_ROW.get_child(0).turn()
-#		_LEFT_HAND.unpoint()
-#		await _wait_for_dialogue("And now, on the edge of life and death...")
-#		_CHARON_FOG_FX.fade_in(_TINT_TIME)
-#		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
-#		_DIALOGUE.show_dialogue("You must toss!")
-#		_PLAYER_TEXTBOXES.make_visible()
+		#_on_game_end() # for debugging - comment out below and make this active to skip obol flip
+		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
+		Global.ante_modifier_this_round = 0
+		_ENEMY_COIN_ROW.clear()
+		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
+		_PLAYER_TEXTBOXES.make_invisible()
+		await _wait_for_dialogue("I did not expect you to perish here...")
+		await _wait_for_dialogue("Very well!")
+		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
+		_PLAYER_TEXTBOXES.make_invisible()
+		await _CHARON_COIN_ROW.expand()
+		await _wait_for_dialogue("We will flip this single obol.")
+		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
+		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
+		_CHARON_COIN_ROW.get_child(0).turn()
+		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
+		_CHARON_COIN_ROW.get_child(0).turn()
+		_LEFT_HAND.unpoint()
+		await _wait_for_dialogue("And now, on the edge of life and death...")
+		_CHARON_FOG_FX.fade_in(_TINT_TIME)
+		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
+		_DIALOGUE.show_dialogue("You must toss!")
+		_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 
@@ -778,6 +795,7 @@ func _on_toss_button_clicked() -> void:
 		return
 	
 	Global.lives -= ante
+	LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % ante, _DEEP_BREATH_REGEN_POINT, self)
 	
 	if Global.lives < 0:
 		return

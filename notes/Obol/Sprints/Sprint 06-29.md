@@ -1,12 +1,6 @@
-<%*
-const start = tp.date.now("MM-DD");
-const end = tp.date.now("MM-DD", 13);
-const fileName = `Sprint ${start}`;
-await tp.file.rename(fileName);
-await tp.file.move("Sprints/" + fileName);
-%>
+
 ## 🎯 Sprint Goal  
-_A short statement of the focus or milestone for this sprint._
+Finish polishing epic - should be done with major polishing improvements for the foreseeable future by end of sprint. Set everything up to begin making music next week - prepare all inspiration tracks, create Building Blocks notes, have all plugins ready/organized in Ableton.
 
 ---
 ## 🧠 Dev Notes & Observations  
@@ -28,7 +22,9 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ]  
+- [ ] Monday Sprint Planning - polish epic.
+- [ ] Ableton prep - Make a group containing all plugins I'll be using. M1, common ableton effects, drums.
+- [ ] Building Blocks notes.
 ### In Progress  
 - [ ]  
 ### Done  
@@ -47,7 +43,7 @@ _Recap of key achievements from this sprint to highlight._
 - 
 
 ---
-## 🔍 Sprint Review (<%- end %>)  
+## 🔍 Sprint Review (07-12)  
 **What went well:**  
 -  
 

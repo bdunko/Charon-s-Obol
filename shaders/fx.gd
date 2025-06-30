@@ -550,8 +550,21 @@ func nonlinear_fast_drop(t: float, min: float, k: float = 3.0) -> float:
 	t = clamp(t, 0.0, 1.0)
 	return min + (10.0 - min) * (1.0 - pow(1.0 - t, k))
 
-func flash_vignette(time: float = 0.33) -> void:
-	var STEPS = [20.0, 10.0, 5.0, 3.0, 2.0, 3.0, 5.0, 10.0, 20.0]
+enum VignetteSeverity {
+	SLIGHT, MODERATE, HEAVY, SEVERE,
+	PULSATE
+}
+
+var _vigentte_steps_for_severity = {
+	VignetteSeverity.SLIGHT : [10.0, 4.0, 5.0, 20.0],
+	VignetteSeverity.MODERATE : [10.0, 3.0, 4.0, 20.0],
+	VignetteSeverity.HEAVY : [10.0, 2.5, 3.5, 20.0],
+	VignetteSeverity.SEVERE : [10.0, 2.0, 3.0, 20.0],
+	VignetteSeverity.PULSATE : [4.0, 3.0, 2.0, 3.0, 4.0]
+}
+
+func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time: float = 0.3) -> void:
+	var STEPS = _vigentte_steps_for_severity[severity]
 	var time_per_step = time / STEPS.size()
 	
 	# this is a bit of a hack, but I dislike how the 
@@ -564,6 +577,42 @@ func flash_vignette(time: float = 0.33) -> void:
 	
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
+var _vignette_pulsate_severity = VignetteSeverity.HEAVY
+var _vignette_pulsate_on = false:
+	set(val):
+		_vignette_pulsate_on = val
+		if _vignette_pulsate_on:
+			_play_vignette_pulsate_cycle()
+
+func start_vignette_pulsate(severity: VignetteSeverity = VignetteSeverity.PULSATE) -> void:
+	_vignette_pulsate_severity = severity
+	_vignette_pulsate_on = true
+
+func stop_vignette_pulsate() -> void:
+	_vignette_pulsate_on = false
+
+var _vignette_token_id = 0
+func _play_vignette_pulsate_cycle() -> void:
+	_vignette_token_id += 1
+	
+	var local_token = _vignette_token_id
+
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
+	
+	while _vignette_pulsate_on and local_token == _vignette_token_id:
+		var STEPS = _vigentte_steps_for_severity[_vignette_pulsate_severity]
+		var TIME = 1.0
+		var time_per_step = TIME / STEPS.size()
+		
+		for step in STEPS:
+			if not _vignette_pulsate_on:
+				break
+			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
+	
+	# reset to default vignette radius and hide it
+	set_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, 20.0)
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+
 func stop_all() -> void:
 	stop_flashing()
 	stop_flickering()
@@ -571,3 +620,4 @@ func stop_all() -> void:
 	stop_all_scanning()
 	stop_auto_recolor()
 	stop_partial_disintegrate()
+	stop_vignette_pulsate()

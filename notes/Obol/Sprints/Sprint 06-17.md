@@ -4,7 +4,7 @@
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 |        | ✔       | ✔         | ✔<br>    | ✔<br>  | ✔<br>    | ✔<br>  |
-| ✔<br>  | ✔<br>   | ✔<br>     | ✔<br>    | ✔<br>  |          |        |
+| ✔<br>  | ✔<br>   | ✔<br>     | ✔<br>    | ✔<br>  | ✔        |        |
 
 ---
 ## 🎯 Sprint Goal  
@@ -23,12 +23,13 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ## 🗂️ Sprint Task Lists
 ### To Do  
 - [ ] Improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
-- [ ] Add a floating label effect for the lift loss when Charon takes life for ante.
 - [ ] When Charon goes to slam, make him raise his hands slightly first. 
+- [ ] Apply vignette to death effect too. Oscillate blue eyes closed/open (more extreme vignette)
+- [ ] During Obol flip, change Vignette color to purple (use different layer for this probably).
+- [ ] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
 ### In Progress  
-- [ ] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette - more dramatic the lower on life you are. Only start applying when life is below half.
-- [ ] When you are very low on life, the vignette should stay visible (but slight), with a pulsing effect. 
-- [ ] Apply vignette to death effect too. Oscillate eyes closed/open (more extreme vignette)
+- [ ] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
+- [x] Add a floating label effect for the life loss when Charon takes life for ante.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
 - [x] Building Blocks 2 - Bass - 7's & The Octave 
@@ -55,6 +56,9 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Update patron token passives to use floating labels. Add a ptr to patron token in Global so we can create the label for Demeter in heal_life. 
 - [x] Whenever life/souls change, add a label including a sum of life lost/souls earned under those piles. This label should update as payoffs occur.
 - [x] Add floating label at start of round for life regen. I guess it can just appear in the middle of the board, as "Take a deep breath" happens.
+- [x] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette.
+- [x] Vignette should flash at different intensity based on remaining life, starting at <50. 
+- [x] When you are very low on life, the vignette should stay visible (but slight, and black), with a pulsing effect. 
 
 ---
 ## 📝 Quick To-Dos  
@@ -63,10 +67,9 @@ _Untracked or small tasks not managed in the structured lists._
 - [ ] 33 Strategies of War - Robert Greene
 - [ ] Mastery - Robert Greene
 - [x] Look into Super Audio Cart for sound sources. 
-- [ ] Install Super Audio Cart
+- [x] Install Super Audio Cart
 - [ ] Download MP3 for inspiration songs.
-- [ ] Might be nice to have a way to layer sound effects more natively in my sfx system - instead of having to tell it to play two sounds, have some way to have a single effect contain multiple 'sounds'. Probably can do this by making Effect.new not take anything in ctor, then chain something like ".sound(....)" in a builder pattern.
-- [ ] Start looking into AP test prep - build up some study guides and question banks, annotated exam solutions, etc.
+- [x] Start looking into AP test prep - build up some study guides and question banks, annotated exam solutions, etc.
 
 ---
 ## 🏆 Wins & Highlights
@@ -77,11 +80,16 @@ _Recap of key achievements from this sprint to highlight._
 - Floating label effect.
 - Animated label effect/Label Spawner.
 - Delta label effect. (lots of labels apparently)
+- Integrated more AI into dev process.
 
 ---
 ## 🔍 Sprint Review (06-30)  
 **What went well:**  
--  
+- Was able to deep work on most days - good tracking.
+- Sprint structure worked well.
+- Added lots of nice new polish effects, looks great. 
+- Finished Building Blocks 2 - increased confidence in music.
+- Increased efficiency using AI. 
 
 **What didn’t go well:**  
 -  Need to think about a better organization/way to handle the sound effects in Ableton; split existing content into multiple projects. It takes too long to export and is too annoying.
@@ -91,12 +99,12 @@ _Recap of key achievements from this sprint to highlight._
 			- Divine, Voices, Writing, Transitions
 		- Ambiances
 		- Coingame
+- Inconsistent schedule timing.
+- Not enough sleep, need to do a better job of sleeping.
+- Too much 'fun' time - fun is good, but in moderation. 
 
 **What I’ll change next sprint:**  
--  
+- No board games on weekdays again. Eats up too much time, even if it is enjoyable in the moment, I need to focus on my goals.
+- Refocus on work to remove it as a stressor/distraction - make solid progress on work tasks on Monday, go to work on Tuesday-Thursday in person .
+- Also write time work started in deep work tracker. Aim to start working right after dinner. So end of day -> workout -> dinner -> game work -> dog walk -> bed is ideal cycle.
 
-
-| Shortcut           | Action                                        |
-|--------------------|------------------------------------------------|
-| Ctrl + Shift + O   | Quick Open (scripts/scenes)                    |
-| Ctrl + L           | Go to Line                                     |

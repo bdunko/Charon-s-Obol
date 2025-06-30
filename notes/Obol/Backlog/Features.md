@@ -10,24 +10,13 @@ Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
 
 **Timeline**
 - [ ] **Soundtest** - by August 15
-	- [x] Week 1 - June 8
-	- [ ] Week 2 - June 15
-	- [ ] Week 3 - June 22
-	- [ ] Week 4 - June 29
-	- [ ] Week 5 - July 6
-	- [ ] Week 6 - July 13
-	- [ ] Week 7 - July 20
-	- [ ] Week 8 - July 27
-	- [ ] Week 9 - August 3
-	- [ ] Week 10 - August 10
-- [ ] **Settings Menu & Controller Support** - by Sept 15
-- [ ] **Revamped Unlock System** - by Sept 1
-- [ ] **Treasure of Atreus** - by Oct 1
-- [ ] **Tartarus Bonus Boss** - by Oct 15
-- [ ] **More Coins** - by Nov 15
-- [ ] **More Characters & Balance** - by Jan 1
-- [ ] **Playtesting & Polish** - by Feb 1
-- [ ] **Release** - by Mar 3
+- [ ] **Settings Menu & Controller Support** - 2 weeks - by Sept 1
+- [ ] **Revamped Unlock System** - 2 weeks - by Sept 15
+- [ ] **Treasure of Atreus** - 1 week - by Sept 22
+- [ ] **Tartarus Bonus Boss** - 2 weeks - by Oct 7
+- [ ] **More Coins** - 1 month - by Nov 7
+- [ ] **More Characters** - 1 month - by Dec 7 (feature freeze)
+- [ ] **Playtesting, Polish, Release**
 
 **Charon's Obol Soundtest**`
 Week 3/4/5
@@ -66,6 +55,9 @@ Week 3/4/5
 	- [ ] Pile of life/souls should be in a circular pile instead of square.
 	- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect\
 	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+	- [ ] Screen shake on Charon slam.
+	- [ ] Screen shake during death.
+	- [ ] Camera zoom in/out slightly during death.
 - [ ] **Color Standardization**
 	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
 - [ ] **Building Blocks Cheatsheet**

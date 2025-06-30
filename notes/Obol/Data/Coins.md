@@ -48,6 +48,7 @@
 		- [ ] ??? - Smoker coin - Gives more than normal, but every heads, ignite.
 		- [ ] ??? - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff on both sides.
 		- [ ] ??? - Ignite a random coin. Gain X.
+		- [ ] ??? - Choose one of your coins. It becomes permanently Blank. (Absolutely Safe Capsule)
 	- [ ] **Coin Type**
 		- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
