@@ -1,6 +1,6 @@
 
 ## 🎯 Sprint Goal  
-Finish polishing epic - should be done with major polishing improvements for the foreseeable future by end of sprint. Set everything up to begin making music next week - prepare all inspiration tracks, create Building Blocks notes, have all plugins ready/organized in Ableton.
+Finish polishing epic, completing major polishing improvements for the foreseeable future by end of sprint. Set everything up to begin making music next week - prepare all inspiration tracks, create Building Blocks notes, have all plugins ready/organized in Ableton.
 
 ---
 ## 🧠 Dev Notes & Observations  
@@ -16,26 +16,86 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-|        |         |           |          |        |          |        |
+| 8✔ 10✔ |         |           |          |        |          |        |
 |        |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Monday Sprint Planning - polish epic.
-- [ ] Ableton prep - Make a group containing all plugins I'll be using. M1, common ableton effects, drums.
-- [ ] Building Blocks notes.
+- [ ] **Building Blocks Revisit**
+	- [ ] Multi-Chord Bars
+	- [ ] Bass Expression (Grace Notes)
+	- [ ] Tom-Centric Grooves
+	- [ ] Half-Time
+	- [ ] All Track Anticipation
+	- [ ] 16th Shuffle
+	- [ ] 4-Bar Chord Progression
+	- [ ] Removing Backbeats
+- [ ] **Life/Soul Labels**
+	- [ ] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
+	- [ ] Apply disintegrate effect instead of fading in/out for the delta labels.
+- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer.
+- [ ] Trail for souls, life, and purchased coins?
+- [ ] Trail for coins moving to hands/toss.
+- [ ] River on the left/right should scroll during voyage.
+- [ ] Pile of life/souls should be in a circular pile instead of square.
+- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
+- [ ] **Charon Improvements**
+	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
+	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
+- [ ] **Improved Graphical effects for coins**
+	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
+	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
+	- [ ] Deactivate a coin - move it back down
+	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect I suppose.
+- [ ] **Enhanced Monster Effects (Projectile animations)**
+	- [ ] Add projectiles for monster coins targetting coins in player's row.
+		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+		- [ ] Just need to await for it to finish
+			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
+	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
+	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+- [ ] **Game Phase Labels** 
+	- [ ] Appears (using disintegrate effect and flash purple -> black) at the start of each 'phase'. 
+	- [ ] A Decision Must Be Made
+	- [ ] Awaken Thy Power
+	- [ ] Payoff Arrives; Fate is Sealed
+- [ ] **Textbox Buttons**
+	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should fade out a bit better too, maybe shrink a bit. 
+- [ ] **Coin Flip Animation**
+	- [ ]  Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [ ] Effect when a coin is tossed or lands(?)
+- [ ] **Arrows of Night**
+	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
+	- [ ] Arrows are placed on table from Charon like other things.
+	- [ ] Add back the slight randomness to arrow pile, it was better. 
+- [ ] **Screen Shake**
+	- [ ] Screen shake on Charon slam.
+	- [ ] Screen shake during death.
+	- [ ] Camera zoom in/out slightly during death.
+- [ ] **Color Standardization**
+	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
+
 ### In Progress  
-- [ ]  
+- [ ] **Vignette**
+	- [ ] Apply vignette to death effect too. Oscillate blue eyes closed/open (more extreme vignette)
+	- [ ] During Obol flip, change Vignette color to purple (use different layer for this probably) and pulsating.
+	- [ ] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
+
 ### Done  
-- [ ]  
+- [ ] **Building Blocks Revisit**
+	- [x] Shifted Snare
+	- [x] Chord Changes
+- [x] Monday Sprint Planning - polish epic.
+- [x] Ableton prep - Make a group containing all plugins I'll be using. M1, common/standard ableton effects, drums.
+
 
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._
-- [ ]  
-- [ ]  
-- [ ]  
+- [ ] 33 Strategies of War - Robert Greene
+- [ ] Mastery - Robert Greene
 
 ---
 ## 🏆 Wins & Highlights

@@ -4,7 +4,7 @@
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 |        | ✔       | ✔         | ✔<br>    | ✔<br>  | ✔<br>    | ✔<br>  |
-| ✔<br>  | ✔<br>   | ✔<br>     | ✔<br>    | ✔<br>  | ✔        |        |
+| ✔<br>  | ✔<br>   | ✔<br>     | ✔<br>    | ✔<br>  | ✔        | ✔<br>  |
 
 ---
 ## 🎯 Sprint Goal  
@@ -22,14 +22,7 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Improve the feedback for payment of life at toss's start. Maybe having Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam. 
-- [ ] When Charon goes to slam, make him raise his hands slightly first. 
-- [ ] Apply vignette to death effect too. Oscillate blue eyes closed/open (more extreme vignette)
-- [ ] During Obol flip, change Vignette color to purple (use different layer for this probably).
-- [ ] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
 ### In Progress  
-- [ ] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
-- [x] Add a floating label effect for the life loss when Charon takes life for ante.
 ### Done  
 - [x] Extend and improve Thunderstorm sound.
 - [x] Building Blocks 2 - Bass - 7's & The Octave 
@@ -59,16 +52,14 @@ Finish the sound design of the god selection screen. Begin polishing epic, start
 - [x] Add a life-loss vignette effect. It should be a red tint around the screen edge, in a circular pattern. Whenever you lose life, flash the vignette.
 - [x] Vignette should flash at different intensity based on remaining life, starting at <50. 
 - [x] When you are very low on life, the vignette should stay visible (but slight, and black), with a pulsing effect. 
+- [x] Add a floating label effect for the life loss when Charon takes life for ante.
 
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._
 - [x] Maybe I should start using Forest again. It's a good way to time deep work.
-- [ ] 33 Strategies of War - Robert Greene
-- [ ] Mastery - Robert Greene
 - [x] Look into Super Audio Cart for sound sources. 
 - [x] Install Super Audio Cart
-- [ ] Download MP3 for inspiration songs.
 - [x] Start looking into AP test prep - build up some study guides and question banks, annotated exam solutions, etc.
 
 ---
