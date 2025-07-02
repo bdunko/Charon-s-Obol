@@ -11,6 +11,8 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 | Ctrl + Shift + O | Quick Open (scripts/scenes) |
 | Ctrl + L         | Go to Line                  |
 
+Checking vignette effect requires making the 'editor' space match the game window size, since it is a screen space shader - 
+![[Pasted image 20250701230351.png]]
 ---
 ## ⌚ Deep Work (and Start Times) ✔
 
@@ -77,7 +79,7 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 ### In Progress  
 - [ ] **Vignette**
-	- [ ] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
+	- [ ] Update vignettes with new parameters and verify appearance.
 
 ### Done  
 - [ ] **Building Blocks Revisit**
@@ -90,7 +92,7 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 - [x] Download reference tracks
 - [x] Add obol flip vignette (purple pulsate slow/mid).
 - [x] Add death vignette (blue pulsate fast)
-
+- [x] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
 
 ---
 ## 📝 Quick To-Dos  

@@ -218,6 +218,14 @@ func _ready() -> void:
 	_TRIAL_TINT_FX.get_parent().show() # ...same for these tints!
 	_NEMESIS_TINT_FX.get_parent().show() # ...same for these tints!
 	_CHARON_TINT_FX.get_parent().show() # ...same for these tints!
+	_VIGNETTE_FX.get_parent().show() #...and this vignette!
+	_VIGNETTE_FX.hide()
+	_VIGNETTE_PULSATE_FX.get_parent().show() #...and this vignette!
+	_VIGNETTE_PULSATE_FX.hide()
+	_VIGNETTE_CHARON_FX.get_parent().show() #...and this vignette!
+	_VIGNETTE_CHARON_FX.hide()
+	_VIGNETTE_DEATH_FX.get_parent().show() #...and this vignette!
+	_VIGNETTE_DEATH_FX.hide()
 	_CHARON_FOG_FX.hide()
 	_TRIAL_TINT_FX.hide()
 	_NEMESIS_TINT_FX.hide()

@@ -279,7 +279,7 @@ uniform float cut_bottom: hint_range(0.0, 1.0, 0.001) = 0.0;
 
 // VIGNETTE
 // Applies a circular vignette effect on the canvas if vignette_on.
-// The vignette has a vignette_radius and a vignette_color.
+// The vignette has a vignette_radius and a vignette_color. vignette_edge_softness and vignette_contrast affect the appearance of the vignette.
 // If applying to a color rect as a pure vignette layer, set vignette_layer to false and post-processing to true.
 // Otherwise the appearance will be weird (mostly white).
 // If vignette_ignore_transparent, transparent pixels will not have the vignette applied.
@@ -291,6 +291,10 @@ uniform bool vignette_layer = false;
 uniform bool vignette_ignore_transparent = false;
 uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float vignette_radius: hint_range(0.001, 20.0, 0.01) = 1.0;
+uniform float vignette_edge_softness : hint_range(0.0, 0.999) = 0.0;
+uniform float vignette_contrast : hint_range(0.01, 5.0) = 1.5;
+uniform float vignette_aspect_x : hint_range(0.01, 2.0) = 1.0;
+uniform float vignette_aspect_y : hint_range(0.01, 2.0) = 1.0;
 
 // TRANSPARENCY
 // Controls transparency of the texture.
@@ -509,10 +513,11 @@ void fragment()
 	if (vignette_on && ((!vignette_ignore_transparent || COLOR.a != 0.0)) && !is_exclude_color) {
 		if (vignette_layer)
 			COLOR.a = 0.0;
-		float x = abs(adjUV.x-.5)*2.0;
-		float y = abs(adjUV.y-.5)*2.0;
-		float v = (sqrt((x*x)+(y*y))/vignette_radius);
-		COLOR = mix(COLOR, vec4(vignette_color.r, vignette_color.g, vignette_color.b, 1.0), v);
+		float x = abs((adjUV.x - 0.5) * 2.0) * vignette_aspect_x;
+		float y = abs((adjUV.y - 0.5) * 2.0) * vignette_aspect_y;
+		float v = clamp(sqrt((x * x) + (y * y)) / vignette_radius, 0.0, 1.0);
+		float vignette_strength = pow(smoothstep(vignette_edge_softness, 1.0, v), vignette_contrast);
+		COLOR = mix(COLOR, vec4(vignette_color.rgb, 1.0), vignette_strength);
 	}
 
 	// TRANSPARENCY

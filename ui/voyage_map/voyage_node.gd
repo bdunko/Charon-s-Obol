@@ -84,6 +84,8 @@ func init_node(vnt: VoyageNodeType, tooltips, price: int = 0, custom_icons = [])
 				_TYPE.hide()
 				_CUSTOM_ICON_NEMESIS.show()
 				_CUSTOM_ICON_NEMESIS.texture = custom_icons[0]
+			else:
+				breakpoint #saw a weird bug here with Scylla once - safety check
 		VoyageNodeType.TRIAL:
 			_TYPE.play("trial")
 			_PATH.play("full")
