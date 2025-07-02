@@ -10,6 +10,7 @@ var DEBUG_CHECK_DIRTY_TOOLTIPS = true #verify that un-dirty tooltips are indeed 
 var DEBUG_CONSOLE = true # utility flag for debugging mode
 var DEBUG_DONT_FORCE_FIRST_TOSS = true # don't require the first toss each round
 var DEBUG_SKIP_INTRO = true # skip charon's trial intro
+var DEBUG_SKIP_LAST_CHANCE_FLIP = false # skip the last chance flip
 
 var _coin_row
 @warning_ignore("unused_private_class_variable")

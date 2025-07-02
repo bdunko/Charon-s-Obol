@@ -505,6 +505,7 @@ void vertex()
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2ye4r"]
+resource_local_to_scene = true
 shader = SubResource("Shader_j4mdd")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)

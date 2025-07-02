@@ -243,10 +243,10 @@ func get_uniform(uniform: Uniform):
 	return get_parent().material.get_shader_parameter(_UNIFORM_TO_STR[uniform])
 
 # tween the uniform from the current value to 'to' over 'duration' (ms).
-func tween_uniform(uniform: Uniform, to, duration, trans = Tween.TRANS_LINEAR, loops = 1, ease = Tween.EASE_IN_OUT):
+func tween_uniform(uniform: Uniform, to, duration, trans = Tween.TRANS_LINEAR, loops = 1, easin = Tween.EASE_IN_OUT):
 	var tween = create_tween()
 	
-	tween.tween_property(get_parent(), "material:shader_parameter/%s" % _UNIFORM_TO_STR[uniform], to, duration).set_trans(trans)
+	tween.tween_property(get_parent(), "material:shader_parameter/%s" % _UNIFORM_TO_STR[uniform], to, duration).set_trans(trans).set_ease(easin)
 	tween.set_loops(loops)
 	
 	# add tween to tracking list
@@ -546,13 +546,9 @@ func start_auto_recolor(color: Color, with: Color, speed: float = 3.0, restart: 
 func stop_auto_recolor() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_REPLACE_SPEED, 0.0)
 
-func nonlinear_fast_drop(t: float, min: float, k: float = 3.0) -> float:
-	t = clamp(t, 0.0, 1.0)
-	return min + (10.0 - min) * (1.0 - pow(1.0 - t, k))
-
 enum VignetteSeverity {
 	SLIGHT, MODERATE, HEAVY, SEVERE,
-	PULSATE
+	PULSATE, PULSATE_STRONG, PULSATE_INSANE
 }
 
 var _vigentte_steps_for_severity = {
@@ -560,7 +556,9 @@ var _vigentte_steps_for_severity = {
 	VignetteSeverity.MODERATE : [10.0, 3.0, 4.0, 20.0],
 	VignetteSeverity.HEAVY : [10.0, 2.5, 3.5, 20.0],
 	VignetteSeverity.SEVERE : [10.0, 2.0, 3.0, 20.0],
-	VignetteSeverity.PULSATE : [4.0, 3.0, 2.0, 3.0, 4.0]
+	VignetteSeverity.PULSATE : [4.0, 2.75, 2.25, 2.75, 4.0],
+	VignetteSeverity.PULSATE_STRONG : [3.0, 1.5, 3.0, 3.0, 1.5, 3.0, 3.0, 1.5, 3.0],
+	VignetteSeverity.PULSATE_INSANE : [2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5]
 }
 
 func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time: float = 0.3) -> void:
@@ -609,9 +607,10 @@ func _play_vignette_pulsate_cycle() -> void:
 				break
 			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
 	
-	# reset to default vignette radius and hide it
-	set_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, 20.0)
-	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+	# tween the vignette radius back down and hide it
+	if local_token == _vignette_token_id:
+		await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, 20.0, 2.0)
+		set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
 func stop_all() -> void:
 	stop_flashing()

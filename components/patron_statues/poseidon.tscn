@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://ui/mouse_watcher.gd" id="4_pgm8r"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_yti4m"]
 
-[sub_resource type="Shader" id="Shader_sfm5l"]
+[sub_resource type="Shader" id="Shader_2swy4"]
 code = "// Ben's Uber Pixel Shader
 // WARNING - Shader expects uniform inputs in the range 0.0 - 1.0 for Colors. 
 //           Therefore, be sure that Colors being passed in are in the correct range of (0-1, 0-1, 0-1, 0-1).
@@ -504,8 +504,9 @@ void vertex()
 	
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uyyp6"]
-shader = SubResource("Shader_sfm5l")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fd0vb"]
+resource_local_to_scene = true
+shader = SubResource("Shader_2swy4")
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/use_exclude_colors = true
@@ -630,7 +631,7 @@ script = ExtResource("1_bnq2n")
 patron_enum = 13
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_uyyp6")
+material = SubResource("ShaderMaterial_fd0vb")
 texture = ExtResource("2_edjpb")
 centered = false
 

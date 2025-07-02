@@ -4,10 +4,10 @@ extends Node2D
 
 var _active_labels: Array[TempLabel] = []
 
-func spawn_label(text: String, position: Vector2, parent: Node = null) -> void:
+func spawn_label(text: String, pos: Vector2, parent: Node = null) -> void:
 	var label_instance: TempLabel = floating_label_scene.instantiate()
 	label_instance.text = text
-	label_instance.position = position
+	label_instance.position = pos
 
 	if parent:
 		parent.add_child(label_instance)

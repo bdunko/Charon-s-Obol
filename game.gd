@@ -53,6 +53,8 @@ const _TINT_ALPHA = 0.075
 @onready var _CHARON_FOG_FX = $CharonFog/FX
 @onready var _VIGNETTE_FX = $VignetteLayer/FX
 @onready var _VIGNETTE_PULSATE_FX = $VignettePulsateLayer/FX
+@onready var _VIGNETTE_CHARON_FX = $VignetteCharonLayer/FX
+@onready var _VIGNETTE_DEATH_FX = $VignetteDeathLayer/FX
 
 @onready var _FOG_FX = $Fog/FX
 @onready var _FOG_BLUE_FX = $FogBlue/FX
@@ -199,6 +201,8 @@ func _ready() -> void:
 	assert(_CHARON_TINT_FX)
 	assert(_VIGNETTE_FX)
 	assert(_VIGNETTE_PULSATE_FX)
+	assert(_VIGNETTE_CHARON_FX)
+	assert(_VIGNETTE_DEATH_FX)
 	
 	assert(_FOG_FX)
 	assert(_FOG_BLUE_FX)
@@ -286,8 +290,9 @@ func _on_soul_count_changed(change: int) -> void:
 func _on_life_count_changed(change: int) -> void:
 	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
 	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
-	_LIFE_DELTA_LABEL.add_delta(change)
-	_SOUL_DELTA_LABEL.refresh()
+	if not (Global.lives == 0 and change > 0): # don't show delta label for 'restoring' back to 0 life after surviving second chance flip
+		_LIFE_DELTA_LABEL.add_delta(change)
+		_SOUL_DELTA_LABEL.refresh()
 	
 	if change < 0:
 		Audio.play_sfx(SFX.LoseLife)
@@ -414,29 +419,32 @@ func _on_state_changed() -> void:
 	_CHARON_COIN_ROW.visible = Global.state == Global.State.CHARON_OBOL_FLIP
 	
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
-		#_on_game_end() # for debugging - comment out below and make this active to skip obol flip
-		Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
-		Global.ante_modifier_this_round = 0
-		_ENEMY_COIN_ROW.clear()
-		_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
-		_PLAYER_TEXTBOXES.make_invisible()
-		await _wait_for_dialogue("I did not expect you to perish here...")
-		await _wait_for_dialogue("Very well!")
-		await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
-		_PLAYER_TEXTBOXES.make_invisible()
-		await _CHARON_COIN_ROW.expand()
-		await _wait_for_dialogue("We will flip this single obol.")
-		_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
-		await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
-		_CHARON_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
-		_CHARON_COIN_ROW.get_child(0).turn()
-		_LEFT_HAND.unpoint()
-		await _wait_for_dialogue("And now, on the edge of life and death...")
-		_CHARON_FOG_FX.fade_in(_TINT_TIME)
-		_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
-		_DIALOGUE.show_dialogue("You must toss!")
-		_PLAYER_TEXTBOXES.make_visible()
+		if Global.DEBUG_SKIP_LAST_CHANCE_FLIP:
+			_on_game_end() # for debugging - comment out below and make this active to skip obol flip
+		else:
+			Global.tosses_this_round = 0 # reduce ante to 0 for display purposes
+			Global.ante_modifier_this_round = 0
+			_ENEMY_COIN_ROW.clear()
+			_CHARON_COIN_ROW.get_child(0).set_heads_no_anim() # force to heads for visual purposes
+			_PLAYER_TEXTBOXES.make_invisible()
+			await _wait_for_dialogue("I did not expect you to perish here...")
+			await _wait_for_dialogue("Very well!")
+			await _wait_for_dialogue("This time, I shall grant you one final opportunity.")
+			_PLAYER_TEXTBOXES.make_invisible()
+			await _CHARON_COIN_ROW.expand()
+			await _wait_for_dialogue("We will flip this single obol.")
+			_LEFT_HAND.point_at(_hand_point_for_coin(_CHARON_COIN_ROW.get_child(0)))
+			await _wait_for_dialogue(Global.replace_placeholders("Heads(HEADS), and the story continues."))
+			_CHARON_COIN_ROW.get_child(0).turn()
+			await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
+			_CHARON_COIN_ROW.get_child(0).turn()
+			_LEFT_HAND.unpoint()
+			_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
+			await _wait_for_dialogue("And now, on the edge of life and death...")
+			_CHARON_FOG_FX.fade_in(_TINT_TIME)
+			_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
+			_DIALOGUE.show_dialogue("You must toss!")
+			_PLAYER_TEXTBOXES.make_visible()
 	elif Global.state == Global.State.GAME_OVER:
 		_on_game_end()
 
@@ -455,9 +463,13 @@ func _on_game_end() -> void:
 		await _wait_for_dialogue("And we've reached the other shore...")
 		await _wait_for_dialogue("I wish you luck on the rest of your journey...")
 	else:
+		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.SLIGHT)
 		await _wait_for_dialogue("You were a fool to come here.")
+		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.MODERATE)
 		await _wait_for_dialogue("And now...")
+		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.HEAVY)
 		await _wait_for_dialogue("Your soul is mine!")
+		
 		var skew_tween = _activate_charon_malice_hands()
 		_disable_interaction_coins_and_patron()
 		UITooltip.disable_all_tooltips()
@@ -467,10 +479,13 @@ func _on_game_end() -> void:
 		for spiral in _DEATH_SPIRALS:
 			spiral.show()
 		_DEATH_SPIRALS[0].emitting = true
+		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.SEVERE)
 		await Global.delay(1.0)
 		_DEATH_SPIRALS[1].emitting = true
+		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.SEVERE)
 		await Global.delay(0.9)
 		_DEATH_SPIRALS[2].emitting = true
+		_VIGNETTE_DEATH_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE_STRONG)
 		await Global.delay(0.8)
 		_DEATH_SPIRALS[3].emitting = true
 		await Global.delay(0.7)
@@ -562,6 +577,9 @@ func on_start() -> void: #reset
 	for spiral in _DEATH_SPIRALS:
 		spiral.emitting = false
 		spiral.hide()
+	_VIGNETTE_DEATH_FX.stop_vignette_pulsate()
+	_VIGNETTE_CHARON_FX.stop_vignette_pulsate()
+	_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
 	_MALICE_DUST.hide()
 	_MALICE_DUST_RED.hide()
 	Global.flame_boost = 0.0
@@ -642,6 +660,7 @@ func _on_flip_complete(flipped_coin: Coin) -> void:
 				Global.tutorialState = Global.TutorialState.ROUND2_POWER_UNUSABLE
 			return 
 		elif Global.state == Global.State.CHARON_OBOL_FLIP: # if this is after the last chance flip, resolve payoff
+			_VIGNETTE_CHARON_FX.stop_vignette_pulsate()
 			var charons_obol = _CHARON_COIN_ROW.get_child(0) as Coin
 			_map_is_disabled = false
 			match charons_obol.get_active_power_family():
@@ -788,14 +807,14 @@ func _on_toss_button_clicked() -> void:
 	# take life from player
 	var ante = Global.ante_cost()
 	
-	# DEBUG - allow self kill
 	# don't allow player to kill themselves here if continue isn't disabled (ie if this isn't a trial or nemesis round)
-	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: # and false: 
+	if Global.lives < ante and not _END_ROUND_TEXTBOX.disabled: 
 		_DIALOGUE.show_dialogue("Not enough life...")
 		return
 	
 	Global.lives -= ante
-	LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % ante, _DEEP_BREATH_REGEN_POINT, self)
+	if ante > 0:
+		LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % ante, _DEEP_BREATH_REGEN_POINT, self)
 	
 	if Global.lives < 0:
 		return
@@ -2416,6 +2435,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_LEFT_HAND.slam()
 	_RIGHT_HAND.slam()
 	_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
+	_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
 	# todo - screen shake
 	
 	await _wait_for_dialogue("Enough!", delay)
@@ -2756,6 +2776,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	skew_tween.kill()
 	_disable_charon_malice_hands()
 	Global.malice = 0.0
+	_VIGNETTE_CHARON_FX.stop_vignette_pulsate()
 	
 	# done, ending dialogue
 	if malice_activations_this_game == 0:

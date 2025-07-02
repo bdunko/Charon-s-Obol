@@ -142,6 +142,7 @@ func on_start_god_selection() -> void:
 	
 	# delete the 3 existing god statues
 	for statue in _PATRON_STATUES.get_children():
+		statue.clear_fx() # sanity check the shader...
 		statue.queue_free()
 		statue.get_parent().remove_child(statue)
 	

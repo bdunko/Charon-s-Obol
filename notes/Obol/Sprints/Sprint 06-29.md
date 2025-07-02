@@ -16,15 +16,13 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔ 10✔ |         |           |          |        |          |        |
+| 8✔ 10✔ | 7✔      |           |          |        |          |        |
 |        |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
 - [ ] **Building Blocks Revisit**
-	- [ ] Multi-Chord Bars
-	- [ ] Bass Expression (Grace Notes)
 	- [ ] Tom-Centric Grooves
 	- [ ] Half-Time
 	- [ ] All Track Anticipation
@@ -79,16 +77,19 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 ### In Progress  
 - [ ] **Vignette**
-	- [ ] Apply vignette to death effect too. Oscillate blue eyes closed/open (more extreme vignette)
-	- [ ] During Obol flip, change Vignette color to purple (use different layer for this probably) and pulsating.
 	- [ ] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
 
 ### Done  
 - [ ] **Building Blocks Revisit**
 	- [x] Shifted Snare
 	- [x] Chord Changes
+	- [x] Multi-Chord Bars
+	- [x] Bass Expression
 - [x] Monday Sprint Planning - polish epic.
 - [x] Ableton prep - Make a group containing all plugins I'll be using. M1, common/standard ableton effects, drums.
+- [x] Download reference tracks
+- [x] Add obol flip vignette (purple pulsate slow/mid).
+- [x] Add death vignette (blue pulsate fast)
 
 
 ---
