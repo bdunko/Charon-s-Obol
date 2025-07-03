@@ -13,20 +13,23 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 Checking vignette effect requires making the 'editor' space match the game window size, since it is a screen space shader - 
 ![[Pasted image 20250701230351.png]]
+
+![[Pasted image 20250702223748.png]]
+
 ---
+
+
 ## ⌚ Deep Work (and Start Times) ✔
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔ 10✔ | 7✔      |           |          |        |          |        |
+| 8✔ 10✔ | 7✔      | 10        |          |        |          |        |
 |        |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
 - [ ] **Building Blocks Revisit**
-	- [ ] Tom-Centric Grooves
-	- [ ] Half-Time
 	- [ ] All Track Anticipation
 	- [ ] 16th Shuffle
 	- [ ] 4-Bar Chord Progression
@@ -47,7 +50,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
 	- [ ] Deactivate a coin - move it back down
-	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect I suppose.
+	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect.
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
 		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
@@ -64,7 +67,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] **Textbox Buttons**
 	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should fade out a bit better too, maybe shrink a bit. 
 - [ ] **Coin Flip Animation**
-	- [ ]  Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [ ] Effect when a coin is tossed or lands(?)
 - [ ] **Arrows of Night**
 	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
@@ -79,14 +82,19 @@ Checking vignette effect requires making the 'editor' space match the game windo
 
 ### In Progress  
 - [ ] **Vignette**
-	- [ ] Update vignettes with new parameters and verify appearance.
-
+	- [ ] Improve Vignette appearance.
+	- [ ] Add vignette opacity control (see ChatGPT).
+	- [ ] Switch to tweening the opacity instead of the radius.
+	- [ ] Potentially also add some built in tweening of contrast and/or edge softness (experiment slightly).
+	- [ ] Add ambient pulse using a sin wave to the contrast (see ChatGPT).
 ### Done  
 - [ ] **Building Blocks Revisit**
 	- [x] Shifted Snare
 	- [x] Chord Changes
 	- [x] Multi-Chord Bars
 	- [x] Bass Expression
+	- [x] Tom-Centric Grooves
+	- [x] Half-Time
 - [x] Monday Sprint Planning - polish epic.
 - [x] Ableton prep - Make a group containing all plugins I'll be using. M1, common/standard ableton effects, drums.
 - [x] Download reference tracks
@@ -99,6 +107,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 _Untracked or small tasks not managed in the structured lists._
 - [ ] 33 Strategies of War - Robert Greene
 - [ ] Mastery - Robert Greene
+- [ ] Ear Training
+- [ ] Simple sounds VST investigate
 
 ---
 ## 🏆 Wins & Highlights

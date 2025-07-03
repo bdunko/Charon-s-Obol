@@ -4297,7 +4297,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pxk7a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1gqm"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4434,7 +4434,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivocn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rihe4"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4571,7 +4571,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5q00r"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_78jxp"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4708,7 +4708,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_60jsv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cs3wi"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4845,7 +4845,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g8fs1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gm68t"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4982,7 +4982,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7nnf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gi7pj"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5119,7 +5119,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0lngt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdfqi"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5256,7 +5256,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rfb1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmqnu"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5393,7 +5393,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0ok6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7vty7"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -7535,7 +7535,7 @@ shader_parameter/auto_flicker_start_time = 0.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_klurr"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rjdqm"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sskxe"]
 seamless = true
 seamless_blend_skirt = 0.7
 noise = SubResource("FastNoiseLite_klurr")
@@ -7636,7 +7636,7 @@ shader_parameter/fog_enabled = false
 shader_parameter/fog_opacity = 0.5
 shader_parameter/fog_density = 0.25
 shader_parameter/fog_speed = Vector2(-0.02, 0)
-shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_rjdqm")
+shader_parameter/fog_noise_texture = SubResource("NoiseTexture2D_sskxe")
 shader_parameter/vertical_colorline_color = Color(1, 1, 1, 1)
 shader_parameter/vertical_colorline_spacing = 2
 shader_parameter/vertical_colorline_strength = 0.0
@@ -7666,12 +7666,12 @@ shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = true
 shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
-shader_parameter/vignette_color = Color(0.705882, 0.12549, 0.164706, 1)
-shader_parameter/vignette_radius = 1.181
+shader_parameter/vignette_color = Color(0.670588, 0.0705882, 0.32549, 1)
+shader_parameter/vignette_radius = 1.0
 shader_parameter/vignette_edge_softness = 0.0
-shader_parameter/vignette_contrast = 2.489
-shader_parameter/vignette_aspect_x = 1.0
-shader_parameter/vignette_aspect_y = 0.65
+shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_aspect_x = 0.9
+shader_parameter/vignette_aspect_y = 0.8
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -7810,12 +7810,12 @@ shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = true
 shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
-shader_parameter/vignette_color = Color(0.705882, 0.12549, 0.164706, 1)
-shader_parameter/vignette_radius = 1.241
-shader_parameter/vignette_edge_softness = 0.0
-shader_parameter/vignette_contrast = 1.5
-shader_parameter/vignette_aspect_x = 1.0
-shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_color = Color(0.670588, 0.0705882, 0.32549, 1)
+shader_parameter/vignette_radius = 1.001
+shader_parameter/vignette_edge_softness = 0.7
+shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_aspect_x = 0.9
+shader_parameter/vignette_aspect_y = 0.8
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -7954,13 +7954,13 @@ shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = true
 shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
-shader_parameter/vignette_color = Color(0, 0, 0, 1)
-shader_parameter/vignette_radius = 20.0
-shader_parameter/vignette_edge_softness = 0.0
-shader_parameter/vignette_contrast = 1.5
-shader_parameter/vignette_aspect_x = 1.0
-shader_parameter/vignette_aspect_y = 1.0
-shader_parameter/transparency = 0.0
+shader_parameter/vignette_color = Color(0.121569, 0.00784314, 0.211765, 1)
+shader_parameter/vignette_radius = 1.0
+shader_parameter/vignette_edge_softness = 0.7
+shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_aspect_x = 0.9
+shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
@@ -8099,12 +8099,12 @@ shader_parameter/vignette_on = true
 shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0.65098, 0.988235, 0.858824, 1)
-shader_parameter/vignette_radius = 20.0
-shader_parameter/vignette_edge_softness = 0.0
-shader_parameter/vignette_contrast = 1.5
-shader_parameter/vignette_aspect_x = 1.0
-shader_parameter/vignette_aspect_y = 1.0
-shader_parameter/transparency = 0.0
+shader_parameter/vignette_radius = 1.0
+shader_parameter/vignette_edge_softness = 0.7
+shader_parameter/vignette_contrast = 0.5
+shader_parameter/vignette_aspect_x = 0.9
+shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
@@ -8596,48 +8596,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_pxk7a")
+material = SubResource("ShaderMaterial_a1gqm")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_ivocn")
+material = SubResource("ShaderMaterial_rihe4")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_5q00r")
+material = SubResource("ShaderMaterial_78jxp")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_60jsv")
+material = SubResource("ShaderMaterial_cs3wi")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_g8fs1")
+material = SubResource("ShaderMaterial_gm68t")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_h7nnf")
+material = SubResource("ShaderMaterial_gi7pj")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_0lngt")
+material = SubResource("ShaderMaterial_jdfqi")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -8645,14 +8645,14 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_0rfb1")
+material = SubResource("ShaderMaterial_wmqnu")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_o0ok6")
+material = SubResource("ShaderMaterial_7vty7")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"
@@ -8869,6 +8869,7 @@ mouse_filter = 2
 [node name="FX" parent="CharonTint" instance=ExtResource("6_gfndp")]
 
 [node name="VignetteLayer" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_08u56")
 offset_right = 320.0
@@ -8890,6 +8891,7 @@ mouse_filter = 2
 script = ExtResource("7_4br5g")
 
 [node name="VignetteCharonLayer" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_4xysg")
 offset_right = 320.0
@@ -8900,6 +8902,7 @@ mouse_filter = 2
 script = ExtResource("7_4br5g")
 
 [node name="VignetteDeathLayer" type="ColorRect" parent="."]
+visible = false
 z_index = 1000
 material = SubResource("ShaderMaterial_80iu6")
 offset_right = 320.0

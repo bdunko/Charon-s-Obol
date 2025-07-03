@@ -552,16 +552,21 @@ enum VignetteSeverity {
 }
 
 var _vigentte_steps_for_severity = {
-	VignetteSeverity.SLIGHT : [10.0, 4.0, 5.0, 20.0],
-	VignetteSeverity.MODERATE : [10.0, 3.0, 4.0, 20.0],
-	VignetteSeverity.HEAVY : [10.0, 2.5, 3.5, 20.0],
-	VignetteSeverity.SEVERE : [10.0, 2.0, 3.0, 20.0],
-	VignetteSeverity.PULSATE : [4.0, 2.75, 2.25, 2.75, 4.0],
-	VignetteSeverity.PULSATE_STRONG : [3.0, 1.5, 3.0, 3.0, 1.5, 3.0, 3.0, 1.5, 3.0],
-	VignetteSeverity.PULSATE_INSANE : [2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5, 2.5, 1.0, 2.5]
+	VignetteSeverity.SLIGHT : [5.0, 1.65, 1.35, 1.65, 1.9, 5.0],
+	VignetteSeverity.MODERATE : [4.5, 1.4, 1.2, 1.4, 1.8, 4.5],
+	VignetteSeverity.HEAVY : [4.0, 1.5, 1.0, 1.25, 1.5, 4.0],
+	VignetteSeverity.SEVERE : [3.0, 1.35, 0.85, 1.0, 1.35, 3.0],
+	VignetteSeverity.PULSATE : [4.0, 2.0, 1.25, 2.0, 4.0],
+	VignetteSeverity.PULSATE_STRONG : [1.5, 1.0, 1.5, 1.0, 1.5, 1.0, 1.5, 1.0],
+	VignetteSeverity.PULSATE_INSANE : [1.0, 0.85, 1.0, 0.85, 1.0, 0.85, 1.0, 0.85, 1.0, 0.85]
 }
 
-func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time: float = 0.3) -> void:
+const VIGNETTE_FLASH_DEFAULT_TIME = 0.33
+const VIGNETTE_PULSATE_DEFAULT_TIME = 0.1
+func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time: float = VIGNETTE_FLASH_DEFAULT_TIME) -> void:
+	_vignette_token_id += 1
+	var local_token = _vignette_token_id
+	
 	var STEPS = _vigentte_steps_for_severity[severity]
 	var time_per_step = time / STEPS.size()
 	
@@ -571,9 +576,11 @@ func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
 	
 	for step in STEPS:
-		await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
+		if _vignette_token_id == local_token:
+			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
 	
-	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+	if _vignette_token_id == local_token:
+		set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
 
 var _vignette_pulsate_severity = VignetteSeverity.HEAVY
 var _vignette_pulsate_on = false:
@@ -598,11 +605,10 @@ func _play_vignette_pulsate_cycle() -> void:
 	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
 	
 	while _vignette_pulsate_on and local_token == _vignette_token_id:
-		var STEPS = _vigentte_steps_for_severity[_vignette_pulsate_severity]
-		var TIME = 1.0
-		var time_per_step = TIME / STEPS.size()
+		var steps = _vigentte_steps_for_severity[_vignette_pulsate_severity]
+		var time_per_step = VIGNETTE_PULSATE_DEFAULT_TIME / steps.size()
 		
-		for step in STEPS:
+		for step in steps:
 			if not _vignette_pulsate_on:
 				break
 			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
