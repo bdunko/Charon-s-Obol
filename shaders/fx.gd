@@ -547,49 +547,56 @@ func stop_auto_recolor() -> void:
 	set_uniform(Uniform.FLOAT_AUTO_REPLACE_SPEED, 0.0)
 
 enum VignetteSeverity {
-	SLIGHT, MODERATE, HEAVY, SEVERE,
-	PULSATE, PULSATE_STRONG, PULSATE_INSANE
+	SLIGHT, MODERATE, HEAVY, SEVERE
 }
 
-var _vigentte_steps_for_severity = {
-	VignetteSeverity.SLIGHT : [5.0, 1.65, 1.35, 1.65, 1.9, 5.0],
-	VignetteSeverity.MODERATE : [4.5, 1.4, 1.2, 1.4, 1.8, 4.5],
-	VignetteSeverity.HEAVY : [4.0, 1.5, 1.0, 1.25, 1.5, 4.0],
-	VignetteSeverity.SEVERE : [3.0, 1.35, 0.85, 1.0, 1.35, 3.0],
-	VignetteSeverity.PULSATE : [4.0, 2.0, 1.25, 2.0, 4.0],
-	VignetteSeverity.PULSATE_STRONG : [1.5, 1.0, 1.5, 1.0, 1.5, 1.0, 1.5, 1.0],
-	VignetteSeverity.PULSATE_INSANE : [1.0, 0.85, 1.0, 0.85, 1.0, 0.85, 1.0, 0.85, 1.0, 0.85]
+var _vignette_settings_for_severity = {
+	# severity -> [alpha, radius, time]
+	VignetteSeverity.SLIGHT : [0.8, 1.5, 0.32],
+	VignetteSeverity.MODERATE : [0.8, 1.25, 0.42],
+	VignetteSeverity.HEAVY : [0.8, 1.0, 0.45],
+	VignetteSeverity.SEVERE : [0.8, 0.9, 0.53],
 }
 
-const VIGNETTE_FLASH_DEFAULT_TIME = 0.33
-const VIGNETTE_PULSATE_DEFAULT_TIME = 0.1
-func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE, time: float = VIGNETTE_FLASH_DEFAULT_TIME) -> void:
+enum VignettePulsateSeverity {
+	MINOR, STRONG, INSANE
+}
+
+var _vignette_settings_for_pulsate_severity = {
+	# severity -> [min alpha, max alpha, radius, time]
+	VignettePulsateSeverity.MINOR : [0.2, 0.5, 1.4, 0.35],
+	VignettePulsateSeverity.STRONG : [0.3, 0.6, 1.1, 0.4],
+	VignettePulsateSeverity.INSANE : [0.4, 0.7, 0.9, 0.55]
+}
+
+func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE) -> void:
 	_vignette_token_id += 1
 	var local_token = _vignette_token_id
 	
-	var STEPS = _vigentte_steps_for_severity[severity]
-	var time_per_step = time / STEPS.size()
+	var alpha = _vignette_settings_for_severity[severity][0]
+	var radius = _vignette_settings_for_severity[severity][1]
+	var time = _vignette_settings_for_severity[severity][2]
 	
 	# this is a bit of a hack, but I dislike how the 
 	# vignette has a constant effect when when at max radius
 	# so modify transparency a bit
-	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
-	
-	for step in STEPS:
-		if _vignette_token_id == local_token:
-			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
+	set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+	set_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, radius)
 	
 	if _vignette_token_id == local_token:
-		set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+		await tween_uniform(Uniform.FLOAT_TRANSPARENCY, alpha, time / 2.0)
+		
+		if _vignette_token_id == local_token:
+			tween_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0, time / 2.0)
 
-var _vignette_pulsate_severity = VignetteSeverity.HEAVY
+var _vignette_pulsate_severity: VignettePulsateSeverity = VignettePulsateSeverity.MINOR
 var _vignette_pulsate_on = false:
 	set(val):
 		_vignette_pulsate_on = val
 		if _vignette_pulsate_on:
 			_play_vignette_pulsate_cycle()
 
-func start_vignette_pulsate(severity: VignetteSeverity = VignetteSeverity.PULSATE) -> void:
+func start_vignette_pulsate(severity: VignettePulsateSeverity = VignettePulsateSeverity.MINOR) -> void:
 	_vignette_pulsate_severity = severity
 	_vignette_pulsate_on = true
 
@@ -601,22 +608,21 @@ func _play_vignette_pulsate_cycle() -> void:
 	_vignette_token_id += 1
 	
 	var local_token = _vignette_token_id
-
-	set_uniform(Uniform.FLOAT_TRANSPARENCY, 1.0)
+	
+	var min_alpha = _vignette_settings_for_pulsate_severity[_vignette_pulsate_severity][0]
+	var max_alpha = _vignette_settings_for_pulsate_severity[_vignette_pulsate_severity][1]
+	var radius = _vignette_settings_for_pulsate_severity[_vignette_pulsate_severity][2]
+	var time_per_step = _vignette_settings_for_pulsate_severity[_vignette_pulsate_severity][3] / 2.0
+	
+	set_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, radius)
 	
 	while _vignette_pulsate_on and local_token == _vignette_token_id:
-		var steps = _vigentte_steps_for_severity[_vignette_pulsate_severity]
-		var time_per_step = VIGNETTE_PULSATE_DEFAULT_TIME / steps.size()
+		await tween_uniform(Uniform.FLOAT_TRANSPARENCY, max_alpha, time_per_step)
+		await tween_uniform(Uniform.FLOAT_TRANSPARENCY, min_alpha, time_per_step)
 		
-		for step in steps:
-			if not _vignette_pulsate_on:
-				break
-			await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, step, time_per_step)
-	
 	# tween the vignette radius back down and hide it
 	if local_token == _vignette_token_id:
-		await tween_uniform(Uniform.FLOAT_VIGNETTE_RADIUS, 20.0, 2.0)
-		set_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0)
+		await tween_uniform(Uniform.FLOAT_TRANSPARENCY, 0.0, time_per_step / 2.0)
 
 func stop_all() -> void:
 	stop_flashing()

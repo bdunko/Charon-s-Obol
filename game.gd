@@ -302,21 +302,24 @@ func _on_life_count_changed(change: int) -> void:
 		_LIFE_DELTA_LABEL.add_delta(change)
 		_SOUL_DELTA_LABEL.refresh()
 	
-	if change < 0:
-		Audio.play_sfx(SFX.LoseLife)
-	
 	if Global.state == Global.State.BEFORE_FLIP or Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.CHARON_OBOL_FLIP:
+		if change < 0:
+			Audio.play_sfx(SFX.LoseLife)
+		
+		# vignette flash
 		if Global.lives <= 0:
 			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.SEVERE)
-			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
 		elif Global.lives <= 20:
 			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.HEAVY)
-			_VIGNETTE_PULSATE_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
 		elif Global.lives <= 50:
 			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.MODERATE)
-			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
 		elif change < 0:
 			_VIGNETTE_FX.flash_vignette(FX.VignetteSeverity.SLIGHT)
+		
+		# update vignette pulsate
+		if Global.lives > 0 and Global.lives <= 20:
+			_VIGNETTE_PULSATE_FX.start_vignette_pulsate(FX.VignettePulsateSeverity.MINOR)
+		else:
 			_VIGNETTE_PULSATE_FX.stop_vignette_pulsate()
 	
 	# if we ran out of life, initiate last chance flip
@@ -447,7 +450,8 @@ func _on_state_changed() -> void:
 			await _wait_for_dialogue(Global.replace_placeholders("Tails(TAILS), and your long journey ends here."))
 			_CHARON_COIN_ROW.get_child(0).turn()
 			_LEFT_HAND.unpoint()
-			_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
+			_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignettePulsateSeverity.MINOR
+			)
 			await _wait_for_dialogue("And now, on the edge of life and death...")
 			_CHARON_FOG_FX.fade_in(_TINT_TIME)
 			_CHARON_TINT_FX.fade_in(_TINT_TIME, _TINT_ALPHA)
@@ -493,7 +497,7 @@ func _on_game_end() -> void:
 		_VIGNETTE_DEATH_FX.flash_vignette(FX.VignetteSeverity.SEVERE)
 		await Global.delay(0.9)
 		_DEATH_SPIRALS[2].emitting = true
-		_VIGNETTE_DEATH_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE_STRONG)
+		_VIGNETTE_DEATH_FX.start_vignette_pulsate(FX.VignettePulsateSeverity.STRONG)
 		await Global.delay(0.8)
 		_DEATH_SPIRALS[3].emitting = true
 		await Global.delay(0.7)
@@ -2443,7 +2447,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_LEFT_HAND.slam()
 	_RIGHT_HAND.slam()
 	_CHARON_FOG_FX.fade_in(_TINT_TIME) # aggressive fog wave
-	_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignetteSeverity.PULSATE)
+	_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignettePulsateSeverity.MINOR)
 	# todo - screen shake
 	
 	await _wait_for_dialogue("Enough!", delay)

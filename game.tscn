@@ -3266,6 +3266,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -3402,6 +3405,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -4156,6 +4162,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -4292,12 +4301,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1gqm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hu54n"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4429,12 +4441,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rihe4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jejni"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4566,12 +4581,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_78jxp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a78af"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4703,12 +4721,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cs3wi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ukyhk"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4840,12 +4861,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gm68t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_joe1q"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4977,12 +5001,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gi7pj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pluph"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5114,12 +5141,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdfqi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_esco8"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5251,12 +5281,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmqnu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hq8gl"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5388,12 +5421,15 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7vty7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bnih2"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5525,6 +5561,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -5818,6 +5857,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -5963,6 +6005,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -6100,6 +6145,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -6236,6 +6284,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 0.1
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -7669,9 +7720,12 @@ shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0.670588, 0.0705882, 0.32549, 1)
 shader_parameter/vignette_radius = 1.0
 shader_parameter/vignette_edge_softness = 0.0
-shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_contrast = 1.0
 shader_parameter/vignette_aspect_x = 0.9
 shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -7811,11 +7865,14 @@ shader_parameter/vignette_on = true
 shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0.670588, 0.0705882, 0.32549, 1)
-shader_parameter/vignette_radius = 1.001
-shader_parameter/vignette_edge_softness = 0.7
-shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_radius = 1.0
+shader_parameter/vignette_edge_softness = 0.0
+shader_parameter/vignette_contrast = 1.0
 shader_parameter/vignette_aspect_x = 0.9
 shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -7956,10 +8013,13 @@ shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0.121569, 0.00784314, 0.211765, 1)
 shader_parameter/vignette_radius = 1.0
-shader_parameter/vignette_edge_softness = 0.7
-shader_parameter/vignette_contrast = 2.0
+shader_parameter/vignette_edge_softness = 0.0
+shader_parameter/vignette_contrast = 1.0
 shader_parameter/vignette_aspect_x = 0.9
 shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -8100,10 +8160,13 @@ shader_parameter/vignette_layer = true
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0.65098, 0.988235, 0.858824, 1)
 shader_parameter/vignette_radius = 1.0
-shader_parameter/vignette_edge_softness = 0.7
-shader_parameter/vignette_contrast = 0.5
+shader_parameter/vignette_edge_softness = 0.0
+shader_parameter/vignette_contrast = 1.0
 shader_parameter/vignette_aspect_x = 0.9
 shader_parameter/vignette_aspect_y = 0.8
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -8240,6 +8303,9 @@ shader_parameter/vignette_edge_softness = 0.0
 shader_parameter/vignette_contrast = 1.5
 shader_parameter/vignette_aspect_x = 1.0
 shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = true
+shader_parameter/vignette_pulse_amplitude = 0.05
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 0.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -8596,48 +8662,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_a1gqm")
+material = SubResource("ShaderMaterial_hu54n")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_rihe4")
+material = SubResource("ShaderMaterial_jejni")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_78jxp")
+material = SubResource("ShaderMaterial_a78af")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_cs3wi")
+material = SubResource("ShaderMaterial_ukyhk")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gm68t")
+material = SubResource("ShaderMaterial_joe1q")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_gi7pj")
+material = SubResource("ShaderMaterial_pluph")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_jdfqi")
+material = SubResource("ShaderMaterial_esco8")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -8645,14 +8711,14 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_wmqnu")
+material = SubResource("ShaderMaterial_hq8gl")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_7vty7")
+material = SubResource("ShaderMaterial_bnih2")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"

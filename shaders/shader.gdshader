@@ -292,9 +292,12 @@ uniform bool vignette_ignore_transparent = false;
 uniform vec3 vignette_color: source_color = vec3(0.0, 0.0, 0.0);
 uniform float vignette_radius: hint_range(0.001, 20.0, 0.01) = 1.0;
 uniform float vignette_edge_softness : hint_range(0.0, 0.999) = 0.0;
-uniform float vignette_contrast : hint_range(0.01, 5.0) = 1.5;
+uniform float vignette_contrast : hint_range(0.01, 5.0) = 1.0;
 uniform float vignette_aspect_x : hint_range(0.01, 2.0) = 1.0;
 uniform float vignette_aspect_y : hint_range(0.01, 2.0) = 1.0;
+uniform bool vignette_pulse_enable = false;
+uniform float vignette_pulse_amplitude = 0.1; // in radius units
+uniform float vignette_pulse_speed = 0.5;     // cycles per second
 
 // TRANSPARENCY
 // Controls transparency of the texture.
@@ -513,10 +516,21 @@ void fragment()
 	if (vignette_on && ((!vignette_ignore_transparent || COLOR.a != 0.0)) && !is_exclude_color) {
 		if (vignette_layer)
 			COLOR.a = 0.0;
+		
 		float x = abs((adjUV.x - 0.5) * 2.0) * vignette_aspect_x;
 		float y = abs((adjUV.y - 0.5) * 2.0) * vignette_aspect_y;
-		float v = clamp(sqrt((x * x) + (y * y)) / vignette_radius, 0.0, 1.0);
+		
+		// Apply pulse to radius (additive)
+		float pulse = 0.0;
+		if (vignette_pulse_enable)
+			pulse = sin(TIME * vignette_pulse_speed * TAU) * vignette_pulse_amplitude;
+		float dynamic_radius = vignette_radius + pulse;
+		
+		// Distance and vignette strength
+		float v = clamp(sqrt((x * x) + (y * y)) / dynamic_radius, 0.0, 1.0);
 		float vignette_strength = pow(smoothstep(vignette_edge_softness, 1.0, v), vignette_contrast);
+		
+		// Blend with vignette color
 		COLOR = mix(COLOR, vec4(vignette_color.rgb, 1.0), vignette_strength);
 	}
 

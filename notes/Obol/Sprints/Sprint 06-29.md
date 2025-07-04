@@ -14,7 +14,7 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 Checking vignette effect requires making the 'editor' space match the game window size, since it is a screen space shader - 
 ![[Pasted image 20250701230351.png]]
 
-![[Pasted image 20250702223748.png]]
+![[Pasted image 20250704010001.png]]
 
 ---
 
@@ -23,15 +23,13 @@ Checking vignette effect requires making the 'editor' space match the game windo
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔ 10✔ | 7✔      | 10        |          |        |          |        |
+| 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    |        |          |        |
 |        |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
 - [ ] **Building Blocks Revisit**
-	- [ ] All Track Anticipation
-	- [ ] 16th Shuffle
 	- [ ] 4-Bar Chord Progression
 	- [ ] Removing Backbeats
 - [ ] **Life/Soul Labels**
@@ -81,12 +79,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
 
 ### In Progress  
-- [ ] **Vignette**
-	- [ ] Improve Vignette appearance.
-	- [ ] Add vignette opacity control (see ChatGPT).
-	- [ ] Switch to tweening the opacity instead of the radius.
-	- [ ] Potentially also add some built in tweening of contrast and/or edge softness (experiment slightly).
-	- [ ] Add ambient pulse using a sin wave to the contrast (see ChatGPT).
+- [ ] Check on HeavyWater loop... didn't sound clean.
 ### Done  
 - [ ] **Building Blocks Revisit**
 	- [x] Shifted Snare
@@ -95,12 +88,18 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [x] Bass Expression
 	- [x] Tom-Centric Grooves
 	- [x] Half-Time
+	- [x] All Track Anticipation
+	- [x] 16th Shuffle
 - [x] Monday Sprint Planning - polish epic.
 - [x] Ableton prep - Make a group containing all plugins I'll be using. M1, common/standard ableton effects, drums.
 - [x] Download reference tracks
 - [x] Add obol flip vignette (purple pulsate slow/mid).
 - [x] Add death vignette (blue pulsate fast)
 - [x] Improve vignette shader appearance - see ChatGPT conversation. https://chatgpt.com/c/6861fe0a-3854-8013-be5f-4e63eea6ccc0
+- [x]  Improve Vignette appearance.
+- [x] Switch to tweening the opacity (transparency uniform) instead of the radius. We prede
+- [x] **Vignette**
+	- [x] Add ambient pulse using a sin wave to the contrast (see ChatGPT).
 
 ---
 ## 📝 Quick To-Dos  
@@ -108,7 +107,7 @@ _Untracked or small tasks not managed in the structured lists._
 - [ ] 33 Strategies of War - Robert Greene
 - [ ] Mastery - Robert Greene
 - [ ] Ear Training
-- [ ] Simple sounds VST investigate
+- [x] Simple sounds VST investigate
 
 ---
 ## 🏆 Wins & Highlights
