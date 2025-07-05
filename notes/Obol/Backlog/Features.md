@@ -1,12 +1,5 @@
 
-**Audio Export Process**
-From Ableton - Export each individual track. Length should be size of longest track (don't forget to account for reverb tail!)
-We now need to trim away the silence at the end of each .wav file.
-In Audacity, File -> Import Audio. Multi-select all .wav files.
-Select all of them. Effect -> Special -> Truncate Silence.
-Change the Truncate to length to a short value (0.1s) and apply.
-Now we need to export the modified files.
-Export Audio. Tick Multiple Files. Tick Overwrite existing files. Press export.
+
 
 **Timeline**
 - [ ] **Soundtest** - by August 15

@@ -35,7 +35,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] **Life/Soul Labels**
 	- [ ] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
 	- [ ] Apply disintegrate effect instead of fading in/out for the delta labels.
-- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer.
+- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
 - [ ] Trail for souls, life, and purchased coins?
 - [ ] Trail for coins moving to hands/toss.
 - [ ] River on the left/right should scroll during voyage.
@@ -79,7 +79,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
 
 ### In Progress  
-- [ ] Check on HeavyWater loop... didn't sound clean.
+
 ### Done  
 - [ ] **Building Blocks Revisit**
 	- [x] Shifted Snare
@@ -100,6 +100,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Switch to tweening the opacity (transparency uniform) instead of the radius. We prede
 - [x] **Vignette**
 	- [x] Add ambient pulse using a sin wave to the contrast (see ChatGPT).
+- [ ] Check on HeavyWater loop... didn't sound clean.
 
 ---
 ## 📝 Quick To-Dos  
@@ -112,7 +113,7 @@ _Untracked or small tasks not managed in the structured lists._
 ---
 ## 🏆 Wins & Highlights
 _Recap of key achievements from this sprint to highlight._
-- 
+- Learned more about seamless audio looping, and added a Quite Notes section.
 
 ---
 ## 🔍 Sprint Review (07-12)  

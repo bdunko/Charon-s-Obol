@@ -252,7 +252,7 @@ class FacePower:
 				if in_shop and _shop_row.has_coin(coin):
 					souls_payoff = base_payoff
 				else:
-		var growth = get_metadata(METADATA_CARPO, 0)
+					var growth = get_metadata(METADATA_CARPO, 0)
 					souls_payoff = base_payoff + growth
 			else: # all other ones don't have special scaling; just take number of uses
 				souls_payoff = power_family.get_uses_for_denom(denomination)
