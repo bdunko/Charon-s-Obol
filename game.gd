@@ -333,7 +333,7 @@ func _on_life_count_changed(change: int) -> void:
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
 	#var fragment_count = 0
 	
-	# move live from pile to charon
+	# move from pile to charon
 	while pile.get_child_count() > max(0, amount):
 		var fragment = pile.get_child(0)
 		pile.remove_child(fragment)
@@ -350,7 +350,10 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		var fragment = scene.instantiate()
 		
 		fragment.position = give_pos
-		var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-14, 14), Global.RNG.randi_range(-8, 8))
+		
+		var target_pos = Global.get_random_point_in_ellipse(pile_pos, Vector2(16, 13))
+		
+		#var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-14, 14), Global.RNG.randi_range(-8, 8))
 		
 		# move from player to pile
 		var tween = create_tween()

@@ -4587,7 +4587,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyyq3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yttfn"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4727,7 +4727,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lotm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u21wy"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -4867,7 +4867,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4i5dv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_883cf"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5007,7 +5007,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ao1k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_phna6"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5147,7 +5147,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ngv8p"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldghq"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5287,7 +5287,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dm3v5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxx6k"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5427,7 +5427,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ofa1l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lpn61"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5567,7 +5567,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rvy50"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogp3o"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -5707,7 +5707,7 @@ shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
 shader_parameter/auto_flicker_start_time = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mqtq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n0smu"]
 resource_local_to_scene = true
 shader = ExtResource("7_aonp5")
 shader_parameter/LABEL = false
@@ -8786,7 +8786,7 @@ direction = 4
 
 [node name="ShopMat" type="Sprite2D" parent="Table"]
 material = SubResource("ShaderMaterial_kheqr")
-position = Vector2(60, 43)
+position = Vector2(60, 38)
 texture = ExtResource("21_brubq")
 centered = false
 script = ExtResource("16_i4s2h")
@@ -8824,7 +8824,7 @@ offset_right = 320.0
 offset_bottom = 155.0
 
 [node name="Shop" type="Node2D" parent="Table"]
-visible = false
+position = Vector2(0, -5)
 script = ExtResource("20_xqqdj")
 
 [node name="ShopRow" parent="Table/Shop" instance=ExtResource("19_ym3ga")]
@@ -8944,48 +8944,48 @@ alignment = 1
 script = ExtResource("5_6g64w")
 
 [node name="TossButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_fyyq3")
+material = SubResource("ShaderMaterial_yttfn")
 layout_mode = 2
 script = ExtResource("6_rf73a")
 default_text = "Toss"
 
 [node name="AcceptButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
-material = SubResource("ShaderMaterial_7lotm")
+material = SubResource("ShaderMaterial_u21wy")
 layout_mode = 2
 script = ExtResource("7_2acd8")
 default_text = "Accept Payoff"
 
 [node name="ShopContinueButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_4i5dv")
+material = SubResource("ShaderMaterial_883cf")
 layout_mode = 2
 script = ExtResource("8_leu43")
 default_text = "Leave Shop"
 
 [node name="ShopRerollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_6ao1k")
+material = SubResource("ShaderMaterial_phna6")
 layout_mode = 2
 script = ExtResource("9_cd2hg")
 default_text = "Reroll"
 
 [node name="EndRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ngv8p")
+material = SubResource("ShaderMaterial_ldghq")
 layout_mode = 2
 script = ExtResource("9_d50av")
 default_text = "End Round"
 
 [node name="DieButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_dm3v5")
+material = SubResource("ShaderMaterial_lxx6k")
 layout_mode = 2
 script = ExtResource("10_oe7lm")
 default_text = "Die, Forgotten"
 
 [node name="PayTollButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_ofa1l")
+material = SubResource("ShaderMaterial_lpn61")
 layout_mode = 2
 script = ExtResource("11_mcnia")
 default_text = "Pay Toll"
@@ -8993,14 +8993,14 @@ default_text = "Pay Toll"
 [node name="VoyageNextRoundButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
 z_index = 5
-material = SubResource("ShaderMaterial_rvy50")
+material = SubResource("ShaderMaterial_ogp3o")
 layout_mode = 2
 script = ExtResource("12_dxqog")
 default_text = "Begin Next Round"
 
 [node name="BoardButton" parent="UI/PlayerTextboxes" instance=ExtResource("5_703wq")]
 visible = false
-material = SubResource("ShaderMaterial_4mqtq")
+material = SubResource("ShaderMaterial_n0smu")
 layout_mode = 2
 script = ExtResource("13_6rw3p")
 default_text = "Board"
@@ -9046,13 +9046,13 @@ text = "[center]10/10[img=12x13]res://assets/icons/arrow_icon.png[/img][/center]
 position = Vector2(160, -44)
 
 [node name="SoulFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(277, 33)
+position = Vector2(277, 30)
 
 [node name="Player" type="Node2D" parent="Points"]
 position = Vector2(166.5, 212)
 
 [node name="LifeFragmentPile" type="Node2D" parent="Points"]
-position = Vector2(20, 42)
+position = Vector2(20, 39)
 
 [node name="ArrowPile" type="Node2D" parent="Points"]
 position = Vector2(13, 157)
@@ -9067,7 +9067,7 @@ position = Vector2(236, 14)
 position = Vector2(61, 19)
 
 [node name="DeepBreathRegen" type="Node2D" parent="Points"]
-position = Vector2(32, 39)
+position = Vector2(32, 36)
 
 [node name="Embers" type="GPUParticles2D" parent="."]
 modulate = Color(0.737255, 0.290196, 0.607843, 1)
@@ -9263,8 +9263,9 @@ script = ExtResource("7_4br5g")
 [node name="TutorialFade" type="ColorRect" parent="."]
 z_index = 1000
 material = SubResource("ShaderMaterial_1biib")
+offset_top = 1.0
 offset_right = 320.0
-offset_bottom = 180.0
+offset_bottom = 181.0
 mouse_filter = 2
 
 [node name="FX" type="AnimationPlayer" parent="TutorialFade"]
@@ -9280,6 +9281,7 @@ editor_draw_limits = true
 
 [connection signal="clicked" from="Table/VoyageMap" to="." method="_on_voyage_map_clicked"]
 [connection signal="closed" from="Table/VoyageMap" to="." method="_on_voyage_map_closed"]
+[connection signal="coin_purchased" from="Table/Shop" to="." method="_on_shop_coin_purchased"]
 [connection signal="clicked" from="UI/PlayerTextboxes/TossButton" to="." method="_on_toss_button_clicked"]
 [connection signal="clicked" from="UI/PlayerTextboxes/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="clicked" from="UI/PlayerTextboxes/ShopContinueButton" to="." method="_on_continue_button_pressed"]

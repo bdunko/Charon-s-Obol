@@ -1732,6 +1732,63 @@ func ordinal_suffix(i: int) -> String:
 		return "rd"
 	return "th"
 
+# returns a uniformly random point in the circle generated from center with radius.
+# if force_integer, the point will have integer coordinates.
+func get_random_point_in_circle(center: Vector2, radius: float, force_integer: bool = false) -> Vector2:
+	var point = Vector2.ZERO
+	
+	while true:
+		var angle = randf_range(0.0, TAU)
+		var r = radius * sqrt(randf())
+		point = center + Vector2(r * cos(angle), r * sin(angle))
+
+		if not force_integer:
+			break
+
+		point = point.round()
+		if point.distance_to(center) <= radius:
+			break
+	
+	return point
+
+# Returns a uniformly random point within an ellipse defined by 'center' and 'radii' (x = horizontal, y = vertical).
+# If 'force_integer' is true, the point will be rounded to integer coordinates while staying within the ellipse.
+func get_random_point_in_ellipse(center: Vector2, radii: Vector2, force_integer: bool = false) -> Vector2:
+	var point = Vector2.ZERO
+
+	while true:
+		var angle = randf_range(0.0, TAU)
+		var r = sqrt(randf())  # unit radius for uniform sampling
+		point = Vector2(
+			r * radii.x * cos(angle),
+			r * radii.y * sin(angle)
+		) + center
+
+		if not force_integer:
+			break
+
+		point = point.round()
+		
+		# Check if the integer-rounded point is still within the ellipse
+		var rel = point - center
+		var ellipse_check = pow(rel.x / radii.x, 2) + pow(rel.y / radii.y, 2)
+		if ellipse_check <= 1.0:
+			break
+	
+	return point
+
+func get_random_point_in_rectangle(center: Vector2, size: Vector2, force_integer: bool = false) -> Vector2:
+	var half_size = size * 0.5
+	var point = Vector2(
+		randf_range(center.x - half_size.x, center.x + half_size.x),
+		randf_range(center.y - half_size.y, center.y + half_size.y)
+	)
+	
+	if force_integer:
+		point = point.round()
+		
+	return point
+
 # Removes and frees each child of the given node
 func free_children(node: Node) -> void:
 	for child in node.get_children():

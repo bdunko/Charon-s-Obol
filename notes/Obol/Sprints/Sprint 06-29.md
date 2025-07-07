@@ -57,7 +57,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Camera zoom in/out slightly during death.
 - [ ] **Color Standardization**
 	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
-- [ ] Tooltips could disintegrate out very quickly?
 
 ### In Progress  
 - [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
