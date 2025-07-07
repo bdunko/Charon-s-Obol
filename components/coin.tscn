@@ -4764,7 +4764,7 @@ centered = false
 script = ExtResource("35_2vs3w")
 
 [node name="PowerIconGrowPoint" type="Node2D" parent="Sprite"]
-position = Vector2(17, 17)
+position = Vector2(16, 15)
 
 [node name="StatusIconShrinkPoint" type="Node2D" parent="Sprite"]
 position = Vector2(17, -7)

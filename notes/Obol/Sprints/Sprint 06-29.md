@@ -63,8 +63,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] Trail for souls, life, and purchased coins?
 - [ ] Trail for coins moving to hands/toss.
 - [ ] River on the left/right should scroll during voyage.
-- [ ] Pile of life/souls should be in a circular pile instead of square.
-	- [ ] chatgpt can probably write this easily
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
@@ -102,6 +100,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] **Life/Soul Labels**
 	- [x] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
 	- [x] Apply disintegrate effect instead of fading in/out for the delta labels.
+- [x] Pile of life/souls should be in a circular pile instead of square.
 
 ---
 ## 📝 Quick To-Dos  
