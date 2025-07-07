@@ -26,7 +26,7 @@ float vary0to1(float time) { return 1.0-(cos(time)+1.0)/2.0; } // a transformed 
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
-uniform bool LABEL = false; //use this when using a label to preserve the font color
+uniform bool LABEL = false; //use this when using a Label/RichTextLabel or ColorRect to preserve color
 uniform bool POST_PROCESSING = false;
 
 // pass in the mouse position here

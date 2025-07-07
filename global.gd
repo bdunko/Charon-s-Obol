@@ -866,6 +866,7 @@ func randomize_voyage() -> void:
 	
 	# randomize trials & nemesis
 	for rnd in VOYAGE:
+		rnd.trialDatas.clear() # Godot does not deep copy these, so they need to be manually cleared
 		match(rnd.roundType):
 			RoundType.TRIAL1:
 				for i in range(0, 2):
