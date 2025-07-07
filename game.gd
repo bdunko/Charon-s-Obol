@@ -1521,10 +1521,11 @@ func _on_voyage_continue_button_clicked():
 		Global.lives += life_loss
 		_LIFE_LABEL.fade_in()
 		await _wait_for_dialogue(Global.replace_placeholders("If it lands on Tails(TAILS), the penalty is -%d Life(LIFE)." % life_loss))
-		Global.lives += Global.current_round_life_regen() - life_loss
+		var life_regen = Global.current_round_life_regen()
+		Global.lives += life_regen - life_loss
 		_LEFT_HAND.unpoint()
 		_COIN_ROW.get_child(0).turn()
-		await _wait_for_dialogue(Global.replace_placeholders("Each round, you will gain 100 Life(HEAL)."))
+		await _wait_for_dialogue(Global.replace_placeholders("Each round, you will gain %d Life(HEAL)." % life_regen))
 		await _wait_for_dialogue("To win, survive until the end of the Voyage.")
 		await _wait_for_dialogue(Global.replace_placeholders("Earning Souls(SOULS) will help you do this."))
 		await _wait_for_dialogue(Global.replace_placeholders("But, if you ever run out of Life(LIFE)..."))
@@ -1536,6 +1537,8 @@ func _on_voyage_continue_button_clicked():
 		if Global.tutorialState != Global.TutorialState.INACTIVE and Global.tutorialState != Global.TutorialState.ROUND1_FIRST_HEADS:
 			await _tutorial_fade_in([_LIFE_FRAGMENTS, _LIFE_LABEL, _ENEMY_COIN_ROW])
 		await _wait_for_dialogue("...take a deep breath...")
+		_LIFE_LABEL.fade_in()
+		_SOUL_LABEL.fade_in()
 		
 		# refresh lives
 		if not Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FAMINE): # famine trial prevents life regen

@@ -1,9 +1,11 @@
 class_name DeltaLabel
 extends RichTextLabel
 
+@onready var _FX = $FX
+
 @export var fade_in_duration := 0.05  # quick fade-in duration
 @export var display_duration := 2.0    # Seconds to stay visible after flash
-@export var fade_duration := 0.25       # Seconds to fade out alpha
+@export var fade_duration := 0.1       # Seconds to fade out alpha
 @export var flash_duration := 0.1     # Duration of the flash tween
 
 @export var format_string := "[center]{value}[/center]"
@@ -24,7 +26,7 @@ func _ready():
 	modulate.a = 1.0
 	bbcode_enabled = true
 	_tween = create_tween()
-	_tween.kill()
+	_kill_tweens()
 
 func add_delta(delta: int) -> void:
 	if not _enabled or delta == 0:
@@ -39,14 +41,15 @@ func add_delta(delta: int) -> void:
 	# Begin fade-in
 	modulate.a = 0.0
 	show()
-	_tween.kill()
+	_kill_tweens()
+	_FX.disintegrate_in(0)
 	_tween = create_tween()
 	_tween.tween_property(self, "modulate:a", 1.0, fade_in_duration)
 	await _tween.finished
 
-	await _play_flash_animation(my_id)
+	await _play_flash_animation()
 	if my_id != _fade_id or !is_inside_tree():
-		return
+		return 
 
 	_fade_deadline_msec = Time.get_ticks_msec() + int(display_duration * 1000)
 	while true:
@@ -59,7 +62,7 @@ func add_delta(delta: int) -> void:
 			return
 
 
-	await _play_fade_animation(my_id)
+	await _play_fade_animation()
 	if my_id != _fade_id or !is_inside_tree():
 		return
 
@@ -79,20 +82,18 @@ func _update_text_and_color() -> void:
 	append_text(formatted)
 	add_theme_color_override("default_color", flash_color)
 
-func _play_flash_animation(my_id: int) -> void:
+func _play_flash_animation() -> void:
 	var normal_color := positive_value_color if _current_value >= 0 else negative_value_color
 	_tween = create_tween()
 	_tween.tween_property(self, "theme_override_colors/default_color", normal_color, flash_duration)
 	await _tween.finished
 
-func _play_fade_animation(my_id: int) -> void:
-	_tween = create_tween()
-	_tween.tween_property(self, "modulate:a", 0.0, fade_duration)
-	await _tween.finished
+func _play_fade_animation() -> void:
+	await _FX.disintegrate(fade_duration)
 
 func reset() -> void:
 	_fade_id += 1
-	_tween.kill()
+	_kill_tweens()
 	_current_value = 0
 	hide()
 	modulate.a = 1.0
@@ -103,18 +104,19 @@ func soft_reset() -> void:
 	
 	_fade_id += 1
 	var my_id = _fade_id
-	_tween.kill()
+	_kill_tweens()
 	_current_value = 0
 	
-	_tween = create_tween()
-	_tween.tween_property(self, "modulate:a", 0.0, fade_duration)
-	await _tween.finished
-
+	await _play_fade_animation()
 	if my_id != _fade_id or !is_inside_tree():
 		return  # Interrupted by another delta or destroyed
 
 	hide()
 	modulate.a = 1.0
+
+func _kill_tweens():
+	_tween.kill()
+	_FX.kill_tweens()
 
 func disable() -> void:
 	_enabled = false

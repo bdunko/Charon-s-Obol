@@ -23,24 +23,12 @@ Checking vignette effect requires making the 'editor' space match the game windo
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    |        |          |        |
+| 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     |        |
 |        |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] **Building Blocks Revisit**
-	- [ ] 4-Bar Chord Progression
-	- [ ] Removing Backbeats
-- [ ] **Life/Soul Labels**
-	- [ ] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
-	- [ ] Apply disintegrate effect instead of fading in/out for the delta labels.
-- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
-- [ ] Trail for souls, life, and purchased coins?
-- [ ] Trail for coins moving to hands/toss.
-- [ ] River on the left/right should scroll during voyage.
-- [ ] Pile of life/souls should be in a circular pile instead of square.
-- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
@@ -49,24 +37,16 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
 	- [ ] Deactivate a coin - move it back down
 	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect.
-- [ ] **Enhanced Monster Effects (Projectile animations)**
-	- [ ] Add projectiles for monster coins targetting coins in player's row.
-		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-		- [ ] Just need to await for it to finish
-			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
-	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
-	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+- [ ] **Coin Flip Animation**
+	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [ ] Effect when a coin is tossed or lands(?)
 - [ ] **Game Phase Labels** 
 	- [ ] Appears (using disintegrate effect and flash purple -> black) at the start of each 'phase'. 
 	- [ ] A Decision Must Be Made
 	- [ ] Awaken Thy Power
 	- [ ] Payoff Arrives; Fate is Sealed
 - [ ] **Textbox Buttons**
-	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should fade out a bit better too, maybe shrink a bit. 
-- [ ] **Coin Flip Animation**
-	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
-	- [ ] Effect when a coin is tossed or lands(?)
+	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should disintegrate out.
 - [ ] **Arrows of Night**
 	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
 	- [ ] Arrows are placed on table from Charon like other things.
@@ -77,8 +57,24 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Camera zoom in/out slightly during death.
 - [ ] **Color Standardization**
 	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
+- [ ] Tooltips could disintegrate out very quickly?
 
 ### In Progress  
+- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
+- [ ] Trail for souls, life, and purchased coins?
+- [ ] Trail for coins moving to hands/toss.
+- [ ] River on the left/right should scroll during voyage.
+- [ ] Pile of life/souls should be in a circular pile instead of square.
+	- [ ] chatgpt can probably write this easily
+- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
+- [ ] **Enhanced Monster Effects (Projectile animations)**
+	- [ ] Add projectiles for monster coins targetting coins in player's row.
+		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
+		- [ ] Just need to await for it to finish
+			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
+		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
+	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
+	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
 
 ### Done  
 - [ ] **Building Blocks Revisit**
@@ -90,6 +86,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [x] Half-Time
 	- [x] All Track Anticipation
 	- [x] 16th Shuffle
+	- [x] 4-Bar Chord Progression
+	- [x] Removing Backbeats
 - [x] Monday Sprint Planning - polish epic.
 - [x] Ableton prep - Make a group containing all plugins I'll be using. M1, common/standard ableton effects, drums.
 - [x] Download reference tracks
@@ -100,7 +98,11 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Switch to tweening the opacity (transparency uniform) instead of the radius. We prede
 - [x] **Vignette**
 	- [x] Add ambient pulse using a sin wave to the contrast (see ChatGPT).
-- [ ] Check on HeavyWater loop... didn't sound clean.
+- [x] Check on HeavyWater loop... didn't sound clean.
+- [x] Disintegrate temp labels from spawner
+- [x] **Life/Soul Labels**
+	- [x] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
+	- [x] Apply disintegrate effect instead of fading in/out for the delta labels.
 
 ---
 ## 📝 Quick To-Dos  
@@ -114,6 +116,7 @@ _Untracked or small tasks not managed in the structured lists._
 ## 🏆 Wins & Highlights
 _Recap of key achievements from this sprint to highlight._
 - Learned more about seamless audio looping, and added a Quite Notes section.
+- Switched to using Git LFS for audio tracking.
 
 ---
 ## 🔍 Sprint Review (07-12)  

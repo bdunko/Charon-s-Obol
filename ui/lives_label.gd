@@ -13,8 +13,7 @@ func _on_life_count_changed(change: int) -> void:
 func _on_state_changed() -> void:
 	if Global.state == Global.State.BOARDING:
 		_FX.hide()
-	elif Global.lives != 0:
-		fade_in()
 
 func fade_in() -> void:
-	_FX.fade_in(1.0)
+	_FX.show()
+	_FX.disintegrate_in(0.25)

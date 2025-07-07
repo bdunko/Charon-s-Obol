@@ -3,10 +3,12 @@ extends RichTextLabel
 
 signal ready_for_destroy
 
+@onready var _FX = $FX
+
 @export var move_time = 0.3
-@export var scale_time = 0.3
+@export var scale_time = 0.1
 const _PAUSE_TIME = 1.0
-const _FADE_TIME = 0.2
+const _FADE_TIME = 0.1
 @export var y_amount = 17
 @export var starting_scale = Vector2(1.0, 1.0)
 
@@ -28,9 +30,8 @@ func _ready():
 	_tween.tween_property(self, "position:y", start_y - y_amount, scale_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_tween.parallel().tween_property(self, "scale", Vector2.ONE, move_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_tween.tween_interval(_PAUSE_TIME)
-	_tween.tween_property(self, "modulate", Color(0.5, 0.5, 0.5, 0), _FADE_TIME).set_trans(Tween.TRANS_LINEAR)
-
 	await _tween.finished
+	await _FX.disintegrate(_FADE_TIME)
 	if _destroying:
 		return
 	_destroying = true

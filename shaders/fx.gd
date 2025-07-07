@@ -275,12 +275,18 @@ func oscillate_uniform_from(uniform: Uniform, from, to, duration: float, trans :
 	tween_uniform(uniform, to, duration, trans)
 
 # kill all active tweens
-func kill_tweens(uniform: Uniform):
+func kill_tweens_for(uniform: Uniform):
 	# get list of all tweens affecting uniform
 	if _active_tweens.has(uniform):
 		for tween in _active_tweens[uniform]:
 			tween.kill() # kill them
 		_active_tweens.erase(uniform) # erase the list from dictionary
+
+func kill_tweens():
+	for k in _active_tweens.keys():
+		for tween in _active_tweens[k]:
+			tween.kill()
+	_active_tweens.clear()
 
 func _add_tween(uniform: Uniform, tween: Tween) -> void:
 	# create an empty list if needed for the uniform
@@ -446,6 +452,10 @@ func disintegrate(time: float) -> void:
 
 func disintegrate_in(time: float) -> void:
 	assert(time >= 0.0, "Time must be non-negative.")
+	
+	if time == 0:
+		set_uniform(Uniform.FLOAT_DISINTEGRATE_STRENGTH, 0.0)
+		return
 	
 	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND1, 0.0)
 	set_uniform(Uniform.FLOAT_DISINTEGRATE_ALPHA_BOUND2, 0.0)
