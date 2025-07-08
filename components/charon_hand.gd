@@ -1,6 +1,10 @@
 class_name CharonHand
 extends Node2D
 
+enum ColorStyle {
+	PURPLE, GREEN, RED
+}
+
 enum HandType {
 	LEFT, RIGHT
 }
@@ -21,11 +25,27 @@ enum HandType {
 @onready var _SLAM_POSITION = position + Vector2(0, 40)
 @onready var _SLAM_PARTICLES = $SlamParticles
 
+const MOVEMENT_SPEED = 100
 const _ANIM_NORMAL = "normal"
 const _ANIM_POINTING = "pointing"
 
 var _lock := false
 var _hovering := true
+
+const _HIGHLIGHT_PURPLE_COLOR = Color("#fad6b8")
+const _HIGHLIGHT_GREEN_COLOR = Color("#cdf7e2")
+const _HIGHLIGHT_RED_COLOR = Color("#f9a31b")
+
+var _current_color = ColorStyle.PURPLE:
+	set(val):
+		_current_color = val
+		match(_current_color):
+			ColorStyle.PURPLE:
+				_FX.tween_uniform(FX.Uniform.VEC3_REPLACE_WITH_COLOR1, _HIGHLIGHT_PURPLE_COLOR, 0.5)
+			ColorStyle.GREEN:
+				_FX.tween_uniform(FX.Uniform.VEC3_REPLACE_WITH_COLOR1, _HIGHLIGHT_GREEN_COLOR, 0.5)
+			ColorStyle.RED:
+				_FX.tween_uniform(FX.Uniform.VEC3_REPLACE_WITH_COLOR1, _HIGHLIGHT_RED_COLOR, 0.5)
 
 func _ready():
 	assert(_SPRITE)
@@ -40,8 +60,9 @@ func _ready():
 	_SPRITE.flip_h = HAND_TYPE == HandType.RIGHT
 	
 	set_appearance(Appearance.NORMAL)
-
-const MOVEMENT_SPEED = 100
+	
+func recolor(style: ColorStyle):
+	_current_color = style
 
 func disable_hovering() -> void:
 	_hovering = false

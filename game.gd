@@ -1248,16 +1248,22 @@ func _recolor_river(colorStyle: River.ColorStyle, instant: bool) -> void:
 	_RIVER_RIGHT.change_color(colorStyle, instant)
 	_VOYAGE_MAP.change_river_color(colorStyle, instant)
 	
-	match colorStyle: # also recolor the particles
+	match colorStyle: # also recolor the particles, and charon's hand
 		River.ColorStyle.PURPLE:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#bc4a9b"), 0.5)
 			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#bc4a9b"), 0.5)
+			_LEFT_HAND.recolor(CharonHand.ColorStyle.PURPLE)
+			_RIGHT_HAND.recolor(CharonHand.ColorStyle.PURPLE)
 		River.ColorStyle.GREEN:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#cdf7e2"), 0.5)
 			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#cdf7e2"), 0.5)
+			_LEFT_HAND.recolor(CharonHand.ColorStyle.GREEN)
+			_RIGHT_HAND.recolor(CharonHand.ColorStyle.GREEN)
 		River.ColorStyle.RED:
 			create_tween().tween_property(_EMBERS_PARTICLES, "modulate", Color("#df3e23"), 0.5)
 			create_tween().tween_property(_TRIAL_EMBERS_PARTICLES, "modulate", Color("#df3e23"), 0.5)
+			_LEFT_HAND.recolor(CharonHand.ColorStyle.RED)
+			_RIGHT_HAND.recolor(CharonHand.ColorStyle.RED)
 
 func _on_board_button_clicked():
 	assert(Global.state == Global.State.BOARDING)
