@@ -1,12 +1,32 @@
-[gd_scene load_steps=12 format=3 uid="uid://dpenc5by7cwjw"]
+[gd_scene load_steps=15 format=3 uid="uid://dpenc5by7cwjw"]
 
 [ext_resource type="Script" path="res://components/soul_fragment.gd" id="1_t2nc6"]
 [ext_resource type="Texture2D" uid="uid://cx4bursdkr6ms" path="res://assets/table/soul_fragment_blue_spritesheet.png" id="2_qy741"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_wohky"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="3_6wcwh"]
 
+[sub_resource type="Gradient" id="Gradient_1qocj"]
+offsets = PackedFloat32Array(0, 0.75772, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_htfeq"]
+gradient = SubResource("Gradient_1qocj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_77c3g"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0.691406, 0.984375, 0.871094, 1)
+color_ramp = SubResource("GradientTexture1D_htfeq")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2pjeg"]
 shader = ExtResource("2_wohky")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -127,9 +147,17 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
+shader_parameter/vignette_edge_softness = 0.0
+shader_parameter/vignette_contrast = 1.0
+shader_parameter/vignette_aspect_x = 1.0
+shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -186,6 +214,13 @@ offset_bottom = 32.0
 mouse_filter = 2
 script = ExtResource("1_t2nc6")
 
+[node name="FancyTrail" type="GPUParticles2D" parent="."]
+position = Vector2(8, 16)
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_77c3g")
+lifetime = 0.3
+fixed_fps = 60
+
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_2pjeg")
 sprite_frames = SubResource("SpriteFrames_ea05b")
@@ -194,5 +229,3 @@ frame_progress = 0.278655
 centered = false
 
 [node name="FX" parent="Sprite" instance=ExtResource("3_6wcwh")]
-
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

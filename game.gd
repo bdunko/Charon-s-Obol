@@ -331,37 +331,52 @@ func _on_life_count_changed(change: int) -> void:
 			Global.state = Global.State.CHARON_OBOL_FLIP
 
 func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
-	#var fragment_count = 0
+	var delta = pile.get_child_count() - max(0, amount) if pile.get_child_count() > max(0, amount) else amount - pile.get_child_count()
 	
-	# move from pile to charon
+	# helper lambda to calculate delay time
+	var calc_delay = func(i) -> float:
+		if delta <= 30:
+			return i * 0.01
+		return i * 30 * 0.01 / delta
+	
+	# helper lambda to spawn a fragment
+	var spawn_frag = func(i):
+		var fragment = scene.instantiate()
+		pile.add_child(fragment)
+		fragment.start_trail_particles()
+		fragment.position = give_pos
+		
+		var target_pos = Global.get_random_point_in_ellipse(pile_pos, Vector2(16, 13))
+		
+		# move from player to pile
+		var tween = create_tween()
+		tween.tween_interval(calc_delay.call(i))
+		tween.tween_property(fragment, "position", target_pos, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
+		
+		await tween.finished
+		fragment.stop_trail_particles()
+	
+	var fragment_count = 0
+	
+	# we have too many; move from pile to charon
 	while pile.get_child_count() > max(0, amount):
+		fragment_count += 1
+		
 		var fragment = pile.get_child(0)
+		fragment.start_trail_particles()
 		pile.remove_child(fragment)
 		add_child(fragment)
 		
 		# visually move it from pile to charon
 		var tween = create_tween()
-		#tween.tween_interval(fragment_count * 0.02)
-		tween.tween_property(fragment, "position", take_pos, 0.4).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_interval(calc_delay.call(fragment_count))
+		tween.tween_property(fragment, "position", take_pos, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_callback(fragment.queue_free)
-		#fragment_count += 1
 	
+	# we have too few; spawn some in and move to this pile
 	while pile.get_child_count() < amount:
-		var fragment = scene.instantiate()
-		
-		fragment.position = give_pos
-		
-		var target_pos = Global.get_random_point_in_ellipse(pile_pos, Vector2(16, 13))
-		
-		#var target_pos = pile_pos + Vector2(Global.RNG.randi_range(-14, 14), Global.RNG.randi_range(-8, 8))
-		
-		# move from player to pile
-		var tween = create_tween()
-		#tween.tween_interval(fragment_count * 0.02)
-		tween.tween_property(fragment, "position", target_pos, 0.4).set_trans(Tween.TRANS_CUBIC)
-		
-		pile.add_child(fragment)
-		#fragment_count += 1
+		fragment_count += 1
+		spawn_frag.call(fragment_count)
 
 func _on_state_changed() -> void:
 	_PLAYER_TEXTBOXES.make_visible()
@@ -1129,6 +1144,8 @@ func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE
 	_DIALOGUE.show_dialogue("Now let us sail...")
 	_PLAYER_TEXTBOXES.make_invisible()
+	_RIVER_LEFT.play_movement_animation()
+	_RIVER_RIGHT.play_movement_animation()
 	await _show_voyage_map(true, false)
 	await _VOYAGE_MAP.move_boat(Global.round_count)
 	Global.round_count += 1
@@ -1466,6 +1483,8 @@ func _apply_misfortune_trial() -> void:
 func _on_voyage_continue_button_clicked():
 	_hide_voyage_map()
 	_PLAYER_TEXTBOXES.make_invisible()
+	_RIVER_LEFT.stop_movement_animation()
+	_RIVER_RIGHT.stop_movement_animation()
 	await Global.delay(0.1)
 	var first_round = Global.round_count == Global.FIRST_ROUND
 	

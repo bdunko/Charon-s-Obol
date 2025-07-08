@@ -5,8 +5,8 @@
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_yx6tr"]
 [ext_resource type="Texture2D" uid="uid://c2f812jn0jyma" path="res://assets/table/voyage_map/voyage_sun.png" id="3_ep1xb"]
 [ext_resource type="Texture2D" uid="uid://cig0x4566omk0" path="res://assets/table/voyage_map/voyage_ship.png" id="3_xhs1r"]
-[ext_resource type="Script" path="res://ui/river.gd" id="5_u1b6x"]
 [ext_resource type="Texture2D" uid="uid://cybgjvdmpfd2w" path="res://assets/table/voyage_map/voyage_river_purple.png" id="6_cbihi"]
+[ext_resource type="Script" path="res://ui/map_river.gd" id="6_ru1xw"]
 [ext_resource type="PackedScene" uid="uid://bqfaj14sdjdpo" path="res://ui/voyage_map/voyage_node.tscn" id="7_qdi6m"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="8_wyum8"]
 [ext_resource type="Texture2D" uid="uid://cgk11yn2jokt" path="res://assets/table/voyage_map/voyage_river_green.png" id="8_xlfid"]
@@ -24,6 +24,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ifvxe"]
 shader = ExtResource("2_yx6tr")
+shader_parameter/LABEL = false
 shader_parameter/POST_PROCESSING = false
 shader_parameter/MOUSE = Vector2(20, 20)
 shader_parameter/DISABLE = false
@@ -144,9 +145,17 @@ shader_parameter/cut_right = 0.0
 shader_parameter/cut_top = 0.0
 shader_parameter/cut_bottom = 0.0
 shader_parameter/vignette_on = false
+shader_parameter/vignette_layer = false
 shader_parameter/vignette_ignore_transparent = false
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 shader_parameter/vignette_radius = 1.0
+shader_parameter/vignette_edge_softness = 0.0
+shader_parameter/vignette_contrast = 1.0
+shader_parameter/vignette_aspect_x = 1.0
+shader_parameter/vignette_aspect_y = 1.0
+shader_parameter/vignette_pulse_enable = false
+shader_parameter/vignette_pulse_amplitude = 0.1
+shader_parameter/vignette_pulse_speed = 0.5
 shader_parameter/transparency = 1.0
 shader_parameter/auto_flicker_speed = 0.0
 shader_parameter/auto_flicker_bound = 0.0
@@ -2046,7 +2055,7 @@ texture = ExtResource("3_xhs1r")
 centered = false
 
 [node name="River" type="Node2D" parent="Map"]
-script = ExtResource("5_u1b6x")
+script = ExtResource("6_ru1xw")
 
 [node name="Purple" type="Sprite2D" parent="Map/River"]
 material = SubResource("ShaderMaterial_61bru")

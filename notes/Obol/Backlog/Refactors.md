@@ -1,0 +1,2 @@
+- [ ] **Color Standardization**
+	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 

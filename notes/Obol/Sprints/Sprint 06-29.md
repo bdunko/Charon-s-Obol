@@ -23,8 +23,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     |        |
-|        |         |           |          |        |          |        |
+| 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
+| 7✔     |         |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -55,14 +55,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Screen shake on Charon slam.
 	- [ ] Screen shake during death.
 	- [ ] Camera zoom in/out slightly during death.
-- [ ] **Color Standardization**
-	- [ ] Go through and find all instances of hardcoded colors and standardize them a bit more... Global should have a list of colors used by labels etc. Also make sure labels with hardcoded colors match these standard colors. 
 
 ### In Progress  
-- [ ] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
-- [ ] Trail for souls, life, and purchased coins?
-- [ ] Trail for coins moving to hands/toss.
-- [ ] River on the left/right should scroll during voyage.
 - [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
@@ -101,6 +95,10 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [x] Need to fade in the life and soul labels a bit earlier I think, otherwise it looks a bit weird with the initial +100 popup... idk.
 	- [x] Apply disintegrate effect instead of fading in/out for the delta labels.
 - [x] Pile of life/souls should be in a circular pile instead of square.
+- [x] The status/power used effect (the icons) that appears on coins could probably afford to last slightly longer. I think the fade could be faster - stay fully visible longer, fade quicker.
+- [x] Trail for lives & souls
+- [x] River on the left/right should scroll during voyage.
+- [x] Staggered movement of life/souls - adjust so that if >30, we use a diff timing so it doesn't take forever.
 
 ---
 ## 📝 Quick To-Dos  
