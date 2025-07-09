@@ -920,7 +920,7 @@ func _on_accept_button_pressed():
 			
 			# actually do the power
 			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-			payoff_power_family.use_power(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			await payoff_power_family.use_power(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			
 			_update_payoffs()
 			await Global.delay(0.15)

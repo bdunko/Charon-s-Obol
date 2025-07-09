@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj8hun3ysb0nl"]
+
+[ext_resource type="Script" path="res://scratch/projectiletest.gd" id="1_gja48"]
+[ext_resource type="Texture2D" uid="uid://sr30u1imc127" path="res://assets/table/table.png" id="1_j5xv6"]
+[ext_resource type="PackedScene" uid="uid://bkl5p2djoo52i" path="res://components/coin.tscn" id="3_4kvuo"]
+
+[node name="projectiletest" type="Node2D"]
+script = ExtResource("1_gja48")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_j5xv6")
+centered = false
+
+[node name="PlayerCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 141.0
+offset_top = 111.0
+offset_right = 175.0
+offset_bottom = 155.0
+
+[node name="LeftCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 99.0
+offset_top = 33.0
+offset_right = 133.0
+offset_bottom = 77.0
+
+[node name="CenterCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 140.0
+offset_top = 34.0
+offset_right = 174.0
+offset_bottom = 78.0
+
+[node name="RightCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 185.0
+offset_top = 34.0
+offset_right = 219.0
+offset_bottom = 78.0
+
+[node name="FireLeft" type="Button" parent="."]
+offset_left = 9.0
+offset_top = 30.0
+offset_right = 64.0
+offset_bottom = 51.0
+text = "Fire Left"
+
+[node name="FireCenter" type="Button" parent="."]
+offset_left = 9.0
+offset_top = 53.0
+offset_right = 76.0
+offset_bottom = 74.0
+text = "Fire Center"
+
+[node name="FireRight" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 75.0
+offset_right = 67.0
+offset_bottom = 96.0
+text = "Fire Right"
+
+[connection signal="pressed" from="FireLeft" to="." method="_on_fire_left_pressed"]
+[connection signal="pressed" from="FireCenter" to="." method="_on_fire_center_pressed"]
+[connection signal="pressed" from="FireRight" to="." method="_on_fire_right_pressed"]

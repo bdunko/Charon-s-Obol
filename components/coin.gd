@@ -2152,3 +2152,15 @@ func _on_info_view_toggled() -> void:
 
 func get_label_origin() -> Vector2:
 	return _LABEL_ANCHOR.global_position
+
+@onready var _PROJECTILE_TARGET_ANCHOR = $Sprite/ProjectileTargetAnchor
+func get_projectile_target_position() -> Vector2:
+	return _PROJECTILE_TARGET_ANCHOR.global_position
+
+@onready var PROJECTILE = preload("res://components/projectile.tscn")
+func fire_projectile(target_position: Vector2) -> void:
+	var projectile = PROJECTILE.instantiate()
+	add_child(projectile)  # Or use a projectile layer if you have one
+	await projectile.launch(global_position, target_position)
+	#_on_projectile_hit(target_position)  # Apply damage, play hit sound, etc.
+

@@ -896,6 +896,7 @@ class PayoffLucky extends PowerFamily:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.GHOST_WHITE)
 		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+			await payoff_coin.fire_projectile(target.get_projectile_target_position())
 			target.make_lucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
 	
@@ -907,6 +908,7 @@ class PayoffUnlucky extends PowerFamily:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
 		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+			await payoff_coin.fire_projectile(target.get_projectile_target_position())
 			target.make_unlucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
 	

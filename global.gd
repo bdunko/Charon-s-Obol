@@ -2640,6 +2640,9 @@ func random_power_family_excluding(excluded: Array) -> PF.PowerFamily:
 	return power_family
 
 func is_passive_active(passivePower: PF.PowerFamily) -> bool:
+	if not _coin_row or not _enemy_row:
+		return false
+	
 	if patron and patron.power_family == passivePower:
 		return true
 	

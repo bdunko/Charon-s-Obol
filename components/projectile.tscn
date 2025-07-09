@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://ye18t5d75e3"]
+
+[ext_resource type="Script" path="res://components/projectile.gd" id="1_7urud"]
+[ext_resource type="Texture2D" uid="uid://c2kjknyllufmt" path="res://assets/table/projectile.png" id="2_gvwxn"]
+
+[sub_resource type="Gradient" id="Gradient_psy5s"]
+offsets = PackedFloat32Array(0, 0.799287, 0.970309, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.136095, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wdsfb"]
+gradient = SubResource("Gradient_psy5s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ky6tg"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 50.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0.886275, 0.517647, 0.764706, 1)
+color_ramp = SubResource("GradientTexture1D_wdsfb")
+
+[node name="Projectile" type="Node2D"]
+script = ExtResource("1_7urud")
+
+[node name="DirectionalTrail" type="GPUParticles2D" parent="."]
+position = Vector2(-3, 0)
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_ky6tg")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_gvwxn")

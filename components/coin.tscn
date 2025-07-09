@@ -4775,6 +4775,9 @@ position = Vector2(17, 9)
 [node name="TooltipAnchor" type="Node2D" parent="Sprite"]
 position = Vector2(17, 16)
 
+[node name="ProjectileTargetAnchor" type="Node2D" parent="Sprite"]
+position = Vector2(17, 16)
+
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
 watched = NodePath("../Clickbox")
 

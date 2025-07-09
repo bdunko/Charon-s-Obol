@@ -40,13 +40,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] **Coin Flip Animation**
 	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [ ] Effect when a coin is tossed or lands(?)
-- [ ] **Game Phase Labels** 
-	- [ ] Appears (using disintegrate effect and flash purple -> black) at the start of each 'phase'. 
-	- [ ] A Decision Must Be Made
-	- [ ] Awaken Thy Power
-	- [ ] Payoff Arrives; Fate is Sealed
-- [ ] **Textbox Buttons**
-	- [ ] Fade and slightly grow once clicked? With a very slight delay. Non-selected should disintegrate out.
 - [ ] **Arrows of Night**
 	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
 	- [ ] Arrows are placed on table from Charon like other things.
@@ -57,7 +50,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Camera zoom in/out slightly during death.
 
 ### In Progress  
-- [ ] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
 		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
@@ -66,6 +58,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
 	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
 	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+	- [ ] When a monster attempts to activate with no target, it should just shake slightly.
 
 ### Done  
 - [ ] **Building Blocks Revisit**
@@ -99,6 +92,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Trail for lives & souls
 - [x] River on the left/right should scroll during voyage.
 - [x] Staggered movement of life/souls - adjust so that if >30, we use a diff timing so it doesn't take forever.
+- [x] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
 
 ---
 ## 📝 Quick To-Dos  
