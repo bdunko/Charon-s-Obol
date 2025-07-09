@@ -23,6 +23,12 @@ offset_top = 33.0
 offset_right = 133.0
 offset_bottom = 77.0
 
+[node name="FarLeftCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 56.0
+offset_top = 33.0
+offset_right = 90.0
+offset_bottom = 77.0
+
 [node name="CenterCoin" parent="." instance=ExtResource("3_4kvuo")]
 offset_left = 140.0
 offset_top = 34.0
@@ -35,27 +41,49 @@ offset_top = 34.0
 offset_right = 219.0
 offset_bottom = 78.0
 
+[node name="FarRightCoin" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 233.0
+offset_top = 32.0
+offset_right = 267.0
+offset_bottom = 76.0
+
+[node name="FireFarLeft" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 153.0
+offset_right = 89.0
+offset_bottom = 174.0
+text = "Fire Far Left"
+
 [node name="FireLeft" type="Button" parent="."]
-offset_left = 9.0
-offset_top = 30.0
-offset_right = 64.0
-offset_bottom = 51.0
+offset_left = 24.0
+offset_top = 132.0
+offset_right = 79.0
+offset_bottom = 153.0
 text = "Fire Left"
 
 [node name="FireCenter" type="Button" parent="."]
-offset_left = 9.0
-offset_top = 53.0
-offset_right = 76.0
-offset_bottom = 74.0
+offset_left = 128.0
+offset_top = 152.0
+offset_right = 195.0
+offset_bottom = 173.0
 text = "Fire Center"
 
 [node name="FireRight" type="Button" parent="."]
-offset_left = 8.0
-offset_top = 75.0
-offset_right = 67.0
-offset_bottom = 96.0
+offset_left = 240.0
+offset_top = 136.0
+offset_right = 299.0
+offset_bottom = 157.0
 text = "Fire Right"
 
+[node name="FireFarRight" type="Button" parent="."]
+offset_left = 230.0
+offset_top = 158.0
+offset_right = 311.0
+offset_bottom = 179.0
+text = "Fire Far Right"
+
+[connection signal="pressed" from="FireFarLeft" to="." method="_on_fire_far_left_pressed"]
 [connection signal="pressed" from="FireLeft" to="." method="_on_fire_left_pressed"]
 [connection signal="pressed" from="FireCenter" to="." method="_on_fire_center_pressed"]
 [connection signal="pressed" from="FireRight" to="." method="_on_fire_right_pressed"]
+[connection signal="pressed" from="FireFarRight" to="." method="_on_fire_far_right_pressed"]
