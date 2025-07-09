@@ -2161,6 +2161,6 @@ func get_projectile_target_position() -> Vector2:
 func fire_projectile(target_position: Vector2) -> void:
 	var projectile = PROJECTILE.instantiate()
 	add_child(projectile)  # Or use a projectile layer if you have one
-	await projectile.launch(global_position, target_position)
+	await projectile.launch(get_projectile_target_position(), target_position)
 	#_on_projectile_hit(target_position)  # Apply damage, play hit sound, etc.
 
