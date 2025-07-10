@@ -25,6 +25,7 @@ SFX="*res://audio/sfx.gd"
 Songs="*res://audio/songs.gd"
 Audio="*res://audio/audio.gd"
 LabelSpawner="*res://ui/label_spawner.tscn"
+ProjectileManager="*res://projectile_manager.gd"
 
 [debug]
 

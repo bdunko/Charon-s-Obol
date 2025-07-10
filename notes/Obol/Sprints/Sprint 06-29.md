@@ -51,9 +51,10 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] Remove delta labels.
 
 ### In Progress  
-- [ ] Handle multiple projectiles at a time. 
-- [ ] Add animation to circular projectile.
-- [ ] Decrease projectile speed a bit.
+- [x] Handle multiple projectiles at a time. 
+- [x] Add animation to circular projectile.
+- [x] Decrease projectile speed a bit.
+- [ ] Make particle smaller
 - [ ] Add coin shake effect (move sprite left/right slightly)
 	- [ ] When projectile hits, have the target coin shake.
 	- [ ] When a monster attempts to activate with no target, shake.

@@ -895,10 +895,14 @@ class PayoffLucky extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.GHOST_WHITE)
-		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
-			await payoff_coin.fire_projectile(target.get_projectile_target_position())
+		
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.make_lucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
@@ -907,10 +911,14 @@ class PayoffUnlucky extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
-			await payoff_coin.fire_projectile(target.get_projectile_target_position())
+		
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.make_unlucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
