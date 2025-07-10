@@ -20,7 +20,7 @@ var t:
 	set(value):
 		_t_internal = value
 		global_position = quadratic_bezier(_start_position, _control_point, _target_position, _t_internal)
-		look_at(_target_position)
+		#look_at(_target_position)
 
 var _start_position := Vector2.ZERO
 var _target_position := Vector2.ZERO
@@ -49,7 +49,7 @@ func launch(from: Vector2, to: Vector2, speed: float = 250.0) -> void:
 	_control_point = mid_point + perpendicular * curve_height * curve_direction_factor + curve_offset
 
 	global_position = quadratic_bezier(_start_position, _control_point, _target_position, 0.0)
-	look_at(_target_position)
+	#look_at(_target_position)
 
 	modulate.a = 0.0
 
@@ -57,7 +57,7 @@ func launch(from: Vector2, to: Vector2, speed: float = 250.0) -> void:
 	var fade_out_time = clamp(fade_out_fraction, 0.0, 1.0) * duration
 
 	create_tween().tween_property(self, "modulate:a", 1.0, fade_in_time)
-	create_tween().tween_property(self, "t", 1.0, duration).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	create_tween().tween_property(self, "t", 1.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	await Global.delay(duration - fade_out_time)
 	create_tween().tween_property(self, "modulate:a", 0.0, fade_out_time)
 	await Global.delay(fade_out_time)

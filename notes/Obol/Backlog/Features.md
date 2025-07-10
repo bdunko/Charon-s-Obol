@@ -85,7 +85,11 @@ Week 8/9/10
 	- [ ] Tollgate round
 	- [ ] Shop - SMT2 shop
 
-
+- [ ] **Settings Menu & Controller Support - 2 weeks**
+	- [ ] Add settings menu.
+		- [ ] Turn off effects
+		- [ ] Settings should be saved to a separate save file.
+	- [ ] Add support for controllers.
 
 
 **Charon's Obol Release**
@@ -116,11 +120,6 @@ Week 8/9/10
 	- [ ] Oracle's Choice - randomized pool of 25 coins, changing daily.
 	- [ ] Charon's Choice - randomized pool of 25 coins, changes each time you choose it.
 - [ ] **Tartarus Bonus Boss - 2 weeks**
-- [ ] **Settings Menu & Controller Support - 2 weeks**
-	- [ ] Add settings menu.
-		- [ ] Turn off effects
-		- [ ] Settings should be saved to a separate save file.
-	- [ ] Add support for controllers.
 - [ ] **Polish - 4 weeks**
 - [ ] **Balance**
 	- [ ] Fundamental rule - payoffs which are not showing do not happen. Payoffs which are showing always happen. Ex: Blank payoffs don't happen; Frozen payoffs do happen.

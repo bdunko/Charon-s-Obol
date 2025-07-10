@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ye18t5d75e3"]
 
 [ext_resource type="Script" path="res://components/projectile.gd" id="1_7urud"]
-[ext_resource type="Texture2D" uid="uid://c2kjknyllufmt" path="res://assets/table/projectile.png" id="2_gvwxn"]
+[ext_resource type="Texture2D" uid="uid://cxlsf56f1oc3k" path="res://assets/table/projectile_fancy.png" id="2_kb4u6"]
 
 [sub_resource type="Gradient" id="Gradient_psy5s"]
 offsets = PackedFloat32Array(0, 0.799287, 0.970309, 1)
@@ -34,4 +34,4 @@ lifetime = 0.5
 fixed_fps = 60
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_gvwxn")
+texture = ExtResource("2_kb4u6")

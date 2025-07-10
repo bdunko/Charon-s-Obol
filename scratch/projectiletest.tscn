@@ -11,6 +11,12 @@ script = ExtResource("1_gja48")
 texture = ExtResource("1_j5xv6")
 centered = false
 
+[node name="PlayerCoin2" parent="." instance=ExtResource("3_4kvuo")]
+offset_left = 94.0
+offset_top = 111.0
+offset_right = 128.0
+offset_bottom = 155.0
+
 [node name="PlayerCoin" parent="." instance=ExtResource("3_4kvuo")]
 offset_left = 141.0
 offset_top = 111.0
@@ -68,6 +74,13 @@ offset_right = 195.0
 offset_bottom = 173.0
 text = "Fire Center"
 
+[node name="FireMulti" type="Button" parent="."]
+offset_left = 7.0
+offset_top = 96.0
+offset_right = 75.0
+offset_bottom = 117.0
+text = "Fire Multi"
+
 [node name="FireRight" type="Button" parent="."]
 offset_left = 240.0
 offset_top = 136.0
@@ -85,5 +98,6 @@ text = "Fire Far Right"
 [connection signal="pressed" from="FireFarLeft" to="." method="_on_fire_far_left_pressed"]
 [connection signal="pressed" from="FireLeft" to="." method="_on_fire_left_pressed"]
 [connection signal="pressed" from="FireCenter" to="." method="_on_fire_center_pressed"]
+[connection signal="pressed" from="FireMulti" to="." method="_on_fire_multi_pressed"]
 [connection signal="pressed" from="FireRight" to="." method="_on_fire_right_pressed"]
 [connection signal="pressed" from="FireFarRight" to="." method="_on_fire_far_right_pressed"]

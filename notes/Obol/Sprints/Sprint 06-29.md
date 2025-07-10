@@ -18,13 +18,12 @@ Checking vignette effect requires making the 'editor' space match the game windo
 
 ---
 
-
 ## ⌚ Deep Work (and Start Times) ✔
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
-| 7✔     |         |           |          |        |          |        |
+| 7✔     | 10✔     | 10        |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -32,6 +31,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
+	- [ ] When monsters are in play, Charon's hands should move up a bit. 
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
@@ -48,8 +48,17 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Screen shake on Charon slam.
 	- [ ] Screen shake during death.
 	- [ ] Camera zoom in/out slightly during death.
+- [ ] Remove delta labels.
 
 ### In Progress  
+- [ ] Handle multiple projectiles at a time. 
+- [ ] Add animation to circular projectile.
+- [ ] Decrease projectile speed a bit.
+- [ ] Add coin shake effect (move sprite left/right slightly)
+	- [ ] When projectile hits, have the target coin shake.
+	- [ ] When a monster attempts to activate with no target, shake.
+- [ ] Make projectile recolorable. Define appropriate recolor options in Global somewhere.
+- [ ] Add projectiles to all monster powers where they are relevant.
 - [ ] **Enhanced Monster Effects (Projectile animations)**
 	- [ ] Add projectiles for monster coins targetting coins in player's row.
 		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits

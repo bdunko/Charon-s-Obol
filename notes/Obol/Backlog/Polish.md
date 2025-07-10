@@ -1,4 +1,4 @@
-- [ ] Screen shake during charon slam (malice effect).
+
 - [ ] Improve prometheus indicator - make the text 'pop' in like the phase text
 - [ ] Need some visual effect to denote passive
 	- [ ] ideal - rotating pixel around edge, but we would need to do a lot of annoying handling for this; it is not generalizable. We would need to hand-make an animation for each possible coin shape that has a passive. This is doable but inconvenient, especially for trials. In this case, we may as well just make the trial coin size uniform. There isn't really a good reason for them to be differnet like they are now tbh.
@@ -21,7 +21,6 @@
 - [ ] After you use a power, if you run out of charges, the targeted coin stays highlighted (it should stop being highlighted). So minor. Ex: Athena can do this.
 - [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
 - [ ] Add a "souls_down" icon similar to the life loss icon, with a cracked soul icon, used when losing souls?
-- [ ] I wonder if we could move away from transparency at all, for transitions? Using disintegrate fade in/outs might look cooler.
 
 
 
