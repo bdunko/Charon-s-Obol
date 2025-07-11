@@ -54,7 +54,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Add animation to circular projectile.
 - [x] Decrease projectile speed a bit.
 - [x] Make particle smaller
-- [x] Make movement linear again...
+- [ ] Make movement linear again...
 - [x] Remove delta labels.
 - [ ] Make projectile recolorable. Define appropriate recolor options in Projectile itself. We can do a style enum sort of thing.
 - [ ] Add coin shake effect (move sprite left/right slightly)

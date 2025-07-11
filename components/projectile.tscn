@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://ye18t5d75e3"]
+[gd_scene load_steps=10 format=3 uid="uid://ye18t5d75e3"]
 
 [ext_resource type="Script" path="res://components/projectile.gd" id="1_7urud"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_hlo1p"]
-[ext_resource type="Texture2D" uid="uid://cxlsf56f1oc3k" path="res://assets/table/projectile_fancy.png" id="2_kb4u6"]
 [ext_resource type="Texture2D" uid="uid://x868qxqhbhvg" path="res://assets/table/projectile_arrow.png" id="3_v6131"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_bhbt8"]
 
@@ -45,12 +44,12 @@ shader_parameter/displace_x = 0
 shader_parameter/displace_y = 0
 shader_parameter/displace_repeat = true
 shader_parameter/auto_pan_speed = Vector2(0, 0)
-shader_parameter/replace_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color1 = Color(0, 0, 0, 1)
-shader_parameter/replace_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color2 = Color(0, 0, 0, 1)
-shader_parameter/replace_color3 = Color(0, 0, 0, 1)
-shader_parameter/replace_with_color3 = Color(0, 0, 0, 1)
+shader_parameter/replace_color1 = Color(0.909804, 0.415686, 0.45098, 1)
+shader_parameter/replace_with_color1 = Color(0.909804, 0.415686, 0.45098, 1)
+shader_parameter/replace_color2 = Color(0.737255, 0.290196, 0.607843, 1)
+shader_parameter/replace_with_color2 = Color(0.737255, 0.290196, 0.607843, 1)
+shader_parameter/replace_color3 = Color(0.47451, 0.227451, 0.501961, 1)
+shader_parameter/replace_with_color3 = Color(0.47451, 0.227451, 0.501961, 1)
 shader_parameter/replace_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_with_color4 = Color(0, 0, 0, 1)
 shader_parameter/replace_color5 = Color(0, 0, 0, 1)
@@ -176,30 +175,12 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ftgib"]
-atlas = ExtResource("2_kb4u6")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4iund"]
-atlas = ExtResource("2_kb4u6")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_50rp4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ftgib")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4iund")
-}],
-"loop": true,
-"name": &"default",
-"speed": 10.0
-}]
-
 [node name="Projectile" type="Node2D"]
 script = ExtResource("1_7urud")
+curve_height = null
+curve_offset = null
+fade_in_fraction = null
+fade_out_fraction = null
 
 [node name="FancyTrail" type="GPUParticles2D" parent="."]
 amount = 16
@@ -213,12 +194,3 @@ sprite_frames = SubResource("SpriteFrames_km0dl")
 autoplay = "default"
 
 [node name="FX" parent="Sprite" instance=ExtResource("4_bhbt8")]
-
-[node name="Sprite2" type="AnimatedSprite2D" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_fl4ka")
-sprite_frames = SubResource("SpriteFrames_50rp4")
-autoplay = "default"
-frame_progress = 0.423184
-
-[node name="FX" parent="Sprite2" instance=ExtResource("4_bhbt8")]

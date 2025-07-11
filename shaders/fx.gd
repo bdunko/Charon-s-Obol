@@ -354,6 +354,22 @@ func recolor(i: int, color: Color, with: Color) -> void:
 	set_uniform(recolor_lookup[i][0], color) #VEC3_REPLACE_COLORi
 	set_uniform(recolor_lookup[i][1], with) #VEC3_REPLACE_WITH_COLORi
 
+const NULL_COLOR = Color(-888.888, -341.2315, 2343.33333, 0.0101010121235)
+func multi_recolor(color: Color, with: Color,\
+	color2: Color = NULL_COLOR, with2: Color = NULL_COLOR, 
+	color3: Color = NULL_COLOR, with3: Color = NULL_COLOR, 
+	color4: Color = NULL_COLOR, with4: Color = NULL_COLOR, 
+	color5: Color = NULL_COLOR, with5: Color = NULL_COLOR):
+	recolor(1, color, with)
+	if color2 != NULL_COLOR and with2 != NULL_COLOR:
+		recolor(2, color2, with2)
+	if color3 != NULL_COLOR and with3 != NULL_COLOR:
+		recolor(3, color3, with3)
+	if color4 != NULL_COLOR and with4 != NULL_COLOR:
+		recolor(4, color4, with4)
+	if color5 != NULL_COLOR and with5 != NULL_COLOR:
+		recolor(5, color5, with5)
+
 func recolor_outline(color: Color, base_outline_color = _outline_color) -> void:
 	_outline_color = base_outline_color # allows a new outline color to be provided if default does not suffice
 	set_uniform(Uniform.VEC3_REPLACE_COLOR_OUTLINE, _outline_color) 

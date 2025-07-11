@@ -2158,9 +2158,9 @@ func get_projectile_target_position() -> Vector2:
 	return _PROJECTILE_TARGET_ANCHOR.global_position
 
 @onready var PROJECTILE = preload("res://components/projectile.tscn")
-func fire_projectile(target_position: Vector2) -> void:
+func fire_projectile(target_position: Vector2, params: Projectile.ProjectileParams = Projectile.ProjectileParams.new()) -> void:
 	var projectile = PROJECTILE.instantiate()
 	add_child(projectile)  # Or use a projectile layer if you have one
-	await projectile.launch(get_projectile_target_position(), target_position)
+	await projectile.launch(get_projectile_target_position(), target_position, params)
 	#_on_projectile_hit(target_position)  # Apply damage, play hit sound, etc.
 
