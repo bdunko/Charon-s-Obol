@@ -5,14 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://x868qxqhbhvg" path="res://assets/table/projectile_arrow.png" id="3_v6131"]
 [ext_resource type="PackedScene" uid="uid://d1vri2m1wvvey" path="res://shaders/fx.tscn" id="4_bhbt8"]
 
-[sub_resource type="Gradient" id="Gradient_psy5s"]
+[sub_resource type="Gradient" id="Gradient_q0uqs"]
 offsets = PackedFloat32Array(0, 0.799287, 0.970309, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.136095, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_wdsfb"]
-gradient = SubResource("Gradient_psy5s")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c307f"]
+gradient = SubResource("Gradient_q0uqs")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7tx5v"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xobiw"]
+resource_local_to_scene = true
 particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 spread = 180.0
@@ -22,7 +23,7 @@ initial_velocity_max = 20.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color = Color(0.886275, 0.517647, 0.764706, 1)
-color_ramp = SubResource("GradientTexture1D_wdsfb")
+color_ramp = SubResource("GradientTexture1D_c307f")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fl4ka"]
 resource_local_to_scene = true
@@ -177,14 +178,10 @@ animations = [{
 
 [node name="Projectile" type="Node2D"]
 script = ExtResource("1_7urud")
-curve_height = null
-curve_offset = null
-fade_in_fraction = null
-fade_out_fraction = null
 
 [node name="FancyTrail" type="GPUParticles2D" parent="."]
 amount = 16
-process_material = SubResource("ParticleProcessMaterial_7tx5v")
+process_material = SubResource("ParticleProcessMaterial_xobiw")
 lifetime = 0.5
 fixed_fps = 60
 

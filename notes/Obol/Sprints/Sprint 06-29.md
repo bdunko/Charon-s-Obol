@@ -50,13 +50,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Camera zoom in/out slightly during death.
 
 ### In Progress  
-- [x] Handle multiple projectiles at a time. 
-- [x] Add animation to circular projectile.
-- [x] Decrease projectile speed a bit.
-- [x] Make particle smaller
-- [ ] Make movement linear again...
-- [x] Remove delta labels.
-- [ ] Make projectile recolorable. Define appropriate recolor options in Projectile itself. We can do a style enum sort of thing.
 - [ ] Add coin shake effect (move sprite left/right slightly)
 	- [ ] When projectile hits, have the target coin shake.
 	- [ ] When a monster attempts to activate with no target, shake.
@@ -98,7 +91,13 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] River on the left/right should scroll during voyage.
 - [x] Staggered movement of life/souls - adjust so that if >30, we use a diff timing so it doesn't take forever.
 - [x] When we raise the ante (river changes color), also change the color of the board and highlight on charon's land, life, and souls. helps sell the color effect
-
+- [x] Handle multiple projectiles at a time. 
+- [x] Add animation to circular projectile.
+- [x] Decrease projectile speed a bit.
+- [x] Make particle smaller
+- [x] Make movement linear again...
+- [x] Remove delta labels.
+- [x] Make projectile recolorable. Define appropriate recolor options in Projectile itself. We can do a style enum sort of thing.
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._

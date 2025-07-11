@@ -41,23 +41,68 @@ class RecolorParams:
 		if color5 != FX.NULL_COLOR and to5 != FX.NULL_COLOR:
 			swaps.append({"from": color5, "to": to5})
 		return self
-
-	static func BASIC_RECOLOR() -> RecolorParams:
+	
+	const _LIGHT_PURPLE = Color("#e86a73")
+	const _PURPLE = Color("#bc4a9b")
+	const _DARK_PURPLE = Color("#793a80")
+	
+	static func GREEN_RECOLOR() -> RecolorParams:
 		var recolor = RecolorParams.new()
 		return recolor.set_swaps(
-			Color("#e86a73"), Color("#4ab86a"),
-			Color("#bc4a9b"), Color("#9bbc4a"),
-			Color("#793a80"), Color("#80793a")
+			_LIGHT_PURPLE, Color("#9cdb43"),
+			_PURPLE, Color("#59c135"),
+			_DARK_PURPLE, Color("#14a02e")
+		)
+	
+	static func RED_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#f9a31b"),
+			_PURPLE, Color("#fa6a0a"),
+			_DARK_PURPLE, Color("#df3e23")
+		)
+	
+	static func YELLOW_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#fffc40"),
+			_PURPLE, Color("#ffd541"),
+			_DARK_PURPLE, Color("#f9a31b")
+		)
+	
+	static func BLUE_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#a6fcdb"),
+			_PURPLE, Color("#20d6c7"),
+			_DARK_PURPLE, Color("#249fde")
 		)
 
+	static func GRAY_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#dae0ea"),
+			_PURPLE, Color("#b3b9d1"),
+			_DARK_PURPLE, Color("#8b93af")
+		)
+
+	static func BROWN_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#e9b5a3"),
+			_PURPLE, Color("#ba756a"),
+			_DARK_PURPLE, Color("#8e5252")
+		)
+
+
 class ProjectileParams:
-	var _speed: float = 180.0
+	var _speed: float = 170.0
 	var _trajectory: int = TrajectoryType.DELAYED_HOP
 
 	# Trajectory-specific options (prefixed with _)
 	var _parabola_height: float = 20.0
-	var _wobble_amplitude: float = 10.0
-	var _wobble_frequency: float = 2.0
+	var _wobble_amplitude: float = 6.0
+	var _wobble_frequency: float = 1.0
 	var _hop_height: float = 30.0
 	var _hop_delay: float = 0.3
 
@@ -92,7 +137,7 @@ class ProjectileParams:
 		_hop_delay = value
 		return self
 
-	func recolor_params_set(value: RecolorParams) -> ProjectileParams:
+	func recolor(value: RecolorParams) -> ProjectileParams:
 		recolor_params = value
 		return self
 
@@ -174,6 +219,8 @@ func apply_recolor(params: ProjectileParams) -> void:
 		from_colors[3], to_colors[3],
 		from_colors[4], to_colors[4],
 	)
+	
+	_TRAIL_PARTICLES.process_material.color = to_colors[0]
 
 func launch(from: Vector2, to: Vector2, params := ProjectileParams.new()) -> void:
 	_start_position = from

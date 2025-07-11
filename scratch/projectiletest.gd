@@ -39,7 +39,7 @@ func _on_fire_far_left_pressed():
 
 func _on_fire_far_right_pressed():
 	_FAR_RIGHT_COIN.fire_projectile(_PLAYER_COIN.get_projectile_target_position(),\
-		Projectile.ProjectileParams.new().trajectory(_trajectory_type))
+		Projectile.ProjectileParams.new().trajectory(_trajectory_type).recolor(Projectile.RecolorParams.GREEN_RECOLOR()))
 
 func _on_trajectory_options_item_selected(index):
 	match _TRAJECTORY_OPTIONS.get_item_text(index):
