@@ -1580,8 +1580,9 @@ func _on_voyage_continue_button_clicked():
 			Global.lives += Global.current_round_life_regen()
 			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % Global.current_round_life_regen(), _DEEP_BREATH_REGEN_POINT, self)
 	
-	_SOUL_DELTA_LABEL.enable()
-	_LIFE_DELTA_LABEL.enable()
+	# for now, disabling...
+	#_SOUL_DELTA_LABEL.enable()
+	#_LIFE_DELTA_LABEL.enable()
 	
 	# refresh patron powers
 	Global.patron_uses = Global.patron.get_uses_per_round()

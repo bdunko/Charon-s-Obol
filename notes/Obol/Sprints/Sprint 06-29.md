@@ -23,7 +23,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
-| 7✔     | 10✔     | 10        |          |        |          |        |
+| 7✔     | 10✔     | 10✔<br>   |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -48,27 +48,22 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Screen shake on Charon slam.
 	- [ ] Screen shake during death.
 	- [ ] Camera zoom in/out slightly during death.
-- [ ] Remove delta labels.
 
 ### In Progress  
 - [x] Handle multiple projectiles at a time. 
 - [x] Add animation to circular projectile.
 - [x] Decrease projectile speed a bit.
-- [ ] Make particle smaller
+- [x] Make particle smaller
+- [x] Make movement linear again...
+- [x] Remove delta labels.
+- [ ] Make projectile recolorable. Define appropriate recolor options in Projectile itself. We can do a style enum sort of thing.
 - [ ] Add coin shake effect (move sprite left/right slightly)
 	- [ ] When projectile hits, have the target coin shake.
 	- [ ] When a monster attempts to activate with no target, shake.
-- [ ] Make projectile recolorable. Define appropriate recolor options in Global somewhere.
-- [ ] Add projectiles to all monster powers where they are relevant.
-- [ ] **Enhanced Monster Effects (Projectile animations)**
-	- [ ] Add projectiles for monster coins targetting coins in player's row.
-		- [ ] projectilesystem creates projectiles (Sprite2D with particles in charge of moving), signal when it hits
-		- [ ] Just need to await for it to finish
-			- [ ] if there are multiple, it's slightly trickier. maybe we actually create a projectilesystem, which can manage multiple projectiles and signals when both are done? seems reasonable. it can keep a reference count
-		- [ ] To make a curved path projectile, x and y simply need to follow different functions over the same time interval; aka use two tweens (one for x and one for y) with different trans. One linear and one expo (or other) will achieve this effect.
-	- [ ] Just make a single projectile (animated); recolor depending on status being applied.
-	- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
-	- [ ] When a monster attempts to activate with no target, it should just shake slightly.
+- [ ] Add projectiles to monster powers where they are relevant.
+- [ ] Add projectiles to trial powers where relevant.
+- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
 
 ### Done  
 - [ ] **Building Blocks Revisit**

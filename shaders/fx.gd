@@ -562,10 +562,10 @@ enum VignetteSeverity {
 
 var _vignette_settings_for_severity = {
 	# severity -> [alpha, radius, time]
-	VignetteSeverity.SLIGHT : [0.8, 1.5, 0.32],
-	VignetteSeverity.MODERATE : [0.8, 1.25, 0.42],
+	VignetteSeverity.SLIGHT : [0.6, 1.6, 0.32],
+	VignetteSeverity.MODERATE : [0.7, 1.25, 0.42],
 	VignetteSeverity.HEAVY : [0.8, 1.0, 0.45],
-	VignetteSeverity.SEVERE : [0.8, 0.9, 0.53],
+	VignetteSeverity.SEVERE : [0.9, 0.9, 0.53],
 }
 
 enum VignettePulsateSeverity {
@@ -574,9 +574,9 @@ enum VignettePulsateSeverity {
 
 var _vignette_settings_for_pulsate_severity = {
 	# severity -> [min alpha, max alpha, radius, time]
-	VignettePulsateSeverity.MINOR : [0.2, 0.5, 1.4, 0.35],
-	VignettePulsateSeverity.STRONG : [0.3, 0.6, 1.1, 0.4],
-	VignettePulsateSeverity.INSANE : [0.4, 0.7, 0.9, 0.55]
+	VignettePulsateSeverity.MINOR : [0.2, 0.5, 1.5, 0.35],
+	VignettePulsateSeverity.STRONG : [0.3, 0.6, 1.2, 0.4],
+	VignettePulsateSeverity.INSANE : [0.4, 0.7, 1.0, 0.55]
 }
 
 func flash_vignette(severity: VignetteSeverity = VignetteSeverity.MODERATE) -> void:
