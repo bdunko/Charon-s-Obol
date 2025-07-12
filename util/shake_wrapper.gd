@@ -1,4 +1,11 @@
+class_name ShakeWrapper
 extends Node2D
+
+# some recommended values
+const STRONG_DURATION := 0.25
+const STRONG_STRENGTH := 3.0
+const WEAK_DURATION := 0.15
+const WEAK_STRENGTH := 1.5
 
 @export var default_duration := 0.2
 @export var default_strength := 2.0

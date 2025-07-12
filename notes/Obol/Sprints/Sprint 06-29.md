@@ -41,13 +41,12 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] When monsters are in play, Charon's hands should move up a bit. 
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
-	- [ ] Deactivate a coin - move it back down
-	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect.
+	- [ ] Activating a coin - burst of particles; 
+	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect. Also perhaps shake.
 	- [ ] Shadow - add a static sprite underneath the coin. This might look good enough with how flips work. If not, we can try animating it too. 
 	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
-	- [ ] Flash on upgrade (in shop too).
-	- [ ] Shake when this coin's power is used.
+	- [x] Flash on upgrade (in shop too).
+	- [x] Shake when this coin's power is used.
 	- [x] Move up when power is activated. Move down when power is deactivated.
 - [ ] **Coin Flip Animation**
 	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).

@@ -293,6 +293,9 @@ var _tails_power: FacePower:
 		_tails_power = val
 		_update_appearance()
 
+func on_power_used() -> void:
+	_SHAKE_WRAPPER.start_shake(ShakeWrapper.WEAK_DURATION, ShakeWrapper.WEAK_STRENGTH)
+
 # updates face label, glow, and price label
 func _update_appearance() -> void:
 	_cached_tooltip_dirty = true
@@ -893,7 +896,7 @@ func upgrade(no_flash: bool = false) -> void:
 	_update_appearance()
 	set_animation(_Animation.FLAT) # update sprite
 	if not no_flash:
-		FX.flash(Color.GOLDENROD)
+		FX.flash(Color.WHITE)
 	
 	Audio.play_sfx(SFX.Upgrade)
 	
@@ -1077,9 +1080,10 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	set_animation(_Animation.FLIP)
 
 	Audio.play_sfx(SFX.CoinToss)
-	await _sprite_movement_tween.tween(Vector2(0, -50), 0.2)
-	await Global.delay(0.1)
-	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2)
+	await _sprite_movement_tween.tween(Vector2(0, -50), 0.35, Tween.TRANS_SINE, Tween.EASE_OUT)
+	await Global.delay(0.15)
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.25, Tween.TRANS_SINE, Tween.EASE_IN)
+
 	
 	set_animation(_Animation.FLAT)
 	_is_animating = false

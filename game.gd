@@ -2872,6 +2872,8 @@ func after_coin_power_used(used_coin: Coin, target_coin: Coin, used_face_power: 
 	assert(used_coin != null)
 	assert(target_coin != null)
 	
+	used_coin.on_power_used()
+	
 	powers_used.append(used_face_power.power_family)
 	Global.powers_this_round += 1
 	
