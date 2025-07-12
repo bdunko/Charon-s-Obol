@@ -1652,6 +1652,10 @@ func _input(event: InputEvent) -> void:
 	
 	info_view_active = Input.is_physical_key_pressed(KEY_CTRL)
 
+@onready var CALLABLE_NOOP = Callable(self, "noop")
+func noop(opt = null, opt2 = null, opt3 = null, opt4 = null, opt5 = null, opt6 = null, opt7 = null, opt8 = null) -> void:
+	pass
+
 # Randomly return one element of the array
 func choose_one(arr: Array):
 	if arr.size() == 0:

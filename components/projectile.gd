@@ -94,7 +94,6 @@ class RecolorParams:
 			_DARK_PURPLE, Color("#8e5252")
 		)
 
-
 class ProjectileParams:
 	var _speed: float = 170.0
 	var _trajectory: int = TrajectoryType.DELAYED_HOP
@@ -281,10 +280,15 @@ func launch(from: Vector2, to: Vector2, params := ProjectileParams.new()) -> voi
 	if _trajectory_type != TrajectoryType.DELAYED_HOP:
 		await Global.delay(-fade_out_fraction * duration + fade_out_time)
 
+	emit_signal("impact_finished")
+
 	_SPRITE_FX.disintegrate(fade_out_time)
 	await Global.delay(fade_out_time)
-
-	emit_signal("impact_finished")
+	
 	_TRAIL_PARTICLES.emitting = false
+	_wait_for_particles_and_delete(duration)
+
+# a bit of a hack here
+func _wait_for_particles_and_delete(duration):
 	await Global.delay(duration / 2.0)
 	queue_free()

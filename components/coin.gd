@@ -1,7 +1,9 @@
 class_name Coin
 extends Control
 
-@onready var _COIN_SCENE = preload("res://components/coin.tscn")
+static var _COIN_SCENE = preload("res://components/coin.tscn")
+static var _PARTICLE_ICON_SHRINK_SCENE = preload("res://particles/icon_shrink.tscn")
+static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
 
 signal flip_complete
 signal turn_complete
@@ -63,46 +65,49 @@ enum _PrimedState {
 
 var _permanent_statuses = []
 
-@onready var _STATUS_BAR = $Sprite/StatusBar
-@onready var _LUCKY_ICON = $Sprite/StatusBar/Lucky
-@onready var _SLIGHTLY_LUCKY_ICON = $Sprite/StatusBar/SlightlyLucky
-@onready var _QUITE_LUCKY_ICON = $Sprite/StatusBar/QuiteLucky
-@onready var _INCREDIBLY_LUCKY_ICON = $Sprite/StatusBar/IncrediblyLucky
-@onready var _UNLUCKY_ICON = $Sprite/StatusBar/Unlucky
-@onready var _FREEZE_ICON = $Sprite/StatusBar/Freeze
-@onready var _IGNITE_ICON = $Sprite/StatusBar/Ignite
-@onready var _BLESS_ICON = $Sprite/StatusBar/Bless
-@onready var _CURSE_ICON = $Sprite/StatusBar/Curse
-@onready var _SUPERCHARGE_ICON = $Sprite/StatusBar/Supercharge
-@onready var _CHARGE_ICON = $Sprite/StatusBar/Charge
-@onready var _STONE_ICON = $Sprite/StatusBar/Stone
-@onready var _BLANK_ICON = $Sprite/StatusBar/Blank
-@onready var _DOOMED_ICON = $Sprite/StatusBar/Doomed
-@onready var _CONSECRATE_ICON = $Sprite/StatusBar/Consecrate
-@onready var _DESECRATE_ICON = $Sprite/StatusBar/Desecrate
-@onready var _BURY_ICON = $Sprite/StatusBar/Bury
-@onready var _FLEETING_ICON = $Sprite/StatusBar/Fleeting
-@onready var _PRIMED_ICON = $Sprite/StatusBar/Primed
+@onready var _STATUS_BAR = $ShakeWrapper/Sprite/StatusBar
+@onready var _LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/Lucky
+@onready var _SLIGHTLY_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/SlightlyLucky
+@onready var _QUITE_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/QuiteLucky
+@onready var _INCREDIBLY_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/IncrediblyLucky
+@onready var _UNLUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/Unlucky
+@onready var _FREEZE_ICON = $ShakeWrapper/Sprite/StatusBar/Freeze
+@onready var _IGNITE_ICON = $ShakeWrapper/Sprite/StatusBar/Ignite
+@onready var _BLESS_ICON = $ShakeWrapper/Sprite/StatusBar/Bless
+@onready var _CURSE_ICON = $ShakeWrapper/Sprite/StatusBar/Curse
+@onready var _SUPERCHARGE_ICON = $ShakeWrapper/Sprite/StatusBar/Supercharge
+@onready var _CHARGE_ICON = $ShakeWrapper/Sprite/StatusBar/Charge
+@onready var _STONE_ICON = $ShakeWrapper/Sprite/StatusBar/Stone
+@onready var _BLANK_ICON = $ShakeWrapper/Sprite/StatusBar/Blank
+@onready var _DOOMED_ICON = $ShakeWrapper/Sprite/StatusBar/Doomed
+@onready var _CONSECRATE_ICON = $ShakeWrapper/Sprite/StatusBar/Consecrate
+@onready var _DESECRATE_ICON = $ShakeWrapper/Sprite/StatusBar/Desecrate
+@onready var _BURY_ICON = $ShakeWrapper/Sprite/StatusBar/Bury
+@onready var _FLEETING_ICON = $ShakeWrapper/Sprite/StatusBar/Fleeting
+@onready var _PRIMED_ICON = $ShakeWrapper/Sprite/StatusBar/Primed
 
-@onready var _SPRITE = $Sprite
-@onready var _PROTEUS_OVERLAY = $Sprite/ProteusOverlay
-@onready var _FACE_LABEL = $Sprite/FaceLabel
-@onready var _PRICE = $Sprite/Price
+@onready var _SPRITE = $ShakeWrapper/Sprite
+@onready var _PROTEUS_OVERLAY = $ShakeWrapper/Sprite/ProteusOverlay
+@onready var _FACE_LABEL = $ShakeWrapper/Sprite/FaceLabel
+@onready var _PRICE = $ShakeWrapper/Sprite/Price
 
-@onready var _NEXT_FLIP_INDICATOR = $Sprite/NextFlipIndicator
+@onready var _NEXT_FLIP_INDICATOR = $ShakeWrapper/Sprite/NextFlipIndicator
 
-@onready var _INFO_VIEW = $Sprite/InfoView
-@onready var _INFO_VIEW_HEADS_ICON = $Sprite/InfoView/HeadsIcon
-@onready var _INFO_VIEW_HEADS_ICON_FX = $Sprite/InfoView/HeadsIcon/FX
-@onready var _INFO_VIEW_TAILS_ICON = $Sprite/InfoView/TailsIcon
-@onready var _INFO_VIEW_TAILS_ICON_FX = $Sprite/InfoView/TailsIcon/FX
-@onready var _INFO_VIEW_FACE_INDICATOR = $Sprite/InfoView/FaceIndicator
-@onready var _INFO_VIEW_FACE_INDICATOR_FX = $Sprite/InfoView/FaceIndicator/FX
+@onready var _INFO_VIEW = $ShakeWrapper/Sprite/InfoView
+@onready var _INFO_VIEW_HEADS_ICON = $ShakeWrapper/Sprite/InfoView/HeadsIcon
+@onready var _INFO_VIEW_HEADS_ICON_FX = $ShakeWrapper/Sprite/InfoView/HeadsIcon/FX
+@onready var _INFO_VIEW_TAILS_ICON = $ShakeWrapper/Sprite/InfoView/TailsIcon
+@onready var _INFO_VIEW_TAILS_ICON_FX = $ShakeWrapper/Sprite/InfoView/TailsIcon/FX
+@onready var _INFO_VIEW_FACE_INDICATOR = $ShakeWrapper/Sprite/InfoView/FaceIndicator
+@onready var _INFO_VIEW_FACE_INDICATOR_FX = $ShakeWrapper/Sprite/InfoView/FaceIndicator/FX
 
-@onready var _TOOLTIP_ANCHOR = $Sprite/TooltipAnchor
-@onready var _LABEL_ANCHOR = $Sprite/LabelAnchor
+@onready var _POWER_ICON_GROW_POINT = $ShakeWrapper/Sprite/PowerIconGrowPoint
+@onready var _STATUS_ICON_SHRINK_POINT = $ShakeWrapper/Sprite/StatusIconShrinkPoint
+@onready var _TOOLTIP_ANCHOR = $ShakeWrapper/Sprite/TooltipAnchor
+@onready var _LABEL_ANCHOR = $ShakeWrapper/Sprite/LabelAnchor
+@onready var _PROJECTILE_TARGET_ANCHOR = $ShakeWrapper/Sprite/ProjectileTargetAnchor
 
-@onready var FX : FX = $Sprite/FX
+@onready var FX : FX = $ShakeWrapper/Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
@@ -705,15 +710,11 @@ func _ready():
 	Global.flame_boost_changed.connect(_on_flame_boost_changed)
 	Global.info_view_toggled.connect(_on_info_view_toggled)
 
-static var _PARTICLE_ICON_GROW_SCENE = preload("res://particles/icon_grow.tscn")
-@onready var _POWER_ICON_GROW_POINT = $Sprite/PowerIconGrowPoint
 func play_power_used_effect(power: PF.PowerFamily) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
 	particle.texture = load(power.icon_path)
 	_POWER_ICON_GROW_POINT.add_child(particle)
 
-static var _PARTICLE_ICON_SHRINK_SCENE = preload("res://particles/icon_shrink.tscn")
-@onready var _STATUS_ICON_SHRINK_POINT = $Sprite/StatusIconShrinkPoint
 func _play_new_status_effect(icon_path: String) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_SHRINK_SCENE.instantiate()
 	particle.texture = load(icon_path)
@@ -2153,14 +2154,18 @@ func _on_info_view_toggled() -> void:
 func get_label_origin() -> Vector2:
 	return _LABEL_ANCHOR.global_position
 
-@onready var _PROJECTILE_TARGET_ANCHOR = $Sprite/ProjectileTargetAnchor
+
 func get_projectile_target_position() -> Vector2:
 	return _PROJECTILE_TARGET_ANCHOR.global_position
 
+# this generally shouldn't be called directly; use ProjectileManager instead.
 @onready var PROJECTILE = preload("res://components/projectile.tscn")
 func fire_projectile(target_position: Vector2, params: Projectile.ProjectileParams = Projectile.ProjectileParams.new()) -> void:
 	var projectile = PROJECTILE.instantiate()
-	add_child(projectile)  # Or use a projectile layer if you have one
+	add_child(projectile) 
 	await projectile.launch(get_projectile_target_position(), target_position, params)
-	#_on_projectile_hit(target_position)  # Apply damage, play hit sound, etc.
 
+@onready var _SHAKE_WRAPPER = $ShakeWrapper
+
+func on_projectile_hit() -> void:
+	_SHAKE_WRAPPER.start_shake()

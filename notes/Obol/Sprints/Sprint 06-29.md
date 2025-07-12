@@ -48,6 +48,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Screen shake on Charon slam.
 	- [ ] Screen shake during death.
 	- [ ] Camera zoom in/out slightly during death.
+- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
+	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
 
 ### In Progress  
 - [ ] Add coin shake effect (move sprite left/right slightly)
@@ -55,8 +57,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] When a monster attempts to activate with no target, shake.
 - [ ] Add projectiles to monster powers where they are relevant.
 - [ ] Add projectiles to trial powers where relevant.
-- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
-	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
 
 ### Done  
 - [ ] **Building Blocks Revisit**
