@@ -19,6 +19,7 @@ The Mendicant - poverty; no ante increase; no recharge
 The Rhapsode - no power coins in shop; monster row contains powers; last one you use is kept
 The Sylvan - monsters are semi-friendly and have powers on heads
 The Hoplite - coins come from destroying monsters; monsters spawn infinitely
+The Exhumer - shop coins are more expensive. Reliquaries spawn each round, which give a random coin when destroyed.
 
 **Shop**
 The Urchin - always shop

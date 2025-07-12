@@ -1,0 +1,2 @@
+- [ ] Coinpool should just be ~20 randomized coins per run.
+- [ ] Refine monster spawning further. Only a single (or two maybe) neutral monsters capable of spawning each game. The first wave should be hardcoded to be a neutral monster.

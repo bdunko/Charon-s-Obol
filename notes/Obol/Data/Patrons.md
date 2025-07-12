@@ -52,7 +52,6 @@
 	- [ ] Passive - If ever all coins are on tails, reflip all coins.
 	- [ ] Passive - Your rightmost coin always lands on heads.
 	- [ ] Passive - At the end of each round, upgrade your lowest valued coin.
-	- [ ] Passive - Whenever you destroy a coin (including a monster), gain a random Obol.
 	- [ ] Passive - Buying coins is much more expensive. Upgrading coins is much cheaper.
 	- [ ] Passive - Upgrading coins is much more expensive. Buying coins is much cheaper.
 	- [ ] Passive - Your coins are permanently ignited and blessed.
@@ -64,3 +63,14 @@
 	- [ ] Passive - Your coins have an infinite number of charges, but cost 1 life to use. 
 	- [ ] Passive - Your payoff coins are permanently Unlucky, but their payoff is doubled.
 	- [ ] Passive - When you would die, destroy this and heal 100 life.
+
+
+**Pan**
+- [ ] Active (4 charges) - Blank a monster.
+- [ ] Passive - "friendly" monsters spawn frequently.
+???
+- [ ] Active (5 charges) - Give a coin (RANDOM STATUS) (changes each use!)
+- [ ] Passive - Coins can only have one status at a time.
+
+
+

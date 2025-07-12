@@ -23,11 +23,18 @@ Checking vignette effect requires making the 'editor' space match the game windo
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
-| 7✔     | 10✔     | 10✔<br>   |          |        |          |        |
+| 7✔     | 10✔     | 10✔<br>   | ✔        | 12✔    |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
+
+### In Progress  
+- [x] Add coin shake effect (move sprite left/right slightly)
+	- [x] When projectile hits, have the target coin shake.
+	- [ ] When a monster attempts to activate with no target, shake.
+- [ ] Add projectiles to monster powers where they are relevant.
+- [ ] Add projectiles to trial powers where relevant.
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
@@ -37,6 +44,11 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Activating a coin - burst of particles; let's also make the coin rise up slightly while activated like it used to (that was kinda cool)
 	- [ ] Deactivate a coin - move it back down
 	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect.
+	- [ ] Shadow - add a static sprite underneath the coin. This might look good enough with how flips work. If not, we can try animating it too. 
+	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
+	- [ ] Flash on upgrade (in shop too).
+	- [ ] Shake when this coin's power is used.
+	- [x] Move up when power is activated. Move down when power is deactivated.
 - [ ] **Coin Flip Animation**
 	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [ ] Effect when a coin is tossed or lands(?)
@@ -50,13 +62,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Camera zoom in/out slightly during death.
 - [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
 	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
-
-### In Progress  
-- [ ] Add coin shake effect (move sprite left/right slightly)
-	- [ ] When projectile hits, have the target coin shake.
-	- [ ] When a monster attempts to activate with no target, shake.
-- [ ] Add projectiles to monster powers where they are relevant.
-- [ ] Add projectiles to trial powers where relevant.
 
 ### Done  
 - [ ] **Building Blocks Revisit**

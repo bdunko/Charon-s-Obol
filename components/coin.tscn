@@ -1,7 +1,8 @@
-[gd_scene load_steps=271 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=272 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
+[ext_resource type="PackedScene" uid="uid://cuy55y8q0q1xu" path="res://util/offset_wrapper.tscn" id="2_r53lg"]
 [ext_resource type="PackedScene" uid="uid://dkrsf3sxxdpht" path="res://util/shake_wrapper.tscn" id="2_xoehs"]
 [ext_resource type="Texture2D" uid="uid://b4agtqc74rbqp" path="res://assets/coins/coins_spritesheet.png" id="3_61apl"]
 [ext_resource type="Texture2D" uid="uid://b7fxfxpopif5b" path="res://assets/coins/proteus_overlay.png" id="4_5g7if"]
@@ -4407,24 +4408,26 @@ offset_bottom = 44.0
 mouse_filter = 2
 script = ExtResource("1_eg3xp")
 
-[node name="Clickbox" type="CollisionPolygon2D" parent="."]
+[node name="OffsetWrapper" parent="." instance=ExtResource("2_r53lg")]
+
+[node name="ShakeWrapper" parent="OffsetWrapper" instance=ExtResource("2_xoehs")]
+
+[node name="Clickbox" type="CollisionPolygon2D" parent="OffsetWrapper/ShakeWrapper"]
 position = Vector2(-8, -7)
 polygon = PackedVector2Array(29, 9, 32, 10, 34, 11, 37, 14, 38, 16, 39, 19, 39, 29, 38, 32, 37, 34, 34, 37, 32, 38, 29, 39, 21, 39, 18, 38, 16, 37, 13, 34, 12, 32, 11, 29, 11, 19, 12, 16, 13, 14, 16, 11, 18, 10, 21, 9)
 
-[node name="ShakeWrapper" parent="." instance=ExtResource("2_xoehs")]
-
-[node name="Sprite" type="AnimatedSprite2D" parent="ShakeWrapper"]
+[node name="Sprite" type="AnimatedSprite2D" parent="OffsetWrapper/ShakeWrapper"]
 material = SubResource("ShaderMaterial_tte34")
 sprite_frames = SubResource("SpriteFrames_w12pp")
 animation = &"labyrinth_obol_flat"
 centered = false
 
-[node name="ProteusOverlay" type="Sprite2D" parent="ShakeWrapper/Sprite"]
+[node name="ProteusOverlay" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 visible = false
 texture = ExtResource("4_5g7if")
 centered = false
 
-[node name="FaceLabel" type="RichTextLabel" parent="ShakeWrapper/Sprite"]
+[node name="FaceLabel" type="RichTextLabel" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 texture_filter = 1
 offset_left = 3.0
 offset_top = 9.0
@@ -4438,9 +4441,9 @@ text = "[center][color=#b3b9d1]1[img=10x13]res://assets/icons/soul_fragment_blue
 fit_content = true
 scroll_active = false
 
-[node name="InfoView" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="InfoView" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 
-[node name="HeadsIcon" type="RichTextLabel" parent="ShakeWrapper/Sprite/InfoView"]
+[node name="HeadsIcon" type="RichTextLabel" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_3cyj1")
 offset_left = -4.0
@@ -4455,9 +4458,9 @@ text = "[center][img=10x13]res://assets/icons/soul_fragment_blue_icon.png[/img][
 fit_content = true
 scroll_active = false
 
-[node name="FX" parent="ShakeWrapper/Sprite/InfoView/HeadsIcon" instance=ExtResource("17_tmr1x")]
+[node name="FX" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView/HeadsIcon" instance=ExtResource("17_tmr1x")]
 
-[node name="TailsIcon" type="RichTextLabel" parent="ShakeWrapper/Sprite/InfoView"]
+[node name="TailsIcon" type="RichTextLabel" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_82nyx")
 offset_left = 7.0
@@ -4472,9 +4475,9 @@ text = "[center][color=#b3b9d1][img=10x13]res://assets/icons/soul_fragment_blue_
 fit_content = true
 scroll_active = false
 
-[node name="FX" parent="ShakeWrapper/Sprite/InfoView/TailsIcon" instance=ExtResource("17_tmr1x")]
+[node name="FX" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView/TailsIcon" instance=ExtResource("17_tmr1x")]
 
-[node name="FaceIndicator" type="AnimatedSprite2D" parent="ShakeWrapper/Sprite/InfoView"]
+[node name="FaceIndicator" type="AnimatedSprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView"]
 material = SubResource("ShaderMaterial_2t5ef")
 position = Vector2(1, -2)
 sprite_frames = SubResource("SpriteFrames_cpm7a")
@@ -4482,11 +4485,11 @@ animation = &"heads"
 centered = false
 script = ExtResource("7_ooodo")
 
-[node name="FX" parent="ShakeWrapper/Sprite/InfoView/FaceIndicator" instance=ExtResource("17_tmr1x")]
+[node name="FX" parent="OffsetWrapper/ShakeWrapper/Sprite/InfoView/FaceIndicator" instance=ExtResource("17_tmr1x")]
 
-[node name="FX" parent="ShakeWrapper/Sprite" instance=ExtResource("17_tmr1x")]
+[node name="FX" parent="OffsetWrapper/ShakeWrapper/Sprite" instance=ExtResource("17_tmr1x")]
 
-[node name="Price" type="RichTextLabel" parent="ShakeWrapper/Sprite"]
+[node name="Price" type="RichTextLabel" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(0, 10)
@@ -4501,7 +4504,7 @@ text = "[center][color=#e12f3b]50[/color][img=10x13]res://assets/icons/soul_frag
 scroll_active = false
 autowrap_mode = 2
 
-[node name="StatusBar" type="HBoxContainer" parent="ShakeWrapper/Sprite"]
+[node name="StatusBar" type="HBoxContainer" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 offset_left = 4.0
 offset_top = 35.0
 offset_right = 30.0
@@ -4511,7 +4514,7 @@ theme_override_constants/separation = 1
 alignment = 1
 script = ExtResource("22_i4xsq")
 
-[node name="Blank" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Blank" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4519,12 +4522,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_BLANKED)
 (D_BLANKED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Blank"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Blank"]
 texture = ExtResource("23_ndo5s")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Stone" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Stone" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4532,12 +4535,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_TURNED_TO_STONE)
 (D_TURNED_TO_STONE)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Stone"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Stone"]
 texture = ExtResource("24_gdnx8")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Doomed" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Doomed" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4545,12 +4548,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_DOOMED)
 (D_DOOMED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Doomed"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Doomed"]
 texture = ExtResource("10_yn4y1")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Consecrate" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Consecrate" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4558,12 +4561,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_CONSECRATED)
 (D_CONSECRATED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Consecrate"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Consecrate"]
 texture = ExtResource("9_g8h0e")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Desecrate" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Desecrate" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4571,12 +4574,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_DESECRATED)
 (D_DESECRATED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Desecrate"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Desecrate"]
 texture = ExtResource("11_s01xa")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Bless" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Bless" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4584,12 +4587,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_BLESSED)
 (D_BLESSED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Bless"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Bless"]
 texture = ExtResource("25_7omfm")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Curse" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Curse" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4597,12 +4600,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_CURSED)
 (D_CURSED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Curse"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Curse"]
 texture = ExtResource("26_o0xd6")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Lucky" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Lucky" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4610,12 +4613,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_LUCKY)
 (D_LUCKY)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Lucky"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Lucky"]
 texture = ExtResource("27_ndnpt")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="SlightlyLucky" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="SlightlyLucky" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4623,12 +4626,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_SLIGHTLY_LUCKY)
 (D_SLIGHTLY_LUCKY)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/SlightlyLucky"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/SlightlyLucky"]
 texture = ExtResource("29_86ey5")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="QuiteLucky" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="QuiteLucky" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4636,12 +4639,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_QUITE_LUCKY)
 (D_QUITE_LUCKY)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/QuiteLucky"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/QuiteLucky"]
 texture = ExtResource("30_wdoi3")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="IncrediblyLucky" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="IncrediblyLucky" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4649,12 +4652,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_INCREDIBLY_LUCKY)
 (D_INCREDIBLY_LUCKY)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/IncrediblyLucky"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/IncrediblyLucky"]
 texture = ExtResource("31_8habo")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Unlucky" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Unlucky" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4662,12 +4665,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_UNLUCKY)
 (D_UNLUCKY)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Unlucky"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Unlucky"]
 texture = ExtResource("28_3niai")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Freeze" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Freeze" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4675,12 +4678,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_FROZEN)
 (D_FROZEN)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Freeze"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Freeze"]
 texture = ExtResource("29_87noc")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Ignite" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Ignite" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4688,12 +4691,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_IGNITED)
 (D_IGNITED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Ignite"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Ignite"]
 texture = ExtResource("30_s7nly")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Charge" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Charge" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4701,12 +4704,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_CHARGED)
 (D_CHARGED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Charge"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Charge"]
 texture = ExtResource("21_ro1pk")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Supercharge" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Supercharge" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4714,12 +4717,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_SUPERCHARGED)
 (D_SUPERCHARGED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Supercharge"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Supercharge"]
 texture = ExtResource("31_efx5d")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Bury" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Bury" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4727,12 +4730,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_BURIED)
 (D_BURIED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Bury"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Bury"]
 texture = ExtResource("23_noblv")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Fleeting" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Fleeting" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4740,12 +4743,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_FLEETING)
 (D_FLEETING)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Fleeting"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Fleeting"]
 texture = ExtResource("24_qp57l")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="Primed" type="Control" parent="ShakeWrapper/Sprite/StatusBar"]
+[node name="Primed" type="Control" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar"]
 visible = false
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
@@ -4753,12 +4756,12 @@ script = ExtResource("23_u3o1j")
 _tooltip = "(S_PRIMED)
 (D_PRIMED)"
 
-[node name="Sprite2D" type="Sprite2D" parent="ShakeWrapper/Sprite/StatusBar/Primed"]
+[node name="Sprite2D" type="Sprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Primed"]
 texture = ExtResource("25_xu6eb")
 centered = false
 offset = Vector2(-1, -3)
 
-[node name="NextFlipIndicator" type="AnimatedSprite2D" parent="ShakeWrapper/Sprite"]
+[node name="NextFlipIndicator" type="AnimatedSprite2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 material = SubResource("ShaderMaterial_kikpk")
 position = Vector2(23, 21)
 sprite_frames = SubResource("SpriteFrames_cpm7a")
@@ -4766,23 +4769,23 @@ animation = &"heads"
 centered = false
 script = ExtResource("35_2vs3w")
 
-[node name="PowerIconGrowPoint" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="PowerIconGrowPoint" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(16, 15)
 
-[node name="StatusIconShrinkPoint" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="StatusIconShrinkPoint" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(17, -7)
 
-[node name="LabelAnchor" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="LabelAnchor" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(17, 9)
 
-[node name="TooltipAnchor" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="TooltipAnchor" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(17, 16)
 
-[node name="ProjectileTargetAnchor" type="Node2D" parent="ShakeWrapper/Sprite"]
+[node name="ProjectileTargetAnchor" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(17, 16)
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
-watched = NodePath("../Clickbox")
+watched = NodePath("../OffsetWrapper/ShakeWrapper/Clickbox")
 
 [connection signal="clicked" from="Mouse" to="." method="_on_mouse_clicked"]
 [connection signal="mouse_entered" from="Mouse" to="." method="_on_mouse_entered"]

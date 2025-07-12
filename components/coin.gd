@@ -65,49 +65,52 @@ enum _PrimedState {
 
 var _permanent_statuses = []
 
-@onready var _STATUS_BAR = $ShakeWrapper/Sprite/StatusBar
-@onready var _LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/Lucky
-@onready var _SLIGHTLY_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/SlightlyLucky
-@onready var _QUITE_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/QuiteLucky
-@onready var _INCREDIBLY_LUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/IncrediblyLucky
-@onready var _UNLUCKY_ICON = $ShakeWrapper/Sprite/StatusBar/Unlucky
-@onready var _FREEZE_ICON = $ShakeWrapper/Sprite/StatusBar/Freeze
-@onready var _IGNITE_ICON = $ShakeWrapper/Sprite/StatusBar/Ignite
-@onready var _BLESS_ICON = $ShakeWrapper/Sprite/StatusBar/Bless
-@onready var _CURSE_ICON = $ShakeWrapper/Sprite/StatusBar/Curse
-@onready var _SUPERCHARGE_ICON = $ShakeWrapper/Sprite/StatusBar/Supercharge
-@onready var _CHARGE_ICON = $ShakeWrapper/Sprite/StatusBar/Charge
-@onready var _STONE_ICON = $ShakeWrapper/Sprite/StatusBar/Stone
-@onready var _BLANK_ICON = $ShakeWrapper/Sprite/StatusBar/Blank
-@onready var _DOOMED_ICON = $ShakeWrapper/Sprite/StatusBar/Doomed
-@onready var _CONSECRATE_ICON = $ShakeWrapper/Sprite/StatusBar/Consecrate
-@onready var _DESECRATE_ICON = $ShakeWrapper/Sprite/StatusBar/Desecrate
-@onready var _BURY_ICON = $ShakeWrapper/Sprite/StatusBar/Bury
-@onready var _FLEETING_ICON = $ShakeWrapper/Sprite/StatusBar/Fleeting
-@onready var _PRIMED_ICON = $ShakeWrapper/Sprite/StatusBar/Primed
+@onready var _STATUS_BAR = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar
+@onready var _LUCKY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Lucky
+@onready var _SLIGHTLY_LUCKY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/SlightlyLucky
+@onready var _QUITE_LUCKY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/QuiteLucky
+@onready var _INCREDIBLY_LUCKY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/IncrediblyLucky
+@onready var _UNLUCKY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Unlucky
+@onready var _FREEZE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Freeze
+@onready var _IGNITE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Ignite
+@onready var _BLESS_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Bless
+@onready var _CURSE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Curse
+@onready var _SUPERCHARGE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Supercharge
+@onready var _CHARGE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Charge
+@onready var _STONE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Stone
+@onready var _BLANK_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Blank
+@onready var _DOOMED_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Doomed
+@onready var _CONSECRATE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Consecrate
+@onready var _DESECRATE_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Desecrate
+@onready var _BURY_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Bury
+@onready var _FLEETING_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Fleeting
+@onready var _PRIMED_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Primed
 
-@onready var _SPRITE = $ShakeWrapper/Sprite
-@onready var _PROTEUS_OVERLAY = $ShakeWrapper/Sprite/ProteusOverlay
-@onready var _FACE_LABEL = $ShakeWrapper/Sprite/FaceLabel
-@onready var _PRICE = $ShakeWrapper/Sprite/Price
+@onready var _SPRITE = $OffsetWrapper/ShakeWrapper/Sprite
+@onready var _PROTEUS_OVERLAY = $OffsetWrapper/ShakeWrapper/Sprite/ProteusOverlay
+@onready var _FACE_LABEL = $OffsetWrapper/ShakeWrapper/Sprite/FaceLabel
+@onready var _PRICE = $OffsetWrapper/ShakeWrapper/Sprite/Price
 
-@onready var _NEXT_FLIP_INDICATOR = $ShakeWrapper/Sprite/NextFlipIndicator
+@onready var _NEXT_FLIP_INDICATOR = $OffsetWrapper/ShakeWrapper/Sprite/NextFlipIndicator
 
-@onready var _INFO_VIEW = $ShakeWrapper/Sprite/InfoView
-@onready var _INFO_VIEW_HEADS_ICON = $ShakeWrapper/Sprite/InfoView/HeadsIcon
-@onready var _INFO_VIEW_HEADS_ICON_FX = $ShakeWrapper/Sprite/InfoView/HeadsIcon/FX
-@onready var _INFO_VIEW_TAILS_ICON = $ShakeWrapper/Sprite/InfoView/TailsIcon
-@onready var _INFO_VIEW_TAILS_ICON_FX = $ShakeWrapper/Sprite/InfoView/TailsIcon/FX
-@onready var _INFO_VIEW_FACE_INDICATOR = $ShakeWrapper/Sprite/InfoView/FaceIndicator
-@onready var _INFO_VIEW_FACE_INDICATOR_FX = $ShakeWrapper/Sprite/InfoView/FaceIndicator/FX
+@onready var _INFO_VIEW = $OffsetWrapper/ShakeWrapper/Sprite/InfoView
+@onready var _INFO_VIEW_HEADS_ICON = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/HeadsIcon
+@onready var _INFO_VIEW_HEADS_ICON_FX = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/HeadsIcon/FX
+@onready var _INFO_VIEW_TAILS_ICON = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/TailsIcon
+@onready var _INFO_VIEW_TAILS_ICON_FX = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/TailsIcon/FX
+@onready var _INFO_VIEW_FACE_INDICATOR = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/FaceIndicator
+@onready var _INFO_VIEW_FACE_INDICATOR_FX = $OffsetWrapper/ShakeWrapper/Sprite/InfoView/FaceIndicator/FX
 
-@onready var _POWER_ICON_GROW_POINT = $ShakeWrapper/Sprite/PowerIconGrowPoint
-@onready var _STATUS_ICON_SHRINK_POINT = $ShakeWrapper/Sprite/StatusIconShrinkPoint
-@onready var _TOOLTIP_ANCHOR = $ShakeWrapper/Sprite/TooltipAnchor
-@onready var _LABEL_ANCHOR = $ShakeWrapper/Sprite/LabelAnchor
-@onready var _PROJECTILE_TARGET_ANCHOR = $ShakeWrapper/Sprite/ProjectileTargetAnchor
+@onready var _POWER_ICON_GROW_POINT = $OffsetWrapper/ShakeWrapper/Sprite/PowerIconGrowPoint
+@onready var _STATUS_ICON_SHRINK_POINT = $OffsetWrapper/ShakeWrapper/Sprite/StatusIconShrinkPoint
+@onready var _TOOLTIP_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/TooltipAnchor
+@onready var _LABEL_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/LabelAnchor
+@onready var _PROJECTILE_TARGET_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/ProjectileTargetAnchor
 
-@onready var FX : FX = $ShakeWrapper/Sprite/FX
+@onready var _OFFSET_WRAPPER = $OffsetWrapper
+@onready var _SHAKE_WRAPPER = $OffsetWrapper/ShakeWrapper
+
+@onready var FX : FX = $OffsetWrapper/ShakeWrapper/Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
 @onready var _FACE_LABEL_DEFAULT_POSITION = _FACE_LABEL.position
@@ -300,6 +303,9 @@ func _update_appearance() -> void:
 	_NEXT_FLIP_INDICATOR.update(_get_next_heads(), is_trial_coin())
 	_INFO_VIEW_FACE_INDICATOR.update(is_heads(), is_trial_coin())
 	_INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_GREEN) if is_heads() else _INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_RED)
+	
+	# move up slightly if active power coin
+	_OFFSET_WRAPPER.set_offset(Vector2(0, -3) if Global.active_coin_power_coin == self else Vector2(0, 0))
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _INFO_FORMAT = "[center][img=10x13]%s[/img][/center]"
@@ -2164,8 +2170,6 @@ func fire_projectile(target_position: Vector2, params: Projectile.ProjectilePara
 	var projectile = PROJECTILE.instantiate()
 	add_child(projectile) 
 	await projectile.launch(get_projectile_target_position(), target_position, params)
-
-@onready var _SHAKE_WRAPPER = $ShakeWrapper
 
 func on_projectile_hit() -> void:
 	_SHAKE_WRAPPER.start_shake()
