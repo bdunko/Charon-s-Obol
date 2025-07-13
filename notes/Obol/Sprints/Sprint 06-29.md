@@ -23,7 +23,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
-| 7✔     | 10✔     | 10✔<br>   | ✔        | 12✔    | 11✔      |        |
+| 7✔     | 10✔     | 10✔<br>   | ✔        | 12✔    | 11✔      | 4✔     |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -36,8 +36,8 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Add projectiles to monster powers.
 - [x] Add can_use to monster powers.
 - [x] When monsters are in play, Charon's hands should move up a bit. 
-- [ ] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
-	- [ ] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
+- [x] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
+	- [x] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
 - [ ] Add projectiles to trial powers where relevant.
 - [ ] Add projectiles to Malice activations.
 - [ ] **Charon Improvements**

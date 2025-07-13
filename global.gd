@@ -1232,7 +1232,7 @@ var POWER_FAMILY_FREEZE = PF.Freeze.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], 
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PF.ReflipAndNeighbors.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
 var POWER_FAMILY_GAIN_ARROW = PF.GainArrow.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_TURN_AND_BLURSE = PF.TurnAndBlurse.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS) (BLESS) it.", [1, 2, 3, 4, 5, 6],\
+var POWER_FAMILY_TURN_AND_BLURSE = PF.TurnAndBlurse.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS), (BLESS) it.", [1, 2, 3, 4, 5, 6],\
 	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.TURN, PF.PowerFamily.Tag.CURSE])
 var POWER_FAMILY_REFLIP_ALL = PF.ReflipAll.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_REDUCE_PENALTY = PF.ReducePenalty.new("Reduce a coin's penalty by 2(LIFE) for this round.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL, PF.PowerFamily.Tag.ANTIMONSTER])

@@ -115,6 +115,8 @@ class ProjectileParams:
 	var _trajectory: TrajectoryType = TrajectoryType.DELAYED_HOP
 
 	# Trajectory-specific options (prefixed with _)
+	var _curve_height: float = 50.0
+	var _curve_offset: Vector2 = Vector2.ZERO
 	var _parabola_height: float = 30.0
 	var _wobble_amplitude: float = 6.0
 	var _wobble_frequency: float = 1.0
@@ -130,6 +132,14 @@ class ProjectileParams:
 
 	func trajectory(value: int) -> ProjectileParams:
 		_trajectory = value
+		return self
+
+	func curve_height(value: float) -> ProjectileParams:
+		_curve_height = value
+		return self
+	
+	func curve_offset(value: Vector2) -> ProjectileParams:
+		_curve_offset = value
 		return self
 
 	func parabola_height(value: float) -> ProjectileParams:
@@ -156,8 +166,8 @@ class ProjectileParams:
 		recolor_params = value
 		return self
 
-@export var curve_height: float = 50.0
-@export var curve_offset: Vector2 = Vector2.ZERO
+@export var max_duration = 0.7
+@export var min_duration = 0.4
 
 @export_range(0.0, 1.0, 0.01)
 var fade_in_fraction := 0.15
@@ -242,7 +252,7 @@ func launch(from: Vector2, to: Vector2, params := ProjectileParams.new()) -> voi
 	_trajectory_type = params._trajectory
 
 	var distance = from.distance_to(to)
-	var duration = distance / params._speed
+	var duration = clamp(distance / params._speed, min_duration, max_duration)
 
 	if _trajectory_type == TrajectoryType.CURVED:
 		var mid_point = (from + to) * 0.5
@@ -253,7 +263,7 @@ func launch(from: Vector2, to: Vector2, params := ProjectileParams.new()) -> voi
 		var max_horizontal_distance := 300.0
 		var curve_direction_factor = clamp(diff.x / max_horizontal_distance, -1.0, 1.0)
 
-		_control_point = mid_point + perpendicular * curve_height * curve_direction_factor + curve_offset
+		_control_point = mid_point + perpendicular * params._curve_height * curve_direction_factor + params._curve_offset
 
 	match _trajectory_type:
 		TrajectoryType.CURVED:
