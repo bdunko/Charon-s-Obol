@@ -45,6 +45,9 @@ func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: i
 	coin.init_coin(family, denom, Coin.Owner.NEMESIS)
 	return coin
 
+func can_spawn_enemy() -> bool:
+	return _ROW.get_child_count() < MAX_ENEMIES
+
 func _on_state_changed() -> void:
 	if Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.BEFORE_FLIP:
 		_ROW.expand()

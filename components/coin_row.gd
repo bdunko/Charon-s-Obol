@@ -97,16 +97,14 @@ func get_lowest_valued() -> Array:
 			lowestValues.append(coin)
 	return lowestValues
 
-# returns an array containing all coins from lowest to highest value
+# returns an array containing all coins from lowest to highest value; with each denom shuffled
 func get_lowest_to_highest_value() -> Array:
 	assert(get_child_count() != 0)
 	var low_to_high = []
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.OBOL))
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.DIOBOL))
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.TRIOBOL))
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.TETROBOL))
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.PENTOBOL))
-	low_to_high.append_array(get_all_of_denomination(Global.Denomination.DRACHMA))
+	for denom in [Global.Denomination.OBOL, Global.Denomination.DIOBOL, Global.Denomination.TRIOBOL, Global.Denomination.TETROBOL, Global.Denomination.PENTOBOL, Global.Denomination.DRACHMA]:
+		var coins_of_denom = get_all_of_denomination(denom)
+		coins_of_denom.shuffle()
+		low_to_high.append_array(coins_of_denom)
 	assert(low_to_high.size() == get_child_count())
 	return low_to_high
 
@@ -115,6 +113,13 @@ func get_highest_to_lowest_value() -> Array:
 	var high_to_low = get_lowest_to_highest_value()
 	high_to_low.reverse()
 	return high_to_low
+
+func get_highest_to_lowest_value_that_can_be_targetted() -> Array:
+	var output = []
+	for coin in get_highest_to_lowest_value():
+		if coin.can_target():
+			output.append(coin)
+	return output
 
 # returns the total value of coins in this row
 func calculate_total_value() -> int:

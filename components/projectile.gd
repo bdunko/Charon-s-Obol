@@ -7,6 +7,14 @@ signal impact_finished
 @onready var _SPRITE = $Sprite
 @onready var _SPRITE_FX = $Sprite/FX
 
+static var PARAMS_GREEN = ProjectileParams.new().recolor(Projectile.RecolorParams.GREEN_RECOLOR())
+static var PARAMS_RED = ProjectileParams.new().recolor(Projectile.RecolorParams.RED_RECOLOR())
+static var PARAMS_BLUE  = ProjectileParams.new().recolor(Projectile.RecolorParams.BLUE_RECOLOR())
+static var PARAMS_YELLOW = ProjectileParams.new().recolor(Projectile.RecolorParams.YELLOW_RECOLOR())
+static var PARAMS_BROWN = ProjectileParams.new().recolor(Projectile.RecolorParams.BROWN_RECOLOR())
+static var PARAMS_GRAY = ProjectileParams.new().recolor(Projectile.RecolorParams.GRAY_RECOLOR())
+static var PARAMS_WHITE = ProjectileParams.new().recolor(Projectile.RecolorParams.WHITE_RECOLOR())
+
 enum TrajectoryType {
 	STRAIGHT,
 	CURVED,
@@ -81,9 +89,9 @@ class RecolorParams:
 	static func GRAY_RECOLOR() -> RecolorParams:
 		var recolor = RecolorParams.new()
 		return recolor.set_swaps(
-			_LIGHT_PURPLE, Color("#dae0ea"),
-			_PURPLE, Color("#b3b9d1"),
-			_DARK_PURPLE, Color("#8b93af")
+			_LIGHT_PURPLE, Color("#b3b9d1"),
+			_PURPLE, Color("#8b93af"),
+			_DARK_PURPLE, Color("#6d758d")
 		)
 
 	static func BROWN_RECOLOR() -> RecolorParams:
@@ -92,6 +100,14 @@ class RecolorParams:
 			_LIGHT_PURPLE, Color("#e9b5a3"),
 			_PURPLE, Color("#ba756a"),
 			_DARK_PURPLE, Color("#8e5252")
+		)
+	
+	static func WHITE_RECOLOR() -> RecolorParams:
+		var recolor = RecolorParams.new()
+		return recolor.set_swaps(
+			_LIGHT_PURPLE, Color("#ffffff"),
+			_PURPLE, Color("#dae0ea"),
+			_DARK_PURPLE, Color("#b3b9d1")
 		)
 
 class ProjectileParams:

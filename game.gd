@@ -918,9 +918,14 @@ func _on_accept_button_pressed():
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank() and not payoff_coin.is_buried()) and charges > 0:
 			payoff_coin.payoff_move_up()
 			
-			# actually do the power
-			payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
-			await payoff_power_family.use_power(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			var can_use_result: PF.PowerFamily.CanUseResult = payoff_coin.can_use(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			
+			if not can_use_result.can_use:
+				payoff_coin.play_shake_effect()
+			else:
+				# actually do the power
+				payoff_coin.play_power_used_effect(payoff_coin.get_active_power_family())
+				await payoff_power_family.use_power(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			
 			_update_payoffs()
 			await Global.delay(0.15)
@@ -1139,6 +1144,9 @@ func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: i
 	var new_enemy = _ENEMY_ROW.spawn_enemy(family, denom, index)
 	connect_enemy_coins()
 	return new_enemy
+
+func can_spawn_enemy() -> bool:
+	return _ENEMY_ROW.can_spawn_enemy()
 
 func _advance_round() -> void:
 	Global.state = Global.State.VOYAGE

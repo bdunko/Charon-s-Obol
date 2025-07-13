@@ -32,9 +32,11 @@ Checking vignette effect requires making the 'editor' space match the game windo
 ### In Progress  
 - [x] Add coin shake effect (move sprite left/right slightly)
 	- [x] When projectile hits, have the target coin shake.
-	- [ ] When a monster attempts to activate with no target, shake.
-- [ ] Add projectiles to monster powers where they are relevant.
+	- [x] When a monster attempts to activate with no target, shake.
+- [ ] Add projectiles to monster powers.
+- [ ] Add can_use to monster powers.
 - [ ] Add projectiles to trial powers where relevant.
+- [ ] test the edge case of PayoffDowngradeMostValuable. Obol Obol with 2 uses. Obol with 1 use.
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
@@ -49,7 +51,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [x] Shake when this coin's power is used.
 	- [x] Move up when power is activated. Move down when power is deactivated.
 - [ ] **Coin Flip Animation**
-	- [ ] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [ ] Effect when a coin is tossed or lands(?)
 - [ ] **Arrows of Night**
 	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used

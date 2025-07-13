@@ -766,6 +766,7 @@ class PatronDionysus extends PowerFamily:
 	func can_use(game: Game, activated: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
 
+# PAYOFF POWERS
 class PayoffLoseLife extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		var charges = payoff_coin.get_active_power_charges()
@@ -792,8 +793,8 @@ class PayoffLoseLife extends PowerFamily:
 		elif payoff_power_family == Global.MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING:
 			payoff_coin.change_life_penalty_for_round(Global.GADFLY_INCREASE[payoff_coin.get_denomination()])
 	
-	func can_use(game: Game, activated: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
+		return CanUseResult.new(payoff_coin.get_active_power_charges() != 0)
 
 class PayoffHalveLife extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -810,11 +811,10 @@ class PayoffGainLife extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		payoff_coin.FX.flash(Color.GREEN_YELLOW)
 		Global.heal_life(payoff_coin.get_active_power_charges())
-		if payoff_coin.get_active_power_charges() != 0:
-			LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % payoff_coin.get_active_power_charges(), payoff_coin.get_label_origin(), game)
+		LabelSpawner.spawn_label(Global.LIFE_UP_PAYOFF_FORMAT % payoff_coin.get_active_power_charges(), payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		return CanUseResult.new(payoff_coin.get_active_power_charges() != 0)
 
 class PayoffGainSouls extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -869,7 +869,7 @@ class PayoffLoseSouls extends PowerFamily:
 			LabelSpawner.spawn_label(Global.SOUL_DOWN_PAYOFF_FORMAT % payoff, payoff_coin.get_label_origin(), game)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		return CanUseResult.new(payoff_coin.get_active_souls_payoff() != 0)
 
 class PayoffGainArrows extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -902,10 +902,11 @@ class PayoffLucky extends PowerFamily:
 			target.make_lucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
 		
-		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_GREEN)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_LUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffUnlucky extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -918,66 +919,96 @@ class PayoffUnlucky extends PowerFamily:
 			target.make_unlucky()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
 		
-		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_RED)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffCurse extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+		
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.curse()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffBlank extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLANK, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+		
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLANK, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.blank()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_WHITE)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_BLANK, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffFreezeTails extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for coin in player_row.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET]):
-			if coin.can_target():
-				coin.freeze()
-				coin.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		var targets = player_row.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET])
+		
+		var callback = func(target):
+			target.freeze()
+			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_BLUE)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = player_row.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET])
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffStone extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(target_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+		
+		var targets = Global.choose_x(target_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.stone()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_GRAY)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(target_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffIgnite extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for target in Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges()):
+		
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		
+		var callback = func(target):
 			target.ignite()
 			target.play_power_used_effect(payoff_coin.get_active_power_family())
-	
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback, Projectile.PARAMS_RED)
+
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		var targets = Global.choose_x(player_row.get_multi_filtered_randomized([CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), payoff_coin.get_active_power_charges())
+		return CanUseResult.new(targets.size() != 0)
 
 class PayoffIgniteSelf extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -992,16 +1023,42 @@ class PayoffDowngradeMostValuable extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
 		Audio.play_sfx(SFX.PayoffMonster)
 		payoff_coin.FX.flash(Color.MEDIUM_PURPLE)
-		for i in range(0, payoff_coin.get_active_power_charges()):
-			var highest = player_row.get_highest_valued_that_can_be_targetted()
-			highest.shuffle()
-			# don't downgrade if it's the last coin
-			if highest[0].get_denomination() != Global.Denomination.OBOL or player_row.get_child_count() != 1:
-				highest[0].play_power_used_effect(payoff_coin.get_active_power_family())
-				game.downgrade_coin(highest[0])
+		
+		var targets = _get_targets(payoff_coin, player_row)
+			
+		var callback = func(target):
+			target.play_power_used_effect(payoff_coin.get_active_power_family())
+			game.downgrade_coin(target)
+		
+		await ProjectileManager.fire_projectiles(payoff_coin, targets, callback)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(true)
+	
+	func _get_targets(payoff_coin, player_row) -> Array:
+		var targets = []
+		var all_previous_were_obols = true
+		var high_to_low = player_row.get_highest_to_lowest_value_that_can_be_targetted()
+		for i in range(0, payoff_coin.get_active_power_charges()):
+			if high_to_low.size() <= i:
+				break # no more to take
+			
+			var candidate_coin  = high_to_low[i]
+			
+			# extreme edge case... 
+			# if we are trying to take a coin, and it is the last coin in high to low
+			# and all previous coins were obols, and this coin is also an obol
+			# we don't want to do it, since it would destroy the last coin (leaves player with no coins)
+			# in this case, skip.
+			if high_to_low.size() - 1 == i and all_previous_were_obols and candidate_coin .get_denomination() == Global.Denomination.OBOL:
+				break
+			
+			# otherwise, add to targets
+			if all_previous_were_obols and candidate_coin .get_denomination() != Global.Denomination.OBOL:
+				all_previous_were_obols = false
+				
+			targets.append(candidate_coin )
+		return targets
 
 class PayoffSpawnStrong extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -1010,7 +1067,7 @@ class PayoffSpawnStrong extends PowerFamily:
 		game.spawn_enemy(Global.get_standard_monster(), Global.ECHIDNA_SPAWN_DENOM[payoff_coin.get_denomination()], 0)
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		return CanUseResult.new(game.can_spawn_enemy())
 
 class PayoffSpawnFleeting extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:
@@ -1022,7 +1079,7 @@ class PayoffSpawnFleeting extends PowerFamily:
 				enemy.make_fleeting()
 	
 	func can_use(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
-		return CanUseResult.new(true)
+		return CanUseResult.new(game.can_spawn_enemy())
 
 class PayoffUpgradeMonsters extends PowerFamily:
 	func use_power(game: Game, payoff_coin: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow, patron_token: PatronToken = null) -> void:

@@ -1080,9 +1080,9 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	set_animation(_Animation.FLIP)
 
 	Audio.play_sfx(SFX.CoinToss)
-	await _sprite_movement_tween.tween(Vector2(0, -50), 0.35, Tween.TRANS_SINE, Tween.EASE_OUT)
-	await Global.delay(0.15)
-	await _sprite_movement_tween.tween(Vector2(0, 0), 0.25, Tween.TRANS_SINE, Tween.EASE_IN)
+	await _sprite_movement_tween.tween(Vector2(0, -50), 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
+	await Global.delay(0.1)
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
 
 	
 	set_animation(_Animation.FLAT)
@@ -2176,4 +2176,7 @@ func fire_projectile(target_position: Vector2, params: Projectile.ProjectilePara
 	await projectile.launch(get_projectile_target_position(), target_position, params)
 
 func on_projectile_hit() -> void:
+	play_shake_effect()
+
+func play_shake_effect() -> void:
 	_SHAKE_WRAPPER.start_shake()
