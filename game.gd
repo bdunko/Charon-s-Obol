@@ -916,7 +916,7 @@ func _on_accept_button_pressed():
 		var is_last_player_coin = _COIN_ROW.get_child(_COIN_ROW.get_child_count()-1) == payoff_coin
 		
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank() and not payoff_coin.is_buried()) and charges > 0:
-			payoff_coin.payoff_move_up()
+			await payoff_coin.payoff_move_up()
 			
 			var can_use_result: PF.PowerFamily.CanUseResult = payoff_power_family.can_use(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			
@@ -1143,6 +1143,7 @@ func connect_enemy_coins() -> void:
 func spawn_enemy(family: Global.CoinFamily, denom: Global.Denomination, index: int = -1) -> Coin:
 	var new_enemy = _ENEMY_ROW.spawn_enemy(family, denom, index)
 	connect_enemy_coins()
+	_reset_hands_during_round()
 	return new_enemy
 
 func can_spawn_enemy() -> bool:
@@ -2136,6 +2137,7 @@ func _on_coin_clicked(coin: Coin):
 				LabelSpawner.spawn_label(Global.ARROW_UP_PAYOFF_FORMAT % (Global.arrows - arrows_before), _patron_token.get_label_origin(), self)
 				Global.emit_signal("passive_triggered", Global.PATRON_POWER_FAMILY_ARTEMIS)
 			destroy_coin(coin)
+			_reset_hands_during_round()
 		else:
 			_DIALOGUE.show_dialogue("Not enough souls...")
 		return
@@ -2457,8 +2459,15 @@ func _disable_charon_malice_hands() -> void:
 	_RIGHT_HAND.deactivate_malice_active_tint()
 	_LEFT_HAND.enable_hovering()
 	_RIGHT_HAND.enable_hovering()
-	_LEFT_HAND.move_to_default_position()
-	_RIGHT_HAND.move_to_default_position()
+	_reset_hands_during_round()
+
+func _reset_hands_during_round() -> void:
+	if _ENEMY_COIN_ROW.get_child_count() == 0:
+		_LEFT_HAND.move_to_default_position()
+		_RIGHT_HAND.move_to_default_position()
+	else:
+		_LEFT_HAND.move_to_retracted_position()
+		_RIGHT_HAND.move_to_retracted_position()
 
 enum MaliceActivation {
 	AFTER_PAYOFF, DURING_POWERS

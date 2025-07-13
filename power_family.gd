@@ -102,7 +102,6 @@ class PowerFamily:
 		func _init(usable: bool, error_msg: String = "") -> void:
 			can_use = usable
 			error_message = error_msg
-			assert(can_use or error_msg != "") # make sure we provide a message if not usable
 	
 	func can_use(game: Game, target: Coin, left: Coin, right: Coin, target_row: CoinRow, player_row: CoinRow, enemy_row: CoinRow) -> CanUseResult:
 		return CanUseResult.new(false, "Can't activate that...")

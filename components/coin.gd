@@ -1804,7 +1804,7 @@ func _make_tooltip_text() -> String:
 		replace_map["(PHAETHON_ARROWS)"] = str(Global.PHAETHON_REWARD_ARROWS[value-1])
 		replace_map["(TRIPTOLEMUS_HARVEST)"] = str(Global.TRIPTOLEMUS_HARVEST[_denomination])
 		replace_map["(PROMETHEUS_MULTIPLIER)"] = str("%.1d" % Global.PROMETHEUS_MULTIPLIER[_denomination])
-		replace_map["(ECHIDNA_SPAWN_DENOM)"] = str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination]))
+		replace_map["(ECHIDNA_DENOM)"] = str(Global.denom_to_string(Global.ECHIDNA_SPAWN_DENOM[_denomination]))
 		replace_map["(SCYLLA_INCREASE)"] = str(Global.SCYLLA_INCREASE[_denomination])
 		replace_map["(LAMIA_BURY)"] = str(Global.LAMIA_BURY[_denomination])
 		replace_map["(BOAR_BURY)"] = str(Global.BOAR_BURY[_denomination])
@@ -2096,10 +2096,10 @@ func set_animation(anim: _Animation) -> void:
 	_SPRITE.play("%s_%s_%s" % [get_style_string(), denom_str, anim_str])
 
 func payoff_move_up() -> void:
-	await _sprite_movement_tween.tween(Vector2(0, -20), 0.15, Tween.TRANS_CIRC)
+	await _sprite_movement_tween.tween(Vector2(0, -12), 0.1, Tween.TRANS_CIRC)
 
 func payoff_move_down() -> void:
-	await _sprite_movement_tween.tween(Vector2(0, 0), 0.15, Tween.TRANS_CIRC)
+	await _sprite_movement_tween.tween(Vector2(0, 0), 0.1, Tween.TRANS_CIRC)
 
 func _on_mouse_clicked():
 	if not _disable_interaction:

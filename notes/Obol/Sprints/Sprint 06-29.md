@@ -23,7 +23,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔ 10✔ | 7✔      | 10✔       | 7✔12✔    | ✔      | 1am✔     | 10✔    |
-| 7✔     | 10✔     | 10✔<br>   | ✔        | 12✔    |          |        |
+| 7✔     | 10✔     | 10✔<br>   | ✔        | 12✔    | 11✔      |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -33,14 +33,16 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Add coin shake effect (move sprite left/right slightly)
 	- [x] When projectile hits, have the target coin shake.
 	- [x] When a monster attempts to activate with no target, shake.
-- [ ] Add projectiles to monster powers.
-- [ ] Add can_use to monster powers.
+- [x] Add projectiles to monster powers.
+- [x] Add can_use to monster powers.
+- [x] When monsters are in play, Charon's hands should move up a bit. 
+- [ ] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
+	- [ ] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
 - [ ] Add projectiles to trial powers where relevant.
-- [ ] test the edge case of PayoffDowngradeMostValuable. Obol Obol with 2 uses. Obol with 1 use.
+- [ ] Add projectiles to Malice activations.
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
-	- [ ] When monsters are in play, Charon's hands should move up a bit. 
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 	- [ ] Activating a coin - burst of particles; 

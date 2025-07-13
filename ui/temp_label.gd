@@ -9,7 +9,7 @@ signal ready_for_destroy
 @export var scale_time = 0.1
 const _PAUSE_TIME = 1.0
 const _FADE_TIME = 0.1
-@export var y_amount = 17
+@export var y_amount = 11
 @export var starting_scale = Vector2(1.0, 1.0)
 
 var _destroying := false
