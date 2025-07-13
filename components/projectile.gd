@@ -115,7 +115,7 @@ class ProjectileParams:
 	var _trajectory: int = TrajectoryType.DELAYED_HOP
 
 	# Trajectory-specific options (prefixed with _)
-	var _parabola_height: float = 20.0
+	var _parabola_height: float = 30.0
 	var _wobble_amplitude: float = 6.0
 	var _wobble_frequency: float = 1.0
 	var _hop_height: float = 30.0
@@ -185,8 +185,6 @@ var t:
 				global_position = wobble_path(_start_position, _target_position, _t_internal, _params._wobble_amplitude, _params._wobble_frequency)
 			TrajectoryType.DELAYED_HOP:
 				pass # controlled in launch()
-		if _trajectory_type != TrajectoryType.DELAYED_HOP:
-			look_at(_target_position)
 
 var _start_position := Vector2.ZERO
 var _target_position := Vector2.ZERO
@@ -308,3 +306,6 @@ func launch(from: Vector2, to: Vector2, params := ProjectileParams.new()) -> voi
 func _wait_for_particles_and_delete(duration):
 	await Global.delay(duration / 2.0)
 	queue_free()
+
+func _process(delta):
+	look_at(_target_position)

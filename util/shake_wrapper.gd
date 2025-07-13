@@ -4,11 +4,11 @@ extends Node2D
 # some recommended values
 const STRONG_DURATION := 0.25
 const STRONG_STRENGTH := 3.0
-const WEAK_DURATION := 0.15
-const WEAK_STRENGTH := 1.5
+const WEAK_DURATION := 0.1
+const WEAK_STRENGTH := 1.25
 
-@export var default_duration := 0.2
-@export var default_strength := 2.0
+@export var default_duration := 0.15
+@export var default_strength := 1.5
 
 var _elapsed := 0.0
 var _is_shaking := false

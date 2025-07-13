@@ -38,7 +38,7 @@ func _on_fire_far_left_pressed():
 		Projectile.ProjectileParams.new().trajectory(_trajectory_type))
 
 func _on_fire_far_right_pressed():
-	ProjectileManager.fire_projectiles(_FAR_RIGHT_COIN, [_PLAYER_COIN], Global.CALLABLE_NOOP,\
+	ProjectileManager.fire_projectiles(_FAR_RIGHT_COIN, [_FAR_LEFT_COIN], Global.CALLABLE_NOOP,\
 		Projectile.ProjectileParams.new().trajectory(_trajectory_type).recolor(Projectile.RecolorParams.GREEN_RECOLOR()))
 
 func _on_trajectory_options_item_selected(index):
