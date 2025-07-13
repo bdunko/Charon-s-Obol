@@ -120,8 +120,8 @@ class ProjectileParams:
 	var _parabola_height: float = 30.0
 	var _wobble_amplitude: float = 6.0
 	var _wobble_frequency: float = 1.0
-	var _hop_height: float = 30.0
-	var _hop_delay: float = 0.3
+	var _hop_height: float = 25.0
+	var _hop_delay: float = 0.25
 
 	# Optional recolor params
 	var recolor_params: RecolorParams = null
@@ -166,8 +166,8 @@ class ProjectileParams:
 		recolor_params = value
 		return self
 
-@export var max_duration = 0.7
-@export var min_duration = 0.4
+@export var max_duration = 0.65
+@export var min_duration = 0.65
 
 @export_range(0.0, 1.0, 0.01)
 var fade_in_fraction := 0.15

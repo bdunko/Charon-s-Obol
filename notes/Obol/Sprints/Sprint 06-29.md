@@ -39,9 +39,18 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
 	- [x] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
 - [ ] Add projectiles to trial powers where relevant.
+	- [x] Misfortune
+	- [ ] Vivisepulture (at start)
+	- [ ] Vengeance
+	- [ ] Torture
+	- [ ] Petrification
+	- [ ] Silence
+	- [ ] Tribulations
 - [ ] Add projectiles to Malice activations.
+- [ ] Hide monster appease costs during payoff sequence (blocks projectiles a bit and uninteractable during this time)
+- [ ] Flip position of pile and label for pile (label goes on top)
 - [ ] **Charon Improvements**
-	- [ ] When Charon goes to slam, make him raise his hands slightly first. 
+	- [ ] When Charon goes to slam, make him raise his hands slightly first. (I think he already does this)
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).

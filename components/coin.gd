@@ -450,10 +450,11 @@ func get_active_souls_payoff() -> int:
 
 func show_price() -> void:
 	_PRICE.modulate.a = 0.0
-	create_tween().tween_property(_PRICE, "modulate:a", 1.0, 0.25)
+	create_tween().tween_property(_PRICE, "modulate:a", 1.0, 0.15)
 
 func hide_price() -> void:
-	_PRICE.modulate.a = 0.0
+	_PRICE.modulate.a = 1.0
+	create_tween().tween_property(_PRICE, "modulate:a", 0.0, 0.15)
 
 func _update_glow():
 	# if coin is disabled, don't glow at all
@@ -737,6 +738,7 @@ func _on_passive_triggered(passive: PF.PowerFamily) -> void:
 			FX.flash(Color.PURPLE)
 		else:
 			FX.flash(Color.GOLD)
+		play_power_used_effect(passive)
 
 func _on_state_changed() -> void:
 	_update_appearance()
@@ -1177,7 +1179,9 @@ func destroy() -> void:
 	_disable_interaction = true # disable all interaction while destroying
 	FX.stop_all() # disable all effects
 	_FACE_LABEL.hide() # hide the text
+	_FACE_LABEL.modulate.a = 0.0
 	_STATUS_BAR.hide() # hide the status icons
+	_STATUS_BAR.modulate.a = 0.0
 	hide_price() # hide price (for monsters)
 	FX.disable_exclude_colors() # don't exclude border when disintegrating
 	
@@ -2041,9 +2045,11 @@ func on_toss_complete() -> void:
 	pass
 
 func before_payoff() -> void:
+	hide_price() # hide price (for monsters)
 	_disable_interaction = true
 
 func after_payoff() -> void:
+	show_price()
 	_disable_interaction = false
 	
 	# if we have any temporary powers, reset them to original

@@ -21,7 +21,7 @@
 - [ ] After you use a power, if you run out of charges, the targeted coin stays highlighted (it should stop being highlighted). So minor. Ex: Athena can do this.
 - [ ] Icarus - include a warning indicator above (flashing exclaimiation point) if all coins are on heads. We can also add this for Achilles on tails.
 - [ ] Add a "souls_down" icon similar to the life loss icon, with a cracked soul icon, used when losing souls?
-
+- [ ] "You are out of life..." - we should still pulsate the vignette here, after dying.
 
 
 

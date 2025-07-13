@@ -974,7 +974,12 @@ func _on_accept_button_pressed():
 				downgrade_coin(Global.choose_one(coins))
 				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
-		_apply_misfortune_trial()
+		var targets = Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), Global.MISFORTUNE_QUANTITY)
+		var callback = func(target):
+			target.make_unlucky()
+			target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_MISFORTUNE)
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_MISFORTUNE), targets, callback)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VENGEANCE): # every payoff, curse highest value heads
 		for c in Global.choose_x(_COIN_ROW.get_highest_valued_heads_that_can_be_targetted(), 1):
 			c.curse()
@@ -1488,13 +1493,6 @@ func _show_toll_dialogue() -> void:
 	else:
 		_DIALOGUE.show_dialogue(Global.replace_placeholders("%d(VALUE) more..." % toll_price_remaining))
 
-func _apply_misfortune_trial() -> void:
-	for i in Global.MISFORTUNE_QUANTITY:
-		var targets = _COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET])
-		if targets.size() != 0:
-			targets[0].make_unlucky()
-	Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
-
 func _on_voyage_continue_button_clicked():
 	_hide_voyage_map()
 	_PLAYER_TEXTBOXES.make_invisible()
@@ -1660,7 +1658,6 @@ func _on_voyage_continue_button_clicked():
 					make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, CHARON_NEW_COIN_POSITION)
 					await _wait_for_dialogue("You shall be bound in Iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
-					#_apply_misfortune_trial() # note - removed the initial application, for balance for now at least
 					await _wait_for_dialogue("Be shrouded in Misfortune!")
 				Global.TRIAL_PAIN_FAMILY:
 					await _wait_for_dialogue("You flesh writhes in Pain!")

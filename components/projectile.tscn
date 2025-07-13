@@ -68,7 +68,7 @@ shader_parameter/tint_strength = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_strength = 0.0
 shader_parameter/auto_flash_color = Color(0.862745, 0.458824, 0.909804, 1)
-shader_parameter/auto_flash_speed = 10.0
+shader_parameter/auto_flash_speed = 0.0
 shader_parameter/auto_flash_bound1 = 0.25
 shader_parameter/auto_flash_bound2 = 0.0
 shader_parameter/auto_flash_start_time = 0.0
@@ -177,6 +177,7 @@ animations = [{
 }]
 
 [node name="Projectile" type="Node2D"]
+z_index = 5
 script = ExtResource("1_7urud")
 
 [node name="FancyTrail" type="GPUParticles2D" parent="."]
