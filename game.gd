@@ -918,7 +918,7 @@ func _on_accept_button_pressed():
 		if payoff_power_family.is_payoff() and (not payoff_coin.is_stone() and not payoff_coin.is_blank() and not payoff_coin.is_buried()) and charges > 0:
 			payoff_coin.payoff_move_up()
 			
-			var can_use_result: PF.PowerFamily.CanUseResult = payoff_coin.can_use(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
+			var can_use_result: PF.PowerFamily.CanUseResult = payoff_power_family.can_use(self, payoff_coin, left, right, row, _COIN_ROW, _ENEMY_COIN_ROW)
 			
 			if not can_use_result.can_use:
 				payoff_coin.play_shake_effect()

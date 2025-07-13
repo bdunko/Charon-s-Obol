@@ -209,6 +209,12 @@ func get_all_right_of(coin: Coin) -> Array:
 	
 	return to_right
 
+static func FILTER_PRIMED(c: Coin) -> bool:
+	return c.is_primed()
+
+static func FILTER_NOT_PRIMED(c: Coin) -> bool:
+	return not c.is_primed()
+
 static func FILTER_NOT_LUCKY(c: Coin) -> bool:
 	return not c.is_lucky()
 

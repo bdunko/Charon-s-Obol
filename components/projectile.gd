@@ -112,7 +112,7 @@ class RecolorParams:
 
 class ProjectileParams:
 	var _speed: float = 170.0
-	var _trajectory: int = TrajectoryType.DELAYED_HOP
+	var _trajectory: TrajectoryType = TrajectoryType.DELAYED_HOP
 
 	# Trajectory-specific options (prefixed with _)
 	var _parabola_height: float = 30.0
