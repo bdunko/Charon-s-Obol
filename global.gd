@@ -1181,7 +1181,6 @@ class TrialData:
 	TrialData.new(TRIAL_GATING_FAMILY.coin_name, [TRIAL_GATING_FAMILY], TRIAL_POWER_FAMILY_GATING.description, TRIAL_POWER_FAMILY_GATING.icon_path),
 	TrialData.new(TRIAL_FATE_FAMILY.coin_name, [TRIAL_FATE_FAMILY], TRIAL_POWER_FAMILY_FATE.description, TRIAL_POWER_FAMILY_FATE.icon_path),
 	TrialData.new(TRIAL_ADVERSITY_FAMILY.coin_name, [TRIAL_ADVERSITY_FAMILY], TRIAL_POWER_FAMILY_ADVERSITY.description, TRIAL_POWER_FAMILY_ADVERSITY.icon_path),
-	#TrialData.new(TRIAL_TRIBULATIONS_FAMILY.coin_name, [TRIAL_TRIBULATIONS_FAMILY], TRIAL_POWER_FAMILY_TRIBULATIONS.description, TRIAL_POWER_FAMILY_TRIBULATIONS.icon_path),
 	TrialData.new(TRIAL_VAINGLORY_FAMILY.coin_name, [TRIAL_VAINGLORY_FAMILY], TRIAL_POWER_FAMILY_VAINGLORY.description, TRIAL_POWER_FAMILY_VAINGLORY.icon_path),
 	
 ]
@@ -1424,7 +1423,6 @@ var TRIAL_POWER_FAMILY_SINGULARITY = PF.PowerFamily.new("Power coins have only a
 var TRIAL_POWER_FAMILY_GATING = PF.PowerFamily.new("Payoffs greater than 10(SOULS) become 1(SOULS).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/gating_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_FATE = PF.PowerFamily.new("Coins cannot be reflipped.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/fate_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_ADVERSITY = PF.PowerFamily.new("When the trial begins, spawn 3 powerful monsters.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/adversity_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_TRIBULATIONS = PF.PowerFamily.new("Apply 4 random negative statuses to random coins after each toss.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/tribulations_icon.png", ONLY_SHOW_ICON)
 var TRIAL_POWER_FAMILY_VAINGLORY = PF.PowerFamily.new("After a coin lands on (HEADS), it becomes (CURSED).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vainglory_icon.png", ONLY_SHOW_ICON)
 
 var CHARON_POWER_DEATH = PF.PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", ONLY_SHOW_ICON)
@@ -2367,7 +2365,7 @@ const NEMESIS_CERBERUS_APPEASE = [50, 60, 70, 80, 90, 100]
 	
 	TRIAL_FAMINE_FAMILY, TRIAL_TORTURE_FAMILY, TRIAL_LIMITATION_FAMILY, TRIAL_COLLAPSE_FAMILY, TRIAL_SAPPING_FAMILY, TRIAL_OVERLOAD_FAMILY,
 	TRIAL_PETRIFICATION_FAMILY, TRIAL_SILENCE_FAMILY, TRIAL_POLARIZATION_FAMILY, TRIAL_SINGULARITY_FAMILY, TRIAL_GATING_FAMILY, TRIAL_FATE_FAMILY,
-	TRIAL_ADVERSITY_FAMILY, TRIAL_TRIBULATIONS_FAMILY, TRIAL_VAINGLORY_FAMILY
+	TRIAL_ADVERSITY_FAMILY, TRIAL_VAINGLORY_FAMILY
 ]
 
 # standard monsters
@@ -2539,8 +2537,6 @@ var TRIAL_FATE_FAMILY = CoinFamily.new(4509, CoinType.TRIAL, "[color=burlywood]T
 	NO_PRICE, TRIAL_POWER_FAMILY_FATE, TRIAL_POWER_FAMILY_FATE, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_ADVERSITY_FAMILY = CoinFamily.new(4510, CoinType.TRIAL, "[color=burlywood]Trial of Adversity[/color]", "[color=lightgray]Looming Shadows[/color]", TRIAL_POWER_FAMILY_ADVERSITY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_ADVERSITY, TRIAL_POWER_FAMILY_ADVERSITY, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
-var TRIAL_TRIBULATIONS_FAMILY = CoinFamily.new(4511, CoinType.TRIAL, "[color=burlywood]Trial of Tribulations[/color]", "[color=lightgray]Chaotic Force[/color]", TRIAL_POWER_FAMILY_TRIBULATIONS.icon_path, NO_UNLOCK_TIP,\
-	NO_PRICE, TRIAL_POWER_FAMILY_TRIBULATIONS, TRIAL_POWER_FAMILY_TRIBULATIONS, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 var TRIAL_VAINGLORY_FAMILY = CoinFamily.new(4512, CoinType.TRIAL, "[color=burlywood]Trial of Vainglory[/color]", "[color=lightgray]Insidious Pride[/color]", TRIAL_POWER_FAMILY_VAINGLORY.icon_path, NO_UNLOCK_TIP,\
 	NO_PRICE, TRIAL_POWER_FAMILY_VAINGLORY, TRIAL_POWER_FAMILY_VAINGLORY, _SpriteStyle.PASSIVE, [CoinFamily.Tag.NO_FLIP])
 

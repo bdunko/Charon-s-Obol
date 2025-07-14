@@ -30,24 +30,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 ### To Do  
 
 ### In Progress  
-- [x] Add coin shake effect (move sprite left/right slightly)
-	- [x] When projectile hits, have the target coin shake.
-	- [x] When a monster attempts to activate with no target, shake.
-- [x] Add projectiles to monster powers.
-- [x] Add can_use to monster powers.
-- [x] When monsters are in play, Charon's hands should move up a bit. 
-- [x] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
-	- [x] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
-- [ ] Add projectiles to trial powers where relevant.
-	- [x] Misfortune
-	- [ ] Vivisepulture (at start)
-	- [ ] Vengeance
-	- [ ] Torture
-	- [ ] Petrification
-	- [ ] Silence
-	- [ ] Tribulations
 - [ ] Add projectiles to Malice activations.
-- [ ] Hide monster appease costs during payoff sequence (blocks projectiles a bit and uninteractable during this time)
 - [ ] Flip position of pile and label for pile (label goes on top)
 - [ ] **Charon Improvements**
 	- [ ] When Charon goes to slam, make him raise his hands slightly first. (I think he already does this)
@@ -76,7 +59,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
 
 ### Done  
-- [ ] **Building Blocks Revisit**
+- [x] **Building Blocks Revisit**
 	- [x] Shifted Snare
 	- [x] Chord Changes
 	- [x] Multi-Chord Bars
@@ -115,12 +98,28 @@ Checking vignette effect requires making the 'editor' space match the game windo
 - [x] Make movement linear again...
 - [x] Remove delta labels.
 - [x] Make projectile recolorable. Define appropriate recolor options in Projectile itself. We can do a style enum sort of thing.
+- [x] Add coin shake effect (move sprite left/right slightly)
+	- [x] When projectile hits, have the target coin shake.
+	- [x] When a monster attempts to activate with no target, shake.
+- [x] Add projectiles to monster powers.
+- [x] Add can_use to monster powers.
+- [x] When monsters are in play, Charon's hands should move up a bit. 
+- [x] Fix visual appearance of projectiles. Improve handling of speed... add a minimum and maximum duration perhaps? 
+	- [x] Possibly need to await the payoff coin moving up before triggering payoff (or just cheat and increase the height of the delay hop projectiles. Additionally, might consider reducing the amount they go up slightly, it's a bit much and eats up a lot of space? Projectile visiblity isn't amazing; maybe need to consider using a different color than purple in the default case.
+- [x] Add projectiles to trial powers where relevant.
+	- [x] Misfortune
+	- [x] Vivisepulture (at start)
+	- [x] Vengeance
+	- [x] Torture
+	- [x] Petrification
+	- [x] Silence
+- [x] Hide monster appease costs during payoff sequence (blocks projectiles a bit and uninteractable during this time)
+
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._
 - [ ] 33 Strategies of War - Robert Greene
 - [ ] Mastery - Robert Greene
-- [ ] Ear Training
 - [x] Simple sounds VST investigate
 
 ---
@@ -139,3 +138,14 @@ _Recap of key achievements from this sprint to highlight._
 
 **What I’ll change next sprint:**  
 -  
+
+
+```
+var targets = Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), Global.MISFORTUNE_QUANTITY)
+var callback = func(target):
+	target.make_unlucky()
+	target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_MISFORTUNE)
+Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_MISFORTUNE), targets, callback)
+
+```

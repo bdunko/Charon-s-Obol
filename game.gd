@@ -967,12 +967,19 @@ func _on_accept_button_pressed():
 	
 	# post payoff actions
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_TORTURE): # every payoff, downgrade highest value coin
+		var targets = []
+		
 		var coins = _COIN_ROW.get_highest_valued_heads_that_can_be_targetted()
-		if not coins.is_empty():
-			var target = Global.choose_one(coins)
-			if not (_COIN_ROW.get_child_count() == 1 and target.get_denomination() == Global.Denomination.OBOL):
-				downgrade_coin(Global.choose_one(coins))
-				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
+		var is_only_obol = coins.size() == 1 and _COIN_ROW.get_child_count() == 1 and coins[0].get_denomination() == Global.Denomination.OBOL
+
+		if not coins.is_empty() and not is_only_obol:
+			targets.append(Global.choose_one(coins))
+		var callback = func(target):
+			downgrade_coin(target)
+			target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_TORTURE)
+
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_TORTURE)
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_TORTURE), targets, callback)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_MISFORTUNE): # every payoff, unlucky coins
 		var targets = Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), Global.MISFORTUNE_QUANTITY)
 		var callback = func(target):
@@ -981,15 +988,23 @@ func _on_accept_button_pressed():
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_MISFORTUNE)
 		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_MISFORTUNE), targets, callback)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_VENGEANCE): # every payoff, curse highest value heads
-		for c in Global.choose_x(_COIN_ROW.get_highest_valued_heads_that_can_be_targetted(), 1):
-			c.curse()
-			Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VENGEANCE)
+		var targets = Global.choose_x(_COIN_ROW.get_highest_valued_heads_that_can_be_targetted(), 1)
+		var callback = func(target):
+			target.curse()
+			target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_VENGEANCE)
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VENGEANCE)
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_VENGEANCE), targets, callback)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_SILENCE): # every payoff, bury leftmost coin for 10 tosses
-		for c in _COIN_ROW.get_children():
+		var targets = []
+		for c in _COIN_ROW.get_leftmost_to_rightmost():
 			if c.can_target():
-				c.bury(10)
-				Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SILENCE)
+				targets.append(c)
 				break
+		var callback = func(target):
+			target.bury(10)
+			target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_SILENCE)
+		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SILENCE)
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_SILENCE), targets, callback)
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_COLLAPSE): # collapse trial - each tails becomes cursed + frozen
 		for coin in _COIN_ROW.get_children():
 			if coin.is_tails():
@@ -1656,71 +1671,73 @@ func _on_voyage_continue_button_clicked():
 						destroy_coin(_COIN_ROW.get_rightmost_to_leftmost()[0])
 					make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, CHARON_NEW_COIN_POSITION)
 					make_and_gain_coin(Global.THORNS_FAMILY, Global.Denomination.OBOL, CHARON_NEW_COIN_POSITION)
-					await _wait_for_dialogue("You shall be bound in Iron!")
+					await _wait_for_dialogue("You shall be bound in iron!")
 				Global.TRIAL_MISFORTUNE_FAMILY:
-					await _wait_for_dialogue("Be shrouded in Misfortune!")
+					await _wait_for_dialogue("Be shrouded in misfortune!")
 				Global.TRIAL_PAIN_FAMILY:
-					await _wait_for_dialogue("You flesh writhes in Pain!")
+					await _wait_for_dialogue("You flesh writhes in pain!")
 				Global.TRIAL_BLOOD_FAMILY:
-					await _wait_for_dialogue("Your Blood shall boil!")
+					await _wait_for_dialogue("Your blood shall boil!")
 				Global.TRIAL_EQUIVALENCE_FAMILY:
-					await _wait_for_dialogue("Each flip will be one of Equivalence!")
+					await _wait_for_dialogue("Each flip will be one of equivalence!")
 				Global.TRIAL_FAMINE_FAMILY:
-					await _wait_for_dialogue("Feel the hunger of Famine!")
+					await _wait_for_dialogue("Feel the hunger of famine!")
 				Global.TRIAL_TORMENT_FAMILY:
-					await _wait_for_dialogue("You shall be Tormented!")
+					await _wait_for_dialogue("You shall be tormented!")
 				Global.TRIAL_MALAISE_FAMILY:
-					await _wait_for_dialogue("Feel a deep Malaise!")
+					await _wait_for_dialogue("Feel a deep malaise!")
 				Global.TRIAL_VIVISEPULTURE_FAMILY:
-					# bury for 20
-					var left_to_right = _COIN_ROW.get_leftmost_to_rightmost()
-					for i in min(2, left_to_right.size()):
-						left_to_right[i].bury(20)
+					var targets = []
+					targets += _COIN_ROW.get_leftmost_to_rightmost().slice(0, 2)
+					var callback = func(target):
+						target.bury(20)
+						target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_VIVISEPULTURE)
+					ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_VIVISEPULTURE), targets, callback)
 					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_VIVISEPULTURE)
-					await _wait_for_dialogue("Perish by Vivisepulture!")
+					await _wait_for_dialogue("Perish by vivisepulture!")
 				Global.TRIAL_IMMOLATION_FAMILY:
-					await _wait_for_dialogue("Be Immolated in flames!")
+					await _wait_for_dialogue("Be immolated in flames!")
 				Global.TRIAL_VENGEANCE_FAMILY:
-					await _wait_for_dialogue("You must fear my Vengeance!")
+					await _wait_for_dialogue("You must fear my vengeance!")
 				Global.TRIAL_TORTURE_FAMILY:
-					await _wait_for_dialogue("Can you withstand this Torture?")
+					await _wait_for_dialogue("Can you withstand this torture?")
 				Global.TRIAL_LIMITATION_FAMILY:
-					await _wait_for_dialogue("It is time to feel mortal Limitation!")
+					await _wait_for_dialogue("It is time to feel mortal limitation!")
 				Global.TRIAL_COLLAPSE_FAMILY:
-					await _wait_for_dialogue("You must beware an untimely Collapse!")
+					await _wait_for_dialogue("Beware an untimely collapse!")
 				Global.TRIAL_SAPPING_FAMILY:
-					await _wait_for_dialogue("Your energy shall be Sapping.")
+					await _wait_for_dialogue("Your energy shall be sapping.")
 				Global.TRIAL_OVERLOAD_FAMILY:
-					await _wait_for_dialogue("You may have power, but beware the Overload!")
+					await _wait_for_dialogue("You may have power, but fear the overload!")
 				Global.TRIAL_PETRIFICATION_FAMILY:
-					# turn powers to stone
-					for c in _COIN_ROW.get_filtered(CoinRow.FILTER_POWER):
-						c.stone()
-					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_PETRIFICATION)
-					await _wait_for_dialogue("Feel the strain of Petrification!")
+					var targets = _COIN_ROW.get_filtered(CoinRow.FILTER_POWER)
+					targets += _COIN_ROW.get_leftmost_to_rightmost().slice(0, 2)
+					var callback = func(target):
+						target.stone()
+						target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_PETRIFICATION)
+					ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_PETRIFICATION), targets, callback)
+					await _wait_for_dialogue("Feel the strain of petrification!")
 				Global.TRIAL_SILENCE_FAMILY:
-					await _wait_for_dialogue("You must fear my Vengeance!")
+					await _wait_for_dialogue("All is still. All is silent.")
 				Global.TRIAL_POLARIZATION_FAMILY:
-					await _wait_for_dialogue("Your coins shall be Polarized!")
+					await _wait_for_dialogue("Your coins shall be polarized!")
 				Global.TRIAL_SINGULARITY_FAMILY:
 					for c in _COIN_ROW.get_children():
 						c.reset_power_uses(true)
 					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_SINGULARITY)
-					await _wait_for_dialogue("The Singularity beckons...")
+					await _wait_for_dialogue("The singularity beckons...")
 				Global.TRIAL_GATING_FAMILY:
 					await _wait_for_dialogue("You must pass through the gate!")
 				Global.TRIAL_FATE_FAMILY:
-					await _wait_for_dialogue("Leave it all up to Fate!")
+					await _wait_for_dialogue("Leave it all up to fate!")
 				Global.TRIAL_ADVERSITY_FAMILY:
 					spawn_enemy(Global.get_standard_monster(), Global.Denomination.TETROBOL)
 					spawn_enemy(Global.get_elite_monster(), Global.Denomination.TETROBOL)
 					spawn_enemy(Global.get_standard_monster(), Global.Denomination.TETROBOL)
 					Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_ADVERSITY)
-					await _wait_for_dialogue("Before you stands Adversity!")
-				Global.TRIAL_TRIBULATIONS_FAMILY:
-					await _wait_for_dialogue("You must overcome many Tribulations!")
+					await _wait_for_dialogue("Before you stands adversity!")
 				Global.TRIAL_VAINGLORY_FAMILY:
-					await _wait_for_dialogue("Beware the insidious Vainglory!")
+					await _wait_for_dialogue("Beware the insidious vainglory!")
 	
 	if Global.tutorialState == Global.TutorialState.ROUND6_TRIAL_INTRO and Global.is_current_round_trial():
 		_LEFT_HAND.point_at(_hand_point_for_coin(_ENEMY_COIN_ROW.get_child(0)))
