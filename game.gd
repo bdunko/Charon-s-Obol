@@ -287,7 +287,7 @@ func _on_arrow_count_changed() -> void:
 
 func _on_soul_count_changed(change: int) -> void:
 	_SOUL_TOOLTIP_EMITTER.enable() if Global.souls > 0 else _SOUL_TOOLTIP_EMITTER.disable()
-	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT)
+	_update_fragment_pile(Global.souls, _SOUL_FRAGMENT_SCENE, _SOUL_FRAGMENTS, _CHARON_POINT, _CHARON_POINT, _SOUL_FRAGMENT_PILE_POINT, Vector2(16, 9))
 	_SOUL_DELTA_LABEL.add_delta(change)
 	_LIFE_DELTA_LABEL.refresh()
 	
@@ -297,7 +297,7 @@ func _on_soul_count_changed(change: int) -> void:
 
 func _on_life_count_changed(change: int) -> void:
 	_LIFE_TOOLTIP_EMITTER.enable() if Global.lives > 0 else _LIFE_TOOLTIP_EMITTER.disable()
-	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT)
+	_update_fragment_pile(Global.lives, _LIFE_FRAGMENT_SCENE, _LIFE_FRAGMENTS, _PLAYER_POINT, _CHARON_POINT, _LIFE_FRAGMENT_PILE_POINT, Vector2(16, 13))
 	if not (Global.lives == 0 and change > 0): # don't show delta label for 'restoring' back to 0 life after surviving second chance flip
 		_LIFE_DELTA_LABEL.add_delta(change)
 		_SOUL_DELTA_LABEL.refresh()
@@ -330,7 +330,7 @@ func _on_life_count_changed(change: int) -> void:
 		else:
 			Global.state = Global.State.CHARON_OBOL_FLIP
 
-func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2) -> void:
+func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: Vector2, take_pos: Vector2, pile_pos: Vector2, pile_size: Vector2) -> void:
 	var delta = pile.get_child_count() - max(0, amount) if pile.get_child_count() > max(0, amount) else amount - pile.get_child_count()
 	
 	# helper lambda to calculate delay time
@@ -346,7 +346,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		fragment.start_trail_particles()
 		fragment.position = give_pos
 		
-		var target_pos = Global.get_random_point_in_ellipse(pile_pos, Vector2(16, 13))
+		var target_pos = Global.get_random_point_in_ellipse(pile_pos, pile_size)
 		
 		# move from player to pile
 		var tween = create_tween()

@@ -4,7 +4,6 @@ extends Node2D
 signal impact_finished
 
 @onready var _TRAIL_PARTICLES = $FancyTrail
-@onready var _SPRITE = $Sprite
 @onready var _SPRITE_FX = $Sprite/FX
 
 static var PARAMS_GREEN = ProjectileParams.new().recolor(Projectile.RecolorParams.GREEN_RECOLOR())
@@ -130,7 +129,7 @@ class ProjectileParams:
 		_speed = value
 		return self
 
-	func trajectory(value: int) -> ProjectileParams:
+	func trajectory(value: TrajectoryType) -> ProjectileParams:
 		_trajectory = value
 		return self
 
