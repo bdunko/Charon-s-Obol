@@ -28,36 +28,7 @@ Checking vignette effect requires making the 'editor' space match the game windo
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-
 ### In Progress  
-- [ ] Add projectiles to Malice activations.
-- [ ] Flip position of pile and label for pile (label goes on top)
-- [ ] **Charon Improvements**
-	- [ ] When Charon goes to slam, make him raise his hands slightly first. (I think he already does this)
-	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments, then slam down to flip the coins, or something like that. Even adding a slight delay might help. This slam should have a more basic effect than the malice slam, but can otherwise be similar.
-- [ ] **Improved Graphical effects for coins**
-	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-	- [ ] Activating a coin - burst of particles; 
-	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect. Also perhaps shake.
-	- [ ] Shadow - add a static sprite underneath the coin. This might look good enough with how flips work. If not, we can try animating it too. 
-	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
-	- [x] Flash on upgrade (in shop too).
-	- [x] Shake when this coin's power is used.
-	- [x] Move up when power is activated. Move down when power is deactivated.
-- [ ] **Coin Flip Animation**
-	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
-	- [ ] Effect when a coin is tossed or lands(?)
-- [ ] **Arrows of Night**
-	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
-	- [ ] Arrows are placed on table from Charon like other things.
-	- [ ] Add back the slight randomness to arrow pile, it was better. 
-- [ ] **Screen Shake**
-	- [ ] Screen shake on Charon slam.
-	- [ ] Screen shake during death.
-	- [ ] Camera zoom in/out slightly during death.
-- [ ] Souls spent to defeat monsters should move to them somehow (turn into particles and move to the coin or whatever)
-	- [ ] Souls visibly shatter (disintegrate); then we launch an invisible projectile with particle trail towards the monster coin as it disintegrates.
-
 ### Done  
 - [x] **Building Blocks Revisit**
 	- [x] Shifted Snare
@@ -118,8 +89,6 @@ Checking vignette effect requires making the 'editor' space match the game windo
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._
-- [ ] 33 Strategies of War - Robert Greene
-- [ ] Mastery - Robert Greene
 - [x] Simple sounds VST investigate
 
 ---
@@ -131,13 +100,18 @@ _Recap of key achievements from this sprint to highlight._
 ---
 ## 🔍 Sprint Review (07-12)  
 **What went well:**  
--  
+* Increased integration with AI assisted programming.
+* Lots of nice new visual improvements.
 
 **What didn’t go well:**  
--  
+-  Underestimated integration time for polish features.
 
 **What I’ll change next sprint:**  
--  
+- Add most critical leftover polish work to next sprint. 
+- Cut unnecessary polish work/move to backlog.
+- Delay composition work until next sprint.
+- Revisit Building Blocks for practice/to maintain musical focus until next sprint.
+	- Maybe take the time to attempt some study of specific inspiration tracks?
 
 
 ```

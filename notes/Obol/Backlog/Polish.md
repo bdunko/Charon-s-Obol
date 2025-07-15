@@ -23,15 +23,8 @@
 - [ ] Add a "souls_down" icon similar to the life loss icon, with a cracked soul icon, used when losing souls?
 - [ ] "You are out of life..." - we should still pulsate the vignette here, after dying.
 
+- [ ] **Screen Shake**
+	- [ ] Screen shake on Charon slam.
+	- [ ] Screen shake during death.
+	- [ ] Camera zoom in/out slightly during death; frantic.
 
-
-- [ ] **Update Shader to work with Spritesheets**
-	- [ ] Shader does not work with spritesheets which work across the entire sheet, notably we removed scanline from coins.
-
-	- [ ] **Particles**
-		- [ ] Extra
-			- [ ] After a flip ends, play dust effect with EruptOutRing
-			- [ ] Colored Trail on life fragments, souls, and coins. Enable/disable only when moving to save GPU power.
-			- [ ] While a coin's power is active, sparkly glow on it...
-			- [ ] Frozen coins have a constant sparkle effect.
-			- [ ] Ignited coins have a constant smoke effect.

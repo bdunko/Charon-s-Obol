@@ -12,68 +12,35 @@
 - [ ] **Playtesting, Polish, Release**
 
 **Charon's Obol Soundtest**`
-Week 6/7
-- [ ] **Game Sounds**
-	- [ ] I think we forgot to add the power selected/unselected sounds at all.
-	- [ ] Death scene
-	- [ ] **Revisions**
-		- [ ] Heavy water loop is too short and the restart is too obvious.
-		- [ ] Don't use the same sound for all button presses; example:
-			- [ ] Board - no sound needed because map open covers it.
-			- [ ] Begin First Round - no sound needed because map close covers it.
-			- [ ] Accept - probably don't need because all payoffs have their own sounds.
-			- [ ] Toss - Don't need because 'row retract' should cover it.
-		- [ ] Coin landing sound definitely doesn't work.
-		- [ ] Coin toss sound, not sure.
-		- [ ] In the shop - we don't want charon's hand making a sound every time it moves.
-		- [ ] Buy coin sound needs a change.
-		- [ ] Monster payoff sound isn't quite it.
-		- [ ] Not sure about flip sound/landing sound stacking... 
-		- [ ] The turn sound should just be a metallic something...
-	- [ ] Additions
-		- [ ] Hover map
-		- [ ] Take a Deep Breath sound
-		- [ ] Charon talk sound
-		- [ ] Heartbeat (add the effect so this looks less weird, and see if it works)
-		- [ ] Need a water whoosh sound during boat movement on map.
-		- [ ] Status applied (specific)
-			- [ ] Ignite
-			- [ ] Freeze
-			- [ ] Bless/Lucky/Consecrate
-			- [ ] Unlucky/Curse/Desecrate
-			- [ ] Charge
-			- [ ] Stone
-			- [ ] Blank
-			- [ ] Bury
-			- [ ] Fleeting
-			- [ ] Doomed
-		- [ ] Power activated (specific)
-			- [ ] make a bunch of different powers used options and assign to coins individually
-		- [ ] Payoff activated (specific, mostly for monsters)
-			- [ ] different options attached to fitting monsters
-			- [ ] also the arrow sound
-		- [ ] IgniteTakeDamage
-		- [ ] DowngradeCoin
-		- [ ] DestroyCoin
-		- [ ] HealLife
-		- [ ] LoseSouls
-		- [ ] ShootArrow
-		- [ ] Recharge
-		- [ ] Last Chance Flip
-			- [ ] Extra special toss sound
-			- [ ] Death result
-			- [ ] Life result
-			- [ ] Dark storm
-- [ ] **Charon Speech** - chip speech
-	- [ ] Death - "Your soul is mine!"
-	- [ ] Intro - "I am Charon, shephard of the dead."
-	- [ ] Last chance flip - "You must flip!"
-	- [ ] Victory - "I wish you luck..."
-- [ ] **Sounds - Transitions**
-	- [ ] Victory to main menu
-	- [ ] God selection to cave
-	- [ ] Death
-	- [ ] Game fade to victory
+- [ ] **Extras**
+	- [ ] BoatMovement (on map)
+	- [ ] Deep Breath
+	- [ ] Toss Initiated - on button press, during retract
+	- [ ] **Specific Status Applied**
+		- [ ] Ignite
+		- [ ] Freeze
+		- [ ] Bless/Lucky/Consecrate
+		- [ ] Unlucky/Curse/Desecrate
+		- [ ] Charge
+		- [ ] Stone
+		- [ ] Blank
+		- [ ] Bury
+		- [ ] Fleeting
+		- [ ] Doomed
+	- [ ] Recharge
+- [ ] **Charon**
+	- [ ] Remove hand moving sound for now.
+	- [ ] CharonTalk
+	- [ ] **Charon Speech** - chip speech
+		- [ ] Death - "Your soul is mine!"
+		- [ ] Intro - "I am Charon, shephard of the dead."
+		- [ ] Last chance flip - "You must flip!"
+		- [ ] Victory - "I wish you luck..."
+- [ ] **Last Chance Flip**
+	- [ ] Extra special toss sound
+	- [ ] Death result - bell?
+	- [ ] Life result
+	- [ ] Dark storm
 
 
 Week 8/9/10
