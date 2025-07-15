@@ -11,6 +11,18 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 | Ctrl + Shift + O | Quick Open (scripts/scenes) |
 | Ctrl + L         | Go to Line                  |
 
+```
+		var targets = []
+		
+		var callback = func(target):
+			downgrade_coin(target)
+			target.play_power_used_effect(Global.TRIAL_POWER_FAMILY_TORTURE)
+
+		await ProjectileManager.fire_projectiles(Global.find_passive_coin(Global.TRIAL_POWER_FAMILY_TORTURE), targets, callback)
+
+
+```
+
 ---
 ## ⌚ Deep Work (and Start Times) ✔
 
@@ -22,11 +34,12 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 ---
 ## 🗂️ Sprint Task Lists
 ### To Do  
-- [ ] Add projectiles to Malice activations.
-
-- [ ] Coin small rotate on payoff?
+- [x] Add projectiles to Malice activations.
+- [x] Add ProjectileShooter node.
+- [x] Refactor coin to use ProjectileShooter node.
+- [x] Update Dialogue such that we can show dialogue, then make it advancable at a later point and await it.
 - [ ] **Charon Improvements**
-	- [ ] When Charon goes to slam, make him raise his hands slightly first. (I think he already does this)
+	- [x] When Charon goes to slam, make him raise his hands slightly first.
 	- [ ] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments as the retraction happens
 - [ ] **Music Study**
 	- [ ] Bring into DAW and focused listening/reproduction.

@@ -31,6 +31,7 @@ signal game_ended
 @onready var _VOYAGE_NEXT_ROUND_TEXTBOX = $UI/PlayerTextboxes/VoyageNextRoundButton
 
 @onready var _CHARON_POINT: Vector2 = $Points/Charon.position
+@onready var _CHARON_SHOOTER = $Table/CharonShooter
 @onready var _PLAYER_POINT: Vector2 = $Points/Player.position
 @onready var _PLAYER_NEW_COIN_POSITION: Vector2 = _PLAYER_POINT - Vector2(22, 0)
 @onready var _PLAYER_FLIP_POSITION: Vector2 = _PLAYER_NEW_COIN_POSITION - Vector2(0, 25)
@@ -178,6 +179,7 @@ func _ready() -> void:
 	assert(_VOYAGE_NEXT_ROUND_TEXTBOX)
 	
 	assert(_CHARON_POINT)
+	assert(_CHARON_SHOOTER)
 	assert(_PLAYER_POINT)
 	assert(_LIFE_FRAGMENT_PILE_POINT)
 	assert(_SOUL_FRAGMENT_PILE_POINT)
@@ -2494,7 +2496,8 @@ enum MaliceAction {
 }
 var previous_malice_action = MaliceAction.NONE
 func activate_malice(activation_type: MaliceActivation) -> void:
-	const delay = 1.0
+	var malice_projectile_params = Projectile.ProjectileParams.new().trajectory(Projectile.TrajectoryType.WOBBLE)
+	const charon_delay = 1.0
 	
 	# remove excess elements from recent powers used
 	while powers_used.size() > 30:
@@ -2513,7 +2516,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	_VIGNETTE_CHARON_FX.start_vignette_pulsate(FX.VignettePulsateSeverity.MINOR)
 	# todo - screen shake
 	
-	await _wait_for_dialogue("Enough!", delay)
+	await _wait_for_dialogue("Enough!", charon_delay)
 	if malice_activations_this_game == 0:
 		await _wait_for_dialogue("So, do you think yourself clever?")
 		await _wait_for_dialogue("You hope to beat me at my own game?")
@@ -2753,69 +2756,121 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 	match final_action:
 		MaliceAction.UNLUCKY:
 			var unlucky_remaining = max(1, floor(num_coins/2.0))
+			var targets = []
+			
 			# aim for lucky coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_LUCKY, CoinRow.FILTER_CAN_TARGET]), unlucky_remaining):
-				target.make_unlucky()
-				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				targets.append(target)
 				unlucky_remaining -= 1
 			# now take other coins
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_UNLUCKY, CoinRow.FILTER_CAN_TARGET]), unlucky_remaining):
+				targets.append(target)
+			
+			var callback = func(target):
 				target.make_unlucky()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Your luck falters!", delay)
+			
+			_DIALOGUE.show_dialogue("Your luck falters!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.CURSE:
 			var curses_remaining = max(1, floor(num_coins/2.0))
+			var targets = []
+			
 			# aim for blessed coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_BLESSED, CoinRow.FILTER_CAN_TARGET]), curses_remaining):
-				target.curse()
-				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				targets.append(target)
 				curses_remaining -= 1 
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_CURSED, CoinRow.FILTER_CAN_TARGET]), curses_remaining):
+				targets.append(target)
+			
+			var callback = func(target):
 				target.curse()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Bear a heavy curse!", delay)
+			
+			_DIALOGUE.show_dialogue("Bear a heavy curse!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.IGNITE:
 			var ignites_remaining = max(1, floor(num_coins/2.0))
+			var targets = []
+			
 			# attempt to ignite frozen coins if we can
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_FROZEN, CoinRow.FILTER_CAN_TARGET]), ignites_remaining):
-				target.ignite()
-				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+				targets.append(target)
 				ignites_remaining -= 1 
 			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_NOT_IGNITED, CoinRow.FILTER_CAN_TARGET]), ignites_remaining):
+				targets.append(target)
+			
+			var callback = func(target):
 				target.ignite()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("You shall burn!", delay)
+			
+			_DIALOGUE.show_dialogue("You shall burn!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.INCREASE_PENALTY:
+			var targets = []
+			
 			for target in _COIN_ROW.get_children():
 				if target.can_change_life_penalty():
-					target.change_life_penalty_for_round(2)
-					target.change_life_penalty_permanently(1)
-					target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("May your pain be amplified!", delay)
+					targets.append(target)
+			
+			var callback = func(target):
+				target.change_life_penalty_for_round(2)
+				target.change_life_penalty_permanently(1)
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			
+			_DIALOGUE.show_dialogue("I shall amplify your pain!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.THORNS:
 			make_and_gain_coin(Global.THORNS_FAMILY, highest_denom, CHARON_NEW_COIN_POSITION)
-			await _wait_for_dialogue("A gift for you...", delay)
+			await _wait_for_dialogue("A gift for you...", charon_delay)
 		MaliceAction.STONE_POWERS:
-			for target in Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), max(1, floor(num_coins/4.0))):
+			var targets = Global.choose_x(_COIN_ROW.get_multi_filtered_randomized([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_NOT_STONE, CoinRow.FILTER_CAN_TARGET]), max(1, floor(num_coins/4.0)))
+			
+			var callback = func(target):
 				target.stone()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Be turned to stone!", delay)
+			
+			_DIALOGUE.show_dialogue("Be turned to stone!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.STRENGTHEN_MONSTERS:
+			var targets = []
+			
 			for monster in _ENEMY_COIN_ROW.get_children():
 				if monster.can_upgrade():
-					monster.upgrade()
-					monster.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("My minions grow stronger!", delay)
+					targets.append(monster)
+			
+			var callback = func(target):
+				target.upgrade()
+				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
+			
+			_DIALOGUE.show_dialogue("My minions grow stronger!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.TURN_PAYOFFS:
-			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_ACTIVE_PAYOFF, CoinRow.FILTER_CAN_TARGET]):
+			var targets = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_ACTIVE_PAYOFF, CoinRow.FILTER_CAN_TARGET])
+			
+			var callback = func(target):
 				target.turn()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("The souls are mine! None for you!", delay)
+			
+			_DIALOGUE.show_dialogue("No souls for you!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.DRAIN_POWERS:
-			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_CAN_TARGET]):
+			var targets = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_CAN_TARGET])
+			
+			var callback = func(target):
 				target.drain_power_uses_by(2)
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("I shall render you powerless!", delay)
+			
+			_DIALOGUE.show_dialogue("I shall render you powerless!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.SPAWN_MONSTERS:
 			var denom = Global.Denomination.OBOL
 			if Global.current_round_wave_strength() >= 10:
@@ -2824,7 +2879,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				denom = Global.Denomination.TRIOBOL
 			for i in range(0, 2):
 				spawn_enemy(Global.get_standard_monster(), denom)
-			await _wait_for_dialogue("Rise, monsters of the underworld!", delay)
+			await _wait_for_dialogue("Rise, thralls of the underworld!", charon_delay)
 		MaliceAction.REFLIP_SCRAMBLE_ALL:
 			for c in _COIN_ROW.get_children() + _ENEMY_COIN_ROW.get_children():
 				c = c as Coin
@@ -2832,19 +2887,30 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				safe_flip(c, false)
 			_COIN_ROW.shuffle()
 			_ENEMY_COIN_ROW.shuffle()
-			await _wait_for_dialogue("Scatter and fall!", delay)
+			await _wait_for_dialogue("Scatter and fall!", charon_delay)
 		MaliceAction.FREEZE_TAILS:
-			for target in _COIN_ROW.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET]):
+			var targets = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_TAILS, CoinRow.FILTER_CAN_TARGET])
+			
+			var callback = func(target):
 				target.freeze()
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
-			await _wait_for_dialogue("Your blood runs cold!", delay)
+
+			_DIALOGUE.show_dialogue("Your blood runs cold!")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.NUKE_VALUABLE:
-			if highest_valued.is_heads():
-				highest_valued.turn()
-			highest_valued.freeze()
-			highest_valued.curse()
-			highest_valued.unlucky()
-			await _wait_for_dialogue("I can read your intentions...", delay)
+			var targets = [highest_valued]
+			
+			var callback = func(target):
+				if target.is_heads():
+					target.turn()
+				target.freeze()
+				target.curse()
+				target.unlucky()
+			
+			_DIALOGUE.show_dialogue("So this one is your favorite...?")
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		_:
 			assert(false)
 	

@@ -62,7 +62,18 @@ func show_dialogue_and_wait(dialogue: String, minimum_delay: float = MINIMUM_DEL
 	await Global.left_click_input
 	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
 	_waiting = false
-	
+
+func show_dialogue_unadvancable(dialogue: String, vocalize: bool = true) -> void:
+	show_dialogue(dialogue, textbox_effects_while_waiting, vocalize)
+	_current_textbox.show_arrow = false
+
+func make_current_dialogue_advancable_and_wait() -> void:
+	_waiting = true
+	_current_textbox.show_arrow = true
+	await Global.left_click_input
+	await Global.delay(0.04 if Global.tutorialState == Global.TutorialState.INACTIVE else 0.12) #small delay after
+	_waiting = false
+
 func show_dialogue(dialogue: String, waiting: bool = false, vocalize: bool = true) -> void:
 	# remove the previous dialogue
 	clear_dialogue()
@@ -91,7 +102,7 @@ func show_dialogue(dialogue: String, waiting: bool = false, vocalize: bool = tru
 			Audio.play_sfx(SFX.GodTalk)
 	
 	_current_textbox.position.x = int((get_viewport_rect().size.x/2.0) - (_current_textbox.size.x/2.0))
-	
+
 func clear_dialogue() -> void:
 	if _current_textbox:
 		_current_textbox.fade_and_free()

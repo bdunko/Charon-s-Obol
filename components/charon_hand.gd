@@ -19,7 +19,7 @@ enum HandType {
 @onready var _movementTween: Global.ManagedTween = Global.ManagedTween.new(self, "position")
 
 @onready var _BASE_POSITION = position
-@onready var _RETRACTED_POSITION = position - Vector2(0, 30)
+@onready var _RETRACTED_POSITION = position - Vector2(0, 25)
 @onready var _OFFSCREEN_POSITION = position - Vector2(0, 80)
 @onready var _FORWARD_POSITION = position + Vector2(0, 10)
 @onready var _SLAM_POSITION = position + Vector2(0, 40)
@@ -89,6 +89,7 @@ func slam() -> void:
 	if _lock:
 		return
 	set_appearance(Appearance.NORMAL)
+	await _movementTween.tween(position + Vector2(0, -15), 0.1, Tween.TRANS_QUART)
 	await _movementTween.tween(_SLAM_POSITION, 0.1, Tween.TRANS_QUART)
 	Audio.play_sfx(SFX.CharonMaliceSlam)
 	for child in _SLAM_PARTICLES.get_children():

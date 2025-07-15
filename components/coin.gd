@@ -105,7 +105,6 @@ var _permanent_statuses = []
 @onready var _STATUS_ICON_SHRINK_POINT = $OffsetWrapper/ShakeWrapper/Sprite/StatusIconShrinkPoint
 @onready var _TOOLTIP_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/TooltipAnchor
 @onready var _LABEL_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/LabelAnchor
-@onready var _PROJECTILE_TARGET_ANCHOR = $OffsetWrapper/ShakeWrapper/Sprite/ProjectileTargetAnchor
 
 @onready var _OFFSET_WRAPPER = $OffsetWrapper
 @onready var _SHAKE_WRAPPER = $OffsetWrapper/ShakeWrapper
@@ -2170,16 +2169,12 @@ func _on_info_view_toggled() -> void:
 func get_label_origin() -> Vector2:
 	return _LABEL_ANCHOR.global_position
 
+@onready var _PROJECTILE_SHOOTER = $OffsetWrapper/ShakeWrapper/Sprite/ProjectileShooter
+func get_projectile_shooter() -> ProjectileShooter:
+	return _PROJECTILE_SHOOTER
 
 func get_projectile_target_position() -> Vector2:
-	return _PROJECTILE_TARGET_ANCHOR.global_position
-
-# this generally shouldn't be called directly; use ProjectileManager instead.
-@onready var PROJECTILE = preload("res://components/projectile.tscn")
-func fire_projectile(target_position: Vector2, params: Projectile.ProjectileParams = Projectile.ProjectileParams.new()) -> void:
-	var projectile = PROJECTILE.instantiate()
-	add_child(projectile) 
-	await projectile.launch(get_projectile_target_position(), target_position, params)
+	return _PROJECTILE_SHOOTER.global_position
 
 func on_projectile_hit() -> void:
 	play_shake_effect()

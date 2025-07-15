@@ -8,7 +8,12 @@ var _active_calls := {}
 func _ready() -> void:
 	_projectile_finished.connect(_on_projectile_finished)
 
-func fire_projectiles(shooter: Coin, targets: Array, callback: Callable, params: Projectile.ProjectileParams = Projectile.ProjectileParams.new()) -> void:
+func fire_projectiles(shooter, targets: Array, callback: Callable, params: Projectile.ProjectileParams = Projectile.ProjectileParams.new()) -> void:
+	# lazy hack but it'll be fine for now...
+	if shooter is Coin:
+		shooter = shooter.get_projectile_shooter()
+	assert(shooter.has_method("fire_projectile"))
+	
 	if targets.is_empty():
 		return
 
@@ -26,7 +31,7 @@ func fire_projectiles(shooter: Coin, targets: Array, callback: Callable, params:
 	# Clean up
 	_active_calls.erase(call_id)
 
-func _fire_await_callback(shooter: Coin, target: Coin, callback: Callable, params: Projectile.ProjectileParams, call_id: int) -> void:
+func _fire_await_callback(shooter: ProjectileShooter, target: Coin, callback: Callable, params: Projectile.ProjectileParams, call_id: int) -> void:
 	await shooter.fire_projectile(target.get_projectile_target_position(), params)
 	target.on_projectile_hit()
 	callback.call(target)

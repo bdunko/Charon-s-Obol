@@ -1,4 +1,4 @@
-[gd_scene load_steps=272 format=3 uid="uid://bkl5p2djoo52i"]
+[gd_scene load_steps=273 format=3 uid="uid://bkl5p2djoo52i"]
 
 [ext_resource type="Script" path="res://components/coin.gd" id="1_eg3xp"]
 [ext_resource type="Shader" path="res://shaders/shader.gdshader" id="2_14jmd"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://bt0dqpg1lqi2a" path="res://assets/icons/status/quite_lucky_icon.png" id="30_wdoi3"]
 [ext_resource type="Texture2D" uid="uid://dmf0nbcyfgtng" path="res://assets/icons/status/incredibly_lucky_icon.png" id="31_8habo"]
 [ext_resource type="Texture2D" uid="uid://dyc6n3hgf85qd" path="res://assets/icons/status/supercharge_icon.png" id="31_efx5d"]
+[ext_resource type="PackedScene" uid="uid://dwvr7bqeyef6l" path="res://components/projectile_shooter.tscn" id="33_52rdg"]
 [ext_resource type="Texture2D" uid="uid://cpi4fvthcwpfc" path="res://assets/icons/heads_icon.png" id="33_byqkj"]
 [ext_resource type="Texture2D" uid="uid://bw6cnrxu4imi" path="res://assets/icons/tails_icon.png" id="34_bwsju"]
 [ext_resource type="Script" path="res://components/next_flip_indicator.gd" id="35_2vs3w"]
@@ -4781,7 +4782,7 @@ position = Vector2(17, 9)
 [node name="TooltipAnchor" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
 position = Vector2(17, 16)
 
-[node name="ProjectileTargetAnchor" type="Node2D" parent="OffsetWrapper/ShakeWrapper/Sprite"]
+[node name="ProjectileShooter" parent="OffsetWrapper/ShakeWrapper/Sprite" instance=ExtResource("33_52rdg")]
 position = Vector2(17, 16)
 
 [node name="Mouse" parent="." node_paths=PackedStringArray("watched") instance=ExtResource("18_x8c4t")]
