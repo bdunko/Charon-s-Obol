@@ -22,7 +22,11 @@ enum HandType {
 @onready var _RETRACTED_POSITION = position - Vector2(0, 25)
 @onready var _OFFSCREEN_POSITION = position - Vector2(0, 80)
 @onready var _FORWARD_POSITION = position + Vector2(0, 10)
-@onready var _SLAM_POSITION = position + Vector2(0, 40)
+@onready var _SLAM_POSITION = position + Vector2(0, 50)
+@onready var _PRESLAM_POSITION = position + Vector2(0, -20)
+@onready var _SLAM_OFFSET = 15
+@onready var _PRESLAM_OFFSET = _SLAM_OFFSET / 2.0
+@onready var _LIFE_GRAB_POSITION = position + Vector2(-62, 23)
 @onready var _SLAM_PARTICLES = $SlamParticles
 
 const MOVEMENT_SPEED = 100
@@ -76,7 +80,7 @@ func point_at(point: Vector2) -> void:
 	
 	_SPRITE.play(_ANIM_POINTING)
 	var target = point - _POINTING_OFFSET
-	Audio.play_sfx(SFX.CharonTalk)
+	#Audio.play_sfx(SFX.CharonTalk)
 	await _movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 func unpoint() -> void:
@@ -89,32 +93,47 @@ func slam() -> void:
 	if _lock:
 		return
 	set_appearance(Appearance.NORMAL)
-	await _movementTween.tween(position + Vector2(0, -15), 0.1, Tween.TRANS_QUART)
-	await _movementTween.tween(_SLAM_POSITION, 0.1, Tween.TRANS_QUART)
+	var preslam_target = _PRESLAM_POSITION
+	var slam_target = _SLAM_POSITION + Vector2(-_SLAM_OFFSET if HAND_TYPE == HandType.LEFT else _SLAM_OFFSET, 0)
+	var postslam_target = slam_target - Vector2(0, 15)
+	
+	await _movementTween.tween(preslam_target, 0.1, Tween.TRANS_SINE, Tween.EASE_IN)
+	await _movementTween.tween(slam_target, 0.1, Tween.TRANS_EXPO, Tween.EASE_IN)
 	Audio.play_sfx(SFX.CharonMaliceSlam)
 	for child in _SLAM_PARTICLES.get_children():
 		child.emitting = true
-	await _movementTween.tween(_SLAM_POSITION - Vector2(0, 10), 0.05, Tween.TRANS_QUART)
+	await Global.delay(0.05)
+	await _movementTween.tween(postslam_target, 0.15, Tween.TRANS_SINE, Tween.EASE_OUT)
 
-func move_to_default_position() -> void:
+func move_to_default_position(time: float = -1) -> void:
 	if _lock:
 		return
-	Audio.play_sfx(SFX.CharonTalk)
-	await _movementTween.tween(_BASE_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+	var duration = time if time >= -1 else clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8)
+	#Audio.play_sfx(SFX.CharonTalk)
+	await _movementTween.tween(_BASE_POSITION, duration, Tween.TRANS_QUINT, Tween.EASE_OUT)
 
-func move_to_forward_position() -> void:
+func move_to_forward_position(time: float = -1) -> void:
 	if _lock:
 		return
-	Audio.play_sfx(SFX.CharonTalk)
-	await _movementTween.tween(_FORWARD_POSITION, clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+	#Audio.play_sfx(SFX.CharonTalk)
+	var duration = time if time >= 0 else clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8)
+	
+	await _movementTween.tween(_FORWARD_POSITION, duration, Tween.TRANS_QUINT, Tween.EASE_OUT)
 
-func move_to_retracted_position() -> void:
+func move_to_retracted_position(time: float = -1) -> void:
 	if _lock:
 		return
-	Audio.play_sfx(SFX.CharonTalk)
-	await _movementTween.tween(_RETRACTED_POSITION, clamp(position.distance_to(_RETRACTED_POSITION) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+	#Audio.play_sfx(SFX.CharonTalk)
+	var duration = time if time >= 0 else clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8)
+	await _movementTween.tween(_RETRACTED_POSITION, duration, Tween.TRANS_QUINT, Tween.EASE_OUT)
 
-func move_offscreen(instant: bool = false) -> void:
+func move_to_life_grab_position(time: float = -1) -> void:
+	if _lock:
+		return
+	var duration = time if time >= 0 else clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8)
+	await _movementTween.tween(_LIFE_GRAB_POSITION,duration, Tween.TRANS_QUINT, Tween.EASE_OUT)
+
+func move_offscreen(instant: bool = false, time: float = -1) -> void:
 	if _lock:
 		return
 	
@@ -124,8 +143,9 @@ func move_offscreen(instant: bool = false) -> void:
 		_movementTween.kill()
 		position = target
 	else:
+		var duration = time if time >= 0 else clamp(position.distance_to(_BASE_POSITION) / MOVEMENT_SPEED, 0.5, 0.8)
 		Audio.play_sfx(SFX.CharonTalk)
-		await _movementTween.tween(target, clamp(position.distance_to(target) / MOVEMENT_SPEED, 0.5, 0.8), Tween.TRANS_QUINT, Tween.EASE_OUT)
+		await _movementTween.tween(target, duration, Tween.TRANS_QUINT, Tween.EASE_OUT)
 
 enum Appearance {
 	NORMAL, POINTING

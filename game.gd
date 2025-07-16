@@ -17,6 +17,7 @@ signal game_ended
 @onready var _SOUL_DELTA_LABEL = $Table/SoulsDeltaLabel
 @onready var _LIFE_FRAGMENTS = $Table/LifeFragments
 @onready var _SOUL_FRAGMENTS = $Table/SoulFragments
+@onready var _DELETING_FRAGMENTS = $Table/DeletingFragments
 @onready var _ARROWS = $Table/Arrows
 
 @onready var _COIN_SCENE = preload("res://components/coin.tscn")
@@ -367,7 +368,7 @@ func _update_fragment_pile(amount: int, scene: Resource, pile: Node, give_pos: V
 		var fragment = pile.get_child(0)
 		fragment.start_trail_particles()
 		pile.remove_child(fragment)
-		add_child(fragment)
+		_DELETING_FRAGMENTS.add_child(fragment)
 		
 		# visually move it from pile to charon
 		var tween = create_tween()
@@ -826,6 +827,10 @@ func _handle_tantalus(coin: Coin) -> void:
 		Global.earn_souls(coin.get_active_souls_payoff())
 		coin.turn()
 
+func _play_charon_life_grab() -> void:
+	await _LEFT_HAND.move_to_life_grab_position(0.2)
+	_reset_hands_during_round(0.4)
+
 func _on_toss_button_clicked() -> void:
 	if Global.state == Global.State.CHARON_OBOL_FLIP:
 		for coin in _CHARON_COIN_ROW.get_children():
@@ -846,11 +851,12 @@ func _on_toss_button_clicked() -> void:
 	
 	Global.lives -= ante
 	if ante > 0:
+		_play_charon_life_grab()
 		LabelSpawner.spawn_label(Global.LIFE_DOWN_PAYOFF_FORMAT % ante, _DEEP_BREATH_REGEN_POINT, self)
 	
 	if Global.lives < 0:
 		return
-	
+
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true
 	_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
@@ -2477,13 +2483,13 @@ func _disable_charon_malice_hands() -> void:
 	_RIGHT_HAND.enable_hovering()
 	_reset_hands_during_round()
 
-func _reset_hands_during_round() -> void:
+func _reset_hands_during_round(time: float = -1) -> void:
 	if _ENEMY_COIN_ROW.get_child_count() == 0:
-		_LEFT_HAND.move_to_default_position()
-		_RIGHT_HAND.move_to_default_position()
+		_LEFT_HAND.move_to_default_position(time)
+		_RIGHT_HAND.move_to_default_position(time)
 	else:
-		_LEFT_HAND.move_to_retracted_position()
-		_RIGHT_HAND.move_to_retracted_position()
+		_LEFT_HAND.move_to_retracted_position(time)
+		_RIGHT_HAND.move_to_retracted_position(time)
 
 enum MaliceActivation {
 	AFTER_PAYOFF, DURING_POWERS
