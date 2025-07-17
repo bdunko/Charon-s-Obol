@@ -391,9 +391,8 @@ func retract_for_toss(retract_point: Vector2) -> void:
 		coin.move_to(retract_point, Global.COIN_TWEEN_TIME)
 	
 	await Global.delay(Global.COIN_TWEEN_TIME)
-	
 
-func expand() -> void:
+func expand(new_child: Node = null) -> void:
 	_state = _State.EXPANDED
 	if get_child_count() == 0:
 		return

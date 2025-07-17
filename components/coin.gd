@@ -109,6 +109,8 @@ var _permanent_statuses = []
 @onready var _OFFSET_WRAPPER = $OffsetWrapper
 @onready var _SHAKE_WRAPPER = $OffsetWrapper/ShakeWrapper
 
+@onready var _DUST_PARTICLES = $OffsetWrapper/ShakeWrapper/Sprite/LandingDustParticles
+
 @onready var FX : FX = $OffsetWrapper/ShakeWrapper/Sprite/FX
 
 # $HACK$ needed to center the text properly by dynamically resizing the label when charges are 0...
@@ -1085,7 +1087,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	await Global.delay(0.1)
 	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
 
-	
+	_DUST_PARTICLES.emitting = true
 	set_animation(_Animation.FLAT)
 	_is_animating = false
 	
@@ -2181,3 +2183,6 @@ func on_projectile_hit() -> void:
 
 func play_shake_effect() -> void:
 	_SHAKE_WRAPPER.start_shake()
+
+func play_dust_effect() -> void:
+	_DUST_PARTICLES.emitting = true

@@ -23,12 +23,18 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 
 ```
 
+Maybe consider adding an additional difficulty tweak to the second difficulty level - remove the 'buffer' round at the very start of the game. This tightens things up considerably. Alternatively this could be part of a different difficulty tier...
+- [ ] Diff 2 - Charon slams - idea is to introduce more randomness and less 'steady state'.
+- [ ] Diff 3 - Trials boost - make trials a more common loss condition, make them REALLY important to pay attention to.
+- [ ] Diff 4 - Tollgate boost + shop increase - force more optimal overall play; make tollgates a larger threat to plan for.
+- [ ] Diff 5 - monster + nemesis powerup - make monsters a more credible threat, in particular, make strategies focused on killing all monsters less optimal; I'd prefer if you have to triage.
+
 ---
 ## ⌚ Deep Work (and Start Times) ✔
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔     |         |           |          |        |          |        |
+| 8✔     | 12✔     |           |          |        |          |        |
 |        |         |           |          |        |          |        |
 
 ---
@@ -61,10 +67,13 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 		- [ ] Victory fade out
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-	- [ ] Activating a coin - burst of particles; 
+		- [ ] burst of a few particles shooting very fast in random direction and fading quickly. A very quick jolt of effect.
+	- [ ] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself.
 	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect. Also perhaps shake.
 	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
 	- [ ] Adding 'lightning effect' or similar. We can use a single effect with different colors (or shape/color variations on a single "coming from the sky" style effect). No movement; just appears instantly, shakes, fades quickly. 
+	- [ ] Play dust effect when the initial obol is added.
+	- [ ] Play dust effect when the row is expanded, but not during the middle of tosses (needs special handling. We might be able to get away with always playing the dust effect, but pass a bool to expand if during flip to disable. Because during flip we only play the effect after the coins land.)
 	- [x] Flash on upgrade (in shop too).
 	- [x] Shake when this coin's power is used.
 	- [x] Move up when power is activated. Move down when power is deactivated.
@@ -73,17 +82,10 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 	- [ ] Arrows are placed on table from Charon like other things.
 	- [ ] Add back the slight randomness to arrow pile, it was better. 
 ### In Progress  
-- [ ] **Charon Improvements**
-	- [ ] When Charon goes to slam, make him raise his hands slightly first.
-	- [x] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments as the retraction happens
+
 - [ ] **Coin Flip Animation**
 	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
-	- [ ] Effect when a coin is tossed or lands(?)
-- [ ] **Shadow**
-	- [ ] Charon hand shadow
-	- [ ] Coin flip shadow
-	- [ ] (maybe) Fragment shadow.
-	- [ ] (maybe) Map shadow.
+	- [x] Effect when a coin is tossed or lands(?)
 
 ### Done  
 - [x] Blessed tooltip shows (HEADS) - replacement not being performed. Ensure status tooltips being shown on status bar have proper placeholder replacement.
@@ -91,6 +93,9 @@ _Casual thoughts during the sprint—design decisions, feedback, blockers._
 - [x] Add ProjectileShooter node.
 - [x] Refactor coin to use ProjectileShooter node.
 - [x] Update Dialogue such that we can show dialogue, then make it advancable at a later point and await it.
+- [x] **Charon Improvements**
+	- [x] When Charon goes to slam, make him raise his hands slightly first.
+	- [x] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments as the retraction happens
 
 ---
 ## 📝 Quick To-Dos  
