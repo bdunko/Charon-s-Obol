@@ -859,10 +859,10 @@ func _on_toss_button_clicked() -> void:
 
 	_PLAYER_TEXTBOXES.make_invisible()
 	_map_is_disabled = true
-	_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
+	#_ENEMY_COIN_ROW.retract_for_toss(_CHARON_FLIP_POSITION)
 	await _COIN_ROW.retract_for_toss(_PLAYER_FLIP_POSITION)
-	_COIN_ROW.expand()
-	_ENEMY_COIN_ROW.expand()
+	_COIN_ROW.expand_for_toss()
+	_ENEMY_COIN_ROW.expand_for_toss()
 	
 	if Global.is_passive_active(Global.TRIAL_POWER_FAMILY_FATE): #just a graphical flourish
 		Global.emit_signal("passive_triggered", Global.TRIAL_POWER_FAMILY_FATE)

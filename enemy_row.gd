@@ -50,6 +50,6 @@ func can_spawn_enemy() -> bool:
 
 func _on_state_changed() -> void:
 	if Global.state == Global.State.AFTER_FLIP or Global.state == Global.State.BEFORE_FLIP:
-		_ROW.expand()
+		_ROW.expand_for_toss() # a bit of a $HACK$, but makes dust particles not play...
 	else:
 		_ROW.retract(_coin_spawn_point)

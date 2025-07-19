@@ -44,27 +44,6 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] Bring into DAW and focused listening/reproduction.
 	- [ ] SMTII - Shop
 	- [ ] SMTIVA - F8
-- [ ] **Game Sounds**
-	- [ ] **Essentials**
-		- [ ] Power Activated/Deactivated
-		- [ ] Coin Toss (refactor)
-		- [ ] Coin Land (refactor) 
-		- [ ] Coin Turn (refactor)
-		- [ ] Buy Coin (refactor)
-		- [ ] Hover Map (use standard button sound)
-		- [ ] Shoot Arrow
-		- [ ] Heal Life
-		- [ ] Lose Souls
-		- [ ] Earn Souls (refactor)
-		- [ ] Lose Life (polish)
-		- [ ] Destroy Coin
-		- [ ] Downgrade Coin
-		- [ ] IgniteTakeDamage
-	- [ ] **Death Scene**
-		- [ ] Death scene ambiance.
-		- [ ] Death scene fade out
-	- [ ] **Victory**
-		- [ ] Victory fade out
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
 		- [ ] burst of a few particles shooting very fast in random direction and fading quickly. A very quick jolt of effect.
@@ -72,8 +51,7 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect. Also perhaps shake.
 	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
 	- [ ] Adding 'lightning effect' or similar. We can use a single effect with different colors (or shape/color variations on a single "coming from the sky" style effect). No movement; just appears instantly, shakes, fades quickly. 
-	- [ ] Play dust effect when the initial obol is added.
-	- [ ] Play dust effect when the row is expanded, but not during the middle of tosses (needs special handling. We might be able to get away with always playing the dust effect, but pass a bool to expand if during flip to disable. Because during flip we only play the effect after the coins land.)
+	- [ ] Coin flip shadow
 	- [x] Flash on upgrade (in shop too).
 	- [x] Shake when this coin's power is used.
 	- [x] Move up when power is activated. Move down when power is deactivated.
@@ -82,10 +60,41 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] Arrows are placed on table from Charon like other things.
 	- [ ] Add back the slight randomness to arrow pile, it was better. 
 ### In Progress  
-
-- [ ] **Coin Flip Animation**
-	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
-	- [x] Effect when a coin is tossed or lands(?)
+- [ ] **Building Blocks Best Hits - No Hints**
+	- [x] BB1 - Chords 7: Arpeggiation
+	- [x] BB2 - Melody 3: Grace Notes
+	- [x] BB1 - Drums, Bass, and Chords 2
+	- [x] BB1 - Drums, Bass, and Chords 3
+	- [x] BB1 - Drums, Bass, and Chords 4
+	- [ ] BB1 - No Labels 1
+	- [ ] BB2 - All Together 1
+	- [ ] BB2 - All Together 2
+	- [ ] BB2 - All Together 3
+	- [ ] BB2 - All Together 4
+	- [ ] BB2 - No Labels 2
+- [ ] **Game Sounds**
+	- [ ] **Essentials**
+		- [ ] Power Activated/Deactivated - Water UI
+		- [ ] Hover Map (use standard button sound) - Water UI
+		- [ ] Coin
+			- [ ] Buy Coin (refactor)
+			- [ ] Coin Toss (refactor)
+			- [ ] Coin Land (refactor) 
+			- [ ] Coin Turn (refactor)
+			- [ ] Destroy Coin
+			- [ ] Downgrade Coin
+		- [ ] Lose Souls (based off of Earn Souls)
+		- [ ] Earn Souls 
+		- [ ] Shoot Arrow
+		- [ ] Heal Life (based off of Lose Life?)
+			- [ ] play mild green vignette for heal
+		- [ ] Lose Life
+		- [ ] IgniteTakeDamage
+	- [ ] **Death Scene**
+		- [ ] Death scene ambiance.
+		- [ ] Death scene fade out
+	- [ ] **Victory**
+		- [ ] Victory fade out - try using the divine ambiances again for this.
 
 ### Done  
 - [x] Blessed tooltip shows (HEADS) - replacement not being performed. Ensure status tooltips being shown on status bar have proper placeholder replacement.
@@ -96,6 +105,10 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 - [x] **Charon Improvements**
 	- [x] When Charon goes to slam, make him raise his hands slightly first.
 	- [x] Improve the feedback for payment of life at toss's start. Have Charon's hand move over to grab the fragments as the retraction happens
+- [x] **Coin Flip Animation**
+	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
+	- [x] Effect when a coin is tossed or lands(?)
+	- [x] Play dust effect when the row is expanded, but not during the middle of tosses (needs special handling. We might be able to get away with always playing the dust effect, but pass a bool to expand if during flip to disable. Because during flip we only play the effect after the coins land.)
 
 ---
 ## 📝 Quick To-Dos  
