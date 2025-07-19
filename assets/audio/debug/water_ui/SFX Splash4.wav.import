@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c2xu6ded1h0y4"
+path="res://.godot/imported/SFX Splash4.wav-ac8dec073f0d9613659d0aa56c6f23d5.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/water_ui/SFX Splash4.wav"
+dest_files=["res://.godot/imported/SFX Splash4.wav-ac8dec073f0d9613659d0aa56c6f23d5.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://rc1bouxyo8kg"]
+
+[ext_resource type="Script" path="res://debug/debug_sound_tester.gd" id="1_c6x6y"]
+
+[node name="DebugSoundTester" type="Node2D"]
+z_index = 4096
+script = ExtResource("1_c6x6y")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="FeedbackLabel" type="Label" parent="."]
+offset_left = 169.0
+offset_top = 335.0
+offset_right = 627.0
+offset_bottom = 351.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "soundfile"
+horizontal_alignment = 2
+
+[node name="HelpLabel" type="Label" parent="."]
+offset_left = 500.0
+offset_top = 299.0
+offset_right = 630.0
+offset_bottom = 331.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "Sound: <-(U)  (I)  (O)->
+Group: <-(J)      (L)->"
+horizontal_alignment = 2

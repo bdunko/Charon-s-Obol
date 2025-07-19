@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bp6tn1rlkldxh"
+path="res://.godot/imported/SFX ShallowSplashHeavy.wav-7f3a477ca1c50379a0973f0b8087de9e.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/water_ui/SFX ShallowSplashHeavy.wav"
+dest_files=["res://.godot/imported/SFX ShallowSplashHeavy.wav-7f3a477ca1c50379a0973f0b8087de9e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

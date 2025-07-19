@@ -167,6 +167,10 @@ func _acquire_player(sfx: SFX.Effect) -> _SFXPlayer:
 	return player
 
 func play_sfx(sfx: SFX.Effect) -> void:
+	if DebugSoundTester.should_override(sfx):
+		DebugSoundTester.play_current()
+		return
+	
 	if _busy_sfx.size_for(sfx) >= sfx.max_instances:
 		var oldest = _busy_sfx.get_oldest_for(sfx)
 		if oldest != null:

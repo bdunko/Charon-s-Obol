@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cs15t7bcw2oad"
+path="res://.godot/imported/SFX GlowSwell.wav-2e1471975b1bc283ddecb1f047e68354.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/divine/SFX GlowSwell.wav"
+dest_files=["res://.godot/imported/SFX GlowSwell.wav-2e1471975b1bc283ddecb1f047e68354.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

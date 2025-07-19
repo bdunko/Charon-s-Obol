@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cvljdcqochqf6"
+path="res://.godot/imported/SFX DeepTailSplash.wav-4738e5e5f3f501e3c3042b446f9f929e.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/water_ui/SFX DeepTailSplash.wav"
+dest_files=["res://.godot/imported/SFX DeepTailSplash.wav-4738e5e5f3f501e3c3042b446f9f929e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

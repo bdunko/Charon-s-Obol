@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c4kdajxgeadtv"
+path="res://.godot/imported/SFX MysteryRing.wav-9e576cf6783c87cc3d68c802c6381208.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/divine/SFX MysteryRing.wav"
+dest_files=["res://.godot/imported/SFX MysteryRing.wav-9e576cf6783c87cc3d68c802c6381208.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rntijxuhbtt4"
+path="res://.godot/imported/SFX DivineShort2.wav-92aac106331eedc73f8cf728c2b14df2.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/divine/SFX DivineShort2.wav"
+dest_files=["res://.godot/imported/SFX DivineShort2.wav-92aac106331eedc73f8cf728c2b14df2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

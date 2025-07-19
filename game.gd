@@ -2777,7 +2777,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("Your luck falters!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.CURSE:
 			var curses_remaining = max(1, floor(num_coins/2.0))
@@ -2795,7 +2795,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("Bear a heavy curse!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.IGNITE:
 			var ignites_remaining = max(1, floor(num_coins/2.0))
@@ -2828,7 +2828,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("I shall amplify your pain!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.THORNS:
 			make_and_gain_coin(Global.THORNS_FAMILY, highest_denom, CHARON_NEW_COIN_POSITION)
@@ -2841,7 +2841,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("Be turned to stone!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.STRENGTHEN_MONSTERS:
 			var targets = []
@@ -2855,7 +2855,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("My minions grow stronger!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.TURN_PAYOFFS:
 			var targets = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_ACTIVE_PAYOFF, CoinRow.FILTER_CAN_TARGET])
@@ -2865,7 +2865,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("No souls for you!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.DRAIN_POWERS:
 			var targets = _COIN_ROW.get_multi_filtered([CoinRow.FILTER_USABLE_POWER, CoinRow.FILTER_CAN_TARGET])
@@ -2875,7 +2875,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 			
 			_DIALOGUE.show_dialogue("I shall render you powerless!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.SPAWN_MONSTERS:
 			var denom = Global.Denomination.OBOL
@@ -2902,7 +2902,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.play_power_used_effect(Global.CHARON_POWER_DEATH)
 
 			_DIALOGUE.show_dialogue("Your blood runs cold!")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		MaliceAction.NUKE_VALUABLE:
 			var targets = [highest_valued]
@@ -2915,7 +2915,7 @@ func activate_malice(activation_type: MaliceActivation) -> void:
 				target.unlucky()
 			
 			_DIALOGUE.show_dialogue("So this one is your favorite...?")
-			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback)
+			await ProjectileManager.fire_projectiles(_CHARON_SHOOTER, targets, callback, malice_projectile_params)
 			await _DIALOGUE.make_current_dialogue_advancable_and_wait()
 		_:
 			assert(false)
