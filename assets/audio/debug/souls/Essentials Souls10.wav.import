@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dyna8wi2mg1l5"
+path="res://.godot/imported/Essentials Souls10.wav-1a8e9b3daa103576df44c325a7b0c35b.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/souls/Essentials Souls10.wav"
+dest_files=["res://.godot/imported/Essentials Souls10.wav-1a8e9b3daa103576df44c325a7b0c35b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

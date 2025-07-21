@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bsi4jgn0gmfgl"
+path="res://.godot/imported/Essentials CoinRustle6.wav-d15e3e1d86afc1188b8cac47d0844b72.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/coin_change_and_rustle/Essentials CoinRustle6.wav"
+dest_files=["res://.godot/imported/Essentials CoinRustle6.wav-d15e3e1d86afc1188b8cac47d0844b72.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

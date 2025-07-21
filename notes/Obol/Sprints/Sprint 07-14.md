@@ -66,8 +66,8 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [x] BB1 - Drums, Bass, and Chords 2
 	- [x] BB1 - Drums, Bass, and Chords 3
 	- [x] BB1 - Drums, Bass, and Chords 4
-	- [ ] BB1 - No Labels 1
-	- [ ] BB2 - All Together 1
+	- [x] BB1 - No Labels 1
+	- [x] BB2 - All Together 1
 	- [ ] BB2 - All Together 2
 	- [ ] BB2 - All Together 3
 	- [ ] BB2 - All Together 4

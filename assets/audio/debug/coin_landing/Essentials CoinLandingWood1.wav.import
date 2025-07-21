@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b0o7yg0a8l6w1"
+path="res://.godot/imported/Essentials CoinLandingWood1.wav-3e7b03b26563ed3c770c056fbe5a2e75.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/coin_landing/Essentials CoinLandingWood1.wav"
+dest_files=["res://.godot/imported/Essentials CoinLandingWood1.wav-3e7b03b26563ed3c770c056fbe5a2e75.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

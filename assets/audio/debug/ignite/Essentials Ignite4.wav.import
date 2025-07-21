@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c07bxhw8mhkmi"
+path="res://.godot/imported/Essentials Ignite4.wav-4c80de610fe2dd0e91609d5b4d0e40b1.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/ignite/Essentials Ignite4.wav"
+dest_files=["res://.godot/imported/Essentials Ignite4.wav-4c80de610fe2dd0e91609d5b4d0e40b1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

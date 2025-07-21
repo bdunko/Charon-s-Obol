@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bowxsxxdpjxch"
+path="res://.godot/imported/Essentials ArrowMove2.wav-dc4450380d2742c30cd3f29b3593d4f9.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/arrow/Essentials ArrowMove2.wav"
+dest_files=["res://.godot/imported/Essentials ArrowMove2.wav-dc4450380d2742c30cd3f29b3593d4f9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

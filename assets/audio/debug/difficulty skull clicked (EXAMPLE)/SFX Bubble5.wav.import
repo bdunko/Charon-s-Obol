@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://nyagx88w8trm"
-path="res://.godot/imported/SFX Bubble5.wav-e888585a81e6dff467cf60dadd3f738e.sample"
+path="res://.godot/imported/SFX Bubble5.wav-d3cc7dfda4804c7cf04d71fc22d70b9b.sample"
 
 [deps]
 
-source_file="res://assets/audio/debug/difficulty skull clicked/SFX Bubble5.wav"
-dest_files=["res://.godot/imported/SFX Bubble5.wav-e888585a81e6dff467cf60dadd3f738e.sample"]
+source_file="res://assets/audio/debug/difficulty skull clicked (EXAMPLE)/SFX Bubble5.wav"
+dest_files=["res://.godot/imported/SFX Bubble5.wav-d3cc7dfda4804c7cf04d71fc22d70b9b.sample"]
 
 [params]
 

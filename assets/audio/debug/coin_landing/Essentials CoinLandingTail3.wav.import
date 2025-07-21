@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c6n8rcy2kryum"
+path="res://.godot/imported/Essentials CoinLandingTail3.wav-6fe45c37621f46eb6dcb1b1e078b376f.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/coin_landing/Essentials CoinLandingTail3.wav"
+dest_files=["res://.godot/imported/Essentials CoinLandingTail3.wav-6fe45c37621f46eb6dcb1b1e078b376f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

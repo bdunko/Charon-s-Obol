@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cjn2otiat274g"
+path="res://.godot/imported/Essentials Souls18.wav-37c8fe6c96c118d8697b258788703c87.sample"
+
+[deps]
+
+source_file="res://assets/audio/debug/souls/Essentials Souls18.wav"
+dest_files=["res://.godot/imported/Essentials Souls18.wav-37c8fe6c96c118d8697b258788703c87.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
