@@ -72,20 +72,20 @@ func _ready():
 	show_help()
 	print("DebugSoundTester loaded groups: ", group_names)
 
-
-func _input(event):
-	if event.is_action_pressed("debug_play_sound"):
+func _process(_delta):
+	if not ENABLED:
+		return
+	
+	if Input.is_action_just_pressed("debug_play_sound"):
 		play_current()
-	elif event.is_action_pressed("debug_next_sound"):
+	elif Input.is_action_just_pressed("debug_next_sound"):
 		cycle_sound(1)
-	elif event.is_action_pressed("debug_prev_sound"):
+	elif Input.is_action_just_pressed("debug_prev_sound"):
 		cycle_sound(-1)
-	elif event.is_action_pressed("debug_next_group"):
+	elif Input.is_action_just_pressed("debug_next_group"):
 		cycle_group(1)
-	elif event.is_action_pressed("debug_prev_group"):
+	elif Input.is_action_just_pressed("debug_prev_group"):
 		cycle_group(-1)
-
-
 
 func load_all_sound_groups():
 	var root_dir = DirAccess.open(ROOT_DIR)
@@ -126,13 +126,15 @@ func play_current():
 	if sounds.size() == 0:
 		push_warning("No sounds loaded in current group.")
 		return
+	player.stop()  # Force stop current audio
 	player.stream = sounds[current_index]
 	player.play()
-
+	
 	var filename = player.stream.resource_path.get_file()
 	show_label("Playing: %s [%d/%d]" % [
 		filename, current_index + 1, sounds.size()
 	])
+
 
 
 func cycle_sound(direction := 1):
@@ -155,15 +157,19 @@ func cycle_group(direction := 1):
 
 func show_label(text: String):
 	if label.text == text and label.visible:
-		return  # Don't re-tween if the label is already showing the same text
+		return  # Avoid retriggering tween
 
 	label.text = text
 	label.visible = true
+
+	if label_tween:
+		label_tween.kill()
 	label.modulate.a = 0.0
 
-	if label_tween and label_tween.is_running():
-		label_tween.kill()
+	# Wrap in call_deferred to ensure safe sequencing
+	call_deferred("_run_label_tween")
 
+func _run_label_tween():
 	label_tween = create_tween()
 	label_tween.tween_property(label, "modulate:a", 1.0, FADE_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	label_tween.tween_interval(LABEL_DISPLAY_DURATION)
@@ -194,7 +200,7 @@ func _hide_help():
 func should_override(effect: SFX.Effect) -> bool:
 	return ENABLED and (
 		target_effects.has(effect)
-		or get_current_group_name().to_lower() in effect.name.to_lower()
+		or effect.name.to_lower() in get_current_group_name().to_lower()
 	)
 
 

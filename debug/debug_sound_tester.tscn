@@ -19,12 +19,12 @@ text = "soundfile"
 horizontal_alignment = 2
 
 [node name="HelpLabel" type="Label" parent="."]
-offset_left = 500.0
-offset_top = 299.0
-offset_right = 630.0
-offset_bottom = 331.0
+offset_left = 505.0
+offset_top = 298.0
+offset_right = 635.0
+offset_bottom = 330.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-text = "Sound: <-(U)  (I)  (O)->
-Group: <-(J)      (L)->"
-horizontal_alignment = 2
+text = "^ Switch Group
+<-Prev  V Play  Next->"
+horizontal_alignment = 1
