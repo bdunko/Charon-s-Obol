@@ -13,7 +13,7 @@ The Alchemist - life = souls
 The Ephemeral - all coins destroyed at end of round except special payoff; far cheaper shop
 The Optimist - 1 life, start with arrows
 The Physician - life management (no regen)
-The Mendicant - poverty; no ante increase; no recharge
+The Mendicant - poverty; no ante increase; no recharge. 
 
 **Monster**
 The Rhapsode - no power coins in shop; monster row contains powers; last one you use is kept
@@ -22,7 +22,7 @@ The Hoplite - coins come from destroying monsters; monsters spawn infinitely
 The Exhumer - shop coins are more expensive. Reliquaries spawn each round, which give a random coin when destroyed.
 
 **Shop**
-The Urchin - always shop
+The Urchin - always shop, no monsters
 The Merchant - sell to shop instead of upgrade
 The Architect - no shop; build your own board from coin powers
 The Gardener - only obols in shop; coins grow over time
@@ -37,7 +37,7 @@ The Mageiros - only one power - special patrons just for this mode; upgradable p
 The Archon - one coin style (double sided power/payoff)
 The Homoioi - no recharge; cheap powers destroy+refund when used
 The Emperor - no recharge; 3x charges
-The Demiurge - only power coiins; only obols; soul quotas
+The Demiurge - only power coins; only obols; soul quotas
 The Lovers - dual sided powers
 The Adherent - single power coin type
 

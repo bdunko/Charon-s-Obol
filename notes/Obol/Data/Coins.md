@@ -1,14 +1,19 @@
+More "Obol of Thorns" style coins? Burdens.
+- [ ] Ignite/Unlucky
+
+I wonder if we want a special type of denom which is non-upgradable, not flippable, not targettable and has a set (scaling with voyage position) cost? For things like the medallion of life, recharge coin, Tyche, etc - things whcih are not easily scalable to 6 different denominations. 
+- Also can refactor Erys whatever to use this instaed of the "turn this over".
+- Medallion? Symbol? Sign?
+
 
 - [ ] Payoff Coins
 	- [ ] **Simple**
 		- [x] Bouzyges - Beneficial on both heads and tails, but lower payoff.
 		- [x] Achilles - Held by the Heel - High shard reward, huge life loss on tails and destroy itself.
-		- [ ] ??? - Payoff. High souls. Destroys itself at end of the round.
 		- [ ] ??? - High payout permanently goes to 0 after one round, upgrading restores it for another round.
 		- [ ] ??? - Reduced payoff. No tails penalty. If this coin lands on tails, make another random coin Lucky.
 		- [ ] ??? - At the end of the round, destroy this and gain a random coin of greater value. (low payoff)
 		- [x] Orion - Souls on heads; Arrows on tails (souls payoff is minimal)
-		- [ ] ??? - Increases depending on how angry Charon is. Only appears on difficulties with malice. 
 		- [ ] ??? - This coin has a (3%) chance to land on its side. Side - gain LOTS of souls. Heads - Gain small souls. Tails - lose life normally.
 			- [ ] Lucky increases side chance. Unlucky decreases. You CAN freeze a coin on its side. Turning a coin on its side does nothing (it turns back to the side)
 	- [ ] **Highlander**
@@ -16,10 +21,9 @@
 		- [ ] ??? - More souls the fewer coins you have.
 	- [ ] **Power Focused**
 		- [ ] ??? - Payoff - Increase the payoff for this toss by for every 3 power used.
-		- [ ] Actaeon - +Shards for each power coin with zero uses remaining.
 		- [ ] ??? - 10/20/30/40 souls, reduced by 3/5/7/9 for each power you've used this toss.
 		- [ ] Arachne - +Shard and +Life for each unused god power charge.
-		- [ ] ??? - 0 souls; each time a new power affects this coin, gain 2 souls and permanently increase this amount by 1/2/3/4.
+		- [ ] ??? - 0 souls; each time a new type of power affects this coin, gain 2 souls and permanently increase this amount by 1/2/3/4.
 	- [ ] **Growth & Shrink***
 		- [ ] **Growth**
 			- [ ] Odysseus - Cannot be upgraded. Slightly reduced payoff. At the end of each round, upgrades itself (can upgrade itself all the way to Drachma.)
@@ -39,16 +43,14 @@
 		- [ ] **Tails**
 			- [ ] Orpheus - Reversed heads/tails. +Shards for each coin on tails. If every coin is on tails, further +.
 			- [ ] ??? - Every time this lands on tails, upgraded payout permanently.
-		- [ ] ??? - Increased payoff & penalty. Reversed heads & tails effect  (lose life on heads, gain souls on tails).
 		- [ ]  ??? - -Shards/+Life
 		- [x] Tantalus - Tantalizing Fruit, Cold Water - Whenever this card is on heads, gain souls then immediately turn it to tails.
 	- [ ] **Status**
-		- [ ] Orion - Reduced payoff; At payoff, dispels each lucky, bless, unlucky, or curse on a coin you control, then gain life for each bless/lucky removed and souls for each curse/unlucky removed.
+		- [ ] ??? - Reduced payoff; At payoff, dispels each lucky, bless, unlucky, or curse on a coin you control, then gain life for each bless/lucky removed and souls for each curse/unlucky removed.
 		- [ ] ??? - Whenever a status is applied to this coin, cancel it and gain 2/3/4/5 souls instead.
-		- [ ] ??? - Smoker coin - Gives more than normal, but every heads, ignite.
+		- [ ] ??? - Gives more than normal, but every heads, become unlucky and cursed.
 		- [ ] ??? - whenever you use a power that would affect this coin, cancel that power and gain shards instead. Very low default payoff on both sides.
-		- [ ] ??? - Ignite a random coin. Gain X.
-		- [ ] ??? - Choose one of your coins. It becomes permanently Blank. (Absolutely Safe Capsule)
+		- [ ] ??? - 
 	- [ ] **Coin Type**
 		- [ ] Niobe - passive - Duplicates (type + denom) of coins you already own will appear in the shop (replaces 1 coin with an exactly duplicat of a coin you own, in each shop and shop reroll). +Shards for each coin of the same God.
 		- [ ] Ganymede - +Souls per Olympian coin. Olympian coins appear more often.
@@ -62,17 +64,18 @@
 		- [ ] ??? (payoff) - Payoff 1 soul + souls equal to the combined value of neighboring coins denominations
 	- [ ] **Monsters**
 		- [ ] ??? - +souls for each monster destroyed this round.
+		- [ ] ??? - + souls for each monster on the board.
 	- [ ] **Restrict**
 		- [ ] ??? - You cannot upgrade coins in the shop. +large souls.
 		- [ ] ??? - You cannot buy new coins. +large souls. 
-		- [ ] ??? - The shop stocks only basic Obols. +large souls.
+		- [ ] ??? - The shop stocks only generic Obols. +large souls.
 		- [ ] ??? - +large souls while you have an odd number of coins. 0 souls while you have an even number.
 		- [ ] ??? - +souls for each coin of the same denomination.
 	- [ ] **Other**
-		- [ ] ??? - Costs nothing. When purchased or destroyed, gain 10/15/20/25 souls. Does nothing on heads. 
-		- [ ] Castor & Pollux - Paired coin. Whenever a power is used on one, also use it on the other. Whenever one is upgraded or destroyed, do the same to the other. Same for bless/curse and other statuses. Always lands on the same side as the other.
+		- [ ] ??? - Costs nothing. When purchased or destroyed, gain 10/15/20/25 souls. Does nothing on heads, lose life on tails.
+		- [ ] Castor & Pollux - Paired coin. Whenever a power is used on one, also use it on the other. Whenever one is upgraded or destroyed, do the same to the other. Same for bless/curse and other statuses. Always lands on the same side as the other. Bought as a pair in the shop.
 		- [ ] Talos - This coin can be infinitely upgraded and payoff increases each upgrade (uses special coin sprite). Cannot be downgraded or destroyed (but can still be targetted with ie Hades)
-		- [ ] ??? - 1 soul always. Immutable. At the end of the round, destroy this coin and gain a random one of higher (+1 denom) value.
+		- [ ] ??? - "Escort" - heads +1 soul. Tails - destroy itself. At the end of the round, transform this coin into a random coin and upgrade it (twice?).
 - [ ] **Power Coins**
 
 Unlockable coins + more coins
@@ -82,45 +85,38 @@ Unlockable coins + more coins
 		- [ ] Midas - Turn a coin to Gold! Golden coins get +1 value and can be resold to Charon in the shop (new option appears) for full value. They also have -1 charge.
 		- [x] ??? - Consecrate a coin. For the rest of the round, that coin will always land on heads. At the end of the round, destroy it (doom it).
 		- [ ] ??? - Turn a coin to glass (exclusive with stone/gold). After a glass coin is flipped outside of the toss, it breaks (destroy it). Glass coins gain +1 power charge.
-		- [ ] ??? - Choose a coin. Change its denomination to an Obol. It cannot be upgraded and always lands on heads. (permanently Immutable and permanently Consecrated)
+		- [ ] ??? - Choose an Obol/Diobol/Triobol (same denom as this). It cannot be upgraded and always lands on heads. (permanently Immutable and permanently Consecrated). Destroy this.
 		- [x] ??? - Choose a coin. Ignite it, Bless it, and make it Lucky.
-		- [ ] Meleager - The Log Burns - Ignite or unignite a coin. Passive - After payoff, downgrade each ignited coin.
+		- [ ] Meleager - The Log Burns - Ignite or extinguish a coin. Passive - At the start of payoff, downgrade each ignited coin.
+		- [ ] ??? - Choose one of your coins. It becomes permanently Blank. (Absolutely Safe Capsule)
 	- [ ] **Bless/Curse**
-		- [ ] ??? - Destroy a coin. Bless all your coins besides this one.
+		- [ ] ??? - Destroy a coin. Bless all your coins.
 		- [x] ??? - Sacrificed on the Pyre - Ignite a coin. If it isn't blessed, bless it. Otherwise, if it's on tail, flip it to heads. Otherwise, destroy it and gain god power charges based on its value.
 		- [ ] Dike (possible rework) - Bless a coin. Another random coin becomes Cursed.
 	- [ ] **Status Copy**
 		- [ ] ??? - Copy this coin's status (freeze/ignite/lucky etc) to each other coin, then remove all statuses from this coin.
-		- [ ] Nesoi - Choose a coin. Copy its statuses to its neighbors.
-		- [ ] Nesoi - Choose a coin. Copy each of this coin's statuses to that coin.
-		- [ ] Nesoi - Choose a coin. Move each of its statuses to this coin.
+		- [ ] Nesoi - Choose a coin. heads - copy each of this coin's status to that coin. tails - Transfer each of that coin's statuses to this coin
 	- [ ] **Healing**
 		- [ ] Triptolemus - Choose a coin. The next payoff where it would cause you to lose life, heal 2/4/6/8 life instead. (1 charge)
-		- [ ] ??? - Choose a coin. Each time that coin is flipped this round, gain 1/2/3/4 life.
-		- [ ] ??? - This payoff, when you would lose life, gain that much instead. Requires 6/5/4/3 tosses to recharge.
-		- [ ] ??? - Whenever you would take damage while this is on heads, this loses that many charges instead. 5/10/15/20 charges. Recharges at the end of the round instead of each toss.
+		- [ ] ??? - Choose a payoff coin. Change its souls payoff to life payoff and vice versa.
+		- [ ] ??? - Buffer Shield - Whenever you would take damage while this is on heads, this loses that many charges instead. 5/10/15/20 charges. Recharges at the end of the round instead of each toss.
 		- [x] ??? - Flip a coin to tails and freeze it. If it is one of your coins, reduce its tails penalty to 0 this round.
-		- [ ] ??? - Remove all statuses from a coin.
-		- [ ] ??? - Gain 1 life. If not used, increase this by 1/2/3/4 this round. Resets at end of round.
 		- [ ] ??? - When you run out of life, destroy this and heal 1 Life. Payoff - increase this by 1/2/3/4/5/6.
-			- [ ] ??? - alternatively - heal 1 life. Increase by 1/2/3/4/5/6 each payoff. Resets when used.
+		- [ ] ???  - heal 1 life. Increase by 1/2/3/4/5/6 each payoff. Resets when used.
 		- [ ] ??? - Drain all charges from your coins. Heal 1 life for each life removed (scaling could be 0.5 life, 1 life, 1.5 life, 2 life). For infinite use coins, drain counts as 1.
 	- [ ] **Bury**
 		- [x] ??? - Bury a coin. After 2 payoffs, dig it up and gain 5 Life and 5 Souls. 1 charge always; life/souls increases with upgrades.
-		- [ ] ??? - Choose a coin. Bury it for 3 payoffs, or if it's already buried dig it back up.
-		- [ ] ??? - Add 2 charges to a coin and bury it for 2 payoffs.
+		- [ ] ??? - Choose a coin. Bury it for 3 payoffs, If it's already buried, exhume it.
+		- [ ] ??? - Add 1/2/3/4 charges to a coin and bury it for 2 payoffs.
 		- [ ] ??? - Bury a coin. After the next toss, it returns (does not recharge, keeps same side and state.)
 		- [x] ??? - Bury a coin until after payoff. Turn a random tails coin to heads.
-		- [ ] ??? - Bury a coin. At the start of the next tollgate, it returns and upgrades.
-		- [ ] ??? - Bury a coin. In 10 payoffs, return it, bless it, freeze it, and upgrade it.
+		- [ ] ??? - Bury a coin for 10 payoffs. When it is exhumed, consecrate and upgrade it.
 		- [ ] ??? - Bury this coin for 1 toss. Turn both neighbors to heads. 1/2/3/4 charges.
 	- [ ] **Gain Coins**
 		- [ ] ??? - Gain a random Obol/Diobol/Triobol/Tetrobol (on heads). It is Doomed (destroy at the end of the round).
 		- [ ] ??? - Gain a random power coin with 2 charges (on heads). it is Fleeting. (1/2/3/4 uses)
 		- [x] ??? - Gain a coin with +5/-5 and flip it. After payoff, destroy it.
-		- [ ] ??? - Gain an exact copy of this coin.
 		- [x] Midas - Gain a golden Obol/Diobol/Triobol/Tetrobol! Golden coins do nothing, but can be used to pay for tolls or other abilities
-		- [ ] ??? - Gain a random Diobol made of Glass.
 		- [ ] ??? - Gain a random power coin you haven't owned yet this run.
 		- [ ] ??? - Gain a random power coin with 1/2/3/4 charges; does not recharge, once fully used, destroy it.
 		- [ ] ??? - Destroy this coin. Gain 2 coins of equal denomination. Cannot be upgraded in the shop. Upgrades automatically when a round ends.
@@ -128,19 +124,18 @@ Unlockable coins + more coins
 		- [ ] ??? - Charge a coin. 
 		- [ ] Chaos - Reflip 2/3/4/5 other random coins (1/2/3/4 charges)
 		- [ ] Oedipus - Make a coin Unlucky and turn it to its other face.
-		- [ ] ??? - Choose a coin. Bless it.
-		- [ ] ??? - Flip all other coins to tails. Gain many souls for each coin flipped down in this way.
+		- [ ] ??? - Bless a coin.
+		- [ ] ??? - Turn a coin to tails. 
 		- [ ] ??? - Choose a coin. If it's on tails, flip it to heads and flip another random coin to tails. If it's on heads, flip it to tails and flip another random coin to heads.
 		- [x] ??? - Change each coin to its other side.
 		- [ ] ??? - Lose shards equal to a coin's tails penalty - flip that coin to heads.
-		- [ ] ??? - Flip each coin to its other side.
+		- [x] ??? - Flip each coin to its other side.
 		- [ ] ??? - Turn a coin to heads. Permanently increase it's tails penalty.
 		- [x] ??? - Flip a coin, plus each other coin this power has been used on this round. 3/4/5/6 uses.
-		- [ ] ??? - 3/6/10/15 reflips, cannot be flipped, does not recharge naturally. When upgraded, fully recharge.
+		- [ ] ??? - 3/6/10/15 reflips, tails just turns this to heads, does not recharge naturally. When upgraded, fully recharge.
 		- [ ] ??? - Many charges - Change a random coin to its other side.
-		- [ ] Atlas - Flip the coins adjacent to this coin. For each that lands on heads, flip a random monster coin.
+		- [ ] Atlas - Flip the coins adjacent to this coin. 
 	- [ ] **Spend**
-		- [ ] ??? - Infinite uses. Spend 4/3/2/1 souls to do something helpful. Soul cost increases by 1 each use, resets at end of round. (tails - reflip, athena, gain life equal to cost; heads - freeze, bless, rarely upgrade, recharge if god)
 		- [x] ??? - Infinite uses. Flip a coin to heads, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
 	- [ ] **Positioning**
 		- [x] Aeolus - The Winds Shall Obey - Reflip each coin to the left/right of this (alternates each use)
@@ -154,24 +149,21 @@ Unlockable coins + more coins
 		- [ ] ??? - This coin's heads side is the same as the heads of the coin to its left, and its tails side is the same as the coin to the right. 
 		- [ ] ??? - Choose a coin. Pull it once closer to this coin. Then flip each coin that moved.
 	- [ ] **Upgrade/Downgrade**
-		- [ ] ??? - Downgrade a coin. Flip it to heads, bless it, fully recharge it, and freeze it.
-		- [ ] ??? - Downgrade this coin. Turn each tails coin to heads.
-		- [ ] ??? - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
+		- [ ] ??? - Downgrade a coin. Turn it to heads, bless it, fully recharge it, and freeze it.
+		- [ ] ??? - Downgrade this coin. Turn each tails coin to heads. Tails - Prime this.
+		- [x] ??? - Destroy this coin. Gain 1 god power charge, 3 arrows, 5 souls, and 3 life. Upgrades each round.
 		- [ ] ??? - Destroy the coin to the left of this (or this if there is nothing to the left), then upgrade another random coin a number of times equal to the destroyed denomination.
-		- [ ] ??? - Upgrade a coin. 1 charge. (same scaling as hephaestus)Turn it to its tails side and desecrate it (for the rest of the round, it always lands on tails).
-		- [ ] ??? - Downgrade a coin. Randomly turn two of your coins to heads.
-		- [ ] ??? - Reflip the coins to the left and right of this. Whenever you use a neighboring coin's power, it spends from here instead.
+		- [ ] ??? - Upgrade an Obol/Diobol/Triobol/Tetrobol (scale based on this coin's denom, like old heph) Turn it to its tails side and desecrate it (for the rest of the round, it always lands on tails).
+		- [ ] ??? - 1/2/3/4/5/6. Flip this coin's neighbors. Whenever you use a neighboring coin's power, it spends from here instead.
 		- [ ] ??? - Choose a coin. Upgrade it, then downgrade a random coin. (prioritizes coins besides the one you just upgraded if possible)
-		- [ ] ??? - Downgrade this coin, then upgrade its neighbors. 
+		- [ ] ??? - Downgrade this coin, then upgrade one of its neighbors.
 		- [ ] ??? - Upgrade a coin and turn it to Stone.
 	- [ ] **Monsters**
-		- [ ] ??? - Hero - Downgrade a monster. If this destroys it, gain 5/10/15/20 souls. 
-		- [ ] Hero - At start of round, spawn 2 monsters. When used, if no monsters are in play, summon 3. Otherwise target and destroy a monster to gain souls.
+		- [ ] ??? - Hero - Downgrade a monster. If this destroys it, gain 5/10/15/20 souls. If there are no monsters in play, spawn three.
 		- [ ] ??? - Does not recharge naturally. +1 charge when a monster is destroyed. Turn a coin to its other face.
 	- [ ] **Arrow**
-		- [ ] ??? - Turn this coin to tails. Gain 2/3/4/5 arrows.
+		- [ ] ??? - Cannot be targetted by arrows. Turn this coin to tails. Gain 2/3/4/5 arrows.
 		- [ ] Orion - Turn each other coin to tails. Gain 1/2/3/4 arrows, plus an additional arrow for each coin turned.
-		- [ ] ??? - Drain a charge from two random heads coins to gain an arrow. Many uses.
 	- [ ] **Copy**
 		- [ ] Dolos - Choose a coin. This coin permanently becomes a copy of that coin (including denominations). Only available as Triobol.
 		- [x] Daedalus - Choose two coins you control; merge them together (the coin becomes heads on two sides basically) and destroy this coin. (Handling - Each side of this coin is the Daedalus power, which is "permaently copy another coin's power to this face.")
@@ -186,17 +178,16 @@ Unlockable coins + more coins
 		- [ ] ??? - Use 10 random powers with random targets.
 		- [ ] ??? - Randomly apply bless/curse, freeze/ignite, gold/stone
 		- [ ] (God Power?) - Repeat the last 3 abilities you've used this turn on random targets.
-		- [ ] Tyche - Tempt Fate - greek god of luck; Flip all your coins. Randomly make all your coins lucky or unlucky. Randomly bless/curse your coins. Gain a random amount of life or souls (scales with coin level). Transform all your other coins into random other coins of the same value. 1 charge always.
+		- [ ] Tyche - Tempt Fate - greek god of luck; Flip all your coins. Randomly make all your coins lucky or unlucky. Randomly bless/curse your coins. Gain a random amount of life or souls (scales with coin level). Transform all your other coins into random other coins of the same value. 1 charge always. Free in shop and only 1 denom (fake denom).
 	- [ ] **Shop**
 		- [x] Jason - Golden fleece - Gain a golden fleece. All coins cost 1 less soul for each golden fleece you have.
 	- [ ] **Recharge**
-		- [ ] ??? - Turn this coin to tails. Flip its neighbors to heads and add 1/2/3/4 charges.
-		- [ ] ??? - Choose a coin. Give it 1/2/3/4 charges and turn it to stone permanently.
+		- [ ] ??? - Randomly distribute this coin's charges amongst your other coins. 2/3/4/5/6/7.
+		- [ ] ??? - Choose a coin. Give it 1/2/3/4 charges and turn it to Stone.
 		- [ ] ??? - Choose a coin. Randomly distribute its charges amongst your other coins, excluding this coin. 1/2/3/4.
 	- [ ] **Souls**
 		- [ ] ??? - Turn a coin from heads to tails, then gain shards.
 		- [ ] ??? - Transform a coin into a generic Obol/Diobol/Triobol/Tetrobol for this round.
-		- [ ] ??? - Increase the tails downside of each of your other coins by 1/2/3/4, and the souls payoff of each of your payoff coins by 1/2/3/4.
 	- [ ] **Passive/Passive-ish**
 		- [ ] Medallion - Doesn't flip, takes a coin slot. When you would run out of life, this is destroyed instead, then perform a miracle! (random very good thing happens)
 		- [ ] ??? - Quest. Passive coin that does not flip. When the quest is completed, destroy this and gain souls.
@@ -204,21 +195,17 @@ Unlockable coins + more coins
 		- [ ] ??? - Guardian - If each of your coins are on tails, turn 1/2/3/4 random coins to heads.
 		- [ ] ??? - Whenever you lose life, this gains charges. After it reaches 15/30/45/60, destroy this and gain souls.
 		- [x] ??? - Future Hero - After 50 payoffs, transform into a random power coin, upgrade thrice, and consecrate permanently. Only available as Obol, cannot be upgraded.
-		- [ ] ??? - 1 soul -1 life; when a power is used on this coin, also use it on each neighbor.
+		- [ ] ??? - 1 soul -1 life; when a power is used on this coin, duplicate that power on to each of your other coins.
 		- [ ] ??? - Crack this coin. 1 charge; After 3/6/9/12 cracks, destroy this coin and gain 2 random coins of the same denomination.
 		- [ ] ??? - No upside and random downside; At end of round, transform into a random coin and upgrade.
-		- [ ] Dodge Tank - Passively, if this is on heads, enemy abilities target it 80% of the time.
-		- [ ] ??? - This payoff, when you would lose life, gain that much instead. Requires 6/5/4/3 tosses to recharge.
+		- [ ] Dodge Tank - Passively, if this is on heads, enemy abilities target it 50/60/70/80/90/95% of the time.
 		- [x] ??? - Infinite uses. Reflip a coin, then lose 1 life. Life loss increases each time this is used. Resets when upgraded.
 	- [ ] **Other**
 		- [ ] ??? - Split a Diobol, Triobol, or Tetrobol into two coins of half value (cannot be used on Obols)
 		- [ ] ??? - Mantra coin - Charge this coin. Then if this coin has 10 or more charges, it transforms (for the round) into a coin with "doesn't flip; during this payoff, all payoffs are doubled" - then transforms back.
-		- [ ] Nemesis - Reflip a coin and double its effects for the rest of the round (max 1 double per round)
-		- [ ] ??? - Gain a mark of devotion. In the future, something good may happen (and spend your devotion)
-		- [ ] ??? - Gain a favor token. Favor tokens can be spent to perform a miracle! (favors are spent all at once and do good stuff depending on how many are spent, sort of a yog-saron of good effects)
 		- [x] Prometheus - Light a fire. All coins land on heads +0.5% more often for each fire lit this game (max +25%). 
 		- [ ] Fickle Nymph - Coins to the left land on heads 10/12/15/18% more often; coins to the right land on tails more often. Power - move this randomly once to the left or right.
-		- [ ] ??? - Choose a coin. Swap its heads and tails effect.
+		- [ ] ??? - Choose a coin. Permanently swap its heads and tails effect.
 	- [ ] **Odysseus** - The Hero's Return. A variety of stages in order must be completed. Always starts as Obol and upgrades at set points; cannot be upgraded in shop. Change flavor text each use.
 		- [ ] Reflip 2 random coins.
 		- [ ] Lose 5 shards.

@@ -4,14 +4,11 @@
 	- [ ] ideal - rotating pixel around edge, but we would need to do a lot of annoying handling for this; it is not generalizable. We would need to hand-make an animation for each possible coin shape that has a passive. This is doable but inconvenient, especially for trials. In this case, we may as well just make the trial coin size uniform. There isn't really a good reason for them to be differnet like they are now tbh.
 - [ ] Patron token passives (Charon included) should do an additional animation or raise or jiggle or something when they trigger. I could see a slight rotation shake being effective for both this and for coin payoffs.
 - [ ] can't activate demeter if no coins are showing a life penalty
-- [ ] Permanent statuses should say so in their tooltip (OR, the icon should be different - possibly a different outline could work.)
-	- [ ] Bury could also say the turns remaining in the tooltip.
-- [ ] After hand slam during malice, hand should shake a bit.
+- [ ] Permanent statuses should say so in their tooltip (OR, the icon should be different - possibly a different outline could work.) Maybe just a little P in the artwork would work.
+	- [ ] Bury could also say the turns remaining in the tooltip. Show the number in the artwork.
+- [ ] After hand slam during malice, hand should shake aggressively until text advances.
 - [ ] Need to clear tooltips when performing transitions, otherwise tooltips can get stuck on screen (try Embark -> hold mouse over difficulty skull)
 - [ ] Different coin art for the elite monsters and nemesis monsters.
-- [ ] Refactor - Colors as global references instead of interspersed all around
-- [ ] Play with checkerboard full screen effect with light.
-- [ ] Art - Since the NUMBER does not change on Artemis/Demeter/Hades upgrades, perhaps change the ICON to indicate the power is stronger as well? Just minor graphical effect such as fancy pixels around the edges n stuff; maybe multiple arrows for Artemis or whatever.
 - [ ] FX - Lighting effects (experiment with)
 - [ ] Code - Change text color if not original number on numbers in coin tooltip (light blue = modified)
 - [ ] Graphics - Coin shadows

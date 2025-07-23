@@ -1,15 +1,17 @@
-
-
-
 **Timeline**
-- [ ] **Soundtest** - by August 15
-- [ ] **Settings Menu & Controller Support** - 2 weeks - by Sept 1
-- [ ] **Revamped Unlock System** - 2 weeks - by Sept 15
-- [ ] **Treasure of Atreus** - 1 week - by Sept 22
-- [ ] **Tartarus Bonus Boss** - 2 weeks - by Oct 7
-- [ ] **More Coins** - 1 month - by Nov 7
-- [ ] **More Characters** - 1 month - by Dec 7 (feature freeze)
-- [ ] **Playtesting, Polish, Release**
+- [ ] August
+	- [ ] **Soundtest** 
+	- [ ] **Settings Menu & Controller Support** 
+- [ ] September
+	- [ ] **Revamped Unlock System**
+	- [ ] **Treasure of Atreus**
+	- [ ] **Tartarus Bonus Boss** 
+- [ ] October/November
+	- [ ] **More Coins**
+	- [ ] **More Characters**
+	- [ ] **Playtesting**
+- [ ] December
+	- [ ] **Release**
 
 **Charon's Obol Soundtest**`
 - [ ] **Extras**
@@ -52,7 +54,7 @@ Week 8/9/10
 	- [ ] Tollgate round
 	- [ ] Shop - SMT2 shop
 
-- [ ] **Settings Menu & Controller Support - 2 weeks**
+- [ ] **Settings Menu & Controller Support - 1 week**
 	- [ ] Add settings menu.
 		- [ ] Turn off effects
 		- [ ] Settings should be saved to a separate save file.
@@ -102,4 +104,6 @@ Week 8/9/10
 			- [ ] Choice 3 - Just make Payoff sides of Stoned coins blank but not power sides. 
 				- [ ] This is functionally just a visual change.
 				- [ ] I like this.
+			- [ ] Choice 4 - show the payoffs, but in grayscale
+				- [ ] this is best
 
