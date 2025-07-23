@@ -13,8 +13,6 @@
 	- [ ] Scripted boss battle - oscillates between two 'attacks'.
 		- [ ] A 'random' (?) bad thing such as "3x ignite 3x curse" or similar. Or maybe this is fully scripted.
 		- [ ] Downgrade 3 coins.
-	- [ ] Donate 1000 life to win. You lose if you run out of coins first. Life lost != donated - you have to reach 1000 shards and hit the Donate button. 
+	- [ ] Sacrifice 1000 life to win. You lose if you run out of coins first. Life lost does help towards the quota. There is a sacrifice button shown (grayed out, like trial advance) showing how much more life is needed. The amount goes down as you lose life through payoff penalties. Also text at the top helps explain.
 	- [ ] No strain. 
 - [ ] Change difficulty skulls so they become black AFTER you've beaten Cronus on that level or difficulty or below. (cosmetic)
-- [ ] Winning for the first time unlocks a new character - The Saturnian (or maybe the Poet (Pindar)) - which has the Cronus effect of "Souls = Life."
-- [ ] Another concept - going to Tartarus has TWO separate rounds - Hecatoncheires boss battle, then Tartarus itself.
