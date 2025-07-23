@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cn5daaixh6mq4"]
+
+[sub_resource type="Gradient" id="Gradient_s60rq"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ge68y"]
+gradient = SubResource("Gradient_s60rq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r854i"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_ge68y")
+
+[node name="PowerBurst" type="GPUParticles2D"]
+position = Vector2(190, 89)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_r854i")
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+trail_enabled = true
+trail_lifetime = 0.08
+trail_sections = 4
+trail_section_subdivisions = 2

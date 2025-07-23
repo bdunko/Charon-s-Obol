@@ -34,8 +34,8 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
-| 8✔     | 12✔     |           |          |        |          |        |
-|        |         |           |          |        |          |        |
+| 8✔     | 12✔     | ✔         | ✔        | ✔      | ✔        | ✔      |
+| ✔      | ✔       |           |          |        |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -46,17 +46,19 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] SMTIVA - F8
 - [ ] **Improved Graphical effects for coins**
 	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-		- [ ] burst of a few particles shooting very fast in random direction and fading quickly. A very quick jolt of effect.
-	- [ ] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself.
-	- [ ] Use a power - we already show an icon, experiment with also doing a particle effect. Also perhaps shake.
+		- [x] burst of a few particles shooting very fast in random direction and fading quickly. A very quick jolt of effect.
+		- [ ] Make the color change per power used.
+		- [ ] Don't trigger on payoffs, just on power used.
+	- [ ] Lag when a large number of life or souls are moving due to particles. Fix this by limiting the number that can be emitting at a time (possibly a static variable?)
+	- [ ] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself. Maybe play the effect in reverse, towards the mouse? could be cool.
 	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
-	- [ ] Adding 'lightning effect' or similar. We can use a single effect with different colors (or shape/color variations on a single "coming from the sky" style effect). No movement; just appears instantly, shakes, fades quickly. 
-	- [ ] Coin flip shadow
+	- [ ] Coin flip shadow - experiment with simple shadow.
+	- [x] Fix dust particles sometimes not showing, if they are still active when they would restart.
 	- [x] Flash on upgrade (in shop too).
 	- [x] Shake when this coin's power is used.
 	- [x] Move up when power is activated. Move down when power is deactivated.
 - [ ] **Arrows of Night**
-	- [ ] Make arrows follow mouse or something (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
+	- [ ] Make arrows follow mouse (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
 	- [ ] Arrows are placed on table from Charon like other things.
 	- [ ] Add back the slight randomness to arrow pile, it was better. 
 ### In Progress  
@@ -68,8 +70,8 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [x] BB1 - Drums, Bass, and Chords 4
 	- [x] BB1 - No Labels 1
 	- [x] BB2 - All Together 1
-	- [ ] BB2 - All Together 2
-	- [ ] BB2 - All Together 3
+	- [x] BB2 - All Together 2
+	- [x] BB2 - All Together 3
 	- [ ] BB2 - All Together 4
 	- [ ] BB2 - No Labels 2
 - [ ] **Game Sounds**
@@ -90,6 +92,8 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 			- [ ] play mild green vignette for heal
 		- [ ] Lose Life
 		- [ ] IgniteTakeDamage
+
+- [ ] **Transient Sounds**
 	- [ ] **Death Scene**
 		- [ ] Death scene ambiance.
 		- [ ] Death scene fade out
@@ -113,7 +117,7 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 ---
 ## 📝 Quick To-Dos  
 _Untracked or small tasks not managed in the structured lists._
-- [ ] Update laptop with Charon's Obol for work travel.
+- [x] Update laptop with Charon's Obol for work travel.
 - [x] 33 Strategies of War - Robert Greene
 - [ ] Mastery - Robert Greene
 - [ ] Run MemTest86 - need a flash drive.

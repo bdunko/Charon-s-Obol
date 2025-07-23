@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5l4a6herha31"]
+
+[ext_resource type="Script" path="res://particles/particle_system.gd" id="1_tvvod"]
+[ext_resource type="PackedScene" uid="uid://cn5daaixh6mq4" path="res://particles/power_burst.tscn" id="2_16vsa"]
+
+[node name="ParticleSystem" type="Node2D"]
+z_index = 1000
+script = ExtResource("1_tvvod")
+power_burst = ExtResource("2_16vsa")

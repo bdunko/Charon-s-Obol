@@ -663,7 +663,7 @@ func _make_patron_token():
 	_patron_token.clicked.connect(_on_patron_token_clicked)
 	_patron_token.name = "PatronToken"
 	_TABLE.add_child(_patron_token)
-	Global._patron_token = _patron_token # update global's ref to this...
+	Global._patron_token = _patron_token # uppowerdate global's ref to this...
 
 var flips_pending = 0
 func _on_flip_complete(flipped_coin: Coin) -> void:

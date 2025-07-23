@@ -27,6 +27,7 @@ Audio="*res://audio/audio.gd"
 LabelSpawner="*res://ui/label_spawner.tscn"
 ProjectileManager="*res://projectile_manager.gd"
 DebugSoundTester="*res://debug/debug_sound_tester.tscn"
+ParticleSystem="*res://particles/particle_system.tscn"
 
 [debug]
 

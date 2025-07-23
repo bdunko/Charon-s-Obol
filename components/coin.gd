@@ -721,10 +721,12 @@ func _ready():
 	Global.flame_boost_changed.connect(_on_flame_boost_changed)
 	Global.info_view_toggled.connect(_on_info_view_toggled)
 
+@onready var _POWER_BURST_POINT = $OffsetWrapper/ShakeWrapper/Sprite/PowerBurstPoint
 func play_power_used_effect(power: PF.PowerFamily) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
 	particle.texture = load(power.icon_path)
 	_POWER_ICON_GROW_POINT.add_child(particle)
+	ParticleSystem.spawn_power_burst(_POWER_BURST_POINT.position, self)
 
 func _play_new_status_effect(icon_path: String) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_SHRINK_SCENE.instantiate()
@@ -1088,6 +1090,7 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
 
 	_DUST_PARTICLES.emitting = true
+	_DUST_PARTICLES.restart()
 	set_animation(_Animation.FLAT)
 	_is_animating = false
 	
@@ -1768,7 +1771,7 @@ func _generate_tooltip() -> void:
 	var tooltip = _make_tooltip_text()
 	var anchor = _TOOLTIP_ANCHOR.global_position
 	var direction = UITooltip.Direction.ABOVE if _owner == Owner.PLAYER else UITooltip.Direction.BELOW
-	var offset = 33 if _owner == Owner.PLAYER else 43
+	var offset = 38 if _owner == Owner.PLAYER else 45
 	var props = UITooltip.Properties.new().anchor(anchor).direction(direction).offset(offset)
 	
 	# add subtooltips for statuses etc
@@ -1777,9 +1780,9 @@ func _generate_tooltip() -> void:
 	# if we're in a position to upgrade, add subtooltip for upgrade
 	if Global.state == Global.State.SHOP and can_upgrade() and _owner == Owner.PLAYER and not Global.tutorialState in Global.TUTORIAL_NO_UPGRADE:
 		var new_coin: Coin = _COIN_SCENE.instantiate()
-		# add this 'fake' coin somewhere far away, get a tooltip from it, then delete it...
-		get_tree().root.add_child(new_coin)
+		# add this 'fake' coin to the shop but hide it, get a tooltip, then delete.
 		new_coin.hide()
+		Global._shop_row.add_child(new_coin)
 		new_coin.position = Vector2(-100000, -100000)
 		new_coin.init_coin(_coin_family, _denomination + 1, Coin.Owner.PLAYER)
 		new_coin.update_payoff(Global._coin_row, Global._enemy_row, Global._shop_row)
