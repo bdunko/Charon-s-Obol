@@ -44,36 +44,10 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] Bring into DAW and focused listening/reproduction.
 	- [ ] SMTII - Shop
 	- [ ] SMTIVA - F8
-- [ ] **Improved Graphical effects for coins**
-	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
-		- [x] burst of a few particles shooting very fast in random direction and fading quickly. A very quick jolt of effect.
-		- [ ] Make the color change per power used.
-		- [ ] Don't trigger on payoffs, just on power used.
-	- [ ] Lag when a large number of life or souls are moving due to particles. Fix this by limiting the number that can be emitting at a time (possibly a static variable?)
-	- [ ] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself. Maybe play the effect in reverse, towards the mouse? could be cool.
-	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
-	- [ ] Coin flip shadow - experiment with simple shadow.
-	- [x] Fix dust particles sometimes not showing, if they are still active when they would restart.
-	- [x] Flash on upgrade (in shop too).
-	- [x] Shake when this coin's power is used.
-	- [x] Move up when power is activated. Move down when power is deactivated.
 - [ ] **Arrows of Night**
 	- [ ] Make arrows follow mouse (move to center and rotate to follow mouse patron token?); even better if they actually shoot when used
 	- [ ] Arrows are placed on table from Charon like other things.
 	- [ ] Add back the slight randomness to arrow pile, it was better. 
-### In Progress  
-- [ ] **Building Blocks Best Hits - No Hints**
-	- [x] BB1 - Chords 7: Arpeggiation
-	- [x] BB2 - Melody 3: Grace Notes
-	- [x] BB1 - Drums, Bass, and Chords 2
-	- [x] BB1 - Drums, Bass, and Chords 3
-	- [x] BB1 - Drums, Bass, and Chords 4
-	- [x] BB1 - No Labels 1
-	- [x] BB2 - All Together 1
-	- [x] BB2 - All Together 2
-	- [x] BB2 - All Together 3
-	- [ ] BB2 - All Together 4
-	- [ ] BB2 - No Labels 2
 - [ ] **Game Sounds**
 	- [ ] **Essentials**
 		- [ ] Power Activated/Deactivated - Water UI
@@ -100,6 +74,29 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [ ] **Victory**
 		- [ ] Victory fade out - try using the divine ambiances again for this.
 
+### In Progress  
+- [ ] **Building Blocks Best Hits - No Hints**
+	- [x] BB1 - Chords 7: Arpeggiation
+	- [x] BB2 - Melody 3: Grace Notes
+	- [x] BB1 - Drums, Bass, and Chords 2
+	- [x] BB1 - Drums, Bass, and Chords 3
+	- [x] BB1 - Drums, Bass, and Chords 4
+	- [x] BB1 - No Labels 1
+	- [x] BB2 - All Together 1
+	- [x] BB2 - All Together 2
+	- [x] BB2 - All Together 3
+	- [ ] BB2 - All Together 4
+	- [ ] BB2 - No Labels 2
+- [ ] **Improved Graphical effects for coins**
+	- [x]  Lag when a large number of life or souls are moving due to particles. Fix this by limiting the number that can be emitting at a time (possibly a static variable?)
+	- [ ] Play slight particle effect for any power use (burst of colored pixels, color changes per coin).
+		- [ ] Make the color change per power used.
+		- [ ] Don't trigger on payoffs, just on power used.
+	- [ ] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself. Maybe play the effect in reverse, towards the mouse? could be cool.
+	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
+	- [ ] Dust particles when buying coin from shop do not operate properly. 
+	- [ ] Coin flip shadow - experiment with simple shadow.
+
 ### Done  
 - [x] Blessed tooltip shows (HEADS) - replacement not being performed. Ensure status tooltips being shown on status bar have proper placeholder replacement.
 - [x] Add projectiles to Malice activations.
@@ -113,6 +110,12 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 	- [x] Coins can hang slightly higher at the peak of their toss (minor hang time); also probably should not be using a linear trans (if they currently are...).
 	- [x] Effect when a coin is tossed or lands(?)
 	- [x] Play dust effect when the row is expanded, but not during the middle of tosses (needs special handling. We might be able to get away with always playing the dust effect, but pass a bool to expand if during flip to disable. Because during flip we only play the effect after the coins land.)
+- [ ] **Improved Graphical Effects for Coins**
+	- [x] Fix dust particles sometimes not showing, if they are still active when they would restart.
+	- [x] Flash on upgrade (in shop too).
+	- [x] Shake when this coin's power is used.
+	- [x] Move up when power is activated. Move down when power is deactivated.
+
 
 ---
 ## 📝 Quick To-Dos  
