@@ -17,8 +17,8 @@ particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 spread = 180.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 20.0
-initial_velocity_max = 20.0
+initial_velocity_min = 15.0
+initial_velocity_max = 45.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 color = Color(0.691406, 0.984375, 0.871094, 1)
@@ -216,7 +216,7 @@ script = ExtResource("1_t2nc6")
 
 [node name="FancyTrail" type="GPUParticles2D" parent="."]
 position = Vector2(8, 16)
-amount = 16
+amount = 75
 process_material = SubResource("ParticleProcessMaterial_77c3g")
 lifetime = 0.3
 fixed_fps = 60
