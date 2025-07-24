@@ -16,7 +16,7 @@ func _ready():
 func start_trail_particles():
 	_INSTANCES_EMITTING += 1
 	
-	if _INSTANCES_EMITTING <= 8 or _INSTANCES_EMITTING % 6 == 0:
+	if _INSTANCES_EMITTING <= 8 or _INSTANCES_EMITTING % 8 == 0:
 		_TRAIL_PARTICLES.emitting = true
 
 func stop_trail_particles():

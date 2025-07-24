@@ -5,7 +5,6 @@
 - [ ] September
 	- [ ] **Revamped Unlock System**
 	- [ ] **Treasure of Atreus**
-	- [ ] **Tartarus Bonus Boss** 
 - [ ] October/November
 	- [ ] **More Coins**
 	- [ ] **More Characters**

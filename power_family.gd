@@ -26,12 +26,14 @@ class PowerFamily:
 	var power_type: PowerType
 	var icon_path: String
 	var prefer_icon_only: bool
+	var particle_color: Color
 	var tags: Array
 	
-	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String, pref_icn_only: bool, tgs: Array = []) -> void:
+	func _init(desc: String, uses_per_denom: Array[int], pwrType: PowerType, icon: String, prtcl_clr: Color, pref_icn_only: bool, tgs: Array = []) -> void:
 		self.description = desc
 		self.power_type = pwrType
 		self._uses_for_denom = uses_per_denom
+		self.particle_color = prtcl_clr
 		self.icon_path = icon
 		self.prefer_icon_only = pref_icn_only
 		assert(FileAccess.file_exists(self.icon_path))

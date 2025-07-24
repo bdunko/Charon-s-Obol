@@ -1189,244 +1189,255 @@ const ONLY_SHOW_ICON = true
 const ICON_AND_CHARGES = false
 const INFINITE_CHARGES = -88888
 
-var POWER_FAMILY_LOSE_LIFE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [2, 4, 7, 10, 14, 19], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_DOUBLED = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [4, 8, 14, 20, 28, 38], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_THORNS = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_ZERO_LIFE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/coin/achilles_tails_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_ONE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var PARTICLE_COLOR_NONE = Color(0, 0, 0, 0)
+var PARTICLE_COLOR_WHITE = Color.WHITE
+var PARTICLE_COLOR_RED = Color("#df3e23")
+var PARTICLE_COLOR_BLUE = Color("#a6fcdb")
+var PARTICLE_COLOR_GREEN = Color("#9cdb43")
+var PARTICLE_COLOR_YELLOW = Color("#fffc40")
+var PARTICLE_COLOR_PURPLE = Color("#e86a73")
+var PARTICLE_COLOR_BROWN = Color("#f4d29c")
+var PARTICLE_COLOR_GRAY = Color("#b3b9d1")
+var PARTICLE_COLOR_BLACK = Color.BLACK
 
-var POWER_FAMILY_LOSE_SOULS_THORNS = PF.PayoffLoseSouls.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [2, 4, 7, 10, 14, 19], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_DOUBLED = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [4, 8, 14, 20, 28, 38], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_THORNS = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_ZERO_LIFE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [0, 0, 0, 0], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_ACHILLES_HEEL = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Destroy this coin.", [10, 20, 30, 40], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/coin/achilles_tails_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_ONE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_LOSE_LIFE,"res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
 
-var POWER_FAMILY_GAIN_SOULS = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_ACHILLES = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 17, 20, 23, 26], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/coin/achilles_heads_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_SOULS_THORNS = PF.PayoffLoseSouls.new("-(MAX_CHARGES)(SOULS).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
+
+var POWER_FAMILY_GAIN_SOULS = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [5, 8, 11, 13, 15, 17], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_ACHILLES = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [10, 14, 17, 20, 23, 26], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/coin/achilles_heads_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_HELIOS = PF.PayoffGainSouls.new("+(MAX_CHARGES)(SOULS) for each coin to the left of this.\n(BLESS) the coin to the left, then swap places with it.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", ICON_AND_CHARGES)
+	PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/helios_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var ICARUS_HEADS_MULTIPLIER = [1, 1, 2, 2, 3, 3]
 var POWER_FAMILY_GAIN_SOULS_ICARUS = PF.PayoffGainSouls.new("+(MAX_CHARGES)(SOULS). +(ICARUS_PER_HEADS)(SOULS) for each of your (HEADS) coins. If all of your coins are on (HEADS), destroy this.", [2, 3, 4, 5, 6, 7],\
-	PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", ICON_AND_CHARGES)
+	PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/icarus_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_TANTALUS = PF.PowerFamily.new("If this face is showing, immediately +(MAX_CHARGES)(SOULS) and turn this coin over.", [3, 4, 5, 6, 7, 8],\
-	 PF.PowerType.PASSIVE, "res://assets/icons/coin/tantalus_icon.png", ONLY_SHOW_ICON)
+	 PF.PowerType.PASSIVE, "res://assets/icons/coin/tantalus_icon.png", PARTICLE_COLOR_BLUE, ONLY_SHOW_ICON)
 var POWER_FAMILY_GAIN_SOULS_AENEAS = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [3, 4, 5, 6, 7, 8],\
-	 PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", ICON_AND_CHARGES)
+	 PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/aeneas_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var POWER_FAMILY_GAIN_SOULS_ORION = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [4, 4, 4, 4, 4, 4],\
-	 PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/orion_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_ARROWS_ORION = PF.PayoffGainArrows.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/arrow_icon.png", ICON_AND_CHARGES)
+	 PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/orion_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_ARROWS_ORION = PF.PayoffGainArrows.new("+(MAX_CHARGES)(ARROW).", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/arrow_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var CARPO_ROUND_MULTIPLIER = [1, 2, 3, 4, 5, 6]
-var POWER_FAMILY_GAIN_SOULS_CARPO = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_CARPO = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS). Increases by (CARPO_PER_PAYOFF)(SOULS) after each payoff [color=gray](Resets when the round ends)[/color].", [2, 2, 2, 2, 2, 2], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/carpo_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
 var TELEMACHUS_TOSSES_TO_TRANSFORM = 20 #20 years - length of time Odyseeus is away
 var POWER_FAMILY_GAIN_SOULS_TELEMACHUS = PF.PayoffGainSouls.new("+(MAX_CHARGES)(SOULS). In (TELEMACHUS_TOSSES_REMAINING) more payoffs, transform into a random power Drachma and eternally (CONSECRATE).", \
-	[1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_SOULS_PLUTUS = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [6, 9, 12, 15, 18, 21], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_LOSE_LIFE_PLUTUS = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [6, 9, 12, 15, 18, 21], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+	[1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/coin/telemachus_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_SOULS_PLUTUS = PF.PayoffGainSouls.new("+(SOULS_PAYOFF)(SOULS).", [6, 9, 12, 15, 18, 21], PF.PowerType.PAYOFF_GAIN_SOULS,"res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
+var POWER_FAMILY_LOSE_LIFE_PLUTUS = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [6, 9, 12, 15, 18, 21], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
 const PROMETHEUS_MULTIPLIER = [1, 2, 3, 4, 5, 6]
 var POWER_FAMILY_STOKE_FLAME = PF.PayoffStokeFlame.new("Stoke the flame. [color=gray](For the rest of the voyage, ALL coins permanently land on (HEADS) +(PROMETHEUS_MULTIPLIER)%% more often, up to +%d%%.)[/color]" % FLAME_BOOST_LIMIT, [1, 1, 1, 1, 1, 1],\
-	PF.PowerType.PAYOFF_STOKE_FLAME, "res://assets/icons/coin/prometheus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY])
-var POWER_FAMILY_DO_NOTHING = PF.PayoffDoNothing.new("Nothing interesting happens.", [0, 0, 0, 0, 0, 0], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/coin/nothing_icon.png", ONLY_SHOW_ICON)
+	PF.PowerType.PAYOFF_STOKE_FLAME, "res://assets/icons/coin/prometheus_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY])
+var POWER_FAMILY_DO_NOTHING = PF.PayoffDoNothing.new("Nothing interesting happens.", [0, 0, 0, 0, 0, 0], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/coin/nothing_icon.png", PARTICLE_COLOR_NONE, ONLY_SHOW_ICON)
 
 const DEMETER_GAIN = [3, 5, 7, 9, 11, 13]
-var POWER_FAMILY_GAIN_LIFE = PF.GainLife.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL])
-var POWER_FAMILY_REFLIP = PF.Reflip.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_FREEZE = PF.Freeze.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE])
+var POWER_FAMILY_GAIN_LIFE = PF.GainLife.new("+(DEMETER_GAIN)(HEAL)", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/demeter_icon.png", PARTICLE_COLOR_GREEN, ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL])
+var POWER_FAMILY_REFLIP = PF.Reflip.new("Reflip a coin.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_FREEZE = PF.Freeze.new("(FREEZE) a coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE])
 var POWER_FAMILY_REFLIP_AND_NEIGHBORS = PF.ReflipAndNeighbors.new("Reflip a coin and its neighbors.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_GAIN_ARROW = PF.GainArrow.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_GAIN_ARROW = PF.GainArrow.new("+(1_PER_DENOM)(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/artemis_icon.png", PARTICLE_COLOR_PURPLE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
 var POWER_FAMILY_TURN_AND_BLURSE = PF.TurnAndBlurse.new("Turn a coin to its other face. Then, if it's (HEADS), (CURSE) it, if it's (TAILS), (BLESS) it.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.TURN, PF.PowerFamily.Tag.CURSE])
-var POWER_FAMILY_REFLIP_ALL = PF.ReflipAll.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REDUCE_PENALTY = PF.ReducePenalty.new("Reduce a coin's penalty by 2(LIFE) for this round.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL, PF.PowerFamily.Tag.ANTIMONSTER])
+	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/apollo_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.TURN, PF.PowerFamily.Tag.CURSE])
+var POWER_FAMILY_REFLIP_ALL = PF.ReflipAll.new("Reflip all coins.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REDUCE_PENALTY = PF.ReducePenalty.new("Reduce a coin's penalty by 2(LIFE) for this round.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/athena_icon.png", PARTICLE_COLOR_GREEN, ICON_AND_CHARGES, [PF.PowerFamily.Tag.HEAL, PF.PowerFamily.Tag.ANTIMONSTER])
 var POWER_FAMILY_PRIME_AND_IGNITE = PF.PrimeAndIgnite.new("(IGNITE) and (PRIME) one of your coins.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.UPGRADE, PF.PowerFamily.Tag.IGNITE])
-var POWER_FAMILY_COPY_FOR_TOSS = PF.CopyPowerForToss.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_EXCHANGE = PF.Exchange.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TRADE])
-var POWER_FAMILY_MAKE_LUCKY = PF.MakeLucky.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hestia_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY])
-var POWER_FAMILY_GAIN_COIN = PF.GainCoin.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dionysus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hephaestus_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES, [PF.PowerFamily.Tag.UPGRADE, PF.PowerFamily.Tag.IGNITE])
+var POWER_FAMILY_COPY_FOR_TOSS = PF.CopyPowerForToss.new("Choose one of your coins. Copy its power for this toss.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/aphrodite_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES)
+var POWER_FAMILY_EXCHANGE = PF.Exchange.new("Trade a coin for another of equal value.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.TRADE])
+var POWER_FAMILY_MAKE_LUCKY = PF.MakeLucky.new("Make a coin (LUCKY).", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hestia_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY])
+var POWER_FAMILY_GAIN_COIN = PF.GainCoin.new("Gain a random Obol.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dionysus_icon.png", PARTICLE_COLOR_PURPLE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
 var POWER_FAMILY_DOWNGRADE_FOR_LIFE = PF.DowngradeForLife.new("Downgrade a coin. If the coin was yours, +(HADES_SELF_GAIN)(HEAL); if the coin was a monster, -(HADES_MONSTER_COST)(LIFE).", [1, 1, 1, 1, 1, 1],\
-	PF.PowerType.POWER_TARGETTING_ANY_COIN,"res://assets/icons/coin/hades_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.DESTROY, PF.PowerFamily.Tag.HEAL])
+	PF.PowerType.POWER_TARGETTING_ANY_COIN,"res://assets/icons/coin/hades_icon.png", PARTICLE_COLOR_PURPLE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.DESTROY, PF.PowerFamily.Tag.HEAL])
 
-var POWER_FAMILY_STONE = PF.Stone.new("Turn one of your coins to or from (STONE).", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/perseus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.STONE])
-var POWER_FAMILY_BLANK_TAILS = PF.BlankTails.new("Choose a (TAILS) coin; (BLANK) it. [color=gray](Does not work on the Nemesis.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hypnos_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.ANTIMONSTER, PF.PowerFamily.Tag.BLANK])
-var POWER_FAMILY_CONSECRATE_AND_DOOM = PF.ConsecrateDoom.new("(CONSECRATE) and (DOOM) a coin. [color=gray](It always lands on (HEADS), but is destroyed at the end of the round.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/nike_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN, PF.PowerFamily.Tag.CONSECRATE, PF.PowerFamily.Tag.DOOM])
+var POWER_FAMILY_STONE = PF.Stone.new("Turn one of your coins to or from (STONE).", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/perseus_icon.png", PARTICLE_COLOR_GRAY, ICON_AND_CHARGES, [PF.PowerFamily.Tag.STONE])
+var POWER_FAMILY_BLANK_TAILS = PF.BlankTails.new("Choose a (TAILS) coin; (BLANK) it. [color=gray](Does not work on the Nemesis.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hypnos_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.ANTIMONSTER, PF.PowerFamily.Tag.BLANK])
+var POWER_FAMILY_CONSECRATE_AND_DOOM = PF.ConsecrateDoom.new("(CONSECRATE) and (DOOM) a coin. [color=gray](It always lands on (HEADS), but is destroyed at the end of the round.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/nike_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN, PF.PowerFamily.Tag.CONSECRATE, PF.PowerFamily.Tag.DOOM])
 const TRIPTOLEMUS_HARVEST = [5, 8, 11, 14, 17, 20]
 var POWER_FAMILY_BURY_HARVEST = PF.BuryHarvest.new("(BURY) one of your coins for 3 tosses. When it's exhumed, +(TRIPTOLEMUS_HARVEST)(SOULS) and +(TRIPTOLEMUS_HARVEST)(HEAL).", [1, 1, 1, 1, 1, 1],\
-	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.HEAL])
+	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/triptolemus_icon.png", PARTICLE_COLOR_GREEN, ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.HEAL])
 var POWER_FAMILY_BURY_TURN_TAILS = PF.BuryTurnOtherTails.new("(BURY) one of your coins for 1 toss. Immediately turn one of your (TAILS) coins to (HEADS) at random.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.TURN])
+	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/antigone_icon.png", PARTICLE_COLOR_BROWN, ICON_AND_CHARGES, [PF.PowerFamily.Tag.BURY, PF.PowerFamily.Tag.TURN])
 var POWER_FAMILY_TURN_TAILS_FREEZE_REDUCE_PENALTY = PF.TurnTailsFreezeReducePenalty.new("Turn a coin to (TAILS) and (FREEZE) it. If the coin is yours, reduce its penalty to 0(LIFE) this round.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE, PF.PowerFamily.Tag.ANTIMONSTER])
-var POWER_FAMILY_IGNITE_CHARGE_LUCKY = PF.IgniteChargeLucky.new("Make a coin (LUCKY), (CHARGE), and (IGNITE) it.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hecate_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY, PF.PowerFamily.Tag.CHARGE, PF.PowerFamily.Tag.IGNITE])
+	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/chione_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.FREEZE, PF.PowerFamily.Tag.ANTIMONSTER])
+var POWER_FAMILY_IGNITE_CHARGE_LUCKY = PF.IgniteChargeLucky.new("Make a coin (LUCKY), (CHARGE), and (IGNITE) it.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hecate_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.LUCKY, PF.PowerFamily.Tag.CHARGE, PF.PowerFamily.Tag.IGNITE])
 const PHAETHON_REWARD_SOULS = [5, 10, 15, 20, 25, 30]
 const PHAETHON_REWARD_ARROWS = [2, 3, 4, 5, 6, 7]
 const PHAETHON_REWARD_LIFE = [5, 10, 15, 20, 25, 30]
 var POWER_FAMILY_DESTROY_FOR_REWARD = PF.DestroySelfForReward.new("Destroy this for +(PHAETHON_SOULS)(SOULS), +(PHAETHON_LIFE)(HEAL), and +(PHAETHON_ARROWS)(ARROW). Fully recharge your patron token.", [1, 1, 1, 1, 1, 1],\
-	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/phaethon_icon.png", ICON_AND_CHARGES)
+	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/phaethon_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES)
 var POWER_FAMILY_INFINITE_TURN_HUNGER = PF.InfiniteTurnHunger.new("Turn a coin and -(ERYSICHTHON_COST)(LIFE). [color=gray](Permanently increases by 1(LIFE) each use. Resets when upgraded.)[/color]", [INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES, INFINITE_CHARGES],\
-	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
+	PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/erysichthon_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
 var POWER_FAMILY_TURN_SELF = PF.TurnSelf.new("Turn this coin over.", [1, 1, 1, 1, 1, 1],\
-	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/turn_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_CLONE_PERMANENTLY = PF.ClonePermanently.new("Choose one of your coins of the same denomination as this; permanently transform into that type of coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/dolos_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_FLIP_AND_TAG = PF.FlipAndTag.new("Reflip a coin. Also reflip each other coin this power has been used on this toss.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
-var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PF.ReflipLeftAlternating.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PF.ReflipRightAlternating.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PF.SwapReflipNeighbors.new("Choose one of your coins. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/boreas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
-var POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY = PF.CopyPowerPermanentlyAndDestroy.new("Choose a coin. Permanently copy its power to this face, then destroy it.", [1, 1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", ICON_AND_CHARGES)
-var POWER_FAMILY_GAIN_PLUTUS_COIN = PF.GainPlutusCoin.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
-var POWER_FAMILY_GAIN_GOLDEN_COIN = PF.GainGoldenCoin.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
-var POWER_FAMILY_TURN_ALL = PF.TurnAll.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
+	PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/turn_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES)
+var POWER_FAMILY_CLONE_PERMANENTLY = PF.ClonePermanently.new("Choose one of your coins of the same denomination as this; permanently transform into that type of coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/dolos_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES)
+var POWER_FAMILY_FLIP_AND_TAG = PF.FlipAndTag.new("Reflip a coin. Also reflip each other coin this power has been used on this toss.", [2, 3, 4, 5, 6, 7], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/eris_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP])
+var POWER_FAMILY_REFLIP_LEFT_ALTERNATING = PF.ReflipLeftAlternating.new("Reflip all coins to the [color=yellow]left[/color] of this [color=gray](alternates [color=yellow]direction[/color] each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_left_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_REFLIP_RIGHT_ALTERNATING = PF.ReflipRightAlternating.new("Reflip all coins to the [color=yellow]right[/color] of this [color=gray](alternates direction each use)[/color].", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/aeolus_right_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_SWAP_REFLIP_NEIGHBORS = PF.SwapReflipNeighbors.new("Choose one of your coins. Swap positions with it, then reflip each neighboring coin.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/boreas_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.REFLIP, PF.PowerFamily.Tag.POSITIONING])
+var POWER_FAMILY_PERMANENTLY_COPY_FACE_AND_DESTROY = PF.CopyPowerPermanentlyAndDestroy.new("Choose a coin. Permanently copy its power to this face, then destroy it.", [1, 1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/daedalus_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES)
+var POWER_FAMILY_GAIN_PLUTUS_COIN = PF.GainPlutusCoin.new("Gain an Obol with \"(HEADS)+6(SOULS)/(TAILS)-6(LIFE)\" and flip it. It is (FLEETING). [color=gray](After payoff, it is destroyed.)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/plutus_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+var POWER_FAMILY_GAIN_GOLDEN_COIN = PF.GainGoldenCoin.new("Gain a golden (THIS_DENOMINATION)! [color=gray](Golden coins do nothing on both faces.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/midas_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.GAIN])
+var POWER_FAMILY_TURN_ALL = PF.TurnAll.new("Turn each coin to its other face.", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/dike_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES, [PF.PowerFamily.Tag.TURN])
 var POWER_FAMILY_IGNITE_OR_BLESS_OR_SACRIFICE = PF.IgniteThenBlessThenSacrifice.new("(IGNITE) one of your coins. If you can't, (BLESS) it. If you can't, destroy it and downgrade a random monster twice.", [1, 2, 3, 4, 5, 6],\
-	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/sarpedon_icon.png", ICON_AND_CHARGES, [PF.PowerFamily.Tag.IGNITE, PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.DESTROY])
+	PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/sarpedon_icon.png", PARTICLE_COLOR_YELLOW, ICON_AND_CHARGES, [PF.PowerFamily.Tag.IGNITE, PF.PowerFamily.Tag.BLESS, PF.PowerFamily.Tag.DESTROY])
 var POWER_FAMILY_TRANSFORM_AND_LOCK = PF.PowerFamily.new("Becomes a random power each toss. When used, this face permanently becomes that power.", [0, 0, 0, 0, 0, 0],\
-	PF.PowerType.PASSIVE, "res://assets/icons/coin/proteus_icon.png", ONLY_SHOW_ICON)
+	PF.PowerType.PASSIVE, "res://assets/icons/coin/proteus_icon.png", PARTICLE_COLOR_BLUE, ONLY_SHOW_ICON)
 
 #var POWER_FAMILY_GOLDEN_FLEECE = PF.PowerFamily.new("Gain a wisp of Golden Fleece! [color=gray](For each wisp, coins in the shop cost -1(SOULS).)[/color]", [1, 2, 3, 4, 5, 6], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/jason_icon.png", ICON_AND_CHARGES)
 
-var POWER_FAMILY_ARROW_REFLIP = PF.Reflip.new("Reflip a coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/arrow_icon.png", ONLY_SHOW_ICON)
+var POWER_FAMILY_ARROW_REFLIP = PF.Reflip.new("Reflip a coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/arrow_icon.png", PARTICLE_COLOR_WHITE, ONLY_SHOW_ICON)
 
 # standard
-var MONSTER_POWER_FAMILY_HELLHOUND = PF.PayoffIgniteSelf.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/hellhound_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_KOBALOS = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/kobalos_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_ARAE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/arae_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_HARPY = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/harpy_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HELLHOUND = PF.PayoffIgniteSelf.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/hellhound_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KOBALOS = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/kobalos_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_ARAE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/arae_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HARPY = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/harpy_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 
-var MONSTER_POWER_FAMILY_TROJAN_HORSE_DESTROY = PF.PayoffTrojanHorse.new("Destroy this coin. Spawn (CURRENT_CHARGES) monsters.", [2, 2, 2, 3, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/trojan_horse_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_EIDOLON_UNLUCKY_SELF = PF.PayoffAllMonsterUnlucky.new("All monsters become (UNLUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/eidolon_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_HYPERBOREAN_FREEZE = PF.PayoffFreeze.new("(FREEZE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/hyperborean_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_HYPERBOREAN_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_TROJAN_HORSE_DESTROY = PF.PayoffTrojanHorse.new("Destroy this coin. Spawn (CURRENT_CHARGES) monsters.", [2, 2, 2, 3, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/trojan_horse_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_EIDOLON_UNLUCKY_SELF = PF.PayoffAllMonsterUnlucky.new("All monsters become (UNLUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/eidolon_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HYPERBOREAN_FREEZE = PF.PayoffFreeze.new("(FREEZE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/hyperborean_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HYPERBOREAN_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 var GADFLY_THORNS_DENOM = [Denomination.OBOL, Denomination.OBOL, Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL]
-var MONSTER_POWER_FAMILY_GADFLY_THORNS = PF.PayoffGainThornsGadfly.new("Gain an (GADFLY_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gadfly_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GADFLY_THORNS = PF.PayoffGainThornsGadfly.new("Gain an (GADFLY_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gadfly_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 var GADFLY_INCREASE = [1, 2, 3, 4, 5, 6]
-var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (GADFLY_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_GADFLY_LOSE_LIFE_SCALING = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (GADFLY_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
 var STRIX_INCREASE = [2, 3, 4, 5, 6, 7]
-var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PF.PayoffIncreaseAllPlayerPenalty.new("Increase the (LIFE) penalty of each of your coins by (STRIX_INCREASE)(LIFE) for this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/strix_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_STRIX_INCREASE_PENALTY = PF.PayoffIncreaseAllPlayerPenalty.new("Increase the (LIFE) penalty of each of your coins by (STRIX_INCREASE)(LIFE) for this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/strix_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 var LAMIA_BURY = [2, 2, 3, 3, 4, 4]
-var MONSTER_POWER_FAMILY_LAMIA_BURY = PF.PayoffBury.new("(BURY) 2 coins for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/lamia_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_LAMIA_BURY = PF.PayoffBury.new("(BURY) 2 coins for (LAMIA_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/lamia_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_LAMIA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 var BOAR_BURY = [1, 1, 1, 1, 1, 1]
-var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PF.PayoffBurySelf.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoff.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/erymanthian_boar_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF = PF.PayoffUpgradeSelf.new("Upgrade this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/spartoi_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_ERYMANTHIAN_BOAR_BURY = PF.PayoffBurySelf.new("Turn this coin over and (BURY) it for (BOAR_BURY) payoff.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/erymanthian_boar_icon.png", PARTICLE_COLOR_BROWN, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SPARTOI_UPGRADE_SELF = PF.PayoffUpgradeSelf.new("Upgrade this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/spartoi_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 
 # encounters
-var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PF.PayoffLucky.new("Make (CURRENT_CHARGES_COINS) (LUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/centaur_heads_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/centaur_tails_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PF.PayoffGainArrows.new("+1(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/stymphalian_birds_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CENTAUR_HEADS = PF.PayoffLucky.new("Make (CURRENT_CHARGES_COINS) (LUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/centaur_heads_icon.png", PARTICLE_COLOR_GREEN, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CENTAUR_TAILS = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/centaur_tails_icon.png", PARTICLE_COLOR_RED, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_STYMPHALIAN_BIRDS = PF.PayoffGainArrows.new("+1(ARROW).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/stymphalian_birds_icon.png", PARTICLE_COLOR_WHITE, ONLY_SHOW_ICON)
 
-var MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS = PF.PayoffGainSouls.new("+(CURRENT_CHARGES)(SOULS).", [5, 7, 9, 11, 13, 15], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/monster/colchian_dragon_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_PHOENIX_HEAL = PF.PayoffGainLife.new("+(CURRENT_CHARGES)(HEAL).", [4, 5, 6, 7, 8, 9], PF.PowerType.PAYOFF_GAIN_LIFE, "res://assets/icons/soul_fragment_red_heal_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_PHOENIX_IGNITE_SELF = PF.PayoffIgniteSelf.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/phoenix_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_OREAD_LUCKY = PF.PayoffLucky.new("Make a coin (LUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/oread_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_COLCHIAN_DRAGON_GAIN_SOULS = PF.PayoffGainSouls.new("+(CURRENT_CHARGES)(SOULS).", [5, 7, 9, 11, 13, 15], PF.PowerType.PAYOFF_GAIN_SOULS, "res://assets/icons/monster/colchian_dragon_icon.png", PARTICLE_COLOR_BLUE, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_PHOENIX_HEAL = PF.PayoffGainLife.new("+(CURRENT_CHARGES)(HEAL).", [4, 5, 6, 7, 8, 9], PF.PowerType.PAYOFF_GAIN_LIFE, "res://assets/icons/soul_fragment_red_heal_icon.png", PARTICLE_COLOR_GREEN, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_PHOENIX_IGNITE_SELF = PF.PayoffIgniteSelf.new("(IGNITE) this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/phoenix_icon.png", PARTICLE_COLOR_RED, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_OREAD_LUCKY = PF.PayoffLucky.new("Make a coin (LUCKY).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/oread_icon.png", PARTICLE_COLOR_GREEN, ONLY_SHOW_ICON)
 const OREAD_BURY = [3, 3, 3, 3, 3, 3]
-var MONSTER_POWER_FAMILY_OREAD_BURY = PF.PayoffBury.new("(BURY) a coin for (OREAD_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM = PF.PayoffTransform.new("Transform a coin into a random coin of the same denomination and type.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/empusa_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_EMPUSA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_HAMADYRAD_BLESS = PF.PayoffBless.new("(BLESS) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/hamadryad_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_HAMADYRAD_HEAL = PF.PayoffGainLife.new("+(CURRENT_CHARGES)(HEAL).", [2, 3, 4, 5, 6, 7], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/soul_fragment_red_heal_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_MELIAE_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/meliae_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SATYR_GAIN = PF.PayoffGainObol.new("Gain a random Obol.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/satyr_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SATYR_BLANK = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/blank_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_RELIQUARY_DECREASE_COST = PF.PayoffDecreaseCost.new("Decrease the cost to destroy this.", [4, 6, 8, 10, 13, 15], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/reliquary_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_RELIQUARY_INCREASE_COST = PF.PayoffIncreaseCost.new("Increase the cost to destroy this.", [2, 4, 6, 8, 10, 12], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/reliquary_icon_increase.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_AETERNAE_HEADS = PF.PayoffDestroySelf.new("WEELLDKI EJTNEM FOEEANDARXL!", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/aeternae_icon_heads.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_AETERNAE_TAILS = PF.PayoffDestroySelf.new("HWTINRTROSOPIUS OFTWSTOEHADO BONE!", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/aeternae_icon_tails.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_OREAD_BURY = PF.PayoffBury.new("(BURY) a coin for (OREAD_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", PARTICLE_COLOR_BROWN, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_EMPUSA_TRANSFORM = PF.PayoffTransform.new("Transform a coin into a random coin of the same denomination and type.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/empusa_icon.png", PARTICLE_COLOR_WHITE, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_EMPUSA_LOSE_SOULS = PF.PayoffLoseSouls.new("-(CURRENT_CHARGES)(SOULS).", [3, 4, 5, 6, 7, 8], PF.PowerType.PAYOFF_LOSE_SOULS, "res://assets/icons/soul_fragment_blue_icon.png", PARTICLE_COLOR_BLUE, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_HAMADYRAD_BLESS = PF.PayoffBless.new("(BLESS) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/hamadryad_icon.png", PARTICLE_COLOR_GREEN, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_HAMADYRAD_HEAL = PF.PayoffGainLife.new("+(CURRENT_CHARGES)(HEAL).", [2, 3, 4, 5, 6, 7], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/soul_fragment_red_heal_icon.png", PARTICLE_COLOR_GREEN, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_MELIAE_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/meliae_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SATYR_GAIN = PF.PayoffGainObol.new("Gain a random Obol.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/satyr_icon.png", PARTICLE_COLOR_PURPLE, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SATYR_BLANK = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/blank_icon.png", PARTICLE_COLOR_WHITE, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_RELIQUARY_DECREASE_COST = PF.PayoffDecreaseCost.new("Decrease the cost to destroy this.", [4, 6, 8, 10, 13, 15], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/monster/reliquary_icon.png", PARTICLE_COLOR_BLUE, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_RELIQUARY_INCREASE_COST = PF.PayoffIncreaseCost.new("Increase the cost to destroy this.", [2, 4, 6, 8, 10, 12], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/reliquary_icon_increase.png", PARTICLE_COLOR_RED, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_AETERNAE_HEADS = PF.PayoffDestroySelf.new("WEELLDKI EJTNEM FOEEANDARXL!", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/aeternae_icon_heads.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_AETERNAE_TAILS = PF.PayoffDestroySelf.new("HWTINRTROSOPIUS OFTWSTOEHADO BONE!", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/aeternae_icon_tails.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 
 # elites
-var MONSTER_POWER_FAMILY_CHIMERA = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/chimera_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SIREN = PF.PayoffFreezeTails.new("(FREEZE) each (TAILS) coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/siren_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_SIREN_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 3, 3, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_BASILISK = PF.PayoffHalveLife.new("Lose half your(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/basilisk_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_GORGON = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gorgon_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CHIMERA = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/chimera_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SIREN = PF.PayoffFreezeTails.new("(FREEZE) each (TAILS) coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/siren_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SIREN_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 3, 3, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/curse_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_BASILISK = PF.PayoffHalveLife.new("Lose half your(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/basilisk_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GORGON = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/gorgon_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_GORGON_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const KERES_INCREASE = [3, 4, 5, 6, 7, 8]
-var MONSTER_POWER_FAMILY_KERES_PENALTY = PF.PayoffIncreasePenaltyPermanently.new("Permanently increase the (LIFE) penalty of a coin by (KERES_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/keres_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_KERES_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/desecrate_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/blank_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/teumessian_fox_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_MANTICORE_CURSE_UNLUCKY_SELF = PF.PayoffCurseUnluckySelf.new("This coin becomes (UNLUCKY) and (CURSED).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/manticore_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE = PF.PayoffDowngrade.new("Downgrade a coin (CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_FURIES_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/furies_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_FURIES_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", ICON_AND_CHARGES)
-var MONSTER_POWER_FAMILY_SPHINX_DOOMED = PF.PayoffDoomRightmost.new("Make the rightmost eligible coin (DOOMED). [color=gray](It is destroyed when the round ends.)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/sphinx_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_PENALTY = PF.PayoffIncreasePenaltyPermanently.new("Permanently increase the (LIFE) penalty of a coin by (KERES_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/keres_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_KERES_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) (CURRENT_CHARGES_COINS).", [1, 1, 1, 2, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/desecrate_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_LESS = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/blank_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_TEUMESSIAN_FOX_BLANK_MORE = PF.PayoffBlank.new("(BLANK) (CURRENT_CHARGES_COINS).", [2, 2, 3, 3, 4, 4], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/teumessian_fox_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MANTICORE_CURSE_UNLUCKY_SELF = PF.PayoffCurseUnluckySelf.new("This coin becomes (UNLUCKY) and (CURSED).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/manticore_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_MANTICORE_DOWNGRADE = PF.PayoffDowngrade.new("Downgrade a coin (CURRENT_CHARGES_NUMERICAL_ADVERB_LOWERCASE).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/downgrade_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_FURIES_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/furies_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_FURIES_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_SPHINX_DOOMED = PF.PayoffDoomRightmost.new("Make the rightmost eligible coin (DOOMED).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/sphinx_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const SPHINX_THORNS_DENOM = [Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL, Denomination.TETROBOL, Denomination.TETROBOL]
-var MONSTER_POWER_FAMILY_SPHINX_THORNS = PF.PayoffGainThornsSphinx.new("Gain an (SPHINX_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/coin/thorns_icon.png", ONLY_SHOW_ICON)
-var MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE = PF.PayoffDowngradeAndPrime.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/cyclops_icon.png", ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_SPHINX_THORNS = PF.PayoffGainThornsSphinx.new("Gain an (SPHINX_DENOM) of Thorns.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/coin/thorns_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var MONSTER_POWER_FAMILY_CYCLOPS_DOWNGRADE = PF.PayoffDowngradeAndPrime.new("Downgrade and (PRIME) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/cyclops_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const CYCLOPS_BURY = [4, 4, 5, 5, 6, 6]
-var MONSTER_POWER_FAMILY_CYCLOPS_BURY = PF.PayoffBury.new("(BURY) a coin for (CYCLOPS_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", ICON_AND_CHARGES)
+var MONSTER_POWER_FAMILY_CYCLOPS_BURY = PF.PayoffBury.new("(BURY) a coin for (CYCLOPS_BURY) payoffs.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/monster/bury_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 
 # medusa
-var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/medusa_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PF.PayoffDowngradeMostValuable.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), downgrade the most valuable coin.", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/downgrade_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_EURYALE_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/euryale_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_STHENO_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES) to (STONE)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/stheno_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_STHENO_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/curse_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MEDUSA_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/medusa_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_MEDUSA_DOWNGRADE = PF.PayoffDowngradeMostValuable.new("(CURRENT_CHARGES_NUMERICAL_ADVERB), downgrade the most valuable coin.", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/downgrade_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_EURYALE_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES_COINS) to (STONE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/euryale_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_EURYALE_UNLUCKY = PF.PayoffUnlucky.new("Make (CURRENT_CHARGES_COINS) (UNLUCKY).", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_STHENO_STONE = PF.PayoffStone.new("Turn (CURRENT_CHARGES) to (STONE)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/stheno_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_STHENO_CURSE = PF.PayoffCurse.new("(CURSE) (CURRENT_CHARGES_COINS).", [2, 2, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/curse_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 
 # echidna & typhon
 const ECHIDNA_SPAWN_DENOM = [Denomination.OBOL, Denomination.OBOL, Denomination.DIOBOL, Denomination.DIOBOL, Denomination.TRIOBOL, Denomination.TRIOBOL]
-var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG = PF.PayoffSpawnStrong.new("Birth a monster (ECHIDNA_SPAWN_DENOM).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/echidna_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING = PF.PayoffSpawnFleeting.new("Birth (CURRENT_CHARGES) monster Obols with (FLEETING).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/echidna_eggs_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PF.PayoffUpgradeMonsters.new("Upgrade all monsters (except Echidna and Typhon).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/typhon_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PF.PayoffBlessMonsters.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bless_monster_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_TYPHON_ENRAGED = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE)", [5, 7, 8, 10, 12, 15], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_STRONG = PF.PayoffSpawnStrong.new("Birth a monster (ECHIDNA_SPAWN_DENOM).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/echidna_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_ECHIDNA_SPAWN_FLEETING = PF.PayoffSpawnFleeting.new("Birth (CURRENT_CHARGES) monster Obols with (FLEETING).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/echidna_eggs_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_TYPHON_UPGRADE_MONSTERS = PF.PayoffUpgradeMonsters.new("Upgrade all monsters (except Echidna and Typhon).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/typhon_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_TYPHON_BLESS_MONSTERS = PF.PayoffBlessMonsters.new("(BLESS) all monsters.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bless_monster_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_TYPHON_ENRAGED = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE)", [5, 7, 8, 10, 12, 15], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
 
 # scylla & charybdis
-var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PF.PayoffShuffle.new("Shuffle the position of each of your coins. Reset this coin's (LIFE) penalty.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/scylla_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_SCYLLA_SHUFFLE = PF.PayoffShuffle.new("Shuffle the position of each of your coins. Reset this coin's (LIFE) penalty.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/scylla_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const SCYLLA_INCREASE = [1, 2, 3, 4, 5, 6]
-var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (SCYLLA_INCREASE)(LIFE) permanently.", [4, 4, 4, 4, 4, 4], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PF.PayoffBlankLeftHalf.new("(BLANK) the left half of your coins.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/charbydis_left_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PF.PayoffBlankRightHalf.new("(BLANK) the right half of your coins.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/charbydis_right_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_SCYLLA_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Increase this penalty by (SCYLLA_INCREASE)(LIFE) permanently.", [4, 4, 4, 4, 4, 4], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CHARYBDIS_LEFT = PF.PayoffBlankLeftHalf.new("(BLANK) the left half of your coins.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/charbydis_left_icon.png", PARTICLE_COLOR_WHITE, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CHARYBDIS_RIGHT = PF.PayoffBlankRightHalf.new("(BLANK) the right half of your coins.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/charbydis_right_icon.png", PARTICLE_COLOR_WHITE, ONLY_SHOW_ICON)
 
 # cerberus
-var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PF.PayoffPermanentlyIgniteMonster.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/ignite_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE_SELF = PF.PayoffPermanentlyIgniteMonster.new("Permanently (IGNITE) (CURRENT_CHARGES) of Cerberus's heads.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_left_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_LEFT_IGNITE = PF.PayoffIgnite.new("(IGNITE) (CURRENT_CHARGES_COINS).", [1, 1, 2, 2, 3, 3], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/ignite_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 const CERBERUS_INCREASE_IGNITE = [1, 1, 2, 2, 3, 3]
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PF.PayoffAmplifyIgnite.new("Increase (IGNITE) damage by (CERBERUS_INCREASE_IGNITE) this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_IGNITE = PF.PayoffAmplifyIgnite.new("Increase (IGNITE) damage by (CERBERUS_INCREASE_IGNITE) this round.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_ignite_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const CERBERUS_INCREASE = [1, 2, 2, 3, 3, 4]
-var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenaltyPermanently.new("Permanently increase the (LIFE) penalty of all coins by (CERBERUS_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER,  "res://assets/icons/nemesis/cerberus_right_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_CERBERUS_MIDDLE_EMPOWER_PENALTY = PF.PayoffIncreaseAllPenaltyPermanently.new("Permanently increase the (LIFE) penalty of all coins by (CERBERUS_INCREASE)(LIFE).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/cerberus_middle_penalty_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DESECRATE = PF.PayoffDesecrate.new("(DESECRATE) your cheapest coin. [color=gray](It will always lands on (TAILS).)[/color]", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER,  "res://assets/icons/nemesis/cerberus_right_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_CERBERUS_RIGHT_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 6, 8, 10, 12, 13], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
 
 # minotaur
-var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY = PF.PayoffCurseUnluckyScaling.new("A coin becomes (CURSED) or (UNLUCKY). Double this face's charges.", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/minotaur_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Double this (LIFE) penalty.", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH = PF.PowerFamily.new("When a Labyrinth Wall is destroyed, spawn a new one. Destroy (CURRENT_CHARGES) more to escape!", [12, 13, 14, 15, 17, 21], PF.PowerType.PASSIVE, "res://assets/icons/nemesis/lost_in_the_labyrinth_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_unlucky_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_frozen_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_muddy_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_damage_icon.png", ONLY_SHOW_ICON)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PF.PayoffUnluckySelf.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_self_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PF.PayoffFreezeSelf.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/freeze_self_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PF.PayoffBurySelf.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bury_self_icon.png", ICON_AND_CHARGES)
-var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_CURSE_UNLUCKY = PF.PayoffCurseUnluckyScaling.new("A coin becomes (CURSED) or (UNLUCKY). Double this face's charges.", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/minotaur_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_MINOTAUR_SCALING_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE). Double this (LIFE) penalty.", [1, 2, 3, 4, 5, 6], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_RED, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LOST_IN_THE_LABYRINTH = PF.PowerFamily.new("When a Labyrinth Wall is destroyed, spawn a new one. Destroy (CURRENT_CHARGES) more to escape!", [12, 13, 14, 15, 17, 21], PF.PowerType.PASSIVE, "res://assets/icons/nemesis/lost_in_the_labyrinth_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL1_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_unlucky_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL2_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_frozen_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL3_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_muddy_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL4_ESCAPE = PF.PayoffAWayOut.new("You walk towards the light. Destroy this coin.", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_SOMETHING_POSITIVE, "res://assets/icons/nemesis/a_way_out_damage_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_UNLUCKY = PF.PayoffUnluckySelf.new("This coin becomes (UNLUCKY)", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/unlucky_self_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_FREEZE = PF.PayoffFreezeSelf.new("This coin becomes (FROZEN).", [1, 1, 1, 1, 1, 1], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/freeze_self_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_BURY = PF.PayoffBurySelf.new("(BURY) this coin for (CURRENT_CHARGES_PAYOFFS).", [1, 1, 1, 1, 2, 2], PF.PowerType.PAYOFF_MONSTER, "res://assets/icons/nemesis/bury_self_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
+var NEMESIS_POWER_FAMILY_LABYRINTH_WALL_DAMAGE = PF.PayoffLoseLife.new("-(CURRENT_CHARGES)(LIFE).", [5, 7, 8, 10, 12, 15], PF.PowerType.PAYOFF_LOSE_LIFE, "res://assets/icons/soul_fragment_red_icon.png", PARTICLE_COLOR_BLACK, ICON_AND_CHARGES)
 
-var TRIAL_POWER_FAMILY_IRON = PF.PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If there isn't enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_IRON = PF.PowerFamily.new("When the trial begins, you gain 2 Obols of Thorns. (If there isn't enough space, destroy the rightmost coin until there is.)", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/iron_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const MISFORTUNE_QUANTITY = 2
-var TRIAL_POWER_FAMILY_MISFORTUNE = PF.PowerFamily.new("After each payoff, two of your coins become (UNLUCKY).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_PAIN = PF.PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_MISFORTUNE = PF.PowerFamily.new("After each payoff, two of your coins become (UNLUCKY).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/misfortune_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_PAIN = PF.PowerFamily.new("Damage you take from (LIFE) penalties is tripled.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/pain_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 const BLOOD_COST = 1
-var TRIAL_POWER_FAMILY_BLOOD = PF.PowerFamily.new("Using a power costs %d(LIFE)." % BLOOD_COST, [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_EQUIVALENCE = PF.PowerFamily.new("After a coin lands on (HEADS), it becomes (UNLUCKY). After a coin lands on (TAILS), it becomes (LUCKY).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_TORMENT = PF.PowerFamily.new("You cannot use the same (POWER) twice in a row.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/torment_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_MALAISE = PF.PowerFamily.new("When you use a power, all your coins lose a charge.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/malaise_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_VIVISEPULTURE = PF.PowerFamily.new("When the trial begins, your two leftmost coins are (BURIED) for 20 payoffs.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vivisepulture_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_IMMOLATION = PF.PowerFamily.new("After you use a coin's power, that coin (IGNITES).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/immolation_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_VENGEANCE = PF.PowerFamily.new("After payoff, (CURSE) your highest value (HEADS) coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vengeance_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_BLOOD = PF.PowerFamily.new("Using a power costs %d(LIFE)." % BLOOD_COST, [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/blood_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_EQUIVALENCE = PF.PowerFamily.new("After a coin lands on (HEADS), it becomes (UNLUCKY). After a coin lands on (TAILS), it becomes (LUCKY).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/equivalence_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_TORMENT = PF.PowerFamily.new("You cannot use the same (POWER) twice in a row.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/torment_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_MALAISE = PF.PowerFamily.new("When you use a power, all your coins lose a charge.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/malaise_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VIVISEPULTURE = PF.PowerFamily.new("When the trial begins, your two leftmost coins are (BURIED) for 20 payoffs.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vivisepulture_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_IMMOLATION = PF.PowerFamily.new("After you use a coin's power, that coin (IGNITES).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/immolation_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VENGEANCE = PF.PowerFamily.new("After payoff, (CURSE) your highest value (HEADS) coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vengeance_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 
-var TRIAL_POWER_FAMILY_FAMINE = PF.PowerFamily.new("You do not replenish (HEAL) at the start of the round.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_TORTURE = PF.PowerFamily.new("After payoff, your highest value (HEADS) coin is downgraded.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_LIMITATION = PF.PowerFamily.new("Payoffs less than 10(SOULS) become 0.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_COLLAPSE = PF.PowerFamily.new("After payoff, (DESECRATE) each coin on (TAILS).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_SAPPING = PF.PowerFamily.new("Coins replenish only a single power charge each toss.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_OVERLOAD = PF.PowerFamily.new("After payoff, you lose 1(LIFE) for each unspent power charge on a (HEADS) coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_PETRIFICATION = PF.PowerFamily.new("When the trial begins, all power coins are turned to (STONE).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/petrification_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_SILENCE = PF.PowerFamily.new("After each payoff, (BURY) the leftmost possible coin for 10 payoffs.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/silence_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_POLARIZATION = PF.PowerFamily.new("Payoff coins land on (TAILS) +40% more often.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_SINGULARITY = PF.PowerFamily.new("Power coins have only a single charge.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/singularity_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_GATING = PF.PowerFamily.new("Payoffs greater than 10(SOULS) become 1(SOULS).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/gating_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_FATE = PF.PowerFamily.new("Coins cannot be reflipped.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/fate_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_ADVERSITY = PF.PowerFamily.new("When the trial begins, spawn 3 powerful monsters.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/adversity_icon.png", ONLY_SHOW_ICON)
-var TRIAL_POWER_FAMILY_VAINGLORY = PF.PowerFamily.new("After a coin lands on (HEADS), it becomes (CURSED).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vainglory_icon.png", ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_FAMINE = PF.PowerFamily.new("You do not replenish (HEAL) at the start of the round.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/famine_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_TORTURE = PF.PowerFamily.new("After payoff, your highest value (HEADS) coin is downgraded.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/torture_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_LIMITATION = PF.PowerFamily.new("Payoffs less than 10(SOULS) become 0.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/limitation_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_COLLAPSE = PF.PowerFamily.new("After payoff, (DESECRATE) each coin on (TAILS).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/collapse_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_SAPPING = PF.PowerFamily.new("Coins replenish only a single power charge each toss.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/sapping_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_OVERLOAD = PF.PowerFamily.new("After payoff, you lose 1(LIFE) for each unspent power charge on a (HEADS) coin.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/overload_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_PETRIFICATION = PF.PowerFamily.new("When the trial begins, all power coins are turned to (STONE).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/petrification_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_SILENCE = PF.PowerFamily.new("After each payoff, (BURY) the leftmost possible coin for 10 payoffs.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/silence_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_POLARIZATION = PF.PowerFamily.new("Payoff coins land on (TAILS) +40% more often.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/polarization_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_SINGULARITY = PF.PowerFamily.new("Power coins have only a single charge.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/singularity_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_GATING = PF.PowerFamily.new("Payoffs greater than 10(SOULS) become 1(SOULS).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/gating_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_FATE = PF.PowerFamily.new("Coins cannot be reflipped.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/fate_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_ADVERSITY = PF.PowerFamily.new("When the trial begins, spawn 3 powerful monsters.", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/adversity_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var TRIAL_POWER_FAMILY_VAINGLORY = PF.PowerFamily.new("After a coin lands on (HEADS), it becomes (CURSED).", [0, 0, 0, 0, 0, 0], PF.PowerType.PASSIVE, "res://assets/icons/trial/vainglory_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
 
-var CHARON_POWER_DEATH = PF.PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", ONLY_SHOW_ICON)
-var CHARON_POWER_LIFE = PF.PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON)
+var CHARON_POWER_DEATH = PF.PowerFamily.new("(CHARON_DEATH) Die.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_death_icon.png", PARTICLE_COLOR_BLACK, ONLY_SHOW_ICON)
+var CHARON_POWER_LIFE = PF.PowerFamily.new("(CHARON_LIFE) Live. The round ends.", [0, 0, 0, 0, 0, 0], PF.PowerType.CHARON, "res://assets/icons/coin/charon_life_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON)
 
 const _IGNITE_COLOR = "red"
 const _FREEZE_COLOR = "aqua"
@@ -1912,22 +1923,22 @@ class Patron:
 		return power_family.icon_path
 
 # placeholder powers... kinda a $HACK$
-var PATRON_POWER_FAMILY_APHRODITE = PF.PatronAphrodite.new("Aphrodite", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_APOLLO = PF.PatronApollo.new("Apollo", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARES = PF.ReflipAll.new("Ares", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ARTEMIS = PF.PatronArtemis.new("Artemis", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ATHENA = PF.PatronAthena.new("Athena", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DEMETER = PF.PatronDemeter.new("Demeter", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_DIONYSUS = PF.PatronDionysus.new("Dionysus", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HADES = PF.PatronHades.new("Hades", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HEPHAESTUS = PF.PatronHephaestus.new("Hephaestus", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERA = PF.ReflipAndNeighbors.new("Hera", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HERMES = PF.Exchange.new("Hermes", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_HESTIA = PF.MakeLucky.new("Hestia", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_POSEIDON = PF.Freeze.new("Poseidon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", ONLY_SHOW_ICON);
-var PATRON_POWER_FAMILY_ZEUS = PF.Reflip.new("Zeus", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APHRODITE = PF.PatronAphrodite.new("Aphrodite", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/aphrodite_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_APOLLO = PF.PatronApollo.new("Apollo", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/apollo_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARES = PF.ReflipAll.new("Ares", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/coin/ares_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ARTEMIS = PF.PatronArtemis.new("Artemis", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/artemis_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ATHENA = PF.PatronAthena.new("Athena", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/patron/athena_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DEMETER = PF.PatronDemeter.new("Demeter", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/demeter_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_DIONYSUS = PF.PatronDionysus.new("Dionysus", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_NON_TARGETTING, "res://assets/icons/patron/dionysus_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HADES = PF.PatronHades.new("Hades", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hades_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HEPHAESTUS = PF.PatronHephaestus.new("Hephaestus", [1, 1, 1, 1, 1, 1], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/patron/hephaestus_patron_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERA = PF.ReflipAndNeighbors.new("Hera", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hera_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HERMES = PF.Exchange.new("Hermes", [2, 2, 2, 2, 2, 2], PF.PowerType.POWER_TARGETTING_PLAYER_COIN, "res://assets/icons/coin/hermes_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_HESTIA = PF.MakeLucky.new("Hestia", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/hestia_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_POSEIDON = PF.Freeze.new("Poseidon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/poseidon_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_ZEUS = PF.Reflip.new("Zeus", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/zeus_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
 
-var PATRON_POWER_FAMILY_CHARON = PF.PatronCharon.new("Charon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", ONLY_SHOW_ICON);
+var PATRON_POWER_FAMILY_CHARON = PF.PatronCharon.new("Charon", [3, 3, 3, 3, 3, 3], PF.PowerType.POWER_TARGETTING_ANY_COIN, "res://assets/icons/coin/charon_life_icon.png", PARTICLE_COLOR_YELLOW, ONLY_SHOW_ICON);
 
 # exists so I can define a value for the Patron in the editor for patron statues
 enum PatronEnum {

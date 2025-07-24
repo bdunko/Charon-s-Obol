@@ -2343,6 +2343,7 @@ func _on_coin_clicked(coin: Coin):
 			
 			Global.active_coin_power_coin = coin
 			Global.active_coin_power_family = coin.get_active_power_family()
+			coin.on_coin_power_selected()
 			
 			if Global.tutorialState == Global.TutorialState.ROUND2_POWER_ACTIVATED:
 				var icon = _COIN_ROW.get_child(1).get_heads_icon() 

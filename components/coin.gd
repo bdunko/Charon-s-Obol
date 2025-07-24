@@ -309,7 +309,7 @@ func _update_appearance() -> void:
 	_INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_GREEN) if is_heads() else _INFO_VIEW_FACE_INDICATOR_FX.recolor_outline(_INFO_RED)
 	
 	# move up slightly if active power coin
-	_OFFSET_WRAPPER.set_offset(Vector2(0, -3) if Global.active_coin_power_coin == self else Vector2(0, 0))
+	#_OFFSET_WRAPPER.set_offset(Vector2(0, -3) if Global.active_coin_power_coin == self else Vector2(0, 0))
 
 const _FACE_FORMAT = "[center][color=%s]%s[/color][img=10x13]%s[/img][/center]"
 const _INFO_FORMAT = "[center][img=10x13]%s[/img][/center]"
@@ -726,7 +726,7 @@ func play_power_used_effect(power: PF.PowerFamily) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_GROW_SCENE.instantiate()
 	particle.texture = load(power.icon_path)
 	_POWER_ICON_GROW_POINT.add_child(particle)
-	ParticleSystem.spawn_power_burst(_POWER_BURST_POINT.position, self)
+	ParticleSystem.spawn_power_burst(_POWER_BURST_POINT.position, power.particle_color, self)
 
 func _play_new_status_effect(icon_path: String) -> void:
 	var particle: GPUParticles2D = _PARTICLE_ICON_SHRINK_SCENE.instantiate()
@@ -2128,6 +2128,11 @@ func _on_active_coin_power_coin_changed() -> void:
 		return
 	
 	_update_appearance()
+
+@onready var _POWER_ACTIVATE_PARTICLES = $OffsetWrapper/ShakeWrapper/Sprite/PowerActivateParticles
+func on_coin_power_selected() -> void:
+	_POWER_ACTIVATE_PARTICLES.emitting = true
+	_POWER_ACTIVATE_PARTICLES.restart()
 
 func _on_tutorial_state_changed() -> void:
 	if not is_inside_tree(): # a bit of a hack for startup, but whatever
