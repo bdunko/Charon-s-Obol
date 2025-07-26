@@ -87,6 +87,7 @@ var _permanent_statuses = []
 @onready var _PRIMED_ICON = $OffsetWrapper/ShakeWrapper/Sprite/StatusBar/Primed
 
 @onready var _SPRITE = $OffsetWrapper/ShakeWrapper/Sprite
+@onready var _SHADOW = $OffsetWrapper/ShakeWrapper/Shadow
 @onready var _PROTEUS_OVERLAY = $OffsetWrapper/ShakeWrapper/Sprite/ProteusOverlay
 @onready var _FACE_LABEL = $OffsetWrapper/ShakeWrapper/Sprite/FaceLabel
 @onready var _PRICE = $OffsetWrapper/ShakeWrapper/Sprite/Price
@@ -1103,6 +1104,7 @@ func play_flip_animation(arc: bool = true) -> void:
 	set_animation(_Animation.FLIP) 
 	
 	if arc:
+		_SHADOW.play("toss")
 		await _sprite_movement_tween.tween(Vector2(0, -50), 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
 		await Global.delay(0.1)
 		await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
