@@ -209,7 +209,7 @@ var CHARACTERS = {
 	
 	Character.ELEUSINIAN : CharacterData.new(1, Global.Character.ELEUSINIAN, Color("#008000"), "[color=green]The Eleusinian[/color]", \
 		"\"[color=purple]Death[/color] is nothing to us, since when we are, [color=purple]death[/color] has not come, and when [color=purple]death[/color] has come, we are not.\"\n-Epicurus",
-		"The standard game.\nSurvive Trials, Tollgates, and a Nemesis to win.",
+		"The standard game.\nSurvive Trials, Tollgates, and the Nemesis.",
 		["The birds are singing.", 
 		"The sun is shining.",
 		"People parade through the streets.",

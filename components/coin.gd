@@ -1026,16 +1026,6 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	if is_stone(): #don't flip if stoned
 		emit_signal("flip_complete", self)
 		return
-		
-	_disable_interaction = true # ignore input while flipping
-	
-	# hide the flash
-	FX.stop_flashing()
-	
-	# animate
-	_FACE_LABEL.hide() # hide text
-	_PRICE.hide() # hide appease cost
-	_NEXT_FLIP_INDICATOR.hide()
 	
 	_heads = _get_next_heads(is_toss, bonus)
 	
@@ -1080,24 +1070,9 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	# roll new RNG number
 	_next_flip_roll = Global.RNG.randi_range(1, 100)
 	
-	# todo - make it move up in a parabola; add a shadow
-	_is_animating = true
-	set_animation(_Animation.FLIP)
-
 	Audio.play_sfx(SFX.CoinToss)
-	await _sprite_movement_tween.tween(Vector2(0, -50), 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
-	await Global.delay(0.1)
-	await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
-
-	_DUST_PARTICLES.emitting = true
-	_DUST_PARTICLES.restart()
-	set_animation(_Animation.FLAT)
-	_is_animating = false
 	
-	_FACE_LABEL.show()
-	if is_appeaseable():
-		_PRICE.show()
-	_NEXT_FLIP_INDICATOR.update_visibility()
+	await play_flip_animation()
 	
 	# if charged and we landed on tails, flip again.
 	if not is_heads() and is_charged():
@@ -1113,8 +1088,40 @@ func flip(is_toss: bool, bonus: int = 0) -> void:
 	else:
 		Audio.play_sfx(SFX.CoinLanding)
 	
-	_disable_interaction = false
 	emit_signal("flip_complete", self)
+
+func play_flip_animation(arc: bool = true) -> void:
+	# disable interaction and hide some details when flipping
+	_disable_interaction = true # 
+	_FACE_LABEL.hide() # hide text
+	_PRICE.hide() # hide appease cost
+	_NEXT_FLIP_INDICATOR.hide()
+	FX.stop_flashing() # hide the flash
+	
+	# animate
+	_is_animating = true
+	set_animation(_Animation.FLIP) 
+	
+	if arc:
+		await _sprite_movement_tween.tween(Vector2(0, -50), 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
+		await Global.delay(0.1)
+		await _sprite_movement_tween.tween(Vector2(0, 0), 0.2, Tween.TRANS_SINE, Tween.EASE_IN)
+	else:
+		await Global.delay(0.2)
+	
+	# play dust
+	if arc:
+		_DUST_PARTICLES.emitting = true
+		_DUST_PARTICLES.restart()
+	
+	# cleanup
+	set_animation(_Animation.FLAT)
+	_FACE_LABEL.show()
+	if is_appeaseable():
+		_PRICE.show()
+	_NEXT_FLIP_INDICATOR.update_visibility()
+	_disable_interaction = false
+	_is_animating = false
 
 func _get_next_heads(is_toss: bool = false, bonus: int = 0) -> bool:
 	if not is_toss and Global.is_passive_active(Global.PATRON_POWER_FAMILY_HERA):
@@ -2167,7 +2174,7 @@ func _physics_process(delta):
 
 func move_to(pos: Vector2, time: float) -> void:
 	#await _coin_movement_tween.tween(pos, time, Tween.TRANS_QUINT, Tween.EASE_OUT)
-	await _coin_movement_tween.tween(pos, time, Tween.TRANS_CUBIC)
+	await _coin_movement_tween.tween(pos, time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	
 func _on_flame_boost_changed() -> void:
 	# the odds have changed, so recalc

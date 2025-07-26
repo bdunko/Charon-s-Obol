@@ -1922,6 +1922,7 @@ func _gain_coin_from_shop(coin: Coin) -> void:
 	coin.mark_owned_by_player()
 	_init_new_coin_signals(coin)
 	_update_payoffs()
+	coin.play_flip_animation(false)
 
 func _init_new_coin_signals(coin: Coin) -> void:
 	coin.clicked.connect(_on_coin_clicked)

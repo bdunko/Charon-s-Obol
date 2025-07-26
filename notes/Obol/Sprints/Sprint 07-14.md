@@ -35,7 +35,7 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 | ------ | ------- | --------- | -------- | ------ | -------- | ------ |
 | 8✔     | 12✔     | ✔         | ✔        | ✔      | ✔        | ✔      |
-| ✔      | ✔       | ✔         |          |        |          |        |
+| ✔      | ✔       | ✔         | ✔        | ✔      |          |        |
 
 ---
 ## 🗂️ Sprint Task Lists
@@ -93,8 +93,8 @@ Maybe consider adding an additional difficulty tweak to the second difficulty le
 		- [x] Make the color change per power used.
 		- [x] Don't trigger on payoffs, just on power used.
 	- [x] Activating a coin - burst of particles; can use a similar effect, maybe make it emit from the coin shape itself. Maybe play the effect in reverse, towards the mouse? could be cool.
-	- [ ] When purchasing a coin from the shop, play flip animation as it moves into player row.
-	- [ ] Dust particles when buying coin from shop do not operate properly. 
+	- [x] When purchasing a coin from the shop, play flip animation as it moves into player row.
+	- [x] Dust particles when buying coin from shop do not operate properly. 
 	- [ ] Coin flip shadow - experiment with simple shadow.
 
 ### Done  

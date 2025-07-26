@@ -4,16 +4,16 @@ extends Control
 func _on_child_entered_tree(_node) -> void:
 	assert(_node is Coin or _node.name == "PLACEHOLDERS", "Coin Row cannot contain non-Coins!")
 	if _state == _State.EXPANDED:
-		call_deferred("expand")
+		call_deferred("reposition_coins")
 
 func _on_child_exiting_tree(_node) -> void:
 	# update 1 frame later once child is gone
 	if _state == _State.EXPANDED:
-		call_deferred("expand")
+		call_deferred("reposition_coins")
 
 func _on_child_order_changed():
 	if _state == _State.EXPANDED:
-		call_deferred("expand")
+		call_deferred("reposition_coins")
 
 enum _State {
 	EXPANDED, RETRACTED
@@ -392,8 +392,20 @@ func retract_for_toss(retract_point: Vector2) -> void:
 	
 	await Global.delay(Global.COIN_TWEEN_TIME)
 
-func _expand(during_toss: bool) -> void:
+func _expand(during_toss_or_purchase: bool) -> void:
 	_state = _State.EXPANDED
+	if get_child_count() == 0:
+		return
+	
+	reposition_coins()
+	
+	await Global.delay(Global.COIN_TWEEN_TIME)
+	
+	if not during_toss_or_purchase:
+		for i in get_child_count():
+			get_child(i).play_dust_effect()
+
+func reposition_coins() -> void:
 	if get_child_count() == 0:
 		return
 	
@@ -402,12 +414,6 @@ func _expand(during_toss: bool) -> void:
 	for i in get_child_count():
 		var coin = get_child(i)
 		coin.move_to(positions[i], Global.COIN_TWEEN_TIME)
-	
-	await Global.delay(Global.COIN_TWEEN_TIME)
-	
-	if not during_toss:
-		for i in get_child_count():
-			get_child(i).play_dust_effect()
 
 func expand() -> void:
 	await _expand(false)
